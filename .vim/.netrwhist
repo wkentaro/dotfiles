@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/Users/ken/Dropbox/WORK/opencv'
+let g:netrw_dirhist_2='/Users/ken/Dropbox/WORK/opencv/myown'
+let g:netrw_dirhist_3='/Users/ken/Dropbox/WORK/opencv'
+let g:netrw_dirhist_4='/Users/ken/Dropbox/WORK'
+let g:netrw_dirhist_5='/Users/ken/Dropbox'
+let g:netrw_dirhist_6='/Users/ken/Dropbox/univ/softソフトウェア第二/09_140616'
