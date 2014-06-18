@@ -1,0 +1,11 @@
+[user]
+	name = Kentaro Wada
+	email = www.kentaro.wada@gmail.com
+[color]
+	ui = auto
+[alias]
+	co = checkout
+	ci = commit
+	st = status
+	br = branch
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
