@@ -10,7 +10,8 @@ set ignorecase
 set ruler
 set wildmenu
 set commentstring=\ #\ %s
-set foldlevel=0
+set foldlevel=1
+set foldminlines=5
 set clipboard+=unnamed
 set autoindent
 set browsedir=buffer
@@ -78,22 +79,29 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " My Bundles here:
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'bronson/vim-trailing-whitespace'
+NeoBundle 'itchyny/lightline.vim'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'kakkyz81/evervim'
 NeoBundle 'davidhalter/jedi-vim'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'git://git.code.sf.net/p/vim-latex/vim-latex'
-NeoBundle 'vim-scripts/bufferlist.vim'
-NeoBundle "thinca/vim-template"
-NeoBundle "hattya/python_fold.vim"
+NeoBundle 'thinca/vim-template'
+NeoBundle 'hattya/python_fold.vim'
 
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
@@ -143,10 +151,28 @@ inoremap <expr><C-h> neocomplete#smart_close_popup()
 inoremap <expr><C-e>  neocomplete#cancel_popup()
 inoremap <expr><C-c>  neocomplete#cancel_popup()."\<esc>"
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
-" ノーマルモードへの移行
+" My Keymapping
+imap <S-M> <Plug>IMAP_JumpForward
+nmap <S-M> <Plug>IMAP_JumpForward
+vmap <S-M> <Plug>IMAP_JumpForward
 inoremap jj <Esc>
+inoremap <silent> <C-j> j
+inoremap <silent> kk <esc>
+inoremap <silent> <C-k> k
+inoremap { {}<Left>
+inoremap [ []<Left>
+inoremap ( ()<Left>
+inoremap " ""<Left>
+inoremap ' ''<Left>
+inoremap <C-L> <Right>
+inoremap <C-k> <Up>
+inoremap <C-j> <Down>
+inoremap <C-h> <Left>
+inoremap <C-9> <esc>/<cr><esc>cf>
+nnoremap 0 $
+nnoremap 1 ^
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
@@ -169,11 +195,9 @@ map <S-Space> :tabp<CR>
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
-"" BufferList
-map <silent> <C-T> :call BufferList()<CR>
-
 "" VimShell
 nnoremap <silent> ,is :vsp<CR>:VimShell<CR>
+nnoremap <silent> ,ls :VimShell<CR>
 nnoremap <silent> ,ipy :VimShellInteractive python<CR>
 " ,ss: 非同期で開いたインタプリタに現在の行を評価させる
 vmap <silent> ,ss :VimShellSendString<CR>
@@ -216,7 +240,7 @@ noremap [space]r zR
 noremap [space]f zf
 
 " NERDTree起動
-noremap  <S-t> :NERDTree<CR>
+noremap  <C-T> :NERDTree<CR>
 
 " vim-templates
 augroup MyAutoCmd
@@ -237,7 +261,7 @@ autocmd MyAutoCmd User plugin-template-loaded
 " jedi-vim
 command! -nargs=0 JediRename :call jedi#rename()
 let g:jedi#rename_command = ""
-let g:jedi#documentation_command = "k"
+let g:jedi#documentation_command = ""
 
 " quickrun
 let g:quickrun_config = {
@@ -250,3 +274,117 @@ let g:quickrun_config = {
 \}
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 nnoremap <silent> ,r :QuickRun<CR>
+
+" Evervim
+let g:evervim_devtoken='S=s204:U=18304d3:E=14e09ed5f84:C=146b23c3260:P=1cd:A=en-devtoken:V=2:H=bd1352f1c31b347a383e2ad1909f5b56'
+nnoremap <silent> ,el :<C-u>EvervimNotebookList<CR>/INBOX<CR>
+nnoremap <silent> ,ew :<C-u>EvervimOpenBrowser<CR>
+nnoremap <silent> ,en :<C-u>EvervimCreateNote<CR>
+nnoremap <silent> ,es :<C-u>EvervimSearchByQuery<SPACE>
+let g:evervim_splitoption=''
+
+" Open-browser
+nmap <silent> ,w <Plug>(openbrowser-open)
+
+" unite
+let g:unite_enable_start_insert=1
+noremap <C-p> :Unite buffer<CR>
+noremap <C-n> :Unite -buffer-name=file file<CR>
+noremap <C-z> :Unite file_mru<CR>
+noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
+au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+au FileType unite inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+au FileType unite nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+au FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+
+" fugitive
+autocmd QuickFixCmdPost *grep* cwindow
+
+" lightline
+set laststatus=2
+let g:lightline = {
+      \ 'colorscheme': 'powerline',
+      \ 'mode_map': {'c': 'NORMAL'},
+      \ 'active': {
+      \   'left': [ ['mode', 'paste'], ['fugitive', 'filename', 'cakephp', 'currenttag', 'anzu'] ]
+      \ },
+      \ 'component': {
+      \   'lineinfo': ' %3l:%-2v',
+      \ },
+      \ 'component_function': {
+      \   'modified': 'MyModified',
+      \   'readonly': 'MyReadonly',
+      \   'fugitive': 'MyFugitive',
+      \   'filename': 'MyFilename',
+      \   'fileformat': 'MyFileformat',
+      \   'filetype': 'MyFiletype',
+      \   'fileencoding': 'MyFileencoding',
+      \   'mode': 'MyMode',
+      \   'anzu': 'anzu#search_status',
+      \ }
+      \ }
+
+
+function! MyModified()
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! MyReadonly()
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? ' ' : ''
+endfunction
+
+function! MyFilename()
+  return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \  &ft == 'unite' ? unite#get_status_string() :
+        \  &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != MyModified() ? ' ' . MyModified() : '')
+endfunction
+
+function! MyFugitive()
+  try
+    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && strlen(fugitive#head())
+      return ' ' . fugitive#head()
+    endif
+  catch
+  endtry
+  return ''
+endfunction
+
+function! MyFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! MyFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+
+function! MyFileencoding()
+  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+endfunction
+
+function! MyMode()
+  return winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+
+" vim-indent-guides
+colorscheme default
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=darkgray ctermbg=8
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  guibg=darkgray ctermbg=8
+
+" meta key
+let c = 'a'
+while c <= 'z'
+    execute "set <M-" . c . ">=\e" . c
+    execute "imap \e" . c . " <M-" . c . ">"
+    execute "set <M-S-" . c . ">=\e" . toupper(c)
+    execute "imap \e" . toupper(c) . " <M-" . c . ">"
+    let c = nr2char(1+char2nr(c))
+endw
