@@ -1,5 +1,6 @@
 " Vim Basic Setup
 syntax on
+set modifiable
 set ttymouse=xterm2
 set mouse=a
 set encoding=utf-8
@@ -79,16 +80,19 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " My Bundles here:
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'rcmdnk/vim-markdown'
+NeoBundle 'kannokanno/previm'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'bronson/vim-trailing-whitespace'
+NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'kakkyz81/evervim'
 NeoBundle 'davidhalter/jedi-vim'
-NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neomru.vim'
@@ -147,32 +151,33 @@ if !exists('g:neocomplete#keyword_patterns')
   let g:neocomplete#keyword_patterns = {}
 endif
 let g:neocomplete#keyword_patterns._ = '\h\w*'
-inoremap <expr><C-h> neocomplete#smart_close_popup()
+"inoremap <expr><C-h> neocomplete#smart_close_popup()
+inoremap <expr><C-h> neocomplete#close_popup()
 inoremap <expr><C-e>  neocomplete#cancel_popup()
 inoremap <expr><C-c>  neocomplete#cancel_popup()."\<esc>"
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 "inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " My Keymapping
-imap <S-M> <Plug>IMAP_JumpForward
-nmap <S-M> <Plug>IMAP_JumpForward
-vmap <S-M> <Plug>IMAP_JumpForward
+imap <C-7> <Plug>IMAP_JumpForward
+nmap <C-7> <Plug>IMAP_JumpForward
+vmap <C-7> <Plug>IMAP_JumpForward
 inoremap jj <Esc>
 inoremap <silent> <C-j> j
 inoremap <silent> kk <esc>
 inoremap <silent> <C-k> k
-inoremap { {}<Left>
-inoremap [ []<Left>
-inoremap ( ()<Left>
-inoremap " ""<Left>
-inoremap ' ''<Left>
 inoremap <C-L> <Right>
 inoremap <C-k> <Up>
 inoremap <C-j> <Down>
 inoremap <C-h> <Left>
 inoremap <C-9> <esc>/<cr><esc>cf>
+nnoremap <C-k> <Up>
+nnoremap <C-l> <Right>
+nnoremap <C-i> <Insert>
 nnoremap 0 $
+vnoremap 0 $
 nnoremap 1 ^
+vnoremap 1 ^
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
@@ -239,9 +244,6 @@ noremap [space]i zMzv
 noremap [space]r zR
 noremap [space]f zf
 
-" NERDTree起動
-noremap  <C-T> :NERDTree<CR>
-
 " vim-templates
 augroup MyAutoCmd
   autocmd!
@@ -281,6 +283,7 @@ nnoremap <silent> ,el :<C-u>EvervimNotebookList<CR>/INBOX<CR>
 nnoremap <silent> ,ew :<C-u>EvervimOpenBrowser<CR>
 nnoremap <silent> ,en :<C-u>EvervimCreateNote<CR>
 nnoremap <silent> ,es :<C-u>EvervimSearchByQuery<SPACE>
+nnoremap <silent> ,ea :<C-u>EvervimSearchByQuery -<CR>
 let g:evervim_splitoption=''
 
 " Open-browser
@@ -379,12 +382,20 @@ let g:indent_guides_guide_size = 1
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=darkgray ctermbg=8
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  guibg=darkgray ctermbg=8
 
-" meta key
-let c = 'a'
-while c <= 'z'
-    execute "set <M-" . c . ">=\e" . c
-    execute "imap \e" . c . " <M-" . c . ">"
-    execute "set <M-S-" . c . ">=\e" . toupper(c)
-    execute "imap \e" . toupper(c) . " <M-" . c . ">"
-    let c = nr2char(1+char2nr(c))
-endw
+" vim-repeat
+silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
+
+" vim-filter
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_safe_mode_by_default = 0
+noremap <silent> ,fs :VimFiler -split -explorer -project<CR>
+noremap <silent> ,fd :VimFiler -project<CR>
+
+" vim-markdown
+autocmd MyAutoCmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
+autocmd MyAutoCmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set foldlevel=2
+autocmd MyAutoCmd FileType markdown hi! def link markdownItalic LineNr
+let g:vim_markdown_codeblock_syntax=0
+hi link htmlItalic LineNr
+hi link htmlBold WarningMsg
+hi link htmlBoldItalic ErrorMsg

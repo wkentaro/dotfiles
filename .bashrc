@@ -4,6 +4,7 @@ export PATH=/usr/local/bin:/Users/ken/.bin:$PATH
 # python
 export WORKON_HOME=~/.virtualenvs
 . /usr/local/bin/virtualenvwrapper.sh
+export PYTHONPATH=/Users/ken/.python:$PYTHONPATH
 
 # alias
 alias l='ls -CF'
@@ -13,6 +14,7 @@ alias la='ls -A'
 alias vi='vim'
 alias h='history'
 alias c='clear'
+alias ac='open /Applications/Utilities/Activity\ Monitor.app'
 
 # Git branch in prompt.
 parse_git_branch() {
