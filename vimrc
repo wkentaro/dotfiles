@@ -12,9 +12,9 @@ set ruler
 set wildmenu
 set commentstring=\ #\ %s
 set foldminlines=5
-set foldlevel=3
+set foldlevel=5
 set foldmethod=manual
-set clipboard+=unnamed
+set clipboard=unnamed,autoselect
 set autoindent
 set browsedir=buffer
 set nocompatible
