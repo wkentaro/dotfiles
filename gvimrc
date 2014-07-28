@@ -1,2 +1,2 @@
-colorscheme inkpot
-set guifont="Source Code Pro:h12"
+colorscheme kolor
+set guifont=Source\ Code\ Pro:h13
