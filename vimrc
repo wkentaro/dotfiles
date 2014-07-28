@@ -1,5 +1,5 @@
-" Vim Basic Setup
 syntax on
+set clipboard+=unnamed
 set modifiable
 set ttymouse=xterm2
 set mouse=a
@@ -14,7 +14,6 @@ set commentstring=\ #\ %s
 set foldminlines=5
 set foldlevel=5
 set foldmethod=manual
-set clipboard=unnamed,autoselect
 set autoindent
 set browsedir=buffer
 set nocompatible
@@ -391,6 +390,7 @@ let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 noremap <C-t> :VimFiler -split -explorer<CR>
 noremap <silent> ,fd :VimFiler -split -project<CR>
+noremap <silent> ,fs :VimFiler<CR>
 
 " vim-markdown
 autocmd MyAutoCmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
