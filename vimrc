@@ -1,3 +1,4 @@
+" Basic Setttings --------------------------------------------
 syntax on
 set clipboard+=unnamed
 set modifiable
@@ -20,8 +21,6 @@ set nocompatible
 set expandtab
 set hidden
 set incsearch
-"set list
-"set listchars=eol:$,tab:>\ ,extends:<
 set number
 set shiftwidth=2
 set showmatch
@@ -31,40 +30,36 @@ set smarttab
 set tabstop=2
 set whichwrap=b,s,h,l,<,>,[,]
 set nowrapscan
-set shiftround          " '<'や'>'でインデントする際に'shiftwidth'の倍数に丸める
-set infercase           " 補完時に大文字小文字を区別しない
-set virtualedit=all     " カーソルを文字が存在しない部分でも動けるようにする
-set hidden              " バッファを閉じる代わりに隠す（Undo履歴を残すため）
-set switchbuf=useopen   " 新しく開く代わりにすでに開いてあるバッファを開く
-set showmatch           " 対応する括弧などをハイライト表示する
+set shiftround
+set infercase
+set virtualedit=all
+set hidden
+set switchbuf=useopen
+set showmatch
 set matchtime=3
 set matchpairs& matchpairs+=<:>
 set backspace=indent,eol,start
 set nowritebackup
 set nobackup
 set noswapfile
-set list                " 不可視文字の可視化
-set number              " 行番号の表示
-set wrap                " 長いテキストの折り返し
-set textwidth=0         " 自動的に改行が入るのを無効化
+set list
+set number
+set wrap
+set textwidth=0
 set t_vb=
 set novisualbell
 set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
 
+" Specific settings according to filetype ------------------------------
 au BufNewFile,BufRead * set iminsert=0
-au BufNewFile,BufRead * set tabstop=2 shiftwidth=2
+au BufNewFile,BufRead * set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.html set wrap tabstop=2 shiftwidth=2
-au BufNewFile,BufRead *.py set wrap tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.php set wrap tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.sh set wrap tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.rb set wrap tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.cpp set wrap tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.c set wrap tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.h set wrap tabstop=4 shiftwidth=4
+
+" Highlight Zenkaku Space ------------------------------------
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
 au BufNewFile,BufRead * match ZenkakuSpace /　/
 
-
+" NeoBundle -------------------------------------------------  
 if has('vim_starting')
   set nocompatible               " Be iMproved
 
@@ -86,13 +81,11 @@ NeoBundle 'kannokanno/previm'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tomtom/tcomment_vim'
-"NeoBundle 'bronson/vim-trailing-whitespace'
 NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'kakkyz81/evervim'
-"NeoBundle 'davidhalter/jedi-vim'
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neomru.vim'
@@ -127,7 +120,7 @@ filetype plugin indent on
 " this will conveniently prompt you to install them.
 NeoBundleCheck
 
-" neocompleteの設定
+" NeoComplete -------------------------------------------------  
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_auto_select = 0
 let g:neocomplete#enable_auto_close_preview = 1
@@ -135,30 +128,16 @@ let g:neocomplete#enable_ignore_case = 1
 let s:hooks = neobundle#get_hooks("jedi-vim")
 let g:jedi#popup_on_dot = 0
 let g:jedi#popup_select_first = 1
-"function! s:hooks.on_source(bundle)
-"  " jediにvimの設定を任せると'completeopt+=preview'するので
-"  " 自動設定機能をOFFにし手動で設定を行う
-"  let g:jedi#auto_vim_configuration = 0
-"  " 補完の最初の項目が選択された状態だと使いにくいためオフにする
-"  let g:jedi#popup_select_first = 0
-"  " quickrunと被るため大文字に変更
-"  let g:jedi#rename_command = '<Leader>R'
-"  " gundoと被るため大文字に変更 (2013-06-24 10:00 追記）
-"  let g:jedi#goto_command = '<Leader>G'
-"endfunction
 let g:neocomplete#enable_smart_case = 1
-"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 if !exists('g:neocomplete#keyword_patterns')
   let g:neocomplete#keyword_patterns = {}
 endif
 let g:neocomplete#keyword_patterns._ = '\h\w*'
-"inoremap <expr><C-h> neocomplete#smart_close_popup()
 inoremap <expr><C-h> neocomplete#close_popup()
 inoremap <expr><C-e>  neocomplete#cancel_popup()
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
-" My Keymapping
+" Move Keymapping -------------------------------------------------  
 imap <C-4> <Plug>IMAP_JumpForward
 nmap <C-4> <Plug>IMAP_JumpForward
 vmap <C-4> <Plug>IMAP_JumpForward
@@ -187,29 +166,28 @@ nnoremap g# g#zz
 nnoremap j gj
 nnoremap k gk
 
-"" 画面の大きさ変更
+" Change Window Size -------------------------------------------------  
 nnoremap <S-Left>  <C-w><<CR>
 nnoremap <S-Right> <C-w>><CR>
 nnoremap <S-Up>    <C-w>-<CR>
 nnoremap <S-Down>  <C-w>+<CR>
-" map <Space><Left> <C-w><Left>
+
+" Change tabs -------------------------------------------------  
 map <Space> :tabn<CR>
 map <S-Space> :tabp<CR>
 
-"" 検索
+" Search -------------------------------------------------  
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
-"" VimShell
+" vimshell ------------------------------------------------- 
 nnoremap <silent> ,is :vsp<CR>:VimShell<CR>
 nnoremap <silent> ,ls :VimShell<CR>
 nnoremap <silent> ,ipy :VimShellInteractive python<CR>
-" ,ss: 非同期で開いたインタプリタに現在の行を評価させる
 vmap <silent> ,ss :VimShellSendString<CR>
-" 選択中に,ss: 非同期で開いたインタプリタに選択行を評価させる
 nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
 
-"" For LaTeX
+" vim-latex ------------------------------------------------- 
 filetype plugin on
 let tex_flavor = 'latex'
 set grepprg=grep\ -nH\ $*
@@ -224,27 +202,8 @@ au BufNewFile,BufRead *.tex inoremap （ (
 au BufNewFile,BufRead *.tex inoremap ） )
 au BufNewFile,BufRead *.tex inoremap ITM \item[]<++><esc>4hi
 au BufNewFile,BufRead *.tex inoremap MBX \mbox{}<++><esc>4hi
-"au BufNewFile,BufRead *.tex inoremap EIT
-"au BufNewFile,BufRead *.tex inoremap EDO
-"au BufNewFile,BufRead *.tex inoremap SSE
 
-
-"" 折畳操作
-" noremap [space] <nop>
-" nmap <Space> [space]
-" noremap [space]j zj
-" noremap [space]k zk
-" noremap [space]n ]z
-" noremap [space]p [z
-" noremap [space]h zc
-" noremap [space]l zo
-" noremap [space]a za
-" noremap [space]m zM
-" noremap [space]i zMzv
-" noremap [space]r zR
-" noremap [space]f zf
-
-" vim-templates
+" vim-templates ------------------------------------------------- 
 augroup MyAutoCmd
   autocmd!
 augroup END
@@ -260,12 +219,7 @@ autocmd MyAutoCmd User plugin-template-loaded
     \ |   silent! execute 'normal! "_da>'
     \ | endif
 
-" jedi-vim
-command! -nargs=0 JediRename :call jedi#rename()
-let g:jedi#rename_command = ""
-let g:jedi#documentation_command = ""
-
-" quickrun
+" quickrun ------------------------------------------------- 
 let g:quickrun_config = {
 \   "_" : {
 \       "outputter/buffer/split" : ":botright",
@@ -277,7 +231,7 @@ let g:quickrun_config = {
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 nnoremap <silent> ,r :QuickRun<CR>
 
-" Evervim
+" evervim ------------------------------------------------- 
 let g:evervim_devtoken='S=s204:U=18304d3:E=14e09ed5f84:C=146b23c3260:P=1cd:A=en-devtoken:V=2:H=bd1352f1c31b347a383e2ad1909f5b56'
 nnoremap <silent> ,el :<C-u>EvervimNotebookList<CR>/INBOX<CR>
 nnoremap <silent> ,ew :<C-u>EvervimOpenBrowser<CR>
@@ -286,10 +240,10 @@ nnoremap <silent> ,es :<C-u>EvervimSearchByQuery<SPACE>
 nnoremap <silent> ,ea :<C-u>EvervimSearchByQuery -<CR>
 let g:evervim_splitoption=''
 
-" Open-browser
+" open-browser ------------------------------------------------- 
 nmap <silent> ,w <Plug>(openbrowser-open)
 
-" unite
+" unite ------------------------------------------------- 
 let g:unite_enable_start_insert=1
 noremap <C-p> :Unite buffer<CR>
 noremap <C-n> :Unite -buffer-name=file file<CR>
@@ -302,10 +256,10 @@ au FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vspli
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
-" fugitive
+" fugitive ------------------------------------------------- 
 autocmd QuickFixCmdPost *grep* cwindow
 
-" lightline
+" lightline ------------------------------------------------- 
 set laststatus=2
 let g:lightline = {
       \ 'colorscheme': 'powerline',
@@ -373,7 +327,7 @@ function! MyMode()
   return winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
-" vim-indent-guides
+" vim-indent-guides ------------------------------------------------- 
 colorscheme default
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_auto_colors = 0
@@ -382,17 +336,17 @@ let g:indent_guides_guide_size = 1
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=darkgray ctermbg=8
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  guibg=darkgray ctermbg=8
 
-" vim-repeat
+" vim-repeat ------------------------------------------------- 
 silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 
-" vim-filter
+" vim-filter ------------------------------------------------- 
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 noremap <C-t> :VimFiler -split -explorer<CR>
 noremap <silent> ,fd :VimFiler -split -project<CR>
 noremap <silent> ,fs :VimFiler<CR>
 
-" vim-markdown
+" vim-markdown -------------------------------------------------
 autocmd MyAutoCmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
 autocmd MyAutoCmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set foldlevel=3
 autocmd MyAutoCmd FileType markdown hi! def link markdownItalic LineNr
@@ -400,8 +354,8 @@ let g:vim_markdown_codeblock_syntax=0
 hi link htmlItalic LineNr
 hi link htmlBold WarningMsg
 hi link htmlBoldItalic ErrorMsg
-"
-" kobito
+
+" Kobito --------------------------------------------------------
 function! s:open_kobito(...)
   if a:0 == 0
     call system('open -a Kobito '.expand('%:p'))
@@ -418,6 +372,8 @@ command! -nargs=0 KobitoClose call system("osascript -e 'tell application \"Kobi
 " Kobito にフォーカスを移す
 command! -nargs=0 KobitoFocus call system("osascript -e 'tell application \"Kobito\" to activate'")
 
+
+" Mou --------------------------------------------------------------
 function! s:open_mou(...)
   if a:0 == 0
     call system('open -a Mou '.expand('%:p'))
