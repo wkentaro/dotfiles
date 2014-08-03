@@ -21,5 +21,5 @@ parse_git_branch() {
 PS1='${debian_chroot:+($debian_chroot)}\[\e[00;32m\]\u@\h:\[\e[01;34m\]\W\[\033[01;35m\]$(parse_git_branch)\[\e[01;35m\]\[\e[0m\]$ '
 
 # Colored less ----------------------------------------
-export PAGER=vimpager
-alias lv=$PAGER
+# export PAGER=vimpager
+# alias lv=$PAGER
