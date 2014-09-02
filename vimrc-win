@@ -389,9 +389,7 @@ let s:is_windows =  has('win16') || has('win32') || has('win64')
 let s:is_cygwin  =  has('win32unix')
 let s:is_cui     = !has('gui_running')
 
-if s:is_windows
-    colorscheme kolor
-endif
+colorscheme kolor
 
 if s:is_cygwin
   if &term =~# '^xterm' && &t_Co < 256
