@@ -1,9 +1,9 @@
 # Path ------------------------------------------------
-export PATH=/usr/local/bin:$HOME/.bin:$PATH
+# export PATH=/usr/local/bin:$HOME/.bin:$PATH
 
 # Alias -----------------------------------------------
 alias l='ls -CF'
-alias ls='ls -G'
+# alias ls='ls -G'
 alias ll='ls -alF'
 alias la='ls -A'
 alias vi='vim'
