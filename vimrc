@@ -54,6 +54,9 @@ set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
 au BufNewFile,BufRead * set iminsert=0
 au BufNewFile,BufRead * set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.html set wrap tabstop=2 shiftwidth=2
+au BufNewFile,BufRead *.md set wrap tabstop=2 shiftwidth=2
+au BufNewFile,BufRead *.css set wrap tabstop=2 shiftwidth=2
+au BufNewFile,BufRead *.rb set wrap tabstop=2 shiftwidth=2
 
 " Highlight Zenkaku Space ------------------------------------
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
@@ -141,10 +144,8 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 imap <C-4> <Plug>IMAP_JumpForward
 nmap <C-4> <Plug>IMAP_JumpForward
 vmap <C-4> <Plug>IMAP_JumpForward
-inoremap jj <Esc>
-inoremap <silent> <C-j> j
+inoremap <silent> jj <Esc>
 inoremap <silent> kk <esc>
-inoremap <silent> <C-k> k
 inoremap <C-L> <Right>
 inoremap <C-k> <Up>
 inoremap <C-j> <Down>

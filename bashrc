@@ -1,6 +1,9 @@
 # Path ------------------------------------------------
 export PATH=/usr/local/bin:$HOME/.bin:$PATH
 
+# LANG ------------------------------------------------
+export LANG=en_US.UTF-8
+
 # Alias -----------------------------------------------
 alias l='ls -CF'
 alias ls='ls -G'
@@ -9,7 +12,6 @@ alias la='ls -A'
 alias vi='vim'
 alias h='history'
 alias c='clear'
-alias python='ipython --classic --no-confirm'
 alias ipython='ipython --no-confirm'
 
 # Git branch in prompt --------------------------------
@@ -20,6 +22,8 @@ parse_git_branch() {
 # Prompt setup ----------------------------------------
 PS1='${debian_chroot:+($debian_chroot)}\[\e[00;32m\]\u@\h:\[\e[01;34m\]\W\[\033[01;35m\]$(parse_git_branch)\[\e[01;35m\]\[\e[0m\]$ '
 
-# Colored less ----------------------------------------
-# export PAGER=vimpager
-# alias lv=$PAGER
+# colored ls ------------------------------------------
+if [ -x /usr/local/bin/gdircolors ]; then
+    eval `gdircolors ~/.colorrc`
+    alias ls='gls --color=auto'
+fi
