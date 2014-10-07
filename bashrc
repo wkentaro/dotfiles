@@ -22,7 +22,8 @@ PS1='${debian_chroot:+($debian_chroot)}\[\e[00;32m\]\u@\h:\[\e[01;34m\]\W\[\033[
 # On Mac
 if [ `uname` = 'Darwin' ]; then
     # path
-    export PATH=/usr/local/bin:$HOME/.bin:$HOME/Work/pylearn2/pylearn2/scripts
+    export PATH=/usr/local/bin:$HOME/.bin:$PATH
+    export PATH=$PATH:$HOME/Work/pylearn2/pylearn2/scripts
 
     # colored ls
     if [ -x /usr/local/bin/gdircolors ]; then
