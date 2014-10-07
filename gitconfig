@@ -1,16 +1,18 @@
 [user]
-	name = Kentaro Wada
-	email = greeeenkew@gmail.com
+    name = Kentaro Wada
+    email = greeeenkew@gmail.com
 [color]
-	ui = auto
+    ui = auto
 [alias]
-	co = checkout
-	ci = commit
-	st = status
-	br = branch
-	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    co = checkout
+    ci = commit
+    st = status
+    br = branch
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
 [filter "media"]
-	clean = git-media-clean %f
-	smudge = git-media-smudge %f
+    clean = git-media-clean %f
+    smudge = git-media-smudge %f
 [push]
-	default = simple
+    default = simple
+[core]
+    editor = vim
