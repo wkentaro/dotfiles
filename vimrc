@@ -77,7 +77,6 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-" My Bundles here:
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'rcmdnk/vim-markdown'
 NeoBundle 'kannokanno/previm'
@@ -102,6 +101,7 @@ NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'git://git.code.sf.net/p/vim-latex/vim-latex'
 NeoBundle 'thinca/vim-template'
 NeoBundle 'hattya/python_fold.vim'
+NeoBundle 'lambdalisue/vim-gista'
 
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
@@ -356,30 +356,5 @@ hi link htmlItalic LineNr
 hi link htmlBold WarningMsg
 hi link htmlBoldItalic ErrorMsg
 
-" Kobito --------------------------------------------------------
-function! s:open_kobito(...)
-  if a:0 == 0
-    call system('open -a Kobito '.expand('%:p'))
-  else
-    call system('open -a Kobito '.join(a:000, ' '))
-  endif
-endfunction
-
-" 引数のファイル(複数指定可)を Kobitoで開く
-" （引数無しのときはカレントバッファを開く
-command! -nargs=* Kobito call s:open_kobito(<f-args>)
-" Kobito を閉じる
-command! -nargs=0 KobitoClose call system("osascript -e 'tell application \"Kobito\" to quit'")
-" Kobito にフォーカスを移す
-command! -nargs=0 KobitoFocus call system("osascript -e 'tell application \"Kobito\" to activate'")
-
-
-" Mou --------------------------------------------------------------
-function! s:open_mou(...)
-  if a:0 == 0
-    call system('open -a Mou '.expand('%:p'))
-  else
-    call system('open -a Mou '.join(a:000, ' '))
-  endif
-endfunction
-command! -nargs=* Mou call s:open_mou(<f-args>)
+" neobundle.vim
+let g:gista#github_user = 'wkentaro'
