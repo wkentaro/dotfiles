@@ -80,9 +80,7 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-
-# PS1='%(!.%{$fg[red]%}.%{$fg[green]%}%n@)%m %{$fg_bold[blue]%}%(!.%1~.%~) $(git_prompt_info)%_$(prompt_char)%{$reset_color%} '
-# PROMPT='%(!.%{$fg[red]%}.%{$fg[green]%}%n@)%m %{$fg_bold[blue]%}%c %{$fg_bold[magenta]%}$(git_prompt_info)%{$reset_color%}%_$(prompt_char) '
+export LC_CTYPE='en_US.UTF-8'
 if [ `uname` = 'Darwin' ]; then
     # path
     export PATH=/usr/local/bin:$HOME/.bin:$PATH
@@ -112,6 +110,9 @@ fi
 
 # bindkey
 bindkey -v
-bindkey "^P" up-line-or-history
-bindkey "^N" down-line-or-history
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
 bindkey -M viins 'jj' vi-cmd-mode
+bindkey -M viins '^A' vi-cmd-mode
+bindkey '^P' history-search-backward
