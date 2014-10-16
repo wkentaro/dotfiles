@@ -16,14 +16,6 @@ if [ `uname` = 'Darwin' ]; then
     # path
     export PATH=/usr/local/bin:$HOME/.bin:$PATH
     export PATH=$PATH:$HOME/Work/pylearn2/pylearn2/scripts
-    # grep
-    export GREP_OPTIONS='--color=always'
-    export GREP_COLOR='1;35;40'
-    # ls
-    if [ -x /usr/local/bin/gdircolors ]; then
-        eval `gdircolors $HOME/.colorrc`
-        alias ls='gls --color=auto'
-    fi
     # alias
     alias l='ls -CF'
     alias ls='ls -G'
@@ -33,7 +25,14 @@ if [ `uname` = 'Darwin' ]; then
     alias h='history'
     alias c='clear'
     alias cw='cd $HOME/Work'
-
+    # grep
+    export GREP_OPTIONS='--color=always'
+    export GREP_COLOR='1;35;40'
+    # ls
+    if [ -x /usr/local/bin/gdircolors ]; then
+        eval `gdircolors $HOME/.colorrc`
+        alias ls='gls --color=auto'
+    fi
 
     # Python
     export PYTHONPATH=$PYTHONPATH:$HOME/.libs/python2.7/site-packages
