@@ -107,9 +107,6 @@ if [ `uname` = 'Darwin' ]; then
     # pylearn2
     export PYLEARN2_DATA_PATH=$HOME/Work/pylearn2/data
     export PYLEARN2_VIEWER_COMMAND='open -Wn'
-    # virtualenv
-    export WORKON_HOME=$HOME/.virtualenvs
-    source /usr/local/bin/virtualenvwrapper.sh
 else
     if [ -x /opt/ros/hydro/setup.zsh ]; then
         source /opt/ros/hydro/setup.zsh
