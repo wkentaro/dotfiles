@@ -81,14 +81,18 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 export LC_CTYPE='en_US.UTF-8'
+
+# aliases
+alias v='vim'
+alias c='clear'
+alias h='history'
+alias p='python'
+alias ip='ipython'
+
 if [ `uname` = 'Darwin' ]; then
     # path
     export PATH=/usr/local/bin:$HOME/.bin:$PATH
     export PATH=$PATH:$HOME/Work/pylearn2/pylearn2/scripts
-    # alias
-    alias v='vim'
-    alias c='clear'
-    alias h='history'
     # grep
     export GREP_OPTIONS='--color=always'
     export GREP_COLOR='1;35;40'
@@ -103,9 +107,10 @@ if [ `uname` = 'Darwin' ]; then
     # pylearn2
     export PYLEARN2_DATA_PATH=$HOME/Work/pylearn2/data
     export PYLEARN2_VIEWER_COMMAND='open -Wn'
-    # virtualenv
-    export WORKON_HOME=$HOME/.virtualenvs
-    source /usr/local/bin/virtualenvwrapper.sh
+else
+    if [ -x /opt/ros/hydro/setup.zsh ]; then
+        source /opt/ros/hydro/setup.zsh
+    fi
 fi
 
 # bindkey
