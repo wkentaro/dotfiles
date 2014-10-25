@@ -52,7 +52,6 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH=$HOME/bin:/usr/local/bin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -84,6 +83,7 @@ export LC_CTYPE='en_US.UTF-8'
 
 # aliases
 alias v='vim'
+alias vi='vim'
 alias c='clear'
 alias h='history'
 alias p='python'
@@ -91,8 +91,8 @@ alias ip='ipython'
 
 if [ `uname` = 'Darwin' ]; then
     # path
-    export PATH=/usr/local/bin:$HOME/.bin:$PATH
-    export PATH=$PATH:$HOME/Work/pylearn2/pylearn2/scripts
+    export PATH="/usr/local/bin:$HOME/.bin:$PATH"
+    export PATH="$HOME/Work/pylearn2/pylearn2/scripts:$PATH"
     # grep
     export GREP_OPTIONS='--color=always'
     export GREP_COLOR='1;35;40'
