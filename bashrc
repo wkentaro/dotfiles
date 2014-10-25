@@ -10,7 +10,6 @@ PS1='${debian_chroot:+($debian_chroot)}\[\e[00;32m\]\u@\h:\[\e[01;34m\]\W\[\033[
 
 # alias
 alias l='ls -CF'
-alias ls='ls -G'
 alias ll='ls -alF'
 alias la='ls -A'
 alias v='vim'
@@ -95,6 +94,8 @@ if [ `uname` = 'Darwin' ]; then
     # path
     export PATH="/usr/local/bin:$HOME/.bin:$PATH"
     export PATH="$HOME/Work/pylearn2/pylearn2/scripts:$PATH"
+    # alias
+    alias ls='ls -G'
     # grep
     export GREP_OPTIONS='--color=always'
     export GREP_COLOR='1;35;40'
@@ -109,4 +110,6 @@ if [ `uname` = 'Darwin' ]; then
     # pylearn2
     export PYLEARN2_DATA_PATH=$HOME/Work/pylearn2/data
     export PYLEARN2_VIEWER_COMMAND='open -Wn'
+else
+    alias ls='ls --color=auto'
 fi
