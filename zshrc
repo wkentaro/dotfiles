@@ -121,4 +121,3 @@ bindkey -M vicmd v edit-command-line
 bindkey -M viins 'jj' vi-cmd-mode
 bindkey -M viins '^A' vi-cmd-mode
 bindkey '^P' history-search-backward
-source /opt/ros/hydro/setup.zsh
