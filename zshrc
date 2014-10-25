@@ -88,6 +88,7 @@ alias c='clear'
 alias h='history'
 alias p='python'
 alias ip='ipython'
+alias gcln='git clone'
 
 if [ `uname` = 'Darwin' ]; then
     # path
