@@ -101,7 +101,7 @@ NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'git://git.code.sf.net/p/vim-latex/vim-latex'
 NeoBundle 'thinca/vim-template'
 NeoBundle 'hattya/python_fold.vim'
-NeoBundle 'lambdalisue/vim-gista'
+NeoBundle 'davidhalter/jedi-vim'
 
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
@@ -356,5 +356,17 @@ hi link htmlItalic LineNr
 hi link htmlBold WarningMsg
 hi link htmlBoldItalic ErrorMsg
 
-" neobundle.vim
-let g:gista#github_user = 'wkentaro'
+" jedi
+autocmd FileType python setlocal omnifunc=jedi#completions
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+
+if !exists('g:neocomplete#force_omni_input_patterns')
+        let g:neocomplete#force_omni_input_patterns = {}
+endif
+
+" let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
+
+" neocomplete
+autocmd FileType python setlocal completeopt-=preview
