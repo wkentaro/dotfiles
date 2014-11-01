@@ -99,7 +99,7 @@ NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'git://git.code.sf.net/p/vim-latex/vim-latex'
-NeoBundle 'thinca/vim-template'
+NeoBundle 'aperezdc/vim-template'
 NeoBundle 'hattya/python_fold.vim'
 NeoBundle 'davidhalter/jedi-vim'
 
@@ -183,6 +183,7 @@ cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
 " vimshell ------------------------------------------------- 
 nnoremap <silent> ,is :vsp<CR>:VimShell<CR>
+nnoremap <silent> <C-B> :sp<CR>:VimShell<CR>
 nnoremap <silent> ,ls :VimShell<CR>
 nnoremap <silent> ,ipy :VimShellInteractive python<CR>
 vmap <silent> ,ss :VimShellSendString<CR>
@@ -203,22 +204,6 @@ au BufNewFile,BufRead *.tex inoremap （ (
 au BufNewFile,BufRead *.tex inoremap ） )
 au BufNewFile,BufRead *.tex inoremap ITM \item[]<++><esc>4hi
 au BufNewFile,BufRead *.tex inoremap MBX \mbox{}<++><esc>4hi
-
-" vim-templates ------------------------------------------------- 
-augroup MyAutoCmd
-  autocmd!
-augroup END
-autocmd MyAutoCmd User plugin-template-loaded call s:template_keywords()
-function! s:template_keywords()
-    silent! %s/<+DATE+>/\=strftime('%Y-%m-%d')/g
-    "silent! %s/<+FILENAME+>/\=expand('%:r')/g
-    silent! %s/<+FILENAME+>/\=expand('%r')/g
-endfunction
-" テンプレート中に含まれる'<+CURSOR+>'にカーソルを移動
-autocmd MyAutoCmd User plugin-template-loaded
-    \   if search('<+CURSOR+>')
-    \ |   silent! execute 'normal! "_da>'
-    \ | endif
 
 " quickrun ------------------------------------------------- 
 let g:quickrun_config = {
@@ -348,9 +333,6 @@ noremap <silent> ,fd :VimFiler -split -project<CR>
 noremap <silent> ,fs :VimFiler<CR>
 
 " vim-markdown -------------------------------------------------
-autocmd MyAutoCmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set filetype=markdown
-autocmd MyAutoCmd BufNewFile,BufRead *.{md,mdwn,mkd,mkdn,mark*} set foldlevel=3
-autocmd MyAutoCmd FileType markdown hi! def link markdownItalic LineNr
 let g:vim_markdown_codeblock_syntax=0
 hi link htmlItalic LineNr
 hi link htmlBold WarningMsg
@@ -369,3 +351,8 @@ let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*f
 
 " neocomplete
 autocmd FileType python setlocal completeopt-=preview
+
+" cursor
+inoremap {<Enter> {}<Left><CR><ESC><S-o>
+inoremap [<Enter> []<Left><CR><ESC><S-o>
+inoremap (<Enter> ()<Left><CR><ESC><S-o>
