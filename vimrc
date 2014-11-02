@@ -12,8 +12,8 @@ set ignorecase
 set ruler
 set wildmenu
 set commentstring=\ #\ %s
-set foldminlines=5
-set foldlevel=5
+set foldminlines=1000
+set foldlevel=1000
 set foldmethod=manual
 set autoindent
 set browsedir=buffer
@@ -57,6 +57,10 @@ au BufNewFile,BufRead *.html set wrap tabstop=2 shiftwidth=2
 au BufNewFile,BufRead *.md set wrap tabstop=2 shiftwidth=2
 au BufNewFile,BufRead *.css set wrap tabstop=2 shiftwidth=2
 au BufNewFile,BufRead *.rb set wrap tabstop=2 shiftwidth=2
+
+" lisp
+au BufNewFile,BufRead *.l set wrap tabstop=2 shiftwidth=2 ft=lisp
+let lisp_rainbow = 1
 
 " Highlight Zenkaku Space ------------------------------------
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
@@ -141,19 +145,9 @@ inoremap <expr><C-e>  neocomplete#cancel_popup()
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " Move Keymapping -------------------------------------------------  
-imap <C-4> <Plug>IMAP_JumpForward
-nmap <C-4> <Plug>IMAP_JumpForward
-vmap <C-4> <Plug>IMAP_JumpForward
 inoremap <silent> jj <Esc>
 inoremap <silent> kk <esc>
-inoremap <C-L> <Right>
-inoremap <C-k> <Up>
-inoremap <C-j> <Down>
-inoremap <C-h> <Left>
 inoremap <C-9> <esc>/<cr><esc>cf>
-nnoremap <C-k> <Up>
-nnoremap <C-l> <Right>
-nnoremap <C-i> <Insert>
 nnoremap 0 $
 vnoremap 0 $
 nnoremap 1 ^
