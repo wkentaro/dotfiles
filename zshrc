@@ -118,6 +118,8 @@ else
     if [ -x /opt/ros/hydro/setup.zsh ]; then
         source /opt/ros/hydro/setup.zsh
     fi
+    eval `dircolors $HOME/.colorrc`
+    alias ls='ls --color=auto'
 fi
 
 # # bindkey
@@ -127,7 +129,7 @@ fi
 # bindkey -M vicmd v edit-command-line
 bindkey -M viins 'jj' vi-cmd-mode
 # bindkey '\e[3~' delete-char
-# bindkey '^R' history-incremental-search-backward
+bindkey '^R' history-incremental-search-backward
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
 #
