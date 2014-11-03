@@ -129,7 +129,7 @@ fi
 # bindkey -M vicmd v edit-command-line
 bindkey -M viins 'jj' vi-cmd-mode
 # bindkey '\e[3~' delete-char
-# bindkey '^R' history-incremental-search-backward
+bindkey '^R' history-incremental-search-backward
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
 #
