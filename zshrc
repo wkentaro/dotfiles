@@ -1,5 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+export EDITOR=vim
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -46,7 +47,7 @@ ZSH_THEME="wkentaro"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git vi-mode python)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -86,6 +87,8 @@ alias v='vim'
 alias vi='vim'
 alias c='clear'
 alias h='history'
+alias o='open'
+alias o.='open .'
 alias p='python'
 alias ip='ipython'
 alias gcln='git clone'
@@ -108,6 +111,9 @@ if [ `uname` = 'Darwin' ]; then
     # pylearn2
     export PYLEARN2_DATA_PATH=$HOME/Work/pylearn2/data
     export PYLEARN2_VIEWER_COMMAND='open -Wn'
+    # hub
+    source /usr/local/share/zsh/site-functions
+    eval "$(hub alias -s)"
 else
     if [ -x /opt/ros/hydro/setup.zsh ]; then
         source /opt/ros/hydro/setup.zsh
@@ -116,11 +122,24 @@ else
     alias ls='ls --color=auto'
 fi
 
-# bindkey
-bindkey -v
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey -M vicmd v edit-command-line
+# # bindkey
+# bindkey -v
+# autoload -U edit-command-line
+# zle -N edit-command-line
+# bindkey -M vicmd v edit-command-line
 bindkey -M viins 'jj' vi-cmd-mode
-bindkey -M viins '^A' vi-cmd-mode
-bindkey '^P' history-search-backward
+# bindkey '\e[3~' delete-char
+# bindkey '^R' history-incremental-search-backward
+bindkey '^A' beginning-of-line
+bindkey '^E' end-of-line
+#
+autoload history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^P" history-beginning-search-backward-end
+bindkey "^N" history-beginning-search-forward-end
+
+setopt correct
+setopt list_packed
+setopt nolistbeep
+setopt share_history
