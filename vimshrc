@@ -90,7 +90,6 @@ alias ip=ipython
 alias l='ls -lah'
 alias la='ls -lAh'
 alias ll='ls -lh'
-alias ls='gls --color=auto'
 alias lsa='ls -lah'
 alias md='mkdir -p'
 alias p=python

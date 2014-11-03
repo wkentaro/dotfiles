@@ -1,6 +1,6 @@
 " Basic Setttings --------------------------------------------
 syntax on
-set clipboard+=unnamed
+set clipboard=unnamed
 set modifiable
 set ttymouse=xterm2
 set mouse=a
@@ -52,11 +52,14 @@ set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
 
 " Specific settings according to filetype ------------------------------
 au BufNewFile,BufRead * set iminsert=0
-au BufNewFile,BufRead * set tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.html set wrap tabstop=2 shiftwidth=2
-au BufNewFile,BufRead *.md set wrap tabstop=2 shiftwidth=2
-au BufNewFile,BufRead *.css set wrap tabstop=2 shiftwidth=2
-au BufNewFile,BufRead *.rb set wrap tabstop=2 shiftwidth=2
+au BufNewFile,BufRead * set tabstop=2 shiftwidth=2
+au BufNewFile,BufRead *.py set wrap tabstop=4 shiftwidth=4
+au BufNewFile,BufRead *.c set wrap tabstop=4 shiftwidth=4
+au BufNewFile,BufRead *.cpp set wrap tabstop=4 shiftwidth=4
+au BufNewFile,BufRead *.l set wrap tabstop=2 shiftwidth=2 ft=lisp
+
+" lisp setup
+let lisp_rainbow=1
 
 " Highlight Zenkaku Space ------------------------------------
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666

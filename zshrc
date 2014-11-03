@@ -112,6 +112,8 @@ else
     if [ -x /opt/ros/hydro/setup.zsh ]; then
         source /opt/ros/hydro/setup.zsh
     fi
+    eval `dircolors $HOME/.colorrc`
+    alias ls='ls --color=auto'
 fi
 
 # bindkey
