@@ -47,7 +47,7 @@ ZSH_THEME="wkentaro"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git vi-mode python)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -120,16 +120,17 @@ else
     fi
 fi
 
-# bindkey
-bindkey -v
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey -M vicmd v edit-command-line
+# # bindkey
+# bindkey -v
+# autoload -U edit-command-line
+# zle -N edit-command-line
+# bindkey -M vicmd v edit-command-line
 bindkey -M viins 'jj' vi-cmd-mode
-bindkey -M viins '^A' vi-cmd-mode
-bindkey '\e[3~' delete-char
-bindkey '^R' history-incremental-search-backward
-
+# bindkey '\e[3~' delete-char
+# bindkey '^R' history-incremental-search-backward
+bindkey '^A' beginning-of-line
+bindkey '^E' end-of-line
+#
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
