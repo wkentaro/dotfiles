@@ -146,7 +146,7 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " Move Keymapping -------------------------------------------------  
 inoremap <silent> jj <Esc>
-inoremap <silent> kk <esc>
+" inoremap <silent> kk <esc>
 inoremap <C-9> <esc>/<cr><esc>cf>
 nnoremap 0 $
 vnoremap 0 $
