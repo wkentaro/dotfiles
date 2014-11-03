@@ -115,4 +115,6 @@ if [ `uname` = 'Darwin' ]; then
     export PYLEARN2_VIEWER_COMMAND='open -Wn'
 else
     alias ls='ls --color=auto'
+    alias emacs='emacs -nw'
+    alias open='gnome-open'
 fi
