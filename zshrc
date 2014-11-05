@@ -139,6 +139,7 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
+# zsh options
 setopt list_packed
 setopt nolistbeep
 setopt share_history
