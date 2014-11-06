@@ -2,4 +2,5 @@ set editing-mode vi
 "\C-p": history-search-backward
 "\C-n": history-search-forward
 "\C-j": vi-movement-mode
-"\C-a": vi-movement-mode
+"\C-a" beginning-of-line
+"\C-e": end-of-line
