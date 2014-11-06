@@ -114,6 +114,16 @@ if [ `uname` = 'Darwin' ]; then
     export PYLEARN2_DATA_PATH=$HOME/Work/pylearn2/data
     export PYLEARN2_VIEWER_COMMAND='open -Wn'
 else
+    if [ -f $HOME/.colorrc ]; then
+        eval `dircolors $HOME/.colorrc`
+    fi
+    if [ -f /opt/ros/hydro/setup.bash ]; then
+        source /opt/ros/hydro/setup.bash
+        semi () {
+            cd ~/catkin_ws/semi
+            source devel/setup.bash
+        }
+    fi
     alias ls='ls --color=auto'
     alias emacs='emacs -nw'
     alias open='gnome-open'
