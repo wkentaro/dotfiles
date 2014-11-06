@@ -118,3 +118,4 @@ else
     alias emacs='emacs -nw'
     alias open='gnome-open'
 fi
+eval "$(hub alias -s)"

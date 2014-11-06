@@ -25,3 +25,6 @@
     excludesfile = /Users/ken/.gitignore_global
 [push]
     default = matching
+[branch "wkentaro"]
+    remote = wkentaro
+    merge = wkentaro
