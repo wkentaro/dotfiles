@@ -117,7 +117,7 @@ if [ `uname` = 'Darwin' ]; then
 else
     if [ -f /opt/ros/hydro/setup.zsh ]; then
         source /opt/ros/hydro/setup.zsh
-        soft3 () {
+        soft () {
             cd ~/catkin_ws/soft3
             source devel/setup.zsh
         }
