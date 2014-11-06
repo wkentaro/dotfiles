@@ -120,6 +120,7 @@ else
     fi
     eval `dircolors $HOME/.colorrc`
     alias ls='ls --color=auto'
+    alias emacs='emacs -nw'
 fi
 
 # # bindkey
@@ -127,8 +128,8 @@ fi
 # autoload -U edit-command-line
 # zle -N edit-command-line
 # bindkey -M vicmd v edit-command-line
-bindkey -M viins 'jj' vi-cmd-mode
 # bindkey '\e[3~' delete-char
+bindkey -M viins 'jj' vi-cmd-mode
 bindkey '^R' history-incremental-search-backward
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
@@ -139,7 +140,6 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
-setopt correct
 setopt list_packed
 setopt nolistbeep
 setopt share_history
