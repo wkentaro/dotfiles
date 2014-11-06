@@ -115,25 +115,24 @@ if [ `uname` = 'Darwin' ]; then
     source /usr/local/share/zsh/site-functions
     eval "$(hub alias -s)"
 else
-    if [ -x /opt/ros/hydro/setup.zsh ]; then
+    if [ -f /opt/ros/hydro/setup.zsh ]; then
         source /opt/ros/hydro/setup.zsh
+        soft3 () {
+            cd ~/catkin_ws/soft3
+            source devel/setup.zsh
+        }
     fi
     eval `dircolors $HOME/.colorrc`
     alias ls='ls --color=auto'
     alias emacs='emacs -nw'
+    # hub
+    eval "$(hub alias -s)"
 fi
 
-# # bindkey
-# bindkey -v
-# autoload -U edit-command-line
-# zle -N edit-command-line
-# bindkey -M vicmd v edit-command-line
-# bindkey '\e[3~' delete-char
+# bindkey
 bindkey -M viins 'jj' vi-cmd-mode
 bindkey '^R' history-incremental-search-backward
 bindkey '^A' beginning-of-line
-bindkey '^E' end-of-line
-#
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
