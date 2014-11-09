@@ -12,16 +12,27 @@ parse_branch() {
 PS1='${debian_chroot:+($debian_chroot)}\[\e[00;32m\]\u@\h:\[\e[01;34m\]\W\[\033[01;35m\]$(parse_branch)\[\e[01;35m\]\[\e[0m\] $ '
 
 # alias
-alias l='ls -CF'
-alias ll='ls -alF'
-alias la='ls -A'
-alias v='vim'
-alias vi='vim'
-alias c='clear'
-alias h='history'
-alias p='python'
-alias ip='ipython'
-alias g='git'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias 1='cd -'
+alias 2='cd -2'
+alias 3='cd -3'
+alias 4='cd -4'
+alias 5='cd -5'
+alias 6='cd -6'
+alias 7='cd -7'
+alias 8='cd -8'
+alias 9='cd -9'
+alias _=sudo
+alias afind='ack-grep -il'
+alias c=clear
+alias cd..='cd ..'
+alias cd...='cd ../..'
+alias cd....='cd ../../..'
+alias cd.....='cd ../../../..'
+alias d='dirs -v | head -10'
+alias emacs='emacs -nw'
+alias g=git
 alias ga='git add'
 alias gap='git add --patch'
 alias gb='git branch'
@@ -33,6 +44,7 @@ alias gca='git commit -v -a'
 alias 'gca!'='git commit -v -a --amend'
 alias gcl='git config --list'
 alias gclean='git reset --hard && git clean -dfx'
+alias gcln='git clone'
 alias gcm='git checkout master'
 alias gcmsg='git commit -m'
 alias gco='git checkout'
@@ -50,6 +62,7 @@ alias ggpur='git pull --rebase origin $(current_branch)'
 alias ggpush='git push origin $(current_branch)'
 alias gignore='git update-index --assume-unchanged'
 alias gignored='git ls-files -v | grep "^[[:lower:]]"'
+alias git=hub
 alias git-svn-dcommit-push='git svn dcommit && git push github master:svntrunk'
 alias gk='gitk --all --branches'
 alias gl='git pull'
@@ -57,6 +70,7 @@ alias glg='git log --stat --max-count=10'
 alias glgg='git log --graph --max-count=10'
 alias glgga='git log --graph --decorate --all'
 alias glo='git log --oneline --decorate --color'
+alias globurl='noglob urlglobber '
 alias glog='git log --oneline --decorate --color --graph'
 alias glp=_git_log_prettily
 alias gm='git merge'
@@ -91,6 +105,27 @@ alias gup='git pull --rebase'
 alias gvt='git verify-tag'
 alias gwc='git whatchanged -p --abbrev-commit --pretty=medium'
 alias gwip='git add -A; git ls-files --deleted -z | xargs -r0 git rm; git commit -m "--wip--"'
+alias h=history
+alias history='fc -l 1'
+alias ip=ipython
+alias ls='ls --color=auto'
+alias l='ls -lah'
+alias la='ls -lAh'
+alias ll='ls -lh'
+alias lsa='ls -lah'
+alias md='mkdir -p'
+alias o=open
+alias o.='open .'
+alias p=python
+alias please=sudo
+alias po=popd
+alias pu=pushd
+alias pyfind='find . -name "*.py"'
+alias pygrep='grep --include="*.py"'
+alias rd=rmdir
+alias v=vim
+alias vi=vim
+alias which-command=whence
 
 # Mac
 if [ `uname` = 'Darwin' ]; then
