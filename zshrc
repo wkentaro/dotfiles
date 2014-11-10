@@ -144,3 +144,13 @@ bindkey "^N" history-beginning-search-forward-end
 setopt list_packed
 setopt nolistbeep
 setopt share_history
+
+# functions
+today () {
+    INBOX_DIR=$HOME/Inbox
+    today=`date +"%Y%m%d"`
+    if [ ! -d ${INBOX_DIR}/${today} ]; then
+        mkdir ${INBOX_DIR}/${today}
+    fi
+    cd ${INBOX_DIR}/${today}
+}
