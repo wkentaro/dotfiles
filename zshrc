@@ -144,3 +144,13 @@ bindkey "^N" history-beginning-search-forward-end
 setopt list_packed
 setopt nolistbeep
 setopt share_history
+
+# functions
+google() {
+    search=""
+    echo "Googling: $@"
+    for term in $@; do
+        search="$search%20$term"
+    done
+    xdg-open "http://www.google.com/search?q=$search"
+}
