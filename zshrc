@@ -147,10 +147,18 @@ setopt share_history
 
 # functions
 today () {
-    INBOX_DIR=$HOME/Inbox
+    INBOXDIR=$HOME/Inbox
     today=`date +"%Y%m%d"`
-    if [ ! -d ${INBOX_DIR}/${today} ]; then
-        mkdir ${INBOX_DIR}/${today}
+    if [ ! -d ${INBOXDIR}/${today} ]; then
+        mkdir ${INBOXDIR}/${today}
     fi
-    cd ${INBOX_DIR}/${today}
+    cd ${INBOXDIR}/${today}
+}
+google() {
+    search=""
+    echo "Googling: $@"
+    for term in $@; do
+        search="$search%20$term"
+    done
+    xdg-open "http://www.google.com/search?q=$search"
 }
