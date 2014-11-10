@@ -82,6 +82,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+NeoBundle 'toyamarinyon/vim-swift'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'suan/vim-instant-markdown'
 NeoBundle 'nathanaelkane/vim-indent-guides'
@@ -130,9 +131,6 @@ let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_auto_select = 0
 let g:neocomplete#enable_auto_close_preview = 1
 let g:neocomplete#enable_ignore_case = 1
-let s:hooks = neobundle#get_hooks("jedi-vim")
-let g:jedi#popup_on_dot = 0
-let g:jedi#popup_select_first = 1
 let g:neocomplete#enable_smart_case = 1
 if !exists('g:neocomplete#keyword_patterns')
   let g:neocomplete#keyword_patterns = {}
@@ -145,6 +143,8 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 " Move Keymapping -------------------------------------------------  
 inoremap <silent> jj <Esc>
 " inoremap <silent> kk <esc>
+inoremap <C-L> <Right>
+inoremap <C-H> <Left>
 inoremap <C-9> <esc>/<cr><esc>cf>
 nnoremap 0 $
 vnoremap 0 $
@@ -332,8 +332,11 @@ hi link htmlBoldItalic ErrorMsg
 
 " jedi
 autocmd FileType python setlocal omnifunc=jedi#completions
-let g:jedi#completions_enabled = 0
-let g:jedi#auto_vim_configuration = 0
+" let g:jedi#completions_enabled = 0
+" let g:jedi#auto_vim_configuration = 0
+" let s:hooks = neobundle#get_hooks("jedi-vim")
+let g:jedi#popup_on_dot = 0
+" let g:jedi#popup_select_first = 1
 
 if !exists('g:neocomplete#force_omni_input_patterns')
         let g:neocomplete#force_omni_input_patterns = {}
