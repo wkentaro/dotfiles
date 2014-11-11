@@ -1,6 +1,20 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-export EDITOR=vim
+if [ `uname` = 'Darwin' ]; then
+    # path
+    export PATH="/usr/local/bin:$HOME/.bin:$PATH"
+    export PATH="$HOME/Work/pylearn2/pylearn2/scripts:$PATH"
+    export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+    export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+    # grep
+    export GREP_OPTIONS='--color=always'
+    export GREP_COLOR='1;35;40'
+    # Python
+    export PYTHONPATH=$PYTHONPATH:$HOME/.libs/python2.7/site-packages
+    # pylearn2
+    export PYLEARN2_DATA_PATH=$HOME/Work/pylearn2/data
+    export PYLEARN2_VIEWER_COMMAND='open -Wn'
+fi
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -57,8 +71,10 @@ source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
+export LC_CTYPE='en_US.UTF-8'
 
 # Preferred editor for local and remote sessions
+export EDITOR=vim
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
 # else
@@ -69,20 +85,12 @@ source $ZSH/oh-my-zsh.sh
 # export ARCHFLAGS="-arch x86_64"
 
 # ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+export SSH_KEY_PATH="~/.ssh/id_rsa"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-export LC_CTYPE='en_US.UTF-8'
-
-# aliases
 alias v='vim'
 alias vi='vim'
 alias c='clear'
@@ -92,40 +100,21 @@ alias o.='open .'
 alias p='python'
 alias ip='ipython'
 alias gcln='git clone'
-
+alias sl='ls'
+alias gmpush='git push wkentaro $(current_branch)'
 if [ `uname` = 'Darwin' ]; then
-    # path
-    export PATH="/usr/local/bin:$HOME/.bin:$PATH"
-    export PATH="$HOME/Work/pylearn2/pylearn2/scripts:$PATH"
-    # grep
-    export GREP_OPTIONS='--color=always'
-    export GREP_COLOR='1;35;40'
     # ls
-    if [ -x /usr/local/bin/gdircolors ]; then
-        eval `gdircolors $HOME/.colorrc`
-        alias ls='gls --color=auto'
+    if [ -x /usr/local/opt/coreutils/libexec/gnubin/dircolors ]; then
+        eval `dircolors $HOME/.colorrc`
+        alias ls='ls --color=auto'
     fi
-
-    # Python
-    export PYTHONPATH=$PYTHONPATH:$HOME/.libs/python2.7/site-packages
-    # pylearn2
-    export PYLEARN2_DATA_PATH=$HOME/Work/pylearn2/data
-    export PYLEARN2_VIEWER_COMMAND='open -Wn'
     # hub
     source /usr/local/share/zsh/site-functions
     eval "$(hub alias -s)"
 else
-    if [ -f /opt/ros/hydro/setup.zsh ]; then
-        source /opt/ros/hydro/setup.zsh
-        soft () {
-            cd ~/catkin_ws/soft3
-            source devel/setup.zsh
-        }
-    fi
     eval `dircolors $HOME/.colorrc`
     alias ls='ls --color=auto'
     alias emacs='emacs -nw'
-    # hub
     eval "$(hub alias -s)"
 fi
 
@@ -144,6 +133,15 @@ bindkey "^N" history-beginning-search-forward-end
 setopt list_packed
 setopt nolistbeep
 setopt share_history
+
+# ROS setup
+if [ -f /opt/ros/hydro/setup.zsh ]; then
+    source /opt/ros/hydro/setup.zsh
+    soft () {
+        cd ~/catkin_ws/soft3
+        source devel/setup.zsh
+    }
+fi
 
 # functions
 today () {

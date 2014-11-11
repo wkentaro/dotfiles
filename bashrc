@@ -60,6 +60,7 @@ alias ggpnp='git pull origin $(current_branch) && git push origin $(current_bran
 alias ggpull='git pull origin $(current_branch)'
 alias ggpur='git pull --rebase origin $(current_branch)'
 alias ggpush='git push origin $(current_branch)'
+alias gmpush='git push wkentaro $(current_branch)'
 alias gignore='git update-index --assume-unchanged'
 alias gignored='git ls-files -v | grep "^[[:lower:]]"'
 alias git=hub
@@ -109,6 +110,7 @@ alias h=history
 alias history='fc -l 1'
 alias ip=ipython
 alias ls='ls --color=auto'
+alias sl='ls'
 alias l='ls -lah'
 alias la='ls -lAh'
 alias ll='ls -lh'
