@@ -110,6 +110,7 @@ alias h=history
 alias history='fc -l 1'
 alias ip=ipython
 alias ls='ls --color=auto'
+alias sl='ls'
 alias l='ls -lah'
 alias la='ls -lAh'
 alias ll='ls -lh'
