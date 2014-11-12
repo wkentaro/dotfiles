@@ -60,6 +60,7 @@ alias ggpnp='git pull origin $(current_branch) && git push origin $(current_bran
 alias ggpull='git pull origin $(current_branch)'
 alias ggpur='git pull --rebase origin $(current_branch)'
 alias ggpush='git push origin $(current_branch)'
+alias gmpush='git push wkentaro $(current_branch)'
 alias gignore='git update-index --assume-unchanged'
 alias gignored='git ls-files -v | grep "^[[:lower:]]"'
 alias git=hub
@@ -156,12 +157,12 @@ else
         source /opt/ros/hydro/setup.bash
         semi () {
             cd ~/catkin_ws/semi
-            source devel/setup.bash
         }
     fi
     alias ls='ls --color=auto'
     alias emacs='emacs -nw'
     alias open='gnome-open'
+    alias i='irteusgl'
 fi
 eval "$(hub alias -s)"
 
