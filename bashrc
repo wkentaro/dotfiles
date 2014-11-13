@@ -163,13 +163,13 @@ else
         source /opt/ros/hydro/setup.bash
         semi () {
             cd ~/catkin_ws/semi
-            source devel/setup.bash
         }
     fi
     alias ls='ls --color=auto'
     alias emacs='emacs -nw'
     alias open='gnome-open'
     eval "$(hub alias -s)"
+    alias i='irteusgl'
 fi
 
 google() {
