@@ -145,11 +145,16 @@ if [ `uname` = 'Darwin' ]; then
         alias ls='gls --color=auto'
     fi
 
+    # node
+    source /usr/local/etc/bash_completion.d
     # Python
     export PYTHONPATH=$PYTHONPATH:$HOME/.libs/python2.7/site-packages
     # pylearn2
     export PYLEARN2_DATA_PATH=$HOME/Work/pylearn2/data
     export PYLEARN2_VIEWER_COMMAND='open -Wn'
+    # hub
+    source /usr/local/share/zsh/site-functions
+    eval "$(hub alias -s)"
 else
     if [ -f $HOME/.colorrc ]; then
         eval `dircolors $HOME/.colorrc`
@@ -164,8 +169,8 @@ else
     alias ls='ls --color=auto'
     alias emacs='emacs -nw'
     alias open='gnome-open'
+    eval "$(hub alias -s)"
 fi
-eval "$(hub alias -s)"
 
 google() {
     search=""
