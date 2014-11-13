@@ -108,6 +108,8 @@ if [ `uname` = 'Darwin' ]; then
         eval `dircolors $HOME/.colorrc`
         alias ls='ls --color=auto'
     fi
+    # node
+    source /usr/local/etc/bash_completion.d
     # hub
     source /usr/local/share/zsh/site-functions
     eval "$(hub alias -s)"
