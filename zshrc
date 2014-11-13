@@ -114,9 +114,26 @@ if [ `uname` = 'Darwin' ]; then
     source /usr/local/share/zsh/site-functions
     eval "$(hub alias -s)"
 else
+    if [ -f /opt/ros/hydro/setup.zsh ]; then
+        source /opt/ros/hydro/setup.zsh
+        soft () {
+            cd ~/catkin_ws/soft3
+            source devel/setup.zsh
+        }
+        sim () {
+            cd ~/catkin_ws/semi
+            ./baxter.sh sim
+        }
+        act () {
+            cd ~/catkin_ws/semi
+            ./baxter.sh
+        }
+    fi
     eval `dircolors $HOME/.colorrc`
     alias ls='ls --color=auto'
     alias emacs='emacs -nw'
+    alias i='irteusgl'
+    # hub
     eval "$(hub alias -s)"
 fi
 
