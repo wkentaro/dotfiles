@@ -50,6 +50,11 @@ set t_vb=
 set novisualbell
 set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
 
+" release autogroup in MyAutoCmd
+augroup MyAutoCmd
+  autocmd!
+augroup END
+
 " Specific settings according to filetype ------------------------------
 au BufNewFile,BufRead * set iminsert=0
 au BufNewFile,BufRead * set tabstop=4 shiftwidth=4
@@ -100,9 +105,9 @@ NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'thinca/vim-template'
 NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'git://git.code.sf.net/p/vim-latex/vim-latex'
-NeoBundle 'aperezdc/vim-template'
 NeoBundle 'hattya/python_fold.vim'
 NeoBundle 'davidhalter/jedi-vim'
 
@@ -351,3 +356,33 @@ autocmd FileType python setlocal completeopt-=preview
 inoremap {<Enter> {}<Left><CR><ESC><S-o>
 inoremap [<Enter> []<Left><CR><ESC><S-o>
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
+
+" template
+autocmd MyAutoCmd User plugin-template-loaded call s:template_keywords()
+function! s:template_keywords()
+    silent! %s/<+DATE+>/\=strftime('%Y-%m-%d')/g
+    silent! %s/<+FILENAME+>/\=expand('%')/g
+endfunction
+autocmd MyAutoCmd User plugin-template-loaded
+    \   if search('<+HERE+>')
+    \ |   silent! execute 'normal! "_da>'
+    \ | endif
+
+" snippet
+" Plugin key-mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: "\<TAB>"
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
