@@ -102,6 +102,7 @@ alias ip='ipython'
 alias gcln='git clone'
 alias sl='ls'
 alias gmpush='git push wkentaro $(current_branch)'
+alias trr='emacs --execute "(trr)"'
 if [ `uname` = 'Darwin' ]; then
     # ls
     if [ -x /usr/local/opt/coreutils/libexec/gnubin/dircolors ]; then
