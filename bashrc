@@ -148,8 +148,6 @@ if [ `uname` = 'Darwin' ]; then
 
     # node
     source /usr/local/etc/bash_completion.d
-    # Python
-    export PYTHONPATH=$PYTHONPATH:$HOME/.libs/python2.7/site-packages
     # pylearn2
     export PYLEARN2_DATA_PATH=$HOME/Work/pylearn2/data
     export PYLEARN2_VIEWER_COMMAND='open -Wn'
