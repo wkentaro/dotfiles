@@ -9,8 +9,6 @@ if [ `uname` = 'Darwin' ]; then
     # grep
     export GREP_OPTIONS='--color=always'
     export GREP_COLOR='1;35;40'
-    # Python
-    export PYTHONPATH=$PYTHONPATH:$HOME/.libs/python2.7/site-packages
     # pylearn2
     export PYLEARN2_DATA_PATH=$HOME/Work/pylearn2/data
     export PYLEARN2_VIEWER_COMMAND='open -Wn'
