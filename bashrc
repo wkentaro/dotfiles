@@ -117,8 +117,6 @@ alias la='ls -lAh'
 alias ll='ls -lh'
 alias lsa='ls -lah'
 alias md='mkdir -p'
-alias o=open
-alias o.='open .'
 alias p=python
 alias please=sudo
 alias po=popd
@@ -137,6 +135,8 @@ if [ `uname` = 'Darwin' ]; then
     export PATH="$HOME/Work/pylearn2/pylearn2/scripts:$PATH"
     # alias
     alias ls='ls -G'
+    alias o='open'
+    alias o.='open .'
     # grep
     export GREP_OPTIONS='--color=always'
     export GREP_COLOR='1;35;40'
@@ -167,6 +167,8 @@ else
     alias ls='ls --color=auto'
     alias emacs='emacs -nw'
     alias open='gnome-open'
+    alias o='gnome-open'
+    alias o.='gnome-open .'
     eval "$(hub alias -s)"
     alias i='irteusgl'
 fi
