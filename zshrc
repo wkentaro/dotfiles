@@ -93,8 +93,6 @@ alias v='vim'
 alias vi='vim'
 alias c='clear'
 alias h='history'
-alias o='open'
-alias o.='open .'
 alias p='python'
 alias ip='ipython'
 alias gcln='git clone'
@@ -112,6 +110,8 @@ if [ `uname` = 'Darwin' ]; then
     # hub
     source /usr/local/share/zsh/site-functions
     eval "$(hub alias -s)"
+    alias o='open'
+    alias o.='open .'
 else
     if [ -f /opt/ros/hydro/setup.zsh ]; then
         source /opt/ros/hydro/setup.zsh
@@ -132,6 +132,9 @@ else
     alias ls='ls --color=auto'
     alias emacs='emacs -nw'
     alias i='irteusgl'
+    alias open='gnome-open'
+    alias o='gnome-open'
+    alias o.='gnome-open .'
     # hub
     eval "$(hub alias -s)"
 fi
