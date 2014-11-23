@@ -1,25 +1,56 @@
-" Basic Setttings --------------------------------------------
-syntax on
+" Use Default Dark theme
+set background=dark
+colorscheme default
+" Make vim more useful
+set nocompatible
+" Use the OS clipboard by default
+" (on versions compiled with `+clipboard`)
 set clipboard=unnamed
+" Enhance command-line completion
+set wildmenu
+" Allow cursor keys in insert mode
+set esckeys
+" Optimize for fast terminal connections
+set ttyfast
+" Use UTF-8 without BOM
+set encoding=utf-8 nobomb
+" Don’t add empty newlines at the end of files
+set binary
+set noeol
+" Enable syntax highlighting
+syntax on
+" Softtabs, 2 spaces
+set tabstop=2
+set shiftwidth=2
+set shiftround
+set expandtab
+" Allow backspace in insert mode
+set backspace=indent,eol,start
+" Respect modeline in files
+set modeline
+set modelines=4
+" Disable error bells
+set noerrorbells
+" Don’t reset cursor to start of line when moving around.
+set nostartofline
 set modifiable
 set ttymouse=xterm2
+" Enable mouse in all modes
 set mouse=a
-set encoding=utf-8
-set textwidth=0
-set softtabstop=2
-set backspace=indent,eol,start
+" Ignore case of searches
 set ignorecase
+" Show the cursor position
 set ruler
-set wildmenu
+" Open new split panes to right and bottom, which feels more natural
+set splitbelow
+set splitright
+set history=50
 set commentstring=\ #\ %s
-set foldminlines=1000
-set foldlevel=1000
-set foldmethod=manual
 set autoindent
 set browsedir=buffer
-set nocompatible
 set expandtab
 set hidden
+" Highlight dynamically as pattern is typed
 set incsearch
 set number
 set shiftwidth=2
@@ -27,7 +58,6 @@ set showmatch
 set smartcase
 set smartindent
 set smarttab
-set tabstop=2
 set whichwrap=b,s,h,l,<,>,[,]
 set nowrapscan
 set shiftround
@@ -45,10 +75,10 @@ set noswapfile
 set list
 set number
 set wrap
-set textwidth=0
 set t_vb=
 set novisualbell
 set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
+set cinoptions+=:0,g0
 
 " release autogroup in MyAutoCmd
 augroup MyAutoCmd
@@ -63,6 +93,10 @@ au BufNewFile,BufRead *.py set wrap tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.c set wrap tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.cpp set wrap tabstop=4 shiftwidth=4
 
+augroup cpp-path
+  autocmd!
+  autocmd FileType cpp setlocal path=.,/usr/include,/usr/local/include
+augroup END
 
 " lisp setup
 let lisp_rainbow=1
@@ -114,6 +148,8 @@ NeoBundle 'git://git.code.sf.net/p/vim-latex/vim-latex'
 NeoBundle 'hattya/python_fold.vim'
 NeoBundle 'davidhalter/jedi-vim'
 
+NeoBundleLazy 'kana/vim-altr'
+
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
 execute "NeoBundle 'Shougo/vimproc.vim'," . string({
@@ -135,25 +171,64 @@ filetype plugin indent on
 NeoBundleCheck
 
 " NeoComplete -------------------------------------------------  
-let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_auto_select = 0
 let g:neocomplete#enable_auto_close_preview = 1
 let g:neocomplete#enable_ignore_case = 1
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
 let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
+" Define keyword.
 if !exists('g:neocomplete#keyword_patterns')
   let g:neocomplete#keyword_patterns = {}
 endif
 let g:neocomplete#keyword_patterns._ = '\h\w*'
-inoremap <expr><C-h> neocomplete#close_popup()
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+" Recommended key-mappings.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplete#close_popup() . "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
 inoremap <expr><C-e>  neocomplete#cancel_popup()
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
+" clang-format
+augroup cpp-clangformat
+  autocmd!
+  autocmd FileType c,cpp,objc noremap <C-K> :pyf /path/to/clang-format.py<CR>
+augroup END
 
 " Move Keymapping -------------------------------------------------  
-inoremap <silent> jj <Esc>
-" inoremap <silent> kk <esc>
-inoremap <C-L> <Right>
-inoremap <C-H> <Left>
-inoremap <C-9> <esc>/<cr><esc>cf>
+inoremap jj <ESC>
 nnoremap 0 $
 vnoremap 0 $
 nnoremap 1 ^
@@ -164,8 +239,12 @@ nnoremap * *zz
 nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
-nnoremap j gj
-nnoremap k gk
+
+" Quicker window movement
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
 
 " Change Window Size -------------------------------------------------  
 nnoremap <S-Left>  <C-w><<CR>
@@ -349,8 +428,10 @@ let g:jedi#popup_on_dot = 0
 if !exists('g:neocomplete#force_omni_input_patterns')
         let g:neocomplete#force_omni_input_patterns = {}
 endif
-
-let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+let g:neocomplete#force_omni_input_patterns.cpp =
+  \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:neocomplete#force_omni_input_patterns.python =
+  \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 
 " neocomplete
 autocmd FileType python setlocal completeopt-=preview
