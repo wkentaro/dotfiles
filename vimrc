@@ -135,7 +135,9 @@ NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'Shougo/vimshell'
-NeoBundle 'Shougo/neocomplete.vim'
+if has('lua')
+  NeoBundle 'Shougo/neocomplete.vim'
+endif
 NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neosnippet.vim'
