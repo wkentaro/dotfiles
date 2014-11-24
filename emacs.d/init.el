@@ -2,7 +2,7 @@
 
 ;;; ロードパス
 (setq load-path (append
-                 '("~/.emacs.d"
+                 '(;"~/.emacs.d"
                    "~/.emacs.d/packages")
                  load-path))
 
@@ -59,10 +59,10 @@
 (setq show-paren-style 'mixed)
 
 ;;; 行末の空白を表示　
-(setq-default show-trailing-whitespace t)
+;(setq-default show-trailing-whitespace t)
 
 ;;; 現在行を目立たせる　
-(global-hl-line-mode)
+; (global-hl-line-mode)
 
 ;;; 行の先頭をC-kを一回押すだけで行全体を表示する
 (setq kill-whole-line t)
@@ -143,8 +143,3 @@
 ; (auto-install-update-emacswiki-package-name t)
 (auto-install-compatibility-setup)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-; load trr path
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/trr22")
-(add-to-list 'load-path "/usr/local/share/emacs/23.3/site-lisp/emu")
-(autoload 'trr "/usr/share/emacs/site-lisp/trr22/trr" nil t)

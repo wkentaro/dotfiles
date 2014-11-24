@@ -9,8 +9,6 @@ if [ `uname` = 'Darwin' ]; then
     # grep
     export GREP_OPTIONS='--color=always'
     export GREP_COLOR='1;35;40'
-    # Python
-    export PYTHONPATH=$PYTHONPATH:$HOME/.libs/python2.7/site-packages
     # pylearn2
     export PYLEARN2_DATA_PATH=$HOME/Work/pylearn2/data
     export PYLEARN2_VIEWER_COMMAND='open -Wn'
@@ -95,8 +93,6 @@ alias v='vim'
 alias vi='vim'
 alias c='clear'
 alias h='history'
-alias o='open'
-alias o.='open .'
 alias p='python'
 alias ip='ipython'
 alias gcln='git clone'
@@ -110,9 +106,13 @@ if [ `uname` = 'Darwin' ]; then
         eval `dircolors $HOME/.colorrc`
         alias ls='ls --color=auto'
     fi
+    # node
+    source /usr/local/etc/bash_completion.d
     # hub
     source /usr/local/share/zsh/site-functions
     eval "$(hub alias -s)"
+    alias o='open'
+    alias o.='open .'
 else
     if [ -f /opt/ros/hydro/setup.zsh ]; then
         source /opt/ros/hydro/setup.zsh
@@ -133,6 +133,9 @@ else
     alias ls='ls --color=auto'
     alias emacs='emacs -nw'
     alias i='irteusgl'
+    alias open='gnome-open'
+    alias o='gnome-open'
+    alias o.='gnome-open .'
     # hub
     eval "$(hub alias -s)"
 fi
