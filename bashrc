@@ -12,6 +12,7 @@ parse_branch() {
 PS1='${debian_chroot:+($debian_chroot)}\[\e[00;32m\]\u@\h:\[\e[01;34m\]\W\[\033[01;35m\]$(parse_branch)\[\e[01;35m\]\[\e[0m\] $ '
 
 # alias
+alias trr='emacs --execute "(trr)"'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias 1='cd -'
@@ -116,8 +117,6 @@ alias la='ls -lAh'
 alias ll='ls -lh'
 alias lsa='ls -lah'
 alias md='mkdir -p'
-alias o=open
-alias o.='open .'
 alias p=python
 alias please=sudo
 alias po=popd
@@ -136,6 +135,8 @@ if [ `uname` = 'Darwin' ]; then
     export PATH="$HOME/Work/pylearn2/pylearn2/scripts:$PATH"
     # alias
     alias ls='ls -G'
+    alias o='open'
+    alias o.='open .'
     # grep
     export GREP_OPTIONS='--color=always'
     export GREP_COLOR='1;35;40'
@@ -145,11 +146,14 @@ if [ `uname` = 'Darwin' ]; then
         alias ls='gls --color=auto'
     fi
 
-    # Python
-    export PYTHONPATH=$PYTHONPATH:$HOME/.libs/python2.7/site-packages
+    # node
+    source /usr/local/etc/bash_completion.d
     # pylearn2
     export PYLEARN2_DATA_PATH=$HOME/Work/pylearn2/data
     export PYLEARN2_VIEWER_COMMAND='open -Wn'
+    # hub
+    source /usr/local/share/zsh/site-functions
+    eval "$(hub alias -s)"
 else
     if [ -f $HOME/.colorrc ]; then
         eval `dircolors $HOME/.colorrc`
@@ -163,9 +167,11 @@ else
     alias ls='ls --color=auto'
     alias emacs='emacs -nw'
     alias open='gnome-open'
+    alias o='gnome-open'
+    alias o.='gnome-open .'
+    eval "$(hub alias -s)"
     alias i='irteusgl'
 fi
-eval "$(hub alias -s)"
 
 google() {
     search=""
