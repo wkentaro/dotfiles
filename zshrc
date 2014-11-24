@@ -1,4 +1,4 @@
-# Path to your oh-my-zsh installation.
+#ct Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 if [ `uname` = 'Darwin' ]; then
     # path
@@ -102,6 +102,8 @@ alias ip='ipython'
 alias gcln='git clone'
 alias sl='ls'
 alias gmpush='git push wkentaro $(current_branch)'
+alias gmpull='git pull wkentaro $(current_branch)'
+alias gmpnp='git pull wkentaro $(current_branch) && git push wkentaro $(current_branch)'
 if [ `uname` = 'Darwin' ]; then
     # ls
     if [ -x /usr/local/opt/coreutils/libexec/gnubin/dircolors ]; then
