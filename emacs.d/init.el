@@ -143,3 +143,8 @@
 ; (auto-install-update-emacswiki-package-name t)
 (auto-install-compatibility-setup)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+; load trr path
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/trr22")
+(add-to-list 'load-path "/usr/local/share/emacs/23.3/site-lisp/emu")
+(autoload 'trr "/usr/share/emacs/site-lisp/trr22/trr" nil t)
