@@ -72,6 +72,7 @@ set backspace=indent,eol,start
 set nowritebackup
 set nobackup
 set noswapfile
+set nofoldenable
 set list
 set number
 set wrap
