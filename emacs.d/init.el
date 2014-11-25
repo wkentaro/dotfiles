@@ -143,3 +143,8 @@
 ; (auto-install-update-emacswiki-package-name t)
 (auto-install-compatibility-setup)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+(setq TRR:japanese nil)
+(add-to-list 'load-path "/usr/local/Cellar/apel/10.8/share/emacs/site-lisp")
+(add-to-list 'load-path "/usr/local/Cellar/trr/22.0.99.5/share/emacs/site-lisp")
+(autoload 'trr "/usr/local/Cellar/trr/22.0.99.5/share/emacs/site-lisp/trr" nil t)
