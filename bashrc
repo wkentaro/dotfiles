@@ -147,16 +147,17 @@ if which dircolors >/dev/null 2>&1; then
 fi
 
 if [ `uname` = 'Darwin' ]; then
-  source /usr/local/share/zsh/site-functions
+  echo ""
+  # source /usr/local/share/zsh/site-functions
 else
-  if [ -f /opt/ros/hydro/setup.zsh ]; then
-    source /opt/ros/hydro/setup.zsh
+  if [ -f /opt/ros/hydro/setup.bash ]; then
+    source /opt/ros/hydro/setup.bash
     semi () {
       cd ~/catkin_ws/semi
     }
     soft () {
       cd ~/catkin_ws/soft3
-      source devel/setup.zsh
+      source devel/setup.bash
     }
     sim () {
       cd ~/catkin_ws/semi
