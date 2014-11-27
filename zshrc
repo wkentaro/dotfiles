@@ -95,53 +95,61 @@ alias c='clear'
 alias h='history'
 alias p='python'
 alias ip='ipython'
-alias gcln='git clone'
 alias sl='ls'
+alias emacs='emacs -nw'
+alias gcln='git clone'
 alias gmpush='git push wkentaro $(current_branch)'
 alias gmpull='git pull wkentaro $(current_branch)'
 alias gmpnp='git pull wkentaro $(current_branch) && git push wkentaro $(current_branch)'
+# copy
+if which pbcopy >/dev/null 2>&1 ; then 
+  alias -g C='| pbcopy' # mac
+elif which xsel >/dev/null 2>&1 ; then 
+  alias -g C='| xsel --input --clipboard' # ubuntu
+elif which putclip >/dev/null 2>&1 ; then 
+  alias -g C='| putclip' # cygwin
+fi
+# hub
+if which hub >/dev/null 2>&1; then
+  eval "$(hub alias -s)"
+fi
+# open
+if which open >/dev/null 2>&1; then
+  alias o='open'
+  alias o.='open .'
+elif which gnome-open >/dev/null 2>&1; then
+  alias open='gnome-open'
+  alias o='gnome-open'
+  alias o.='gnome-open .'
+fi
+# ls
+if which dircolors >/dev/null 2>&1; then
+  eval `dircolors $HOME/.colorrc`
+  alias ls='ls --color=auto'
+fi
+
 if [ `uname` = 'Darwin' ]; then
-    # ls
-    if [ -x /usr/local/opt/coreutils/libexec/gnubin/dircolors ]; then
-        eval `dircolors $HOME/.colorrc`
-        alias ls='ls --color=auto'
-    fi
-    # node
-    source /usr/local/etc/bash_completion.d
-    # hub
-    source /usr/local/share/zsh/site-functions
-    eval "$(hub alias -s)"
-    alias o='open'
-    alias o.='open .'
+  source /usr/local/share/zsh/site-functions
 else
-    if [ -f /opt/ros/hydro/setup.zsh ]; then
-        source /opt/ros/hydro/setup.zsh
-        soft () {
-            cd ~/catkin_ws/soft3
-            source devel/setup.zsh
-        }
-        semi () {
-            cd ~/catkin_ws/semi
-            source devel/setup.zsh
-        }
-        sim () {
-            cd ~/catkin_ws/semi
-            ./baxter.sh sim
-        }
-        act () {
-            cd ~/catkin_ws/semi
-            ./baxter.sh
-        }
-    fi
-    eval `dircolors $HOME/.colorrc`
-    alias ls='ls --color=auto'
-    alias emacs='emacs -nw'
-    alias i='irteusgl'
-    alias open='gnome-open'
-    alias o='gnome-open'
-    alias o.='gnome-open .'
-    # hub
-    eval "$(hub alias -s)"
+  if [ -f /opt/ros/hydro/setup.zsh ]; then
+    source /opt/ros/hydro/setup.zsh
+    soft () {
+      cd ~/catkin_ws/soft3
+      source devel/setup.zsh
+    }
+    semi () {
+      cd ~/catkin_ws/semi
+      source devel/setup.zsh
+    }
+    sim () {
+      cd ~/catkin_ws/semi
+      ./baxter.sh sim
+    }
+    act () {
+      cd ~/catkin_ws/semi
+      ./baxter.sh
+    }
+  fi
 fi
 
 # bindkey
