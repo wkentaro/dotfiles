@@ -2,6 +2,4 @@
 # -*- coding: utf-8 -*-
 # <+FILENAME+>
 
-"""
 <+HERE+>
-"""

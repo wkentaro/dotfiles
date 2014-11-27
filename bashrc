@@ -127,50 +127,63 @@ alias rd=rmdir
 alias v=vim
 alias vi=vim
 alias which-command=whence
+# copy
+if which pbcopy >/dev/null 2>&1 ; then 
+  alias -g C='| pbcopy' # mac
+elif which xsel >/dev/null 2>&1 ; then 
+  alias -g C='| xsel --input --clipboard' # ubuntu
+elif which putclip >/dev/null 2>&1 ; then 
+  alias -g C='| putclip' # cygwin
+fi
+# hub
+if which hub >/dev/null 2>&1; then
+  eval "$(hub alias -s)"
+fi
+# open
+if which open >/dev/null 2>&1; then
+  alias o='open'
+  alias o.='open .'
+elif which gnome-open >/dev/null 2>&1; then
+  alias open='gnome-open'
+  alias o='gnome-open'
+  alias o.='gnome-open .'
+fi
+# ls
+if which dircolors >/dev/null 2>&1; then
+  eval `dircolors $HOME/.colorrc`
+  alias ls='ls --color=auto'
+fi
+
+if [ `uname` = 'Darwin' ]; then
+  source /usr/local/share/zsh/site-functions
+else
+  if [ -f /opt/ros/hydro/setup.zsh ]; then
+    source /opt/ros/hydro/setup.zsh
+    soft () {
+      cd ~/catkin_ws/soft3
+      source devel/setup.zsh
+    }
+    sim () {
+      cd ~/catkin_ws/semi
+      ./baxter.sh sim
+    }
+    act () {
+      cd ~/catkin_ws/semi
+      ./baxter.sh
+    }
+  fi
+fi
 
 # Mac
 if [ `uname` = 'Darwin' ]; then
-    # path
-    export PATH="/usr/local/bin:$HOME/.bin:$PATH"
-    export PATH="$HOME/Work/pylearn2/pylearn2/scripts:$PATH"
-    # alias
-    alias ls='ls -G'
-    alias o='open'
-    alias o.='open .'
-    # grep
-    export GREP_OPTIONS='--color=always'
-    export GREP_COLOR='1;35;40'
-    # ls
-    if [ -x /usr/local/bin/gdircolors ]; then
-        eval `gdircolors $HOME/.colorrc`
-        alias ls='gls --color=auto'
-    fi
-
-    # node
-    source /usr/local/etc/bash_completion.d
-    # pylearn2
-    export PYLEARN2_DATA_PATH=$HOME/Work/pylearn2/data
-    export PYLEARN2_VIEWER_COMMAND='open -Wn'
-    # hub
-    source /usr/local/share/zsh/site-functions
-    eval "$(hub alias -s)"
+  source /usr/local/share/zsh/site-functions
 else
-    if [ -f $HOME/.colorrc ]; then
-        eval `dircolors $HOME/.colorrc`
-    fi
-    if [ -f /opt/ros/hydro/setup.bash ]; then
-        source /opt/ros/hydro/setup.bash
-        semi () {
-            cd ~/catkin_ws/semi
-        }
-    fi
-    alias ls='ls --color=auto'
-    alias emacs='emacs -nw'
-    alias open='gnome-open'
-    alias o='gnome-open'
-    alias o.='gnome-open .'
-    eval "$(hub alias -s)"
-    alias i='irteusgl'
+  if [ -f /opt/ros/hydro/setup.bash ]; then
+    source /opt/ros/hydro/setup.bash
+    semi () {
+      cd ~/catkin_ws/semi
+    }
+  fi
 fi
 
 google() {
