@@ -120,6 +120,10 @@ else
             cd ~/catkin_ws/soft3
             source devel/setup.zsh
         }
+        semi () {
+            cd ~/catkin_ws/semi
+            source devel/setup.zsh
+        }
         sim () {
             cd ~/catkin_ws/semi
             ./baxter.sh sim
