@@ -125,6 +125,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+NeoBundle 'ompugao/ros.vim'
 NeoBundle 'toyamarinyon/vim-swift'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'suan/vim-instant-markdown'
@@ -135,7 +136,7 @@ NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tyru/open-browser.vim'
-NeoBundle 'Shougo/vimshell'
+" NeoBundle 'Shougo/vimshell'
 if has('lua')
   NeoBundle 'Shougo/neocomplete.vim'
 endif
@@ -267,12 +268,15 @@ cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
 " vimshell ------------------------------------------------- 
-nnoremap <silent> ,is :vsp<CR>:VimShell<CR>
-nnoremap <silent> <C-B> :sp<CR>:VimShell<CR>
-nnoremap <silent> ,ls :VimShell<CR>
-nnoremap <silent> ,ipy :VimShellInteractive python<CR>
-vmap <silent> ,ss :VimShellSendString<CR>
-nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
+" nnoremap <silent> ,is :vsp<CR>:VimShell<CR>
+" nnoremap <silent> <C-B> :sp<CR>:VimShell<CR>
+" nnoremap <silent> ,ls :VimShell<CR>
+" nnoremap <silent> ,ipy :VimShellInteractive python<CR>
+" vmap <silent> ,ss :VimShellSendString<CR>
+" nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
+nnoremap <C-B> :ConqueTermSplit zsh<CR>
+nnoremap <silent> ,ls :ConqueTermVSplit zsh<CR>
+nnoremap <silent> ,is :ConqueTermVSplit ipython<CR>
 
 " vim-latex ------------------------------------------------- 
 filetype plugin on
