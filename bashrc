@@ -152,6 +152,7 @@ if [ `uname` = 'Darwin' ]; then
 else
   if [ -f /opt/ros/hydro/setup.bash ]; then
     source /opt/ros/hydro/setup.bash
+    alias rossetip='source `rospack find jsk_tools`/src/bashrc.ros; rossetip'
     semi () {
       cd ~/catkin_ws/semi
     }
@@ -162,6 +163,10 @@ else
     sim () {
       cd ~/catkin_ws/semi
       ./baxter.sh sim
+    }
+    enshu () {
+      cd ~/catkin_ws/enshu
+      source devel/setup.bash
     }
     act () {
       cd ~/catkin_ws/semi

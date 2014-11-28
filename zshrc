@@ -138,6 +138,10 @@ else
       cd ~/catkin_ws/soft3
       source devel/setup.zsh
     }
+    enshu () {
+      cd ~/catkin_ws/enshu
+      source devel/setup.zsh
+    }
     semi () {
       cd ~/catkin_ws/semi
       source devel/setup.zsh

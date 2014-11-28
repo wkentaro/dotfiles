@@ -148,3 +148,7 @@
 (add-to-list 'load-path "/usr/local/Cellar/apel/10.8/share/emacs/site-lisp")
 (add-to-list 'load-path "/usr/local/Cellar/trr/22.0.99.5/share/emacs/site-lisp")
 (autoload 'trr "/usr/local/Cellar/trr/22.0.99.5/share/emacs/site-lisp/trr" nil t)
+
+(require 'rosemacs)
+(invoke-rosemacs)
+(global-set-key "\C-x\C-r" ros-keymap)
