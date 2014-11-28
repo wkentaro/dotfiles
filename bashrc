@@ -12,7 +12,7 @@ parse_branch() {
 PS1='${debian_chroot:+($debian_chroot)}\[\e[00;32m\]\u@\h:\[\e[01;34m\]\W\[\033[01;35m\]$(parse_branch)\[\e[01;35m\]\[\e[0m\] $ '
 
 # alias
-alias trr='emacs --execute "(trr)"'
+alias eshell='emacs --execute "(shell)"'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias 1='cd -'
@@ -147,13 +147,17 @@ if which dircolors >/dev/null 2>&1; then
 fi
 
 if [ `uname` = 'Darwin' ]; then
-  alias o='open'
+  echo ""
+  # source /usr/local/share/zsh/site-functions
 else
-  if [ -f /opt/ros/hydro/setup.zsh ]; then
-    source /opt/ros/hydro/setup.zsh
+  if [ -f /opt/ros/hydro/setup.bash ]; then
+    source /opt/ros/hydro/setup.bash
+    semi () {
+      cd ~/catkin_ws/semi
+    }
     soft () {
       cd ~/catkin_ws/soft3
-      source devel/setup.zsh
+      source devel/setup.bash
     }
     sim () {
       cd ~/catkin_ws/semi
