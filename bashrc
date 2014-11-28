@@ -127,14 +127,6 @@ alias rd=rmdir
 alias v=vim
 alias vi=vim
 alias which-command=whence
-# copy
-if which pbcopy >/dev/null 2>&1 ; then 
-  alias -g C='| pbcopy' # mac
-elif which xsel >/dev/null 2>&1 ; then 
-  alias -g C='| xsel --input --clipboard' # ubuntu
-elif which putclip >/dev/null 2>&1 ; then 
-  alias -g C='| putclip' # cygwin
-fi
 # hub
 if which hub >/dev/null 2>&1; then
   eval "$(hub alias -s)"
@@ -155,7 +147,7 @@ if which dircolors >/dev/null 2>&1; then
 fi
 
 if [ `uname` = 'Darwin' ]; then
-  source /usr/local/share/zsh/site-functions
+  alias o='open'
 else
   if [ -f /opt/ros/hydro/setup.zsh ]; then
     source /opt/ros/hydro/setup.zsh
@@ -170,18 +162,6 @@ else
     act () {
       cd ~/catkin_ws/semi
       ./baxter.sh
-    }
-  fi
-fi
-
-# Mac
-if [ `uname` = 'Darwin' ]; then
-  source /usr/local/share/zsh/site-functions
-else
-  if [ -f /opt/ros/hydro/setup.bash ]; then
-    source /opt/ros/hydro/setup.bash
-    semi () {
-      cd ~/catkin_ws/semi
     }
   fi
 fi
