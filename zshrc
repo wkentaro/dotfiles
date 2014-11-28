@@ -97,6 +97,7 @@ alias p='python'
 alias ip='ipython'
 alias sl='ls'
 alias emacs='emacs -nw'
+alias eshell='emacs --execute "(shell)"'
 alias gcln='git clone'
 alias gmpush='git push wkentaro $(current_branch)'
 alias gmpull='git pull wkentaro $(current_branch)'
@@ -157,6 +158,8 @@ bindkey -M viins 'jj' vi-cmd-mode
 bindkey '^R' history-incremental-search-backward
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
+bindkey -M vicmd '1' beginning-of-line
+bindkey -M vicmd '0' end-of-line
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end

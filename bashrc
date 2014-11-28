@@ -12,7 +12,7 @@ parse_branch() {
 PS1='${debian_chroot:+($debian_chroot)}\[\e[00;32m\]\u@\h:\[\e[01;34m\]\W\[\033[01;35m\]$(parse_branch)\[\e[01;35m\]\[\e[0m\] $ '
 
 # alias
-alias trr='emacs --execute "(trr)"'
+alias eshell='emacs --execute "(shell)"'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias 1='cd -'
