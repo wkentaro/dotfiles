@@ -28,3 +28,5 @@
 [branch "wkentaro"]
     remote = wkentaro
     merge = wkentaro
+[http]
+	sslVerify = false
