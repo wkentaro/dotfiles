@@ -125,10 +125,11 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+NeoBundle 'wkentaro/conque.vim'
 NeoBundle 'ompugao/ros.vim'
 NeoBundle 'toyamarinyon/vim-swift'
 NeoBundle 'tpope/vim-repeat'
-NeoBundle 'suan/vim-instant-markdown'
+NeoBundle 'chreekat/vim-instant-markdown'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tomtom/tcomment_vim'
