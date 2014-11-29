@@ -175,15 +175,6 @@ setopt list_packed
 setopt nolistbeep
 setopt share_history
 
-# ROS setup
-if [ -f /opt/ros/hydro/setup.zsh ]; then
-    source /opt/ros/hydro/setup.zsh
-    soft () {
-        cd ~/catkin_ws/soft3
-        source devel/setup.zsh
-    }
-fi
-
 # functions
 today () {
     INBOXDIR=$HOME/Inbox
