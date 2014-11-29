@@ -233,7 +233,6 @@ augroup cpp-clangformat
 augroup END
 
 " Move Keymapping -------------------------------------------------  
-inoremap jj <ESC>
 nnoremap 0 $
 vnoremap 0 $
 nnoremap 1 ^
