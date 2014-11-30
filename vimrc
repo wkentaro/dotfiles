@@ -276,6 +276,7 @@ cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 " nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
 nnoremap <C-B> :ConqueTermSplit zsh<CR>
 nnoremap <silent> ,ls :ConqueTermVSplit zsh<CR>
+nnoremap <silent> ,ts :ConqueTermTab zsh<CR>
 nnoremap <silent> ,is :ConqueTermVSplit ipython<CR>
 
 " vim-latex ------------------------------------------------- 
