@@ -133,10 +133,10 @@ if which hub >/dev/null 2>&1; then
   eval "$(hub alias -s)"
 fi
 # open
-if which open >/dev/null 2>&1; then
+if which gnome-open >/dev/null 2>&1; then
   alias o='open'
   alias o.='open .'
-elif which gnome-open >/dev/null 2>&1; then
+elif which open >/dev/null 2>&1; then
   alias open='gnome-open'
   alias o='gnome-open'
   alias o.='gnome-open .'
