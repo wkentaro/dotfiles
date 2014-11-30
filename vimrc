@@ -125,10 +125,11 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+NeoBundle 'wkentaro/conque.vim'
 NeoBundle 'ompugao/ros.vim'
 NeoBundle 'toyamarinyon/vim-swift'
 NeoBundle 'tpope/vim-repeat'
-NeoBundle 'suan/vim-instant-markdown'
+NeoBundle 'chreekat/vim-instant-markdown'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tomtom/tcomment_vim'
@@ -231,8 +232,8 @@ augroup cpp-clangformat
   autocmd FileType c,cpp,objc noremap <C-K> :pyf /path/to/clang-format.py<CR>
 augroup END
 
+
 " Move Keymapping -------------------------------------------------  
-inoremap jj <ESC>
 nnoremap 0 $
 vnoremap 0 $
 nnoremap 1 ^
@@ -323,7 +324,7 @@ nmap <silent> ,w <Plug>(openbrowser-open)
 let g:unite_enable_start_insert=1
 noremap <C-p> :Unite buffer<CR>
 noremap <C-n> :Unite -buffer-name=file file<CR>
-noremap <C-z> :Unite file_mru<CR>
+noremap <C-]> :Unite file_mru<CR>
 noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
 au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
 au FileType unite inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
@@ -481,3 +482,9 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 if has('conceal')
   set conceallevel=2 concealcursor=i
 endif
+
+" Change Mode ---
+inoremap <C-i> <Esc>
+vnoremap <C-i> i
+nnoremap <C-i> i
+nnoremap QQ ZQ

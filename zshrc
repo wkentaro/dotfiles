@@ -97,7 +97,7 @@ alias p='python'
 alias ip='ipython'
 alias sl='ls'
 alias emacs='emacs -nw'
-alias eshell='emacs --execute "(shell)"'
+alias eshell='emacs --execute "(term \"`which zsh`\")"'
 alias gcln='git clone'
 alias gmpush='git push wkentaro $(current_branch)'
 alias gmpull='git pull wkentaro $(current_branch)'
@@ -174,15 +174,6 @@ bindkey "^N" history-beginning-search-forward-end
 setopt list_packed
 setopt nolistbeep
 setopt share_history
-
-# ROS setup
-if [ -f /opt/ros/hydro/setup.zsh ]; then
-    source /opt/ros/hydro/setup.zsh
-    soft () {
-        cd ~/catkin_ws/soft3
-        source devel/setup.zsh
-    }
-fi
 
 # functions
 today () {

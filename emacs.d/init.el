@@ -144,11 +144,20 @@
 (auto-install-compatibility-setup)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
+;; trr
+(require 'platform-p)
 (setq TRR:japanese nil)
-(add-to-list 'load-path "/usr/local/Cellar/apel/10.8/share/emacs/site-lisp")
-(add-to-list 'load-path "/usr/local/Cellar/trr/22.0.99.5/share/emacs/site-lisp")
-(autoload 'trr "/usr/local/Cellar/trr/22.0.99.5/share/emacs/site-lisp/trr" nil t)
+(when platform-darwin-p
+  (add-to-list 'load-path "/usr/local/Cellar/apel/10.8/share/emacs/site-lisp")
+  (add-to-list 'load-path "/usr/local/Cellar/trr/22.0.99.5/share/emacs/site-lisp")
+  (autoload 'trr "/usr/local/Cellar/trr/22.0.99.5/share/emacs/site-lisp/trr" nil t))
+(when platform-linux-p
+  (add-to-list 'load-path "/usr/share/emacs/site-lisp/trr22")
+  (add-to-list 'load-path "/usr/local/share/emacs/23.3/site-lisp/emu")
+  (autoload 'trr "/usr/share/emacs/site-lisp/trr22/trr" nil t))
 
-(require 'rosemacs)
-(invoke-rosemacs)
-(global-set-key "\C-x\C-r" ros-keymap)
+;; roseus
+(when platform-linux-p
+  (require 'rosemacs)
+  (invoke-rosemacs)
+  (global-set-key "\C-x\C-r" ros-keymap))
