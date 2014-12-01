@@ -484,7 +484,6 @@ if has('conceal')
 endif
 
 " Change Mode ---
-inoremap <C-i> <Esc>
 vnoremap <C-i> i
 nnoremap <C-i> i
 nnoremap QQ ZQ
