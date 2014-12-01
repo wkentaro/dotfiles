@@ -97,7 +97,7 @@ alias p='python'
 alias ip='ipython'
 alias sl='ls'
 alias emacs='emacs -nw'
-alias eshell='emacs --execute "(term \"`which zsh`\")"'
+alias eshell='emacs --execute "(shell)"'
 alias gcln='git clone'
 alias gmpush='git push wkentaro $(current_branch)'
 alias gmpull='git pull wkentaro $(current_branch)'
@@ -133,27 +133,7 @@ if [ `uname` = 'Darwin' ]; then
   source /usr/local/share/zsh/site-functions
 else
   if [ -f /opt/ros/hydro/setup.zsh ]; then
-    source /opt/ros/hydro/setup.zsh
-    soft () {
-      cd ~/catkin_ws/soft3
-      source devel/setup.zsh
-    }
-    enshu () {
-      cd ~/catkin_ws/enshu
-      source devel/setup.zsh
-    }
-    semi () {
-      cd ~/catkin_ws/semi
-      source devel/setup.zsh
-    }
-    sim () {
-      cd ~/catkin_ws/semi
-      ./baxter.sh sim
-    }
-    act () {
-      cd ~/catkin_ws/semi
-      ./baxter.sh
-    }
+    source ~/.zshrc.ros
   fi
 fi
 
