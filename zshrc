@@ -134,6 +134,7 @@ if [ `uname` = 'Darwin' ]; then
 else
   if [ -f /opt/ros/hydro/setup.zsh ]; then
     source ~/.zshrc.ros
+    source /opt/ros/hydro/setup.zsh
   fi
 fi
 
@@ -156,7 +157,7 @@ setopt nolistbeep
 setopt share_history
 
 # functions
-today () {
+function today () {
     INBOXDIR=$HOME/Inbox
     today=`date +"%Y%m%d"`
     if [ ! -d ${INBOXDIR}/${today} ]; then
@@ -164,11 +165,23 @@ today () {
     fi
     cd ${INBOXDIR}/${today}
 }
-google() {
+function google () {
     search=""
     echo "Googling: $@"
     for term in $@; do
         search="$search%20$term"
     done
     xdg-open "http://www.google.com/search?q=$search"
+}
+function enshu () {
+    cd ~/catkin_ws/enshu
+    source ./devel/setup.zsh
+}
+function soft () {
+    cd ~/catkin_ws/soft3
+    source ./devel/setup.zsh
+}
+function semi () {
+    cd ~/catkin_ws/semi
+    source ./devel/setup.zsh
 }

@@ -152,31 +152,23 @@ if [ `uname` = 'Darwin' ]; then
   # source /usr/local/share/zsh/site-functions
 else
   if [ -f /opt/ros/hydro/setup.bash ]; then
-    source /opt/ros/hydro/setup.bash
-    alias rossetip='source `rospack find jsk_tools`/src/bashrc.ros; rossetip'
-    semi () {
-      cd ~/catkin_ws/semi
+    source ~/.bashrc.ros
+    function enshu () {
+        cd ~/catkin_ws/enshu
+        source ./devel/setup.bash
     }
-    soft () {
-      cd ~/catkin_ws/soft3
-      source devel/setup.bash
+    function soft () {
+        cd ~/catkin_ws/soft3
+        source ./devel/setup.bash
     }
-    sim () {
-      cd ~/catkin_ws/semi
-      ./baxter.sh sim
-    }
-    enshu () {
-      cd ~/catkin_ws/enshu
-      source devel/setup.bash
-    }
-    act () {
-      cd ~/catkin_ws/semi
-      ./baxter.sh
+    function semi () {
+        cd ~/catkin_ws/semi
+        source ./devel/setup.bash
     }
   fi
 fi
 
-google() {
+function google () {
     search=""
     echo "Googling: $@"
     for term in $@; do
