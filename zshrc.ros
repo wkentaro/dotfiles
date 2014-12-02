@@ -51,8 +51,8 @@ function rossetip() {
   export ROS_HOSTNAME=$ROS_IP
   if [ "${ROS_IP}" = "" ];
   then
-      export -n ROS_IP
-      export -n ROS_HOSTNAME
+      export ROS_IP
+      export ROS_HOSTNAME
       echo -e "\e[1;31munable to set ROS_IP and ROS_HOSTNAME\e[m"
   else
       echo -e "\e[1;31mset ROS_IP and ROS_HOSTNAME to $ROS_IP\e[m";
