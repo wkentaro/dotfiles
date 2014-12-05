@@ -253,6 +253,7 @@ nnoremap <C-l> <C-w>l
 
 " Copy Keymap
 vnoremap y "+y
+vnoremap p "+p
 
 " Change Window Size -------------------------------------------------  
 nnoremap <S-Left>  <C-w><<CR>
