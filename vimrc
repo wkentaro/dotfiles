@@ -253,6 +253,7 @@ nnoremap <C-l> <C-w>l
 
 " Copy Keymap
 vnoremap y "+y
+vnoremap p "+p
 
 " Change Window Size -------------------------------------------------  
 nnoremap <S-Left>  <C-w><<CR>
@@ -484,6 +485,8 @@ if has('conceal')
 endif
 
 " Change Mode ---
+vnoremap <C-i> i
+nnoremap <C-i> i
 nnoremap QQ ZQ
 inoremap <C-l> <ESC><Right>x<Insert>
 nmap <C-3> <Plug>IMAP_JumpForward
