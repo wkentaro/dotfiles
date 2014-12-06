@@ -97,7 +97,7 @@ alias p='python'
 alias ip='ipython'
 alias sl='ls'
 alias emacs='emacs -nw'
-alias eshell='emacs --execute "(term \"`which zsh`\")"'
+alias eshell='emacs --execute "(shell)"'
 alias gcln='git clone'
 alias gmpush='git push wkentaro $(current_branch)'
 alias gmpull='git pull wkentaro $(current_branch)'
@@ -133,27 +133,8 @@ if [ `uname` = 'Darwin' ]; then
   source /usr/local/share/zsh/site-functions
 else
   if [ -f /opt/ros/hydro/setup.zsh ]; then
+    source ~/.zshrc.ros
     source /opt/ros/hydro/setup.zsh
-    soft () {
-      cd ~/catkin_ws/soft3
-      source devel/setup.zsh
-    }
-    enshu () {
-      cd ~/catkin_ws/enshu
-      source devel/setup.zsh
-    }
-    semi () {
-      cd ~/catkin_ws/semi
-      source devel/setup.zsh
-    }
-    sim () {
-      cd ~/catkin_ws/semi
-      ./baxter.sh sim
-    }
-    act () {
-      cd ~/catkin_ws/semi
-      ./baxter.sh
-    }
   fi
 fi
 
@@ -176,7 +157,7 @@ setopt nolistbeep
 setopt share_history
 
 # functions
-today () {
+function today () {
     INBOXDIR=$HOME/Inbox
     today=`date +"%Y%m%d"`
     if [ ! -d ${INBOXDIR}/${today} ]; then
@@ -184,11 +165,23 @@ today () {
     fi
     cd ${INBOXDIR}/${today}
 }
-google() {
+function google () {
     search=""
     echo "Googling: $@"
     for term in $@; do
         search="$search%20$term"
     done
     xdg-open "http://www.google.com/search?q=$search"
+}
+function enshu () {
+    cd ~/catkin_ws/enshu
+    source ./devel/setup.zsh
+}
+function soft () {
+    cd ~/catkin_ws/soft3
+    source ./devel/setup.zsh
+}
+function semi () {
+    cd ~/catkin_ws/semi
+    source ./devel/setup.zsh
 }
