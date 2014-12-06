@@ -1,4 +1,5 @@
 set editing-mode vi
+"jj": vi-movement-mode
 "\C-p": history-search-backward
 "\C-n": history-search-forward
 "\C-j": vi-movement-mode
