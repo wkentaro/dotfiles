@@ -111,7 +111,6 @@ alias gwip='git add -A; git ls-files --deleted -z | xargs -r0 git rm; git commit
 alias h=history
 alias history='fc -l 1'
 alias ip=ipython
-alias ls='ls --color=auto'
 alias sl='ls'
 alias l='ls -lah'
 alias la='ls -lAh'
