@@ -247,7 +247,7 @@ nnoremap g* g*zz
 nnoremap g# g#zz
 
 " Quicker window movement
-nnoremap <C-j> <C-w>j
+nmap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
@@ -481,3 +481,6 @@ vnoremap <C-i> i
 nnoremap <C-i> i
 nnoremap QQ ZQ
 nnoremap WW :w<CR>
+inoremap <C-l> <ESC><Right>x<Insert>
+nmap <C-3> <Plug>IMAP_JumpForward
+vmap <C-3> <Plug>IMAP_JumpForward
