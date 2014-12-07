@@ -93,6 +93,7 @@ au BufNewFile,BufRead *.l set wrap ft=lisp
 au BufNewFile,BufRead *.py set wrap tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.c set wrap tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.cpp set wrap tabstop=4 shiftwidth=4
+au BufNewFile,BufRead *.launch set wrap tabstop=4 shiftwidth=4 ft=xml
 
 augroup cpp-path
   autocmd!
@@ -309,15 +310,6 @@ let g:quickrun_config = {
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 nnoremap <silent> ,r :QuickRun<CR>
 
-" evervim ------------------------------------------------- 
-let g:evervim_devtoken='S=s204:U=18304d3:E=14e09ed5f84:C=146b23c3260:P=1cd:A=en-devtoken:V=2:H=bd1352f1c31b347a383e2ad1909f5b56'
-nnoremap <silent> ,el :<C-u>EvervimNotebookList<CR>/INBOX<CR>
-nnoremap <silent> ,ew :<C-u>EvervimOpenBrowser<CR>
-nnoremap <silent> ,en :<C-u>EvervimCreateNote<CR>
-nnoremap <silent> ,es :<C-u>EvervimSearchByQuery<SPACE>
-nnoremap <silent> ,ea :<C-u>EvervimSearchByQuery -<CR>
-let g:evervim_splitoption=''
-
 " open-browser ------------------------------------------------- 
 nmap <silent> ,w <Plug>(openbrowser-open)
 
@@ -488,3 +480,4 @@ endif
 vnoremap <C-i> i
 nnoremap <C-i> i
 nnoremap QQ ZQ
+nnoremap WW :w<CR>
