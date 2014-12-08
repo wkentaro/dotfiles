@@ -93,6 +93,7 @@ au BufNewFile,BufRead *.l set wrap ft=lisp
 au BufNewFile,BufRead *.py set wrap tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.c set wrap tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.cpp set wrap tabstop=4 shiftwidth=4
+au BufNewFile,BufRead *.launch set wrap tabstop=4 shiftwidth=4 ft=xml
 
 augroup cpp-path
   autocmd!
