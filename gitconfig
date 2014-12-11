@@ -22,11 +22,11 @@
     smudge = git-media-smudge %f
 [core]
     editor = vim
-    excludesfile = /Users/ken/.gitignore_global
+	excludesfile = /Users/ken/.gitignore_global
 [push]
     default = matching
 [branch "wkentaro"]
     remote = wkentaro
     merge = wkentaro
 [http]
-	sslVerify = false
+    sslVerify = false
