@@ -235,10 +235,10 @@ augroup END
 
 
 " Move Keymapping -------------------------------------------------  
-vnoremap 1 0
-nnoremap 1 0
-vnoremap 0 $
-nnoremap 0 $
+" vnoremap 1 0
+" nnoremap 1 0
+" vnoremap 0 $
+" nnoremap 0 $
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
@@ -251,10 +251,6 @@ nmap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
-
-" Copy Keymap
-vnoremap y "+y
-vnoremap p "+p
 
 " Change Window Size -------------------------------------------------  
 nnoremap <S-Left>  <C-w><<CR>
@@ -277,11 +273,11 @@ cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 " nnoremap <silent> ,ipy :VimShellInteractive python<CR>
 " vmap <silent> ,ss :VimShellSendString<CR>
 " nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
-nnoremap <C-B> :ConqueTermSplit zsh<CR>
-nnoremap <silent> ,ls :ConqueTermVSplit zsh<CR>
-nnoremap <silent> ,ts :ConqueTermTab zsh<CR>
-nnoremap <silent> ,is :ConqueTermVSplit ipython<CR>
-
+nnoremap :vp<CR> :vsp<CR>
+nnoremap <silent> ,ls :ConqueTerm zsh<CR>
+" nnoremap <silent> ,ts :ConqueTermTab zsh<CR>
+nnoremap <silent> ,is :ConqueTerm ipython<CR>
+"
 " vim-latex ------------------------------------------------- 
 filetype plugin on
 let tex_flavor = 'latex'
@@ -413,8 +409,8 @@ silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 noremap <C-t> :VimFiler -split -explorer<CR>
-noremap <silent> ,fd :VimFiler -split -project<CR>
-noremap <silent> ,fs :VimFiler<CR>
+noremap <silent> ,fd :VimFiler -split<CR>
+noremap <silent> ,ff :VimFiler<CR>
 
 " vim-markdown -------------------------------------------------
 let g:vim_markdown_codeblock_syntax=0
@@ -441,10 +437,10 @@ let g:neocomplete#force_omni_input_patterns.python =
 " neocomplete
 autocmd FileType python setlocal completeopt-=preview
 
-" cursor
-inoremap {<Enter> {}<Left><CR><ESC><S-o>
-inoremap [<Enter> []<Left><CR><ESC><S-o>
-inoremap (<Enter> ()<Left><CR><ESC><S-o>
+" " cursor
+" inoremap {<Enter> {}<Left><CR><ESC><S-o>
+" inoremap [<Enter> []<Left><CR><ESC><S-o>
+" inoremap (<Enter> ()<Left><CR><ESC><S-o>
 
 " template
 autocmd MyAutoCmd User plugin-template-loaded call s:template_keywords()
@@ -479,8 +475,9 @@ endif
 " Change Mode ---
 vnoremap <C-i> i
 nnoremap <C-i> i
-nnoremap QQ ZQ
-nnoremap WW :w<CR>
+inoremap jj <ESC>
 inoremap <C-l> <ESC><Right>x<Insert>
+inoremap <C-f> <ESC><Right><Insert>
+inoremap <C-b> <ESC><Left><Insert>
 nmap <C-3> <Plug>IMAP_JumpForward
 vmap <C-3> <Plug>IMAP_JumpForward
