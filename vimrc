@@ -95,6 +95,7 @@ au BufNewFile,BufRead *.c set wrap tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.cpp set wrap tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.php set wrap tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.launch set wrap tabstop=4 shiftwidth=4 ft=xml
+au BufNewFile,BufRead *.md set wrap tabstop=4 shiftwidth=4 ft=markdown
 
 augroup cpp-path
   autocmd!
