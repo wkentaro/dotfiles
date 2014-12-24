@@ -218,11 +218,12 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><C-y>  neocomplete#close_popup()
 inoremap <expr><C-e>  neocomplete#cancel_popup()
 " Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType css setl omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setl omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setl omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setl omnifunc=pythoncomplete#Complete
+autocmd filetype python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+autocmd FileType xml setl omnifunc=xmlcomplete#CompleteTags
 " Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
@@ -420,12 +421,13 @@ hi link htmlBold WarningMsg
 hi link htmlBoldItalic ErrorMsg
 
 " jedi
-autocmd FileType python setlocal omnifunc=jedi#completions
+autocmd FileType python setl omnifunc=jedi#completions
+let g:jedi#popup_on_dot = 0
+autocmd FileType python setl completeopt-=preview
+" let g:jedi#popup_select_first = 1
 " let g:jedi#completions_enabled = 0
 " let g:jedi#auto_vim_configuration = 0
 " let s:hooks = neobundle#get_hooks("jedi-vim")
-let g:jedi#popup_on_dot = 0
-" let g:jedi#popup_select_first = 1
 
 if !exists('g:neocomplete#force_omni_input_patterns')
         let g:neocomplete#force_omni_input_patterns = {}
@@ -435,8 +437,6 @@ let g:neocomplete#force_omni_input_patterns.cpp =
 let g:neocomplete#force_omni_input_patterns.python =
   \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 
-" neocomplete
-autocmd FileType python setlocal completeopt-=preview
 
 " template
 autocmd MyAutoCmd User plugin-template-loaded call s:template_keywords()
