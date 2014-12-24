@@ -179,9 +179,6 @@ filetype plugin indent on
 NeoBundleCheck
 
 " NeoComplete -------------------------------------------------  
-let g:neocomplete#enable_auto_select = 0
-let g:neocomplete#enable_auto_close_preview = 1
-let g:neocomplete#enable_ignore_case = 1
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
 " Use neocomplete.
@@ -191,6 +188,9 @@ let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
 let g:neocomplete#sources#syntax#min_keyword_length = 3
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+let g:neocomplete#enable_auto_select = 0
+let g:neocomplete#enable_auto_close_preview = 1
+let g:neocomplete#enable_ignore_case = 1
 " Define dictionary.
 let g:neocomplete#sources#dictionary#dictionaries = {
     \ 'default' : '',
@@ -275,8 +275,7 @@ cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 " nnoremap <silent> ,ipy :VimShellInteractive python<CR>
 " vmap <silent> ,ss :VimShellSendString<CR>
 " nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
-nnoremap :vp<CR> :vsp<CR>
-nnoremap <silent> ,ls :ConqueTerm zsh<CR>
+nnoremap <silent> ,ls :ConqueTerm bash<CR>
 " nnoremap <silent> ,ts :ConqueTermTab zsh<CR>
 nnoremap <silent> ,is :ConqueTerm ipython<CR>
 "
