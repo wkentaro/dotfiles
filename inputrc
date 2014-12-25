@@ -15,3 +15,4 @@ set keymap vi-insert
 "\C-j": vi-movement-mode
 "\C-a": beginning-of-line
 "\C-e": end-of-line
+"\C-y": yank
