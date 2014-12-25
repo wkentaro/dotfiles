@@ -1,8 +1,8 @@
 # encoding
 export LC_CTYPE='en_US.UTF-8'
-
-# Prompt Setup
-# git branch
+# terminal color
+export TERM=xterm-256color
+# prompt setup
 current_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }

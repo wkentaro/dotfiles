@@ -422,12 +422,12 @@ hi link htmlBoldItalic ErrorMsg
 
 " jedi
 autocmd FileType python setl omnifunc=jedi#completions
-let g:jedi#popup_on_dot = 0
 autocmd FileType python setl completeopt-=preview
-" let g:jedi#popup_select_first = 1
-" let g:jedi#completions_enabled = 0
-" let g:jedi#auto_vim_configuration = 0
-" let s:hooks = neobundle#get_hooks("jedi-vim")
+let g:jedi#popup_on_dot = 0
+let g:jedi#popup_select_first = 0
+let g:jedi#completions_enabled = 1
+let g:jedi#auto_vim_configuration = 1
+let s:hooks = neobundle#get_hooks("jedi-vim")
 
 if !exists('g:neocomplete#force_omni_input_patterns')
         let g:neocomplete#force_omni_input_patterns = {}

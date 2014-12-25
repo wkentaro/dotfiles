@@ -1,5 +1,6 @@
 #ct Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+export TERM=xterm-256color
 if [ `uname` = 'Darwin' ]; then
     # path
     export PATH="/usr/local/bin:$HOME/.bin:$PATH"
@@ -155,6 +156,7 @@ bindkey "^F" forward-char
 bindkey "^B" backward-char
 bindkey "^D" delete-char
 bindkey "^K" kill-line
+bindkey "^Y" yank
 
 # zsh options
 setopt list_packed
