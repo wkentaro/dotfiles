@@ -155,6 +155,10 @@ NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'git://git.code.sf.net/p/vim-latex/vim-latex'
 NeoBundle 'hattya/python_fold.vim'
 NeoBundle 'davidhalter/jedi-vim'
+NeoBundle 'mattn/emmet-vim'
+NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'othree/html5.vim'
+NeoBundle 'pangloss/vim-javascript'
 
 NeoBundleLazy 'kana/vim-altr'
 
@@ -276,7 +280,8 @@ cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 " nnoremap <silent> ,ipy :VimShellInteractive python<CR>
 " vmap <silent> ,ss :VimShellSendString<CR>
 " nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
-nnoremap <silent> ,ls :ConqueTerm bash<CR>
+" nnoremap <silent> ,ls :ConqueTerm bash<CR>
+nnoremap <silent> ,ls :ConqueTerm zsh<CR>
 " nnoremap <silent> ,ts :ConqueTermTab zsh<CR>
 nnoremap <silent> ,is :ConqueTerm ipython<CR>
 "
@@ -477,3 +482,41 @@ inoremap <C-f> <ESC><Right><Insert>
 inoremap <C-b> <ESC><Left><Insert>
 nmap <C-3> <Plug>IMAP_JumpForward
 vmap <C-3> <Plug>IMAP_JumpForward
+
+" HTML 5 tags
+syn keyword htmlTagName contained article aside audio bb canvas command
+syn keyword htmlTagName contained datalist details dialog embed figure
+syn keyword htmlTagName contained header hgroup keygen mark meter nav output
+syn keyword htmlTagName contained progress time ruby rt rp section time
+syn keyword htmlTagName contained source figcaption
+syn keyword htmlArg contained autofocus autocomplete placeholder min max
+syn keyword htmlArg contained contenteditable contextmenu draggable hidden
+syn keyword htmlArg contained itemprop list sandbox subject spellcheck
+syn keyword htmlArg contained novalidate seamless pattern formtarget
+syn keyword htmlArg contained formaction formenctype formmethod
+syn keyword htmlArg contained sizes scoped async reversed sandbox srcdoc
+syn keyword htmlArg contained hidden role
+syn match   htmlArg "\<\(aria-[\-a-zA-Z0-9_]\+\)=" contained
+syn match   htmlArg contained "\s*data-[-a-zA-Z0-9_]\+"
+
+" emmet-vim
+let g:user_emmet_mode = 'iv'
+let g:user_emmet_leader_key = '<C-Y>'
+let g:use_emmet_complete_tag = 1
+let g:user_emmet_settings = {
+      \ 'lang' : 'ja',
+      \ 'html' : {
+      \   'filters' : 'html',
+      \ },
+      \ 'css' : {
+      \   'filters' : 'fc',
+      \ },
+      \ 'php' : {
+      \   'extends' : 'html',
+      \   'filters' : 'html',
+      \ },
+      \}
+augroup EmmitVim
+  autocmd!
+  autocmd FileType * let g:user_emmet_settings.indentation = '  '[:&tabstop]
+augroup END
