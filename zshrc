@@ -3,9 +3,10 @@ export ZSH=$HOME/.oh-my-zsh
 export TERM=xterm-256color
 if [ `uname` = 'Darwin' ]; then
     # path
-    export PATH="/usr/local/bin:$HOME/.bin:$PATH"
+    PATH="/usr/local/bin:$HOME/.bin:$PATH"
+    PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+    PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
     export PATH="$HOME/Work/pylearn2/pylearn2/scripts:$PATH"
-    export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
     export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
     # grep
     export GREP_OPTIONS='--color=always'
@@ -13,6 +14,7 @@ if [ `uname` = 'Darwin' ]; then
     # pylearn2
     export PYLEARN2_DATA_PATH=$HOME/Work/pylearn2/data
     export PYLEARN2_VIEWER_COMMAND='open -Wn'
+    alias octave='/usr/local/octave/3.8.0/bin/octave-3.8.0'
 fi
 
 # Set name of the theme to load.
