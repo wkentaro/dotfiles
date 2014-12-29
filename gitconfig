@@ -1,32 +1,38 @@
 [user]
-    name = Kentaro Wada
-    email = www.kentaro.wada@gmail.com
+  name = Kentaro Wada
+  email = www.kentaro.wada@gmail.com
 [color]
-    ui = auto
+  ui = auto
 [alias]
-    co = checkout
-    ci = commit
-    st = status
-    br = branch
-    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
-    switch = !legit switch \"$@\"
-    branches = !legit branches
-    sprout = !legit sprout \"$@\"
-    unpublish = !legit unpublish \"$@\"
-    harvest = !legit harvest \"$@\"
-    sync = !legit sync \"$@\"
-    publish = !legit publish \"$@\"
-    graft = !legit graft \"$@\"
+  co = checkout
+  ci = commit
+  st = status
+  br = branch
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+  switch = !legit switch \"$@\"
+  branches = !legit branches
+  sprout = !legit sprout \"$@\"
+  unpublish = !legit unpublish \"$@\"
+  harvest = !legit harvest \"$@\"
+  sync = !legit sync \"$@\"
+  publish = !legit publish \"$@\"
+  graft = !legit graft \"$@\"
+  pull-request = !hub pull-request \"$@\"
+  fork = !hub fork \"$@\"
+  create = !hub create \"$@\" 
+  browse = !hub browse \"$@\"
+  compare = !hub compare \"$@\"
+  ci-status = !hub ci-status \"$@\"
 [filter "media"]
-    clean = git-media-clean %f
-    smudge = git-media-smudge %f
+  clean = git-media-clean %f
+  smudge = git-media-smudge %f
 [core]
-    editor = vim
-	excludesfile = /Users/ken/.gitignore_global
+  editor = vim
+  excludesfile = /Users/ken/.gitignore_global
 [push]
-    default = matching
+  default = matching
 [branch "wkentaro"]
-    remote = wkentaro
-    merge = wkentaro
+  remote = wkentaro
+  merge = wkentaro
 [http]
-	sslVerify = false
+  sslVerify = false
