@@ -6,14 +6,10 @@ if [ `uname` = 'Darwin' ]; then
     PATH="/usr/local/bin:$HOME/.bin:$PATH"
     PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
     PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-    export PATH="$HOME/Work/pylearn2/pylearn2/scripts:$PATH"
     export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
     # grep
     export GREP_OPTIONS='--color=always'
     export GREP_COLOR='1;35;40'
-    # pylearn2
-    export PYLEARN2_DATA_PATH=$HOME/Work/pylearn2/data
-    export PYLEARN2_VIEWER_COMMAND='open -Wn'
     alias octave='/usr/local/octave/3.8.0/bin/octave-3.8.0'
 fi
 
