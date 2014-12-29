@@ -477,9 +477,6 @@ endif
 vnoremap <C-i> i
 nnoremap <C-i> i
 inoremap jj <ESC>
-inoremap <C-l> <ESC><Right>x<Insert>
-inoremap <C-f> <ESC><Right><Insert>
-inoremap <C-b> <ESC><Left><Insert>
 nmap <C-3> <Plug>IMAP_JumpForward
 vmap <C-3> <Plug>IMAP_JumpForward
 
