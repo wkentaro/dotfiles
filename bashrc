@@ -88,6 +88,7 @@ alias ggpush='git push origin $(current_branch)'
 alias gmpush='git push wkentaro $(current_branch)'
 alias gignore='git update-index --assume-unchanged'
 alias gignored='git ls-files -v | grep "^[[:lower:]]"'
+alias git=hub
 alias git-svn-dcommit-push='git svn dcommit && git push github master:svntrunk'
 alias gk='gitk --all --branches'
 alias gl='git pull'
@@ -149,6 +150,10 @@ alias rd=rmdir
 alias v=vim
 alias vi=vim
 alias which-command=whence
+# hub
+if which hub >/dev/null 2>&1; then
+  eval "$(hub alias -s)"
+fi
 # open
 if which open >/dev/null 2>&1; then
   alias o='open'
