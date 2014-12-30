@@ -109,6 +109,10 @@ elif which xsel >/dev/null 2>&1 ; then
 elif which putclip >/dev/null 2>&1 ; then 
   alias -g C='| putclip' # cygwin
 fi
+# hub
+if which hub >/dev/null 2>&1; then
+  eval "$(hub alias -s)"
+fi
 # open
 if which gnome-open >/dev/null 2>&1; then
   alias open='gnome-open'
