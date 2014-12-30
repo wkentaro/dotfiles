@@ -17,12 +17,6 @@
   sync = !legit sync \"$@\"
   publish = !legit publish \"$@\"
   graft = !legit graft \"$@\"
-  pull-request = !hub pull-request \"$@\"
-  fork = !hub fork \"$@\"
-  create = !hub create \"$@\" 
-  browse = !hub browse \"$@\"
-  compare = !hub compare \"$@\"
-  ci-status = !hub ci-status \"$@\"
 [filter "media"]
   clean = git-media-clean %f
   smudge = git-media-smudge %f
