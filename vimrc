@@ -152,7 +152,7 @@ NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'thinca/vim-template'
 NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'git://git.code.sf.net/p/vim-latex/vim-latex'
+NeoBundle 'wkentaro/vim-latex'
 NeoBundle 'hattya/python_fold.vim'
 NeoBundle 'davidhalter/jedi-vim'
 NeoBundle 'mattn/emmet-vim'
@@ -287,13 +287,16 @@ nnoremap <silent> ,is :ConqueTerm ipython<CR>
 "
 " vim-latex ------------------------------------------------- 
 filetype plugin on
-let tex_flavor = 'latex'
 set grepprg=grep\ -nH\ $*
 set shellslash
+let tex_flavor = 'latex'
 let g:Tex_DefaultTargetFormat = 'pdf'
 let g:Tex_CompileRule_dvi = 'platex --interaction=nonstopmode $*'
+let g:Tex_BibtexFlavor = 'jbibtex'
 let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi;open $*.pdf'
 let g:Tex_FormatDependency_pdf = 'dvi,pdf'
+let g:Tex_ViewRule_dvi = 'xdvi'
+let g:Tex_ViewRule_pdf = 'evince'
 au BufNewFile,BufRead *.tex inoremap 、 , 
 au BufNewFile,BufRead *.tex inoremap 。 . 
 au BufNewFile,BufRead *.tex inoremap （ (
