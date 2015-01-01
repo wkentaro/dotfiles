@@ -4,9 +4,6 @@ export TERM=xterm-256color
 if [ `uname` = 'Darwin' ]; then
     # path
     PATH="/usr/local/bin:$HOME/.bin:$PATH"
-    PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-    PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-    export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
     # grep
     export GREP_OPTIONS='--color=always'
     export GREP_COLOR='1;35;40'
@@ -58,7 +55,7 @@ ZSH_THEME="wkentaro"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git gitfast vi-mode python)
+plugins=(git hub gitignore gnu-utils z vi-mode python debian)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -169,14 +166,6 @@ function today () {
         mkdir ${INBOXDIR}/${today}
     fi
     cd ${INBOXDIR}/${today}
-}
-function google () {
-    search=""
-    echo "Googling: $@"
-    for term in $@; do
-        search="$search%20$term"
-    done
-    xdg-open "http://www.google.com/search?q=$search"
 }
 function enshu () {
     cd ~/catkin_ws/enshu
