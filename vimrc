@@ -477,8 +477,6 @@ if has('conceal')
 endif
 
 " Change Mode ---
-vnoremap <C-i> i
-nnoremap <C-i> i
 inoremap jj <ESC>
 nmap <C-3> <Plug>IMAP_JumpForward
 vmap <C-3> <Plug>IMAP_JumpForward
