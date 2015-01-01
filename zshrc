@@ -88,7 +88,6 @@ export SSH_KEY_PATH="~/.ssh/id_rsa"
 alias v='vim'
 alias vi='vim'
 alias c='clear'
-alias h='history'
 alias p='python'
 alias ip='ipython'
 alias sl='ls'
