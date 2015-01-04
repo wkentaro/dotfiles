@@ -281,9 +281,9 @@ cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 " vmap <silent> ,ss :VimShellSendString<CR>
 " nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
 " nnoremap <silent> ,ls :ConqueTerm bash<CR>
-nnoremap <silent> ,ls :ConqueTerm zsh<CR>
+nnoremap <silent> ,ls :ConqueTerm zsh <CR>
 " nnoremap <silent> ,ts :ConqueTermTab zsh<CR>
-nnoremap <silent> ,is :ConqueTerm ipython<CR>
+nnoremap <silent> ,is :ConqueTerm ipython <CR>
 "
 " vim-latex ------------------------------------------------- 
 filetype plugin on
