@@ -133,14 +133,14 @@ alias gwc='git whatchanged -p --abbrev-commit --pretty=medium'
 alias gwip='git add -A; git ls-files --deleted -z | xargs -r0 git rm; git commit -m "--wip--"'
 alias h=history
 alias history='fc -l 1'
-alias ip=ipython
+alias ipy=ipython
 alias sl='ls'
 alias l='ls -lah'
 alias la='ls -lAh'
 alias ll='ls -lh'
 alias lsa='ls -lah'
 alias md='mkdir -p'
-alias p=python
+alias py=python
 alias please=sudo
 alias po=popd
 alias pu=pushd
@@ -168,3 +168,4 @@ if which dircolors >/dev/null 2>&1; then
   eval `dircolors $HOME/.colorrc`
   alias ls='ls --color=auto'
 fi
+ [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator 
