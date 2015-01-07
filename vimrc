@@ -242,10 +242,10 @@ augroup END
 
 
 " Move Keymapping -------------------------------------------------  
-vnoremap 1 0
-nnoremap 1 0
-vnoremap 0 $
-nnoremap 0 $
+" vnoremap 1 0
+" nnoremap 1 0
+" vnoremap 0 $
+" nnoremap 0 $
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz

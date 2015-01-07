@@ -89,8 +89,8 @@ export SSH_KEY_PATH="~/.ssh/id_rsa"
 alias v='vim'
 alias vi='vim'
 alias c='clear'
-alias p='python'
-alias ip='ipython'
+alias py='python'
+alias ipy='ipython'
 alias sl='ls'
 alias emacs='emacs -nw'
 alias eshell='emacs --execute "(shell)"'
@@ -159,7 +159,7 @@ setopt nolistbeep
 setopt share_history
 
 # functions
-function today () {
+function today {
     INBOXDIR=$HOME/Inbox
     today=`date +"%Y%m%d"`
     if [ ! -d ${INBOXDIR}/${today} ]; then
@@ -167,15 +167,16 @@ function today () {
     fi
     cd ${INBOXDIR}/${today}
 }
-function enshu () {
+function enshu {
     cd ~/catkin_ws/enshu
     source ./devel/setup.zsh
 }
-function soft () {
+function soft {
     cd ~/catkin_ws/soft3
     source ./devel/setup.zsh
 }
-function semi () {
+function semi {
     cd ~/catkin_ws/semi
     source ./devel/setup.zsh
 }
+ [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator 
