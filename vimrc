@@ -234,13 +234,6 @@ if !exists('g:neocomplete#sources#omni#input_patterns')
 endif
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
-" clang-format
-augroup cpp-clangformat
-  autocmd!
-  autocmd FileType c,cpp,objc noremap <C-K> :pyf /path/to/clang-format.py<CR>
-augroup END
-
-
 " Move Keymapping -------------------------------------------------  
 " vnoremap 1 0
 " nnoremap 1 0
