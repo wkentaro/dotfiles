@@ -159,8 +159,8 @@ NeoBundle 'mattn/emmet-vim'
 NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'othree/html5.vim'
 NeoBundle 'pangloss/vim-javascript'
-
-NeoBundleLazy 'kana/vim-altr'
+NeoBundle 'Rykka/riv.vim'
+NeoBundle 'kana/vim-altr'
 
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
