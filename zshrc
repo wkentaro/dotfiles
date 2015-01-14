@@ -131,7 +131,7 @@ if [ `uname` = 'Darwin' ]; then
   source /usr/local/share/zsh/site-functions
 else
   if [ -f /opt/ros/hydro/setup.zsh ]; then
-    source ~/.zshrc.ros; rossetip;
+    source ~/.zshrc.ros; #rossetip;
     source /opt/ros/hydro/setup.zsh
   fi
 fi
