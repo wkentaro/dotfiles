@@ -1,13 +1,16 @@
+# autoload first
+autoload -Uz compinit && compinit
+autoload history-search-end
 #ct Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 export TERM=xterm-256color
 if [ `uname` = 'Darwin' ]; then
-    # path
-    PATH="/usr/local/bin:$HOME/.bin:$PATH"
-    # grep
-    export GREP_OPTIONS='--color=always'
-    export GREP_COLOR='1;35;40'
-    alias octave='/usr/local/octave/3.8.0/bin/octave-3.8.0'
+  # path
+  PATH="/usr/local/bin:$HOME/.bin:$PATH"
+  # grep
+  export GREP_OPTIONS='--color=always'
+  export GREP_COLOR='1;35;40'
+  alias octave='/usr/local/octave/3.8.0/bin/octave-3.8.0'
 fi
 
 # Set name of the theme to load.
@@ -55,8 +58,7 @@ ZSH_THEME="wkentaro"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git hub gitignore gnu-utils z vi-mode brew
-         python debian history compleat)
+plugins=(git hub gitignore gnu-utils z vi-mode brew python debian)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -140,9 +142,6 @@ bindkey -M viins '^J' vi-cmd-mode
 bindkey '^R' history-incremental-search-backward
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
-bindkey -M vicmd '1' beginning-of-line
-bindkey -M vicmd '0' end-of-line
-autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
@@ -179,4 +178,3 @@ function semi {
     cd ~/catkin_ws/semi
     source ./devel/setup.zsh
 }
- [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator 
