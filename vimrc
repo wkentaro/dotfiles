@@ -136,14 +136,13 @@ NeoBundle 'chreekat/vim-instant-markdown'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tomtom/tcomment_vim'
-NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tyru/open-browser.vim'
-" NeoBundle 'Shougo/vimshell'
 if has('lua')
   NeoBundle 'Shougo/neocomplete.vim'
 endif
+NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neosnippet.vim'
@@ -161,6 +160,10 @@ NeoBundle 'othree/html5.vim'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'Rykka/riv.vim'
 NeoBundle 'kana/vim-altr'
+NeoBundle 'vim-scripts/YankRing.vim'
+NeoBundle 'vim-scripts/FuzzyFinder'
+NeoBundle 'vim-scripts/taglist.vim'
+NeoBundle 'vim-scripts/L9'
 
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
@@ -411,9 +414,7 @@ silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 " vim-filter ------------------------------------------------- 
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
-noremap <C-t> :VimFiler -split -explorer<CR>
-noremap <silent> ,fd :VimFiler -split<CR>
-noremap <silent> ,ff :VimFiler<CR>
+noremap <silent> ,t :VimFiler -split -explorer<CR>
 
 " vim-markdown -------------------------------------------------
 let g:vim_markdown_codeblock_syntax=0
@@ -511,3 +512,13 @@ augroup EmmitVim
   autocmd!
   autocmd FileType * let g:user_emmet_settings.indentation = '  '[:&tabstop]
 augroup END
+
+" taglist.vim
+noremap <silent> ,l :TlistToggle<CR>
+
+" FuzzyFinder
+noremap <silent> ,f :FufFile<CR>
+noremap <silent> ,b :FufBuffer<CR>
+
+" YankRing
+let g:yankring_history_file = '.yankring_history_v2.txt'
