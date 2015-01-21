@@ -160,8 +160,6 @@ NeoBundle 'othree/html5.vim'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'Rykka/riv.vim'
 NeoBundle 'kana/vim-altr'
-NeoBundle 'vim-scripts/YankRing.vim'
-NeoBundle 'vim-scripts/FuzzyFinder'
 NeoBundle 'vim-scripts/taglist.vim'
 NeoBundle 'vim-scripts/L9'
 
@@ -414,7 +412,7 @@ silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 " vim-filter ------------------------------------------------- 
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
-noremap <silent> ,t :VimFiler -split -explorer<CR>
+noremap <silent> <Leader>t :VimFiler -split -explorer<CR>
 
 " vim-markdown -------------------------------------------------
 let g:vim_markdown_codeblock_syntax=0
@@ -514,11 +512,4 @@ augroup EmmitVim
 augroup END
 
 " taglist.vim
-noremap <silent> ,l :TlistToggle<CR>
-
-" FuzzyFinder
-noremap <silent> ,f :FufFile<CR>
-noremap <silent> ,b :FufBuffer<CR>
-
-" YankRing
-let g:yankring_history_file = '.yankring_history_v2.txt'
+noremap <silent> <Leader>l :TlistToggle<CR>
