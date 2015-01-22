@@ -323,8 +323,8 @@ au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split
 au FileType unite inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
 au FileType unite nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
 au FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+au FileType unite nnoremap <silent> <buffer> <C-c> :q<CR>
+au FileType unite inoremap <silent> <buffer> <C-c> <ESC>:q<CR>
 
 " fugitive ------------------------------------------------- 
 autocmd QuickFixCmdPost *grep* cwindow
