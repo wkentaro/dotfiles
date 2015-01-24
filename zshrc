@@ -58,7 +58,7 @@ ZSH_THEME="wkentaro"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git hub gitignore gnu-utils z vi-mode brew python debian)
+plugins=(git hub gitignore gnu-utils z vi-mode brew python autoenv debian)
 
 source $ZSH/oh-my-zsh.sh
 
