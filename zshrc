@@ -14,6 +14,7 @@ if [ `uname` = 'Darwin' ]; then
   # virtualenvwrapper
   export WORKON_HOME=$HOME/.virtualenvs
   source /usr/local/bin/virtualenvwrapper.sh
+  source ~/.bashrc.eus
 fi
 
 # Set name of the theme to load.
