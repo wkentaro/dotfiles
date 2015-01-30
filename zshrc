@@ -11,9 +11,6 @@ if [ `uname` = 'Darwin' ]; then
   export GREP_OPTIONS='--color=always'
   export GREP_COLOR='1;35;40'
   alias octave='/usr/local/octave/3.8.0/bin/octave-3.8.0'
-  # virtualenvwrapper
-  export WORKON_HOME=$HOME/.virtualenvs
-  source /usr/local/bin/virtualenvwrapper.sh
   source ~/.bashrc.eus
 fi
 
@@ -62,7 +59,7 @@ ZSH_THEME="wkentaro"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git hub gitignore gnu-utils z vi-mode brew python debian)
+plugins=(git hub gitignore gnu-utils z vi-mode brew python debian osx)
 
 source $ZSH/oh-my-zsh.sh
 
