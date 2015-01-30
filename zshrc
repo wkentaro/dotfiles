@@ -6,7 +6,7 @@ export ZSH=$HOME/.oh-my-zsh
 export TERM=xterm-256color
 if [ `uname` = 'Darwin' ]; then
   # path
-  PATH="/usr/local/heroku/bin:$PATH"
+  PATH="/usr/local/heroku/bin:$HOME/.bin:$PATH"
   # grep
   export GREP_OPTIONS='--color=always'
   export GREP_COLOR='1;35;40'
