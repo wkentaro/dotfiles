@@ -162,6 +162,7 @@ NeoBundle 'Rykka/riv.vim'
 NeoBundle 'kana/vim-altr'
 NeoBundle 'vim-scripts/taglist.vim'
 NeoBundle 'vim-scripts/L9'
+NeoBundle 'ervandew/supertab'
 
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
@@ -246,6 +247,12 @@ nnoremap * *zz
 nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
+"
+" fast buffer alternation, next/prev, close
+map ga <C-^>
+nmap gn :bn<CR>
+nmap gp :bp<CR>
+nmap gk :bp<bar>bd #<CR>
 
 " Quicker window movement
 nmap <C-j> <C-w>j
@@ -496,6 +503,7 @@ let g:use_emmet_complete_tag = 1
 let g:user_emmet_settings = {
       \ 'lang' : 'ja',
       \ 'html' : {
+      \   'extends' : 'html',
       \   'filters' : 'html',
       \ },
       \ 'css' : {
