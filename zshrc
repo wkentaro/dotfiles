@@ -101,6 +101,7 @@ alias gcln='git clone'
 alias gmpush='git push wkentaro $(current_branch)'
 alias gmpull='git pull wkentaro $(current_branch)'
 alias gmpnp='git pull wkentaro $(current_branch) && git push wkentaro $(current_branch)'
+alias gcal='open https://www.google.com/calendar/render#g'
 # copy
 if which pbcopy >/dev/null 2>&1 ; then 
   alias -g C='| pbcopy' # mac
