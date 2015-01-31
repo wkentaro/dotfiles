@@ -169,3 +169,25 @@ if which dircolors >/dev/null 2>&1; then
   alias ls='ls --color=auto'
 fi
  [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator 
+
+cd () {
+  if [[ "x$*" = "x..." ]]
+  then
+    cd ../..
+  elif [[ "x$*" = "x...." ]]
+  then
+    cd ../../..
+  elif [[ "x$*" = "x....." ]]
+  then
+    cd ../../../..
+  elif [[ "x$*" = "x......" ]]
+  then
+    cd ../../../../..
+  elif [ -d ~/.autoenv ]
+  then
+    source ~/.autoenv/activate.sh
+    autoenv_cd "$@"
+  else
+    builtin cd "$@"
+  fi
+}
