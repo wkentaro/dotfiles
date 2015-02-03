@@ -138,6 +138,7 @@ NeoBundle 'tpope/vim-surround'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'gregsexton/gitv'
 NeoBundle 'tyru/open-browser.vim'
 if has('lua')
   NeoBundle 'Shougo/neocomplete.vim'
@@ -161,8 +162,8 @@ NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'kana/vim-altr'
 NeoBundle 'vim-scripts/taglist.vim'
 NeoBundle 'vim-scripts/L9'
-NeoBundle 'ervandew/supertab'
 NeoBundle 'derekwyatt/vim-scala'
+NeoBundle 'scrooloose/syntastic'
 
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
@@ -217,7 +218,7 @@ inoremap <expr><C-l>     neocomplete#complete_common_string()
 "   return neocomplete#close_popup() . "\<CR>"
 " endfunction
 " <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
 " inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
 " inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
@@ -519,3 +520,14 @@ augroup END
 
 " taglist.vim
 noremap <silent> <Leader>l :TlistToggle<CR>
+
+" syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_quiet_messages = {"level": "warnings"}
