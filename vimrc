@@ -162,6 +162,7 @@ NeoBundle 'kana/vim-altr'
 NeoBundle 'vim-scripts/taglist.vim'
 NeoBundle 'vim-scripts/L9'
 NeoBundle 'ervandew/supertab'
+NeoBundle 'derekwyatt/vim-scala'
 
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
@@ -301,8 +302,6 @@ au BufNewFile,BufRead *.tex inoremap 、 ,
 au BufNewFile,BufRead *.tex inoremap 。 . 
 au BufNewFile,BufRead *.tex inoremap （ (
 au BufNewFile,BufRead *.tex inoremap ） )
-au BufNewFile,BufRead *.tex inoremap ITM \item[]<++><esc>4hi
-au BufNewFile,BufRead *.tex inoremap MBX \mbox{}<++><esc>4hi
 
 " quickrun ------------------------------------------------- 
 let g:quickrun_config = {
