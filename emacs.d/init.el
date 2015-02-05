@@ -1,28 +1,10 @@
-(put 'upcase-region 'disabled nil)
+;; (put 'upcase-region 'disabled nil)
 
 ;;; ロードパス
 (setq load-path (append
                  '(;"~/.emacs.d"
                    "~/.emacs.d/packages")
                  load-path))
-
-;;; 日本語環境
-(set-locale-environment nil)
-; (set-language-environment "Japanese")
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(set-buffer-file-coding-system 'utf-8)
-(setq default-buffer-file-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(prefer-coding-system 'utf-8)
-
-;;; 基本キーバインド
-(define-key global-map (kbd "C-h") 'delete-backward-char) ; 削除
-(define-key global-map (kbd "M-?") 'help-for-help)        ; ヘルプ
-(define-key global-map (kbd "C-z") 'undo)                 ; undo
-(define-key global-map (kbd "C-c i") 'indent-region)      ; インデント
-(define-key global-map (kbd "C-c C-i") 'hippie-expand)    ; 補完
-(define-key global-map (kbd "C-c ;") 'comment-dwim)       ; コメントアウト
 
 ;;; grep
 (require 'grep)
