@@ -102,9 +102,6 @@ augroup cpp-path
   autocmd FileType cpp setlocal path=.,/usr/include,/usr/local/include
 augroup END
 
-" lisp setup
-let lisp_rainbow=1
-
 " lisp
 au BufNewFile,BufRead *.l set wrap tabstop=2 shiftwidth=2 ft=lisp
 let lisp_rainbow = 1
