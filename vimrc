@@ -161,6 +161,7 @@ NeoBundle 'vim-scripts/taglist.vim'
 NeoBundle 'vim-scripts/L9'
 NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'Rip-Rip/clang_complete'
 
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
@@ -239,12 +240,12 @@ let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 " nnoremap 1 0
 " vnoremap 0 $
 " nnoremap 0 $
-nnoremap n nzz
-nnoremap N Nzz
-nnoremap * *zz
-nnoremap # #zz
-nnoremap g* g*zz
-nnoremap g# g#zz
+" nnoremap n nzz
+" nnoremap N Nzz
+" nnoremap * *zz
+" nnoremap # #zz
+" nnoremap g* g*zz
+" nnoremap g# g#zz
 "
 " fast buffer alternation, next/prev, close
 map ga <C-^>
@@ -288,6 +289,7 @@ nnoremap <silent> ,is :ConqueTerm ipython <CR>
 filetype plugin on
 set grepprg=grep\ -nH\ $*
 set shellslash
+let g:tex_conceal=''
 let tex_flavor = 'latex'
 let g:Tex_DefaultTargetFormat = 'pdf'
 let g:Tex_CompileRule_dvi = 'platex --interaction=nonstopmode $*'
@@ -296,8 +298,8 @@ let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi;open $*.pdf'
 let g:Tex_FormatDependency_pdf = 'dvi,pdf'
 let g:Tex_ViewRule_dvi = 'xdvi'
 let g:Tex_ViewRule_pdf = 'evince'
-au BufNewFile,BufRead *.tex inoremap 、 , 
-au BufNewFile,BufRead *.tex inoremap 。 . 
+au BufNewFile,BufRead *.tex inoremap 、 ,
+au BufNewFile,BufRead *.tex inoremap 。 .
 au BufNewFile,BufRead *.tex inoremap （ (
 au BufNewFile,BufRead *.tex inoremap ） )
 
@@ -529,3 +531,30 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_quiet_messages = {"level": "warnings"}
 let g:syntastic_python_checkers = ['pyflakes']
+let g:syntastic_c_remove_include_errors = 1
+let g:syntastic_cpp_remove_include_errors = 1
+
+" clang_complete
+" cmd option
+" let g:clang_use_library=1
+" let g:clang_debug=1
+if has('mac')
+  let g:clang_library_path = '/Library/Developer/CommandLineTools/usr/lib/'
+endif
+let g:clang_user_options = '-std=c++11'
+" use with neocomplete.vim
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_overwrite_completefunc = 1
+let g:neocomplete#force_omni_input_patterns.c =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#force_omni_input_patterns.cpp =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:neocomplete#force_omni_input_patterns.objc =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#force_omni_input_patterns.objcpp =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+" don't auto complete with clang_complete
+let g:clang_complete_auto = 0
+let g:clang_auto_select = 0
