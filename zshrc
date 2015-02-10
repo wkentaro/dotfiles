@@ -7,12 +7,14 @@ export ZSH=$HOME/.oh-my-zsh
 export TERM=xterm-256color
 if [ `uname` = 'Darwin' ]; then
   # path
-  PATH="/usr/local/heroku/bin:$HOME/.bin:$PATH"
+  export PATH=$HOME/.bin:$PATH
   # grep
   export GREP_OPTIONS='--color=always'
   export GREP_COLOR='1;35;40'
   alias octave='/usr/local/octave/3.8.0/bin/octave-3.8.0'
-  source ~/.bashrc.eus
+  if [ -f ~/.bashrc.eus ]; then
+    source ~/.bashrc.eus
+  fi
 fi
 
 # Set name of the theme to load.
@@ -59,6 +61,13 @@ alias gmpush='git push wkentaro $(current_branch)'
 alias gmpull='git pull wkentaro $(current_branch)'
 alias gmpnp='git pull wkentaro $(current_branch) && git push wkentaro $(current_branch)'
 alias gcal='open https://www.google.com/calendar/render#g'
+alias t='tmux'
+alias tls='tmux ls'
+alias ta='tmux attach'
+alias tat='tmux attach -t'
+alias tn='tmux new'
+alias tns='tmux new -s'
+alias gpr='hub pull-request'
 # copy
 if which pbcopy >/dev/null 2>&1 ; then 
   alias -g C='| pbcopy' # mac
@@ -83,7 +92,7 @@ fi
 # ls
 if which dircolors >/dev/null 2>&1; then
   eval `dircolors $HOME/.colorrc`
-  alias ls='ls --color=auto'
+  alias ls='gls --color=auto'
 fi
 
 if [ `uname` = 'Darwin' ]; then
@@ -123,3 +132,4 @@ function today {
     fi
     cd ${INBOXDIR}/${today}
 }
+
