@@ -129,7 +129,7 @@ NeoBundle 'wkentaro/conque.vim'
 NeoBundle 'ompugao/ros.vim'
 NeoBundle 'toyamarinyon/vim-swift'
 NeoBundle 'tpope/vim-repeat'
-NeoBundle 'chreekat/vim-instant-markdown'
+" NeoBundle 'chreekat/vim-instant-markdown'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tomtom/tcomment_vim'
@@ -162,6 +162,8 @@ NeoBundle 'vim-scripts/L9'
 NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Rip-Rip/clang_complete'
+" NeoBundle 'Rykka/InstantRst'
+NeoBundle 'greyblake/vim-preview'
 
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
@@ -220,7 +222,7 @@ inoremap <expr><C-l>     neocomplete#complete_common_string()
 " <C-h>, <BS>: close popup and delete backword char.
 " inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
 " inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplete#close_popup()
+" noremap <expr><C-y>  neocomplete#close_popup()
 inoremap <expr><C-e>  neocomplete#cancel_popup()
 " Enable omni completion.
 autocmd FileType css setl omnifunc=csscomplete#CompleteCSS
@@ -522,12 +524,12 @@ noremap <silent> <Leader>l :TlistToggle<CR>
 
 " syntastic
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_quiet_messages = {"level": "warnings"}
 let g:syntastic_python_checkers = ['pyflakes']
@@ -558,3 +560,9 @@ let g:neocomplete#force_omni_input_patterns.objcpp =
 " don't auto complete with clang_complete
 let g:clang_complete_auto = 0
 let g:clang_auto_select = 0
+
+" for InstantRst
+let g:instant_rst_browser = 'chrome'
+let g:instant_rst_forever = 1
+
+
