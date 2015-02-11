@@ -92,7 +92,11 @@ fi
 # ls
 if which dircolors >/dev/null 2>&1; then
   eval `dircolors $HOME/.colorrc`
-  alias ls='gls --color=auto'
+  if [ `uname` = 'Darwin' ]; then
+    alias ls='gls --color=auto'
+  else;
+    alias ls='ls --color=auto'
+  fi
 fi
 
 if [ `uname` = 'Darwin' ]; then
