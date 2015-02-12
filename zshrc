@@ -6,6 +6,8 @@ autoload history-search-end
 export ZSH=$HOME/.oh-my-zsh
 export TERM=xterm-256color
 if [ `uname` = 'Darwin' ]; then
+  # zsh
+  source /usr/local/share/zsh/site-functions
   # path
   export PATH=$HOME/.bin:$PATH
   # grep
@@ -91,7 +93,9 @@ elif which open >/dev/null 2>&1; then
 fi
 # ls
 if which dircolors >/dev/null 2>&1; then
-  eval `dircolors $HOME/.colorrc`
+  if [ -f ~/.colorrc ]; then
+    eval `dircolors ~/.colorrc`
+  fi
   if [ `uname` = 'Darwin' ]; then
     alias ls='gls --color=auto'
   else;
@@ -99,13 +103,10 @@ if which dircolors >/dev/null 2>&1; then
   fi
 fi
 
-if [ `uname` = 'Darwin' ]; then
-  source /usr/local/share/zsh/site-functions
-else
-  if [ -f /opt/ros/hydro/setup.zsh ]; then
-    source ~/.zshrc.ros; #rossetip;
-    source /opt/ros/hydro/setup.zsh
-  fi
+if [ -f /opt/ros/hydro/setup.zsh ]; then
+  source ~/.zshrc.ros
+  rossetip
+  source /opt/ros/hydro/setup.zsh
 fi
 
 # bindkey
