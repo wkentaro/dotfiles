@@ -565,4 +565,3 @@ let g:clang_auto_select = 0
 let g:instant_rst_browser = 'chrome'
 let g:instant_rst_forever = 1
 
-
