@@ -103,10 +103,10 @@ if which dircolors >/dev/null 2>&1; then
   fi
 fi
 
-if [ -f /opt/ros/hydro/setup.zsh ]; then
+if [ -f /opt/ros/indigo/setup.zsh ]; then
   source ~/.zshrc.ros
-  rossetip
-  source /opt/ros/hydro/setup.zsh
+  # rossetip
+  source /opt/ros/indigo/setup.zsh
 fi
 
 # bindkey
