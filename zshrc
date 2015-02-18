@@ -138,3 +138,10 @@ function today {
     cd ${INBOXDIR}/${today}
 }
 
+function semi {
+  cd ~/catkin_ws/semi
+  source devel/setup.zsh
+}
+xmodmap ~/.Xmodmap
+synclient MaxTapTime=0
+
