@@ -14,7 +14,7 @@ PS1='${debian_chroot:+($debian_chroot)}\[\e[00;32m\]\u@\h:\[\e[01;34m\]\W\[\033[
 if [ `uname` = 'Darwin' ]; then
   alias octave='/usr/local/octave/3.8.0/bin/octave-3.8.0'
 else
-  if [ -f /opt/ros/hydro/setup.bash ]; then
+  if [ -f /opt/ros/indigo/setup.bash ]; then
     source ~/.bashrc.ros
     function enshu () {
         cd ~/catkin_ws/enshu
