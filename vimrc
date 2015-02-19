@@ -472,9 +472,9 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \: "\<TAB>"
 
 " For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
+" if has('conceal')
+"   set conceallevel=2 concealcursor=i
+" endif
 
 " Change Mode ---
 inoremap jj <ESC>
