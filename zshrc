@@ -5,11 +5,10 @@ autoload history-search-end
 #ct Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 export TERM=xterm-256color
+export PATH=$HOME/.bin:$PATH
 if [ `uname` = 'Darwin' ]; then
   # zsh
   source /usr/local/share/zsh/site-functions
-  # path
-  export PATH=$HOME/.bin:$PATH
   # grep
   export GREP_OPTIONS='--color=always'
   export GREP_COLOR='1;35;40'
