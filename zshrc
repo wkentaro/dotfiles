@@ -6,6 +6,7 @@ autoload history-search-end
 export ZSH=$HOME/.oh-my-zsh
 export TERM=xterm-256color
 export PATH=$HOME/.bin:$PATH
+export PYTHONSTARTUP="$HOME/.pythonstartup"
 if [ `uname` = 'Darwin' ]; then
   # zsh
   source /usr/local/share/zsh/site-functions
