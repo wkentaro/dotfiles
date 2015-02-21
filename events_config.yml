@@ -23,5 +23,6 @@ alias:
   mv: move
   dn: dinner
   wk: work
+  wrk: work
   mc: misc
   msc: misc
