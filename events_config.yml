@@ -1,0 +1,27 @@
+colors:
+  purple: 3
+  orange: 6
+  blue: 9
+  green: 10
+
+color_rules:
+  purple: [pastime]
+  blue: [study, work]
+  orange: [univ]
+  green: [run]
+
+alias:
+  pm: pastime
+  sd: study
+  std: study
+  uv: univ
+  unv: univ
+  sp: sleep
+  slp: sleep
+  bt: bath
+  bth: bath
+  mv: move
+  dn: dinner
+  wk: work
+  mc: misc
+  msc: misc
