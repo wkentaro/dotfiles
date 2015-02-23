@@ -14,7 +14,7 @@
   smudge = git-media-smudge %f
 [core]
   editor = vim
-  excludesfile = /Users/ken/.gitignore_global
+  excludesfile = ~/.gitignore_global
 [push]
   default = matching
 [branch "wkentaro"]
