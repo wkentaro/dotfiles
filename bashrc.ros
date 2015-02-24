@@ -4,7 +4,7 @@ function rossetrobot() { # 自分のよく使うロボットのhostnameを入れ
     if [ "${OLD_PS1}" = "" ]; then
         export OLD_PS1="${PS1}"
     fi
-    local hostname=${1-"pr1040"}
+    local hostname=${1-"baxter.jsk.imi.i.u-tokyo.ac.jp"}
     local ros_port=${2-"11311"}
     export ROS_MASTER_URI=http://$hostname:$ros_port
     if [[ "${PS1}" =~ \[http://.*:.*\]\ (.*)$ ]] ; then
