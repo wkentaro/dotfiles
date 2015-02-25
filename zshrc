@@ -19,11 +19,6 @@ if [ `uname` = 'Darwin' ]; then
   fi
 fi
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-ZSH_THEME="wkentaro"
-
 # Uncomment the following line to disable auto-setting terminal title.
 DISABLE_AUTO_TITLE="true"
 
@@ -32,6 +27,12 @@ DISABLE_AUTO_TITLE="true"
 plugins=(git hub gitignore gnu-utils z vi-mode brew python debian osx history)
 
 source $ZSH/oh-my-zsh.sh
+
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# ZSH_THEME="wkentaro"
+source ~/.dotfiles/wkentaro.zsh-theme
 
 # User configuration
 export MANPATH="/usr/local/man:$MANPATH"
