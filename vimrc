@@ -87,15 +87,15 @@ augroup MyAutoCmd
 augroup END
 
 " Specific settings according to filetype ------------------------------
-au BufNewFile,BufRead * set iminsert=0
-au BufNewFile,BufRead * set tabstop=2 shiftwidth=2
-au BufNewFile,BufRead *.l set wrap ft=lisp
-au BufNewFile,BufRead *.py set wrap tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.c set wrap tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.cpp set wrap tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.php set wrap tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.launch set wrap tabstop=4 shiftwidth=4 ft=xml
-au BufNewFile,BufRead *.md set wrap tabstop=4 shiftwidth=4 ft=markdown
+au BufNewFile,BufRead * set iminsert=0 tabstop=2 shiftwidth=2 wrap
+au BufNewFile,BufRead *.l set ft=lisp
+au BufNewFile,BufRead *.py set tabstop=4 shiftwidth=4
+au BufNewFile,BufRead *.c set tabstop=4 shiftwidth=4
+au BufNewFile,BufRead *.cpp set tabstop=4 shiftwidth=4
+au BufNewFile,BufRead *.php set tabstop=4 shiftwidth=4
+au BufNewFile,BufRead *.launch set tabstop=4 shiftwidth=4 ft=xml
+au BufNewFile,BufRead *.md set tabstop=4 shiftwidth=4 ft=markdown
+au BufNewFile,BufRead *.py set colorcolumn=80
 
 augroup cpp-path
   autocmd!
