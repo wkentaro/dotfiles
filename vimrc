@@ -543,6 +543,8 @@ let g:syntastic_cpp_remove_include_errors = 1
 " let g:clang_debug=1
 if has('mac')
   let g:clang_library_path = '/Library/Developer/CommandLineTools/usr/lib/'
+else
+  let g:clang_library_path = '/usr/lib/llvm-3.4/lib'
 endif
 let g:clang_user_options = '-std=c++11'
 " use with neocomplete.vim
