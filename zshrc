@@ -72,6 +72,7 @@ alias tn='tmux new'
 alias tns='tmux new -s'
 alias gpr='hub pull-request'
 alias gbw='git browse'
+alias gbd='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
 # copy
 if which pbcopy >/dev/null 2>&1 ; then 
   alias -g C='| pbcopy' # mac
@@ -138,10 +139,5 @@ function today {
         mkdir ${INBOXDIR}/${today}
     fi
     cd ${INBOXDIR}/${today}
-}
-
-function semi {
-  cd ~/catkin_ws/semi
-  source devel/setup.zsh
 }
 
