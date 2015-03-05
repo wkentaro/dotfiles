@@ -1,1 +1,3 @@
 keycode  97 = underscore
+keycode 130 = Hiragana
+keycode 131 = Zenkaku_Hankaku
