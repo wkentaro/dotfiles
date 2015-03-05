@@ -116,7 +116,9 @@ if [ -f /opt/ros/indigo/setup.zsh ]; then
 fi
 
 # bindkey
-bindkey '^R' history-incremental-search-backward
+source ~/.zaw/zaw.zsh
+bindkey '^R' zaw-history
+# bindkey '^R' history-incremental-search-backward
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
 zle -N history-beginning-search-backward-end history-search-end
