@@ -97,10 +97,7 @@ au BufNewFile,BufRead *.launch set tabstop=4 shiftwidth=4 ft=xml
 au BufNewFile,BufRead *.md set tabstop=4 shiftwidth=4 ft=markdown
 au BufNewFile,BufRead *.py set colorcolumn=80
 
-augroup cpp-path
-  autocmd!
-  autocmd FileType cpp setlocal path=.,/usr/include,/usr/local/include
-augroup END
+autocmd FileType cpp setlocal path=.,/usr/include,/usr/local/include,/usr/include/c++/4.8/,/opt/ros/indigo/include,/usr/include/pcl-1.7
 
 " lisp
 au BufNewFile,BufRead *.l set wrap tabstop=2 shiftwidth=2 ft=lisp
@@ -164,6 +161,8 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Rip-Rip/clang_complete'
 " NeoBundle 'Rykka/InstantRst'
 NeoBundle 'greyblake/vim-preview'
+NeoBundle 'derekwyatt/vim-fswitch'
+NeoBundle 'Shougo/vimshell.vim'
 
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
@@ -536,6 +535,7 @@ let g:syntastic_quiet_messages = {"level": "warnings"}
 let g:syntastic_python_checkers = ['pyflakes']
 let g:syntastic_c_remove_include_errors = 1
 let g:syntastic_cpp_remove_include_errors = 1
+let g:syntastic_cpp_config_file = '~/.clang_complete'
 
 " clang_complete
 " cmd option
