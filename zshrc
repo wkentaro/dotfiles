@@ -33,7 +33,7 @@ source $ZSH/oh-my-zsh.sh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # ZSH_THEME="wkentaro"
-source ~/.dotfiles/wkentaro.zsh-theme
+source ~/.wkentaro.zsh-theme
 
 # User configuration
 export MANPATH="/usr/local/man:$MANPATH"
