@@ -1,6 +1,6 @@
-# -*- mode: Shell-script; -*-
+# -*- mode: shell-script -*-
 
-function rossetrobot() { # 自分のよく使うロボットのhostnameを入れる
+function rossetmaster() { # 自分のよく使うロボットのhostnameを入れる
     if [ "${ZSH_REMATCH}" = "" ]; then
         export ZSH_REMATCH="${PS1}"
     fi
@@ -13,9 +13,13 @@ function rossetrobot() { # 自分のよく使うロボットのhostnameを入れ
     export PS1="%{$fg[yellow]%}[$ROS_MASTER_URI]%{$reset_color%} ${PS1}"
     echo -e "\e[1;31mset ROS_MASTER_URI to $ROS_MASTER_URI\e[m"
 }
+function rossetrobot() {
+    echo -e "\e[1;31m *** rossetrobot is obsoleted, use rossetmaster ***\e[m"
+    rossetmaster $@
+}
 
 function rossetlocal() {
-    rossetrobot localhost
+    rossetmaster localhost
     if [[ "${PS1}" =~ .{4}\[http://.*:.*\].*$ ]] ; then
         export PS1="${ZSH_REMATCH}"
     fi
@@ -58,6 +62,28 @@ function rossetip() {
       echo -e "\e[1;31mset ROS_IP and ROS_HOSTNAME to $ROS_IP\e[m";
   fi
 }
+
+function rosn() {
+    if [ "$1" = "" ]; then
+        topic=$(rosnode list | percol | xargs -n 1 rosnode info | percol | sed -e 's%.* \* \(/[/a-zA-Z0-9_]*\) .*%\1%')
+    else
+        topic=$(rosnode info $1 | percol | sed -e 's%.* \* \(/[/a-zA-Z0-9_]*\) .*%\1%')
+    fi
+    if [ "$topic" != "" ] ; then
+        rost $topic
+    fi
+}
+function rost() {
+    if [ "$1" = "" ]; then
+        node=$(rostopic list | percol | xargs -n 1 rostopic info | percol | sed -e 's%.* \* \(/[/a-zA-Z0-9_]*\) .*%\1%')
+    else
+        node=$(rostopic info $1 | percol | sed -e 's%.* \* \(/[/a-zA-Z0-9_]*\) .*%\1%')
+    fi
+    if [ "$node" != "" ] ; then
+        rosn $node
+    fi
+}
+
 
 export ANDROID_HOME=$HOME/android-sdk-linux
 export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
