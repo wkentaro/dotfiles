@@ -161,7 +161,6 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Rip-Rip/clang_complete'
 " NeoBundle 'Rykka/InstantRst'
 NeoBundle 'greyblake/vim-preview'
-NeoBundle 'derekwyatt/vim-fswitch'
 NeoBundle 'Shougo/vimshell.vim'
 
 let vimproc_updcmd = has('win64') ?
