@@ -9,13 +9,15 @@ home = os.path.expanduser('~')
 dotfiles_dir = os.path.join(home, '.dotfiles')
 files = os.listdir(dotfiles_dir)
 
-for file in files:
-    if file.startswith('.'):
+for f in files:
+    if f.startswith('.'):
         continue  # .git and .gitignore is passed
-    elif file.endswith('.txt'):
+    elif f.endswith('.txt'):
         continue
-    file1 = os.path.join(dotfiles_dir, file)
-    file2 = os.path.join(home, '.'+file)
+    elif f.endswith('.sh'):
+        continue
+    file1 = os.path.join(dotfiles_dir, f)
+    file2 = os.path.join(home, '.'+f)
     if os.access(file1, os.X_OK):
         continue  # executable script is passed
     print('ln -s {0} {1}'.format(file1, file2))
