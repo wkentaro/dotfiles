@@ -14,7 +14,6 @@ if [ `uname` = 'Darwin' ]; then
   # grep
   export GREP_OPTIONS='--color=always'
   export GREP_COLOR='1;35;40'
-  alias octave='/usr/local/octave/3.8.0/bin/octave-3.8.0'
   if [ -f ~/.bashrc.eus ]; then
     source ~/.bashrc.eus
   fi
