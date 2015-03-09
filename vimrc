@@ -71,6 +71,7 @@ set matchpairs& matchpairs+=<:>
 set backspace=indent,eol,start
 set nowritebackup
 set nobackup
+set undofile
 set noswapfile
 set nofoldenable
 set list
