@@ -22,7 +22,7 @@ DISABLE_AUTO_TITLE="true"
 
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git gitignore gnu-utils z vi-mode brew python debian osx history)
+plugins=(git hub gitignore gnu-utils z vi-mode brew python debian osx history)
 
 source $ZSH/oh-my-zsh.sh
 
