@@ -9,8 +9,6 @@ export PATH=$HOME/.bin:$PATH
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export PYTHONSTARTUP="$HOME/.pythonstartup"
 if [ `uname` = 'Darwin' ]; then
-  # zsh
-  source /usr/local/share/zsh/site-functions
   # grep
   export GREP_OPTIONS='--color=always'
   export GREP_COLOR='1;35;40'
@@ -24,7 +22,7 @@ DISABLE_AUTO_TITLE="true"
 
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git hub gitignore gnu-utils z vi-mode brew python debian osx history)
+plugins=(git gitignore gnu-utils z vi-mode brew python debian osx history)
 
 source $ZSH/oh-my-zsh.sh
 
