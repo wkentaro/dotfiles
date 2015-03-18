@@ -1,8 +1,16 @@
 colors:
+  default: 0
+  light_blue: 1
+  blue_green: 2
   purple: 3
+  vermilion: 4
+  khaki: 5
   orange: 6
-  blue: 9
+  green_blue: 7
+  blue: 8
+  gray: 9
   green: 10
+  red: 11
 
 color_rules:
   purple: [pastime]
