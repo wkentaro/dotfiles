@@ -1,54 +1,63 @@
-# autoload first
+######################################
+# zsh initialization
+######################################
 autoload -Uz compinit && compinit
 autoload history-search-end
 
-#ct Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
+######################################
+# env
+######################################
+export PATH=/usr/local/bin:~/.bin:$PATH
 export TERM=xterm-256color
-export PATH=$HOME/.bin:$PATH
-export PATH=$PATH:/usr/local/opt/go/libexec/bin
-export PYTHONSTARTUP="$HOME/.pythonstartup"
+export PYTHONSTARTUP="~/.pythonstartup"
 if [ `uname` = 'Darwin' ]; then
-  # grep
   export GREP_OPTIONS='--color=always'
   export GREP_COLOR='1;35;40'
-  if [ -f ~/.bashrc.eus ]; then
-    source ~/.bashrc.eus
-  fi
 fi
 
-# Uncomment the following line to disable auto-setting terminal title.
-DISABLE_AUTO_TITLE="true"
-
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Add wisely, as too many plugins slow down shell startup.
+export ZSH=~/.oh-my-zsh
+DISABLE_AUTO_TITLE='true'
 plugins=(git gitignore gnu-utils z vi-mode brew python debian osx history)
-
 source $ZSH/oh-my-zsh.sh
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# ZSH_THEME="wkentaro"
+# ZSH_THEME="robbyrussell"
 source ~/.wkentaro.zsh-theme
 
-# User configuration
 export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
 export LANG=en_US.UTF-8
 export LC_CTYPE='en_US.UTF-8'
-
-# editor
 export EDITOR=vim
-
-# Compilation flags
 export ARCHFLAGS="-arch x86_64"
-
-# ssh
 export SSH_KEY_PATH="~/.ssh/id_rsa"
 
+##################################
+# bindkey
+##################################
+source ~/.zaw/zaw.zsh
+bindkey '^R' zaw-history
+# bindkey '^R' history-incremental-search-backward
+bindkey '^A' beginning-of-line
+bindkey '^E' end-of-line
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^P" history-beginning-search-backward-end
+bindkey "^N" history-beginning-search-forward-end
+bindkey "^F" forward-char
+bindkey "^B" backward-char
+bindkey "^D" delete-char
+bindkey "^K" kill-line
+bindkey "^Y" yank
+
+##################################
+# zsh options
+##################################
+setopt list_packed
+setopt nolistbeep
+setopt share_history
+
+##################################
 # alias
+##################################
 alias v='vim'
 alias vi='vim'
 alias c='clear'
@@ -106,28 +115,9 @@ if which dircolors >/dev/null 2>&1; then
   fi
 fi
 
-# bindkey
-source ~/.zaw/zaw.zsh
-bindkey '^R' zaw-history
-# bindkey '^R' history-incremental-search-backward
-bindkey '^A' beginning-of-line
-bindkey '^E' end-of-line
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-bindkey "^P" history-beginning-search-backward-end
-bindkey "^N" history-beginning-search-forward-end
-bindkey "^F" forward-char
-bindkey "^B" backward-char
-bindkey "^D" delete-char
-bindkey "^K" kill-line
-bindkey "^Y" yank
-
-# zsh options
-setopt list_packed
-setopt nolistbeep
-setopt share_history
-
-# functions
+##################################
+# function
+##################################
 function today {
     INBOXDIR=$HOME/Inbox
     today=`date +"%Y%m%d"`
