@@ -2,7 +2,19 @@
 # zsh initialization
 ######################################
 autoload -Uz compinit && compinit
+setopt histignorealldups sharehistory
 autoload history-search-end
+setopt list_packed
+setopt nolistbeep
+setopt share_history
+setopt auto_cd
+setopt pushd_ignore_dups
+setopt hist_ignore_space
+setopt nobeep
+setopt hist_ignore_dups
+setopt share_history
+zstyle ':completion:*:default' menu select=1
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 ######################################
 # env
@@ -34,6 +46,7 @@ export SSH_KEY_PATH="~/.ssh/id_rsa"
 ##################################
 source ~/.zaw/zaw.zsh
 bindkey '^R' zaw-history
+bindkey '^X^P' zaw-process
 # bindkey '^R' history-incremental-search-backward
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
@@ -46,13 +59,6 @@ bindkey "^B" backward-char
 bindkey "^D" delete-char
 bindkey "^K" kill-line
 bindkey "^Y" yank
-
-##################################
-# zsh options
-##################################
-setopt list_packed
-setopt nolistbeep
-setopt share_history
 
 ##################################
 # alias
