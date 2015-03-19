@@ -27,7 +27,8 @@ if [ `uname` = 'Darwin' ]; then
   export GREP_COLOR='1;35;40'
 fi
 
-export ZSH=~/.oh-my-zsh
+export ZSHDOT=~/.zsh
+export ZSH=$ZSHDOT/oh-my-zsh
 DISABLE_AUTO_TITLE='true'
 plugins=(git gitignore gnu-utils z vi-mode brew python debian osx history)
 source $ZSH/oh-my-zsh.sh
@@ -44,7 +45,7 @@ export SSH_KEY_PATH="~/.ssh/id_rsa"
 ##################################
 # bindkey
 ##################################
-source ~/.zaw/zaw.zsh
+source $ZSHDOT/zaw/zaw.zsh
 bindkey '^R' zaw-history
 bindkey '^X^P' zaw-process
 # bindkey '^R' history-incremental-search-backward
