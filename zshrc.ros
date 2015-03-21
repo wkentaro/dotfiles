@@ -53,14 +53,11 @@ function rossetip() {
       if [ "${ROS_IP}" = "" ]; then rossetip_dev ${device}; fi
   fi
   export ROS_HOSTNAME=$ROS_IP
-  if [ "${ROS_IP}" = "" ];
-  then
-      export ROS_IP
-      export ROS_HOSTNAME
-      echo -e "\e[1;31munable to set ROS_IP and ROS_HOSTNAME\e[m"
-  else
-      echo -e "\e[1;31mset ROS_IP and ROS_HOSTNAME to $ROS_IP\e[m";
+  if [ "${ROS_IP}" = "" ]; then
+      export ROS_IP="127.0.0.1"
+      export ROS_HOSTNAME=$ROS_IP
   fi
+  echo -e "\e[1;31mset ROS_IP and ROS_HOSTNAME to $ROS_IP\e[m";
 }
 
 function rosn() {
