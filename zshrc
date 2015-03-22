@@ -34,7 +34,7 @@ plugins=(git hub gitignore gnu-utils z vi-mode brew python debian osx history)
 source $ZSH/oh-my-zsh.sh
 
 # ZSH_THEME="robbyrussell"
-source ~/.wkentaro.zsh-theme
+source $ZSHDOT/wkentaro.zsh-theme/wkentaro.zsh-theme
 
 export MANPATH="/usr/local/man:$MANPATH"
 export LANG=en_US.UTF-8
