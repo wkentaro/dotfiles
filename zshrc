@@ -21,7 +21,8 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 ######################################
 export PATH=/usr/local/bin:~/.bin:$PATH
 export TERM=xterm-256color
-export PYTHONSTARTUP="~/.pythonstartup"
+export PYTHONSTARTUP=~/.pythonstartup
+export VIRTUALENV_USE_DISTRIBUTE=1
 if [ `uname` = 'Darwin' ]; then
   export GREP_OPTIONS='--color=always'
   export GREP_COLOR='1;35;40'
@@ -71,6 +72,7 @@ alias py='python'
 alias ipy='ipython'
 alias sl='ls'
 alias emacs='emacs -nw'
+alias ga.='git add .'
 alias gcln='git clone'
 alias grm='git rm'
 alias gmv='git mv'
