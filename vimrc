@@ -96,7 +96,7 @@ au BufNewFile,BufRead *.cfg set ft=python tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.c set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.cpp set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.php set tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.launch set tabstop=4 shiftwidth=4 ft=xml
+au BufNewFile,BufRead *.launch set tabstop=2 shiftwidth=2 ft=xml
 au BufNewFile,BufRead *.md set tabstop=4 shiftwidth=4 ft=markdown
 au BufNewFile,BufRead *.py set colorcolumn=80
 
