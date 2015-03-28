@@ -23,4 +23,4 @@
   remote = wkentaro
   merge = wkentaro
 [http]
-	sslVerify = false
+  sslVerify = false
