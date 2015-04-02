@@ -39,7 +39,7 @@ DISABLE_AUTO_TITLE='true'
 plugins=(git hub gitignore gnu-utils z vi-mode brew python debian osx history)
 source $ZSH/oh-my-zsh.sh
 # ZSH_THEME="robbyrussell"
-source $ZSHDOT/wkentaro.zsh-theme/wkentaro.zsh-theme
+source $ZSHDOT/zsh-theme/theme.zsh
 # other options
 export MANPATH="/usr/local/man:$MANPATH"
 export LANG=en_US.UTF-8
