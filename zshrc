@@ -19,24 +19,28 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 ######################################
 # env
 ######################################
+# for homebrew
 export PATH=/usr/local/bin:~/.bin:$PATH
-export TERM=xterm-256color
+# for python
 export PYTHONSTARTUP=~/.pythonstartup
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 export VIRTUALENV_USE_DISTRIBUTE=1
+# for terminal color
+export TERM=xterm-256color
+# for grep
 if [ `uname` = 'Darwin' ]; then
   export GREP_OPTIONS='--color=always'
   export GREP_COLOR='1;35;40'
 fi
-
+# for zsh
 export ZSHDOT=~/.zsh
 export ZSH=$ZSHDOT/oh-my-zsh
 DISABLE_AUTO_TITLE='true'
 plugins=(git hub gitignore gnu-utils z vi-mode brew python debian osx history)
 source $ZSH/oh-my-zsh.sh
-
 # ZSH_THEME="robbyrussell"
 source $ZSHDOT/wkentaro.zsh-theme/wkentaro.zsh-theme
-
+# other options
 export MANPATH="/usr/local/man:$MANPATH"
 export LANG=en_US.UTF-8
 export LC_CTYPE='en_US.UTF-8'
