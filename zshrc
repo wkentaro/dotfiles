@@ -46,6 +46,7 @@ export LANG=en_US.UTF-8
 export LC_CTYPE='en_US.UTF-8'
 export EDITOR=vim
 export SSH_KEY_PATH="~/.ssh/id_rsa"
+export HOMEBREW_GITHUB_API_TOKEN="e9c5280c042190ed8093c9311f9981128deba7d4"
 
 ##################################
 # bindkey
