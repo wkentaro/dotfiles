@@ -7,6 +7,6 @@
 [submodule "vim/bundle/neobundle.vim"]
 	path = vim/bundle/neobundle.vim
 	url = https://github.com/Shougo/neobundle.vim
-[submodule "zsh/wkentaro.zsh-theme"]
-	path = zsh/wkentaro.zsh-theme
-	url = https://github.com/wkentaro/wkentaro.zsh-theme.git
+[submodule "zsh/zsh-theme"]
+	path = zsh/zsh-theme
+	url = https://github.com/wkentaro/zsh-theme.git
