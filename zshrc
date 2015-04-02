@@ -71,6 +71,7 @@ bindkey "^Y" yank
 ##################################
 alias v='vim'
 alias vi='vim'
+alias vimclean='find . -name "*.un~" -delete'
 alias c='clear'
 alias py='python'
 alias ipy='ipython'
@@ -128,10 +129,14 @@ if which dircolors >/dev/null 2>&1; then
     alias ls='ls --color=auto'
   fi
 fi
-
-##################################
-# function
-##################################
+# ros
+function my_rossetmaster() {
+  local hostname=${1-"baxter"}
+  local ros_port=${2-"11311"}
+  rossetmaster $hostname $ros_port
+}
+alias rossetmaster='my_rossetmaster'
+# other
 function today {
     INBOXDIR=$HOME/Inbox
     today=`date +"%Y%m%d"`
