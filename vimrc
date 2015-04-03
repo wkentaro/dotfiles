@@ -522,7 +522,7 @@ augroup EmmitVim
 augroup END
 
 " taglist.vim
-noremap <silent> <Leader>l :TlistToggle<CR>
+noremap <silent> <Leader>t :TlistToggle<CR>
 
 " syntastic
 set statusline+=%#warningmsg#
