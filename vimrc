@@ -118,18 +118,19 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-" Required:
+" required
 call neobundle#begin(expand('~/.vim/bundle/'))
 
 " Let NeoBundle manage NeoBundle
-" Required:
+" required
 NeoBundleFetch 'Shougo/neobundle.vim'
-
+if has('lua')
+  NeoBundle 'Shougo/neocomplete.vim'
+endif
 NeoBundle 'wkentaro/conque.vim'
 NeoBundle 'ompugao/ros.vim'
 NeoBundle 'toyamarinyon/vim-swift'
 NeoBundle 'tpope/vim-repeat'
-" NeoBundle 'chreekat/vim-instant-markdown'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tomtom/tcomment_vim'
@@ -137,9 +138,6 @@ NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv'
 NeoBundle 'tyru/open-browser.vim'
-if has('lua')
-  NeoBundle 'Shougo/neocomplete.vim'
-endif
 NeoBundle 'Shougo/vimfiler.vim'
 NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/unite.vim'
@@ -161,9 +159,8 @@ NeoBundle 'vim-scripts/L9'
 NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Rip-Rip/clang_complete'
-" NeoBundle 'Rykka/InstantRst'
 NeoBundle 'greyblake/vim-preview'
-NeoBundle 'wkentaro/vim-latex'
+NeoBundle 'gerw/vim-latex-suite'
 
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
