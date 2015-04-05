@@ -46,6 +46,8 @@ export LANG=en_US.UTF-8
 export LC_CTYPE='en_US.UTF-8'
 export EDITOR=vim
 export SSH_KEY_PATH="~/.ssh/id_rsa"
+# travis
+[ -f /Users/ken/.travis/travis.sh ] && source /Users/ken/.travis/travis.sh
 
 ##################################
 # bindkey
@@ -144,5 +146,19 @@ function today {
         mkdir ${INBOXDIR}/${today}
     fi
     cd ${INBOXDIR}/${today}
+}
+function countdown(){
+   date1=$((`date +%s` + $1));
+   while [ "$date1" -ne `date +%s` ]; do
+     echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
+     sleep 0.1
+   done
+}
+function stopwatch(){
+  date1=`date +%s`;
+   while true; do
+    echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r";
+    sleep 0.1
+   done
 }
 
