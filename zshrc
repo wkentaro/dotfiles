@@ -132,6 +132,20 @@ if which dircolors >/dev/null 2>&1; then
   fi
 fi
 # ros
+function rossetdefault() {
+  ROS_MASTER_DEFAULT=${1-"local"}
+  echo $ROS_MASTER_DEFAULT > ~/.rosdefault
+  rosdefault
+}
+function rosdefault()
+{
+  ROS_MASTER_DEFAULT=`cat ~/.rosdefault`
+  if [ "$ROS_MASTER_DEFAULT" = "local" ]; then
+    rossetlocal
+  elif [ "$ROS_MASTER_DEFAULT" = "baxter" ]; then
+    rossetmaster baxter
+  fi
+}
 function my_rossetmaster() {
   local hostname=${1-"baxter"}
   local ros_port=${2-"11311"}
