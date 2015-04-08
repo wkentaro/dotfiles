@@ -36,7 +36,7 @@ fi
 export ZSHDOT=~/.zsh
 export ZSH=$ZSHDOT/oh-my-zsh
 DISABLE_AUTO_TITLE='true'
-plugins=(git hub gitignore gnu-utils z vi-mode brew python debian osx history)
+plugins=(git gitignore gnu-utils z vi-mode brew python debian osx history)
 source $ZSH/oh-my-zsh.sh
 # ZSH_THEME="robbyrussell"
 source $ZSHDOT/zsh-theme/theme.zsh
