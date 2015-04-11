@@ -5,7 +5,14 @@ colorscheme default
 set nocompatible
 " Use the OS clipboard by default
 " (on versions compiled with `+clipboard`)
-set clipboard=unnamedplus
+if has("unix")
+  let s:uname = system("uname")
+  if s:uname == "Darwin\n"
+    set clipboard=unnamed
+  else
+    set clipboard=unnamedplus
+  endif
+endif
 " Enhance command-line completion
 set wildmenu
 " Allow cursor keys in insert mode
