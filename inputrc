@@ -16,3 +16,5 @@ set keymap vi-insert
 "\C-a": beginning-of-line
 "\C-e": end-of-line
 "\C-y": yank
+set keymap vi
+set convert-meta on
