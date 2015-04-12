@@ -36,7 +36,7 @@ fi
 export ZSHDOT=~/.zsh
 export ZSH=$ZSHDOT/oh-my-zsh
 DISABLE_AUTO_TITLE='true'
-plugins=(git gnu-utils z vi-mode brew python history websearch web-search)
+plugins=(git git-flow gnu-utils z vi-mode brew python history websearch web-search)
 source $ZSH/oh-my-zsh.sh
 # ZSH_THEME="robbyrussell"
 source $ZSHDOT/zsh-theme/theme.zsh
@@ -97,7 +97,6 @@ alias tns='tmux new -s'
 alias gpr='hub pull-request'
 alias gbw='git browse'
 alias gbd='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
-alias gf='git fetch'
 alias gfa='git fetch --all'
 # copy
 if which pbcopy >/dev/null 2>&1 ; then 
