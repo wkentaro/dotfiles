@@ -1,27 +1,27 @@
 [user]
-  name = Kentaro Wada
-  email = www.kentaro.wada@gmail.com
+	name = Kentaro Wada
+	email = www.kentaro.wada@gmail.com
 [color]
-  ui = auto
+	ui = auto
 [alias]
-  co = checkout
-  ci = commit
-  st = status
-  br = branch
-  bw = browse
-  pr = pull-request
-  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-  flow = !hub flow  # need for completion with hub aliased git
+	co = checkout
+	ci = commit
+	st = status
+	br = branch
+	bw = browse
+	pr = pull-request
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	flow = !hub flow  # need for completion with hub aliased git
 [filter "media"]
-  clean = git-media-clean %f
-  smudge = git-media-smudge %f
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
 [core]
-  editor = vim
-  excludesfile = ~/.gitignore_global
+	editor = vim
+	excludesfile = ~/.gitignore_global
 [push]
-  default = matching
+	default = matching
 [branch "wkentaro"]
-  remote = wkentaro
-  merge = wkentaro
+	remote = wkentaro
+	merge = wkentaro
 [http]
-  sslVerify = false
+	sslVerify = false
