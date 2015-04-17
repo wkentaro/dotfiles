@@ -26,9 +26,10 @@ def link_dotfiles(dry_run=False):
     for f in drop_ignore_files(filenames=files):
         file1 = os.path.join(this_dir, f)
         file2 = os.path.join(home_dir, '.{}'.format(f))
-        print('ln -s {} {}'.format(file1, file2))
-        # if not os.path.exists(file2):
-        #     os.system('ln -s {0} {1}'.format(file1, file2))
+        if dry_run:
+            print('ln -s {} {}'.format(file1, file2))
+        else:
+            os.system('ln -s {0} {1}'.format(file1, file2))
 
 
 def main():
