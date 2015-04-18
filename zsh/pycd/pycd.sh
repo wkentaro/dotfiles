@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/sh
 #
 
 function _get_dist_path()
@@ -38,5 +38,6 @@ main()
 function pycd ()
 {
   DIST_PATH=`_get_dist_path $1`
-  cd ${DIST_PATH}
+  # change dir or print warning or usage
+  cd $DIST_PATH &>/dev/null || echo $DIST_PATH
 }
