@@ -11,40 +11,20 @@ parse_branch() {
 }
 PS1='${debian_chroot:+($debian_chroot)}\[\e[00;32m\]\u@\h:\[\e[01;34m\]\W\[\033[01;35m\]$(parse_branch)\[\e[01;35m\]\[\e[0m\] $ '
 
-if [ `uname` = 'Darwin' ]; then
-  alias octave='/usr/local/octave/3.8.0/bin/octave-3.8.0'
-else
-  if [ -f /opt/ros/indigo/setup.bash ]; then
-    source ~/.bashrc.ros
-    function enshu () {
-        cd ~/catkin_ws/enshu
-        source ./devel/setup.bash
-    }
-    function soft () {
-        cd ~/catkin_ws/soft3
-        source ./devel/setup.bash
-    }
-    function semi () {
-        cd ~/catkin_ws/semi
-        source ./devel/setup.bash
-    }
-  fi
-fi
-
-function google () {
-    search=""
-    echo "Googling: $@"
-    for term in $@; do
-        search="$search%20$term"
-    done
-    xdg-open "http://www.google.com/search?q=$search"
+google () {
+  search=""
+  echo "Googling: $@"
+  for term in $@; do
+      search="$search%20$term"
+  done
+  xdg-open "http://www.google.com/search?q=$search"
 }
 
 # alias
 alias emacs='emacs -nw'
 alias eshell='emacs --execute "(term \"`which zsh`\")"'
-function - () {
-    cd -
+ - () {
+  cd -
 }
 alias ..='cd ..'
 alias ...='cd ../..'
