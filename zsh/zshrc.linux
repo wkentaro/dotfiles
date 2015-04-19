@@ -1,0 +1,62 @@
+# ros
+function rossetdefault() {
+  ROS_MASTER_DEFAULT=${1-"local"}
+  echo $ROS_MASTER_DEFAULT > ~/.rosdefault
+  rosdefault
+}
+function rosdefault()
+{
+  ROS_MASTER_DEFAULT=`cat ~/.rosdefault`
+  if [ "$ROS_MASTER_DEFAULT" = "local" ]; then
+    rossetlocal
+  else
+    rossetmaster $ROS_MASTER_DEFAULT
+  fi
+}
+function _rossetmaster() {
+  local hostname=${1-"baxter"}
+  local ros_port=${2-"11311"}
+  rossetmaster $hostname $ros_port
+}
+alias rossetmaster='_rossetmaster'
+function rosn() {
+  if [ "$1" = "" ]; then
+    topic=$(rosnode list | percol | xargs -n 1 rosnode info | percol | sed -e 's%.* \* \(/[/a-zA-Z0-9_]*\) .*%\1%')
+  else
+    topic=$(rosnode info $1 | percol | sed -e 's%.* \* \(/[/a-zA-Z0-9_]*\) .*%\1%')
+  fi
+  if [ "$topic" != "" ] ; then
+    rost $topic
+  fi
+}
+function rost() {
+  if [ "$1" = "" ]; then
+    node=$(rostopic list | percol | xargs -n 1 rostopic info | percol | sed -e 's%.* \* \(/[/a-zA-Z0-9_]*\) .*%\1%')
+  else
+    node=$(rostopic info $1 | percol | sed -e 's%.* \* \(/[/a-zA-Z0-9_]*\) .*%\1%')
+  fi
+  if [ "$node" != "" ] ; then
+    rosn $node
+  fi
+}
+function rospkg()
+{
+  python -c "import rospkg; rp=rospkg.RosPack(); print rp.list()" | sed "s/'//g" | sed "s/\[//g" | sed "s/\]//g" | sed "s/,//g" | xargs -n 1 echo
+}
+function _roscd() {
+  if [ "$1" = "" ]; then
+    pkg=$(rospkg | percol)
+  else
+    pkg=$1
+  fi
+  if [ "$pkg" != "" ]; then
+    roscd $pkg
+  fi
+}
+alias roscd="_roscd"
+function search-rostopic-by-percol(){
+  LBUFFER=$LBUFFER$(rostopic list | percol)
+  zle -R -c
+}
+zle -N search-rostopic-by-percol
+bindkey '^[r' search-rostopic-by-percol
