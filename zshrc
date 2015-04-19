@@ -40,6 +40,7 @@ plugins=(git gnu-utils z vi-mode brew python history websearch web-search)
 source $ZSH/oh-my-zsh.sh
 # ZSH_THEME="robbyrussell"
 source $ZSHDOT/zsh-theme/theme.zsh
+source $ZSHDOT/pycd/pycd.sh
 # other options
 export MANPATH="/usr/local/man:$MANPATH"
 export LANG=en_US.UTF-8
