@@ -43,7 +43,7 @@ function rospkg()
 {
   python -c "import rospkg; rp=rospkg.RosPack(); print rp.list()" | sed "s/'//g" | sed "s/\[//g" | sed "s/\]//g" | sed "s/,//g" | xargs -n 1 echo
 }
-function _roscd() {
+function rcd() {
   if [ "$1" = "" ]; then
     pkg=$(rospkg | percol)
   else
@@ -53,7 +53,6 @@ function _roscd() {
     roscd $pkg
   fi
 }
-alias roscd="_roscd"
 function search-rostopic-by-percol(){
   LBUFFER=$LBUFFER$(rostopic list | percol)
   zle -R -c
