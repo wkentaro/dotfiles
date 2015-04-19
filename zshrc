@@ -48,7 +48,7 @@ export LC_CTYPE='en_US.UTF-8'
 export EDITOR=vim
 export SSH_KEY_PATH="~/.ssh/id_rsa"
 # travis
-[ -f /Users/ken/.travis/travis.sh ] && source /Users/ken/.travis/travis.sh
+[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 
 ##################################
 # bindkey
@@ -132,48 +132,19 @@ if which dircolors >/dev/null 2>&1; then
     alias ls='ls --color=auto'
   fi
 fi
-# ros
-function rossetdefault() {
-  ROS_MASTER_DEFAULT=${1-"local"}
-  echo $ROS_MASTER_DEFAULT > ~/.rosdefault
-  rosdefault
-}
-function rosdefault()
+function _zcd ()
 {
-  ROS_MASTER_DEFAULT=`cat ~/.rosdefault`
-  if [ "$ROS_MASTER_DEFAULT" = "local" ]; then
-    rossetlocal
-  elif [ "$ROS_MASTER_DEFAULT" = "baxter" ]; then
-    rossetmaster baxter
+  if [ "$1" = "" ]; then
+    dir=$(_z 2>&1 | sed "s/^[0-9]*\.[0-9]* *//g" | percol)
+  else
+    dir=$1
+  fi
+  if [ "$dir" != "" ]; then
+    _z $dir
   fi
 }
-function my_rossetmaster() {
-  local hostname=${1-"baxter"}
-  local ros_port=${2-"11311"}
-  rossetmaster $hostname $ros_port
-}
-alias rossetmaster='my_rossetmaster'
-# other
-function today {
-    INBOXDIR=$HOME/Inbox
-    today=`date +"%Y%m%d"`
-    if [ ! -d ${INBOXDIR}/${today} ]; then
-        mkdir ${INBOXDIR}/${today}
-    fi
-    cd ${INBOXDIR}/${today}
-}
-function countdown(){
-   date1=$((`date +%s` + $1));
-   while [ "$date1" -ne `date +%s` ]; do
-     echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
-     sleep 0.1
-   done
-}
-function stopwatch(){
-  date1=`date +%s`;
-   while true; do
-    echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r";
-    sleep 0.1
-   done
-}
-
+alias z='_zcd'
+if [ `uname` = 'Linux' ]; then
+  source $ZSHDOT/zshrc.linux
+fi
+source $ZSHDOT/utils.zsh
