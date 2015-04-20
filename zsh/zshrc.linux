@@ -1,18 +1,4 @@
 # ros
-function rossetdefault() {
-  ROS_MASTER_DEFAULT=${1-"local"}
-  echo $ROS_MASTER_DEFAULT > ~/.rosdefault
-  rosdefault
-}
-function rosdefault()
-{
-  ROS_MASTER_DEFAULT=`cat ~/.rosdefault`
-  if [ "$ROS_MASTER_DEFAULT" = "local" ]; then
-    rossetlocal
-  else
-    rossetmaster $ROS_MASTER_DEFAULT
-  fi
-}
 function _rossetmaster() {
   local hostname=${1-"baxter"}
   local ros_port=${2-"11311"}
