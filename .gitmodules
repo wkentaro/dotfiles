@@ -10,6 +10,3 @@
 [submodule "zsh/zsh-theme"]
 	path = zsh/zsh-theme
 	url = https://github.com/wkentaro/zsh-theme.git
-[submodule "zsh/pycd"]
-	path = zsh/pycd
-	url = https://github.com/wkentaro/pycd.git
