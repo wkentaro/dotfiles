@@ -1,10 +1,6 @@
 # ros
-function _rossetmaster() {
-  local hostname=${1-"baxter"}
-  local ros_port=${2-"11311"}
-  rossetmaster $hostname $ros_port
-}
-alias rossetmaster='_rossetmaster'
+alias rossetbaxter='rossetmaster baxter'
+alias rossetpr2='rossetmaster pr1040'
 function rosn() {
   if [ "$1" = "" ]; then
     topic=$(rosnode list | percol | xargs -n 1 rosnode info | percol | sed -e 's%.* \* \(/[/a-zA-Z0-9_]*\) .*%\1%')
