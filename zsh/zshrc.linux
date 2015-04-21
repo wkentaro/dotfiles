@@ -21,3 +21,4 @@ function search-rostopic-by-percol(){
 }
 zle -N search-rostopic-by-percol
 bindkey '^[r' search-rostopic-by-percol
+alias roseus='rlwrap roseus'
