@@ -33,8 +33,8 @@ if [ `uname` = 'Darwin' ]; then
   export GREP_COLOR='1;35;40'
 fi
 # for vim
-source ~/.vim/check_for_upgrade.sh
-export UPDATE_VIM_DAYS=13
+export UPDATE_DOTFILES_DAYS=13
+source ~/.dotfiles/check_for_upgrade.sh
 # for zsh
 export UPDATE_ZSH_DAYS=13
 export ZSHDOT=~/.zsh
