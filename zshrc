@@ -32,7 +32,11 @@ if [ `uname` = 'Darwin' ]; then
   export GREP_OPTIONS='--color=always'
   export GREP_COLOR='1;35;40'
 fi
+# for vim
+source ~/.vim/check_for_upgrade.sh
+export UPDATE_VIM_DAYS=13
 # for zsh
+export UPDATE_ZSH_DAYS=13
 export ZSHDOT=~/.zsh
 export ZSH=$ZSHDOT/oh-my-zsh
 DISABLE_AUTO_TITLE='true'
