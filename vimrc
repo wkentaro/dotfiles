@@ -552,7 +552,8 @@ let g:syntastic_cpp_config_file = '~/.clang_complete'
 if has('mac')
   let g:clang_library_path = '/Library/Developer/CommandLineTools/usr/lib/'
 else
-  let g:clang_library_path = '/usr/lib/llvm-3.4/lib'
+  let g:clang_library_path = '/usr/lib'
+  " let g:clang_library_path = '/usr/lib/llvm-3.4/lib'
 endif
 let g:clang_user_options = '-std=c++11'
 " use with neocomplete.vim
