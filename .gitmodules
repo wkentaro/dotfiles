@@ -10,3 +10,6 @@
 [submodule "zsh/zsh-theme"]
 	path = zsh/zsh-theme
 	url = https://github.com/wkentaro/zsh-theme.git
+[submodule "zsh/zsh-syntax-highlighting"]
+	path = zsh/zsh-syntax-highlighting
+	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
