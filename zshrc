@@ -50,16 +50,19 @@ export LANG=en_US.UTF-8
 export LC_CTYPE='en_US.UTF-8'
 export EDITOR=vim
 export SSH_KEY_PATH="~/.ssh/id_rsa"
+source $ZSHDOT/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # travis
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 
 ##################################
 # bindkey
 ##################################
-source $ZSHDOT/zaw/zaw.zsh
-bindkey '^R' zaw-history
-bindkey '^X^P' zaw-process
-# bindkey '^R' history-incremental-search-backward
+function percol-history() {
+  LBUFFER=$LBUFFER$(fc -l 1 | percol | sed -e "s/^ *[0-9]* *//g")
+  zle -R -c
+}
+zle -N percol-history
+bindkey '^R' percol-history
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
 zle -N history-beginning-search-backward-end history-search-end
