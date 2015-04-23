@@ -9,7 +9,7 @@ if has("unix")
   let s:uname = system("uname")
   if s:uname == "Darwin\n"
     set clipboard=unnamed
-  else
+  elseif s:uname == "Linux\n"
     set clipboard=unnamedplus
   endif
 endif
