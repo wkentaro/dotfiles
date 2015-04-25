@@ -3,8 +3,17 @@ abbr    <launch></launch>
 	<launch>
 	  ${1}
 	</launch>
-
 snippet node
-abbr    <node pkg=" " name=" " output=" "></node>
-	<node pkg="${1}" name="${2}" output="${3}"></node>
-
+abbr    <node pkg=" " type=" " name=" " />
+	<node pkg="${1}" type="${2}" name="${3}" output="${4}"></node>
+snippet arg
+abbr    <arg name=" " default=" " />
+	<arg name="${1}" default="${2}" />
+snippet param
+abbr    <param name=" " type=" " value=" " />
+	<param name="${1}" type="${2}" value="${3}" />
+snippet include
+abbr    <include file=" " />
+	<include file="${1}">
+		${2}
+	</include>
