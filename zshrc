@@ -104,8 +104,10 @@ alias tns='tmux new -s'
 alias gpr='hub pull-request'
 alias gbw='git browse'
 alias gbd='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
+alias gbD='git branch -D'
 alias gf='git fetch'
 alias gfa='git fetch --all'
+alias gfap='git fetch --all --prune'
 # copy
 if which pbcopy >/dev/null 2>&1 ; then 
   alias -g C='| pbcopy' # mac
