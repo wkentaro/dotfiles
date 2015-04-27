@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
+import sys
+
 c = get_config()
 
 c.TerminalIPythonApp.display_banner = True
@@ -22,9 +24,17 @@ c.PromptManager.justify = True
 
 c.PrefilterManager.multi_line_specials = True
 
-c.AliasManager.user_aliases = [
- ('ls', 'ls --color=auto'),
- ('la', 'ls --color=auto -al'),
- ('lsa', 'ls --color=auto -lah'),
- ('..', 'cd ..'),
-]
+if sys.platform == 'linux2':
+    c.AliasManager.user_aliases = [
+            ('ls', 'ls --color=auto'),
+            ('la', 'ls --color=auto -al'),
+            ('lsa', 'ls --color=auto -lah'),
+            ('..', 'cd ..'),
+            ]
+else:
+    c.AliasManager.user_aliases = [
+            ('ls', 'gls --color=auto'),
+            ('la', 'gls --color=auto -al'),
+            ('lsa', 'gls --color=auto -lah'),
+            ('..', 'cd ..'),
+            ]
