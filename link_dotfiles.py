@@ -27,9 +27,12 @@ def link_dotfiles(dry_run=False):
         file1 = os.path.join(this_dir, f)
         file2 = os.path.join(home_dir, '.{}'.format(f))
         if dry_run:
-            print('ln -s {} {}'.format(file1, file2))
+            print('ln -s {0} {1}'.format(file1, file2))
         else:
-            os.system('ln -s {0} {1}'.format(file1, file2))
+            if (not os.path.exists(file2)) and (not os.path.islink(file1)):
+                os.system('ln -s {0} {1}'.format(file1, file2))
+            else:
+                print('skipping: {0}'.format(f))
 
 
 def main():
