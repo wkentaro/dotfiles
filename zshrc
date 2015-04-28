@@ -58,7 +58,7 @@ source $ZSHDOT/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # bindkey
 ##################################
 function percol-history() {
-  LBUFFER=$LBUFFER$(fc -l 1 | percol | sed -e "s/^ *[0-9]* *//g")
+  LBUFFER=$LBUFFER$(fc -l 1 | tac | percol | sed -e "s/^ *[0-9]* *//g")
   zle -R -c
 }
 zle -N percol-history
