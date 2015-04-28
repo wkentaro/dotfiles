@@ -50,6 +50,7 @@ export LANG=en_US.UTF-8
 export LC_CTYPE='en_US.UTF-8'
 export EDITOR=vim
 export SSH_KEY_PATH="~/.ssh/id_rsa"
+export GITHUB_USER="wkentaro"
 source $ZSHDOT/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # travis
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
@@ -90,9 +91,9 @@ alias ga.='git add .'
 alias gcln='git clone'
 alias grm='git rm'
 alias gmv='git mv'
-alias gmpush='git push wkentaro $(current_branch)'
-alias gmpull='git pull wkentaro $(current_branch)'
-alias gmpnp='git pull wkentaro $(current_branch) && git push wkentaro $(current_branch)'
+alias gmpush='git push $GITHUB_USER $(current_branch)'
+alias gmpull='git pull $GITHUB_USER $(current_branch)'
+alias gmpnp='git pull $GITHUB_USER $(current_branch) && git push $GITHUB_USER $(current_branch)'
 alias gcal='open https://www.google.com/calendar/render#g'
 alias gmail='open https://mail.google.com/mail/u/0/'
 alias t='tmux'
@@ -104,6 +105,7 @@ alias tns='tmux new -s'
 alias gpr='hub pull-request'
 alias gbw='git browse'
 alias gbd='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
+alias gbdr='git branch -r --merged origin/master | grep "$GITHUB_USER\\/" | sed "s/$GITHUB_USER\\///" | egrep -v "HEAD|master|develop|release" | xargs -n 1 git push $GITHUB_USER --delete'
 alias gbD='git branch -D'
 alias gf='git fetch'
 alias gfa='git fetch --all'
