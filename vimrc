@@ -585,3 +585,8 @@ let g:clang_auto_select = 0
 let g:instant_rst_browser = 'chrome'
 let g:instant_rst_forever = 1
 
+highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
+highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
+highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
+highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
+nnoremap Gvdiff Gdiff
