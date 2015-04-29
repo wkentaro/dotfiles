@@ -1,6 +1,12 @@
 [user]
 	name = Kentaro Wada
 	email = www.kentaro.wada@gmail.com
+[merge]
+	tool = vimdiff
+[diff]
+	tool = vimdiff
+	renames = true
+	 # algorithm = histogram
 [color]
 	ui = auto
 [alias]
@@ -25,3 +31,5 @@
 	merge = wkentaro
 [http]
 	sslVerify = false
+[rerere]
+	enabled = true
