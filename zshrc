@@ -110,6 +110,7 @@ alias gbD='git branch -D'
 alias gf='git fetch'
 alias gfa='git fetch --all'
 alias gfap='git fetch --all --prune'
+alias lv='less'
 # copy
 if which pbcopy >/dev/null 2>&1 ; then 
   alias -g C='| pbcopy' # mac
