@@ -148,7 +148,7 @@ fi
 function _zcd ()
 {
   if [ "$1" = "" ]; then
-    dir=$(_z 2>&1 | sed "s/^[0-9]* *//g" | percol)
+    dir=$(_z 2>&1 | sed -E "s/^([0-9]|\.)* *//g" | tac | percol)
   else
     dir=$1
   fi
