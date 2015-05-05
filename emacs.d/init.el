@@ -1,92 +1,34 @@
-;; (put 'upcase-region 'disabled nil)
-
-;;; ロードパス
-(setq load-path (append
-                 '(;"~/.emacs.d"
-                   "~/.emacs.d/packages")
-                 load-path))
-
-;;; grep
-(require 'grep)
-(setq grep-command-before-query "grep -nH -r -e ")
-(defun grep-default-command ()
-  (if current-prefix-arg
-      (let ((grep-command-before-target
-             (concat grep-command-before-query
-                     (shell-quote-argument (grep-tag-default)))))
-        (cons (if buffer-file-name
-                  (concat grep-command-before-target
-                          " *."
-                          (file-name-extension buffer-file-name))
-                (concat grep-command-before-target " ."))
-              (+ (length grep-command-before-target) 1)))
-    (car grep-command)))
-(setq grep-command (cons (concat grep-command-before-query " .")
-                         (+ (length grep-command-before-query) 1)))
+(setq load-path (append '("~/.emacs.d/packages") load-path))
 
 (define-key global-map "\C-h" 'delete-backward-char) ; delete
 (define-key global-map "\M-?" 'help-for-help) ; help
 
-;;; 対応する括弧を光らせる
 (show-paren-mode 1)
 
-;;; ウィンドウ内に収まらないときだけカッコ内も光らせる
 (setq show-paren-style 'mixed)
 
-;;; 行の先頭をC-kを一回押すだけで行全体を表示する
 (setq kill-whole-line t)
 
-;;; 最終行に必ず一行挿入する
 (setq require-final-newline t)
 
-;;; バッファの最後でnewlineで新規行を追加するのを禁止する
 (setq next-line-add-newlines nil)
 
-;;; バックアップファイルを作らない
 (setq make-backup-files nil)
 
-;;; 終了時にオートセーブファイルを消す
 (setq delete-auto-save-files t)
 
-;;; 補完
 (setq completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
 
-;;; 部分一致の補完機能を使う
-;;; p-bでprint-bufferとか
-;;;;; (partial-completion-mode t)
-
-;; 補完可能なものを随時表示
 (icomplete-mode 1)
 
-;;; 履歴数
 (setq history-length 10000)
 
-;;; ミニバッファの履歴を保存する
 (savehist-mode 1)
 
-;;; 最近開いたファイルを保存する数
 (setq recentf-max-saved-items 10000)
 
-;;; ediffを1ウィンドウで実行
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-;;; diffのオプション
-(setq diff-switches '("-u" "-p" "-N"))
-
-;;; diredを便利にする
-(require 'dired-x)
-
-;;; diredから"r"でファイル名インライン編集する
-(require 'wdired)
-(define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
-
-;;; ファイル名が重複していたらディレクトリ名を追加する
-(require 'uniquify)
-(setq uniqufy-buffer-name-style 'post-forward-angle-brackets)
-
-;;; デフォルトのタブ
-(setq-default indent-tabs-mode nil)
+(setq-default indent-tabs-mode t)
 (setq-default tab-width 4)
 
 ;;; auto-install
@@ -108,10 +50,3 @@
   (add-to-list 'load-path "/usr/share/emacs/site-lisp/trr22")
   (add-to-list 'load-path "/usr/local/share/emacs/24.3/site-lisp/emu")
   (autoload 'trr "/usr/share/emacs/site-lisp/trr22/trr" nil t))
-
-;; roseus
-; (when platform-linux-p
-;   (require 'rosemacs)
-;   (invoke-rosemacs)
-;   (global-set-key "\C-x\C-r" ros-keymap))
-
