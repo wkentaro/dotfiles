@@ -12,3 +12,10 @@ These are dotfiles for below utils.
 * tmux
 * Ubuntu
 * Mac OS X
+
+
+iTerm2 Settings
+===============
+
+* Download iTerm color schemes from https://github.com/mbadolato/iTerm2-Color-Schemes.
+* `Iterm2 > Preferences > Profiles > Colors > Load Presets > __Dark Pastel__`.
