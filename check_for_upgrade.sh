@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/bin/sh
 
 zmodload zsh/datetime
 
@@ -11,7 +11,7 @@ function _update_dotfiles_update() {
 }
 
 function _upgrade_dotfiles() {
-  /bin/sh .dotfiles/upgrade.sh
+  /bin/sh .dotfiles/scripts/upgrade_dotfiles.sh
   # update the dotfiles file
   _update_dotfiles_update
 }

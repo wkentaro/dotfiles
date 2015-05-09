@@ -1,15 +1,15 @@
-[submodule "zsh/oh-my-zsh"]
-	path = zsh/oh-my-zsh
+[submodule "_zsh/oh-my-zsh"]
+	path = _zsh/oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
-[submodule "zsh/zaw"]
-	path = zsh/zaw
+[submodule "_zsh/zaw"]
+	path = _zsh/zaw
 	url = https://github.com/zsh-users/zaw
-[submodule "vim/bundle/neobundle.vim"]
-	path = vim/bundle/neobundle.vim
+[submodule "_vim/bundle/neobundle.vim"]
+	path = _vim/bundle/neobundle.vim
 	url = https://github.com/Shougo/neobundle.vim
-[submodule "zsh/zsh-theme"]
-	path = zsh/zsh-theme
+[submodule "_zsh/zsh-theme"]
+	path = _zsh/zsh-theme
 	url = https://github.com/wkentaro/zsh-theme.git
-[submodule "zsh/zsh-syntax-highlighting"]
-	path = zsh/zsh-syntax-highlighting
+[submodule "_zsh/zsh-syntax-highlighting"]
+	path = _zsh/zsh-syntax-highlighting
 	url = git://github.com/zsh-users/zsh-syntax-highlighting.git

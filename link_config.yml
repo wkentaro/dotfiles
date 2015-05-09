@@ -1,0 +1,40 @@
+_vimrc:
+  .vimrc
+_ipython_config.py:
+  .ipython/profile_default/ipython_config.py
+_bashrc:
+  .bashrc
+_colorrc:
+  .colorrc
+_editrc:
+  .editrc
+_emacs.d:
+  .emacs.d
+_events_config.yml:
+  .events_config.yml
+_gitconfig:
+  .gitconfig
+_gitignore_global:
+  .gitignore_global
+_gvimrc:
+  .gvimrc
+_hgignore_global:
+  .hgignore_global
+_inputrc:
+  .inputrc
+percolrc:
+  .percol.d/rc.py
+_pythonstartup:
+  .pythonstartup
+_tmux.conf:
+  .tmux.conf
+_vim:
+  .vim
+_vimrc:
+  .vimrc
+_Xmodmap:
+  .Xmodmap
+_zsh:
+  .zsh
+_zshrc:
+  .zshrc
