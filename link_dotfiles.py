@@ -5,34 +5,27 @@
 import os
 import sys
 import argparse
-import fnmatch
+import yaml
 
 
-def drop_ignore_files(filenames, ignore_config='.linkignore'):
-    with open(ignore_config) as f:
-        ignore_files = map(lambda x: x.strip(), f.readlines())
-    being_ignored = []
-    for ignore in ignore_files:
-        being_ignored.extend(fnmatch.filter(filenames, ignore))
-    filtered = filter(lambda x: x not in being_ignored, filenames)
-    return filtered
 
-
-def link_dotfiles(dry_run=False):
+def link_dotfiles(dry_run):
     this_dir = os.path.dirname(os.path.abspath(__file__))
     home_dir = os.path.expanduser('~')
-    files = os.listdir(this_dir)
 
-    for f in drop_ignore_files(filenames=files):
-        file1 = os.path.join(this_dir, f)
-        file2 = os.path.join(home_dir, '.{}'.format(f))
+    with open(os.path.join(this_dir, 'link_config.yml')) as f:
+        link_config = yaml.load(f)
+
+    for from_, to in link_config.items():
+        from_ = os.path.join(this_dir, from_)
+        to = os.path.join(home_dir, to)
         if dry_run:
-            print('ln -s {0} {1}'.format(file1, file2))
+            print('{0} -> {1}'.format(from_, to))
         else:
-            if (not os.path.exists(file2)) and (not os.path.islink(file1)):
-                os.system('ln -s {0} {1}'.format(file1, file2))
+            if os.path.exists(to):
+                print('skipping: {0}'.format(from_))
             else:
-                print('skipping: {0}'.format(f))
+                os.system('ln -s {0} {1}'.format(from_, to))
 
 
 def main():
