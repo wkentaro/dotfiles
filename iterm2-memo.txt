@@ -1,5 +1,0 @@
-ITerm2 Memo
-===
-
-* Download ITerm color schemes from https://github.com/mbadolato/iTerm2-Color-Schemes.
-* `Iterm2 > Preferences > Profiles > Colors > Load Presets > __Dark Pastel__`.
