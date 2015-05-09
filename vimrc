@@ -101,7 +101,7 @@ au BufNewFile,BufRead *.py set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.pyx set ft=python tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.cfg set ft=python tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.c set tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.cpp set tabstop=4 shiftwidth=4
+au BufNewFile,BufRead *.cpp set tabstop=2 shiftwidth=2
 au BufNewFile,BufRead *.php set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.sh set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.zsh set tabstop=4 shiftwidth=4
@@ -426,7 +426,7 @@ silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 " vim-filter ------------------------------------------------- 
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
-noremap <silent> <Leader>t :VimFiler -split -explorer<CR>
+noremap <silent> ,f :VimFiler -split -explorer<CR>
 
 " vim-markdown -------------------------------------------------
 let g:vim_markdown_codeblock_syntax=0
@@ -535,12 +535,14 @@ augroup EmmitVim
 augroup END
 
 " taglist.vim
-noremap <silent> <Leader>t :TlistToggle<CR>
+noremap <silent> ,t :TlistToggle<CR>
 
 " syntastic
 set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [], 'passive_filetypes': [] }
+nnoremap <silent> ,e :SyntasticCheck<CR>
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
