@@ -1,3 +1,5 @@
+# vim: set ft=readline:
+
 set editing-mode vi
 set keymap vi-command
 "gg": beginning-of-history
