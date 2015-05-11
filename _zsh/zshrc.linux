@@ -1,4 +1,4 @@
-# vim: set ft=shell:
+# vim: set ft=sh:
 
 # ros
 alias rossetbaxter='rossetmaster baxter'
