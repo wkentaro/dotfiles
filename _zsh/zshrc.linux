@@ -1,3 +1,5 @@
+# vim: set ft=zsh
+
 # ros
 alias rossetbaxter='rossetmaster baxter'
 alias rossetpr2='rossetmaster pr1040'
