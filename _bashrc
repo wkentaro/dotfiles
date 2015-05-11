@@ -1,3 +1,5 @@
+# vim: set ft=sh:
+
 # encoding
 export LC_CTYPE='en_US.UTF-8'
 # terminal color
