@@ -1,5 +1,6 @@
-# Run command file for percol
+# vim: set ft=python
 
+# Run command file for percol
 percol.import_keymap({
     "C-h" : lambda percol: percol.command.delete_backward_char(),
     "C-d" : lambda percol: percol.command.delete_forward_char(),
