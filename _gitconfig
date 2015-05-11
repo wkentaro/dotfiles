@@ -1,3 +1,5 @@
+# vim: set ft=gitconfig:
+
 [user]
 	name = Kentaro Wada
 	email = www.kentaro.wada@gmail.com
