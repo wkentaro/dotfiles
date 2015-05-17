@@ -9,7 +9,7 @@ import yaml
 
 
 
-def link_dotfiles(dry_run):
+def link_dotfiles(force, dry_run):
     this_dir = os.path.dirname(os.path.abspath(__file__))
     home_dir = os.path.expanduser('~')
 
@@ -22,19 +22,24 @@ def link_dotfiles(dry_run):
         if dry_run:
             print('{0} -> {1}'.format(from_, to))
         else:
-            if os.path.exists(to):
-                print('skipping: {0}'.format(from_))
+            if os.path.exists(to) or os.path.islink(to):
+                if force:
+                    os.system('ln -fs {0} {1}'.format(from_, to))
+                else:
+                    print('skipping: {0}'.format(from_))
             else:
                 os.system('ln -s {0} {1}'.format(from_, to))
 
 
 def main():
     parser = argparse.ArgumentParser(description='options to link dotfiles')
+    parser.add_argument('-f', '--force', action='store_true',
+                        help='force to link dotfiles')
     parser.add_argument('-n', '--dry-run', action='store_true',
                         help='output the commands which will be executed')
     args = parser.parse_args(sys.argv[1:])
 
-    link_dotfiles(dry_run=args.dry_run)
+    link_dotfiles(force=args.force, dry_run=args.dry_run)
 
 
 if __name__ == '__main__':
