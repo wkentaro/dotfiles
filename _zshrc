@@ -118,7 +118,7 @@ alias gf='git fetch'
 alias gfa='git fetch --all'
 alias gfap='git fetch --all --prune'
 alias lv='less'
-alias remote2local='git branch --all | grep $GITHUB_USER | sed "s/^  remotes\/$GITHUB_USER\///" | xargs -n1 -I{} git branch {} --track $GITHUB_USER/{} | git checkout master'
+alias remote2local='cbranch=$(current_branch) ; git branch --all | grep $GITHUB_USER | sed "s/^  remotes\/$GITHUB_USER\///" | xargs -n1 -I{} git branch {} --track $GITHUB_USER/{} ; git checkout $cbranch'
 # copy
 if which pbcopy >/dev/null 2>&1 ; then 
   alias -g C='| pbcopy' # mac
