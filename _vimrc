@@ -27,8 +27,6 @@ set noeol
 " Enable syntax highlighting
 syntax on
 " Softtabs, 2 spaces
-set tabstop=2
-set shiftwidth=2
 set shiftround
 set expandtab
 " Allow backspace in insert mode
@@ -60,7 +58,6 @@ set hidden
 " Highlight dynamically as pattern is typed
 set incsearch
 set number
-set shiftwidth=2
 set showmatch
 set smartcase
 set smartindent
@@ -96,7 +93,6 @@ augroup END
 
 " Specific settings according to filetype ------------------------------
 au BufNewFile,BufRead * set iminsert=0 tabstop=2 shiftwidth=2 wrap
-au BufNewFile,BufRead *.l set ft=lisp
 au BufNewFile,BufRead *.py set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.pyx set ft=python tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.cfg set ft=python tabstop=4 shiftwidth=4
@@ -113,7 +109,7 @@ au BufNewFile,BufRead *.py set colorcolumn=80
 autocmd FileType cpp setlocal path=.,/usr/include,/usr/local/include,/usr/include/c++/4.8/,/opt/ros/indigo/include,/usr/include/pcl-1.7
 
 " lisp
-au BufNewFile,BufRead *.l set wrap tabstop=2 shiftwidth=2 ft=lisp
+au BufNewFile,BufRead *.l set wrap tabstop=8 shiftwidth=2 ft=lisp
 let lisp_rainbow = 1
 
 " Highlight Zenkaku Space ------------------------------------
