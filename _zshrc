@@ -4,7 +4,7 @@
 # zsh initialization
 ######################################
 autoload -Uz compinit && compinit
-setopt histignorealldups sharehistory
+setopt histignorealldups
 autoload history-search-end
 setopt list_packed
 setopt nolistbeep
@@ -14,7 +14,7 @@ setopt pushd_ignore_dups
 setopt hist_ignore_space
 setopt nobeep
 setopt hist_ignore_dups
-setopt share_history
+# setopt share_history
 zstyle ':completion:*:default' menu select=1
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
