@@ -8,7 +8,6 @@ setopt histignorealldups
 autoload history-search-end
 setopt list_packed
 setopt nolistbeep
-setopt share_history
 setopt auto_cd
 setopt pushd_ignore_dups
 setopt hist_ignore_space
