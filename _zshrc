@@ -7,7 +7,6 @@ autoload -Uz compinit && compinit
 setopt histignorealldups
 autoload history-search-end
 setopt list_packed
-setopt extended_glob
 setopt nolistbeep
 setopt auto_cd
 setopt pushd_ignore_dups
@@ -76,7 +75,6 @@ bindkey "^B" backward-char
 bindkey "^D" delete-char
 bindkey "^K" kill-line
 bindkey "^Y" yank
-bindkey "^Q" push-line
 
 ##################################
 # alias
@@ -93,7 +91,6 @@ alias ga.='git add .'
 alias gcln='git clone'
 alias grm='git rm'
 alias gmv='git mv'
-alias ggpush!='git push origin $(current_branch) --force'
 alias gmpush='git push $GITHUB_USER $(current_branch)'
 alias gmpush!='git push $GITHUB_USER $(current_branch) --force'
 alias grbg='git rebase origin/master'
@@ -129,8 +126,6 @@ elif which xsel >/dev/null 2>&1 ; then
 elif which putclip >/dev/null 2>&1 ; then 
   alias -g C='| putclip' # cygwin
 fi
-# less
-alias -g L='| less'
 # hub
 if which hub >/dev/null 2>&1; then
   eval "$(hub alias -s)"
