@@ -29,6 +29,7 @@ syntax on
 " Softtabs, 2 spaces
 set shiftround
 set expandtab
+set tabstop=8
 " Allow backspace in insert mode
 set backspace=indent,eol,start
 " Respect modeline in files
@@ -92,24 +93,24 @@ augroup MyAutoCmd
 augroup END
 
 " Specific settings according to filetype ------------------------------
-au BufNewFile,BufRead * set iminsert=0 tabstop=2 shiftwidth=2 wrap
-au BufNewFile,BufRead *.py set tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.pyx set ft=python tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.cfg set ft=python tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.c set tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.cpp set tabstop=2 shiftwidth=2
-au BufNewFile,BufRead *.php set tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.sh set tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.zsh set tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.bash set tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.launch set tabstop=2 shiftwidth=2 ft=xml
-au BufNewFile,BufRead *.md set tabstop=4 shiftwidth=4 ft=markdown
+au BufNewFile,BufRead * set iminsert=0 shiftwidth=2 wrap
+au BufNewFile,BufRead *.py set shiftwidth=4
+au BufNewFile,BufRead *.pyx set ft=python shiftwidth=4
+au BufNewFile,BufRead *.cfg set ft=python shiftwidth=4
+au BufNewFile,BufRead *.c set shiftwidth=4
+au BufNewFile,BufRead *.cpp set shiftwidth=2
+au BufNewFile,BufRead *.php set shiftwidth=4
+au BufNewFile,BufRead *.sh set shiftwidth=4
+au BufNewFile,BufRead *.zsh set shiftwidth=4
+au BufNewFile,BufRead *.bash set shiftwidth=4
+au BufNewFile,BufRead *.launch set shiftwidth=2 ft=xml
+au BufNewFile,BufRead *.md set shiftwidth=4 ft=markdown
 au BufNewFile,BufRead *.py set colorcolumn=80
 
 autocmd FileType cpp setlocal path=.,/usr/include,/usr/local/include,/usr/include/c++/4.8/,/opt/ros/indigo/include,/usr/include/pcl-1.7
 
 " lisp
-au BufNewFile,BufRead *.l set wrap tabstop=8 shiftwidth=2 ft=lisp
+au BufNewFile,BufRead *.l set wrap shiftwidth=2 ft=lisp
 let lisp_rainbow = 1
 
 " Highlight Zenkaku Space ------------------------------------
