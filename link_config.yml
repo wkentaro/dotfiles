@@ -22,6 +22,8 @@ _hgignore_global:
   .hgignore_global
 _inputrc:
   .inputrc
+_shrc.alias:
+  .shrc.alias
 percolrc:
   .percol.d/rc.py
 _pythonstartup:
