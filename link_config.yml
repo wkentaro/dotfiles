@@ -24,7 +24,7 @@ _inputrc:
   .inputrc
 _shrc.alias:
   .shrc.alias
-percolrc:
+_percolrc:
   .percol.d/rc.py
 _pythonstartup:
   .pythonstartup
