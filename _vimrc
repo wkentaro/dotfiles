@@ -167,6 +167,7 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Rip-Rip/clang_complete'
 NeoBundle 'greyblake/vim-preview'
 NeoBundle 'gerw/vim-latex-suite'
+NeoBundle 'tpope/vim-obsession'
 
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
