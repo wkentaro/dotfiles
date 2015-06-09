@@ -93,7 +93,7 @@ augroup END
 
 " Specific settings according to filetype ------------------------------
 au BufNewFile,BufRead * set iminsert=0 tabstop=2 shiftwidth=2 wrap
-au BufNewFile,BufRead *.py set tabstop=4 shiftwidth=4
+au BufNewFile,BufRead *.py set tabstop=4 shiftwidth=4 colorcolumn=80
 au BufNewFile,BufRead *.pyx set ft=python tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.cfg set ft=python tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.c set tabstop=4 shiftwidth=4
@@ -104,7 +104,6 @@ au BufNewFile,BufRead *.zsh set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.bash set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.launch set tabstop=2 shiftwidth=2 ft=xml
 au BufNewFile,BufRead *.md set tabstop=4 shiftwidth=4 ft=markdown
-au BufNewFile,BufRead *.py set colorcolumn=80
 
 autocmd FileType cpp setlocal path=.,/usr/include,/usr/local/include,/usr/include/c++/4.8/,/opt/ros/indigo/include,/usr/include/pcl-1.7
 
