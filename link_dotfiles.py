@@ -22,11 +22,9 @@ def link_dotfiles(force, dry_run):
         if dry_run:
             print('{0} -> {1}'.format(from_, to))
         else:
-            if os.path.exists(to):
-                if force and os.path.islink(to) and not os.path.isdir(to):
+            if os.path.islink(to):
+                if force and not os.path.isdir(to):
                     os.system('ln -fs {0} {1}'.format(from_, to))
-                elif force and not os.path.islink(to):
-                    print('the destination file is not symlink')
                 else:
                     print('skipping: {0}'.format(from_))
             else:
