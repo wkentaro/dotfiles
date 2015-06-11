@@ -3,7 +3,7 @@ vimrc:
 ipython_config.py:
   .ipython/profile_default/ipython_config.py
 bashrc:
-  .bashrc
+  .bashrc.wkentaro
 colorrc:
   .colorrc
 editrc:
@@ -41,4 +41,4 @@ Xmodmap:
 zsh:
   .zsh
 zshrc:
-  .zshrc
+  .zshrc.wkentaro
