@@ -42,6 +42,7 @@
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 ;; trr
+(add-to-list 'load-path "~/.emacs.d/packages/platform-p")
 (require 'platform-p)
 (setq TRR:japanese nil)
 (when platform-darwin-p
