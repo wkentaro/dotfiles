@@ -10,3 +10,6 @@
 [submodule "_zsh/zsh-syntax-highlighting"]
 	path = zsh/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "emacs.d/packages/platform-p"]
+	path = emacs.d/packages/platform-p
+	url = https://github.com/ongaeshi/platform-p
