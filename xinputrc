@@ -1,3 +1,5 @@
-# im-config(8) generated on Mon, 18 May 2015 19:22:19 +0900
-run_im uim
-# im-config signiture: c8d327e004ef1f79b0c923e1d08e7e48  -
+# uim
+export GTK_IM_MODULE='uim'
+export QT_IM_MODULE='uim'
+uim-xim &
+export XMODIFIERS='@im=uim'
