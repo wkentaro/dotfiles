@@ -65,3 +65,13 @@ if which dircolors >/dev/null 2>&1; then
     alias ls='ls --color=auto'
   fi
 fi
+_git_commit_each_file () {
+  changed_files=`git status -s | grep "^[a-Z]" | sed 's/^...//g' | sed 's/ -> /,/g'`
+  for file in ${changed_files}; do
+    msg=`echo ${file} | sed "s/.*,//g"`
+    echo "[${msg}]" > /tmp/git_commit_message_template
+    files=`echo ${file} | tr ',' ' '`
+    git commit --only ${files} --verbose --template /tmp/git_commit_message_template || break
+  done
+}
+alias gceach=_git_commit_each_file
