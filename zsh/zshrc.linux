@@ -1,5 +1,8 @@
 # vim: set ft=zsh:
 
+# catkin_tools
+source /etc/bash_completion.d/catkin_tools-completion.bash
+
 # ros
 alias rossetbaxter='rossetmaster baxter'
 alias rossetpr2='rossetmaster pr1040'
