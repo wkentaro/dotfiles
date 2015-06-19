@@ -1,7 +1,9 @@
 # vim: set ft=zsh:
 
 # catkin_tools
-source /etc/bash_completion.d/catkin_tools-completion.bash
+if [ -f /etc/bash_completion.d/catkin_tools-completion.bash ]; then
+  source /etc/bash_completion.d/catkin_tools-completion.bash
+fi
 
 # ros
 alias rossetbaxter='rossetmaster baxter'
