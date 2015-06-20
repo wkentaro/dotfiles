@@ -143,9 +143,11 @@ NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv'
 NeoBundle 'tyru/open-browser.vim'
-NeoBundle 'Shougo/vimfiler.vim'
+if v:version > 703
+  NeoBundle 'Shougo/vimfiler.vim'
+  NeoBundle 'Shougo/unite.vim'
+endif
 NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'honza/vim-snippets'
 NeoBundle 'thinca/vim-ref'
