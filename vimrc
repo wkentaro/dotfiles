@@ -411,12 +411,13 @@ endfunction
 
 " vim-indent-guides ------------------------------------------------- 
 colorscheme default
-let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_enable_on_vim_startup = 0
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=darkgray ctermbg=8
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  guibg=darkgray ctermbg=8
+noremap <silent> ,g :IndentGuidesToggle<CR>
 
 " vim-repeat ------------------------------------------------- 
 silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
@@ -592,6 +593,7 @@ highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
 
 " calenadar.vim
 let g:calendar_google_calendar = 1
+noremap <silent> ,c :Calendar<CR>
 
 " screensaver.vim
-noremap ,s :IndentGuidesToggle<CR> :ScreenSaver<CR>
+noremap <silent> ,ss :ScreenSaver<CR>
