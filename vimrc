@@ -167,6 +167,8 @@ NeoBundle 'Rip-Rip/clang_complete'
 NeoBundle 'greyblake/vim-preview'
 NeoBundle 'gerw/vim-latex-suite'
 NeoBundle 'tpope/vim-obsession'
+NeoBundle 'itchyny/calendar.vim'
+NeoBundle 'itchyny/screensaver.vim'
 
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
@@ -587,4 +589,9 @@ highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
 highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
 highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
-nnoremap Gvdiff Gdiff
+
+" calenadar.vim
+let g:calendar_google_calendar = 1
+
+" screensaver.vim
+noremap ,s :IndentGuidesToggle<CR> :ScreenSaver<CR>
