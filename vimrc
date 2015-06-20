@@ -13,6 +13,13 @@ if has("unix")
     set clipboard=unnamedplus
   endif
 endif
+
+function! s:source_rc(path)
+  execute 'source' fnameescape(expand('~/.vim/rc/' . a:path))
+endfunction
+
+call s:source_rc('mappings.rc.vim')
+
 " Enhance command-line completion
 set wildmenu
 " Allow cursor keys in insert mode
@@ -256,27 +263,11 @@ let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 " nnoremap g* g*zz
 " nnoremap g# g#zz
 "
-" fast buffer alternation, next/prev, close
-map ga <C-^>
-nmap gn :bn<CR>
-nmap gp :bp<CR>
-nmap gk :bp<bar>bd #<CR>
-
 " Quicker window movement
 nmap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
-
-" Change Window Size -------------------------------------------------  
-nnoremap <S-Left>  <C-w><<CR>
-nnoremap <S-Right> <C-w>><CR>
-nnoremap <S-Up>    <C-w>-<CR>
-nnoremap <S-Down>  <C-w>+<CR>
-
-" Change tabs -------------------------------------------------  
-map <Space> :tabn<CR>
-map <S-Space> :tabp<CR>
 
 " Search -------------------------------------------------  
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
@@ -492,7 +483,6 @@ let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/
 " endif
 
 " Change Mode ---
-inoremap jj <ESC>
 nmap <C-3> <Plug>IMAP_JumpForward
 vmap <C-3> <Plug>IMAP_JumpForward
 
