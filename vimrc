@@ -84,7 +84,6 @@ set nowritebackup
 set nobackup
 " set undofile
 set noswapfile
-set nofoldenable
 set list
 set number
 set wrap
@@ -298,6 +297,9 @@ let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi;open $*.pdf'
 let g:Tex_FormatDependency_pdf = 'dvi,pdf'
 let g:Tex_ViewRule_dvi = 'xdvi'
 let g:Tex_ViewRule_pdf = 'evince'
+let Tex_FoldedSections=""
+let Tex_FoldedEnvironments=""
+let Tex_FoldedMisc=""
 au BufNewFile,BufRead *.tex inoremap 、 ,
 au BufNewFile,BufRead *.tex inoremap 。 .
 au BufNewFile,BufRead *.tex inoremap （ (
@@ -483,8 +485,8 @@ let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/
 " endif
 
 " Change Mode ---
-nmap <C-3> <Plug>IMAP_JumpForward
-vmap <C-3> <Plug>IMAP_JumpForward
+" nmap <C-3> <Plug>IMAP_JumpForward
+" vmap <C-3> <Plug>IMAP_JumpForward
 
 " HTML 5 tags
 syn keyword htmlTagName contained article aside audio bb canvas command
