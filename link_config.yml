@@ -28,6 +28,8 @@ percolrc:
   .percol.d/rc.py
 pythonstartup:
   .pythonstartup
+sh:
+  .sh
 tmux.conf:
   .tmux.conf
 vim:
