@@ -1,4 +1,4 @@
-[submodule "_vim/bundle/neobundle.vim"]
+[submodule "vim/bundle/neobundle.vim"]
 	path = vim/bundle/neobundle.vim
 	url = https://github.com/Shougo/neobundle.vim
 [submodule "emacs.d/packages/platform-p"]
