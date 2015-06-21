@@ -1,8 +1,8 @@
 # vim: set ft=zsh:
-
-######################################
+#
+# ---------------------------------
 # zsh initialization
-######################################
+# ---------------------------------
 autoload -Uz compinit && compinit
 setopt histignorealldups
 autoload history-search-end
@@ -13,47 +13,68 @@ setopt pushd_ignore_dups
 setopt hist_ignore_space
 setopt nobeep
 setopt hist_ignore_dups
-# setopt share_history
 zstyle ':completion:*:default' menu select=1
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-######################################
-# env
-######################################
-# for homebrew
-export PATH=/usr/local/bin:~/.bin:$PATH
-# for python
+# Homebrew
+export PATH="/usr/local/bin:$PATH"
+export MANPATH="/usr/local/man:$MANPATH"
+
+# Python
 export PYTHONSTARTUP=~/.pythonstartup
 export VIRTUALENV_USE_DISTRIBUTE=1
-# for terminal color
+
+# Termcolor
 export TERM=xterm-256color
-# for grep
+
+# grep
 if [ `uname` = 'Darwin' ]; then
   export GREP_OPTIONS='--color=always'
   export GREP_COLOR='1;35;40'
 fi
-# for vim
-export UPDATE_DOTFILES_DAYS=13
-source ~/.dotfiles/check_for_upgrade.sh
-# for zsh
-export UPDATE_ZSH_DAYS=13
-export ZSHDOT=~/.zsh
-export ZSH=$ZSHDOT/oh-my-zsh
-DISABLE_AUTO_TITLE='true'
-plugins=(git gnu-utils z vi-mode python history web-search)
-source $ZSH/oh-my-zsh.sh
-# ZSH_THEME="robbyrussell"
-source $ZSHDOT/zsh-theme/theme.zsh
-# other options
-export MANPATH="/usr/local/man:$MANPATH"
-export LANG=en_US.UTF-8
+
+# Encoding
+export LANG='en_US.UTF-8'
 export LC_CTYPE='en_US.UTF-8'
-export EDITOR=vim
-export SSH_KEY_PATH="~/.ssh/id_rsa"
-export GITHUB_USER="wkentaro"
-source $ZSHDOT/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# travis
+
+# Editor
+export EDITOR='vim'
+
+# ssh
+export SSH_KEY_PATH='~/.ssh/id_rsa'
+
+# GitHub
+export GITHUB_USER='wkentaro'
+
+# Travis
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+
+# ---------------------------------
+# zsh plugins
+# ---------------------------------
+source ~/.zsh/antigen/antigen.zsh
+
+# Load the oh-my-zsh's library.
+antigen use oh-my-zsh
+
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle git
+antigen bundle gnu-utils
+antigen bundle history
+antigen bundle pip
+antigen bundle python
+antigen bundle web-search
+antigen bundle z
+
+# Syntax highlighting bundle.
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+# Load the theme.
+antigen theme wkentaro/wkentaro.zsh-theme wkentaro
+
+# Tell antigen that you're done.
+antigen apply
+
 
 ##################################
 # bindkey
@@ -101,9 +122,9 @@ function _zcd ()
 }
 alias z='_zcd'
 if [ `uname` = 'Linux' ]; then
-  source $ZSHDOT/zshrc.linux
+  source ~/.zsh/zshrc.linux
 fi
-source $ZSHDOT/utils.zsh
+source ~/.zsh/utils.zsh
 
 show_buffer_stack() {
   POSTDISPLAY="
