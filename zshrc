@@ -64,10 +64,29 @@ antigen bundle history
 antigen bundle pip
 antigen bundle python
 antigen bundle web-search
+antigen bundle vi-mode
 antigen bundle z
 
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting
+
+# History searching bundle. #{{{
+antigen bundle zsh-users/zsh-history-substring-search
+# bind UP and DOWN arrow keys
+zmodload zsh/terminfo
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+# bind UP and DOWN arrow keys (compatibility fallback
+# for Ubuntu 12.04, Fedora 21, and MacOSX 10.9 users)
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+# bind P and N for EMACS mode
+bindkey '^P' history-substring-search-up
+bindkey '^N' history-substring-search-down
+# bind k and j for VI mode
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+#}}}
 
 # Additional zsh completion
 antigen bundle zsh-users/zsh-completions src
@@ -90,10 +109,10 @@ zle -N percol-history
 bindkey '^R' percol-history
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-bindkey "^P" history-beginning-search-backward-end
-bindkey "^N" history-beginning-search-forward-end
+# zle -N history-beginning-search-backward-end history-search-end
+# zle -N history-beginning-search-forward-end history-search-end
+# bindkey "^P" history-beginning-search-backward-end
+# bindkey "^N" history-beginning-search-forward-end
 bindkey "^F" forward-char
 bindkey "^B" backward-char
 bindkey "^D" delete-char
