@@ -5,37 +5,21 @@
 %
 \documentclass[10pt]{jarticle}
 
-%%%%%%%%%%%%%%%%%%%%%
-% to input Japanese %
-%%%%%%%%%%%%%%%%%%%%%
+%%% Packages ----------------------------------------
+% to input Japanese
 \usepackage[japanese]{babel}
 
-%%%%%%%%%%%
-% unknown %
-%%%%%%%%%%%
+%% something
 % \usepackage{ascmac}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-% to be standard a4paper %
-%%%%%%%%%%%%%%%%%%%%%%%%%%
+% to be standard a4paper
 \usepackage{geometry}
-\geometry{
-a4paper,
-total={210mm,297mm},
-left=20mm,
-right=20mm,
-top=20mm,
-bottom=40mm,
-}
+\geometry{a4paper, left=20mm, right=20mm, top=20mm, bottom=40mm}
 
-%%%%%%%%%%%%%%%%%%%%%
-% to insert figures %
-%%%%%%%%%%%%%%%%%%%%%
+% to insert figures
 \usepackage[dvipdfmx]{graphicx}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-% to insert source codes %
-%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% to insert source codes
 % \usepackage{listings, jlisting}
 % \renewcommand{\lstlistingname}{list}
 % \lstset{language=C,
@@ -51,31 +35,26 @@ bottom=40mm,
 %   numberstyle=\tiny,
 %   tabsize=2
 % }
+%%% -------------------------------------------------
 
-%%%%%%%%%%%%%%%%%%
-% title & author %
-%%%%%%%%%%%%%%%%%%
-\title{title is here}
-\author{name is here}
+%%% Titles ------------------------------------------
+\title{日本語レポートテンプレート}
+\author{和田健太郎}
 
-%%%%%%%%%%%%%%%%%%
-% begin document %
-%%%%%%%%%%%%%%%%%%
 \begin{document}
 \maketitle
+%%% -------------------------------------------------
 
-\section{section}
-section is here.
+%%% Bodies ------------------------------------------
+\section{はじめに}
+はじめに. \cite{bib1}
 <++>
+%%% -------------------------------------------------
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-% to insert bibliography %
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{thebibliography}{9}
-%   \bibitem{inv1} Samuel R．Buss，"Introduction to Inverse Kinematics with Jacobian Transpose，Pseudoinverse and Damped Least Squares methods"
-% \end{thebibliography}
+%%% Bibliography ------------------------------------
+\begin{thebibliography}{9}
+  \bibitem{bib1} Samuel R．Buss，"Introduction to Inverse Kinematics with Jacobian Transpose，Pseudoinverse and Damped Least Squares methods"
+\end{thebibliography}
+%%% -------------------------------------------------
 
-%%%%%%%%%%%%%%%%
-% end document %
-%%%%%%%%%%%%%%%%
 \end{document}
