@@ -3,7 +3,7 @@
 # ---------------------------------
 # zsh initialization
 # ---------------------------------
-autoload -Uz compinit && compinit
+# autoload -Uz compinit && compinit
 setopt histignorealldups
 autoload history-search-end
 setopt list_packed
@@ -68,6 +68,9 @@ antigen bundle z
 
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting
+
+# Additional zsh completion
+antigen bundle zsh-users/zsh-completions src
 
 # Load the theme.
 antigen theme wkentaro/wkentaro.zsh-theme wkentaro
