@@ -91,6 +91,8 @@ bindkey -M vicmd 'j' history-substring-search-down
 # Additional zsh completion
 antigen bundle zsh-users/zsh-completions src
 
+antigen bundle wkentaro/pycd pycd/pycd.sh
+
 # Load the theme.
 antigen theme wkentaro/wkentaro.zsh-theme wkentaro
 
