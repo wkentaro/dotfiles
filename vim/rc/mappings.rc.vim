@@ -27,6 +27,18 @@ xnoremap ar  a]
 onoremap ir  i]
 xnoremap ir  i]
 
+" (circle)
+onoremap ac  a)
+xnoremap ac  a)
+onoremap ic  i)
+xnoremap ic  i)
+
+" {wave}
+onoremap av  a}
+xnoremap av  a}
+onoremap iv  i}
+xnoremap iv  i}
+
 " 'quote'
 onoremap aq  a'
 xnoremap aq  a'
