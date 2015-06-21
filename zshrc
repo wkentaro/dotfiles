@@ -52,6 +52,7 @@ export GITHUB_USER='wkentaro'
 # ---------------------------------
 # zsh plugins
 # ---------------------------------
+# source antigen
 source ~/.zsh/antigen/antigen.zsh
 
 # Load the oh-my-zsh's library.
@@ -99,10 +100,9 @@ antigen theme wkentaro/wkentaro.zsh-theme wkentaro
 # Tell antigen that you're done.
 antigen apply
 
-
-##################################
+# --------------------------------
 # bindkey
-##################################
+# --------------------------------
 function percol-history() {
   LBUFFER=$(fc -l 1 | tac | percol | sed -r "s/^ *[0-9]*(\*)? *//g")
   zle -R -c
@@ -121,10 +121,12 @@ bindkey "^D" delete-char
 bindkey "^K" kill-line
 bindkey "^Y" yank
 
-##################################
+# --------------------------------
 # alias
-##################################
+# --------------------------------
+# source common aliases
 source ~/.shrc.alias
+
 # copy
 if which pbcopy >/dev/null 2>&1 ; then 
   alias -g C='| pbcopy' # mac
@@ -133,6 +135,8 @@ elif which xsel >/dev/null 2>&1 ; then
 elif which putclip >/dev/null 2>&1 ; then 
   alias -g C='| putclip' # cygwin
 fi
+
+# z command
 function _zcd ()
 {
   if [ "$1" = "" ]; then
@@ -145,11 +149,18 @@ function _zcd ()
   fi
 }
 alias z='_zcd'
+
+# alias for linux
 if [ `uname` = 'Linux' ]; then
   source ~/.zsh/zshrc.linux
 fi
+
+# utilities
 source ~/.zsh/utils.zsh
 
+# --------------------------------
+# command line stack
+# --------------------------------
 show_buffer_stack() {
   POSTDISPLAY="
 stack: $LBUFFER"
