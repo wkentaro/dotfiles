@@ -125,7 +125,7 @@ bindkey "^Y" yank
 # alias
 # --------------------------------
 # source common aliases
-source ~/.shrc.alias
+source ~/.sh/rc/alias.sh
 
 # copy
 if which pbcopy >/dev/null 2>&1 ; then 
