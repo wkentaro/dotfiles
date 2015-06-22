@@ -1,7 +1,6 @@
 source ~/.zshrc.wkentaro
 
-#export DISTRO=indigo
-export DISTRO=indigo
-if [ -f ~/ros/$DISTRO/devel/setup.zsh ]; then
-  source ~/ros/$DISTRO/devel/setup.zsh
-fi
+# export DISTRO=indigo
+# if [ -f ~/ros/$DISTRO/devel/setup.zsh ]; then
+#   source ~/ros/$DISTRO/devel/setup.zsh
+# fi
