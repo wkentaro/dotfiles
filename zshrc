@@ -16,11 +16,13 @@ setopt hist_ignore_dups
 zstyle ':completion:*:default' menu select=1
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-# Homebrew
+# prefix: /usr/local
 export PATH="/usr/local/bin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 
-export PATH="$HOME/.bin:$PATH"
+# prefix: ~/.local
+export PATH="$HOME/.local/bin:$PATH"
+export MANPATH="$HOME/.local/bin:$MANPATH"
 
 # Python
 export PYTHONSTARTUP=~/.pythonstartup
