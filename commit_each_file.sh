@@ -1,1 +1,0 @@
-scripts/commit_each_file.sh
