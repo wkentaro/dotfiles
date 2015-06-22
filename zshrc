@@ -20,6 +20,8 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 export PATH="/usr/local/bin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 
+export PATH="$HOME/.bin:$PATH"
+
 # Python
 export PYTHONSTARTUP=~/.pythonstartup
 export VIRTUALENV_USE_DISTRIBUTE=1
