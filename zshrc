@@ -130,6 +130,19 @@ bindkey "^Y" yank
 # source common aliases
 source ~/.sh/rc/alias.sh
 
+# Global aliases {{{
+alias -g A="| awk"
+alias -g G="| grep"
+alias -g GV="| grep -v"
+alias -g H="| head"
+alias -g L="| $PAGER"
+alias -g P=' --help | less'
+alias -g R="| ruby -e"
+alias -g S="| sed"
+alias -g T="| tail"
+alias -g V="| vim -R -"
+alias -g U=' --help | head'
+alias -g W="| wc"
 # copy
 if which pbcopy >/dev/null 2>&1 ; then 
   alias -g C='| pbcopy' # mac
@@ -138,6 +151,7 @@ elif which xsel >/dev/null 2>&1 ; then
 elif which putclip >/dev/null 2>&1 ; then 
   alias -g C='| putclip' # cygwin
 fi
+# }}}
 
 # view
 alias -g L='| less'
