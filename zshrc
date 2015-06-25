@@ -140,6 +140,9 @@ elif which putclip >/dev/null 2>&1 ; then
   alias -g C='| putclip' # cygwin
 fi
 
+# view
+alias -g L='| less'
+
 # z command
 function _zcd ()
 {
