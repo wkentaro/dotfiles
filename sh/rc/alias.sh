@@ -51,11 +51,12 @@ if which rlwrap >/dev/null 2>&1; then
     alias clisp="rlwrap -b '(){}[],#\";| ' clisp"
 fi
 
-# hub
+# Use hub as git client
 if which hub >/dev/null 2>&1; then
   eval "$(hub alias -s)"
 fi
-# open
+
+# Improve open
 if which gnome-open >/dev/null 2>&1; then  # linux
     alias open='gnome-open'
     alias o='gnome-open'
@@ -64,24 +65,33 @@ elif which open >/dev/null 2>&1; then  # mac
     alias o='open'
     alias o.='open .'
 fi
+
 # Improve ls
-if which dircolors >/dev/null 2>&1; then
-  if [ -f ~/.colorrc ]; then
-    eval `dircolors ~/.colorrc`
-  fi
-  if [ `uname` = 'Darwin' ]; then
-    alias ls='gls --color=auto'
-  else
-    alias ls='ls --color=auto'
-  fi
+if [ $TERM = "dumb" ]; then
+    # Disable colors in GVim
+    alias ls="ls -F --show-control-chars"
+    alias la='ls -aF --show-control-chars'
+    alias ll='ls -laF --show-control-chars'
+else
+    # Color settings for zsh complete candidates
+    alias ls='ls -F --show-control-chars --color=always'
+    alias la='ls -aF --show-control-chars --color=always'
+    alias ll='ls -lF --show-control-chars --color=always'
+    if which dircolors >/dev/null 2>&1; then
+        if [ -f ~/.colorrc ]; then
+            eval `dircolors ~/.colorrc`
+        fi
+    fi
 fi
+
+# Git commit each file
 _git_commit_each_file () {
-  changed_files=`git status -s | grep "^[A-Z]" | sed 's/^...//g' | sed 's/ -> /,/g'`
-  for file in ${changed_files}; do
-    msg=`echo ${file} | sed "s/.*,//g"`
-    echo "[${msg}]" > /tmp/git_commit_message_template
-    files=`echo ${file} | tr ',' ' '`
-    git commit --only ${files} --verbose --template /tmp/git_commit_message_template || break
-  done
+    changed_files=`git status -s | grep "^[A-Z]" | sed 's/^...//g' | sed 's/ -> /,/g'`
+    for file in ${changed_files}; do
+        msg=`echo ${file} | sed "s/.*,//g"`
+        echo "[${msg}]" > /tmp/git_commit_message_template
+        files=`echo ${file} | tr ',' ' '`
+        git commit --only ${files} --verbose --template /tmp/git_commit_message_template || break
+    done
 }
 alias gceach=_git_commit_each_file
