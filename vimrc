@@ -111,6 +111,7 @@ au BufNewFile,BufRead *.zsh set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.bash set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.launch set tabstop=2 shiftwidth=2 ft=xml
 au BufNewFile,BufRead *.md set tabstop=4 shiftwidth=4 ft=markdown
+au BufNewFile,BufRead *.tex set tabstop=4 shiftwidth=4 ft=tex
 
 autocmd FileType cpp setlocal path=.,/usr/include,/usr/local/include,/usr/include/c++/4.8/,/opt/ros/indigo/include,/usr/include/pcl-1.7
 
