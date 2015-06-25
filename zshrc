@@ -53,6 +53,9 @@ export GITHUB_USER='wkentaro'
 # Travis
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 
+# Improved less option
+export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen --RAW-CONTROL-CHARS'
+
 # ---------------------------------
 # zsh plugins
 # ---------------------------------
