@@ -41,20 +41,30 @@ alias gfa='git fetch --all'
 alias gfap='git fetch --all --prune'
 alias lv='less'
 alias gremote2local='cbranch=$(current_branch) ; git branch --all | grep $GITHUB_USER | egrep -v "HEAD|master|develop|release" | sed "s/^  remotes\/$GITHUB_USER\///" | xargs -n1 -I{} git branch {} --track $GITHUB_USER/{} ; git checkout $cbranch'
+
+# Use rlwrap commands
+if which rlwrap >/dev/null 2>&1; then
+    alias eus='rlwrap eus'
+    alias irteusgl='rlwrap irteusgl'
+    alias roseus='rlwrap roseus'
+    alias irb='rlwrap irb'
+    alias clisp="rlwrap -b '(){}[],#\";| ' clisp"
+fi
+
 # hub
 if which hub >/dev/null 2>&1; then
   eval "$(hub alias -s)"
 fi
 # open
-if which gnome-open >/dev/null 2>&1; then
-  alias open='gnome-open'
-  alias o='gnome-open'
-  alias o.='gnome-open .'
-elif which open >/dev/null 2>&1; then
-  alias o='open'
-  alias o.='open .'
+if which gnome-open >/dev/null 2>&1; then  # linux
+    alias open='gnome-open'
+    alias o='gnome-open'
+    alias o.='gnome-open .'
+elif which open >/dev/null 2>&1; then  # mac
+    alias o='open'
+    alias o.='open .'
 fi
-# ls
+# Improve ls
 if which dircolors >/dev/null 2>&1; then
   if [ -f ~/.colorrc ]; then
     eval `dircolors ~/.colorrc`
