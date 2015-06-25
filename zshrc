@@ -97,13 +97,16 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 # Additional zsh completion
 antigen bundle zsh-users/zsh-completions src
 
-antigen bundle wkentaro/pycd pycd/pycd.sh
-
 # Load the theme.
 antigen theme wkentaro/wkentaro.zsh-theme wkentaro
 
 # Tell antigen that you're done.
 antigen apply
+
+# pycd
+if [ -f "/usr/local/lib/python2.7/site-packages/pycd/pycd.sh" ]; then
+  source /usr/local/lib/python2.7/site-packages/pycd/pycd.sh
+fi
 
 # --------------------------------
 # bindkey
