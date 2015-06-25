@@ -161,9 +161,6 @@ if [ `uname` = 'Linux' ]; then
   source ~/.zsh/zshrc.linux
 fi
 
-# utilities
-source ~/.zsh/utils.zsh
-
 # --------------------------------
 # command line stack
 # --------------------------------
