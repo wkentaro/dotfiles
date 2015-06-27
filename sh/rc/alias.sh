@@ -87,7 +87,8 @@ fi
 # Git commit each file
 _git_commit_each_file () {
     changed_files=`git status -s | grep "^[A-Z]" | sed 's/^...//g' | sed 's/ -> /,/g'`
-    for file in ${changed_files}; do
+    changed_files=(`echo $changed_files`)
+    for file in $changed_files; do
         msg=`echo ${file} | sed "s/.*,//g"`
         echo "[${msg}]" > /tmp/git_commit_message_template
         files=`echo ${file} | tr ',' ' '`
