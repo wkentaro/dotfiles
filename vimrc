@@ -99,7 +99,7 @@ augroup MyAutoCmd
 augroup END
 
 " Specific settings according to filetype ------------------------------
-au BufNewFile,BufRead * set iminsert=0 tabstop=4 shiftwidth=4 wrap
+au BufNewFile,BufRead * set iminsert=0 tabstop=2 shiftwidth=2 wrap
 au BufNewFile,BufRead *.py set tabstop=4 shiftwidth=4 colorcolumn=80
 au BufNewFile,BufRead *.pyx set ft=python tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.cfg set ft=python tabstop=4 shiftwidth=4
