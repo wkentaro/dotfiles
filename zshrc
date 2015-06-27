@@ -50,6 +50,9 @@ export SSH_KEY_PATH='~/.ssh/id_rsa'
 # GitHub
 export GITHUB_USER='wkentaro'
 
+# Server in lab
+export SSH_USER='wada'
+
 # Travis
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 
