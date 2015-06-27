@@ -71,12 +71,12 @@ if [ $TERM = "dumb" ]; then
     # Disable colors in GVim
     alias ls="ls -F --show-control-chars"
     alias la='ls -aF --show-control-chars'
-    alias ll='ls -laF --show-control-chars'
+    alias ll='ls -lahF --show-control-chars'
 else
     # Color settings for zsh complete candidates
     alias ls='ls -F --show-control-chars --color=always'
     alias la='ls -aF --show-control-chars --color=always'
-    alias ll='ls -lF --show-control-chars --color=always'
+    alias ll='ls -lahF --show-control-chars --color=always'
     if which dircolors >/dev/null 2>&1; then
         if [ -f ~/.colorrc ]; then
             eval `dircolors ~/.colorrc`
