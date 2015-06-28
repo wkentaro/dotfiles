@@ -140,16 +140,24 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 if has('lua')
   NeoBundle 'Shougo/neocomplete.vim'
 endif
+" Interactive terminal tool
 NeoBundle 'wkentaro/conque.vim'
+" for roscd, rosed
 NeoBundle 'ompugao/ros.vim'
-NeoBundle 'toyamarinyon/vim-swift'
+" NeoBundle 'toyamarinyon/vim-swift'
 NeoBundle 'tpope/vim-repeat'
+" indent guide
 NeoBundle 'nathanaelkane/vim-indent-guides'
+" Surrounding editing
 NeoBundle 'tpope/vim-surround'
+" Easy commenting tool
 NeoBundle 'tomtom/tcomment_vim'
+" Colorful footer in vim
 NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'gregsexton/gitv'
+" Git tools for vim
+NeoBundle 'tpope/vim-fugitive'  " Gdiff, Glog
+NeoBundle 'gregsexton/gitv'  " gitv
+" Open URL by ,w
 NeoBundle 'tyru/open-browser.vim'
 if v:version > 703
   NeoBundle 'Shougo/vimfiler.vim'
@@ -160,25 +168,36 @@ NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'honza/vim-snippets'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-quickrun'
+" Use template
 NeoBundle 'thinca/vim-template'
+" Add colorschemes
 NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'hattya/python_fold.vim'
+" python folding setting
+" NeoBundle 'hattya/python_fold.vim'
+" python completion
 NeoBundle 'davidhalter/jedi-vim'
-NeoBundle 'mattn/emmet-vim'
+" For HTML and XML
+NeoBundle 'mattn/emmet-vim'   " C-y
+NeoBundle 'othree/html5.vim'  " indentation
+" For CSS
 NeoBundle 'hail2u/vim-css3-syntax'
-NeoBundle 'othree/html5.vim'
+" For JavaScript
 NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'kana/vim-altr'
+" NeoBundle 'kana/vim-altr'
+" Show variables and functions
 NeoBundle 'vim-scripts/taglist.vim'
-NeoBundle 'vim-scripts/L9'
+" NeoBundle 'vim-scripts/L9'
+" For Scala
 NeoBundle 'derekwyatt/vim-scala'
+" Syntastic Check
 NeoBundle 'scrooloose/syntastic'
+" For C, C++
 NeoBundle 'Rip-Rip/clang_complete'
-NeoBundle 'greyblake/vim-preview'
+" NeoBundle 'greyblake/vim-preview'
+" For LaTeX
 NeoBundle 'gerw/vim-latex-suite'
-NeoBundle 'tpope/vim-obsession'
-NeoBundle 'itchyny/calendar.vim'
-NeoBundle 'itchyny/screensaver.vim'
+" NeoBundle 'itchyny/calendar.vim'
+" NeoBundle 'itchyny/screensaver.vim'
 
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
