@@ -107,8 +107,11 @@ antigen bundle zsh-users/zsh-completions src
 # osx: brew cask install haskell-platform
 # linux: sudo apt-get install cabal-install
 antigen bundle olivierverdier/zsh-git-prompt zshrc.sh
-GIT_PROMPT_EXECUTABLE="haskell"
-USE_ZSH_GIT_PROMPT=1
+if [ -f "$HOME/.antigen/repos/https-COLON--SLASH--SLASH-github.com-SLASH-olivierverdier-SLASH-zsh-git-prompt.git/dist/build/gitstatus/gitstatus" ]; then
+  GIT_PROMPT_EXECUTABLE="haskell"
+  USE_ZSH_GIT_PROMPT=1
+fi
+
 
 # Load the theme.
 antigen theme wkentaro/wkentaro.zsh-theme wkentaro
