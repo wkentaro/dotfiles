@@ -284,7 +284,7 @@ let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 " nnoremap g# g#zz
 "
 " Quicker window movement
-nmap <C-j> <C-w>j
+nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
@@ -325,6 +325,7 @@ au BufNewFile,BufRead *.tex inoremap 、 ,
 au BufNewFile,BufRead *.tex inoremap 。 .
 au BufNewFile,BufRead *.tex inoremap （ (
 au BufNewFile,BufRead *.tex inoremap ） )
+nnoremap <SID>I_won’t_ever_type_this <Plug>IMAP_JumpForward
 
 " quickrun ------------------------------------------------- 
 let g:quickrun_config = {
