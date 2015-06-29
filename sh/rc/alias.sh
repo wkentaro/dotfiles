@@ -5,7 +5,9 @@
 # ----------------------------------------------------
 alias c='clear'
 alias lv='less'
-[ which vim >/dev/null 2>&1 ] && alias vi='vim'
+if which vim >/dev/null 2>&1; then
+    alias vi='vim'
+fi
 alias py='python'
 alias ipy='ipython'
 alias emacs='emacs -nw'
@@ -43,11 +45,11 @@ fi
 # ----------------------------------------------------
 # open aliases
 # ----------------------------------------------------
-if [ which gnome-open >/dev/null 2>&1 ]; then  # linux
+if which gnome-open >/dev/null 2>&1; then  # linux
     alias open='gnome-open'
     alias o='gnome-open'
     alias o.='gnome-open .'
-elif [ which open >/dev/null 2>&1 ]; then  # osx
+elif which open >/dev/null 2>&1; then  # osx
     alias o='open'
     alias o.='open .'
 fi
@@ -73,7 +75,7 @@ else
     alias ls='ls -F --show-control-chars --color=always'
     alias la='ls -aF --show-control-chars --color=always'
     alias ll='ls -lahF --show-control-chars --color=always'
-    if [ which dircolors >/dev/null 2>&1 ]; then
+    if which dircolors >/dev/null 2>&1; then
         [ -f $HOME/.colorrc ] && eval `dircolors $HOME/.colorrc`
     fi
 fi
@@ -82,7 +84,9 @@ fi
 # git aliases
 # ----------------------------------------------------
 # Use hub as git client
-[ which hub >/dev/null 2>&1 ] && eval "`hub alias -s`"
+if which hub >/dev/null 2>&1; then
+    eval "`hub alias -s`"
+fi
 # command aliases
 alias ga.='git add .'
 alias gaa='git add --all'
