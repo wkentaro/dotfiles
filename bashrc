@@ -1,5 +1,7 @@
 # vim: set ft=sh:
 
+OS=$(uname)
+
 # encoding
 export LC_CTYPE='en_US.UTF-8'
 
@@ -7,7 +9,9 @@ export LC_CTYPE='en_US.UTF-8'
 export TERM=xterm-256color
 
 # prompt setup
-parse_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/' }
+parse_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
 PS1='${debian_chroot:+($debian_chroot)}\[\e[00;32m\]\u@\h:\[\e[01;34m\]\W\[\033[01;35m\]$(parse_branch)\[\e[01;35m\]\[\e[0m\] $ '
 
 # -------------------------------
@@ -68,7 +72,9 @@ cd () {
 }
 
 # git aliases
-current_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/' }
+current_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
 alias g=git
 alias ga='git add'
 alias gap='git add --patch'
@@ -142,3 +148,13 @@ alias gup='git pull --rebase'
 alias gvt='git verify-tag'
 alias gwc='git whatchanged -p --abbrev-commit --pretty=medium'
 alias gwip='git add -A; git ls-files --deleted -z | xargs -r0 git rm; git commit -m "--wip--"'
+
+# -------------------------------
+# ls
+# -------------------------------
+if [ "$OS" = "Darwin" ]; then
+  alias ls='gls -F --show-control-chars --color=always'
+  alias la='gls -aF --show-control-chars --color=always'
+  alias ll='gls -lahF --show-control-chars --color=always'
+  alias lsa='gls -lahF --show-control-chars --color=always'
+fi
