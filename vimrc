@@ -607,9 +607,9 @@ highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
 highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
 
-" calenadar.vim
-let g:calendar_google_calendar = 1
-noremap <silent> ,c :Calendar<CR>
-
-" screensaver.vim
-noremap <silent> ,ss :ScreenSaver<CR>
+" " calenadar.vim
+" let g:calendar_google_calendar = 1
+" noremap <silent> ,c :Calendar<CR>
+"
+" " screensaver.vim
+" noremap <silent> ,ss :ScreenSaver<CR>
