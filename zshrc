@@ -134,23 +134,27 @@ antigen apply
 # --------------------------------
 # bindkey
 # --------------------------------
-# percol history search
-# Ctrl-R
-function percol-history() {
-  LBUFFER=$(fc -l 1 | tac | percol | sed -r "s/^ *[0-9]*(\*)? *//g")
-  zle -R -c
-}
-zle -N percol-history
-bindkey '^R' percol-history
+if [ which percol >/dev/null 2>&1 ]; then
+  # percol history search
+  # Ctrl-R
+  function percol-history() {
+    LBUFFER=$(fc -l 1 | tac | percol | sed -r "s/^ *[0-9]*(\*)? *//g")
+    zle -R -c
+  }
+  zle -N percol-history
+  bindkey '^R' percol-history
 
-# percol rostopic search
-# Alt-R
-function search-rostopic-by-percol(){
-  LBUFFER=$LBUFFER$(rostopic list | percol)
-  zle -R -c
-}
-zle -N search-rostopic-by-percol
-bindkey '^[r' search-rostopic-by-percol
+  # percol rostopic search
+  # Alt-R
+  if [ -d "/opt/ros" ]; then
+    function search-rostopic-by-percol(){
+      LBUFFER=$LBUFFER$(rostopic list | percol)
+      zle -R -c
+    }
+    zle -N search-rostopic-by-percol
+    bindkey '^[r' search-rostopic-by-percol
+  fi
+fi
 
 # History search
 zle -N history-beginning-search-backward-end history-search-end
@@ -187,11 +191,11 @@ alias -g V="| vim -R -"
 alias -g U=' --help | head'
 alias -g W="| wc"
 # copy
-if which pbcopy >/dev/null 2>&1 ; then 
-  alias -g C='| pbcopy' # mac
-elif which xsel >/dev/null 2>&1 ; then 
+if [ which pbcopy >/dev/null 2>&1 ]; then
+  alias -g C='| pbcopy' # osx
+elif [ which xsel >/dev/null 2>&1 ]; then
   alias -g C='| xsel --input --clipboard' # ubuntu
-elif which putclip >/dev/null 2>&1 ; then 
+elif [ which putclip >/dev/null 2>&1 ]; then
   alias -g C='| putclip' # cygwin
 fi
 # }}}
