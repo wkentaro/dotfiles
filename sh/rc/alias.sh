@@ -5,7 +5,7 @@
 # ----------------------------------------------------
 alias c='clear'
 alias lv='less'
-alias vi='vim'
+[ which vim >/dev/null 2>&1 ] && alias vi='vim'
 alias py='python'
 alias ipy='ipython'
 alias emacs='emacs -nw'
@@ -50,11 +50,11 @@ fi
 # ----------------------------------------------------
 # open aliases
 # ----------------------------------------------------
-if which gnome-open >/dev/null 2>&1; then  # linux
+if [ which gnome-open >/dev/null 2>&1 ]; then  # linux
     alias open='gnome-open'
     alias o='gnome-open'
     alias o.='gnome-open .'
-elif which open >/dev/null 2>&1; then  # osx
+elif [ which open >/dev/null 2>&1 ]; then  # osx
     alias o='open'
     alias o.='open .'
 fi
@@ -73,10 +73,8 @@ else
     alias ls='ls -F --show-control-chars --color=always'
     alias la='ls -aF --show-control-chars --color=always'
     alias ll='ls -lahF --show-control-chars --color=always'
-    if which dircolors >/dev/null 2>&1; then
-        if [ -f ~/.colorrc ]; then
-            eval `dircolors ~/.colorrc`
-        fi
+    if [ which dircolors >/dev/null 2>&1 ]; then
+        [ -f $HOME/.colorrc ] && eval `dircolors $HOME/.colorrc`
     fi
 fi
 
