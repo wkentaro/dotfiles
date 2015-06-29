@@ -10,7 +10,7 @@ if has("unix")
   if s:uname == "Darwin\n"
     set clipboard=unnamed
   elseif s:uname == "Linux\n"
-    set clipboard=unnamedplus
+    set clipboard=unnamedplus,unnamed
   endif
 endif
 
