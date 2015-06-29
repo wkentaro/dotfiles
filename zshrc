@@ -22,12 +22,12 @@ OS=$(uname)
 export PATH="/usr/local/bin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 
-# prefix: ~/.local
+# prefix: $HOME/.local
 export PATH="$HOME/.local/bin:$PATH"
 export MANPATH="$HOME/.local/bin:$MANPATH"
 
 # Python
-export PYTHONSTARTUP=~/.pythonstartup
+export PYTHONSTARTUP=$HOME/.pythonstartup
 export VIRTUALENV_USE_DISTRIBUTE=1
 
 # Termcolor
@@ -54,7 +54,7 @@ export LC_CTYPE='en_US.UTF-8'
 export EDITOR='vim'
 
 # ssh
-export SSH_KEY_PATH='~/.ssh/id_rsa'
+export SSH_KEY_PATH='$HOME/.ssh/id_rsa'
 
 # GitHub
 export GITHUB_USER='wkentaro'
@@ -63,7 +63,7 @@ export GITHUB_USER='wkentaro'
 export SSH_USER='wada'
 
 # Travis
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
 # catkin_tools
 [ -f /etc/bash_completion.d/catkin_tools-completion.bash ] && source /etc/bash_completion.d/catkin_tools-completion.bash
@@ -75,7 +75,7 @@ export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen
 # zsh plugins
 # ---------------------------------
 # source antigen
-source ~/.zsh/antigen/antigen.zsh
+source $HOME/.zsh/antigen/antigen.zsh
 
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
@@ -175,7 +175,7 @@ bindkey "^Y" yank
 # alias
 # --------------------------------
 # source common aliases
-source ~/.sh/rc/alias.sh
+source $HOME/.sh/rc/alias.sh
 
 # Global aliases {{{
 alias -g A="| awk"
