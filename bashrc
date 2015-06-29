@@ -2,43 +2,73 @@
 
 # encoding
 export LC_CTYPE='en_US.UTF-8'
+
 # terminal color
 export TERM=xterm-256color
+
 # prompt setup
-current_branch() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
-}
-parse_branch() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-}
+parse_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/' }
 PS1='${debian_chroot:+($debian_chroot)}\[\e[00;32m\]\u@\h:\[\e[01;34m\]\W\[\033[01;35m\]$(parse_branch)\[\e[01;35m\]\[\e[0m\] $ '
 
+# -------------------------------
+# alias
+# -------------------------------
+# source common aliases
+source $HOME/.sh/rc/alias.sh
+
+# google command
 google () {
   search=""
-  echo "Googling: $@"
   for term in $@; do
       search="$search%20$term"
   done
-  xdg-open "http://www.google.com/search?q=$search"
+  open "http://www.google.com/search?q=$search"
 }
 
+#------------------------------------------------
 # alias
-alias emacs='emacs -nw'
-alias eshell='emacs --execute "(term \"`which zsh`\")"'
- - () {
+# -----------------------------------------------
+# Basics
+alias h=history
+alias history='fc -l 1'
+alias md='mkdir -p'
+alias rd=rmdir
+alias d='dirs -v | head -10'
+
+# cd aliases
+- () {
   cd -
 }
 alias ..='cd ..'
 alias ...='cd ../..'
-alias _=sudo
-alias afind='ack-grep -il'
-alias c=clear
 alias cd..='cd ..'
 alias cd...='cd ../..'
 alias cd....='cd ../../..'
 alias cd.....='cd ../../../..'
-alias d='dirs -v | head -10'
-alias emacs='emacs -nw'
+cd () {
+  if [[ "x$*" = "x..." ]]
+  then
+    cd ../..
+  elif [[ "x$*" = "x...." ]]
+  then
+    cd ../../..
+  elif [[ "x$*" = "x....." ]]
+  then
+    cd ../../../..
+  elif [[ "x$*" = "x......" ]]
+  then
+    cd ../../../../..
+  elif [ -d ~/.autoenv ]
+  then
+    source ~/.autoenv/activate.sh
+    autoenv_cd "$@"
+  else
+    builtin cd "$@"
+  fi
+}
+
+# git aliases
+current_branch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/' }
 alias g=git
 alias ga='git add'
 alias gap='git add --patch'
@@ -70,7 +100,6 @@ alias ggpush='git push origin $(current_branch)'
 alias gmpush='git push wkentaro $(current_branch)'
 alias gignore='git update-index --assume-unchanged'
 alias gignored='git ls-files -v | grep "^[[:lower:]]"'
-alias git=hub
 alias git-svn-dcommit-push='git svn dcommit && git push github master:svntrunk'
 alias gk='gitk --all --branches'
 alias gl='git pull'
@@ -113,63 +142,3 @@ alias gup='git pull --rebase'
 alias gvt='git verify-tag'
 alias gwc='git whatchanged -p --abbrev-commit --pretty=medium'
 alias gwip='git add -A; git ls-files --deleted -z | xargs -r0 git rm; git commit -m "--wip--"'
-alias h=history
-alias history='fc -l 1'
-alias ipy=ipython
-alias sl='ls'
-alias l='ls -lah'
-alias la='ls -lAh'
-alias ll='ls -lh'
-alias lsa='ls -lah'
-alias md='mkdir -p'
-alias py=python
-alias please=sudo
-alias po=popd
-alias pu=pushd
-alias pyfind='find . -name "*.py"'
-alias pygrep='grep --include="*.py"'
-alias rd=rmdir
-alias v=vim
-alias vi=vim
-alias which-command=whence
-# hub
-if which hub >/dev/null 2>&1; then
-  eval "$(hub alias -s)"
-fi
-# open
-if which open >/dev/null 2>&1; then
-  alias o='open'
-  alias o.='open .'
-elif which gnome-open >/dev/null 2>&1; then
-  alias open='gnome-open'
-  alias o='gnome-open'
-  alias o.='gnome-open .'
-fi
-# ls
-if which dircolors >/dev/null 2>&1; then
-  eval `dircolors $HOME/.colorrc`
-  alias ls='ls --color=auto'
-fi
- [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator 
-
-cd () {
-  if [[ "x$*" = "x..." ]]
-  then
-    cd ../..
-  elif [[ "x$*" = "x...." ]]
-  then
-    cd ../../..
-  elif [[ "x$*" = "x....." ]]
-  then
-    cd ../../../..
-  elif [[ "x$*" = "x......" ]]
-  then
-    cd ../../../../..
-  elif [ -d ~/.autoenv ]
-  then
-    source ~/.autoenv/activate.sh
-    autoenv_cd "$@"
-  else
-    builtin cd "$@"
-  fi
-}
