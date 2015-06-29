@@ -16,6 +16,8 @@ setopt hist_ignore_dups
 zstyle ':completion:*:default' menu select=1
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
+OS=$(uname)
+
 # prefix: /usr/local
 export PATH="/usr/local/bin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
@@ -32,9 +34,16 @@ export VIRTUALENV_USE_DISTRIBUTE=1
 export TERM=xterm-256color
 
 # grep
-if [ `uname` = 'Darwin' ]; then
+if [ "$OS" = "Darwin" ]; then
   export GREP_OPTIONS='--color=always'
   export GREP_COLOR='1;35;40'
+fi
+
+# linuxbrew
+if [ "$OS" = "Linux" ]; then
+  export PATH="$HOME/.linuxbrew/bin:$PATH"
+  export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
+  export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
 fi
 
 # Encoding
@@ -55,6 +64,9 @@ export SSH_USER='wada'
 
 # Travis
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+
+# catkin_tools
+[ -f /etc/bash_completion.d/catkin_tools-completion.bash ] && source /etc/bash_completion.d/catkin_tools-completion.bash
 
 # Improved less option
 export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen --RAW-CONTROL-CHARS'
@@ -122,18 +134,33 @@ antigen apply
 # --------------------------------
 # bindkey
 # --------------------------------
+# percol history search
+# Ctrl-R
 function percol-history() {
   LBUFFER=$(fc -l 1 | tac | percol | sed -r "s/^ *[0-9]*(\*)? *//g")
   zle -R -c
 }
 zle -N percol-history
 bindkey '^R' percol-history
-bindkey '^A' beginning-of-line
-bindkey '^E' end-of-line
+
+# percol rostopic search
+# Alt-R
+function search-rostopic-by-percol(){
+  LBUFFER=$LBUFFER$(rostopic list | percol)
+  zle -R -c
+}
+zle -N search-rostopic-by-percol
+bindkey '^[r' search-rostopic-by-percol
+
+# History search
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
+
+# Emacs Keybind
+bindkey '^A' beginning-of-line
+bindkey '^E' end-of-line
 bindkey "^F" forward-char
 bindkey "^B" backward-char
 bindkey "^D" delete-char
@@ -185,11 +212,6 @@ function _zcd ()
   fi
 }
 alias z='_zcd'
-
-# alias for linux
-if [ `uname` = 'Linux' ]; then
-  source ~/.zsh/zshrc.linux
-fi
 
 # --------------------------------
 # command line stack
