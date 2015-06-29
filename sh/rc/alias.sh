@@ -11,13 +11,6 @@ alias ipy='ipython'
 alias emacs='emacs -nw'
 
 # ----------------------------------------------------
-# browser
-# ----------------------------------------------------
-alias gcal='open https://www.google.com/calendar/render#g >/dev/null 2>&1'
-alias gmail='open https://mail.google.com/mail/u/0/ >/dev/null 2>&1'
-alias github='open https://github.com >/dev/null 2>&1'
-
-# ----------------------------------------------------
 # tmux aliases
 # ----------------------------------------------------
 alias t='tmux'
@@ -58,6 +51,13 @@ elif [ which open >/dev/null 2>&1 ]; then  # osx
     alias o='open'
     alias o.='open .'
 fi
+
+# ----------------------------------------------------
+# browser
+# ----------------------------------------------------
+alias gcal='open https://www.google.com/calendar/render#g >/dev/null 2>&1'
+alias gmail='open https://mail.google.com/mail/u/0/ >/dev/null 2>&1'
+alias github='open https://github.com >/dev/null 2>&1'
 
 # ----------------------------------------------------
 # ls aliases
