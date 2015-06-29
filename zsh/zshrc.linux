@@ -1,5 +1,10 @@
 # vim: set ft=zsh:
 
+# linuxbrew
+export PATH="$HOME/.linuxbrew/bin:$PATH"
+export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
+export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
+
 # catkin_tools
 if [ -f /etc/bash_completion.d/catkin_tools-completion.bash ]; then
   source /etc/bash_completion.d/catkin_tools-completion.bash

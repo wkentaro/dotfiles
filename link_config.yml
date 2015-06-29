@@ -22,6 +22,8 @@ hgignore_global:
   .hgignore_global
 inputrc:
   .inputrc
+linuxbrew:
+  .linuxbrew
 shrc.alias:
   .shrc.alias
 percolrc:
