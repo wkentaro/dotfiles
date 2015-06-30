@@ -17,8 +17,8 @@ endfunction
 
 call s:source_rc('mappings.rc.vim')
 
-let mapleader=' '
-let g:mapleader = " "
+let mapleader=','
+let g:mapleader = ","
 
 nmap <Leader><Leader> <S-v>
 
@@ -246,7 +246,7 @@ NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'scrooloose/syntastic'
 " For C, C++
 NeoBundle 'Rip-Rip/clang_complete'
-" NeoBundle 'greyblake/vim-preview'
+NeoBundle 'greyblake/vim-preview'
 " For LaTeX
 NeoBundle 'gerw/vim-latex-suite'
 " NeoBundle 'itchyny/calendar.vim'
