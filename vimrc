@@ -66,11 +66,17 @@ set shiftround
 set expandtab
 " Allow backspace in insert mode
 set backspace=indent,eol,start
+
 " Respect modeline in files
 set modeline
 set modelines=4
-" Disable error bells
+
+" No annoying sound on errors
 set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+
 " Don’t reset cursor to start of line when moving around.
 set nostartofline
 set modifiable
