@@ -196,6 +196,9 @@ NeoBundle 'gerw/vim-latex-suite'
 " NeoBundle 'itchyny/calendar.vim'
 " NeoBundle 'itchyny/screensaver.vim'
 
+" Python syntax
+NeoBundle 'klen/python-mode'
+
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
 execute "NeoBundle 'Shougo/vimproc.vim'," . string({
