@@ -334,22 +334,27 @@ endif
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 " Move Keymapping -------------------------------------------------  
-" vnoremap 1 0
-" nnoremap 1 0
-" vnoremap 0 $
-" nnoremap 0 $
-" nnoremap n nzz
-" nnoremap N Nzz
-" nnoremap * *zz
-" nnoremap # #zz
-" nnoremap g* g*zz
-" nnoremap g# g#zz
 "
+" Remap VIM 0 to first non-blank character
+map 0 ^
+
 " Quicker window movement
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Spell checking
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Pressing ,ss will toggle and untoggle spell checking
+map <Leader>ss :setlocal spell!<cr>
+
+" Shortcuts using <leader>
+map <Leader>sn ]s
+map <Leader>sp [s
+map <Leader>sa zg
+map <Leader>s? z=
 
 " Search -------------------------------------------------  
 " cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
