@@ -17,7 +17,8 @@ endfunction
 
 call s:source_rc('mappings.rc.vim')
 
-let mapleader=','
+let mapleader=' '
+nmap <Leader><Leader> <S-v>
 
 " Enhance command-line completion
 set wildmenu
@@ -201,6 +202,12 @@ NeoBundle 'gerw/vim-latex-suite'
 " Python syntax
 NeoBundle 'klen/python-mode'
 
+" vim-tmux seamless move
+NeoBundle 'christoomey/vim-tmux-navigator'
+
+" ignore git ignored files
+NeoBundle 'vim-scripts/gitignore'
+
 let vimproc_updcmd = has('win64') ?
       \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
 execute "NeoBundle 'Shougo/vimproc.vim'," . string({
@@ -346,7 +353,7 @@ nmap <silent> <Leader>w <Plug>(openbrowser-open)
 
 " unite ------------------------------------------------- 
 let g:unite_enable_start_insert=1
-noremap <C-p> :Unite buffer<CR>
+noremap <C-p> :Unite buffer -winheight=10<CR>
 noremap <C-n> :Unite -buffer-name=file file<CR>
 noremap <C-]> :Unite file_mru<CR>
 noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
