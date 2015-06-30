@@ -5,13 +5,10 @@ colorscheme default
 set nocompatible
 " Use the OS clipboard by default
 " (on versions compiled with `+clipboard`)
-if has("unix")
-  let s:uname = system("uname")
-  if s:uname == "Darwin\n"
-    set clipboard=unnamed
-  elseif s:uname == "Linux\n"
-    set clipboard=unnamedplus,unnamed
-  endif
+if has('unnamedplus')
+  set clipboard=unnamed,unnamedplus
+else
+  set clipboard=unnamed
 endif
 
 function! s:source_rc(path)
