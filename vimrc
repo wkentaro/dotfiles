@@ -17,8 +17,19 @@ endfunction
 
 call s:source_rc('mappings.rc.vim')
 
-let mapleader=' '
+let mapleader=','
 nmap <Leader><Leader> <S-v>
+noremap gV `[V`]
+" good paste and yank
+vnoremap <silent> y y`]
+vnoremap <silent> p p`]
+nnoremap <silent> p p`]
+" delete without yanking
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+" replace currently selected text with default register
+" without yanking it
+vnoremap <leader>p "_dP
 
 " Enhance command-line completion
 set wildmenu
@@ -299,8 +310,8 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
 " Search -------------------------------------------------  
-cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
-cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
+" cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
+" cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
 " vimshell ------------------------------------------------- 
 " nnoremap <silent> ,is :vsp<CR>:VimShell<CR>
