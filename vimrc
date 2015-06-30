@@ -127,9 +127,16 @@ set matchtime=3
 set matchpairs& matchpairs+=<:>
 set backspace=indent,eol,start
 set nowritebackup
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Files, backups and undo
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
-" set undofile
+set nowb
 set noswapfile
+
+" set undofile
 set nofoldenable
 set list
 set number
