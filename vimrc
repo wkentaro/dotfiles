@@ -610,3 +610,6 @@ highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
 "
 " " screensaver.vim
 " noremap <silent> ,ss :ScreenSaver<CR>
+
+" for git-commit
+autocmd FileType gitcommit :set dictionary=~/.vim/dict/github_users.dict
