@@ -17,6 +17,8 @@ endfunction
 
 call s:source_rc('mappings.rc.vim')
 
+let mapleader=','
+
 " Enhance command-line completion
 set wildmenu
 " Allow cursor keys in insert mode
@@ -340,7 +342,7 @@ nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() 
 nnoremap <silent> ,r :QuickRun<CR>
 
 " open-browser ------------------------------------------------- 
-nmap <silent> ,w <Plug>(openbrowser-open)
+nmap <silent> <Leader>w <Plug>(openbrowser-open)
 
 " unite ------------------------------------------------- 
 let g:unite_enable_start_insert=1
@@ -434,7 +436,7 @@ let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=darkgray ctermbg=8
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  guibg=darkgray ctermbg=8
-noremap <silent> ,g :IndentGuidesToggle<CR>
+noremap <silent> <Leader>g :IndentGuidesToggle<CR>
 
 " vim-repeat ------------------------------------------------- 
 silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
@@ -442,7 +444,7 @@ silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 " vim-filter ------------------------------------------------- 
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
-noremap <silent> ,f :VimFiler -split -explorer<CR>
+noremap <silent> <Leader>f :VimFiler -split -explorer<CR>
 
 " vim-markdown -------------------------------------------------
 let g:vim_markdown_codeblock_syntax=0
@@ -550,14 +552,14 @@ augroup EmmitVim
 augroup END
 
 " taglist.vim
-noremap <silent> ,t :TlistToggle<CR>
+noremap <silent> <Leader>t :TlistToggle<CR>
 
 " syntastic
 set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [], 'passive_filetypes': [] }
-nnoremap <silent> ,e :SyntasticCheck<CR>
+nnoremap <silent> <Leader>e :SyntasticCheck<CR>
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -606,13 +608,6 @@ highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
 highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
 highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
-
-" " calenadar.vim
-" let g:calendar_google_calendar = 1
-" noremap <silent> ,c :Calendar<CR>
-"
-" " screensaver.vim
-" noremap <silent> ,ss :ScreenSaver<CR>
 
 " for git-commit
 autocmd FileType gitcommit :set dictionary=~/.vim/dict/github_users.dict
