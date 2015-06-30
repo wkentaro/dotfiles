@@ -17,22 +17,39 @@ endfunction
 
 call s:source_rc('mappings.rc.vim')
 
-let mapleader=','
+let mapleader=' '
+let g:mapleader = " "
+
 nmap <Leader><Leader> <S-v>
+
 noremap gV `[V`]
-" good paste and yank
-vnoremap <silent> y y`]
-vnoremap <silent> p p`]
-nnoremap <silent> p p`]
+
 " delete without yanking
 nnoremap <leader>d "_d
 vnoremap <leader>d "_d
+
 " replace currently selected text with default register
 " without yanking it
 vnoremap <leader>p "_dP
 
+" Fast saving
+nmap <leader>w :w!<cr>
+
+" :W sudo saves the file
+" (useful for handling the permission-denied error)
+command W w !sudo tee % > /dev/null
+
 " Enhance command-line completion
 set wildmenu
+
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+else
+    set wildignore+=.git\*,.hg\*,.svn\*
+endif
+
 " Allow cursor keys in insert mode
 set esckeys
 " Optimize for fast terminal connections
@@ -58,12 +75,21 @@ set noerrorbells
 set nostartofline
 set modifiable
 set ttymouse=xterm2
+
+" set hightlight search
+set hlsearch
+
 " Enable mouse in all modes
-set mouse=a
+if has('mouse')
+  set mouse=a
+endif
+
 " Ignore case of searches
 set ignorecase
+
 " Show the cursor position
 set ruler
+
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
@@ -85,7 +111,10 @@ set nowrapscan
 set shiftround
 set infercase
 set virtualedit=all
+
+" A buffer becomes hidden when it is abandoned
 set hidden
+
 set switchbuf=useopen
 set showmatch
 set matchtime=3
@@ -168,7 +197,7 @@ NeoBundle 'itchyny/lightline.vim'
 " Git tools for vim
 NeoBundle 'tpope/vim-fugitive'  " Gdiff, Glog
 NeoBundle 'gregsexton/gitv'  " gitv
-" Open URL by ,w
+" Open URL by w
 NeoBundle 'tyru/open-browser.vim'
 if v:version > 703
   NeoBundle 'Shougo/vimfiler.vim'
@@ -357,10 +386,10 @@ let g:quickrun_config = {
 \   },
 \}
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
-nnoremap <silent> ,r :QuickRun<CR>
+nnoremap <silent> <Leader>r :QuickRun<CR>
 
 " open-browser ------------------------------------------------- 
-nmap <silent> <Leader>w <Plug>(openbrowser-open)
+nmap <silent> <Leader>o <Plug>(openbrowser-open)
 
 " unite ------------------------------------------------- 
 let g:unite_enable_start_insert=1
