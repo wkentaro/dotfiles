@@ -3,7 +3,7 @@
 # ---------------------------------
 # zsh initialization
 # ---------------------------------
-# autoload -Uz compinit && compinit
+autoload -Uz compinit && compinit
 setopt histignorealldups
 autoload history-search-end
 setopt list_packed
