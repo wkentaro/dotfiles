@@ -164,7 +164,7 @@ au BufNewFile,BufRead *.sh set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.zsh set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.bash set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.md set tabstop=4 shiftwidth=4 ft=markdown
-au BufNewFile,BufRead *.tex set tabstop=4 shiftwidth=4 ft=tex
+au BufNewFile,BufRead *.tex set tabstop=2 shiftwidth=2 ft=tex
 
 autocmd FileType cpp setlocal path=.,/usr/include,/usr/local/include,/usr/include/c++/4.8/,/opt/ros/indigo/include,/usr/include/pcl-1.7
 
@@ -388,8 +388,8 @@ let g:Tex_ViewRule_pdf = 'evince'
 let Tex_FoldedSections=""
 let Tex_FoldedEnvironments=""
 let Tex_FoldedMisc=""
-au BufNewFile,BufRead *.tex inoremap 、 ,
-au BufNewFile,BufRead *.tex inoremap 。 .
+au BufNewFile,BufRead *.tex inoremap 、 , 
+au BufNewFile,BufRead *.tex inoremap 。 . 
 au BufNewFile,BufRead *.tex inoremap （ (
 au BufNewFile,BufRead *.tex inoremap ） )
 nnoremap <SID>I_won’t_ever_type_this <Plug>IMAP_JumpForward
@@ -397,11 +397,19 @@ nnoremap <SID>I_won’t_ever_type_this <Plug>IMAP_JumpForward
 " quickrun ------------------------------------------------- 
 let g:quickrun_config = {
 \   "_" : {
-\       "outputter/buffer/split" : ":botright",
+\       "outputter/buffer/split" : ":botright 8sp",
 \       "outputter/buffer/close_on_empty" : 1,
+\       "outputter" : "error",
+\       "outputter/error/success" : "buffer",
+\       "outputter/error" : "quickfix",
 \       "runner" : "vimproc",
 \       "runner/vimproc/updatetime" : 60
 \   },
+\   "tex" : {
+\       "command" : "make",
+\       "exec": "%c %o",
+\       "cmdopt": "pdf open",
+\    },
 \}
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 nnoremap <silent> <Leader>r :QuickRun<CR>
