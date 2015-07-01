@@ -162,6 +162,10 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
+# Vi Keybind
+bindkey -M vicmd '1' vi-beginning-of-line
+bindkey -M vicmd '0' vi-end-of-line
+
 # Emacs Keybind
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
