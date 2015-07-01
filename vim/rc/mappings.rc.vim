@@ -2,6 +2,17 @@
 " Key-mappings:
 "
 
+" Move key "{{{
+nnoremap j gj
+nnoremap k gk
+nnoremap gj j
+nnoremap gk k
+
+nnoremap 1 ^
+vnoremap 1 ^
+nnoremap 0 $
+vnoremap 0 $
+"}}}
 
 " Easy escape."{{{
 inoremap jj           <ESC>
@@ -67,3 +78,11 @@ nnoremap <S-Right> <C-w>><CR>
 nnoremap <S-Up>    <C-w>-<CR>
 nnoremap <S-Down>  <C-w>+<CR>
 "}}}
+
+" Inactivate no need keys "{{{
+nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
+
+nnoremap Q <Nop>
+"}}}
+
