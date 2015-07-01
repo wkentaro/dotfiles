@@ -334,9 +334,6 @@ endif
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 " Move Keymapping -------------------------------------------------  
-"
-" Remap VIM 0 to first non-blank character
-map 0 ^
 
 " Quicker window movement
 nnoremap <C-j> <C-w>j
