@@ -115,6 +115,9 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 # Additional zsh completion
 antigen bundle zsh-users/zsh-completions src
 
+# Vim's text-object
+antigen bundle hchbaw/opp.zsh
+
 # use haskell to run faster
 # osx: brew cask install haskell-platform
 # linux: sudo apt-get install cabal-install
