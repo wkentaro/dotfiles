@@ -135,6 +135,10 @@ antigen theme wkentaro/wkentaro.zsh-theme wkentaro
 # Tell antigen that you're done.
 antigen apply
 
+if which pypkg >/dev/null 2>&1; then
+  source `pypkg find pycd`/pycd.sh
+fi
+
 # --------------------------------
 # bindkey
 # --------------------------------
