@@ -25,6 +25,7 @@ export MANPATH="/usr/local/man:$MANPATH"
 # prefix: $HOME/.local
 export PATH="$HOME/.local/bin:$PATH"
 export MANPATH="$HOME/.local/bin:$MANPATH"
+export PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH"
 
 # Python
 export PYTHONSTARTUP=$HOME/.pythonstartup
