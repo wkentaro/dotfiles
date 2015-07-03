@@ -36,10 +36,13 @@ fi
 # ----------------------------------------------------
 # ros
 # ----------------------------------------------------
+_image_view() {
+    rosrun image_view image_view image:=$1
+}
 if [ -d "/opt/ros" ]; then
     alias rqt_gui='rosrun rqt_gui rqt_gui'
     alias rqt_reconfigure='rosrun rqt_reconfigure rqt_reconfigure'
-    alias image_view='rosrun image_view image_view image:=$1'
+    alias image_view=_image_view
 fi
 
 # ----------------------------------------------------
