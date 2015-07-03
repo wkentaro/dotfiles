@@ -83,7 +83,7 @@ set modifiable
 set ttymouse=xterm2
 
 " set hightlight search
-set hlsearch
+" set hlsearch
 
 " Enable mouse in all modes
 if has('mouse')
@@ -253,7 +253,7 @@ NeoBundle 'gerw/vim-latex-suite'
 " NeoBundle 'itchyny/screensaver.vim'
 
 " Python syntax
-NeoBundle 'klen/python-mode'
+" NeoBundle 'klen/python-mode'
 
 " vim-tmux seamless move
 NeoBundle 'christoomey/vim-tmux-navigator'
