@@ -1,8 +1,10 @@
 " Use Default Dark theme
 set background=dark
 colorscheme default
+
 " Make vim more useful
 set nocompatible
+
 " Use the OS clipboard by default
 " (on versions compiled with `+clipboard`)
 if has('unnamedplus')
@@ -30,18 +32,24 @@ endif
 
 " Allow cursor keys in insert mode
 set esckeys
+
 " Optimize for fast terminal connections
 set ttyfast
+
 " Use UTF-8 without BOM
 set encoding=utf-8 nobomb
+
 " Don’t add empty newlines at the end of files
 set binary
 set noeol
+
 " Enable syntax highlighting
 syntax on
+
 " Softtabs, 2 spaces
 set shiftround
 set expandtab
+
 " Allow backspace in insert mode
 set backspace=indent,eol,start
 
@@ -83,6 +91,7 @@ set autoindent
 set browsedir=buffer
 set expandtab
 set hidden
+
 " Highlight dynamically as pattern is typed
 set incsearch
 set number
