@@ -17,28 +17,6 @@ endfunction
 
 call s:source_rc('mappings.rc.vim')
 
-let mapleader=','
-let g:mapleader = ","
-
-nmap <Leader><Leader> <S-v>
-
-noremap gV `[V`]
-
-" delete without yanking
-nnoremap <leader>d "_d
-vnoremap <leader>d "_d
-
-" replace currently selected text with default register
-" without yanking it
-vnoremap <leader>p "_dP
-
-" Fast saving
-nmap <leader>w :w!<cr>
-
-" :W sudo saves the file
-" (useful for handling the permission-denied error)
-command W w !sudo tee % > /dev/null
-
 " Enhance command-line completion
 set wildmenu
 

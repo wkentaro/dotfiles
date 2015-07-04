@@ -1,6 +1,33 @@
-"---------------------------------------------------------------------------
+"--------------------------------------
 " Key-mappings:
-"
+"--------------------------------------
+
+
+" Mapleader "{{{
+let mapleader=','
+let g:mapleader = ","
+"}}}
+
+
+" Select key "{{{
+nmap <Leader><Leader> <S-v>
+noremap gV `[V`]
+"}}}
+
+
+" Delete key "{{{
+" delete without yanking it
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+nnoremap <leader>x "_x
+"}}}
+
+
+" Paste key "{{{
+" without yanking it
+vnoremap <leader>p "_dP
+"}}}
+
 
 " Move key "{{{
 nnoremap j gj
@@ -14,6 +41,7 @@ nnoremap 0 $
 vnoremap 0 $
 "}}}
 
+
 " Easy escape."{{{
 inoremap jj           <ESC>
 " inoremap <expr> j       getline('.')[col('.') - 2] ==# 'j' ? "\<BS>\<ESC>" : 'j'
@@ -24,7 +52,7 @@ inoremap j<Space>     j
 onoremap j<Space>     j
 "}}}
 
-"
+
 " a>, i], etc... "{{{
 " <angle>
 onoremap aa  a>
@@ -79,10 +107,20 @@ nnoremap <S-Up>    <C-w>-<CR>
 nnoremap <S-Down>  <C-w>+<CR>
 "}}}
 
+
 " Inactivate no need keys "{{{
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 
 nnoremap Q <Nop>
 "}}}
+
+
+" Fast saving
+nmap <leader>w :w!<cr>
+
+
+" :W sudo saves the file
+" (useful for handling the permission-denied error)
+command W w !sudo tee % > /dev/null
 
