@@ -6,7 +6,7 @@
 alias c='clear'
 alias lv='less'
 if which vim >/dev/null 2>&1; then
-    alias vi='vim'
+    alias vi='vim -u NONE -N'
 fi
 alias py='python'
 alias ipy='ipython'
