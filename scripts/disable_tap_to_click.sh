@@ -2,4 +2,3 @@
 #
 
 synclient MaxTapTime=0
-
