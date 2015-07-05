@@ -5,8 +5,6 @@ function! s:source_rc(path)
   execute 'source' fnameescape(expand('~/.vim/rc/' . a:path))
 endfunction
 
-call s:source_rc('mappings.rc.vim')
-
 
 " ----------------------------------------------------------------
 " vim useful options
@@ -200,7 +198,13 @@ au BufNewFile,BufRead * match ZenkakuSpace /　/
 
 
 " ----------------------------------------------------------
-" Plugin
+" Key mappings
+" ----------------------------------------------------------
+call s:source_rc('mappings.rc.vim')
+
+
+" ----------------------------------------------------------
+" Plugins
 " ----------------------------------------------------------
 if &g:loadplugins
   call s:source_rc('plugins.rc.vim')
