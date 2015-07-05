@@ -18,32 +18,40 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " --------------------------------------------------------
 if has('lua')
   NeoBundle 'Shougo/neocomplete.vim'
+
   " Disable AutoComplPop.
   let g:acp_enableAtStartup = 0
+
   " Use neocomplete.
   let g:neocomplete#enable_at_startup = 1
+
   " Use smartcase.
   let g:neocomplete#enable_smart_case = 1
+
   " Set minimum syntax keyword length.
   let g:neocomplete#sources#syntax#min_keyword_length = 3
   let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
   let g:neocomplete#enable_auto_select = 0
   let g:neocomplete#enable_auto_close_preview = 1
   let g:neocomplete#enable_ignore_case = 1
+
   " Define dictionary.
   let g:neocomplete#sources#dictionary#dictionaries = {
       \ 'default' : '',
       \ 'vimshell' : $HOME.'/.vimshell_hist',
       \ 'scheme' : $HOME.'/.gosh_completions'
           \ }
+
   " Define keyword.
   if !exists('g:neocomplete#keyword_patterns')
     let g:neocomplete#keyword_patterns = {}
   endif
   let g:neocomplete#keyword_patterns._ = '\h\w*'
+
   " Plugin key-mappings.
   inoremap <expr><C-g>     neocomplete#undo_completion()
   inoremap <expr><C-l>     neocomplete#complete_common_string()
+
   " Recommended key-mappings.
   " inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
   " function! s:my_cr_function()
@@ -56,6 +64,7 @@ if has('lua')
   " inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
   " noremap <expr><C-y>  neocomplete#close_popup()
   inoremap <expr><C-e>  neocomplete#cancel_popup()
+
   " Enable omni completion.
   autocmd FileType css setl omnifunc=csscomplete#CompleteCSS
   autocmd FileType html,markdown setl omnifunc=htmlcomplete#CompleteTags
@@ -63,11 +72,19 @@ if has('lua')
   autocmd FileType python setl omnifunc=pythoncomplete#Complete
   autocmd filetype python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
   autocmd FileType xml setl omnifunc=xmlcomplete#CompleteTags
+
   " Enable heavy omni completion.
   if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
   endif
   let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+  if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
+  endif
+  let g:neocomplete#force_omni_input_patterns.cpp =
+    \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+  let g:neocomplete#force_omni_input_patterns.python =
+    \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 endif
 
 
@@ -267,6 +284,34 @@ NeoBundle 'Shougo/neomru.vim'
 
 
 NeoBundle 'Shougo/neosnippet.vim'
+" Plugin key-mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: "\<TAB>"
+let g:neosnippet#disable_runtime_snippets = {
+\   '_' : 1,
+\ }
+" Enable snipMate compatibility feature.
+let g:neosnippet#enable_snipmate_compatibility = 1
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/after/snippets'
+
+" For snippet_complete marker.
+" if has('conceal')
+"   set conceallevel=2 concealcursor=i
+" endif
+
+" Change Mode ---
+" nmap <C-3> <Plug>IMAP_JumpForward
+" vmap <C-3> <Plug>IMAP_JumpForward
 
 
 NeoBundle 'honza/vim-snippets'
@@ -294,8 +339,22 @@ nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() 
 nnoremap <silent> <Leader>r :QuickRun<CR>
 
 
-" Use template
+" --------------------------------------------------------
+" vim-template
+" --------------------------------------------------------
 NeoBundle 'thinca/vim-template'
+augroup MyAutoCmd
+  autocmd!
+augroup END
+autocmd MyAutoCmd User plugin-template-loaded call s:template_keywords()
+function! s:template_keywords()
+    silent! %s/<+DATE+>/\=strftime('%Y-%m-%d')/g
+    silent! %s/<+FILENAME+>/\=expand('%')/g
+endfunction
+autocmd MyAutoCmd User plugin-template-loaded
+    \   if search('<+HERE+>')
+    \ |   silent! execute 'normal! "_da>'
+    \ | endif
 
 
 " Add colorschemes
