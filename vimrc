@@ -1,23 +1,33 @@
-" Use Default Dark theme
-set background=dark
-colorscheme default
-
-" Make vim more useful
-set nocompatible
-
-" Use the OS clipboard by default
-" (on versions compiled with `+clipboard`)
-if has('unnamedplus')
-  set clipboard=unnamed,unnamedplus
-else
-  set clipboard=unnamed
-endif
-
+" ----------------------------------------------------------------
+" source_rc function
+" ----------------------------------------------------------------
 function! s:source_rc(path)
   execute 'source' fnameescape(expand('~/.vim/rc/' . a:path))
 endfunction
 
 call s:source_rc('mappings.rc.vim')
+
+
+" ----------------------------------------------------------------
+" vim useful options
+" ----------------------------------------------------------------
+" make vim more useful
+set nocompatible
+
+" colorscheme
+set background=dark
+colorscheme default
+
+" Enable syntax highlighting
+syntax on
+
+" clipboard
+" Use the OS clipboard by default (on versions compiled with `+clipboard`)
+if has('unnamedplus')
+  set clipboard=unnamed,unnamedplus
+else
+  set clipboard=unnamed
+endif
 
 " Enhance command-line completion
 set wildmenu
@@ -43,15 +53,20 @@ set encoding=utf-8 nobomb
 set binary
 set noeol
 
-" Enable syntax highlighting
-syntax on
-
 " filetype detection on
 filetype plugin indent on
 
-" Softtabs, 2 spaces
-set shiftround
+" use space aside from tab
 set expandtab
+
+" use 2 spaces for indentation
+set tabstop=2
+set shiftwidth=2
+set shiftround
+set iminsert=0
+
+" wrap for long line
+set wrap
 
 " Allow backspace in insert mode
 set backspace=indent,eol,start
@@ -142,7 +157,9 @@ set cinoptions+=:0,g0
 " Filetype
 " ----------------------------------------------------------------
 " Specific settings according to filetype
-au BufNewFile,BufRead * set iminsert=0 tabstop=2 shiftwidth=2 wrap
+au BufNewFile,BufRead *.sh set tabstop=4 shiftwidth=4
+au BufNewFile,BufRead *.zsh set tabstop=4 shiftwidth=4
+au BufNewFile,BufRead *.bash set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.py set tabstop=4 shiftwidth=4 colorcolumn=80
 au BufNewFile,BufRead *.pyx set ft=python tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.cfg set ft=python tabstop=4 shiftwidth=4
@@ -150,8 +167,6 @@ au BufNewFile,BufRead *.c set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.cpp set tabstop=2 shiftwidth=2
 au BufNewFile,BufRead *.launch set tabstop=2 shiftwidth=2 ft=xml
 au BufNewFile,BufRead *.php set tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.sh set tabstop=4 shiftwidth=4
-au BufNewFile,BufRead *.zsh set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.bash set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.md set tabstop=4 shiftwidth=4 ft=markdown
 au BufNewFile,BufRead *.tex set tabstop=2 shiftwidth=2 ft=tex
