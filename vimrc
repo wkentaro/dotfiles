@@ -206,58 +206,6 @@ let g:jedi#auto_vim_configuration = 1
 let g:jedi#show_call_signatures = 0
 let s:hooks = neobundle#get_hooks("jedi-vim")
 
-if !exists('g:neocomplete#force_omni_input_patterns')
-        let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#force_omni_input_patterns.cpp =
-  \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-let g:neocomplete#force_omni_input_patterns.python =
-  \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-
-" release autogroup in MyAutoCmd
-augroup MyAutoCmd
-  autocmd!
-augroup END
-autocmd MyAutoCmd User plugin-template-loaded call s:template_keywords()
-function! s:template_keywords()
-    silent! %s/<+DATE+>/\=strftime('%Y-%m-%d')/g
-    silent! %s/<+FILENAME+>/\=expand('%')/g
-endfunction
-autocmd MyAutoCmd User plugin-template-loaded
-    \   if search('<+HERE+>')
-    \ |   silent! execute 'normal! "_da>'
-    \ | endif
-
-" snippet
-" Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: "\<TAB>"
-let g:neosnippet#disable_runtime_snippets = {
-\   '_' : 1,
-\ }
-" Enable snipMate compatibility feature.
-let g:neosnippet#enable_snipmate_compatibility = 1
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/after/snippets'
-
-" For snippet_complete marker.
-" if has('conceal')
-"   set conceallevel=2 concealcursor=i
-" endif
-
-" Change Mode ---
-" nmap <C-3> <Plug>IMAP_JumpForward
-" vmap <C-3> <Plug>IMAP_JumpForward
-
 " HTML 5 tags
 syn keyword htmlTagName contained article aside audio bb canvas command
 syn keyword htmlTagName contained datalist details dialog embed figure
