@@ -136,12 +136,7 @@ set novisualbell
 set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
 set cinoptions+=:0,g0
 
-" release autogroup in MyAutoCmd
-augroup MyAutoCmd
-  autocmd!
-augroup END
-
-" Specific settings according to filetype ------------------------------
+" Specific settings according to filetype
 au BufNewFile,BufRead * set iminsert=0 tabstop=2 shiftwidth=2 wrap
 au BufNewFile,BufRead *.py set tabstop=4 shiftwidth=4 colorcolumn=80
 au BufNewFile,BufRead *.pyx set ft=python tabstop=4 shiftwidth=4
@@ -428,8 +423,10 @@ let g:neocomplete#force_omni_input_patterns.cpp =
 let g:neocomplete#force_omni_input_patterns.python =
   \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 
-
-" template
+" release autogroup in MyAutoCmd
+augroup MyAutoCmd
+  autocmd!
+augroup END
 autocmd MyAutoCmd User plugin-template-loaded call s:template_keywords()
 function! s:template_keywords()
     silent! %s/<+DATE+>/\=strftime('%Y-%m-%d')/g
