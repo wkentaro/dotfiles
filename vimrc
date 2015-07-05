@@ -118,9 +118,10 @@ set matchpairs& matchpairs+=<:>
 set backspace=indent,eol,start
 set nowritebackup
 
-"
-" => Files, backups and undo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" ----------------------------------------------------------------
+" Files, backups and undo
+" ----------------------------------------------------------------
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
 set nowb
@@ -136,6 +137,10 @@ set novisualbell
 set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
 set cinoptions+=:0,g0
 
+
+" ----------------------------------------------------------------
+" Filetype
+" ----------------------------------------------------------------
 " Specific settings according to filetype
 au BufNewFile,BufRead * set iminsert=0 tabstop=2 shiftwidth=2 wrap
 au BufNewFile,BufRead *.py set tabstop=4 shiftwidth=4 colorcolumn=80
@@ -150,6 +155,7 @@ au BufNewFile,BufRead *.zsh set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.bash set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.md set tabstop=4 shiftwidth=4 ft=markdown
 au BufNewFile,BufRead *.tex set tabstop=2 shiftwidth=2 ft=tex
+
 
 autocmd FileType cpp setlocal path=.,/usr/include,/usr/local/include,/usr/include/c++/4.8/,/opt/ros/indigo/include,/usr/include/pcl-1.7
 
