@@ -72,6 +72,11 @@ endif
 
 " Interactive terminal tool
 NeoBundle 'wkentaro/conque.vim'
+" Setup ConqueTerm
+if exists('g:ConqueTerm_Loaded')
+  nnoremap <silent> ,ls :ConqueTerm zsh <CR>
+  nnoremap <silent> ,is :ConqueTerm ipython <CR>
+endif
 
 
 " roscd & rosed

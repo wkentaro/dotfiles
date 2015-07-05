@@ -118,7 +118,7 @@ set matchpairs& matchpairs+=<:>
 set backspace=indent,eol,start
 set nowritebackup
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
 " => Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
@@ -166,17 +166,9 @@ au BufNewFile,BufRead * match ZenkakuSpace /　/
   call s:source_rc('plugins.rc.vim')
 " endif
 
-" Move Keymapping -------------------------------------------------  
-
-" Quicker window movement
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Spell checking
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ----------------------------------------------------------
+" Spell checking
+" ----------------------------------------------------------
 " Pressing ,ss will toggle and untoggle spell checking
 map <Leader>ss :setlocal spell!<cr>
 
@@ -186,22 +178,12 @@ map <Leader>sp [s
 map <Leader>sa zg
 map <Leader>s? z=
 
-" Search -------------------------------------------------  
+" ----------------------------------------------------------
+" Search
+" ----------------------------------------------------------
 " cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 " cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
-" vimshell ------------------------------------------------- 
-" nnoremap <silent> ,is :vsp<CR>:VimShell<CR>
-" nnoremap <silent> <C-B> :sp<CR>:VimShell<CR>
-" nnoremap <silent> ,ls :VimShell<CR>
-" nnoremap <silent> ,ipy :VimShellInteractive python<CR>
-" vmap <silent> ,ss :VimShellSendString<CR>
-" nnoremap <silent> ,ss <S-v>:VimShellSendString<CR>
-" nnoremap <silent> ,ls :ConqueTerm bash<CR>
-nnoremap <silent> ,ls :ConqueTerm zsh <CR>
-" nnoremap <silent> ,ts :ConqueTermTab zsh<CR>
-nnoremap <silent> ,is :ConqueTerm ipython <CR>
-"
 " vim-latex ------------------------------------------------- 
 filetype plugin on
 set grepprg=grep\ -nH\ $*
