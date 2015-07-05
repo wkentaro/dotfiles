@@ -19,6 +19,9 @@
 
 (setq delete-auto-save-files t)
 
+;; avoid "Symbolic link to SVN-controlled source file; follow link? (yes or no)"
+(setq vc-follow-symlinks t)
+
 (setq completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
 
