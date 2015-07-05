@@ -239,8 +239,30 @@ NeoBundle 'Rip-Rip/clang_complete'
 NeoBundle 'greyblake/vim-preview'
 
 
-" For LaTeX
+" --------------------------------------------------------
+" vim-latex-suite
+" --------------------------------------------------------
+" https://github.com/gerw/vim-latex-suite
 NeoBundle 'gerw/vim-latex-suite'
+set grepprg=grep\ -nH\ $*
+set shellslash
+let g:tex_conceal=''
+let tex_flavor = 'latex'
+let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_CompileRule_dvi = 'platex --interaction=nonstopmode $*'
+let g:Tex_BibtexFlavor = 'jbibtex'
+let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi;open $*.pdf'
+let g:Tex_FormatDependency_pdf = 'dvi,pdf'
+let g:Tex_ViewRule_dvi = 'xdvi'
+let g:Tex_ViewRule_pdf = 'evince'
+let Tex_FoldedSections=''
+let Tex_FoldedEnvironments=''
+let Tex_FoldedMisc=''
+au BufNewFile,BufRead *.tex inoremap 、 , 
+au BufNewFile,BufRead *.tex inoremap 。 . 
+au BufNewFile,BufRead *.tex inoremap （ (
+au BufNewFile,BufRead *.tex inoremap ） )
+nnoremap <SID>I_won’t_ever_type_this <Plug>IMAP_JumpForward
 
 
 " Python syntax
