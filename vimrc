@@ -201,11 +201,6 @@ let g:quickrun_config = {
 \       "runner" : "vimproc",
 \       "runner/vimproc/updatetime" : 60
 \   },
-\   "tex" : {
-\       "command" : "make",
-\       "exec": "%c %o",
-\       "cmdopt": "pdf open",
-\    },
 \}
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 nnoremap <silent> <Leader>r :QuickRun<CR>
