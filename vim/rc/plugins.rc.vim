@@ -18,57 +18,57 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " --------------------------------------------------------
 if has('lua')
   NeoBundle 'Shougo/neocomplete.vim'
+  " Disable AutoComplPop.
+  let g:acp_enableAtStartup = 0
+  " Use neocomplete.
+  let g:neocomplete#enable_at_startup = 1
+  " Use smartcase.
+  let g:neocomplete#enable_smart_case = 1
+  " Set minimum syntax keyword length.
+  let g:neocomplete#sources#syntax#min_keyword_length = 3
+  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+  let g:neocomplete#enable_auto_select = 0
+  let g:neocomplete#enable_auto_close_preview = 1
+  let g:neocomplete#enable_ignore_case = 1
+  " Define dictionary.
+  let g:neocomplete#sources#dictionary#dictionaries = {
+      \ 'default' : '',
+      \ 'vimshell' : $HOME.'/.vimshell_hist',
+      \ 'scheme' : $HOME.'/.gosh_completions'
+          \ }
+  " Define keyword.
+  if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+  endif
+  let g:neocomplete#keyword_patterns._ = '\h\w*'
+  " Plugin key-mappings.
+  inoremap <expr><C-g>     neocomplete#undo_completion()
+  inoremap <expr><C-l>     neocomplete#complete_common_string()
+  " Recommended key-mappings.
+  " inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+  " function! s:my_cr_function()
+  "   return neocomplete#close_popup() . "\<CR>"
+  " endfunction
+  " <TAB>: completion.
+  " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+  " <C-h>, <BS>: close popup and delete backword char.
+  " inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+  " inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+  " noremap <expr><C-y>  neocomplete#close_popup()
+  inoremap <expr><C-e>  neocomplete#cancel_popup()
+  " Enable omni completion.
+  autocmd FileType css setl omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setl omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setl omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType python setl omnifunc=pythoncomplete#Complete
+  autocmd filetype python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+  autocmd FileType xml setl omnifunc=xmlcomplete#CompleteTags
+  " Enable heavy omni completion.
+  if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+  endif
+  let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 endif
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-let g:neocomplete#enable_auto_select = 0
-let g:neocomplete#enable_auto_close_preview = 1
-let g:neocomplete#enable_ignore_case = 1
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-  let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns._ = '\h\w*'
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-" Recommended key-mappings.
-" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-" function! s:my_cr_function()
-"   return neocomplete#close_popup() . "\<CR>"
-" endfunction
-" <TAB>: completion.
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-" inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-" inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" noremap <expr><C-y>  neocomplete#close_popup()
-inoremap <expr><C-e>  neocomplete#cancel_popup()
-" Enable omni completion.
-autocmd FileType css setl omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setl omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setl omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setl omnifunc=pythoncomplete#Complete
-autocmd filetype python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd FileType xml setl omnifunc=xmlcomplete#CompleteTags
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 
 " --------------------------------------------------------
@@ -100,6 +100,7 @@ NeoBundle 'ompugao/ros.vim'
 " --------------------------------------------------------
 " https://github.com/tpope/vim-repeat
 NeoBundle 'tpope/vim-repeat'
+silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 
 
 " --------------------------------------------------------
@@ -107,6 +108,13 @@ NeoBundle 'tpope/vim-repeat'
 " --------------------------------------------------------
 " https://github.com/nathanaelkane/vim-indent-guides
 NeoBundle 'nathanaelkane/vim-indent-guides'
+let g:indent_guides_enable_on_vim_startup = 0
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=darkgray ctermbg=8
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  guibg=darkgray ctermbg=8
+noremap <silent> <Leader>g :IndentGuidesToggle<CR>
 
 
 " --------------------------------------------------------
@@ -131,14 +139,80 @@ NeoBundle 'tomtom/tcomment_vim'
 " Colorful footer in vim
 " https://github.com/itchyny/lightline.vim
 NeoBundle 'itchyny/lightline.vim'
+set laststatus=2
+let g:lightline = {
+      \ 'colorscheme': 'powerline',
+      \ 'mode_map': {'c': 'NORMAL'},
+      \ 'active': {
+      \   'left': [ ['mode', 'paste'], ['fugitive', 'filename', 'cakephp', 'currenttag', 'anzu'] ]
+      \ },
+      \ 'component': {
+      \   'lineinfo': ' %3l:%-2v',
+      \ },
+      \ 'component_function': {
+      \   'modified': 'MyModified',
+      \   'readonly': 'MyReadonly',
+      \   'fugitive': 'MyFugitive',
+      \   'filename': 'MyFilename',
+      \   'fileformat': 'MyFileformat',
+      \   'filetype': 'MyFiletype',
+      \   'fileencoding': 'MyFileencoding',
+      \   'mode': 'MyMode',
+      \   'anzu': 'anzu#search_status',
+      \ }
+      \ }
+
+function! MyModified()
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! MyReadonly()
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? ' ' : ''
+endfunction
+
+function! MyFilename()
+  return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \  &ft == 'unite' ? unite#get_status_string() :
+        \  &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != MyModified() ? ' ' . MyModified() : '')
+endfunction
+
+function! MyFugitive()
+  try
+    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && strlen(fugitive#head())
+      return ' ' . fugitive#head()
+    endif
+  catch
+  endtry
+  return ''
+endfunction
+
+function! MyFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! MyFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+
+function! MyFileencoding()
+  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+endfunction
+
+function! MyMode()
+  return winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
 
 
 " --------------------------------------------------------
 " vim-fugitive
 " --------------------------------------------------------
-" git diff, log
 " https://github.com/tpope/vim-fugitive
+" git diff, log
 NeoBundle 'tpope/vim-fugitive'
+autocmd QuickFixCmdPost *grep* cwindow
 
 
 " --------------------------------------------------------
@@ -151,9 +225,11 @@ NeoBundle 'gregsexton/gitv'
 " --------------------------------------------------------
 " open-browser.vim
 " --------------------------------------------------------
-" Open URL
 " https://github.com/tyru/open-browser.vim
+" Open URL
 NeoBundle 'tyru/open-browser.vim'
+nmap <silent> <Leader>o <Plug>(openbrowser-open)
+
 
 
 " --------------------------------------------------------
@@ -161,7 +237,11 @@ NeoBundle 'tyru/open-browser.vim'
 " --------------------------------------------------------
 if v:version > 703
   NeoBundle 'Shougo/vimfiler.vim'
+  let g:vimfiler_as_default_explorer = 1
+  let g:vimfiler_safe_mode_by_default = 0
+  noremap <silent> <Leader>f :VimFiler -split -explorer<CR>
 endif
+
 
 
 " --------------------------------------------------------
@@ -170,6 +250,17 @@ endif
 if v:version > 703
   NeoBundle 'Shougo/unite.vim'
 endif
+let g:unite_enable_start_insert=1
+noremap <C-p> :Unite buffer -winheight=10<CR>
+noremap <C-n> :Unite -buffer-name=file file<CR>
+noremap <C-]> :Unite file_mru<CR>
+noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
+au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+au FileType unite inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+au FileType unite nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+au FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+au FileType unite nnoremap <silent> <buffer> <C-c> :q<CR>
+au FileType unite inoremap <silent> <buffer> <C-c> <ESC>:q<CR>
 
 
 NeoBundle 'Shougo/neomru.vim'
@@ -184,7 +275,23 @@ NeoBundle 'honza/vim-snippets'
 NeoBundle 'thinca/vim-ref'
 
 
+" --------------------------------------------------------
+" unite.vim
+" --------------------------------------------------------
 NeoBundle 'thinca/vim-quickrun'
+let g:quickrun_config = {
+\   "_" : {
+\       "outputter/buffer/split" : ":botright 8sp",
+\       "outputter/buffer/close_on_empty" : 1,
+\       "outputter" : "error",
+\       "outputter/error/success" : "buffer",
+\       "outputter/error" : "quickfix",
+\       "runner" : "vimproc",
+\       "runner/vimproc/updatetime" : 60
+\   },
+\}
+nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+nnoremap <silent> <Leader>r :QuickRun<CR>
 
 
 " Use template
@@ -291,8 +398,9 @@ execute "NeoBundle 'Shougo/vimproc.vim'," . string({
       \    },
       \ })
 
-call neobundle#end()
 
+" NeoBundle end
+call neobundle#end()
 
 " If there are uninstalled bundles found on startup,
 " this will conveniently prompt you to install them.
