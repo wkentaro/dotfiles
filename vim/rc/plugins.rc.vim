@@ -3,7 +3,9 @@
 "--------------------------------------
 
 
+" --------------------------------------------------------
 " NeoBundle
+" --------------------------------------------------------
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
@@ -11,11 +13,12 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 
-" Load NeoComplete
+" --------------------------------------------------------
+" NeoComplete
+" --------------------------------------------------------
 if has('lua')
   NeoBundle 'Shougo/neocomplete.vim'
 endif
-" Setup NeoComplete
 if !exists('g:loaded_neocomplete')
   " Disable AutoComplPop.
   let g:acp_enableAtStartup = 0
@@ -70,68 +73,106 @@ if !exists('g:loaded_neocomplete')
 endif
 
 
+" --------------------------------------------------------
+" ConqueTerm
+" --------------------------------------------------------
 " Interactive terminal tool
 NeoBundle 'wkentaro/conque.vim'
-" Setup ConqueTerm
 if exists('g:ConqueTerm_Loaded')
   nnoremap <silent> ,ls :ConqueTerm zsh <CR>
   nnoremap <silent> ,is :ConqueTerm ipython <CR>
 endif
 
 
+" --------------------------------------------------------
+" ros.vim
+" --------------------------------------------------------
 " roscd & rosed
 NeoBundle 'ompugao/ros.vim'
 
 
+" --------------------------------------------------------
+" vim-swift
+" --------------------------------------------------------
 " Swift syntax
 " https://github.com/toyamarinyon/vim-swift
 " NeoBundle 'toyamarinyon/vim-swift'
 
 
+" --------------------------------------------------------
+" vim-repeat
+" --------------------------------------------------------
 " https://github.com/tpope/vim-repeat
 NeoBundle 'tpope/vim-repeat'
 
 
-" indent guide
+" --------------------------------------------------------
+" vim-indent-guides
+" --------------------------------------------------------
 " https://github.com/nathanaelkane/vim-indent-guides
 NeoBundle 'nathanaelkane/vim-indent-guides'
 
 
+" --------------------------------------------------------
+" vim-surround
+" --------------------------------------------------------
 " Surrounding editing
 " https://github.com/tpope/vim-surround
 NeoBundle 'tpope/vim-surround'
 
 
+" --------------------------------------------------------
+" tcomment_vim
+" --------------------------------------------------------
 " Easy commenting tool
 " https://github.com/tomtom/tcomment_vim
 NeoBundle 'tomtom/tcomment_vim'
 
 
+" --------------------------------------------------------
+" lightline.vim
+" --------------------------------------------------------
 " Colorful footer in vim
 " https://github.com/itchyny/lightline.vim
 NeoBundle 'itchyny/lightline.vim'
 
 
+" --------------------------------------------------------
+" vim-fugitive
+" --------------------------------------------------------
 " git diff, log
 " https://github.com/tpope/vim-fugitive
 NeoBundle 'tpope/vim-fugitive'
 
 
+" --------------------------------------------------------
+" gitv
+" --------------------------------------------------------
 " https://github.com/gregsexton/gitv
 NeoBundle 'gregsexton/gitv'
 
 
+" --------------------------------------------------------
+" open-browser.vim
+" --------------------------------------------------------
 " Open URL
 " https://github.com/tyru/open-browser.vim
 NeoBundle 'tyru/open-browser.vim'
 
 
+" --------------------------------------------------------
+" vimfiler.vim
+" --------------------------------------------------------
 if v:version > 703
-
   NeoBundle 'Shougo/vimfiler.vim'
+endif
 
+
+" --------------------------------------------------------
+" unite.vim
+" --------------------------------------------------------
+if v:version > 703
   NeoBundle 'Shougo/unite.vim'
-
 endif
 
 
