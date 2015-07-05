@@ -131,7 +131,7 @@ let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=darkgray ctermbg=8
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  guibg=darkgray ctermbg=8
-noremap <silent> <Leader>g :IndentGuidesToggle<CR>
+noremap <silent> <Leader>d :IndentGuidesToggle<CR>
 
 
 " --------------------------------------------------------
