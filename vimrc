@@ -172,6 +172,7 @@ au BufNewFile,BufRead * match ZenkakuSpace /　/
   call s:source_rc('plugins.rc.vim')
 " endif
 
+
 " ----------------------------------------------------------
 " Spell checking
 " ----------------------------------------------------------
@@ -184,17 +185,13 @@ map <Leader>sp [s
 map <Leader>sa zg
 map <Leader>s? z=
 
+
 " ----------------------------------------------------------
 " Search
 " ----------------------------------------------------------
 " cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 " cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
-" vim-markdown -------------------------------------------------
-let g:vim_markdown_codeblock_syntax=0
-hi link htmlItalic LineNr
-hi link htmlBold WarningMsg
-hi link htmlBoldItalic ErrorMsg
 
 " jedi
 autocmd FileType python setl omnifunc=jedi#completions
