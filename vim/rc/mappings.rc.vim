@@ -36,8 +36,8 @@ nnoremap k gk
 nnoremap gj j
 nnoremap gk k
 
-nnoremap 1 ^
-vnoremap 1 ^
+nnoremap 1 0
+vnoremap 1 0
 nnoremap 0 $
 vnoremap 0 $
 "}}}
