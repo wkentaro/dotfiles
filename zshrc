@@ -119,14 +119,15 @@ antigen bundle zsh-users/zsh-completions src
 # Vim's text-object
 antigen bundle hchbaw/opp.zsh
 
-# use haskell to run faster
-# osx: brew cask install haskell-platform
-# linux: sudo apt-get install cabal-install
-antigen bundle olivierverdier/zsh-git-prompt zshrc.sh
-if [ -f "$HOME/.antigen/repos/https-COLON--SLASH--SLASH-github.com-SLASH-olivierverdier-SLASH-zsh-git-prompt.git/dist/build/gitstatus/gitstatus" ]; then
-  GIT_PROMPT_EXECUTABLE="haskell"
-  USE_ZSH_GIT_PROMPT=1
-fi
+# TOO SLOW
+# # use haskell to run faster
+# # osx: brew cask install haskell-platform
+# # linux: sudo apt-get install cabal-install
+# antigen bundle olivierverdier/zsh-git-prompt zshrc.sh
+# if [ -f "$HOME/.antigen/repos/https-COLON--SLASH--SLASH-github.com-SLASH-olivierverdier-SLASH-zsh-git-prompt.git/dist/build/gitstatus/gitstatus" ]; then
+#   GIT_PROMPT_EXECUTABLE="haskell"
+#   USE_ZSH_GIT_PROMPT=1
+# fi
 
 
 # Load the theme.
