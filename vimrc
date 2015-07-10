@@ -46,6 +46,7 @@ set ttyfast
 
 " Use UTF-8 without BOM
 set encoding=utf-8 nobomb
+set fileencodings=ucs-bom,utf-8,iso-2022-jp,sjis,euc-jp
 
 " Don’t add empty newlines at the end of files
 set binary
