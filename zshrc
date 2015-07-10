@@ -203,6 +203,7 @@ alias -g T="| tail"
 alias -g V="| vim -R -"
 alias -g U=' --help | head'
 alias -g W="| wc"
+
 # copy
 if which pbcopy >/dev/null 2>&1; then
   alias -g C='| pbcopy' # osx
@@ -212,6 +213,9 @@ elif which putclip >/dev/null 2>&1; then
   alias -g C='| putclip' # cygwin
 fi
 # }}}
+
+# misc
+alias which='where'
 
 # view
 alias -g L='| less'
