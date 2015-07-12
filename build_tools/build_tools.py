@@ -14,8 +14,8 @@ import tarfile
 # args
 parser = argparse.ArgumentParser()
 parser.add_argument('formula', help='formula to install')
-parser.add_argument('--prefix', default='~/.local',
-                    help='ex.) /usr/local, ~/.local')
+parser.add_argument('--prefix', default='~/local',
+                    help='ex.) /usr/local, ~/local')
 parser.add_argument('-v', '--verbose', action='store_true')
 args = parser.parse_args(sys.argv[1:])
 
