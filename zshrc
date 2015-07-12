@@ -22,10 +22,10 @@ OS=$(uname)
 export PATH="/usr/local/bin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 
-# prefix: $HOME/.local
-export PATH="$HOME/.local/bin:$PATH"
-export MANPATH="$HOME/.local/bin:$MANPATH"
-export PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH"
+# prefix: $HOME/local
+export PATH="$HOME/local/bin:$PATH"
+export MANPATH="$HOME/local/bin:$MANPATH"
+export PYTHONPATH="$HOME/local/lib/python2.7/site-packages:$PYTHONPATH"
 
 # Python
 export VIRTUALENV_USE_DISTRIBUTE=1
