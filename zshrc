@@ -28,7 +28,6 @@ export MANPATH="$HOME/.local/bin:$MANPATH"
 export PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH"
 
 # Python
-export PYTHONSTARTUP=$HOME/.pythonstartup
 export VIRTUALENV_USE_DISTRIBUTE=1
 
 # Termcolor
