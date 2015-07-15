@@ -152,15 +152,29 @@ if which percol >/dev/null 2>&1; then
   zle -N percol-history
   bindkey '^R' percol-history
 
-  # percol rostopic search
-  # Alt-R
+  # Alt-T
   if [ -d "/opt/ros" ]; then
+    # rostopic search
     function search-rostopic-by-percol(){
       LBUFFER=$LBUFFER$(rostopic list | percol)
       zle -R -c
     }
     zle -N search-rostopic-by-percol
-    bindkey '^[r' search-rostopic-by-percol
+    bindkey '^[p' search-rostopic-by-percol
+
+    function search-rosmsg-percol(){
+      LBUFFER=$LBUFFER$(rosmsg list | percol)
+      zle -R -c
+    }
+    zle -N search-rosmsg-percol
+    bindkey '^[m' search-rosmsg-percol
+
+    function search-rosmsg-proto-by-percol(){
+      LBUFFER=$LBUFFER$(rosmsg list | percol | xargs -n1 rosmsg-proto msg)
+      zle -R -c
+    }
+    zle -N search-rosmsg-proto-by-percol
+    bindkey '^[o' search-rosmsg-proto-by-percol
   fi
 fi
 
