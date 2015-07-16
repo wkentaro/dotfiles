@@ -29,6 +29,8 @@ endif
 
 " Enhance command-line completion
 set wildmenu
+set wildignore+=*.dll,*.o,*.pyc,*.bak,*.exe,*.jpg,*.jpeg,*.png,*.gif,*$py.class,*.class,*/*.dSYM/*,*.dylib
+set wildmode=list:full
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
@@ -109,9 +111,16 @@ set browsedir=buffer
 set expandtab
 set hidden
 
+" Make the command line two lines high and change the statusline display to
+" something that looks useful.
+set cmdheight=2
+set laststatus=2
+set statusline=[%l,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})\ %{fugitive#statusline()}
+set showcmd
+set number
+
 " Highlight dynamically as pattern is typed
 set incsearch
-set number
 set showmatch
 set smartcase
 set smartindent
