@@ -538,6 +538,13 @@ execute "NeoBundle 'Shougo/vimproc.vim'," . string({
 " NeoBundle end
 call neobundle#end()
 
+
+" --------------------------------------------------------
+" flazz/vim-colorschemes
+" --------------------------------------------------------
+colorscheme desertEx
+
+
 " If there are uninstalled bundles found on startup,
 " this will conveniently prompt you to install them.
 NeoBundleCheck
