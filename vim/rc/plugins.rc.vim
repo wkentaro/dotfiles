@@ -145,7 +145,6 @@ execute "NeoBundle 'Shougo/vimproc.vim'," . string({
 
 " NeoBundle end
 call neobundle#end()
-
 " If there are uninstalled bundles found on startup,
 " this will conveniently prompt you to install them.
 NeoBundleCheck
@@ -255,7 +254,6 @@ let g:airline#extensions#hunks#non_zero_only = 1
 " let g:airline_section_y = airline#section#create_right(['%{printf("%s%s",&fenc,&ff!="unix"?":".&ff:"")}'])
 " let g:airline_section_z = airline#section#create_right(['%3l:%2c'])
 let g:airline#extensions#ctrlp#color_template = 'replace'
-set statusline+=%{fugitive#statusline()}
 
 " --------------------------------------------------------
 " taglist.vim
@@ -501,6 +499,7 @@ highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
 highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
 highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
+set statusline+=%{fugitive#statusline()}
 
 " --------------------------------------------------------
 " ConqueTerm
