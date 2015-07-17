@@ -30,7 +30,7 @@ endif
 " Enhance command-line completion
 set wildmenu
 set wildignore+=*.dll,*.o,*.pyc,*.bak,*.exe,*.jpg,*.jpeg,*.png,*.gif,*$py.class,*.class,*/*.dSYM/*,*.dylib
-set wildmode=list:full
+set wildmode=list,full
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
