@@ -179,6 +179,7 @@ let g:airline#extensions#hunks#non_zero_only = 1
 " let g:airline_section_y = airline#section#create_right(['%{printf("%s%s",&fenc,&ff!="unix"?":".&ff:"")}'])
 " let g:airline_section_z = airline#section#create_right(['%3l:%2c'])
 let g:airline#extensions#ctrlp#color_template = 'replace'
+set statusline+=%{fugitive#statusline()}
 
 " --------------------------------------------------------
 " vim-fugitive
