@@ -545,6 +545,7 @@ call neobundle#end()
 colorscheme desertEx
 hi Normal ctermbg=none
 hi NonText ctermbg=none
+hi Normal ctermfg=none
 
 
 " If there are uninstalled bundles found on startup,
