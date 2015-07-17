@@ -1,4 +1,4 @@
 " vim: set ft=vim:
 
-colorscheme kolor
+colorscheme desertEx
 set guifont=Source\ Code\ Pro:h13
