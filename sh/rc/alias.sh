@@ -121,7 +121,10 @@ alias gfap='git fetch --all --prune'
 alias gremote2local='cbranch=$(current_branch) ; git branch --all | grep $GITHUB_USER | egrep -v "HEAD|master|develop|release" | sed "s/^  remotes\/$GITHUB_USER\///" | xargs -n1 -I{} git branch {} --track $GITHUB_USER/{} ; git checkout $cbranch'
 # commit each file
 _git_commit_each_file () {
-    pushd `pwd` >/dev/null 2>&1 && cd $1
+    if [ "$1" != "" ]; then
+        pushd `pwd` >/dev/null 2>&1
+        cd $1
+    fi
     changed_files=`git status -s | grep "^[A-Z]" | sed 's/^...//g' | sed 's/ -> /,/g'`
     changed_files=(`echo $changed_files`)
     for file in $changed_files; do
@@ -130,6 +133,8 @@ _git_commit_each_file () {
         files=`echo ${file} | tr ',' ' '`
         git commit --only ${files} --verbose --template /tmp/git_commit_message_template || break
     done
-    popd >/dev/null 2>&1
+    if [ "$1" != "" ]; then
+        popd >/dev/null 2>&1
+    fi
 }
 alias gceach=_git_commit_each_file
