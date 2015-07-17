@@ -543,6 +543,8 @@ call neobundle#end()
 " flazz/vim-colorschemes
 " --------------------------------------------------------
 colorscheme desertEx
+hi Normal ctermbg=none
+hi NonText ctermbg=none
 
 
 " If there are uninstalled bundles found on startup,
