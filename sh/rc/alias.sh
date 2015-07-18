@@ -107,9 +107,23 @@ alias gmpnp='git pull $GITHUB_USER $(current_branch) && git push $GITHUB_USER $(
 alias gcsmg='gcmsg'
 alias gpr='hub pull-request'
 alias gfork='hub fork'
-alias gpl='hub browse -- pulls >/dev/null 2>&1'
-alias gis='hub browse -- issues >/dev/null 2>&1'
-alias gbw='git browse $@ >/dev/null 2>&1'
+_gpl () {
+    if [ "$1" = "" ]; then
+        hub browse -- pulls >/dev/null 2>&1
+    else
+        hub browse $1 pulls >/dev/null 2>&1
+    fi
+}
+alias gpl='_gpl'
+_gis () {
+    if [ "$1" = "" ]; then
+        hub browse -- issues >/dev/null 2>&1
+    else
+        hub browse $1 issues >/dev/null 2>&1
+    fi
+}
+alias gis='_gis'
+alias gbw='hub browse $@ >/dev/null 2>&1'
 alias gbd='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
 alias gbdr='git branch -r --merged origin/master | grep "$GITHUB_USER\\/" | sed "s/$GITHUB_USER\\///" | egrep -v "HEAD|master|develop|release" | xargs git push $GITHUB_USER --delete'
 alias grbg='git rebase origin/master'
