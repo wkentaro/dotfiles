@@ -138,3 +138,7 @@ _git_commit_each_file () {
     fi
 }
 alias gceach=_git_commit_each_file
+# gifify
+gifify () {
+    docker run -it --rm -v $(pwd):/data maxogden/gifify $@
+}
