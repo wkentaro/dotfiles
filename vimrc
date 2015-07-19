@@ -113,7 +113,7 @@ set hidden
 
 " Make the command line two lines high and change the statusline display to
 " something that looks useful.
-set cmdheight=2
+set cmdheight=1
 set laststatus=2
 set statusline=[%l,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})
 set showcmd
