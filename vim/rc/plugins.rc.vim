@@ -66,8 +66,13 @@ endif
 NeoBundle 'Shougo/neomru.vim'
 
 NeoBundle 'Shougo/neosnippet.vim'
+NeoBundle 'Shougo/neosnippet-snippets'
 
-NeoBundle 'honza/vim-snippets'
+" RestructuredText
+NeoBundle 'Rykka/riv.vim'
+NeoBundle 'Rykka/InstantRst'
+
+" NeoBundle 'honza/vim-snippets'
 
 NeoBundle 'thinca/vim-ref'
 
@@ -459,7 +464,7 @@ let g:neosnippet#disable_runtime_snippets = {
 " Enable snipMate compatibility feature.
 let g:neosnippet#enable_snipmate_compatibility = 1
 " Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets,~/.vim/after/snippets'
+let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/neosnippets,~/.vim/after/snippets'
 "
 " For snippet_complete marker.
 " if has('conceal')
