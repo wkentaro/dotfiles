@@ -5,8 +5,11 @@
 
 " Mapleader "{{{
 let mapleader=','
-let g:mapleader = ","
+let maplocalleader='\\'
 "}}}
+
+
+inoremap # X<BS>#
 
 
 " ----------------------------------------------------------
