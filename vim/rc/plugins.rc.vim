@@ -343,10 +343,12 @@ nnoremap <SID>I_won’t_ever_type_this <Plug>IMAP_JumpForward
 " --------------------------------------------------------
 " flazz/vim-colorschemes
 " --------------------------------------------------------
-colorscheme desertEx
-hi Normal ctermbg=none
-hi NonText ctermbg=none
-hi Normal ctermfg=none
+if v:version > 703
+  colorscheme desertEx
+  hi Normal ctermbg=none
+  hi NonText ctermbg=none
+  hi Normal ctermfg=none
+endif
 
 " --------------------------------------------------------
 " vimfiler.vim
