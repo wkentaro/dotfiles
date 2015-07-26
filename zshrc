@@ -128,16 +128,13 @@ antigen bundle hchbaw/opp.zsh
 #   USE_ZSH_GIT_PROMPT=1
 # fi
 
-
 # Load the theme.
 antigen theme wkentaro/wkentaro.zsh-theme wkentaro
 
+antigen bundle wkentaro/pycd pycd
+
 # Tell antigen that you're done.
 antigen apply
-
-if which pypkg >/dev/null 2>&1; then
-  source `pypkg find pycd`/pycd.sh
-fi
 
 # --------------------------------
 # bindkey
