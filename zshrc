@@ -133,6 +133,8 @@ antigen theme wkentaro/wkentaro.zsh-theme wkentaro
 
 antigen bundle wkentaro/pycd pycd
 
+antigen bundle wkentaro/wstool_cd
+
 # Tell antigen that you're done.
 antigen apply
 
