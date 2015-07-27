@@ -81,9 +81,6 @@ else
     alias la='ls -ahF --show-control-chars --color=always'
     alias ll='ls -lhF --show-control-chars --color=always'
     alias lsa='ls -lahF --show-control-chars --color=always'
-    if which dircolors >/dev/null 2>&1; then
-        [ -f $HOME/.colorrc ] && eval `dircolors $HOME/.colorrc`
-    fi
 fi
 
 # ----------------------------------------------------
