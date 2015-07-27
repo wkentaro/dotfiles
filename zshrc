@@ -268,18 +268,18 @@ alias which='where'
 alias -g L='| less'
 
 # z command
-function _zcd ()
-{
-  if [ "$1" = "" ]; then
-    dir=$(_z 2>&1 | sed -E "s/^([0-9]|\.)* *//g" | tac | percol)
-  else
-    dir=$1
-  fi
-  if [ "$dir" != "" ]; then
-    _z $dir
-  fi
-}
-alias z='_zcd'
+# function _zcd ()
+# {
+#   if [ "$1" = "" ]; then
+#     dir=$(_z 2>&1 | sed -E "s/^([0-9]|\.)* *//g" | tac | percol)
+#   else
+#     dir=$1
+#   fi
+#   if [ "$dir" != "" ]; then
+#     _z $dir
+#   fi
+# }
+# alias z='_zcd'
 
 # --------------------------------
 # command line stack
