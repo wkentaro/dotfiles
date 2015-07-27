@@ -13,7 +13,7 @@ def link_dotfiles(force, dry_run):
     this_dir = os.path.dirname(os.path.abspath(__file__))
     home_dir = os.path.expanduser('~')
 
-    with open(os.path.join(this_dir, 'link_config.yml')) as f:
+    with open(os.path.join(this_dir, 'conf_dotfiles.yml')) as f:
         link_config = yaml.load(f)
 
     for from_, to in link_config.items():
