@@ -1,20 +1,56 @@
 # vim: set ft=zsh:
 #
 # ---------------------------------
-# zsh initialization
+# zsh options
 # ---------------------------------
+
+# completion
 autoload -Uz compinit && compinit
+setopt auto_param_slash
+setopt mark_dirs
+setopt list_types
+setopt auto_menu
+setopt auto_param_keys
+setopt interactive_comments
+setopt magic_equal_subst
+setopt complete_in_word
+setopt always_last_prompt
+setopt print_eight_bit
+setopt extended_glob
+setopt globdots
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' use-cache true
+zstyle ':completion:*:default' menu select=1
+zstyle ':completion:*:manuals' separate-sections true
+zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
+
+# add color
+autoload colors
+colors
+if which dircolors >/dev/null 2>&1; then
+    [ -f $HOME/.colorrc ] && eval `dircolors $HOME/.colorrc`
+fi
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# history option
+setopt hist_ignore_dups
+setopt hist_ignore_space
 setopt histignorealldups
 autoload history-search-end
+
 setopt list_packed
-setopt nolistbeep
-setopt auto_cd
 setopt pushd_ignore_dups
-setopt hist_ignore_space
+
+# no beep
+setopt nolistbeep
 setopt nobeep
-setopt hist_ignore_dups
-zstyle ':completion:*:default' menu select=1
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+# auto cd
+setopt auto_cd
+cdpath=(.. ~ ~/src)
+zstyle ':completion:*:cd:*' tag-order local-directories path-directories
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
 OS=$(uname)
 
