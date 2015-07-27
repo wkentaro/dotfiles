@@ -28,9 +28,6 @@ zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
 # add color
 autoload colors
 colors
-if which dircolors >/dev/null 2>&1; then
-    [ -f $HOME/.colorrc ] && eval `dircolors $HOME/.colorrc`
-fi
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # history option
