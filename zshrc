@@ -171,6 +171,8 @@ antigen bundle wkentaro/pycd
 
 antigen bundle wkentaro/wstool_cd
 
+antigen bundle kennethreitz/autoenv
+
 # Tell antigen that you're done.
 antigen apply
 
