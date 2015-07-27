@@ -26,10 +26,12 @@ linuxbrew:
   .linuxbrew
 shrc.alias:
   .shrc.alias
-percolrc:
+percol.d/rc.py:
   .percol.d/rc.py
 pythonstartup:
   .pythonstartup
+ptpython/config.py:
+  .ptpython/config.py
 sh:
   .sh
 tmux.conf:
