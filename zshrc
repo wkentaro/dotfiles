@@ -45,7 +45,6 @@ setopt nobeep
 
 # auto cd
 setopt auto_cd
-cdpath=(.. ~ ~/src)
 zstyle ':completion:*:cd:*' tag-order local-directories path-directories
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
