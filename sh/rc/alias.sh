@@ -5,10 +5,6 @@
 # ----------------------------------------------------
 alias c='clear'
 alias lv='less'
-if which vim >/dev/null 2>&1; then
-    alias v='vim -u NONE'
-    alias vi='vim --noplugin'
-fi
 alias py='python'
 alias ipy='ipython'
 alias emacs='emacs -nw'
