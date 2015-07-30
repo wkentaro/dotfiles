@@ -163,9 +163,11 @@ antigen bundle hchbaw/opp.zsh
 # Load the theme.
 antigen theme wkentaro/wkentaro.zsh-theme wkentaro
 
-antigen bundle wkentaro/pycd
+# wkentaro/pycd
+source `which pycd.sh`
 
-antigen bundle wkentaro/wstool_cd
+# wkentaro/wstool_cd
+source `which wstool_cd.sh`
 
 antigen bundle kennethreitz/autoenv
 
