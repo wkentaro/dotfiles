@@ -86,8 +86,8 @@ fi
 # git aliases
 # ----------------------------------------------------
 # Use hub as git client
-if which hub >/dev/null 2>&1; then
-    eval "`hub alias -s`"
+if type hub &>/dev/null; then
+  eval "`hub alias -s`"
 fi
 # command aliases
 alias ga.='git add .'
@@ -106,19 +106,19 @@ alias gcsmg='gcmsg'
 alias gpr='hub pull-request'
 alias gfork='hub fork'
 _gpl () {
-    if [ "$1" = "" ]; then
-        hub browse -- pulls >/dev/null 2>&1
-    else
-        hub browse $1 pulls >/dev/null 2>&1
-    fi
+  if [ "$1" = "" ]; then
+    hub browse -- pulls >/dev/null 2>&1
+  else
+    hub browse $1 pulls >/dev/null 2>&1
+  fi
 }
 alias gpl='_gpl'
 _gis () {
-    if [ "$1" = "" ]; then
-        hub browse -- issues >/dev/null 2>&1
-    else
-        hub browse $1 issues >/dev/null 2>&1
-    fi
+  if [ "$1" = "" ]; then
+    hub browse -- issues >/dev/null 2>&1
+  else
+    hub browse $1 issues >/dev/null 2>&1
+  fi
 }
 alias gis='_gis'
 alias gbw='hub browse $@ >/dev/null 2>&1'
@@ -133,21 +133,19 @@ alias gfap='git fetch --all --prune'
 alias gremote2local='cbranch=$(current_branch) ; git branch --all | grep $GITHUB_USER | egrep -v "HEAD|master|develop|release" | sed "s/^  remotes\/$GITHUB_USER\///" | xargs -n1 -I{} git branch {} --track $GITHUB_USER/{} ; git checkout $cbranch'
 # commit each file
 _git_commit_each_file () {
-    if [ "$1" != "" ]; then
-        pushd `pwd` >/dev/null 2>&1
-        cd $1
-    fi
-    changed_files=`git status -s | grep "^[A-Z]" | sed 's/^...//g' | sed 's/ -> /,/g'`
-    changed_files=(`echo $changed_files`)
-    for file in $changed_files; do
-        msg=`echo ${file} | sed "s/.*,//g"`
-        echo "[${msg}]" > /tmp/git_commit_message_template
-        files=`echo ${file} | tr ',' ' '`
-        git commit --only ${files} --verbose --template /tmp/git_commit_message_template || break
-    done
-    if [ "$1" != "" ]; then
-        popd >/dev/null 2>&1
-    fi
+  [ "$1" != "" ] && {
+    pushd `pwd` &>/dev/null
+    cd $1
+  }
+  changed_files=`git status -s | grep "^[A-Z]" | sed 's/^...//g' | sed 's/ -> /,/g'`
+  changed_files=(`echo $changed_files`)
+  for file in $changed_files; do
+    msg=`echo ${file} | sed "s/.*,//g"`
+    echo "[${msg}]" > /tmp/git_commit_message_template
+    files=`echo ${file} | tr ',' ' '`
+    git commit --only ${files} --verbose --template /tmp/git_commit_message_template || break
+  done
+  [ "$1" != "" ] && popd &>/dev/null
 }
 alias gceach=_git_commit_each_file
 
@@ -155,6 +153,6 @@ alias gceach=_git_commit_each_file
 # Other utilities
 # ----------------------------------------------------
 gifify () {
-    docker run -it --rm -v $(pwd):/data maxogden/gifify $@
+  docker run -it --rm -v $(pwd):/data maxogden/gifify $@
 }
 alias wscd=wstool_cd
