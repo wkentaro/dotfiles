@@ -89,20 +89,21 @@ fi
 if type hub &>/dev/null; then
   eval "`hub alias -s`"
 fi
-# command aliases
 alias ga.='git add .'
-alias gaa='git add --all'
-alias gcln='git clone'
-alias grm='git rm'
-alias gmv='git mv'
+
+alias gmpull='git pull $GITHUB_USER $(current_branch)'
+alias gmpnp='git pull $GITHUB_USER $(current_branch) && git push $GITHUB_USER $(current_branch)'
+
 alias ggpush!='git push origin $(current_branch) --force'
 alias gmpush='git push $GITHUB_USER $(current_branch)'
 alias gmpush!='git push $GITHUB_USER $(current_branch) --force'
-alias grb='git rebase'
+
 alias grbg='git rebase origin/master'
-alias gmpull='git pull $GITHUB_USER $(current_branch)'
-alias gmpnp='git pull $GITHUB_USER $(current_branch) && git push $GITHUB_USER $(current_branch)'
+alias grbgi='git rebase -i origin/master'
+
 alias gcsmg='gcmsg'
+
+# for hub command
 alias gpr='hub pull-request'
 alias gfork='hub fork'
 _gpl () {
@@ -121,16 +122,14 @@ _gis () {
   fi
 }
 alias gis='_gis'
-alias gbw='hub browse $@ >/dev/null 2>&1'
-alias gbd='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
+alias gbw='hub browse $@ 2>/dev/null'
+#}}}
+
+# alias gbd='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
 alias gbdr='git branch -r --merged origin/master | grep "$GITHUB_USER\\/" | sed "s/$GITHUB_USER\\///" | egrep -v "HEAD|master|develop|release" | xargs git push $GITHUB_USER --delete'
-alias grbg='git rebase origin/master'
-alias grbgi='git rebase -i origin/master'
 alias gbD='git branch -D'
-alias gf='git fetch'
-alias gfa='git fetch --all'
-alias gfap='git fetch --all --prune'
 alias gremote2local='cbranch=$(current_branch) ; git branch --all | grep $GITHUB_USER | egrep -v "HEAD|master|develop|release" | sed "s/^  remotes\/$GITHUB_USER\///" | xargs -n1 -I{} git branch {} --track $GITHUB_USER/{} ; git checkout $cbranch'
+
 # commit each file
 _git_commit_each_file () {
   [ "$1" != "" ] && {
