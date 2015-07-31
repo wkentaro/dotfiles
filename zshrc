@@ -177,7 +177,7 @@ antigen apply
 # --------------------------------
 # bindkey
 # --------------------------------
-if which percol >/dev/null 2>&1; then
+if type percol &>/dev/null; then
   # percol history search
   # Ctrl-R
   function percol-history() {
@@ -253,12 +253,12 @@ alias -g U=' --help | head'
 alias -g W="| wc"
 
 # copy
-if which pbcopy >/dev/null 2>&1; then
+if type pbcopy &>/dev/null; then
   alias -g C='| pbcopy' # osx
-elif which xsel >/dev/null 2>&1; then
-  alias -g C='| xsel --input --clipboard' # ubuntu
-elif which putclip >/dev/null 2>&1; then
-  alias -g C='| putclip' # cygwin
+elif type pbcopy &>/dev/null; then
+  alias -g C='| xsel --input --clipboard'  # linux
+elif type pbcopy &>/dev/null; then
+  alias -g C='| putclip' # windows
 fi
 # }}}
 
