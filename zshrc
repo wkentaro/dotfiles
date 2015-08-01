@@ -17,7 +17,7 @@ setopt complete_in_word
 setopt always_last_prompt
 setopt print_eight_bit
 setopt extended_glob
-setopt globdots
+# setopt globdots  # enable completion for dotfiles
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' use-cache true
 zstyle ':completion:*:default' menu select=1
