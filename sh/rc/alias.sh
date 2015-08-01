@@ -4,7 +4,7 @@
 # Basics
 # ----------------------------------------------------
 alias c='clear'
-type vim >/dev/null && alias vi='vim'
+type vim &>/dev/null && alias vi='vim'
 alias lv='less'
 alias py='python'
 alias ipy='ipython'
@@ -23,7 +23,7 @@ alias tns='tmux new -s'
 # ----------------------------------------------------
 # Use rlwrap commands
 # ----------------------------------------------------
-if which rlwrap >/dev/null 2>&1; then
+if type rlwrap &>/dev/null; then
     alias eus='rlwrap eus'
     alias irteusgl='rlwrap irteusgl'
     alias roseus='rlwrap roseus'
@@ -46,14 +46,9 @@ fi
 # ----------------------------------------------------
 # open aliases
 # ----------------------------------------------------
-if which gnome-open >/dev/null 2>&1; then  # linux
-    alias open='gnome-open'
-    alias o='gnome-open'
-    alias o.='gnome-open .'
-elif which open >/dev/null 2>&1; then  # osx
-    alias o='open'
-    alias o.='open .'
-fi
+type gnome-open &>/dev/null && hash open=$commands[open]
+alias o='open'
+alias o.='open .'
 
 # ----------------------------------------------------
 # browser
