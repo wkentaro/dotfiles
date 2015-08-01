@@ -34,19 +34,20 @@ fi
 # ----------------------------------------------------
 # ros
 # ----------------------------------------------------
-_image_view() {
-    rosrun image_view image_view image:=$1
+_image_view () {
+  rosrun image_view image_view image:=$1
 }
 if [ -d "/opt/ros" ]; then
     alias rqt_gui='rosrun rqt_gui rqt_gui'
     alias rqt_reconfigure='rosrun rqt_reconfigure rqt_reconfigure'
+    alias rqt_image_view='rosrun rqt_image_view rqt_image_view'
     alias image_view=_image_view
 fi
 
 # ----------------------------------------------------
 # open aliases
 # ----------------------------------------------------
-type gnome-open &>/dev/null && hash open=$commands[open]
+type gnome-open &>/dev/null && alias open=gnome-open
 alias o='open'
 alias o.='open .'
 
@@ -73,9 +74,7 @@ else
     alias la='ls -ahF --show-control-chars --color=always'
     alias ll='ls -lhF --show-control-chars --color=always'
     alias lsa='ls -lahF --show-control-chars --color=always'
-    if which dircolors >/dev/null 2>&1; then
-        [ -f $HOME/.colorrc ] && eval `dircolors $HOME/.colorrc`
-    fi
+    type dircolors &>/dev/null && [ -f $HOME/.colorrc ] && eval `dircolors $HOME/.colorrc`
 fi
 
 # ----------------------------------------------------
