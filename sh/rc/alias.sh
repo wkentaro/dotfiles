@@ -4,6 +4,7 @@
 # Basics
 # ----------------------------------------------------
 alias c='clear'
+type vim >/dev/null && alias vi='vim'
 alias lv='less'
 alias py='python'
 alias ipy='ipython'
