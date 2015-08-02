@@ -255,9 +255,9 @@ alias -g W="| wc"
 # copy
 if type pbcopy &>/dev/null; then
   alias -g C='| pbcopy' # osx
-elif type pbcopy &>/dev/null; then
+elif type xsel &>/dev/null; then
   alias -g C='| xsel --input --clipboard'  # linux
-elif type pbcopy &>/dev/null; then
+elif type putclip &>/dev/null; then
   alias -g C='| putclip' # windows
 fi
 # }}}
