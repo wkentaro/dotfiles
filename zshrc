@@ -269,10 +269,10 @@ alias which='where'
 alias -g L='| less'
 
 # z command
-function _zcd ()
+function _z_cd ()
 {
   if [ "$1" = "" ]; then
-    dir=$(_z 2>&1 | sed -E "s/^([0-9]|\.)* *//g" | tac | percol)
+    dir=$(_z 2>&1 | awk '{print $2}' | tac | percol)
   else
     dir=$1
   fi
@@ -280,7 +280,7 @@ function _zcd ()
     _z $dir
   fi
 }
-alias z='_zcd'
+alias z=_z_cd
 
 # --------------------------------
 # command line stack
