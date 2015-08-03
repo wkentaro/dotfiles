@@ -8,7 +8,7 @@
 [diff]
 	tool = vimdiff
 	renames = true
-	 # algorithm = histogram
+	algorithm = histogram
 [color]
 	ui = auto
 [alias]
@@ -21,18 +21,12 @@
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	pl = !hub browse -- pulls
 	is = !hub browse -- issues
-	flow = !hub flow  # need for completion with hub aliased git
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
 [core]
 	editor = vim
 	excludesfile = ~/.gitignore_global
-[push]
-	default = matching
-[branch "wkentaro"]
-	remote = wkentaro
-	merge = wkentaro
 [http]
 	sslVerify = false
 [rerere]
