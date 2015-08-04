@@ -154,3 +154,6 @@ gifify () {
 }
 alias wscd=wstool_cd
 alias wl=wstool
+alias wli='wstool info'
+alias wlset='wstool set'
+alias wlup='wstool update'
