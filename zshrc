@@ -164,10 +164,10 @@ antigen bundle hchbaw/opp.zsh
 antigen theme wkentaro/wkentaro.zsh-theme wkentaro
 
 # wkentaro/pycd
-source `which pycd.sh`
+type pycd.sh &>/dev/null && source `which pycd.sh`
 
 # wkentaro/wstool_cd
-source `which wstool_cd.sh`
+type wstool_cd.sh &>/dev/null && source `which wstool_cd.sh`
 
 # local plugins
 source $HOME/.sh/plugins/browse.sh
