@@ -1,3 +1,4 @@
+# vim: set ft=yaml:
 {'git': {'local-name': 'tkruse/vcstools',
          'uri': 'https://github.com/tkruse/vcstools.git',
          'version': 'divergence'}}
