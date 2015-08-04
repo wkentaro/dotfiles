@@ -169,6 +169,10 @@ source `which pycd.sh`
 # wkentaro/wstool_cd
 source `which wstool_cd.sh`
 
+# local plugins
+source $HOME/.zsh/utils.zsh
+source $HOME/.zsh/wstool.zsh
+
 antigen bundle kennethreitz/autoenv
 
 # Tell antigen that you're done.
