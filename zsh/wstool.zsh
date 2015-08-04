@@ -1,11 +1,25 @@
 #!/usr/bin/env zsh
-#
+
+wstool_info () {
+  if [ $# -gt 0 ]; then
+    local -a repos
+    repos=( $(command wstool info --only=localname | grep $1) )
+    shift
+    command wstool info $repos $@
+  else
+    command wstool info $@
+  fi
+}
 
 wstool_update () {
-  local -a repos
-  repos=( $(command wstool info --only=localname | grep $1) )
-  shift
-  command wstool update $repos $@
+  if [ $# -gt 0 ]; then
+    local -a repos
+    repos=( $(command wstool info --only=localname | grep $1) )
+    shift
+    command wstool update $repos $@
+  else
+    command wstool update $@
+  fi
 }
 
 wstool_set () {
@@ -45,13 +59,16 @@ wstool_set () {
 
 wstool () {
   case "$1" in
-    update|up)
+    (update|up)
       shift; wstool_update $@
       ;;
-    set)
+    (set)
       shift; wstool_set $@
       ;;
-    *)
+    (info)
+      shift; wstool_info $@
+      ;;
+    (*)
       command wstool $@
       ;;
   esac
