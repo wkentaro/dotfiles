@@ -103,6 +103,19 @@ wstool_set () {
   command wstool set $@
 }
 
+yes_or_no () {
+  if [ "$1" = "" ]; then
+    read REPLY\?'Are you sure? [y/n]:'
+  else
+    read REPLY\?"$1 [y/n]:"
+  fi
+  if echo $REPLY | egrep -q "^[Yy]$" ; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 wstool_remove () {
   local repo do_clean
   local -a options
@@ -116,7 +129,7 @@ wstool_remove () {
   # --clean option
   [ "${options[(r)--clean]}" = "--clean" ] && do_clean=true
   options[$options[(i)--clean]]=()
-  command wstool remove $@ && [ $do_clean ] && rm -rf $repo
+  command wstool remove $repo $options && [ $do_clean ] && [ $(yes_or_no "Remove $repo?") ] && rm -rf $repo
 }
 
 wstool () {
