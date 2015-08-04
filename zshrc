@@ -170,8 +170,8 @@ source `which pycd.sh`
 source `which wstool_cd.sh`
 
 # local plugins
-source $HOME/.zsh/utils.zsh
-source $HOME/.zsh/wstool.zsh
+source $HOME/.sh/plugins/browse.sh
+source $HOME/.zsh/plugins/wstool.zsh
 
 antigen bundle kennethreitz/autoenv
 
