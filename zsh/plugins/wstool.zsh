@@ -4,12 +4,9 @@ wstool_foreach () {
   local -a locations
   local e
   locations=( $(wstool info --only=path) )
-  pushd >/dev/null
   for e in $locations; do
-    cd $e
-    eval $@
+    (cd $e && eval $@)
   done
-  popd >/dev/null
 }
 
 wstool_info () {
