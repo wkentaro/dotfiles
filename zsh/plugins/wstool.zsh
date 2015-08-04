@@ -1,5 +1,18 @@
 #!/usr/bin/env zsh
 
+
+wstool_foreach () {
+  local -a locations
+  local e
+  locations=( $(wstool info --only=path) )
+  pushd >/dev/null
+  for e in $locations; do
+    cd $e
+    eval $@
+  done
+  popd >/dev/null
+}
+
 wstool_info () {
   local repo target_ws
   local -a options
@@ -96,6 +109,9 @@ wstool () {
       ;;
     (info)
       shift; wstool_info $@
+      ;;
+    (foreach)
+      shift; wstool_foreach $@
       ;;
     (*)
       command wstool $@
