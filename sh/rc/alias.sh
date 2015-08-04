@@ -153,3 +153,4 @@ gifify () {
   docker run -it --rm -v $(pwd):/data maxogden/gifify $@
 }
 alias wscd=wstool_cd
+alias wl=wstool
