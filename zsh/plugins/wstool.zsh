@@ -152,6 +152,9 @@ wstool () {
     (cd)
       shift; wstool_cd $@
       ;;
+    (list)
+      shift; wstool info --only=localname
+      ;;
     (*)
       command wstool $@
       ;;
