@@ -11,15 +11,20 @@ wstool_info () {
       options=($options $arg)
     elif [ "$repo" = "" ]; then
       repo=$arg
+    else
+      command wstool info $@
+      return
     fi
   done
   if [ "$repo" != "" ]; then
     local -a repos
     repos=( $(command wstool info --only=localname | grep $repo) )
-    command wstool info $repos $options
-  else
-    command wstool info $@
+    [ ${#repos[@]} -gt 0 ] && {
+      command wstool info $repos $options
+      return
+    }
   fi
+  command wstool info $@
 }
 
 wstool_update () {
@@ -30,15 +35,20 @@ wstool_update () {
       options=($options $arg)
     elif [ "$repo" = "" ]; then
       repo=$arg
+    else
+      command wstool update $@
+      return
     fi
   done
   if [ "$repo" != "" ]; then
     local -a repos
     repos=( $(command wstool info --only=localname | grep $repo) )
-    command wstool update $repos $options
-  else
-    command wstool update $@
+    [ ${#repos[@]} -gt 0 ] && {
+      command wstool update $repos $options
+      return
+    }
   fi
+  command wstool update $@
 }
 
 wstool_set () {
