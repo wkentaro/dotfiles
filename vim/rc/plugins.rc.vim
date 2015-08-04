@@ -344,7 +344,11 @@ nnoremap <SID>I_won’t_ever_type_this <Plug>IMAP_JumpForward
 " flazz/vim-colorschemes
 " --------------------------------------------------------
 if v:version > 703
-  colorscheme desertEx
+  try
+      colorscheme mayormaynotexist
+  catch /^Vim\%((\a\+)\)\=:E185/
+      colorscheme default
+  endtry
   hi Normal ctermbg=none
   hi NonText ctermbg=none
   hi Normal ctermfg=none
@@ -506,7 +510,9 @@ highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
 highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
 highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
-set statusline+=%{fugitive#statusline()}
+if exists('g:loaded_fugitive')
+  set statusline+=%{fugitive#statusline()}
+endif
 
 " --------------------------------------------------------
 " ConqueTerm
