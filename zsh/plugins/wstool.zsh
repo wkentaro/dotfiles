@@ -1,6 +1,5 @@
 #!/usr/bin/env zsh
 
-
 wstool_foreach () {
   local -a locations
   local e
@@ -65,7 +64,7 @@ wstool_update () {
 }
 
 wstool_set () {
-  local repo uri
+  local repo uri do_update
   local -a options
   for arg in ${@}; do
     if [ "${arg:0:1}" = "-" ]; then
@@ -80,8 +79,10 @@ wstool_set () {
   if echo $uri | egrep -q "\.git$"; then
     [ "${options[(r)--git]}" = --git ] || options=($options --git)
   fi
+  # --hub option
   if [ "${options[(r)--hub]}" = "--hub" ]; then
     echo $uri | egrep -q "^https?://" || {
+      # --ssh option
       if [ "${options[(r)--ssh]}" = --ssh ]; then
         uri="git@github.com:$uri.git"
         options[$options[(i)--ssh]]=()
@@ -92,11 +93,33 @@ wstool_set () {
     [ "${options[(r)--git]}" = --git ] || options=($options --git)
     options[$options[(i)--hub]]=()
   fi
+  # --update option
+  [ "${options[(r)--update]}" = "--update" ] && {
+    do_update=true
+    options[$options[(i)--update]]=()
+  }
   if [ "$uri" != "" ]; then
     command wstool set $repo $uri $options
-  else
-    command wstool set $@
+    [ $do_update ] && command wstool update $repo
+    return
   fi
+  command wstool set $@
+}
+
+wstool_remove () {
+  local repo do_clean
+  local -a options
+  for arg in ${@}; do
+    if [ "${arg:0:1}" = "-" ]; then
+      options=($options $arg)
+    elif [ "$repo" = "" ]; then
+      repo=$arg
+    fi
+  done
+  # --clean option
+  [ "${options[(r)--clean]}" = "--clean" ] && do_clean=true
+  options[$options[(i)--update]]=()
+  command wstool remove $@ && [ $do_clean ] && rm -rf $repo
 }
 
 wstool () {
@@ -113,8 +136,16 @@ wstool () {
     (foreach)
       shift; wstool_foreach $@
       ;;
+    (remove|rm)
+      shift; wstool_remove $@
+      ;;
+    (cd)
+      shift; wstool_cd $@
+      ;;
     (*)
       command wstool $@
       ;;
   esac
 }
+
+fpath=($(dirname ${funcsourcetrace[1]%:*}) $fpath)
