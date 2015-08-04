@@ -115,7 +115,7 @@ wstool_remove () {
   done
   # --clean option
   [ "${options[(r)--clean]}" = "--clean" ] && do_clean=true
-  options[$options[(i)--update]]=()
+  options[$options[(i)--clean]]=()
   command wstool remove $@ && [ $do_clean ] && rm -rf $repo
 }
 
