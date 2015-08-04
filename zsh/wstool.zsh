@@ -1,22 +1,41 @@
 #!/usr/bin/env zsh
 
 wstool_info () {
-  if [ $# -gt 0 ]; then
+  local repo target_ws
+  local -a options
+  for arg in ${@}; do
+    if [ "${arg:0:1}" = "-" ]; then
+      options=($options $arg)
+    elif [ "${options[-1]}" = "-t" -o \
+           "${options[-1]}" = "--target-workspace" ]; then
+      options=($options $arg)
+    elif [ "$repo" = "" ]; then
+      repo=$arg
+    fi
+  done
+  if [ "$repo" != "" ]; then
     local -a repos
-    repos=( $(command wstool info --only=localname | grep $1) )
-    shift
-    command wstool info $repos $@
+    repos=( $(command wstool info --only=localname | grep $repo) )
+    command wstool info $repos $options
   else
     command wstool info $@
   fi
 }
 
 wstool_update () {
-  if [ $# -gt 0 ]; then
+  local repo
+  local -a options
+  for arg in ${@}; do
+    if [ "${arg:0:1}" = "-" ]; then
+      options=($options $arg)
+    elif [ "$repo" = "" ]; then
+      repo=$arg
+    fi
+  done
+  if [ "$repo" != "" ]; then
     local -a repos
-    repos=( $(command wstool info --only=localname | grep $1) )
-    shift
-    command wstool update $repos $@
+    repos=( $(command wstool info --only=localname | grep $repo) )
+    command wstool update $repos $options
   else
     command wstool update $@
   fi
