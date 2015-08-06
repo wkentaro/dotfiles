@@ -129,7 +129,7 @@ wstool_remove () {
   # --clean option
   [ "${options[(r)--clean]}" = "--clean" ] && do_clean=true
   options[$options[(i)--clean]]=()
-  command wstool remove $repo $options && [ $do_clean ] && [ $(yes_or_no "Remove $repo?") ] && rm -rf $repo && echo "Removed ['$repo']"
+  command wstool remove $repo $options && [ $do_clean ] && yes_or_no "Remove $repo?" && rm -rf $repo && echo "Removed ['$repo']"
 }
 
 wstool () {
