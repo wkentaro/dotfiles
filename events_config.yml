@@ -19,7 +19,10 @@ color_rules:
   green: [run]
 
 alias:
+  p: pastime
   pm: pastime
+  s: study
+  st: study
   sd: study
   std: study
   uv: univ
@@ -30,6 +33,7 @@ alias:
   bth: bath
   mv: move
   dn: dinner
+  w: work
   wk: work
   wrk: work
   mc: misc
