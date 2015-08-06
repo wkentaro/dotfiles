@@ -1,10 +1,12 @@
 bash
 bash-completion
 bazaar
+boot2docker
 brew-cask
 cmake
 coreutils
 docker
+doxygen
 eigen
 ffmpeg
 findutils
@@ -23,6 +25,7 @@ ilmbase
 isl
 jpeg
 lame
+libevent
 libmpc
 libpng
 libtiff
@@ -36,11 +39,13 @@ node
 opencv3
 openexr
 openssl
+pandoc
 pcre
 python
 readline
 ruby
 sqlite
+tmux
 tokyo-cabinet
 vim
 wget
