@@ -20,6 +20,8 @@ gvimrc:
   .gvimrc
 hgignore_global:
   .hgignore_global
+hgrc:
+  .hgrc
 inputrc:
   .inputrc
 linuxbrew:
