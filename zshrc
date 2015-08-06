@@ -116,6 +116,7 @@ antigen use oh-my-zsh
 antigen bundle git
 antigen bundle gnu-utils
 antigen bundle history
+antigen bundle mercurial
 antigen bundle pip
 antigen bundle python
 antigen bundle web-search
