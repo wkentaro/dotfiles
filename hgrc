@@ -1,9 +1,11 @@
 [ui]
 username = Kentaro Wada <www.kentaro.wada@gmail.com>
+editor = _hg_commit_editor
 
 [alias]
 sh = shelve
 pr = pull --rebase
+browse = !hg_browse
 
 [extensions]
 pager =
