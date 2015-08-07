@@ -173,6 +173,7 @@ type wstool_cd.sh &>/dev/null && source `which wstool_cd.sh`
 # local plugins
 source $HOME/.sh/plugins/browse.sh
 source $HOME/.zsh/plugins/wstool.zsh
+source $HOME/.zsh/plugins/demo_mode.zsh
 
 antigen bundle kennethreitz/autoenv
 
