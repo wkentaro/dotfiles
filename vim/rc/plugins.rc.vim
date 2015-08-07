@@ -128,13 +128,6 @@ NeoBundle 'gerw/vim-latex-suite'
 " Python syntax
 " NeoBundle 'klen/python-mode'
 
-" vim-tmux seamless move
-NeoBundle 'christoomey/vim-tmux-navigator'
-
-" ignore git ignored files
-" https://github.com/vim-scripts/gitignore
-NeoBundle 'vim-scripts/gitignore'
-
 " vimproc
 " https://github.com/Shougo/vimproc.vim
 let vimproc_updcmd = has('win64') ?
@@ -345,7 +338,7 @@ nnoremap <SID>I_won’t_ever_type_this <Plug>IMAP_JumpForward
 " --------------------------------------------------------
 if v:version > 703
   try
-      colorscheme mayormaynotexist
+      colorscheme desertEx
   catch /^Vim\%((\a\+)\)\=:E185/
       colorscheme default
   endtry
