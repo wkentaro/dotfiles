@@ -152,8 +152,8 @@ alias gceach=_git_commit_each_file
 gifify () {
   docker run -it --rm -v $(pwd):/data maxogden/gifify $@
 }
-alias wscd=wstool_cd
 alias wl=wstool
 alias wli='wstool info'
+alias wlcd='wstool_cd'
 alias wlset='wstool set'
 alias wlup='wstool update'
