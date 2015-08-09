@@ -25,10 +25,13 @@
 	graft = !legit graft
 	harvest = !legit harvest
 	publish = !legit publish
+	pub = !legit publish
 	unpublish = !legit unpublish
+	unpub = !legit unpublish
 	sprout = !legit sprout
 	sync = !legit sync
 	switch = !legit switch
+	sw = !legit switch
 	resync = !legit resync
 [filter "media"]
 	clean = git-media-clean %f
