@@ -43,3 +43,5 @@
 	sslVerify = false
 [rerere]
 	enabled = true
+[branch]
+	autosetupmerge = always
