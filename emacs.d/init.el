@@ -49,9 +49,10 @@
 (require 'platform-p)
 (setq TRR:japanese nil)
 (when platform-darwin-p
-  (add-to-list 'load-path "/usr/local/Cellar/apel/10.8/share/emacs/site-lisp")
-  (add-to-list 'load-path "/usr/local/Cellar/trr/22.0.99.5/share/emacs/site-lisp")
-  (autoload 'trr "/usr/local/Cellar/trr/22.0.99.5/share/emacs/site-lisp/trr" nil t))
+  (let ((default-directory "/usr/local/share/emacs/site-lisp/"))
+    (normal-top-level-add-subdirs-to-load-path))
+  (require 'trr)
+  )
 (when platform-linux-p
   (add-to-list 'load-path "/usr/share/emacs/site-lisp/trr22")
   (add-to-list 'load-path "/usr/local/share/emacs/24.3/site-lisp/emu")
