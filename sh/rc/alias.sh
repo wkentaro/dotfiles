@@ -59,7 +59,6 @@ alias o.='open .'
 # ----------------------------------------------------
 alias gcal='open https://www.google.com/calendar/render#g >/dev/null 2>&1'
 alias gmail='open https://mail.google.com/mail/u/0/ >/dev/null 2>&1'
-alias github='open https://github.com >/dev/null 2>&1'
 
 # ----------------------------------------------------
 # ls aliases
