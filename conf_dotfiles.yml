@@ -26,8 +26,6 @@ inputrc:
   .inputrc
 linuxbrew:
   .linuxbrew
-shrc.alias:
-  .shrc.alias
 percol.d/rc.py:
   .percol.d/rc.py
 pythonstartup:
