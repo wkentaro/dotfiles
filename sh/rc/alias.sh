@@ -11,6 +11,8 @@ type vim &>/dev/null && {
 alias lv='less'
 alias py='python'
 alias ipy='ipython'
+alias ipp='ptipython'
+alias irb='irb --simple-prompt'
 alias emacs='emacs -nw'
 
 # ----------------------------------------------------
