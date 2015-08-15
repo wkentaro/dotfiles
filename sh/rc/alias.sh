@@ -26,6 +26,13 @@ alias tn='tmux new'
 alias tns='tmux new -s'
 
 # ----------------------------------------------------
+# os x
+# ----------------------------------------------------
+if type brew &>/dev/null; then
+  alias bubu='brew update && brew upgrade && brew cleanup'
+fi
+
+# ----------------------------------------------------
 # Use rlwrap commands
 # ----------------------------------------------------
 if type rlwrap &>/dev/null; then
