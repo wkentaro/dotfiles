@@ -36,11 +36,11 @@ fi
 # Use rlwrap commands
 # ----------------------------------------------------
 if type rlwrap &>/dev/null; then
-    alias eus='rlwrap eus'
-    alias irteusgl='rlwrap irteusgl'
-    alias roseus='rlwrap roseus'
-    alias irb='rlwrap irb'
-    alias clisp="rlwrap -b '(){}[],#\";| ' clisp"
+  alias eus='rlwrap eus'
+  alias irteusgl='rlwrap irteusgl'
+  alias roseus='rlwrap roseus'
+  alias irb='rlwrap irb'
+  alias clisp="rlwrap -b '(){}[],#\";| ' clisp"
 fi
 
 # ----------------------------------------------------
@@ -50,10 +50,10 @@ _image_view () {
   rosrun image_view image_view image:=$1
 }
 if [ -d "/opt/ros" ]; then
-    alias rqt_gui='rosrun rqt_gui rqt_gui'
-    alias rqt_reconfigure='rosrun rqt_reconfigure rqt_reconfigure'
-    alias rqt_image_view='rosrun rqt_image_view rqt_image_view'
-    alias image_view=_image_view
+  alias rqt_gui='rosrun rqt_gui rqt_gui'
+  alias rqt_reconfigure='rosrun rqt_reconfigure rqt_reconfigure'
+  alias rqt_image_view='rosrun rqt_image_view rqt_image_view'
+  alias image_view=_image_view
 fi
 
 # ----------------------------------------------------
@@ -73,28 +73,40 @@ alias gmail='open https://mail.google.com/mail/u/0/ >/dev/null 2>&1'
 # ls aliases
 # ----------------------------------------------------
 alias sl='ls'
-if [ $TERM = "dumb" ]; then
+if ls --color &>/dev/null; then
+  # GNU ls
+  if [ $TERM = "dumb" ]; then
     # Disable colors in GVim
-    alias ls="ls -F --show-control-chars"
+    alias ls='ls -F --show-control-chars'
     alias la='ls -ahF --show-control-chars'
     alias ll='ls -lhF --show-control-chars'
-    alias lsa='ls -laF --show-control-chars'
-else
+    alias lsa='ls -lahF --show-control-chars'
+  else
     # Color settings for zsh complete candidates
     alias ls='ls -F --show-control-chars --color=always'
     alias la='ls -ahF --show-control-chars --color=always'
     alias ll='ls -lhF --show-control-chars --color=always'
     alias lsa='ls -lahF --show-control-chars --color=always'
-    type dircolors &>/dev/null && [ -f $HOME/.colorrc ] && eval `dircolors $HOME/.colorrc`
+    if type dircolors &>/dev/null; then
+      if [ -f $HOME/.colorrc ]; then
+        eval `dircolors $HOME/.colorrc`
+      fi
+    fi
+  fi
+else
+  # Darwin ls
+  alias ls='ls -F'
+  alias la='ls -ahF'
+  alias ll='ls -lhF'
+  alias lsa='ls -lahF'
 fi
 
 # ----------------------------------------------------
 # git aliases
 # ----------------------------------------------------
 # Use hub as git client
-if type hub &>/dev/null; then
-  eval "`hub alias -s`"
-fi
+type hub &>/dev/null && alias git=hub
+
 alias ga.='git add .'
 
 alias gmpull='git pull $GITHUB_USER $(current_branch)'
