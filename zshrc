@@ -120,7 +120,6 @@ antigen bundle mercurial
 antigen bundle pip
 antigen bundle python
 antigen bundle web-search
-unalias github
 antigen bundle vi-mode
 antigen bundle z
 
