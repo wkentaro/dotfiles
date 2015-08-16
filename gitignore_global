@@ -3,3 +3,6 @@
 .env
 .konchrc
 venv
+.venv
+.idea/
+,/
