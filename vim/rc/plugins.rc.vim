@@ -424,6 +424,7 @@ let g:jedi#completions_enabled = 1
 let g:jedi#auto_vim_configuration = 1
 let g:jedi#show_call_signatures = 0
 let s:hooks = neobundle#get_hooks("jedi-vim")
+let g:jedi#rename_command = '<Leader>R'
 
 " --------------------------------------------------------
 " unite.vim
