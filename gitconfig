@@ -51,3 +51,5 @@
 	required = true
 [pull]
 	rebase = true
+[push]
+	default = simple
