@@ -7,7 +7,8 @@ alias sudo='sudo '
 alias c='clear'
 type vim &>/dev/null && {
   alias vi='vim'
-  alias pvim='vim --noplugin'
+  alias vii='vim --noplugin'
+  alias viii='vim -u NONE'
 }
 alias lv='less'
 alias py='python'
