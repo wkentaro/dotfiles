@@ -27,6 +27,8 @@ else
   set clipboard=unnamed
 endif
 
+set autochdir
+
 " Enhance command-line completion
 set wildmenu
 set wildignore+=*.dll,*.o,*.pyc,*.bak,*.exe,*.jpg,*.jpeg,*.png,*.gif,*$py.class,*.class,*/*.dSYM/*,*.dylib
@@ -85,7 +87,9 @@ set tm=500
 " Don’t reset cursor to start of line when moving around.
 set nostartofline
 set modifiable
-set ttymouse=xterm2
+if !has('nvim')
+  set ttymouse=xterm2
+endif
 
 " set hightlight search
 " set hlsearch
@@ -117,6 +121,7 @@ set cmdheight=1
 set laststatus=2
 set statusline=[%l,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})
 set showcmd
+set noshowmode
 set number
 
 " Highlight dynamically as pattern is typed
