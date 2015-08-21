@@ -27,8 +27,6 @@ else
   set clipboard=unnamed
 endif
 
-set autochdir
-
 " Enhance command-line completion
 set wildmenu
 set wildignore+=*.dll,*.o,*.pyc,*.bak,*.exe,*.jpg,*.jpeg,*.png,*.gif,*$py.class,*.class,*/*.dSYM/*,*.dylib
