@@ -32,6 +32,7 @@ alias tns='tmux new -s'
 # ----------------------------------------------------
 if type brew &>/dev/null; then
   alias bubu='brew update && brew upgrade && brew cleanup'
+  alias bububu='bubu && brew cask update && brew cask cleanup'
 fi
 
 # ----------------------------------------------------
