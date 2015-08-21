@@ -9,8 +9,10 @@ endfunction
 " ----------------------------------------------------------------
 " vim useful options
 " ----------------------------------------------------------------
-" make vim more useful
-set nocompatible
+if has('nvim')
+  " make vim more useful
+  set nocompatible
+endif
 
 " colorscheme
 set background=dark
@@ -44,7 +46,9 @@ endif
 set esckeys
 
 " Optimize for fast terminal connections
-set ttyfast
+if has('nvim')
+  set ttyfast
+endif
 
 " Use UTF-8 without BOM
 set encoding=utf-8 nobomb
@@ -79,7 +83,9 @@ set modelines=4
 " No annoying sound on errors
 set noerrorbells
 set novisualbell
-set t_vb=
+if has('nvim')
+  set t_vb=
+endif
 set tm=500
 
 " Don’t reset cursor to start of line when moving around.
@@ -88,9 +94,6 @@ set modifiable
 if !has('nvim')
   set ttymouse=xterm2
 endif
-
-" set hightlight search
-" set hlsearch
 
 " Enable mouse in all modes
 if has('mouse')
@@ -158,25 +161,15 @@ set nofoldenable
 set list
 set number
 set wrap
-set t_vb=
 set novisualbell
 set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
 set cinoptions+=:0,g0
 
 
+" ----------------------------------------------------------
+" Filetype
+" ----------------------------------------------------------
 call s:source_rc('filetype.rc.vim')
-
-" ----------------------------------------------------------
-" Cpp setting
-" ----------------------------------------------------------
-autocmd FileType cpp setlocal path=.,/usr/include,/usr/local/include,/usr/include/c++/4.8/,/opt/ros/indigo/include,/usr/include/pcl-1.7
-
-
-" ----------------------------------------------------------
-" Lisp setting
-" ----------------------------------------------------------
-au BufNewFile,BufRead *.l set wrap tabstop=8 shiftwidth=2 ft=lisp
-let lisp_rainbow = 1
 
 
 " ----------------------------------------------------------
@@ -184,13 +177,6 @@ let lisp_rainbow = 1
 " ----------------------------------------------------------
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
 au BufNewFile,BufRead * match ZenkakuSpace /　/
-
-
-" ----------------------------------------------------------
-" Search
-" ----------------------------------------------------------
-" cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
-" cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
 
 " ----------------------------------------------------------
