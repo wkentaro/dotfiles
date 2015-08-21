@@ -6,9 +6,16 @@
 alias sudo='sudo '
 alias c='clear'
 type vim &>/dev/null && {
+  alias v='vim'
   alias vi='vim'
   alias vii='vim --noplugin'
   alias viii='vim -u NONE'
+}
+type nvim &>/dev/null && {
+  alias n='nvim'
+  alias nvi='nvim'
+  alias nvii='nvim --noplugin'
+  alias nviii='nvim -u NONE'
 }
 alias lv='less'
 alias py='python'
