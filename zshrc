@@ -166,17 +166,17 @@ antigen bundle hchbaw/opp.zsh
 # Load the theme.
 antigen theme wkentaro/wkentaro.zsh-theme wkentaro
 
-# wkentaro/pycd
+# https://github.com/wkentaro/pycd
 type pycd.sh &>/dev/null && source `which pycd.sh`
 
-# wkentaro/wstool_cd
+# https://github.com/wkentaro/wstool_cd
 type wstool_cd.sh &>/dev/null && source `which wstool_cd.sh`
 
 # local plugins
-source $HOME/.sh/plugins/browse.sh
-source $HOME/.zsh/plugins/wstool.zsh
-source $HOME/.zsh/plugins/demo_mode.zsh
+antigen bundle $HOME/.sh/plugins browse.sh --no-local-clone
+antigen bundle $HOME/.zsh/plugins --no-local-clone
 
+# https://github.com/kennethreitz/autoenv
 antigen bundle kennethreitz/autoenv
 
 # Tell antigen that you're done.
