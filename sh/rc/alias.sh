@@ -1,10 +1,20 @@
 # vim: set ft=sh:
 
-# ----------------------------------------------------
-# Basics
-# ----------------------------------------------------
+# basic
 alias sudo='sudo '
 alias c='clear'
+alias lv='less'
+
+# open
+type gnome-open &>/dev/null && alias open=gnome-open
+alias o='open'
+alias o.='open .'
+
+# browsing
+alias gcal='open https://www.google.com/calendar/render#g >/dev/null 2>&1'
+alias gmail='open https://mail.google.com/mail/u/0/ >/dev/null 2>&1'
+
+# vim
 type vim &>/dev/null && {
   alias v='vim'
   alias vi='vim'
@@ -17,16 +27,22 @@ type nvim &>/dev/null && {
   alias nvii='nvim --noplugin'
   alias nviii='nvim -u NONE'
 }
-alias lv='less'
+
+# emacs
+alias emacs='emacs -nw'
+
+# python
 alias py='python'
 alias ipy='ipython'
 alias ipp='ptipython'
-alias irb='irb --simple-prompt'
-alias emacs='emacs -nw'
 
-# ----------------------------------------------------
-# tmux aliases
-# ----------------------------------------------------
+# ruby
+alias irb='irb --simple-prompt'
+
+# cmatrix
+alias matrix='cmatrix -sb'
+
+# tmux
 alias t='tmux'
 alias tls='tmux ls'
 alias ta='tmux attach'
@@ -34,16 +50,30 @@ alias tat='tmux attach -t'
 alias tn='tmux new'
 alias tns='tmux new -s'
 
-# ----------------------------------------------------
-# os x
-# ----------------------------------------------------
+# gifify
+gifify () { docker run -it --rm -v $(pwd):/data maxogden/gifify $@ }
+
+# wstool
+alias wl=wstool
+alias wli='wstool info'
+alias wlcd='wstool_cd'
+alias wlset='wstool set'
+alias wlup='wstool update'
+
+# brew
 if type brew &>/dev/null; then
   alias bubu='brew update && brew upgrade && brew cleanup'
   alias bububu='bubu && brew cask update && brew cask cleanup'
 fi
 
 # ----------------------------------------------------
-# Use rlwrap commands
+# pandoc
+# ----------------------------------------------------
+md2rst () { pandoc --from=markdown --to=rst $1 }
+rst2md () { pandoc --from=rst --to=markdown $1 }
+
+# ----------------------------------------------------
+# wrapping with rlwrap
 # ----------------------------------------------------
 if type rlwrap &>/dev/null; then
   alias eus='rlwrap eus'
@@ -54,30 +84,14 @@ if type rlwrap &>/dev/null; then
 fi
 
 # ----------------------------------------------------
-# ros
+# ROS
 # ----------------------------------------------------
-_image_view () {
-  rosrun image_view image_view image:=$1
-}
 if [ -d "/opt/ros" ]; then
   alias rqt_gui='rosrun rqt_gui rqt_gui'
   alias rqt_reconfigure='rosrun rqt_reconfigure rqt_reconfigure'
   alias rqt_image_view='rosrun rqt_image_view rqt_image_view'
-  alias image_view=_image_view
+  image_view () { rosrun image_view image_view image:=$1 }
 fi
-
-# ----------------------------------------------------
-# open aliases
-# ----------------------------------------------------
-type gnome-open &>/dev/null && alias open=gnome-open
-alias o='open'
-alias o.='open .'
-
-# ----------------------------------------------------
-# browser
-# ----------------------------------------------------
-alias gcal='open https://www.google.com/calendar/render#g >/dev/null 2>&1'
-alias gmail='open https://mail.google.com/mail/u/0/ >/dev/null 2>&1'
 
 # ----------------------------------------------------
 # ls aliases
@@ -114,6 +128,7 @@ fi
 # ----------------------------------------------------
 # git aliases
 # ----------------------------------------------------
+
 # Use hub as git client
 type hub &>/dev/null && alias git=hub
 
@@ -134,22 +149,20 @@ alias gcsmg='gcmsg'
 # for hub command
 alias gpr='hub pull-request'
 alias gfork='hub fork'
-_gpl () {
+gpl () {
   if [ "$1" = "" ]; then
     hub browse -- pulls >/dev/null 2>&1
   else
     hub browse $1 pulls >/dev/null 2>&1
   fi
 }
-alias gpl='_gpl'
-_gis () {
+gis () {
   if [ "$1" = "" ]; then
     hub browse -- issues >/dev/null 2>&1
   else
     hub browse $1 issues >/dev/null 2>&1
   fi
 }
-alias gis='_gis'
 alias gbw='hub browse $@ 2>/dev/null'
 #}}}
 
@@ -175,15 +188,3 @@ _git_commit_each_file () {
   [ "$1" != "" ] && popd &>/dev/null
 }
 alias gceach=_git_commit_each_file
-
-# ----------------------------------------------------
-# Other utilities
-# ----------------------------------------------------
-gifify () {
-  docker run -it --rm -v $(pwd):/data maxogden/gifify $@
-}
-alias wl=wstool
-alias wli='wstool info'
-alias wlcd='wstool_cd'
-alias wlset='wstool set'
-alias wlup='wstool update'
