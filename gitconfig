@@ -37,7 +37,6 @@
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
 [core]
-	editor = vim
 	excludesfile = ~/.gitignore_global
 [http]
 	sslVerify = false
