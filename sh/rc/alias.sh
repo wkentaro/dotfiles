@@ -169,7 +169,14 @@ alias gbw='hub browse $@ 2>/dev/null'
 # alias gbd='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
 alias gbdr='git branch -r --merged origin/master | grep "$GITHUB_USER\\/" | sed "s/$GITHUB_USER\\///" | egrep -v "HEAD|master|develop|release" | xargs git push $GITHUB_USER --delete'
 alias gbD='git branch -D'
-alias gremote2local='cbranch=$(current_branch) ; git branch --all | grep $GITHUB_USER | egrep -v "HEAD|master|develop|release" | sed "s/^  remotes\/$GITHUB_USER\///" | xargs -n1 -I{} git branch {} --track $GITHUB_USER/{} ; git checkout $cbranch'
+git_remote_to_local () {
+  local branches
+  branches=(`git branch --all | grep $GITHUB_USER | egrep -v 'HEAD|master|develop|release' | sed "s/^  remotes\/$GITHUB_USER\///"`)
+  for br in $branches; do
+    git branch $br --track $GITHUB_USER/$br 2>/dev/null
+  done
+}
+alias gremote2local=git_remote_to_local
 
 # commit each file
 _git_commit_each_file () {
