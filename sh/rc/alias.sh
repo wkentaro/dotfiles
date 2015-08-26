@@ -171,7 +171,7 @@ alias gbdr='git branch -r --merged origin/master | grep "$GITHUB_USER\\/" | sed 
 alias gbD='git branch -D'
 git_remote_to_local () {
   local branches
-  branches=(`git branch --all | grep $GITHUB_USER | egrep -v 'HEAD|master|develop|release' | sed "s/^  remotes\/$GITHUB_USER\///"`)
+  branches=(`git branch --all | grep $GITHUB_USER | egrep -v 'HEAD|master|develop|release' | sed "s@^ *remotes/$GITHUB_USER/@@"`)
   for br in $branches; do
     git branch $br --track $GITHUB_USER/$br 2>/dev/null
   done
