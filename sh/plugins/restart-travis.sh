@@ -3,7 +3,7 @@
 _current_github_repo () {
   local url username reponame
   url=`git remote -v | grep '^origin' | sed 1q | awk '{print $2}'`
-  echo $url | awk 'BEGIN {FS="/"} {print $4"/"$5}' | sed 's/\.git//'
+  echo $url | awk 'BEGIN {FS="/"} {print $4"/"$5}' | sed 's/\.git$//'
 }
 
 restart_failed_travis_on_pr_branch () {
