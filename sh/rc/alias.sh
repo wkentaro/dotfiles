@@ -51,7 +51,9 @@ alias tn='tmux new'
 alias tns='tmux new -s'
 
 # gifify
-gifify () { docker run -it --rm -v $(pwd):/data maxogden/gifify $@ }
+gifify () {
+  docker run -it --rm -v `pwd`:/data maxogden/gifify $@
+}
 
 # wstool
 alias wl=wstool
@@ -69,8 +71,12 @@ fi
 # ----------------------------------------------------
 # pandoc
 # ----------------------------------------------------
-md2rst () { pandoc --from=markdown --to=rst $1 }
-rst2md () { pandoc --from=rst --to=markdown $1 }
+md2rst () {
+  pandoc --from=markdown --to=rst $1
+}
+rst2md () {
+  pandoc --from=rst --to=markdown $1
+}
 
 # ----------------------------------------------------
 # wrapping with rlwrap
@@ -90,7 +96,9 @@ if [ -d "/opt/ros" ]; then
   alias rqt_gui='rosrun rqt_gui rqt_gui'
   alias rqt_reconfigure='rosrun rqt_reconfigure rqt_reconfigure'
   alias rqt_image_view='rosrun rqt_image_view rqt_image_view'
-  image_view () { rosrun image_view image_view image:=$1 }
+  image_view () {
+    rosrun image_view image_view image:=$1
+  }
 fi
 
 # ----------------------------------------------------
