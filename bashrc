@@ -19,9 +19,11 @@ export TERM=xterm-256color
 
 # prompt setup
 parse_branch() {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+  local branch
+  branch=`git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+  [ "$branch" != "" ] && echo -e "\e[0m on \e[35m$branch\e[0m"
 }
-PS1='${debian_chroot:+($debian_chroot)}\[\e[00;32m\]\u@\h:\[\e[01;34m\]\W\[\033[01;35m\]$(parse_branch)\[\e[01;35m\]\[\e[0m\] $ '
+PS1='${debian_chroot:+($debian_chroot)}\e[35m\u\e[0m at \e[33m\h\e[0m in \e[32m\W\e[35m$(parse_branch)\e[0m\n$ '
 
 # -------------------------------
 # alias
