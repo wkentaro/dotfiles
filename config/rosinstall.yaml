@@ -50,8 +50,6 @@
 - git: {local-name: wkentaro/python-packages, uri: 'git@github.com:wkentaro/python-packages.git',
     version: master}
 - git: {local-name: tkruse/wstool, uri: 'https://github.com/tkruse/wstool.git', version: divergence}
-- git: {local-name: wk-jphacks/amazon-ar, uri: 'https://github.com/wk-jphacks/amazon-ar',
-    version: master}
 - git: {local-name: kawabata/emacs-trr, uri: 'https://github.com/kawabata/emacs-trr.git',
     version: master}
 - git: {local-name: brunobraga/termsaver, uri: 'https://github.com/brunobraga/termsaver.git'}
