@@ -174,7 +174,7 @@ type wstool_cd.sh &>/dev/null && source `which wstool_cd.sh`
 # local plugins
 antigen bundle $HOME/.sh/plugins browse.sh --no-local-clone
 antigen bundle $HOME/.sh/plugins restart-travis.sh --no-local-clone
-antigen bundle $HOME/.zsh/plugins --no-local-clone
+antigen bundle $HOME/.zsh/plugins demo_mode.zsh --no-local-clone
 
 # https://github.com/kennethreitz/autoenv
 antigen bundle kennethreitz/autoenv
