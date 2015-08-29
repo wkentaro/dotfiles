@@ -33,8 +33,6 @@
     version: master}
 - hg: {local-name: wkentaro/mercurial-test, uri: 'ssh://hg@bitbucket.org/wkentaro/mercurial-test',
     version: default}
-- hg: {local-name: python-3-patterns-idioms, uri: 'https://bitbucket.org/BruceEckel/python-3-patterns-idioms',
-    version: default}
 - git: {local-name: kennethreitz/legit, uri: 'https://github.com/kennethreitz/legit.git',
     version: develop}
 - git: {local-name: kennethreitz/clint, uri: 'https://github.com/kennethreitz/clint.git',
@@ -57,3 +55,4 @@
 - git: {local-name: wkentaro/ut-komaba, uri: 'git@github.com:wkentaro/ut-komaba.git',
     version: master}
 - git: {local-name: jonas/tig, uri: 'https://github.com/jonas/tig.git', version: master}
+- git: {local-name: wkentaro/hackerrank, uri: 'git@github.com:wkentaro/hackerrank.git'}
