@@ -71,13 +71,6 @@ if [ "$OS" = "Darwin" ]; then
   export GREP_COLOR='1;35;40'
 fi
 
-# linuxbrew
-if [ "$OS" = "Linux" ]; then
-  export PATH="$HOME/.linuxbrew/bin:$PATH"
-  export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
-  export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
-fi
-
 # Encoding
 export LANG='en_US.UTF-8'
 export LC_CTYPE='en_US.UTF-8'
