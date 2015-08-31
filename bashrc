@@ -25,6 +25,14 @@ parse_branch() {
 }
 PS1='${debian_chroot:+($debian_chroot)}\e[35m\u\e[0m at \e[33m\h\e[0m in \e[32m\W\e[35m$(parse_branch)\e[0m\n$ '
 
+plugins=(
+  $HOME/.sh/plugins/browse.sh
+  $HOME/.sh/plugins/git.sh
+)
+for plugin in $plugins; do
+  source $plugin
+done
+
 # -------------------------------
 # alias
 # -------------------------------
