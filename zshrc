@@ -153,9 +153,14 @@ type pycd.sh &>/dev/null && source `which pycd.sh`
 type wstool_cd.sh &>/dev/null && source `which wstool_cd.sh`
 
 # local plugins
-antigen bundle $HOME/.sh/plugins browse.sh --no-local-clone
-antigen bundle $HOME/.sh/plugins restart-travis.sh --no-local-clone
-antigen bundle $HOME/.zsh/plugins demo_mode.zsh --no-local-clone
+plugins=(
+  $HOME/.sh/plugins/browse.sh
+  $HOME/.sh/plugins/restart-travis.sh
+  $HOME/.zsh/plugins/demo_mode.zsh
+)
+for plugin in $plugins; do
+  source $plugin
+done
 
 # https://github.com/kennethreitz/autoenv
 antigen bundle kennethreitz/autoenv
