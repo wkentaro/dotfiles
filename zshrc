@@ -129,6 +129,7 @@ type wstool_cd.sh &>/dev/null && source `which wstool_cd.sh`
 
 # local plugins
 plugins=(
+  $HOME/.sh/plugins/git.sh
   $HOME/.sh/plugins/browse.sh
   $HOME/.sh/plugins/restart-travis.sh
   $HOME/.zsh/plugins/demo_mode.zsh
