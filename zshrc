@@ -114,9 +114,6 @@ for plugin in $plugins; do
   source $HOME/.zsh/oh-my-zsh/plugins/$plugin/$plugin.plugin.zsh
 done
 
-# Syntax highlighting bundle.
-antigen bundle zsh-users/zsh-syntax-highlighting
-
 # TOO SLOW
 # # History searching bundle. #{{{
 # antigen bundle zsh-users/zsh-history-substring-search
@@ -135,9 +132,6 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 # bindkey -M vicmd 'k' history-substring-search-up
 # bindkey -M vicmd 'j' history-substring-search-down
 # #}}}
-
-# Vim's text-object
-antigen bundle hchbaw/opp.zsh
 
 # TOO SLOW
 # # use haskell to run faster
