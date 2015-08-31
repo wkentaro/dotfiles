@@ -108,19 +108,11 @@ antibody bundle < $HOME/.zsh/antibody/bundles.txt
 # source antigen
 source $HOME/.zsh/antigen/antigen.zsh
 
-# Load the oh-my-zsh's library.
-antigen use oh-my-zsh
-
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle git
-antigen bundle gnu-utils
-antigen bundle history
-antigen bundle mercurial
-antigen bundle pip
-antigen bundle python
-antigen bundle web-search
-antigen bundle vi-mode
-antigen bundle z
+# oh-my-zsh plugins
+plugins=(git gnu-utils history pip python web-search vi-mode z)
+for plugin in $plugins; do
+  source $HOME/.zsh/oh-my-zsh/plugins/$plugin/$plugin.plugin.zsh
+done
 
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting
