@@ -4,9 +4,6 @@
 [submodule "emacs.d/packages/platform-p"]
 	path = emacs.d/packages/platform-p
 	url = https://github.com/ongaeshi/platform-p
-[submodule "zsh/antigen"]
-	path = zsh/antigen
-	url = https://github.com/zsh-users/antigen.git
 [submodule "zsh/oh-my-zsh"]
 	path = zsh/oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
