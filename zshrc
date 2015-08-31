@@ -100,6 +100,11 @@ export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen
 # ---------------------------------
 # zsh plugins
 # ---------------------------------
+
+source $HOME/.zsh/antibody/antibody/antibody.zsh
+
+antibody bundle < $HOME/.zsh/antibody/bundles.txt
+
 # source antigen
 source $HOME/.zsh/antigen/antigen.zsh
 
@@ -138,9 +143,6 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 # bindkey -M vicmd 'k' history-substring-search-up
 # bindkey -M vicmd 'j' history-substring-search-down
 # #}}}
-
-# Additional zsh completion
-antigen bundle zsh-users/zsh-completions src
 
 # Vim's text-object
 antigen bundle hchbaw/opp.zsh
