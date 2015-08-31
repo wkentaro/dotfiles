@@ -159,16 +159,16 @@ alias gpr='hub pull-request'
 alias gfork='hub fork'
 gpl () {
   if [ "$1" = "" ]; then
-    hub browse -- pulls >/dev/null 2>&1
+    hub browse -- pulls/$2 >/dev/null 2>&1
   else
-    hub browse $1 pulls >/dev/null 2>&1
+    hub browse $1 pulls/$2 >/dev/null 2>&1
   fi
 }
 gis () {
   if [ "$1" = "" ]; then
-    hub browse -- issues >/dev/null 2>&1
+    hub browse -- issues/$2 >/dev/null 2>&1
   else
-    hub browse $1 issues >/dev/null 2>&1
+    hub browse $1 issues/$2 >/dev/null 2>&1
   fi
 }
 alias gbw='hub browse $@ 2>/dev/null'
