@@ -105,30 +105,18 @@ source $HOME/.zsh/antibody/antibody/antibody.zsh
 
 antibody bundle < $HOME/.zsh/antibody/bundles.txt
 
+# oh-my-zsh config
+OH_MY_ZSH=$HOME/.zsh/oh-my-zsh
+for config_file ($OH_MY_ZSH/lib/*.zsh); do
+  custom_config_file="${ZSH_CUSTOM}/lib/${config_file:t}"
+  [ -f "${custom_config_file}" ] && config_file=${custom_config_file}
+  source $config_file
+done
 # oh-my-zsh plugins
 plugins=(git gnu-utils history pip python web-search vi-mode z)
 for plugin in $plugins; do
-  source $HOME/.zsh/oh-my-zsh/plugins/$plugin/$plugin.plugin.zsh
+  source $OH_MY_ZSH/plugins/$plugin/$plugin.plugin.zsh
 done
-
-# TOO SLOW
-# # History searching bundle. #{{{
-# antibody bundle zsh-users/zsh-history-substring-search
-# # bind UP and DOWN arrow keys
-# zmodload zsh/terminfo
-# bindkey "$terminfo[kcuu1]" history-substring-search-up
-# bindkey "$terminfo[kcud1]" history-substring-search-down
-# # bind UP and DOWN arrow keys (compatibility fallback
-# # for Ubuntu 12.04, Fedora 21, and MacOSX 10.9 users)
-# bindkey '^[[A' history-substring-search-up
-# bindkey '^[[B' history-substring-search-down
-# # bind P and N for EMACS mode
-# bindkey '^P' history-substring-search-up
-# bindkey '^N' history-substring-search-down
-# # bind k and j for VI mode
-# bindkey -M vicmd 'k' history-substring-search-up
-# bindkey -M vicmd 'j' history-substring-search-down
-# #}}}
 
 # Load the theme.
 source $HOME/.zsh/wkentaro.zsh-theme/wkentaro.zsh-theme
@@ -189,10 +177,29 @@ if type percol &>/dev/null; then
 fi
 
 # History search
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-bindkey "^P" history-beginning-search-backward-end
-bindkey "^N" history-beginning-search-forward-end
+# zle -N history-beginning-search-backward-end history-search-end
+# zle -N history-beginning-search-forward-end history-search-end
+# bindkey "^P" history-beginning-search-backward-end
+# bindkey "^N" history-beginning-search-forward-end
+
+# History searching bundle. #{{{
+# zsh-users/zsh-history-substring-search
+# bind UP and DOWN arrow keys
+zmodload zsh/terminfo
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+# bind UP and DOWN arrow keys (compatibility fallback
+# for Ubuntu 12.04, Fedora 21, and MacOSX 10.9 users)
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+# bind P and N for EMACS mode
+bindkey '^P' history-substring-search-up
+bindkey '^N' history-substring-search-down
+# bind k and j for VI mode
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+#}}}
+
 
 # Vi Keybind
 bindkey -M vicmd '1' vi-beginning-of-line

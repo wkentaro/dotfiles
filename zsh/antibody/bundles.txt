@@ -1,4 +1,5 @@
 hchbaw/opp.zsh
 kennethreitz/autoenv
 zsh-users/zsh-completions
+zsh-users/zsh-history-substring-search
 zsh-users/zsh-syntax-highlighting
