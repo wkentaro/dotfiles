@@ -1,1 +1,3 @@
+hchbaw/opp.zsh
 zsh-users/zsh-completions
+zsh-users/zsh-syntax-highlighting
