@@ -105,9 +105,6 @@ source $HOME/.zsh/antibody/antibody/antibody.zsh
 
 antibody bundle < $HOME/.zsh/antibody/bundles.txt
 
-# source antigen
-source $HOME/.zsh/antigen/antigen.zsh
-
 # oh-my-zsh plugins
 plugins=(git gnu-utils history pip python web-search vi-mode z)
 for plugin in $plugins; do
@@ -116,7 +113,7 @@ done
 
 # TOO SLOW
 # # History searching bundle. #{{{
-# antigen bundle zsh-users/zsh-history-substring-search
+# antibody bundle zsh-users/zsh-history-substring-search
 # # bind UP and DOWN arrow keys
 # zmodload zsh/terminfo
 # bindkey "$terminfo[kcuu1]" history-substring-search-up
@@ -133,18 +130,8 @@ done
 # bindkey -M vicmd 'j' history-substring-search-down
 # #}}}
 
-# TOO SLOW
-# # use haskell to run faster
-# # osx: brew cask install haskell-platform
-# # linux: sudo apt-get install cabal-install
-# antigen bundle olivierverdier/zsh-git-prompt zshrc.sh
-# if [ -f "$HOME/.antigen/repos/https-COLON--SLASH--SLASH-github.com-SLASH-olivierverdier-SLASH-zsh-git-prompt.git/dist/build/gitstatus/gitstatus" ]; then
-#   GIT_PROMPT_EXECUTABLE="haskell"
-#   USE_ZSH_GIT_PROMPT=1
-# fi
-
 # Load the theme.
-antigen theme wkentaro/wkentaro.zsh-theme wkentaro
+source $HOME/.zsh/wkentaro.zsh-theme/wkentaro.zsh-theme
 
 # https://github.com/wkentaro/pycd
 type pycd.sh &>/dev/null && source `which pycd.sh`
@@ -161,12 +148,6 @@ plugins=(
 for plugin in $plugins; do
   source $plugin
 done
-
-# https://github.com/kennethreitz/autoenv
-antigen bundle kennethreitz/autoenv
-
-# Tell antigen that you're done.
-antigen apply
 
 # --------------------------------
 # bindkey

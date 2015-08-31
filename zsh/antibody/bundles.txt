@@ -1,3 +1,4 @@
 hchbaw/opp.zsh
+kennethreitz/autoenv
 zsh-users/zsh-completions
 zsh-users/zsh-syntax-highlighting
