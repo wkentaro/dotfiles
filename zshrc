@@ -114,18 +114,10 @@ source $HOME/.zsh/antibody/antibody/antibody.zsh
 
 antibody bundle < $HOME/.zsh/antibody/bundles.txt
 
-# oh-my-zsh config
-OH_MY_ZSH=$HOME/.zsh/oh-my-zsh
-for config_file ($OH_MY_ZSH/lib/*.zsh); do
-  custom_config_file="${ZSH_CUSTOM}/lib/${config_file:t}"
-  [ -f "${custom_config_file}" ] && config_file=${custom_config_file}
-  source $config_file
-done
-# oh-my-zsh plugins
+# oh-my-zsh
 plugins=(git history pip python web-search vi-mode)
-for plugin in $plugins; do
-  source $OH_MY_ZSH/plugins/$plugin/$plugin.plugin.zsh
-done
+ZSH=$HOME/.zsh/oh-my-zsh
+source $ZSH/oh-my-zsh.sh
 
 # Load the theme.
 source $HOME/.zsh/wkentaro.zsh-theme/wkentaro.zsh-theme
