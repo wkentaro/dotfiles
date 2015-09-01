@@ -2,7 +2,7 @@
 
 # basic
 alias sudo='sudo '
-alias c='clear'
+alias cl='clear'
 alias lv='less'
 
 # open
