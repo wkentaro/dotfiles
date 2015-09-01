@@ -41,12 +41,36 @@ alias ga.='git add .'
 alias gmpull='git pull $GITHUB_USER $(current_branch)'
 alias gmpnp='git pull $GITHUB_USER $(current_branch) && git push $GITHUB_USER $(current_branch)'
 
+alias gp!='git push --force'
 alias ggpush!='git push origin $(current_branch) --force'
 alias gmpush='git push $GITHUB_USER $(current_branch)'
 alias gmpush!='git push $GITHUB_USER $(current_branch) --force'
 
-alias grbg='git rebase origin/master'
-alias grbgi='git rebase -i origin/master'
+_is_option () {
+  if [[ $1 =~ "^-.*" ]]; then
+    return 0
+  fi
+  return 1
+}
+
+grbg () {
+  local branch arg
+  local -a opts args
+  if [ $# -eq 0 ]; then
+    branch="master"
+  else
+    for arg in $@; do
+      if _is_option $arg; then
+        opts=($arg $opts)
+      else
+        args=($arg $args)
+      fi
+    done
+    branch=${args[1]}
+  fi
+  git rebase origin/$branch $opts
+}
+alias grbgi='grbg --interactive'
 
 alias gcsmg='gcmsg'
 
