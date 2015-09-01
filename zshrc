@@ -122,7 +122,7 @@ for config_file ($OH_MY_ZSH/lib/*.zsh); do
   source $config_file
 done
 # oh-my-zsh plugins
-plugins=(git history pip python web-search vi-mode z)
+plugins=(git history pip python web-search vi-mode)
 for plugin in $plugins; do
   source $OH_MY_ZSH/plugins/$plugin/$plugin.plugin.zsh
 done
