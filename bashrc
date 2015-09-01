@@ -29,7 +29,7 @@ plugins=(
   $HOME/.sh/plugins/browse.sh
   $HOME/.sh/plugins/git.sh
 )
-for plugin in $plugins; do
+for plugin in ${plugins[@]}; do
   source $plugin
 done
 
@@ -114,7 +114,7 @@ alias gcount='git shortlog -sn'
 alias gcp='git cherry-pick'
 alias gcs='git commit -S'
 alias gd='git diff'
-alias gdc='git diff --cached'
+alias gdca='git diff --cached'
 alias gdt='git difftool'
 alias gg='git gui citool'
 alias gga='git gui citool --amend'
