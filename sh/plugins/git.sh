@@ -6,6 +6,7 @@
 
 # basic command
 alias add='git add'
+alias a='git add'
 alias clone='git clone'
 alias st='git status'
 alias ss='git status --short'
@@ -20,6 +21,9 @@ alias di='git diff'
 alias log='git log'
 alias lg='git lg'
 alias submodule='git submodule'
+alias pull='git pull'
+alias pl='git pull'
+alias push='git push'
 # hub command
 alias issue='hub issue'
 # legit command
