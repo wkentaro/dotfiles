@@ -54,6 +54,12 @@ OS=$(uname)
 export PATH="/usr/local/bin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 
+# for coreutils
+if [ "$OS" = "Darwin" ]; then
+  PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+  MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+fi
+
 # prefix: $HOME/local
 export PATH="$HOME/.local/bin:$PATH"
 export MANPATH="$HOME/.local/bin:$MANPATH"
@@ -116,7 +122,7 @@ for config_file ($OH_MY_ZSH/lib/*.zsh); do
   source $config_file
 done
 # oh-my-zsh plugins
-plugins=(git gnu-utils history pip python web-search vi-mode z)
+plugins=(git history pip python web-search vi-mode z)
 for plugin in $plugins; do
   source $OH_MY_ZSH/plugins/$plugin/$plugin.plugin.zsh
 done
