@@ -56,16 +56,16 @@ _is_option () {
 grbg () {
   local branch arg
   local -a opts args
-  if [ $# -eq 0 ]; then
+  for arg in $@; do
+    if _is_option $arg; then
+      opts=($arg $opts)
+    else
+      args=($arg $args)
+    fi
+  done
+  if [ ${#args} -eq 0 ]; then
     branch="master"
   else
-    for arg in $@; do
-      if _is_option $arg; then
-        opts=($arg $opts)
-      else
-        args=($arg $args)
-      fi
-    done
     branch=${args[1]}
   fi
   git rebase origin/$branch $opts
