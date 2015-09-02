@@ -54,12 +54,6 @@ OS=$(uname)
 export PATH="/usr/local/bin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 
-# for coreutils
-if [ "$OS" = "Darwin" ]; then
-  PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-  MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-fi
-
 # prefix: $HOME/local
 export PATH="$HOME/.local/bin:$PATH"
 export MANPATH="$HOME/.local/bin:$MANPATH"
@@ -115,7 +109,7 @@ source $HOME/.zsh/antibody/antibody/antibody.zsh
 antibody bundle < $HOME/.zsh/antibody/bundles.txt
 
 # oh-my-zsh
-plugins=(git history pip python web-search vi-mode)
+plugins=(git gnu-utils history pip python web-search vi-mode)
 ZSH=$HOME/.zsh/oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
