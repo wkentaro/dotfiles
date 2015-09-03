@@ -1,5 +1,3 @@
-- git: {local-name: tkruse/vcstools, uri: 'https://github.com/tkruse/vcstools.git',
-    version: divergence}
 - git: {local-name: vcstools/wstool, uri: 'https://github.com/vcstools/wstool.git',
     version: master}
 - git: {local-name: vcstools/vcstools, uri: 'https://github.com/vcstools/vcstools.git',
@@ -14,8 +12,6 @@
 - git: {local-name: wkentaro/wstool_cd, uri: 'git@github.com:wkentaro/wstool_cd.git',
     version: master}
 - git: {local-name: wkentaro/vcstools, uri: 'git@github.com:wkentaro/vcstools.git',
-    version: master}
-- git: {local-name: wkentaro/jsk_recognition, uri: 'git@github.com:wkentaro/jsk_recognition.git',
     version: master}
 - git: {local-name: catkin/catkin_tools, uri: 'https://github.com/catkin/catkin_tools.git',
     version: master}
@@ -47,12 +43,18 @@
     version: master}
 - git: {local-name: wkentaro/python-packages, uri: 'git@github.com:wkentaro/python-packages.git',
     version: master}
-- git: {local-name: tkruse/wstool, uri: 'https://github.com/tkruse/wstool.git', version: divergence}
 - git: {local-name: kawabata/emacs-trr, uri: 'https://github.com/kawabata/emacs-trr.git',
     version: master}
-- git: {local-name: brunobraga/termsaver, uri: 'https://github.com/brunobraga/termsaver.git'}
-- git: {local-name: pipeseroni/pipes.sh, uri: 'https://github.com/pipeseroni/pipes.sh'}
+- git: {local-name: brunobraga/termsaver, uri: 'https://github.com/brunobraga/termsaver.git',
+    version: master}
+- git: {local-name: pipeseroni/pipes.sh, uri: 'https://github.com/pipeseroni/pipes.sh',
+    version: master}
 - git: {local-name: wkentaro/ut-komaba, uri: 'git@github.com:wkentaro/ut-komaba.git',
     version: master}
 - git: {local-name: jonas/tig, uri: 'https://github.com/jonas/tig.git', version: master}
-- git: {local-name: wkentaro/hackerrank, uri: 'git@github.com:wkentaro/hackerrank.git'}
+- git: {local-name: wkentaro/hackerrank, uri: 'git@github.com:wkentaro/hackerrank.git',
+    version: master}
+- git: {local-name: mitsuhiko/click, uri: 'https://github.com/mitsuhiko/click.git',
+    version: master}
+- git: {local-name: juanpabloaj/slacker-cli, uri: 'https://github.com/juanpabloaj/slacker-cli'}
+- git: {local-name: jsk-ros-pkg/euslisp-docs, uri: 'https://github.com/jsk-ros-pkg/euslisp-docs.git'}
