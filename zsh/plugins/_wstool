@@ -42,7 +42,7 @@ fi
 
 # put here to be extendable
 if [ -z "$WSTOOL_BASE_COMMANDS" ]; then
-  _WSTOOL_BASE_COMMANDS="help init set cd merge info remove diff status update --version"
+  _WSTOOL_BASE_COMMANDS="help init list set cd merge info remove diff status update --version"
 fi
 
 # Based originally on the bzr/svn bash completition scripts.
