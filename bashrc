@@ -7,9 +7,10 @@ if [ "$OS" = "Darwin" ]; then
     . $(brew --prefix)/etc/bash_completion
   fi
 fi
+export PATH=$HOME/.local/bin:$PATH
 
-source `which wstool_cd.sh`
-source `which pycd.sh`
+type wstool_cd.sh &>/dev/null && source `which wstool_cd.sh`
+type pycd.sh &>/dev/null && source `which pycd.sh`
 
 # encoding
 export LC_CTYPE='en_US.UTF-8'
