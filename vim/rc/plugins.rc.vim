@@ -259,6 +259,11 @@ let g:airline#extensions#ctrlp#color_template = 'replace'
 noremap <silent> <Leader>t :TlistToggle<CR>
 
 " --------------------------------------------------------
+" riv
+" --------------------------------------------------------
+let g:riv_disable_folding = 1
+
+" --------------------------------------------------------
 " syntastic
 " --------------------------------------------------------
 set statusline+=%#warningmsg#
