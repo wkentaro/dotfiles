@@ -24,8 +24,6 @@ hgrc:
   .hgrc
 inputrc:
   .inputrc
-linuxbrew:
-  .linuxbrew
 percol.d/rc.py:
   .percol.d/rc.py
 pythonstartup:
