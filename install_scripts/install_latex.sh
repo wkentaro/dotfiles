@@ -1,3 +1,15 @@
+#!/bin/sh
+
+
+# latex
+# ~~~~~
+
+
+if [ "`uname`" != "Linux" ]; then
+  exit 1
+fi
+
+
 sudo apt-get -y install texlive
 sudo apt-get -y install texlive-lang-cjk
 sudo apt-get -y install xdvik-ja

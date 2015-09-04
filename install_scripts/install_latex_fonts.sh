@@ -1,7 +1,15 @@
 #!/bin/sh
 #
 
+# latex font
+# ~~~~~~~~~~
+
+if [ "`uname`" != "Darwin" ]; then
+  exit 1
+fi
+
 sudo mkdir -p /usr/local/texlive/texmf-local/fonts/opentype/public/hiragino/
+
 cd /usr/local/texlive/texmf-local/fonts/opentype/public/hiragino/
 
 sudo ln -s "/Library/Fonts/ヒラギノ明朝 Pro W3.otf" HiraMinPro-W3.otf
