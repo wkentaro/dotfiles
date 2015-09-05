@@ -1,0 +1,12 @@
+- git:
+    local-name: euslisp
+    uri: http://github.com/euslisp/EusLisp
+    version:
+- git:
+    local-name: geneus
+    uri: http://github.com/jsk-ros-pkg/geneus
+    version:
+- git:
+    local-name: jskeus
+    uri: http://github.com/euslisp/jskeus
+    version:
