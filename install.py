@@ -8,7 +8,7 @@ import argparse
 import subprocess
 
 
-def setup_dotfiles(force, dry_run):
+def install_dotfiles(force, dry_run):
     this_dir = os.path.dirname(os.path.abspath(__file__))
     home_dir = os.path.expanduser('~')
 
@@ -30,7 +30,7 @@ def setup_dotfiles(force, dry_run):
                 os.system('ln -s {0} {1}'.format(from_, to))
 
 
-def setup_commands():
+def install_commands():
     bin_path = os.path.expanduser('~/.local/bin')
     if not os.path.exists(bin_path):
         os.makedirs(bin_path)
@@ -55,8 +55,8 @@ def main():
     force = args.force
     dry_run = args.dry_run
 
-    setup_dotfiles(force=force, dry_run=dry_run)
-    setup_commands()
+    install_dotfiles(force=force, dry_run=dry_run)
+    install_commands()
 
 
 if __name__ == '__main__':

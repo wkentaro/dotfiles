@@ -9,6 +9,11 @@ if [ "`uname`" != "Linux" ]; then
 fi
 
 
+if [ -f ~/.fonts/SourceCodePro-Black.otf ]; then
+  exit 1
+fi
+
+
 cd /tmp
 wget https://github.com/adobe-fonts/source-code-pro/archive/2.010R-ro/1.030R-it.zip
 unzip 1.030R-it.zip
