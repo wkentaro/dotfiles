@@ -8,5 +8,5 @@ if type diff-highlight &>/dev/null; then
 fi
 
 mkdir -p $HOME/.local/bin
-wget https://raw.githubusercontent.com/git/git/master/contrib/diff-highlight/diff-highlight -O $HOME/.local/bin/diff-highlight
+wget https://raw.githubusercontent.com/git/git/master/contrib/diff-highlight/diff-highlight -O $HOME/.local/bin/diff-highlight --no-check-certificate
 chmod u+x $HOME/.local/bin/diff-highlight
