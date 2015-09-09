@@ -33,8 +33,8 @@ if sys.platform == 'linux2':
             ]
 else:
     c.AliasManager.user_aliases = [
-            ('ls', 'gls --color=auto'),
-            ('la', 'gls --color=auto -al'),
-            ('lsa', 'gls --color=auto -lah'),
+            ('ls', 'ls -G'),
+            ('la', 'ls -G -al'),
+            ('lsa', 'ls -G -lah'),
             ('..', 'cd ..'),
             ]
