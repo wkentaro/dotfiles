@@ -109,7 +109,7 @@ source $HOME/.zsh/antibody/antibody/antibody.zsh
 antibody bundle < $HOME/.zsh/antibody/bundles.txt
 
 # oh-my-zsh
-plugins=(git gnu-utils history pip python web-search vi-mode)
+plugins=(git history pip python web-search vi-mode)
 ZSH=$HOME/.zsh/oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
