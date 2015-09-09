@@ -141,7 +141,11 @@ if type percol &>/dev/null; then
   # percol history search
   # Ctrl-R
   function percol-history() {
-    LBUFFER=$(fc -l 1 | tac | percol | sed -r "s/^ *[0-9]*(\*)? *//g")
+    if [ "$OS" = "Linux" ]; then
+      LBUFFER=$(fc -l 1 | tac | percol | sed -r "s/^ *[0-9]*(\*)? *//g")
+    else
+      LBUFFER=$(fc -l 1 | tail -r | percol | sed -r "s/^ *[0-9]*(\*)? *//g")
+    fi
     zle -R -c
   }
   zle -N percol-history
@@ -252,7 +256,11 @@ alias -g L='| less'
 function _z_cd ()
 {
   if [ "$1" = "" ]; then
-    dir=$(_z 2>&1 | awk '{print $2}' | tac | percol)
+    if [ "$OS" = "Linux" ]; then
+      dir=$(_z 2>&1 | awk '{print $2}' | tac | percol)
+    else
+      dir=$(_z 2>&1 | awk '{print $2}' | tail -r | percol)
+    fi
   else
     dir=$1
   fi
