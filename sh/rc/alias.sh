@@ -105,6 +105,9 @@ fi
 # ls aliases
 # ----------------------------------------------------
 alias sl='ls'
+if type dircolors &>/dev/null; then
+  [ -f $HOME/.colorrc ] && eval `dircolors $HOME/.colorrc`
+fi
 if ls --color &>/dev/null; then
   # GNU ls
   if [ $TERM = "dumb" ]; then
@@ -119,16 +122,13 @@ if ls --color &>/dev/null; then
     alias la='ls -ahF --show-control-chars --color=always'
     alias ll='ls -lhF --show-control-chars --color=always'
     alias lsa='ls -lahF --show-control-chars --color=always'
-    if type dircolors &>/dev/null; then
-      if [ -f $HOME/.colorrc ]; then
-        eval `dircolors $HOME/.colorrc`
-      fi
-    fi
   fi
 else
   # Darwin ls
-  alias ls='ls -F'
-  alias la='ls -ahF'
-  alias ll='ls -lhF'
-  alias lsa='ls -lahF'
+  alias ls='ls -FG'
+  alias la='ls -ahFG'
+  alias ll='ls -lhFG'
+  alias lsa='ls -lahFG'
+  export CLICOLOR=1
+  export LSCOLORS=ExFxBxDxCxegedabagacad
 fi
