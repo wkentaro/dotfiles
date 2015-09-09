@@ -128,7 +128,6 @@ plugins=(
   $HOME/.sh/plugins/browse.sh
   $HOME/.sh/plugins/restart-travis.sh
   $HOME/.zsh/plugins/demo_mode.zsh
-  $HOME/.zsh/plugins/wstool.zsh
 )
 for plugin in $plugins; do
   source $plugin
