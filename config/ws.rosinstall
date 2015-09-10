@@ -1,130 +1,26 @@
 - git:
-    local-name: amueller/word_cloud
-    uri: https://github.com/amueller/word_cloud.git
-    version: master
-- git:
-    local-name: brunobraga/termsaver
-    uri: https://github.com/brunobraga/termsaver.git
-    version: master
-- git:
-    local-name: catkin/catkin_tools
-    uri: https://github.com/catkin/catkin_tools.git
-    version: master
-- git:
-    local-name: jonas/tig
-    uri: https://github.com/jonas/tig.git
-    version: master
-- git:
-    local-name: jsk-ros-pkg/euslisp-docs
-    uri: https://github.com/jsk-ros-pkg/euslisp-docs.git
-    version:
-- git:
-    local-name: jsk-ros-pkg/jsk_common
-    uri: https://github.com/jsk-ros-pkg/jsk_common.git
-    version: master
-- git:
-    local-name: jsk-ros-pkg/jsk_recognition
-    uri: https://github.com/jsk-ros-pkg/jsk_recognition.git
-    version: master
-- git:
-    local-name: jsk-ros-pkg/jsk_visualization
-    uri: https://github.com/jsk-ros-pkg/jsk_visualization.git
-    version: master
-- git:
-    local-name: juanpabloaj/slacker-cli
-    uri: https://github.com/juanpabloaj/slacker-cli
-    version:
-- git:
-    local-name: kawabata/emacs-trr
-    uri: https://github.com/kawabata/emacs-trr.git
-    version: master
-- git:
-    local-name: kennethreitz/clint
-    uri: https://github.com/kennethreitz/clint.git
-    version: master
-- git:
-    local-name: kennethreitz/legit
-    uri: https://github.com/kennethreitz/legit.git
-    version: develop
-- git:
-    local-name: kislyuk/argcomplete
-    uri: https://github.com/kislyuk/argcomplete.git
-    version: master
-- git:
-    local-name: mcornella/oh-my-zsh
-    uri: https://github.com/mcornella/oh-my-zsh.git
-    version: master
-- git:
-    local-name: mitsuhiko/click
-    uri: https://github.com/mitsuhiko/click.git
-    version: master
-- git:
-    local-name: olivierverdier/zsh-git-prompt
-    uri: https://github.com/olivierverdier/zsh-git-prompt
-    version: master
-- git:
-    local-name: pipeseroni/pipes.sh
-    uri: https://github.com/pipeseroni/pipes.sh
-    version: master
-- git:
-    local-name: robbyrussell/oh-my-zsh
-    uri: https://github.com/robbyrussell/oh-my-zsh.git
-    version: master
-- git:
-    local-name: ros/rosdistro
-    uri: https://github.com/ros/rosdistro.git
+    local-name: vcstools/wstool
+    uri: https://github.com/vcstools/wstool.git
     version: master
 - git:
     local-name: vcstools/vcstools
     uri: https://github.com/vcstools/vcstools.git
     version: master
 - git:
-    local-name: vcstools/wstool
-    uri: https://github.com/vcstools/wstool.git
-    version: master
-- git:
-    local-name: wkentaro/google-calendar-manager
-    uri: git@github.com:wkentaro/google-calendar-manager.git
-    version: master
-- git:
-    local-name: wkentaro/hackerrank
-    uri: git@github.com:wkentaro/hackerrank.git
-    version: master
-- git:
-    local-name: wkentaro/homebrew-pycd
-    uri: https://github.com/wkentaro/homebrew-pycd.git
-    version: master
-- git:
     local-name: wkentaro/inbox
     uri: git@github.com:wkentaro/inbox.git
     version: master
 - git:
-    local-name: wkentaro/jsk_recognition
-    uri: https://github.com/wkentaro/jsk_recognition.git
-    version:
-- git:
     local-name: wkentaro/pycd
     uri: git@github.com:wkentaro/pycd.git
-    version: master
-- git:
-    local-name: wkentaro/python-packages
-    uri: git@github.com:wkentaro/python-packages.git
     version: master
 - git:
     local-name: wkentaro/tips
     uri: git@github.com:wkentaro/tips.git
     version: master
 - git:
-    local-name: wkentaro/ut-komaba
-    uri: git@github.com:wkentaro/ut-komaba.git
-    version: master
-- git:
     local-name: wkentaro/utaskweb
     uri: git@github.com:wkentaro/utaskweb.git
-    version: master
-- git:
-    local-name: wkentaro/vcstools
-    uri: git@github.com:wkentaro/vcstools.git
     version: master
 - git:
     local-name: wkentaro/wkentaro.github.io
@@ -133,4 +29,108 @@
 - git:
     local-name: wkentaro/wstool_cd
     uri: git@github.com:wkentaro/wstool_cd.git
+    version: master
+- git:
+    local-name: wkentaro/vcstools
+    uri: git@github.com:wkentaro/vcstools.git
+    version: master
+- git:
+    local-name: catkin/catkin_tools
+    uri: https://github.com/catkin/catkin_tools.git
+    version: master
+- git:
+    local-name: robbyrussell/oh-my-zsh
+    uri: https://github.com/robbyrussell/oh-my-zsh.git
+    version: master
+- git:
+    local-name: mcornella/oh-my-zsh
+    uri: https://github.com/mcornella/oh-my-zsh.git
+    version: master
+- git:
+    local-name: olivierverdier/zsh-git-prompt
+    uri: https://github.com/olivierverdier/zsh-git-prompt
+    version: master
+- git:
+    local-name: jsk-ros-pkg/jsk_recognition
+    uri: https://github.com/jsk-ros-pkg/jsk_recognition.git
+    version: master
+- git:
+    local-name: jsk-ros-pkg/jsk_common
+    uri: https://github.com/jsk-ros-pkg/jsk_common.git
+    version: master
+- git:
+    local-name: jsk-ros-pkg/jsk_visualization
+    uri: https://github.com/jsk-ros-pkg/jsk_visualization.git
+    version: master
+- hg:
+    local-name: wkentaro/mercurial-test
+    uri: ssh://hg@bitbucket.org/wkentaro/mercurial-test
+    version: default
+- git:
+    local-name: kennethreitz/legit
+    uri: https://github.com/kennethreitz/legit.git
+    version: develop
+- git:
+    local-name: kennethreitz/clint
+    uri: https://github.com/kennethreitz/clint.git
+    version: master
+- git:
+    local-name: amueller/word_cloud
+    uri: https://github.com/amueller/word_cloud.git
+    version: master
+- git:
+    local-name: wkentaro/homebrew-pycd
+    uri: https://github.com/wkentaro/homebrew-pycd.git
+    version: master
+- git:
+    local-name: kislyuk/argcomplete
+    uri: https://github.com/kislyuk/argcomplete.git
+    version: master
+- git:
+    local-name: wkentaro/google-calendar-manager
+    uri: git@github.com:wkentaro/google-calendar-manager.git
+    version: master
+- git:
+    local-name: wkentaro/python-packages
+    uri: git@github.com:wkentaro/python-packages.git
+    version: master
+- git:
+    local-name: kawabata/emacs-trr
+    uri: https://github.com/kawabata/emacs-trr.git
+    version: master
+- git:
+    local-name: brunobraga/termsaver
+    uri: https://github.com/brunobraga/termsaver.git
+    version: master
+- git:
+    local-name: pipeseroni/pipes.sh
+    uri: https://github.com/pipeseroni/pipes.sh
+    version: master
+- git:
+    local-name: wkentaro/ut-komaba
+    uri: git@github.com:wkentaro/ut-komaba.git
+    version: master
+- git:
+    local-name: jonas/tig
+    uri: https://github.com/jonas/tig.git
+    version: master
+- git:
+    local-name: wkentaro/hackerrank
+    uri: git@github.com:wkentaro/hackerrank.git
+    version: master
+- git:
+    local-name: mitsuhiko/click
+    uri: https://github.com/mitsuhiko/click.git
+    version: master
+- git:
+    local-name: juanpabloaj/slacker-cli
+    uri: https://github.com/juanpabloaj/slacker-cli
+    version: master
+- git:
+    local-name: jsk-ros-pkg/euslisp-docs
+    uri: https://github.com/jsk-ros-pkg/euslisp-docs.git
+    version: master
+- git:
+    local-name: wkentaro/jsk_recognition
+    uri: https://github.com/wkentaro/jsk_recognition.git
     version: master
