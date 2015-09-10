@@ -4,11 +4,15 @@ abbr    <launch></launch>
 	  ${1}
 	</launch>
 snippet node
-abbr    <node pkg=" " type=" " name=" " />
-	<node pkg="${1}" type="${2}" name="${3}" output="${4}"></node>
+abbr    <node name=" " pkg=" " type=" " />
+	<node name="${1}"
+				pkg="${2}" type="${3}"></node>
 snippet arg
 abbr    <arg name=" " default=" " />
 	<arg name="${1}" default="${2}" />
+snippet remap
+abbr    <remap from=" " to=" " />
+	<remap from="${1}" to="${2}" />
 snippet param
 abbr    <param name=" " type=" " value=" " />
 	<param name="${1}" type="${2}" value="${3}" />
