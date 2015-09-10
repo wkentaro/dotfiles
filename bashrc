@@ -168,13 +168,3 @@ alias gup='git pull --rebase'
 alias gvt='git verify-tag'
 alias gwc='git whatchanged -p --abbrev-commit --pretty=medium'
 alias gwip='git add -A; git ls-files --deleted -z | xargs -r0 git rm; git commit -m "--wip--"'
-
-# -------------------------------
-# ls
-# -------------------------------
-if [ "$OS" = "Darwin" ]; then
-  alias ls='gls -F --show-control-chars --color=always'
-  alias la='gls -aF --show-control-chars --color=always'
-  alias ll='gls -lahF --show-control-chars --color=always'
-  alias lsa='gls -lahF --show-control-chars --color=always'
-fi
