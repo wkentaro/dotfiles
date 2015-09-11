@@ -94,9 +94,6 @@ export SSH_USER='wada'
 # Travis
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
-# catkin_tools
-[ -f /etc/bash_completion.d/catkin_tools-completion.bash ] && source /etc/bash_completion.d/catkin_tools-completion.bash
-
 # Improved less option
 export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen --RAW-CONTROL-CHARS'
 
