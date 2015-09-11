@@ -141,7 +141,7 @@ if type percol &>/dev/null; then
     if [ "$OS" = "Linux" ]; then
       LBUFFER=$(fc -l 1 | tac | percol | sed -r "s/^ *[0-9]*(\*)? *//g")
     else
-      LBUFFER=$(fc -l 1 | tail -r | percol | sed -r "s/^ *[0-9]*(\*)? *//g")
+      LBUFFER=$(fc -l 1 | tail -r | percol | sed -E "s/^ *[0-9]*(\*)? *//g")
     fi
     zle -R -c
   }
