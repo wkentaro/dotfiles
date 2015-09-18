@@ -128,6 +128,10 @@ NeoBundle 'gerw/vim-latex-suite'
 " Python syntax
 " NeoBundle 'klen/python-mode'
 
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'claco/jasmine.vim'
+
+
 " vimproc
 " https://github.com/Shougo/vimproc.vim
 let vimproc_updcmd = has('win64') ?
