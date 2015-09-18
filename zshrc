@@ -51,7 +51,7 @@ zstyle ':completion:*:cd:*' ignore-parents parent pwd
 OS=$(uname)
 
 # prefix: /usr/local
-export PATH="/usr/local/bin:$PATH"
+export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 
 # prefix: $HOME/local
