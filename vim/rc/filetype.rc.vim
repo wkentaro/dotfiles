@@ -18,6 +18,8 @@ au BufNewFile,BufRead *.php set tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.md set tabstop=4 shiftwidth=4 ft=markdown
 au BufNewFile,BufRead *.rst set tabstop=4 shiftwidth=4 ft=rst
 au BufNewFile,BufRead *.tex set tabstop=2 shiftwidth=2 ft=tex
+au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
+autocmd FileType coffee setlocal sw=2 sts=2 ts=2 et
 
 
 " ----------------------------------------------------------
