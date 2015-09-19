@@ -5,6 +5,10 @@ alias sudo='sudo '
 alias cl='clear'
 alias lv='less'
 
+# date
+alias date1='date +"%Y-%m-%d"'
+alias date2='date +"%Y%m%d-%H%M%S"'
+
 # open
 type gnome-open &>/dev/null && alias open=gnome-open
 alias o='open'
