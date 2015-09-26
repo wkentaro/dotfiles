@@ -70,7 +70,8 @@ NeoBundle 'Shougo/neosnippet-snippets'
 
 " RestructuredText
 NeoBundle 'Rykka/riv.vim'
-NeoBundle 'Rykka/InstantRst'
+
+NeoBundle 'greyblake/vim-preview'
 
 " NeoBundle 'honza/vim-snippets'
 
