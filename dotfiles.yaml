@@ -1,9 +1,7 @@
-vimrc:
-  .vimrc
-ipython_config.py:
-  .ipython/profile_default/ipython_config.py
 bashrc:
   .bashrc.wkentaro
+cheat:
+  .cheat
 colorrc:
   .colorrc
 editrc:
@@ -24,6 +22,8 @@ hgrc:
   .hgrc
 inputrc:
   .inputrc
+ipython_config.py:
+  .ipython/profile_default/ipython_config.py
 percol.d/rc.py:
   .percol.d/rc.py
 pythonstartup:
