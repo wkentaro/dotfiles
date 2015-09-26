@@ -74,10 +74,10 @@ catkin clean --orphans
 
 
 # Disable colors when building in a shell that doesn't support it (like IDEs):
- catkin --no-color build
+catkin --no-color build
 
 ... or enable it for shells that don't know they support it:
- catkin --force-color build
+catkin --force-color build
 
 
 # Create "Debug" and "Release" profiles and then build them in independent build and devel spaces:
