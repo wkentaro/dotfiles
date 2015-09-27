@@ -278,3 +278,7 @@ stack: $LBUFFER"
 zle -N show_buffer_stack
 setopt noflowcontrol
 bindkey '^Q' show_buffer_stack
+
+if [ -f $HOME/.zshrc.private ]; then
+  source $HOME/.zshrc.private
+fi
