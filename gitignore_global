@@ -8,3 +8,4 @@ venv
 ,/
 .autoenv.zsh
 .autoenv_leave.zsh
+.clang_complete
