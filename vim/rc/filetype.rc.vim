@@ -6,9 +6,7 @@ au BufNewFile,BufRead *.sh set ft=sh tabstop=2 shiftwidth=2
 au BufNewFile,BufRead *.zsh set ft=zsh tabstop=2 shiftwidth=2
 au BufNewFile,BufRead *.bash set ft=sh tabstop=2 shiftwidth=2
 au BufNewFile,BufRead *.py set tabstop=4 shiftwidth=4
-if version > 730
-  au BufNewFile,BufRead *.py set colorcolumn=80
-endif
+au BufNewFile,BufRead *.py set colorcolumn=80
 au BufNewFile,BufRead *.pyx set ft=python tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.cfg set ft=python tabstop=4 shiftwidth=4
 au BufNewFile,BufRead *.c set tabstop=4 shiftwidth=4
