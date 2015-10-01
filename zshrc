@@ -150,27 +150,47 @@ if type percol &>/dev/null; then
 
   # Alt-T
   if [ -d "/opt/ros" ]; then
-    # rostopic search
-    function search-rostopic-by-percol(){
-      LBUFFER=$LBUFFER$(rostopic list | percol)
-      zle -R -c
-    }
-    zle -N search-rostopic-by-percol
-    bindkey '^[p' search-rostopic-by-percol
+    # # rostopic search
+    # function search-rostopic-by-percol(){
+    #   LBUFFER=$LBUFFER$(rostopic list | percol)
+    #   zle -R -c
+    # }
+    # zle -N search-rostopic-by-percol
+    # bindkey '^[p' search-rostopic-by-percol
 
-    function search-rosmsg-percol(){
-      LBUFFER=$LBUFFER$(rosmsg list | percol)
+    function ros-bind () {
+      local cmd
+      local -a candidates
+      candidates=(rosmsg rosmsg-proto rospack rostopic)
+      if [[ "$LBUFFER" =~ "^roscd " ]]; then
+        cmd=rospack
+      elif [ "$LBUFFER" = "image_view " ]; then
+        cmd=rostopic
+      else
+        cmd=$(echo $candidates | xargs -n1 | percol)
+      fi
+      case $cmd in
+        (rosmsg)
+          LBUFFER=$LBUFFER$(rosmsg list | percol)
+          ;;
+        (rosmsg-proto)
+          msg=$(rosmsg list | percol)
+          if [ "$msg" != "" ]; then
+            LBUFFER=$LBUFFER$(rosmsg-proto msg $msg)
+          fi
+          ;;
+        (rospack)
+          LBUFFER=$LBUFFER$(rospack list | awk '{print $1}' | percol)
+          ;;
+        (rostopic)
+          LBUFFER=$LBUFFER$(rostopic list | percol)
+          ;;
+        (*) ;;
+      esac
       zle -R -c
     }
-    zle -N search-rosmsg-percol
-    bindkey '^[m' search-rosmsg-percol
-
-    function search-rosmsg-proto-by-percol(){
-      LBUFFER=$LBUFFER$(rosmsg list | percol | xargs -n1 rosmsg-proto msg)
-      zle -R -c
-    }
-    zle -N search-rosmsg-proto-by-percol
-    bindkey '^[o' search-rosmsg-proto-by-percol
+    zle -N ros-bind
+    bindkey '^o' ros-bind
   fi
 fi
 
