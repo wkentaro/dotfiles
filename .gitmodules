@@ -7,9 +7,6 @@
 [submodule "zsh/oh-my-zsh"]
 	path = zsh/oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
-[submodule "zsh/wkentaro.zsh-theme"]
-	path = zsh/wkentaro.zsh-theme
-	url = https://github.com/wkentaro/wkentaro.zsh-theme.git
 [submodule "private"]
 	path = private
 	url = https://github.com/wkentaro/private.git
