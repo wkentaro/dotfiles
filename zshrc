@@ -110,9 +110,6 @@ plugins=(git history pip python web-search vi-mode)
 ZSH=$HOME/.zsh/oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
-# Load the theme.
-source $HOME/.zsh/wkentaro.zsh-theme/wkentaro.zsh-theme
-
 # https://github.com/wkentaro/pycd
 type pycd.sh &>/dev/null && source `which pycd.sh`
 
