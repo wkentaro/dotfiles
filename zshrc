@@ -136,11 +136,12 @@ if type percol &>/dev/null; then
   # Ctrl-R
   function percol-history() {
     if [ "$OS" = "Linux" ]; then
-      LBUFFER=$(fc -l 1 | tac | percol | sed -r "s/^ *[0-9]*(\*)? *//g")
+      BUFFER=$(fc -l -n 1 | tac | percol --query "$LBUFFER")
     else
-      LBUFFER=$(fc -l 1 | tail -r | percol | sed -E "s/^ *[0-9]*(\*)? *//g")
+      BUFFER=$(fc -l -n 1 | tail -r | percol --query "$LBUFFER")
     fi
-    zle -R -c
+    CURSOR=$#BUFFER         # move cursor
+    zle -R -c               # refresh
   }
   zle -N percol-history
   bindkey '^R' percol-history
@@ -161,6 +162,10 @@ if type percol &>/dev/null; then
       candidates=(rosmsg rosmsg-proto rospack rostopic)
       if [[ "$LBUFFER" =~ "^roscd " ]]; then
         cmd=rospack
+      elif [[ "$LBUFFER" =~ "^rostopic (echo|list)" ]]; then
+        cmd=rostopic
+      elif [[ "$LBUFFER" =~ "^rosbag record" ]]; then
+        cmd=rostopic
       elif [ "$LBUFFER" = "image_view " ]; then
         cmd=rostopic
       else
