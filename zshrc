@@ -159,11 +159,19 @@ if type percol &>/dev/null; then
     function ros-bind () {
       local cmd
       local -a candidates
-      candidates=(rosmsg rosmsg-proto rospack rostopic)
-      if [[ "$LBUFFER" =~ "^roscd " ]]; then
+      candidates=(rosmsg rosmsg-proto rospack rostopic rosservice)
+      if [ "$LBUFFER" = "" ]; then
+        cmd=commands
+      elif [[ "$LBUFFER" =~ "^(roscd|roslaunch|rosrun) " ]]; then
         cmd=rospack
-      elif [[ "$LBUFFER" =~ "^rostopic (echo|list)" ]]; then
+      elif [[ "$LBUFFER" =~ "^rostopic (echo|list|info)" ]]; then
         cmd=rostopic
+      elif [[ "$LBUFFER" =~ "^rosmsg (show|list)" ]]; then
+        cmd=rosmsg
+      elif [[ "$LBUFFER" =~ "^rosservice (list|info)" ]]; then
+        cmd=rosservice
+      elif [[ "$LBUFFER" =~ "^rosnode (list|info)" ]]; then
+        cmd=rosnode
       elif [[ "$LBUFFER" =~ "^rosbag record" ]]; then
         cmd=rostopic
       elif [ "$LBUFFER" = "image_view " ]; then
@@ -172,6 +180,11 @@ if type percol &>/dev/null; then
         cmd=$(echo $candidates | xargs -n1 | percol)
       fi
       case $cmd in
+        (commands)
+          local -a ros_commands
+          ros_commands=(rosrun roscd rostopic rosmsg rosmsg-proto rospack rosnode)
+          LBUFFER="$(echo $ros_commands | xargs -n1 | percol) "
+          ;;
         (rosmsg)
           LBUFFER=$LBUFFER$(rosmsg list | percol)
           ;;
@@ -184,8 +197,14 @@ if type percol &>/dev/null; then
         (rospack)
           LBUFFER=$LBUFFER$(rospack list | awk '{print $1}' | percol)
           ;;
+        (rosservice)
+          LBUFFER=$LBUFFER$(rosservice list | percol)
+          ;;
         (rostopic)
           LBUFFER=$LBUFFER$(rostopic list | percol)
+          ;;
+        (rosnode)
+          LBUFFER=$LBUFFER$(rosnode list | percol)
           ;;
         (*) ;;
       esac
