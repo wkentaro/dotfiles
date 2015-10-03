@@ -37,6 +37,7 @@ alias sy='git sync'
 alias gsw='git switch'
 alias sw='git switch'
 alias switch='git switch'
+alias g1msg='git log -1 --format="%s"'
 
 # Use hub as git client
 type hub &>/dev/null && alias git=hub
