@@ -105,6 +105,11 @@ if [ -d "/opt/ros" ]; then
   }
 fi
 
+alias wllist='wstool info --only=localname'
+wlsethub () {
+  wstool set $1 https://github.com/$1.git --git
+}
+
 # ----------------------------------------------------
 # ls aliases
 # ----------------------------------------------------
