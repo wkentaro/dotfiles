@@ -24,4 +24,5 @@ percol.import_keymap({
     "C-m" : lambda percol: percol.finish(),
     "C-j" : lambda percol: percol.finish(),
     "C-g" : lambda percol: percol.cancel(),
+    "C-o" : lambda percol: percol.command.toggle_mark_and_next(),
 })
