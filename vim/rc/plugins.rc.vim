@@ -22,7 +22,7 @@ endif
 NeoBundle 'wkentaro/conque.vim'
 
 " roscd & rosed
-NeoBundle 'ompugao/ros.vim'
+NeoBundle 'taketwo/vim-ros'
 
 " Swift syntax
 " https://github.com/toyamarinyon/vim-swift
