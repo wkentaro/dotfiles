@@ -101,7 +101,30 @@ alias gbw='hub browse $@ 2>/dev/null'
 #}}}
 
 # alias gbd='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
-alias gbdr='git branch -r --merged origin/master | grep "$GITHUB_USER\\/" | sed "s/$GITHUB_USER\\///" | egrep -v "HEAD|master|develop|release" | xargs git push $GITHUB_USER --delete'
+gbdra () {
+  local remote
+  if [ $# -eq 0 ]; then
+    remote=$GITHUB_USER
+  else
+    remote=$1
+  fi
+  git branch -r --merged origin/master | grep "$remote\\/" | sed "s/$remote\\///" | egrep -v "HEAD|master|develop|release" | xargs git push $remote --delete
+}
+gbdr () {
+  local remote branch
+  if [ $# -eq 0 ]; then
+    remote=$GITHUB_USER
+    branch=$(current_branch)
+  elif [ $# -eq 1 ]; then
+    remote=$GITHUB_USER
+    branch=$1
+  else
+    remote=$1
+    branch=$2
+  fi
+  git push $remote $branch --delete
+}
+
 alias gbD='git branch -D'
 git_remote_to_local () {
   local branches
