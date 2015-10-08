@@ -29,5 +29,5 @@ autocmd FileType cpp setlocal path=.,./include,../include/,/usr/include,/usr/loc
 " ----------------------------------------------------------
 " Lisp setting
 " ----------------------------------------------------------
-au BufNewFile,BufRead *.l set wrap shiftwidth=2 ft=lisp
+au BufNewFile,BufRead *.l set wrap tabstop=8 shiftwidth=2 ft=lisp
 let lisp_rainbow = 1
