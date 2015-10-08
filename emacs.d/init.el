@@ -8,7 +8,6 @@
     (eval-print-last-sexp)))
 
 (el-get-bundle auto-complete)
-(el-get-bundle evil)
 (el-get-bundle kawabata/emacs-trr)
 
 ;; for Homebrew
