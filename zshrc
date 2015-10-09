@@ -162,7 +162,7 @@ if type percol &>/dev/null; then
       candidates=(rosmsg rosmsg-proto rospack rostopic rosservice)
       if [ "$LBUFFER" = "" ]; then
         cmd=commands
-      elif [[ "$LBUFFER" =~ "^(roscd|roslaunch|rosrun) " ]]; then
+      elif [[ "$LBUFFER" =~ "^(roscd|roslaunch) " ]]; then
         cmd=rospack
       elif [[ "$LBUFFER" =~ "^rostopic (echo|list|info)" ]]; then
         cmd=rostopic
