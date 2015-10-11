@@ -323,3 +323,7 @@ bindkey '^Q' show_buffer_stack
 if [ -f $HOME/.zshrc.private ]; then
   source $HOME/.zshrc.private
 fi
+
+if which autossh &>/dev/null; then
+  autossh -f -N aries-tunnel
+fi
