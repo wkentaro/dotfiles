@@ -115,7 +115,7 @@ wlsethub () {
 # ----------------------------------------------------
 alias sl='ls'
 if type dircolors &>/dev/null; then
-  [ -f $HOME/.colorrc ] && eval `dircolors $HOME/.colorrc`
+  [ -f $HOME/.dircolors.256dark ] && eval `dircolors $HOME/.dircolors.256dark`
 fi
 if ls --color &>/dev/null; then
   # GNU ls

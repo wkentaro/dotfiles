@@ -2,8 +2,8 @@ bashrc:
   .bashrc.wkentaro
 cheat:
   .cheat
-colorrc:
-  .colorrc
+dircolors.256dark
+  .dircolors.256dark
 editrc:
   .editrc
 emacs.d:
