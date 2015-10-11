@@ -348,13 +348,15 @@ nnoremap <SID>I_won’t_ever_type_this <Plug>IMAP_JumpForward
 " --------------------------------------------------------
 if v:version > 703
   try
-      colorscheme desertEx
+      set background=dark
+      colorscheme solarized
+      " colorscheme desertEx
   catch /^Vim\%((\a\+)\)\=:E185/
       colorscheme default
   endtry
-  hi Normal ctermbg=none
-  hi NonText ctermbg=none
-  hi Normal ctermfg=none
+  " hi Normal ctermbg=none
+  " hi NonText ctermbg=none
+  " hi Normal ctermfg=none
 endif
 
 " --------------------------------------------------------
