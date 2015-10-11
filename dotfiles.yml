@@ -24,6 +24,8 @@ inputrc:
   .inputrc
 ipython_config.py:
   .ipython/profile_default/ipython_config.py
+nvimrc:
+  .nvimrc
 percol.d/rc.py:
   .percol.d/rc.py
 private/zshrc:
