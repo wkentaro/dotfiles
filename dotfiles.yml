@@ -2,7 +2,7 @@ bashrc:
   .bashrc.wkentaro
 cheat:
   .cheat
-dircolors.256dark
+dircolors.256dark:
   .dircolors.256dark
 editrc:
   .editrc
