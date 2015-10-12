@@ -354,9 +354,9 @@ if v:version > 703
   catch /^Vim\%((\a\+)\)\=:E185/
       colorscheme default
   endtry
-  " hi Normal ctermbg=none
-  " hi NonText ctermbg=none
-  " hi Normal ctermfg=none
+  hi Normal ctermbg=none
+  hi NonText ctermbg=none
+  hi Normal ctermfg=none
 endif
 
 " --------------------------------------------------------
