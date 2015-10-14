@@ -118,8 +118,6 @@ wlsethub () {
 alias sl='ls'
 if type dircolors &>/dev/null; then
   [ -f $HOME/.dircolors.256dark ] && eval `dircolors $HOME/.dircolors.256dark`
-else
-  export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
 fi
 if ls --color &>/dev/null; then
   # GNU ls
@@ -143,7 +141,7 @@ else
   alias ll='ls -lhFG'
   alias lsa='ls -lahFG'
   export CLICOLOR=1
-  export LSCOLORS=ExFxBxDxCxegedabagacad
+  export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
 fi
 
 convert_to_gif () {
