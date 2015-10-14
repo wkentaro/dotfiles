@@ -348,9 +348,12 @@ nnoremap <SID>I_won’t_ever_type_this <Plug>IMAP_JumpForward
 " --------------------------------------------------------
 if v:version > 703
   try
-      set background=dark
-      " colorscheme solarized
+    set background=dark
+    if $VIM_COLORSCHEME == ""
       colorscheme desertEx
+    else
+      colorscheme $VIM_COLORSCHEME
+    endif
   catch /^Vim\%((\a\+)\)\=:E185/
       colorscheme default
   endtry
