@@ -88,9 +88,11 @@ rst2md () {
 if type rlwrap &>/dev/null; then
   alias eus='rlwrap eus'
   alias irteusgl='rlwrap irteusgl'
-  alias roseus='rlwrap roseus'
   alias irb='rlwrap irb'
   alias clisp="rlwrap -b '(){}[],#\";| ' clisp"
+  if [ "$EMACS" = "" ]; then
+    alias roseus="rlwrap -c -b '(){}.,;|' -a -pGREEN roseus"
+  fi
 fi
 
 # ----------------------------------------------------
