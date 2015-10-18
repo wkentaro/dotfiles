@@ -9,6 +9,12 @@ alias lv='less'
 alias date1='date +"%Y-%m-%d"'
 alias date2='date +"%Y%m%d-%H%M%S"'
 
+# mv
+alias mvi='mv -i'
+
+# rm
+alias rmi='rm -i'
+
 # open
 type gnome-open &>/dev/null && alias open=gnome-open
 alias o='open'
