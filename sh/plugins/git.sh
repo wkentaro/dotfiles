@@ -152,3 +152,25 @@ _git_commit_each_file () {
   [ "$1" != "" ] && popd &>/dev/null
 }
 alias gceach=_git_commit_each_file
+
+_what_ros_package () {
+  looking_path=$(pwd)
+  found=$(find $looking_path -maxdepth 1 -iname package.xml | wc -l)
+  while [ $found -eq 0 ]; do
+    looking_path=$(dirname $looking_path)
+    [ "$looking_path" = "/" ] && return
+    found=$(find $looking_path -maxdepth 1 -iname package.xml | wc -l)
+  done
+  echo $(basename $looking_path)
+}
+_git_commit_verbose () {
+  tmp_file=$(mktemp)
+  ros_package=$(_what_ros_package)
+  if [ "${ros_package}" != "" ]; then
+    echo "[${ros_package}] " > ${tmp_file}
+    git commit --verbose --template ${tmp_file}
+  else
+    git commit --verbose
+  fi
+}
+alias gc='_git_commit_verbose'
