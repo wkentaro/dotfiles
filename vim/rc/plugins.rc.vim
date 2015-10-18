@@ -132,6 +132,8 @@ NeoBundle 'gerw/vim-latex-suite'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'claco/jasmine.vim'
 
+NeoBundle 'rhysd/committia.vim'
+
 
 " vimproc
 " https://github.com/Shougo/vimproc.vim
