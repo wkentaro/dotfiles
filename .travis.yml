@@ -1,4 +1,9 @@
 language: general
 install: python install.py
+script:
+  - which vim
+  - which git
+  - which hub
+  - zsh -c 'source ~/.zshrc && antibody'
 notifications:
   email: false
