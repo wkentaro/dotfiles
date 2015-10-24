@@ -5,11 +5,12 @@
 
 
 if [ "`uname`" != "Linux" ]; then
+  echo "This script only supports Darwin."
   exit 1
 fi
 
-
 if [ -f ~/.fonts/SourceCodePro-Black.otf ]; then
+  echo "Font SourceCodePro is already installed."
   exit 1
 fi
 
