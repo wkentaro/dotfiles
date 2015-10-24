@@ -1,7 +1,7 @@
 #!/bin/sh
 
 browse () {
-  local url
+  local url os
   [ "$1" = "" ] && return 1
   url=$(python -c "\
 import re
@@ -11,6 +11,11 @@ if m is None:
   url = 'http://' + url
 print(url)
 " 2>&1)
-  open $url
+  os=$(uname)
+  if [ "$os" = "Linux" ]; then
+    gnome-open $url 1>/dev/null 
+  elif [ "$os" = "Darwin" ]; then
+    open $url 1>/dev/null
+  fi
 }
 alias b='browse'
