@@ -164,7 +164,7 @@ _what_ros_package () {
   echo $(basename $looking_path)
 }
 _git_commit_verbose () {
-  tmp_file=$(mktemp)
+  tmp_file=$(mktemp -t XXXXXX)
   ros_package=$(_what_ros_package)
   if [ "${ros_package}" != "" ]; then
     echo "[${ros_package}] " > ${tmp_file}
