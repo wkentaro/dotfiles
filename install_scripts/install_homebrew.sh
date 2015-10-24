@@ -5,6 +5,10 @@
 
 
 if [ "`uname`" != "Darwin" ]; then
+  echo "Homebrew should be installed only on Darwin"
+  exit 1
+elif which brew &>/dev/null; then
+  echo "Homebrew is already installed"
   exit 1
 fi
 
