@@ -1,0 +1,4 @@
+language: general
+install: python install.py
+notifications:
+  email: false
