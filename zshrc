@@ -215,7 +215,7 @@ if type percol &>/dev/null; then
       zle -R -c
     }
     zle -N ros-bind
-    bindkey '^o' ros-bind
+    bindkey '^[o' ros-bind
   fi
 fi
 
