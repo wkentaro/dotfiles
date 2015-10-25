@@ -48,8 +48,6 @@ setopt auto_cd
 zstyle ':completion:*:cd:*' tag-order local-directories path-directories
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
-OS=$(uname)
-
 # prefix: /usr/local
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
@@ -69,7 +67,7 @@ export VIRTUALENV_USE_DISTRIBUTE=1
 export TERM=xterm-256color
 
 # grep
-if [ "$OS" = "Darwin" ]; then
+if [ "$(uname)" = "Darwin" ]; then
   export GREP_OPTIONS='--color=always'
   export GREP_COLOR='1;35;40'
 fi
@@ -97,7 +95,7 @@ export SSH_USER='wada'
 # Improved less option
 export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen --RAW-CONTROL-CHARS'
 
-if [ "$OS" = "Linux" -a "$DISPLAY" != "" ]; then
+if [ "$(uname)" = "Linux" -a "$DISPLAY" != "" ]; then
   xmodmap ~/.Xmodmap
 fi
 
@@ -139,7 +137,7 @@ if type percol &>/dev/null; then
   # percol history search
   # Ctrl-R
   function percol-history() {
-    if [ "$OS" = "Linux" ]; then
+    if [ "$(uname)" = "Linux" ]; then
       BUFFER=$(fc -l -n 1 | tac | percol --query "$LBUFFER")
     else
       BUFFER=$(fc -l -n 1 | tail -r | percol --query "$LBUFFER")
@@ -298,7 +296,7 @@ alias -g L='| less'
 function _z_cd ()
 {
   if [ "$1" = "" ]; then
-    if [ "$OS" = "Linux" ]; then
+    if [ "$(uname)" = "Linux" ]; then
       dir=$(_z 2>&1 | awk '{print $2}' | tac | percol)
     else
       dir=$(_z 2>&1 | awk '{print $2}' | tail -r | percol)
