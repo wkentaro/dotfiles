@@ -37,6 +37,7 @@ type nvim &>/dev/null && {
   alias nvii='nvim --noplugin'
   alias nviii='nvim -u NONE'
 }
+alias vim-bib='vim -c ":e ++enc=euc-jp"'
 
 # emacs
 alias emacs='emacs -nw'
@@ -156,4 +157,8 @@ convert_to_gif () {
   elif which avconv &>/dev/null; then
     avconv -i $1 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3
   fi
+}
+
+get_lena_jpg () {
+  wget https://jviolajones.googlecode.com/files/lena.jpg
 }
