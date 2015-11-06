@@ -162,3 +162,6 @@ convert_to_gif () {
 get_lena_jpg () {
   wget https://jviolajones.googlecode.com/files/lena.jpg
 }
+tile_images() {
+  montage $@ -geometry +2+2 $(date +%Y%m%d-%H%M%S)_output.jpg
+}
