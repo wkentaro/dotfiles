@@ -106,11 +106,34 @@ fi
 # ROS
 # ----------------------------------------------------
 if [ -d "/opt/ros" ]; then
+  alias rp='rostopic'
+  alias rpl='rostopic list'
+  alias rpi='rostopic info'
+  alias rn='rosnode'
+  alias rnl='rosnode list'
+  alias rni='rosnode info'
+  alias rs='rosservice'
+  alias rsl='rosservice list'
+  alias rl='roslaunch'
   alias rqt_gui='rosrun rqt_gui rqt_gui'
   alias rqt_reconfigure='rosrun rqt_reconfigure rqt_reconfigure'
   alias rqt_image_view='rosrun rqt_image_view rqt_image_view'
   image_view () {
     rosrun image_view image_view image:=$1
+  }
+  rosrecord () {
+    if rostopic list &>/dev/null; then
+      local topics, timestamp
+      topics=$(rostopic list | percol | xargs)
+      timestamp=$(date +%Y-%m-%d-%H-%M-%S)
+      mkdir -p $timestamp
+      cd $timestamp
+      rosparam dump "${timestamp}_rosparam.yaml"
+      rosbag record $topics --output-name=$timestamp --size=2000 --split --buffsize=0
+      cd ..
+    else
+      return 1
+    fi
   }
 fi
 
