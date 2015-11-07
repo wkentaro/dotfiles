@@ -121,20 +121,6 @@ if [ -d "/opt/ros" ]; then
   image_view () {
     rosrun image_view image_view image:=$1
   }
-  rosrecord () {
-    if rostopic list &>/dev/null; then
-      local topics timestamp
-      timestamp=$(date +%Y-%m-%d-%H-%M-%S)
-      mkdir -p $timestamp
-      echo "Recording to $timestamp"
-      cd $timestamp
-      rosparam dump "${timestamp}_rosparam.yaml"
-      rosbag record $(rostopic list | percol | xargs) --output-name=$timestamp --size=2000 --split --buffsize=0
-      cd ..
-    else
-      return 1
-    fi
-  }
 fi
 
 alias wllist='wstool info --only=localname'
