@@ -123,13 +123,13 @@ if [ -d "/opt/ros" ]; then
   }
   rosrecord () {
     if rostopic list &>/dev/null; then
-      local topics, timestamp
-      topics=$(rostopic list | percol | xargs)
+      local topics timestamp
       timestamp=$(date +%Y-%m-%d-%H-%M-%S)
       mkdir -p $timestamp
+      echo "Recording to $timestamp"
       cd $timestamp
       rosparam dump "${timestamp}_rosparam.yaml"
-      rosbag record $topics --output-name=$timestamp --size=2000 --split --buffsize=0
+      rosbag record $(rostopic list | percol | xargs) --output-name=$timestamp --size=2000 --split --buffsize=0
       cd ..
     else
       return 1
