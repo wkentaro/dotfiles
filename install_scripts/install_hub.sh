@@ -2,6 +2,8 @@
 
 if [ -f $HOME/.local/bin/hub ]; then
   exit 0
+elif [ "$(uname)" = "Darwin" ]; then
+  exit 1
 fi
 
 url="https://github.com/github/hub/releases/download/v2.2.2/hub-linux-amd64-2.2.2.tgz"
