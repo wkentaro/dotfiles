@@ -7,7 +7,8 @@ alias lv='less'
 
 # date
 alias date1='date +"%Y-%m-%d"'
-alias date2='date +"%Y%m%d-%H%M%S"'
+alias time1='date +"%H-%M-%S"'
+alias datetime1='date +"%Y-%m-%d-%H-%M-%S"'
 
 # mv
 alias mvi='mv -i'
