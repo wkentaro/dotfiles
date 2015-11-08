@@ -151,13 +151,11 @@ if ls --color &>/dev/null; then
     alias lsa='ls -lahF --show-control-chars --color=always'
   fi
 else
-  # Darwin ls
-  alias ls='ls -FG'
-  alias la='ls -ahFG'
-  alias ll='ls -lhFG'
-  alias lsa='ls -lahFG'
-  export CLICOLOR=1
-  export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+  eval $(gdircolors $HOME/.dircolors.256dark 2>/dev/null)
+  alias ls='gls -F --show-control-chars --color=always'
+  alias la='gls -ahF --show-control-chars --color=always'
+  alias ll='gls -lhF --show-control-chars --color=always'
+  alias lsa='gls -lahF --show-control-chars --color=always'
 fi
 
 convert_to_gif () {
