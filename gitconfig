@@ -56,3 +56,5 @@
 	log = diff-highlight | less
 	show = diff-highlight | less
 	diff = diff-highlight | less
+[ghi]
+	token = !security find-internet-password -a wkentaro -s github.com -l 'ghi token' -w
