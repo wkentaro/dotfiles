@@ -57,8 +57,26 @@ alias matrix='cmatrix -sb'
 # tmux
 alias t='tmux'
 alias tls='tmux ls'
-alias ta='tmux attach'
-alias tat='tmux attach -t'
+tmux_percol_attach() {
+    if [[ $1 == "" ]]; then
+        PERCOL=percol
+    else
+        PERCOL="percol --query $1"
+    fi
+
+    sessions=$(tmux ls)
+    [ $? -ne 0 ] && return
+
+    if [ $(echo $sessions | wc -l) -eq 1 ]; then
+      tmux attach && return
+    fi
+
+    session=$(echo $sessions | eval $PERCOL | cut -d : -f 1)
+    if [[ -n "$session" ]]; then
+        tmux attach -t $session
+    fi
+}
+alias ta='tmux_percol_attach'
 alias tn='tmux new'
 alias tns='tmux new -s'
 
@@ -66,6 +84,7 @@ alias tns='tmux new -s'
 gifify () {
   docker run -it --rm -v `pwd`:/data maxogden/gifify $@
 }
+
 
 # wstool
 alias wl=wstool
