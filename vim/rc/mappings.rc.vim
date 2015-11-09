@@ -50,13 +50,13 @@ vnoremap 0 $
 " Esc keymap
 " ----------------------------------------------------------
 " Easy escape."{{{
-inoremap jj           <ESC>
+" inoremap jj           <ESC>
 " inoremap <expr> j       getline('.')[col('.') - 2] ==# 'j' ? "\<BS>\<ESC>" : 'j'
-cnoremap <expr> j       getcmdline()[getcmdpos()-2] ==# 'j' ? "\<BS>\<C-c>" : 'j'
-onoremap jj           <ESC>
+" cnoremap <expr> j       getcmdline()[getcmdpos()-2] ==# 'j' ? "\<BS>\<C-c>" : 'j'
+" onoremap jj           <ESC>
 
-inoremap j<Space>     j
-onoremap j<Space>     j
+" inoremap j<Space>     j
+" onoremap j<Space>     j
 "}}}
 
 
