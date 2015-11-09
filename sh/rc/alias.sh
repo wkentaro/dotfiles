@@ -192,3 +192,9 @@ get_lena_jpg () {
 tile_images() {
   montage $@ -geometry +2+2 $(date +%Y%m%d-%H%M%S)_output.jpg
 }
+
+ghcomment () {
+  number=$(ghi list | percol | awk '{print $1}')
+  ghi comment $number --list C
+  ghi comment $number --verbose $@
+}
