@@ -151,6 +151,9 @@ wlsethub () {
   wstool set $1 https://github.com/$1.git --git
 }
 
+alias cb='catkin build'
+alias cbt='catkin bt'
+
 # ----------------------------------------------------
 # ls aliases
 # ----------------------------------------------------
