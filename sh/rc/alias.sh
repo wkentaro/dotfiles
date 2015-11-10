@@ -139,7 +139,10 @@ if [ -d "/opt/ros" ]; then
   alias rqt_reconfigure='rosrun rqt_reconfigure rqt_reconfigure'
   alias rqt_image_view='rosrun rqt_image_view rqt_image_view'
   image_view () {
-    rosrun image_view image_view image:=$1
+    rosrun image_view image_view image:=$@
+  }
+  image_view2 () {
+    rosrun image_view2 image_view2 image:=$@
   }
 fi
 
