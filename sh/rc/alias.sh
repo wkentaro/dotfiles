@@ -126,6 +126,8 @@ fi
 # ROS
 # ----------------------------------------------------
 if [ -d "/opt/ros" ]; then
+  alias rc='roscd'
+  alias rr='rosrun'
   alias rp='rostopic'
   alias rpl='rostopic list'
   alias rpi='rostopic info'
