@@ -352,7 +352,8 @@ if v:version > 703
   try
     set background=dark
     if $VIM_COLORSCHEME == ""
-      colorscheme desertEx
+      colorscheme default
+      " colorscheme desertEx
     else
       colorscheme $VIM_COLORSCHEME
     endif
