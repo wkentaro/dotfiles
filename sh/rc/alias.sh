@@ -146,6 +146,8 @@ if [ -d "/opt/ros" ]; then
   image_view2 () {
     rosrun image_view2 image_view2 image:=$@
   }
+  alias imv='image_view'
+  alias imv2='image_view2'
 fi
 
 alias wllist='wstool info --only=localname'
