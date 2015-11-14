@@ -4,7 +4,7 @@
 venv
 .venv
 .idea/
-,/
+,*
 .autoenv.zsh
 .autoenv_leave.zsh
 .clang_complete
