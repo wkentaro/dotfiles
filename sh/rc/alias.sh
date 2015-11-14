@@ -206,3 +206,26 @@ ghcomment () {
   ghi comment $number --list C
   ghi comment $number --verbose $@
 }
+ghlist () {
+  ghi show $(ghi list | percol | awk '{print $1}')
+}
+
+trres () {
+  list=$(ghi list -p)
+  repo_slug=$(echo $list | sed -n 1p | awk '{print $2}')
+  pr_num=$(echo $list | sed -n '2,$p' | percol | awk '{print $1}')
+  build_num=$(travis history -R $repo_slug | grep "(PR #$pr_num)" | sed -n 1p | awk '{print $1}' | sed 's/^#//g')
+  build_nums=$(travis show $build_num | percol | awk '{print $1}' | sed 's/^#//')
+  for b in ${=build_nums}; do
+    echo "restart travis $repo_slug $b"
+  done
+}
+
+trlog () {
+  list=$(ghi list -p)
+  repo_slug=$(echo $list | sed -n 1p | awk '{print $2}')
+  pr_num=$(echo $list | sed -n '2,$p' | percol | awk '{print $1}')
+  build_num=$(travis history -R $repo_slug | grep "(PR #$pr_num)" | sed -n 1p | awk '{print $1}' | sed 's/^#//g')
+  build_num=$(travis show $build_num | percol | awk '{print $1}' | sed 's/^#//')
+  travis logs $build_num
+}
