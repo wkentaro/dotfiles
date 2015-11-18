@@ -44,6 +44,8 @@ type hub &>/dev/null && alias git=hub
 
 alias ga.='git add .'
 
+alias gbug='git branch -u origin/$(current_branch)'
+alias gbum='git branch -u wkentaro/$(current_branch)'
 alias gmpull='git pull $GITHUB_USER $(current_branch)'
 alias gmpnp='git pull $GITHUB_USER $(current_branch) && git push $GITHUB_USER $(current_branch)'
 
