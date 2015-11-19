@@ -18,6 +18,8 @@ if has('lua')
   NeoBundle 'Shougo/neocomplete.vim'
 endif
 
+NeoBundle 'Shougo/neoyank.vim'
+
 " Interactive terminal tool
 NeoBundle 'wkentaro/conque.vim'
 
@@ -509,6 +511,12 @@ au FileType unite nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vspli
 au FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
 au FileType unite nnoremap <silent> <buffer> <C-c> :q<CR>
 au FileType unite inoremap <silent> <buffer> <C-c> <ESC>:q<CR>
+
+" --------------------------------------------------------
+" neoyank.vim
+" --------------------------------------------------------
+nmap <silent> <Leader>p :Unite history/yank<CR>
+
 
 " --------------------------------------------------------
 " open-browser.vim
