@@ -333,4 +333,4 @@ fi
 # ---------------------------------
 # ascii art
 # ---------------------------------
-cat ~/.asciiart
+date | cowsay -f $HOME/.cows/snake.cow

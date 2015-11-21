@@ -1,9 +1,9 @@
-asciiart:
-  .asciiart
 bashrc:
   .bashrc.wkentaro
 cheat:
   .cheat
+cows:
+  .cows
 dircolors.256dark:
   .dircolors.256dark
 editrc:
