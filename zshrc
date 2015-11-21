@@ -329,3 +329,8 @@ fi
 if which autossh &>/dev/null; then
   autossh -f -N aries-tunnel
 fi
+
+# ---------------------------------
+# ascii art
+# ---------------------------------
+cat ~/.asciiart
