@@ -4,13 +4,14 @@ if [ "$(uname)" != "Linux" ]; then
   exit 1
 fi
 
-sudo apt-get install aptitude
-sudo apt-get install zsh
-sudo apt-get install vim
-sudo apt-get install xsel xclip
-sudo apt-get install atool
-sudo apt-get install tmux
-sudo apt-get install compizconfig-settings-manager compiz-plugins-extra
+sudo apt-get install aptitude -y
+sudo apt-get install zsh -y
+sudo apt-get install vim -y
+sudo apt-get install xsel xclip -y
+sudo apt-get install atool -y
+sudo apt-get install tmux -y
+sudo apt-get install compizconfig-settings-manager compiz-plugins-extra -y
+sudo apt-get install cowsay fortune -y
 
 # python
 sudo easy_install pip
