@@ -333,4 +333,5 @@ fi
 # ---------------------------------
 # ascii art
 # ---------------------------------
-echo "Hello, Kentaro! ($(date +'%a %b %d %Y %H:%M'))" | cowsay -f $HOME/.cows/snake.cow
+export COWPATH=/usr/share/cowsay/cows:$HOME/.cows
+echo "Hello, Kentaro! ($(date +'%a %b %d %Y %H:%M'))" | cowsay -f snake
