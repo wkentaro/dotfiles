@@ -334,4 +334,4 @@ fi
 # ascii art
 # ---------------------------------
 export COWPATH=/usr/share/cowsay/cows:$HOME/.cows
-echo "Hello, Kentaro! ($(date +'%a %b %d %Y %H:%M'))" | cowsay -f snake
+echo "Current time is $(date +'%a %b %d %Y %H:%M')" | cowthink -f snake-hi-kentaro

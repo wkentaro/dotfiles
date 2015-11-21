@@ -1,6 +1,6 @@
 $the_cow = <<EOC;
-           \\    __
-            \\  {0O}
+           $thoughts    __
+            $thoughts  {0O}
                \\__/
                /^/
               ( (
