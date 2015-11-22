@@ -6,6 +6,7 @@ abbr    <launch></launch>
 snippet test
 abbr    <test></test>
 	<test test-name="${1}"
+	      name="${1}"
 	      pkg="${2}" type="${3}">
 	</test>
 snippet node
@@ -30,6 +31,9 @@ snippet remap
 abbr    <remap from=" " to=" " />
 	<remap from="${1}" to="${2}" />
 snippet param
+abbr    <param name=" " value=" " />
+	<param name="${1}" type="${2}" value="${3}" />
+snippet paramt
 abbr    <param name=" " type=" " value=" " />
 	<param name="${1}" type="${2}" value="${3}" />
 snippet rosparam
@@ -49,13 +53,13 @@ snippet nodelet_standalone
 abbr <node pkg="nodelet" type="nodelet" arg="standalone" />
 	<node name="${1}"
 	      pkg="nodelet" type="nodelet"
-	      args="standalone ${2}">
-		${3}
+	      args="standalone ${2}/${3}">
+		${4}
 	</node>
 snippet nodelet_load
 abbr <node pkg="nodelet" type="nodelet" arg="load" />
 	<node name="${1}"
 	      pkg="nodelet" type="nodelet"
-	      args="load ${2} ${3}">
-		${3}
+	      args="load ${2}/${3} ${4}">
+		${5}
 	</node>
