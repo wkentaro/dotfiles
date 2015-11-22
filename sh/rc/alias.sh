@@ -85,14 +85,6 @@ gifify () {
   docker run -it --rm -v `pwd`:/data maxogden/gifify $@
 }
 
-
-# wstool
-alias wl=wstool
-alias wli='wstool info'
-alias wlcd='wstool_cd'
-alias wlset='wstool set'
-alias wlup='wstool update'
-
 # brew
 if type brew &>/dev/null; then
   alias bubu='brew update && brew upgrade && brew cleanup'
@@ -121,43 +113,6 @@ if type rlwrap &>/dev/null; then
     alias roseus="rlwrap -c -b '(){}.,;|' -a -pGREEN roseus"
   fi
 fi
-
-# ----------------------------------------------------
-# ROS
-# ----------------------------------------------------
-if [ -d "/opt/ros" ]; then
-  alias rc='roscd'
-  alias rr='rosrun'
-  alias rp='rostopic'
-  alias rpl='rostopic list'
-  alias rpi='rostopic info'
-  alias rn='rosnode'
-  alias rnl='rosnode list'
-  alias rni='rosnode info'
-  alias rs='rosservice'
-  alias rsl='rosservice list'
-  alias rl='roslaunch'
-  alias rqt_gui='rosrun rqt_gui rqt_gui'
-  alias rqt_reconfigure='rosrun rqt_reconfigure rqt_reconfigure'
-  alias rqt_image_view='rosrun rqt_image_view rqt_image_view'
-  image_view () {
-    rosrun image_view image_view image:=$@
-  }
-  image_view2 () {
-    rosrun image_view2 image_view2 image:=$@
-  }
-  alias imv='image_view'
-  alias imv2='image_view2'
-  alias nodelet_standalone='rosrun nodelet nodelet standalone'
-fi
-
-alias wllist='wstool info --only=localname'
-wlsethub () {
-  wstool set $1 https://github.com/$1.git --git
-}
-
-alias cb='catkin build'
-alias cbt='catkin bt'
 
 # ----------------------------------------------------
 # ls aliases
