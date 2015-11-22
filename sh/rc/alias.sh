@@ -148,6 +148,7 @@ if [ -d "/opt/ros" ]; then
   }
   alias imv='image_view'
   alias imv2='image_view2'
+  alias nodelet_standalone='rosrun nodelet nodelet standalone'
 fi
 
 alias wllist='wstool info --only=localname'
