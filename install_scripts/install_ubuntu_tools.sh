@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ "$(uname)" != "Linux" ]; then
   exit 1
