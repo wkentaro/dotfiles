@@ -47,6 +47,8 @@ alias emacs='emacs -nw'
 alias py='python'
 alias ipy='ipython'
 alias ipp='ptipython'
+alias nose='nosetests'
+alias fl='flake8'
 
 # ruby
 alias irb='irb --simple-prompt'
