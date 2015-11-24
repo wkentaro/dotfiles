@@ -123,7 +123,7 @@ plugins=(
   $HOME/.sh/plugins/git.sh
   $HOME/.sh/plugins/browse.sh
   $HOME/.sh/plugins/restart-travis.sh
-  $HOME/.zsh/plugins/demo_mode.zsh
+  $HOME/.sh/plugins/ros.sh
 )
 for plugin in $plugins; do
   source $plugin
