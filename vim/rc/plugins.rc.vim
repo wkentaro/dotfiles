@@ -515,7 +515,7 @@ au FileType unite inoremap <silent> <buffer> <C-c> <ESC>:q<CR>
 " --------------------------------------------------------
 " neoyank.vim
 " --------------------------------------------------------
-nmap <silent> <Leader>p :Unite history/yank<CR>
+nmap <silent> <C-@> :Unite history/yank<CR>
 
 
 " --------------------------------------------------------
