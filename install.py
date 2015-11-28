@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
 
-import os
-import yaml
 import argparse
+import os
 import subprocess
+import yaml
 
 
 def install_dotfiles(force, dry_run):
