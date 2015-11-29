@@ -333,5 +333,9 @@ fi
 # ---------------------------------
 # ascii art
 # ---------------------------------
-export COWPATH=/usr/share/cowsay/cows:$HOME/.cows
+if [ "$(uname)" = "Linux" ]; then
+  export COWPATH=/usr/share/cowsay/cows:$HOME/.cows
+elif [ "$(uname)" = "Darwin" ]; then
+  export COWPATH=/usr/local/share/cows:$HOME/.cows
+fi
 echo "Current time is $(date +'%a %b %d %Y %H:%M')" | cowthink -f snake-hi-kentaro
