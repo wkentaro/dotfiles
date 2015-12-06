@@ -33,6 +33,15 @@ if [ -d "/opt/ros" ]; then
   image_view2 () {
     rosrun image_view2 image_view2 image:=$@
   }
+  _image_topics () {
+    local -a reply
+    if [[ ${CURRENT} = 2 ]]; then
+      reply=($(rostopic find sensor_msgs/Image))
+    fi
+    _describe 'values' reply
+  }
+  compdef _image_topics image_view
+  compdef _image_topics image_view2
   alias imv='image_view'
   alias imv2='image_view2'
   # nodelet
