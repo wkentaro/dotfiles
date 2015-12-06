@@ -288,12 +288,12 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
-let g:syntastic_quiet_messages = {"level": "warning"}
+" let g:syntastic_quiet_messages = {"level": "warning"}
 " au BufNewFile,BufRead *.l let g:syntastic_quiet_messages = {"level": "error"}
 let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_c_remove_include_errors = 1
-let g:syntastic_cpp_remove_include_errors = 1
-let g:syntastic_cpp_config_file = '~/.clang_complete'
+let g:syntastic_cpp_checkers = ['roslint_cpplint', 'gcc']
+" let g:syntastic_c_remove_include_errors = 1
+" let g:syntastic_cpp_remove_include_errors = 1
 
 " --------------------------------------------------------
 " clang_complete
