@@ -177,7 +177,7 @@ trres () {
   build_num=$(travis history -R $repo_slug | grep "(PR #$pr_num)" | sed -n 1p | awk '{print $1}' | sed 's/^#//g')
   build_nums=$(travis show $build_num | percol | awk '{print $1}' | sed 's/^#//')
   for b in ${=build_nums}; do
-    echo "restart travis $repo_slug $b"
+    eval "restart_travis $repo_slug $b"
   done
 }
 
