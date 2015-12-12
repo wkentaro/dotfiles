@@ -33,6 +33,7 @@
 	switch = !legit switch
 	sw = !legit switch
 	resync = !legit resync
+	jsk-commit = !git-jsk-commit
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
