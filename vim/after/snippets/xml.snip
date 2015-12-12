@@ -6,7 +6,7 @@ abbr    <launch></launch>
 snippet test
 abbr    <test></test>
 	<test test-name="${1}"
-	      name="${1}"
+	      name="$1"
 	      pkg="${2}" type="${3}">
 	</test>
 snippet node
@@ -32,7 +32,7 @@ abbr    <remap from=" " to=" " />
 	<remap from="${1}" to="${2}" />
 snippet param
 abbr    <param name=" " value=" " />
-	<param name="${1}" type="${2}" value="${3}" />
+	<param name="${1}" value="${2}" />
 snippet paramt
 abbr    <param name=" " type=" " value=" " />
 	<param name="${1}" type="${2}" value="${3}" />
