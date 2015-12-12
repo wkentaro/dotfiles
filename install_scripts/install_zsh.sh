@@ -6,6 +6,6 @@ tar jxvf zsh-5.0.7.tar.bz2
 
 cd zsh-5.0.7
 
-./configure --prefix=$HOME/.local
+./configure
 
-make && make install
+make && sudo make install
