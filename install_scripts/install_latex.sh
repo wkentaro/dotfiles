@@ -10,9 +10,9 @@ if [ "`uname`" != "Linux" ]; then
 fi
 
 
-sudo apt-get -y install texlive
-sudo apt-get -y install texlive-lang-cjk
-sudo apt-get -y install xdvik-ja
-sudo apt-get -y install dvipsk-ja
-sudo apt-get -y install gv
-sudo apt-get -y install texlive-fonts-recommended texlive-fonts-extra
+sudo apt-get -y install --reinstall texlive
+sudo apt-get -y install --reinstall texlive-lang-cjk
+sudo apt-get -y install --reinstall xdvik-ja
+sudo apt-get -y install --reinstall dvipsk-ja
+sudo apt-get -y install --reinstall gv
+sudo apt-get -y install --reinstall texlive-fonts-recommended texlive-fonts-extra

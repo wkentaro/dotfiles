@@ -49,6 +49,9 @@ NeoBundle 'bling/vim-airline'
 " git diff, log
 " https://github.com/tpope/vim-fugitive
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'cohama/agit.vim'
+NeoBundle 'idanarye/vim-merginal'
+NeoBundle 'AndrewRadev/gapply.vim'
 
 " https://github.com/gregsexton/gitv
 NeoBundle 'gregsexton/gitv'
