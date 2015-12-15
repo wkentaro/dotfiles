@@ -95,8 +95,10 @@ export SSH_USER='wada'
 # Improved less option
 export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen --RAW-CONTROL-CHARS'
 
-if [ "$(uname)" = "Linux" -a "$DISPLAY" != "" ]; then
-  xmodmap ~/.Xmodmap
+if [ -z $NO_LOAD_XMODMAP ]; then
+  if [ "$(uname)" = "Linux" -a "$DISPLAY" != "" ]; then
+    xmodmap ~/.Xmodmap
+  fi
 fi
 
 # ---------------------------------
