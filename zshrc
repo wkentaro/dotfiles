@@ -110,10 +110,10 @@ source $HOME/.zsh/antibody/antibody/antibody.zsh
 antibody bundle < $HOME/.zsh/antibody/bundles.txt
 
 # load theme
-if [[ $ZSH_THEME = "" ]]; then
+if [[ $MY_ZSH_THEME = "" ]]; then
   antibody bundle wkentaro/wkentaro.zsh-theme
 else
-  antibody bundle $ZSH_THEME
+  antibody bundle $MY_ZSH_THEME
 fi
 
 # oh-my-zsh
