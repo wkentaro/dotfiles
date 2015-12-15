@@ -1,6 +1,5 @@
 hchbaw/opp.zsh
 Tarrasch/zsh-autoenv
 rupa/z
-wkentaro/wkentaro.zsh-theme
 zsh-users/zsh-completions
 zsh-users/zsh-syntax-highlighting

@@ -107,6 +107,13 @@ source $HOME/.zsh/antibody/antibody/antibody.zsh
 
 antibody bundle < $HOME/.zsh/antibody/bundles.txt
 
+# load theme
+if [[ $ZSH_THEME = "" ]]; then
+  antibody bundle wkentaro/wkentaro.zsh-theme
+else
+  antibody bundle $ZSH_THEME
+fi
+
 # oh-my-zsh
 plugins=(git history pip python web-search vi-mode)
 ZSH=$HOME/.zsh/oh-my-zsh
