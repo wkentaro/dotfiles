@@ -26,6 +26,10 @@ if [ -d "/opt/ros" ]; then
   alias rqt_gui='rosrun rqt_gui rqt_gui'
   alias rqt_reconfigure='rosrun rqt_reconfigure rqt_reconfigure'
   alias rqt_image_view='rosrun rqt_image_view rqt_image_view'
+  alias republish='rosrun image_transport republish'
+  image_publisher () {
+    rosrun jsk_perception image_publisher.py _file_name:=$1
+  }
   # image_view
   image_view () {
     rosrun image_view image_view image:=$@
