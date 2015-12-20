@@ -44,8 +44,10 @@ if [ -d "/opt/ros" ]; then
     fi
     _describe 'values' reply
   }
-  compdef _image_topics image_view
-  compdef _image_topics image_view2
+  if which compdef &>/dev/null; then
+    compdef _image_topics image_view
+    compdef _image_topics image_view2
+  fi
   alias imv='image_view'
   alias imv2='image_view2'
   # nodelet

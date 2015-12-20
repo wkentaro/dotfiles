@@ -78,9 +78,13 @@ grbg () {
   fi
   git rebase origin/$branch $opts
 }
-compdef _git grbg=git-checkout
+if which compdef &>/dev/null; then
+  compdef _git grbg=git-checkout 2>/dev/null
+fi
 alias grbgi='grbg --interactive'
-compdef _git grbgi=git-checkout
+if which compdef &>/dev/null; then
+  compdef _git grbgi=git-checkout 2>/dev/null
+fi
 
 alias gcsmg='gcmsg'
 
@@ -128,7 +132,9 @@ gbdr () {
   fi
   git push $remote $branch --delete
 }
-compdef _git gbdr=git-checkout
+if which compdef &>/dev/null; then
+  compdef _git gbdr=git-checkout 2>/dev/null
+fi
 
 alias gbD='git branch -D'
 git_remote_to_local () {
