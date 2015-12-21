@@ -352,3 +352,15 @@ fi
 #     echo "Current time is $(date +'%a %b %d %Y %H:%M')" | cowthink -f snake-hi-kentaro
 #   fi
 # fi
+
+fancy-ctrl-z () {
+  if [[ $#BUFFER -eq 0 ]]; then
+    BUFFER="fg"
+    zle accept-line
+  else
+    zle push-input
+    zle clear-screen
+  fi
+}
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
