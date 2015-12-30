@@ -92,9 +92,6 @@ export SSH_USER='wada'
 # Travis
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
-# Improved less option
-export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen --RAW-CONTROL-CHARS'
-
 if [ -z $NO_LOAD_XMODMAP ]; then
   if [ "$(uname)" = "Linux" -a "$DISPLAY" != "" ]; then
     xmodmap ~/.Xmodmap
@@ -130,7 +127,6 @@ type wstool_cd.sh &>/dev/null && source `which wstool_cd.sh`
 # local plugins
 plugins=(
   $HOME/.sh/plugins/git.sh
-  $HOME/.sh/plugins/browse.sh
   $HOME/.sh/plugins/restart-travis.sh
   $HOME/.sh/plugins/ros.sh
 )
@@ -138,6 +134,11 @@ for plugin in $plugins; do
   source $plugin
 done
 fpath=($HOME/.zsh/plugins $fpath)
+
+# ----------------------------
+# Improved less option
+# ----------------------------
+export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen --RAW-CONTROL-CHARS'
 
 # --------------------------------
 # bindkey
