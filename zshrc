@@ -138,7 +138,7 @@ fpath=($HOME/.zsh/plugins $fpath)
 # ----------------------------
 # Improved less option
 # ----------------------------
-export LESS='--tabs=4 --no-init --LONG-PROMPT --ignore-case --quit-if-one-screen --RAW-CONTROL-CHARS'
+export LESS='--tabs=4 --LONG-PROMPT --ignore-case --RAW-CONTROL-CHARS'
 
 # --------------------------------
 # bindkey
