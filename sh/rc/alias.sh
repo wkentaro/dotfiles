@@ -42,7 +42,8 @@ type nvim &>/dev/null && {
   alias nvii='nvim --noplugin'
   alias nviii='nvim -u NONE'
 }
-alias vim-bib='vim -c ":e ++enc=euc-jp"'
+alias vim-euc='vim -c ":e ++enc=euc-jp"'
+alias vim-iso='vim -c ":e ++enc=iso-2022-jp"'
 
 # emacs
 alias emacs='emacs -nw'
