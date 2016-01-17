@@ -344,8 +344,8 @@ let g:Tex_ViewRule_pdf = 'evince'
 let Tex_FoldedSections=''
 let Tex_FoldedEnvironments=''
 let Tex_FoldedMisc=''
-au BufNewFile,BufRead *.tex inoremap 、 , 
-au BufNewFile,BufRead *.tex inoremap 。 . 
+au BufNewFile,BufRead *.tex inoremap 、 ，
+au BufNewFile,BufRead *.tex inoremap 。 ．
 au BufNewFile,BufRead *.tex inoremap （ (
 au BufNewFile,BufRead *.tex inoremap ） )
 nnoremap <SID>I_won’t_ever_type_this <Plug>IMAP_JumpForward
