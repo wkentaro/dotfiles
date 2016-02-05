@@ -129,6 +129,7 @@ plugins=(
   $HOME/.sh/plugins/git.sh
   $HOME/.sh/plugins/restart-travis.sh
   $HOME/.sh/plugins/ros.sh
+  $HOME/.sh/plugins/gshell.sh
 )
 for plugin in $plugins; do
   source $plugin
