@@ -1,6 +1,6 @@
 [submodule "private"]
 	path = private
-	url = https://github.com/wkentaro/private.git
+	url = https://bitbucket.org/wkentaro/private.git
 [submodule "vim/bundle/neobundle.vim"]
 	path = vim/bundle/neobundle.vim
 	url = https://github.com/Shougo/neobundle.vim
