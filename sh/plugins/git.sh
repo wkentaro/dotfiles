@@ -5,40 +5,11 @@
 # ----------------------------------------------------
 
 # basic command
-alias add='git add'
-alias a='git add'
-alias clone='git clone'
-alias st='git status'
-alias ss='git status --short'
-alias ci='git commit -v'
-alias commit='git commit'
-alias cm='git commit -m "$@"'
-alias c!='git commit -v --amend'
-alias co='git checkout'
-alias b='git branch'
-alias c='git checkout'
-alias checkout='git checkout'
-alias stash='git stash'
 alias grh!='git reset --hard'
 alias grh~='git reset HEAD~'
 alias grh~1='git reset HEAD~1'
 alias grh~2='git reset HEAD~2'
 alias grh~3='git reset HEAD~3'
-alias di='git diff'
-alias log='git log'
-alias lg='git lg'
-alias submodule='git submodule'
-alias pull='git pull'
-alias pl='git pull'
-alias push='git push'
-# hub command
-alias issue='hub issue'
-# legit command
-alias gsy='git sync'
-alias sy='git sync'
-alias gsw='git switch'
-alias sw='git switch'
-alias switch='git switch'
 alias g1msg='git log -1 --format="%s"'
 
 # Use hub as git client
