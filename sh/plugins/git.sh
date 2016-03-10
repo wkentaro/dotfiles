@@ -147,14 +147,15 @@ _what_ros_package () {
   done
   echo $(basename $looking_path)
 }
-_git_commit_verbose () {
-  tmp_file=$(mktemp -t XXXXXX)
-  ros_package=$(_what_ros_package)
-  if [ "${ros_package}" != "" ]; then
-    echo "[${ros_package}] " > ${tmp_file}
-    git commit --verbose --template ${tmp_file}
-  else
-    git commit --verbose
-  fi
-}
-alias gc='_git_commit_verbose'
+# _git_commit_verbose () {
+#   tmp_file=$(mktemp -t XXXXXX)
+#   ros_package=$(_what_ros_package)
+#   if [ "${ros_package}" != "" ]; then
+#     echo "[${ros_package}] " > ${tmp_file}
+#     git commit --verbose --template ${tmp_file}
+#   else
+#     git commit --verbose
+#   fi
+# }
+# alias gc='_git_commit_verbose'
+alias gc='git commit --verbose'
