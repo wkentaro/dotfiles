@@ -16,6 +16,7 @@ alias g1msg='git log -1 --format="%s"'
 type hub &>/dev/null && alias git=hub
 
 alias ga.='git add .'
+alias co='git checkout'
 
 alias gbug='git branch -u origin/$(current_branch)'
 alias gbum='git branch -u wkentaro/$(current_branch)'
