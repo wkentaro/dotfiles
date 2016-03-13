@@ -56,7 +56,7 @@ fi
 
 # wstool
 alias wl=wstool
-alias wli='wstool info'
+alias wli='wstool info -s'
 alias wlcd='wstool_cd'
 alias wlset='wstool set'
 alias wlup='wstool update'
