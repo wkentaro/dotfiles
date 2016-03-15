@@ -10,7 +10,7 @@ alias grh~='git reset HEAD~'
 alias grh~1='git reset HEAD~1'
 alias grh~2='git reset HEAD~2'
 alias grh~3='git reset HEAD~3'
-alias g1msg='git log -1 --format="%s"'
+alias g1msg='git log -1 --format="%s" | cat'
 
 # Use hub as git client
 type hub &>/dev/null && alias git=hub
