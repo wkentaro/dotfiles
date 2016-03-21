@@ -17,7 +17,7 @@
 - git:
     local-name: RethinkRobotics/baxter_simulator
     uri: git@github.com:RethinkRobotics/baxter_simulator.git
-    version: v0.9.1.1
+    version: v0.9.0
 - git:
     local-name: RethinkRobotics/baxter_tools
     uri: https://github.com/RethinkRobotics/baxter_tools.git
@@ -39,28 +39,8 @@
     uri: https://github.com/jsk-ros-pkg/jsk_common.git
     version: master
 - git:
-    local-name: jsk-ros-pkg/jsk_common_msgs
-    uri: https://github.com/jsk-ros-pkg/jsk_common_msgs.git
-    version: master
-- git:
-    local-name: jsk-ros-pkg/jsk_demos
-    uri: https://github.com/jsk-ros-pkg/jsk_demos.git
-    version: master
-- git:
-    local-name: jsk-ros-pkg/jsk_model_tools
-    uri: https://github.com/jsk-ros-pkg/jsk_model_tools.git
-    version: master
-- git:
-    local-name: jsk-ros-pkg/jsk_pr2eus
-    uri: https://github.com/jsk-ros-pkg/jsk_pr2eus.git
-    version: master
-- git:
     local-name: jsk-ros-pkg/jsk_recognition
     uri: https://github.com/jsk-ros-pkg/jsk_recognition.git
-    version: master
-- git:
-    local-name: jsk-ros-pkg/jsk_robot
-    uri: https://github.com/jsk-ros-pkg/jsk_robot.git
     version: master
 - git:
     local-name: jsk-ros-pkg/jsk_roseus
@@ -78,6 +58,10 @@
     local-name: ros-perception/image_pipeline
     uri: https://github.com/ros-perception/image_pipeline.git
     version: indigo
+- git:
+    local-name: ros-perception/pcl_msgs
+    uri: https://github.com/ros-perception/pcl_msgs.git
+    version: indigo-devel
 - git:
     local-name: ros-perception/perception_pcl
     uri: https://github.com/ros-perception/perception_pcl.git
@@ -103,6 +87,10 @@
     uri: https://github.com/ros/ros_comm.git
     version: indigo-devel
 - git:
+    local-name: ros/ros_tutorials
+    uri: https://github.com/ros/ros_tutorials.git
+    version: indigo-devel
+- git:
     local-name: ros/roslint
     uri: https://github.com/ros/roslint.git
     version: master
@@ -112,5 +100,5 @@
     version: master
 - git:
     local-name: wkentaro/ros-pkg
-    uri: https://github.com/wkentaro/ros-pkg.git
+    uri: git@github.com:wkentaro/ros-pkg.git
     version: master
