@@ -278,6 +278,7 @@ alias -g A="| awk"
 alias -g G="| grep"
 alias -g GV="| grep -v"
 alias -g H="| head"
+alias -g F="| fpp"
 alias -g L="| $PAGER"
 alias -g P=' --help | less'
 alias -g R="| ruby -e"
