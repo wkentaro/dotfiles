@@ -31,13 +31,11 @@ alias gmail='open https://mail.google.com/mail/u/0/ >/dev/null 2>&1'
 
 # vim
 type vim &>/dev/null && {
-  alias v='vim'
   alias vi='vim'
   alias vii='vim --noplugin'
   alias viii='vim -u NONE'
 }
 type nvim &>/dev/null && {
-  alias n='nvim'
   alias nvi='nvim'
   alias nvii='nvim --noplugin'
   alias nviii='nvim -u NONE'

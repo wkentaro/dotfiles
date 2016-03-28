@@ -131,6 +131,7 @@ plugins=(
   $HOME/.sh/plugins/restart-travis.sh
   $HOME/.sh/plugins/ros.sh
   $HOME/.sh/plugins/gshell.sh
+  $HOME/.sh/plugins/notes.sh
 )
 for plugin in $plugins; do
   source $plugin
