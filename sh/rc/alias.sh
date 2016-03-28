@@ -193,3 +193,18 @@ trlog () {
   build_num=$(travis show $build_num | percol | awk '{print $1}' | sed 's/^#//')
   travis logs $build_num
 }
+
+
+startbitbucket () {
+    echo 'Username?'
+    read username
+    echo 'Password?'
+    read -s password  # -s flag hides password text
+    echo 'Repo name?'
+    read reponame
+
+    curl --user $username:$password https://api.bitbucket.org/1.0/repositories/ --data name=$reponame --data is_private='true'
+    git remote add origin git@bitbucket.org:$username/$reponame.git
+    git push -u origin --all
+    git push -u origin --tags
+}
