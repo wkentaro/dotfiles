@@ -1,7 +1,7 @@
 #!/bin/sh
 
 n () {
-  $EDITOR ~/notes/inbox
+  vim -c ":cd $HOME/notes/inbox | :Unite file"
 }
 
 nls () {
@@ -13,7 +13,7 @@ nd () {
   date=$(date +%Y-%m-%d)
   if [ ! -e ${to_dir}/${date}.rst ]; then
     touch ${to_dir}/${date}.rst
-    echo "$date\n==========" > "${to_dir}/${date}.rst"
+    echo "$date\n==========\n" > "${to_dir}/${date}.rst"
   fi
-  vim +3 ${to_dir}/$(date +%Y-%m-%d).rst
+  vim -c ":cd ${to_dir} | :Unite -input=$(date +%Y-%m-%d) file"
 }
