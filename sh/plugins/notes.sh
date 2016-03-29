@@ -15,5 +15,5 @@ nd () {
 }
 
 notes () {
-  open http://localhost:9001
+  open http://www.jsk.t.u-tokyo.ac.jp/~wada/notes/html/
 }
