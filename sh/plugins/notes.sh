@@ -1,11 +1,7 @@
 #!/bin/sh
 
 n () {
-  vim -c ":cd $HOME/notes/inbox | :Unite file"
-}
-
-nls () {
-  find ~/notes -iname '*.rst' | egrep -v 'README.rst$'
+  vim -c ":cd $HOME/notes/inbox | :e ."
 }
 
 nd () {
@@ -15,5 +11,9 @@ nd () {
     touch ${to_dir}/${date}.rst
     echo "$date\n==========\n" > "${to_dir}/${date}.rst"
   fi
-  vim -c ":cd ${to_dir} | :Unite -input=$(date +%Y-%m-%d) file"
+  vim -c ":cd ${to_dir} | :e ."
+}
+
+notes () {
+  open http://localhost:9001
 }
