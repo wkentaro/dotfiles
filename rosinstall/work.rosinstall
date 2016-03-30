@@ -1,0 +1,52 @@
+- git:
+    local-name: furushchev/creative-informatics
+    uri: git@bitbucket.org:furushchev/creative-informatics
+    version: master
+- git:
+    local-name: furushchev/dakoku
+    uri: https://github.com/furushchev/dakoku
+    version: master
+- git:
+    local-name: jsk-ros-pkg/euslib
+    uri: git@github.com:jsk-ros-pkg/euslib.git
+    version: master
+- git:
+    local-name: jsk-ros-pkg/jsk-ros-pkg-unreleased
+    uri: git@github.com:jsk-ros-pkg/jsk-ros-pkg-unreleased.git
+    version: master
+- git:
+    local-name: mitmul/chainer-cifar10
+    uri: https://github.com/mitmul/chainer-cifar10
+    version: master
+- git:
+    local-name: pfnet/chainer
+    uri: https://github.com/pfnet/chainer.git
+    version: master
+- git:
+    local-name: rbgirshick/py-faster-rcnn
+    uri: https://github.com/rbgirshick/py-faster-rcnn.git
+    version: master
+- git:
+    local-name: ros-infrastructure/rosdep
+    uri: https://github.com/ros-infrastructure/rosdep.git
+    version: master
+- git:
+    local-name: vcstools/wstool
+    uri: https://github.com/vcstools/wstool.git
+    version: master
+- git:
+    local-name: wkentaro/apc-od
+    uri: git@github.com:wkentaro/apc-od.git
+    version: master
+- git:
+    local-name: wkentaro/apc2015or
+    uri: git@github.com:wkentaro/apc2015or.git
+    version: master
+- git:
+    local-name: wkentaro/py-fast-rcnn
+    uri: git@github.com:wkentaro/py-fast-rcnn.git
+    version: master
+- git:
+    local-name: wkentaro/pycd
+    uri: git@github.com:wkentaro/pycd.git
+    version: master
