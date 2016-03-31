@@ -1,4 +1,8 @@
 - git:
+    local-name: davisking/dlib
+    uri: https://github.com/davisking/dlib.git
+    version: master
+- git:
     local-name: furushchev/creative-informatics
     uri: git@bitbucket.org:furushchev/creative-informatics
     version: master
