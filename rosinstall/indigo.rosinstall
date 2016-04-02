@@ -43,6 +43,10 @@
     uri: https://github.com/jsk-ros-pkg/jsk_recognition.git
     version: master
 - git:
+    local-name: jsk-ros-pkg/jsk_robot
+    uri: https://github.com/jsk-ros-pkg/jsk_robot.git
+    version: master
+- git:
     local-name: jsk-ros-pkg/jsk_roseus
     uri: https://github.com/jsk-ros-pkg/jsk_roseus.git
     version: master
