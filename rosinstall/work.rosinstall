@@ -1,4 +1,8 @@
 - git:
+    local-name: IntelRealSense/librealsense
+    uri: https://github.com/IntelRealSense/librealsense
+    version: master
+- git:
     local-name: davisking/dlib
     uri: https://github.com/davisking/dlib.git
     version: master
@@ -31,6 +35,10 @@
     uri: https://github.com/ros-infrastructure/rosdep.git
     version: master
 - git:
+    local-name: ros/rosdistro
+    uri: git://github.com/ros/rosdistro.git
+    version: master
+- git:
     local-name: vcstools/vcstools
     uri: https://github.com/vcstools/vcstools.git
     version: master
@@ -47,12 +55,20 @@
     uri: git@github.com:wkentaro/apc2015or.git
     version: master
 - git:
+    local-name: wkentaro/eus-for-pythonista
+    uri: git@github.com:wkentaro/eus-for-pythonista.git
+    version: master
+- git:
+    local-name: wkentaro/gshell
+    uri: git@github.com:wkentaro/gshell.git
+    version: master
+- git:
     local-name: wkentaro/gthesis
-    uri: git@github.com:wkentaro/gthesis.git
+    uri: git@bitbucket.org:wkentaro/gthesis.git
     version: master
 - git:
     local-name: wkentaro/gthesis-paper
-    uri: git@github.com:wkentaro/gthesis-paper.git
+    uri: git@bitbucket.org:wkentaro/gthesis-paper.git
     version: master
 - git:
     local-name: wkentaro/py-fast-rcnn
