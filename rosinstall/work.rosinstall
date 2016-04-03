@@ -1,4 +1,8 @@
 - git:
+    local-name: pdollar/coco
+    uri: https://github.com/pdollar/coco.git
+    version: master
+- git:
     local-name: IntelRealSense/librealsense
     uri: https://github.com/IntelRealSense/librealsense
     version: master
