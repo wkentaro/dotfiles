@@ -1,4 +1,12 @@
 - git:
+    local-name: Euslisp/euslisp
+    uri: https://github.com/Euslisp/euslisp.git
+    version: master
+- git:
+    local-name: Euslisp/jskeus
+    uri: https://github.com/Euslisp/jskeus.git
+    version: master
+- git:
     local-name: RethinkRobotics/baxter
     uri: https://github.com/RethinkRobotics/baxter.git
     version: master
