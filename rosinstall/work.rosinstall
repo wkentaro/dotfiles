@@ -67,12 +67,8 @@
     uri: git@github.com:wkentaro/gshell.git
     version: master
 - git:
-    local-name: wkentaro/gthesis
-    uri: git@bitbucket.org:wkentaro/gthesis.git
-    version: master
-- git:
-    local-name: wkentaro/gthesis-paper
-    uri: git@bitbucket.org:wkentaro/gthesis-paper.git
+    local-name: wkentaro/bthesis2016-paper
+    uri: git@bitbucket.org:wkentaro/bthesis2016-paper.git
     version: master
 - git:
     local-name: wkentaro/py-fast-rcnn
