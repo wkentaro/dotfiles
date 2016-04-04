@@ -13,7 +13,7 @@ c.InteractiveShellApp.exec_lines = [
 c.InteractiveShell.autoindent = True
 c.InteractiveShell.colors = 'LightBG'
 c.InteractiveShell.confirm_exit = False
-c.InteractiveShell.deep_reload = True
+# c.InteractiveShell.deep_reload = True
 c.InteractiveShell.editor = 'vim'
 c.InteractiveShell.xmode = 'Context'
 
