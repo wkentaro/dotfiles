@@ -14,6 +14,10 @@ nd () {
   vim -c ":cd ${to_dir} | :e ."
 }
 
+nup () {
+  (cd $HOME/notes && make publish)
+}
+
 notes () {
   open http://www.jsk.t.u-tokyo.ac.jp/~wada/notes/html/
 }
