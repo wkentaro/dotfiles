@@ -19,5 +19,5 @@ nup () {
 }
 
 notes () {
-  open http://www.jsk.t.u-tokyo.ac.jp/~wada/notes/html/
+  open http://wkentaro-notes.readthedocs.org
 }
