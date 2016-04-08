@@ -18,12 +18,27 @@ type hub &>/dev/null && alias git=hub
 alias ga.='git add .'
 alias co='git checkout'
 
-alias gbug='git branch -u origin/$(current_branch)'
-alias gbum='git branch -u wkentaro/$(current_branch)'
-alias gmpull='git pull $GITHUB_USER $(current_branch)'
-alias gmpnp='git pull $GITHUB_USER $(current_branch) && git push $GITHUB_USER $(current_branch)'
+alias gbug='git branch -u origin/$(git_current_branch)'
+alias gbum='git branch -u $GITHUB_USER/$(git_current_branch)'
+alias gmpull='git pull $GITHUB_USER $(git_current_branch)'
+alias gmpnp='git pull $GITHUB_USER $(git_current_branch) && git push $GITHUB_USER $(git_current_branch)'
 
-alias gp!='git push --force'
+ggp! () {
+  if [[ "$#" != 0 ]] && [[ "$#" != 1 ]]; then
+    git push origin "${*}"
+  else
+    [[ "$#" = 0 ]] && local b="$(git_current_branch)"
+    git push origin "${b:=$1}"
+  fi
+}
+gmp! () {
+  if [[ "$#" != 0 ]] && [[ "$#" != 1 ]]; then
+    git push $GITHUB_USER "${*}"
+  else
+    [[ "$#" = 0 ]] && local b="$(git_current_branch)"
+    git push $GITHUB_USER "${b:=$1}"
+  fi
+}
 alias ggpush!='git push origin $(current_branch) --force'
 alias gmpush='git push $GITHUB_USER $(current_branch)'
 alias gmpush!='git push $GITHUB_USER $(current_branch) --force'
