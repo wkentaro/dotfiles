@@ -1,10 +1,10 @@
 - git:
-    local-name: pdollar/coco
-    uri: https://github.com/pdollar/coco.git
-    version: master
-- git:
     local-name: IntelRealSense/librealsense
     uri: https://github.com/IntelRealSense/librealsense
+    version: master
+- git:
+    local-name: catkin/catkin_tools
+    uri: https://github.com/catkin/catkin_tools.git
     version: master
 - git:
     local-name: davisking/dlib
@@ -25,6 +25,10 @@
 - git:
     local-name: mitmul/chainer-cifar10
     uri: https://github.com/mitmul/chainer-cifar10
+    version: master
+- git:
+    local-name: pdollar/coco
+    uri: https://github.com/pdollar/coco.git
     version: master
 - git:
     local-name: pfnet/chainer
@@ -59,16 +63,16 @@
     uri: git@github.com:wkentaro/apc2015or.git
     version: master
 - git:
+    local-name: wkentaro/bthesis2016-paper
+    uri: git@bitbucket.org:wkentaro/bthesis2016-paper.git
+    version: master
+- git:
     local-name: wkentaro/eus-for-pythonista
     uri: git@github.com:wkentaro/eus-for-pythonista.git
     version: master
 - git:
     local-name: wkentaro/gshell
     uri: git@github.com:wkentaro/gshell.git
-    version: master
-- git:
-    local-name: wkentaro/bthesis2016-paper
-    uri: git@bitbucket.org:wkentaro/bthesis2016-paper.git
     version: master
 - git:
     local-name: wkentaro/py-fast-rcnn
