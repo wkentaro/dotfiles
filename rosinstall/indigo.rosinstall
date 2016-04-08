@@ -55,6 +55,10 @@
     uri: https://github.com/jsk-ros-pkg/jsk_common.git
     version: master
 - git:
+    local-name: jsk-ros-pkg/jsk_model_tools
+    uri: https://github.com/jsk-ros-pkg/jsk_model_tools.git
+    version: master
+- git:
     local-name: jsk-ros-pkg/jsk_recognition
     uri: https://github.com/jsk-ros-pkg/jsk_recognition.git
     version: master
