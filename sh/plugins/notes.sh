@@ -5,7 +5,7 @@ n () {
 }
 
 nd () {
-  to_dir="$HOME/notes/2016_onedo/daily_report"
+  to_dir="$HOME/notes/daily_report/2016"
   date=$(date +%Y-%m-%d)
   if [ ! -e ${to_dir}/${date}.rst ]; then
     touch ${to_dir}/${date}.rst
