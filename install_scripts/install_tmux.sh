@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ -f $HOME/.local/bin/tmux ]; then
+if [ -f /usr/local/bin/tmux ]; then
   exit 0
 fi
 
