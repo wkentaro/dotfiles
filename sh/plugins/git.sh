@@ -23,24 +23,41 @@ alias gbum='git branch -u $GITHUB_USER/$(git_current_branch)'
 alias gmpull='git pull $GITHUB_USER $(git_current_branch)'
 alias gmpnp='git pull $GITHUB_USER $(git_current_branch) && git push $GITHUB_USER $(git_current_branch)'
 
-ggp! () {
+ggp () {
   if [[ "$#" != 0 ]] && [[ "$#" != 1 ]]; then
-    git push origin "${*}"
+    git push origin "${*}" && git branch -u origin/${1}
   else
     [[ "$#" = 0 ]] && local b="$(git_current_branch)"
-    git push origin "${b:=$1}"
+    git push origin "${b:=$1}" && git branch -u origin/${b:=$1}
+  fi
+}
+gmp () {
+  if [[ "$#" != 0 ]] && [[ "$#" != 1 ]]; then
+    git push $GITHUB_USER "${*}" && git branch -u $GITHUB_USER/${1}
+  else
+    [[ "$#" = 0 ]] && local b="$(git_current_branch)"
+    git push $GITHUB_USER "${b:=$1}" && git branch -u $GITHUB_USER/${b:=$1}
+  fi
+}
+ggp! () {
+  if [[ "$#" != 0 ]] && [[ "$#" != 1 ]]; then
+    git push origin "${*}" --force
+  else
+    [[ "$#" = 0 ]] && local b="$(git_current_branch)"
+    git push origin "${b:=$1}" --force
   fi
 }
 gmp! () {
   if [[ "$#" != 0 ]] && [[ "$#" != 1 ]]; then
-    git push $GITHUB_USER "${*}"
+    git push $GITHUB_USER "${*}" --force
   else
     [[ "$#" = 0 ]] && local b="$(git_current_branch)"
-    git push $GITHUB_USER "${b:=$1}"
+    git push $GITHUB_USER "${b:=$1}" --force
   fi
 }
+alias ggpush='git push origin $(current_branch) && git push -u origin/$(git_current_branch)'
 alias ggpush!='git push origin $(current_branch) --force'
-alias gmpush='git push $GITHUB_USER $(current_branch)'
+alias gmpush='git push $GITHUB_USER $(current_branch) && git branch -u $GITHUB_USER/$(git_current_branch)'
 alias gmpush!='git push $GITHUB_USER $(current_branch) --force'
 
 _is_option () {
