@@ -14,6 +14,7 @@ which tmux &>/dev/null || sudo apt-get install tmux -y
 which compiz &>/dev/null || sudo apt-get install compizconfig-settings-manager compiz-plugins-extra -y
 which cowsay &>/dev/null || sudo apt-get install cowsay -y
 which fortune &>/dev/null || sudo apt-get install fortune -y
+which pandoc &>/dev/null || sudo apt-get install pandoc -y
 
 # python
 if ! which pip &>/dev/null; then
