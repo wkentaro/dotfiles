@@ -20,6 +20,8 @@ def install_dotfiles(force, dry_run):
         if dry_run:
             print('{0} -> {1}'.format(from_, to))
         else:
+            if not force and os.path.exists(to):
+                continue
             if os.path.islink(to):
                 if force and not os.path.isdir(to):
                     os.system('ln -fs {0} {1}'.format(from_, to))
