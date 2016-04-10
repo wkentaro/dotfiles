@@ -44,7 +44,7 @@
     version: indigo-devel
 - git:
     local-name: jsk-ros-pkg/geneus
-    uri: http://github.com/jsk-ros-pkg/geneus.git
+    uri: https://github.com/jsk-ros-pkg/geneus.git
     version: master
 - git:
     local-name: jsk-ros-pkg/jsk_3rdparty

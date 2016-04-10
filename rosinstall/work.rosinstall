@@ -75,6 +75,10 @@
     uri: git@github.com:wkentaro/gshell.git
     version: master
 - git:
+    local-name: wkentaro/notes
+    uri: git@github.com:wkentaro/notes.git
+    version: master
+- git:
     local-name: wkentaro/py-fast-rcnn
     uri: git@github.com:wkentaro/py-fast-rcnn.git
     version: master
