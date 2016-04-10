@@ -10,8 +10,8 @@ editrc:
   .editrc
 emacs.d:
   .emacs.d
-events_config.yml:
-  .events_config.yml
+events_config.yaml:
+  .events_config.yaml
 gitconfig:
   .gitconfig
 gitignore_global:
