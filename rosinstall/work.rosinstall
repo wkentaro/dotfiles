@@ -47,6 +47,10 @@
     uri: git://github.com/ros/rosdistro.git
     version: master
 - git:
+    local-name: start-jsk/jsk_apc
+    uri: https://github.com/start-jsk/jsk_apc.git
+    version: master
+- git:
     local-name: vcstools/vcstools
     uri: https://github.com/vcstools/vcstools.git
     version: master
