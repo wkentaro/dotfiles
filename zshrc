@@ -58,7 +58,7 @@ export MANPATH="$HOME/.local/bin:$MANPATH"
 # export PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH"
 
 # bookmark
-hash -d dotfiles=$HOME/.dotfiles
+# hash -d dotfiles=$HOME/.dotfiles
 
 # Python
 export VIRTUALENV_USE_DISTRIBUTE=1
