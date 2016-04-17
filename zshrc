@@ -117,7 +117,7 @@ fi
 DISABLE_AUTO_UPDATE=true
 plugins=(git history pip python web-search vi-mode)
 ZSH=$HOME/.zsh/oh-my-zsh
-source $ZSH/oh-my-zsh.sh
+source $ZSH/oh-my-zsh.sh 2>/dev/null
 
 # https://github.com/wkentaro/pycd
 type pycd.sh &>/dev/null && source `which pycd.sh`
