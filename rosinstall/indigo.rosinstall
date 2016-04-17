@@ -47,10 +47,6 @@
     uri: https://github.com/jsk-ros-pkg/geneus.git
     version: master
 - git:
-    local-name: jsk-ros-pkg/jsk_3rdparty
-    uri: https://github.com/jsk-ros-pkg/jsk_3rdparty.git
-    version: master
-- git:
     local-name: jsk-ros-pkg/jsk_common
     uri: https://github.com/jsk-ros-pkg/jsk_common.git
     version: master
@@ -103,21 +99,9 @@
     uri: https://github.com/ros-visualization/rviz.git
     version: indigo-devel
 - git:
-    local-name: ros/dynamic_reconfigure
-    uri: https://github.com/ros/dynamic_reconfigure.git
-    version: master
-- git:
     local-name: ros/ros_comm
     uri: https://github.com/ros/ros_comm.git
     version: indigo-devel
-- git:
-    local-name: ros/ros_tutorials
-    uri: https://github.com/ros/ros_tutorials.git
-    version: indigo-devel
-- git:
-    local-name: ros/roslint
-    uri: https://github.com/ros/roslint.git
-    version: master
 - git:
     local-name: start-jsk/jsk_apc
     uri: https://github.com/start-jsk/jsk_apc.git
