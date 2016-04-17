@@ -30,8 +30,8 @@ lessfilter:
   .lessfilter
 nvimrc:
   .nvimrc
-percol.d/rc.py:
-  .percol.d/rc.py
+percol.d:
+  .percol.d
 private/zshrc:
   .zshrc.private
 private/ssh/config:
