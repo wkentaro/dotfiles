@@ -115,7 +115,7 @@ fi
 
 # oh-my-zsh
 DISABLE_AUTO_UPDATE=true
-plugins=(git history pip python web-search vi-mode)
+plugins=(git history python web-search vi-mode)
 ZSH=$HOME/.zsh/oh-my-zsh
 source $ZSH/oh-my-zsh.sh 2>/dev/null
 
