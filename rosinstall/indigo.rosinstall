@@ -43,10 +43,6 @@
     uri: https://github.com/ros-simulation/gazebo_ros_pkgs.git
     version: jade-devel
 - git:
-    local-name: ros-visualization/rviz
-    uri: https://github.com/ros-visualization/rviz.git
-    version: indigo-devel
-- git:
     local-name: start-jsk/jsk_apc
     uri: https://github.com/start-jsk/jsk_apc.git
     version: master
