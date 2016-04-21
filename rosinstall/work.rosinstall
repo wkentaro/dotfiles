@@ -11,6 +11,14 @@
     uri: https://github.com/davisking/dlib.git
     version: master
 - git:
+    local-name: euslisp/Euslisp
+    uri: https://github.com/euslisp/Euslisp.git
+    version: master
+- git:
+    local-name: euslisp/jskeus
+    uri: https://github.com/euslisp/jskeus.git
+    version: master
+- git:
     local-name: furushchev/creative-informatics
     uri: git@bitbucket.org:furushchev/creative-informatics
     version: master
