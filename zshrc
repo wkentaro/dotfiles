@@ -117,7 +117,10 @@ fi
 DISABLE_AUTO_UPDATE=true
 plugins=(git history python web-search vi-mode)
 ZSH=$HOME/.zsh/oh-my-zsh
+# FIXME: parser error in .zcompdump
 source $ZSH/oh-my-zsh.sh 2>/dev/null
+# FIXME: no completion function without this
+compinit 2>/dev/null
 
 # https://github.com/wkentaro/pycd
 type pycd.sh &>/dev/null && source `which pycd.sh`
