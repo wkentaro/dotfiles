@@ -31,6 +31,10 @@
     uri: https://github.com/fetchrobotics/fetch_ros.git
     version: indigo-devel
 - git:
+    local-name: jsk-ros-pkg/jsk_robot
+    uri: https://github.com/jsk-ros-pkg/jsk_robot.git
+    version: master
+- git:
     local-name: jsk-ros-pkg/jsk_common
     uri: https://github.com/jsk-ros-pkg/jsk_common.git
     version: master
