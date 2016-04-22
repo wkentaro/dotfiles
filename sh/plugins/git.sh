@@ -20,6 +20,7 @@ alias co='git checkout'
 
 alias gbug='git branch -u origin/$(git_current_branch)'
 alias gbum='git branch -u $GITHUB_USER/$(git_current_branch)'
+alias gml='git pull $GITHUB_USER $(git_current_branch)'
 alias gmpull='git pull $GITHUB_USER $(git_current_branch)'
 alias gmpnp='git pull $GITHUB_USER $(git_current_branch) && git push $GITHUB_USER $(git_current_branch)'
 
