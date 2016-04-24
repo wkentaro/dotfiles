@@ -35,8 +35,8 @@
     uri: https://github.com/mitmul/chainer-cifar10
     version: master
 - git:
-    local-name: mitmul/chainer-fast-rcnn
-    uri: https://github.com/mitmul/chainer-fast-rcnn.git
+    local-name: wkentaro/chainer-fast-rcnn
+    uri: https://github.com/wkentaro/chainer-fast-rcnn.git
     version: master
 - git:
     local-name: pdollar/coco
