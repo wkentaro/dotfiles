@@ -165,3 +165,9 @@ map <Leader>sn ]s
 map <Leader>sp [s
 map <Leader>sa zg
 map <Leader>s? z=
+
+
+" ----------------------------------------------------------
+" Path handling
+" ----------------------------------------------------------
+nnoremap ,cd :cd %:p:h<CR>
