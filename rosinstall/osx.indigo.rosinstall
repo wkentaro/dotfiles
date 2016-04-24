@@ -1,6 +1,14 @@
 - git:
+    local-name: fetchrobotics/fetch_ros
+    uri: https://github.com/fetchrobotics/fetch_ros.git
+    version: indigo-devel
+- git:
     local-name: jsk-ros-pkg/geneus
     uri: https://github.com/jsk-ros-pkg/geneus.git
+    version: master
+- git:
+    local-name: jsk-ros-pkg/jsk_3rdparty
+    uri: https://github.com/jsk-ros-pkg/jsk_3rdparty.git
     version: master
 - git:
     local-name: jsk-ros-pkg/jsk_common
@@ -29,4 +37,12 @@
 - git:
     local-name: jsk-ros-pkg/jsk_visualization
     uri: https://github.com/jsk-ros-pkg/jsk_visualization.git
+    version: master
+- git:
+    local-name: ros-planning/moveit_ros
+    uri: https://github.com/ros-planning/moveit_ros.git
+    version: master
+- git:
+    local-name: start-jsk/jsk_apc
+    uri: https://github.com/start-jsk/jsk_apc.git
     version: master
