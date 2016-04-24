@@ -24,6 +24,8 @@ alias gml='git pull $GITHUB_USER $(git_current_branch)'
 alias gmpull='git pull $GITHUB_USER $(git_current_branch)'
 alias gmpnp='git pull $GITHUB_USER $(git_current_branch) && git push $GITHUB_USER $(git_current_branch)'
 
+alias gbm='git branch --all | command grep $GITHUB_USER | sed "s/ *//g"'
+
 ggp () {
   if [[ "$#" != 0 ]] && [[ "$#" != 1 ]]; then
     git push origin "${*}" && git branch -u origin/${1}
