@@ -206,3 +206,10 @@ startbitbucket () {
     git push -u origin --all
     git push -u origin --tags
 }
+
+
+slacker_notify_done () {
+  cmd=($*)
+  "${cmd[@]}"
+  echo "@wkentaro '$cmd' is done at '$(date)' with exitcode '$?'" | slacker -u wkentaro
+}
