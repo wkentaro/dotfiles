@@ -35,3 +35,11 @@ autocmd FileType cpp setlocal path=.,./include,../include/,/usr/include,/usr/loc
 " ----------------------------------------------------------
 au BufNewFile,BufRead *.l set wrap tabstop=8 shiftwidth=2 ft=lisp
 let lisp_rainbow = 1
+
+
+" ----------------------------------------------------------
+" RestructuredText setting
+" ----------------------------------------------------------
+au BufRead,BufNewFile,BufReadPre *.rst nnoremap ,h1 VypVr=
+au BufRead,BufNewFile,BufReadPre *.rst nnoremap ,h2 VypVr-
+au BufRead,BufNewFile,BufReadPre *.rst nnoremap ,h3 VypVr+
