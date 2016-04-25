@@ -6,9 +6,11 @@ fi
 
 sudo aptitude install libevent-dev
 
-wget http://sourceforge.net/projects/tmux/files/tmux/tmux-1.9/tmux-1.9a.tar.gz
-tar zxvf tmux-1.9a.tar.gz
-cd tmux-1.9a
+cd /tmp
+
+wget https://github.com/tmux/tmux/releases/download/2.2/tmux-2.2.tar.gz
+tar zxvf tmux-2.2.tar.gz
+cd tmux-2.2
 ./configure
 make
 sudo make install
