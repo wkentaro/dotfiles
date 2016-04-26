@@ -22,7 +22,7 @@ export TERM=xterm-256color
 parse_branch() {
   local branch
   branch=`git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
-  [ "$branch" != "" ] && echo -e "\e[0m on \e[35m$branch\e[0m"
+  [ "$branch" != "" ] && printf "\e[0m on \e[35m$branch\e[0m"
 }
 PS1='${debian_chroot:+($debian_chroot)}\e[35m\u\e[0m at \e[33m\h\e[0m in \e[32m\W\e[35m$(parse_branch)\e[0m\n$ '
 
