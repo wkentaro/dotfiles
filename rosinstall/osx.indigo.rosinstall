@@ -51,10 +51,6 @@
     uri: https://github.com/ros-perception/vision_opencv.git
     version: 1.11.12
 - git:
-    local-name: ros/catkin
-    uri: https://github.com/ros/catkin.git
-    version: 0.6.18
-- git:
     local-name: start-jsk/jsk_apc
     uri: https://github.com/start-jsk/jsk_apc.git
     version: master
