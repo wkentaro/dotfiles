@@ -35,10 +35,6 @@
     uri: https://github.com/mitmul/chainer-cifar10
     version: master
 - git:
-    local-name: wkentaro/chainer-fast-rcnn
-    uri: https://github.com/wkentaro/chainer-fast-rcnn.git
-    version: master
-- git:
     local-name: pdollar/coco
     uri: https://github.com/pdollar/coco.git
     version: master
@@ -87,12 +83,20 @@
     uri: git@bitbucket.org:wkentaro/bthesis2016-paper.git
     version: master
 - git:
+    local-name: wkentaro/chainer-fast-rcnn
+    uri: https://github.com/wkentaro/chainer-fast-rcnn.git
+    version: master
+- git:
     local-name: wkentaro/eus-for-pythonista
     uri: git@github.com:wkentaro/eus-for-pythonista.git
     version: master
 - git:
     local-name: wkentaro/gshell
     uri: git@github.com:wkentaro/gshell.git
+    version: master
+- git:
+    local-name: wkentaro/lora
+    uri: https://github.com/wkentaro/lora.git
     version: master
 - git:
     local-name: wkentaro/notes
