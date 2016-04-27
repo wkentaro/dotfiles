@@ -1,3 +1,5 @@
+bash:
+  .bash
 bashrc:
   .bashrc.wkentaro
 cheat:
