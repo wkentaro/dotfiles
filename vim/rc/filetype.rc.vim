@@ -1,6 +1,8 @@
 " ----------------------------------------------------------------
 " Filetype
 " ----------------------------------------------------------------
+au BufNewFile * set endofline
+
 " Specific settings according to filetype
 au BufNewFile,BufRead *.sh set ft=sh tabstop=8 shiftwidth=2
 au BufNewFile,BufRead *.zsh set ft=zsh tabstop=8 shiftwidth=2
