@@ -135,6 +135,7 @@ plugins=(
   $HOME/.sh/plugins/ros.sh
   $HOME/.sh/plugins/gshell.sh
   $HOME/.sh/plugins/notes.sh
+  $HOME/.sh/plugins/ubuntu.sh
 )
 for plugin in $plugins; do
   source $plugin

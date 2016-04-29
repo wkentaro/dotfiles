@@ -1,0 +1,15 @@
+alias aps='aptitude search'
+compdef _aps aps='aptitude search'
+
+alias ag='sudo aptitude'
+compdef _ag ag='sudo aptitude'
+alias aga='sudo aptitude autoclean'
+compdef _aga aga='sudo aptitude autoclean'
+alias agp='sudo aptitude purge'
+compdef _agp agp='sudo aptitude purge'
+alias agu='sudo aptitude update'
+compdef _agu agu='sudo aptitude update'
+alias aguu='sudo aptitude update && sudo aptitude upgrade'
+compdef _aguu aguu='sudo aptitude update && sudo aptitude upgrade'
+
+alias allpkgs='aptitude search -F "%p" --disable-columns $1'
