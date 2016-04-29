@@ -1,11 +1,15 @@
 #!/bin/sh
 
 n () {
+  vim -c ":cd $HOME/notes/projects | :e ."
+}
+
+ni () {
   vim -c ":cd $HOME/notes/inbox | :e ."
 }
 
 nd () {
-  to_dir="$HOME/notes/daily_report/2016"
+  to_dir="$HOME/notes/logs"
   date=$(date +%Y-%m-%d)
   if [ ! -e ${to_dir}/${date}.rst ]; then
     touch ${to_dir}/${date}.rst
