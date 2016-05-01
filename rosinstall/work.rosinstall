@@ -91,12 +91,24 @@
     uri: git@github.com:wkentaro/eus-for-pythonista.git
     version: master
 - git:
+    local-name: wkentaro/gdown
+    uri: https://github.com/wkentaro/gdown.git
+    version: master
+- git:
+    local-name: wkentaro/gotenshita
+    uri: https://github.com/wkentaro/gotenshita.git
+    version: master
+- git:
     local-name: wkentaro/gshell
     uri: git@github.com:wkentaro/gshell.git
     version: master
 - git:
     local-name: wkentaro/lora
     uri: https://github.com/wkentaro/lora.git
+    version: master
+- git:
+    local-name: wkentaro/multisettings
+    uri: git@github.com:wkentaro/multisettings.git
     version: master
 - git:
     local-name: wkentaro/notes
