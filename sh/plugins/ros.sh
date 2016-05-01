@@ -66,5 +66,11 @@ wlsethub () {
 }
 
 # catkin-tools
+alias c='catkin'
 alias cb='catkin build'
 alias cbt='catkin bt'
+alias crt='catkin run_tests'
+alias crtt='catkin run_tests --this --no-deps -iv'
+alias crl='catkin roslint'
+alias crlt='catkin roslint --this --no-deps -iv'
+alias cli='catkin lint'
