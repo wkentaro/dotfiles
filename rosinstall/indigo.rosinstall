@@ -79,6 +79,10 @@
     uri: https://github.com/start-jsk/jsk_apc.git
     version: master
 - git:
+    local-name: wkentaro/jsk_201604_cmo
+    uri: https://github.com/wkentaro/jsk_201604_cmo.git
+    version: master
+- git:
     local-name: wkentaro/ros-pkg
     uri: git@github.com:wkentaro/ros-pkg.git
     version: master
