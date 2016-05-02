@@ -373,3 +373,9 @@ fancy-ctrl-z () {
 }
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
+
+
+# -----------------
+# Travis completion
+# -----------------
+[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
