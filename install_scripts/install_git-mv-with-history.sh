@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-# git-mv-with-history
-# ~~~~~~~~~~~~~~~~~~~
-
-if type git-mv-with-history &>/dev/null; then
+if hash git-mv-with-history &>/dev/null; then
   exit 0
 fi
 
