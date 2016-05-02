@@ -367,7 +367,8 @@ if v:version > 703
   hi Normal ctermbg=none
   hi NonText ctermbg=none
   hi Normal ctermfg=none
-  hi ColorColumn term=reverse ctermbg=0 guibg=LightRed
+  hi ColorColumn ctermbg=8
+  hi Visual ctermbg=0
 endif
 
 " --------------------------------------------------------
