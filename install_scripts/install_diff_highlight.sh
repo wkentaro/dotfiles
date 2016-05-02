@@ -4,6 +4,7 @@
 # ~~~~~~~~~~~~~~
 
 if type diff-highlight &>/dev/null; then
+  echo "diff-highlight is already installed"
   exit 0
 fi
 

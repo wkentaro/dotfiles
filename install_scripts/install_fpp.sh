@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if which fpp &>/dev/null; then
+if [ -f ~/.local/bin/fpp ]; then
   echo "fpp is already installed"
   exit 0
 fi
