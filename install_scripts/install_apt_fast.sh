@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if which apt-fast &>/dev/null; then
+if hash apt-fast &>/dev/null; then
   echo "apt-fast is already installed"
   exit 0
 fi
