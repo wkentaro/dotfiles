@@ -1,7 +1,8 @@
 #!/bin/sh
 
 if which fpp &>/dev/null; then
-  exit 1
+  echo "fpp is already installed"
+  exit 0
 fi
 
 mkdir -p ~/.local/share
