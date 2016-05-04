@@ -141,6 +141,8 @@ NeoBundle 'claco/jasmine.vim'
 
 NeoBundle 'rhysd/committia.vim'
 
+NeoBundle 'ctrlpvim/ctrlp.vim'
+
 
 " vimproc
 " https://github.com/Shougo/vimproc.vim
@@ -507,9 +509,9 @@ let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/neosnippe
 " unite.vim
 " --------------------------------------------------------
 let g:unite_enable_start_insert=1
-noremap <C-p> :Unite buffer -winheight=10<CR>
-noremap <C-n> :Unite -buffer-name=file file<CR>
-noremap <C-]> :Unite file_mru<CR>
+" noremap <C-p> :Unite buffer -direction=botright<CR>
+" noremap <C-n> :Unite -buffer-name=file file <CR>
+noremap <C-]> :Unite file_mru -winheight=10 -direction=botright<CR>
 noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
 au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
 au FileType unite inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
@@ -571,3 +573,18 @@ let g:calendar_google_calendar = 1
 let g:calendar_google_task = 1
 let g:calendar_view = 'week'
 let g:calendar_views = ['week', 'month', 'day', 'clock']
+
+
+" --------------------------------------------------------
+" ctrlp.vim
+" --------------------------------------------------------
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
