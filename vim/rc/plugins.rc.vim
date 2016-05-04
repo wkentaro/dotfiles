@@ -457,7 +457,7 @@ let s:hooks = neobundle#get_hooks("jedi-vim")
 let g:jedi#rename_command = '<Leader>R'
 
 " --------------------------------------------------------
-" unite.vim
+" quickrun
 " --------------------------------------------------------
 let g:quickrun_config = {
 \   "_" : {
@@ -509,6 +509,7 @@ let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/neosnippe
 " unite.vim
 " --------------------------------------------------------
 let g:unite_enable_start_insert=1
+nmap <silent> <Leader>s :Unite -quick-match buffer<CR>
 noremap <C-]> :Unite file_mru -winheight=10 -direction=botright<CR>
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
