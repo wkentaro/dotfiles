@@ -31,6 +31,10 @@
     uri: https://github.com/jsk-ros-pkg/jsk_docs.git
     version: master
 - git:
+    local-name: jsk-ros-pkg/jsk_travis
+    uri: https://github.com/jsk-ros-pkg/jsk_travis.git
+    version: master
+- git:
     local-name: mitmul/chainer-cifar10
     uri: https://github.com/mitmul/chainer-cifar10
     version: master
