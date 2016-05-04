@@ -524,7 +524,7 @@ endfunction
 " --------------------------------------------------------
 " neoyank.vim
 " --------------------------------------------------------
-nmap <silent> <Leader>a :Unite history/yank<CR>
+nmap <silent> <Leader>y :Unite history/yank -direction=botright<CR>
 
 " --------------------------------------------------------
 " open-browser.vim
