@@ -509,22 +509,22 @@ let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/neosnippe
 " unite.vim
 " --------------------------------------------------------
 let g:unite_enable_start_insert=1
-" noremap <C-p> :Unite buffer -direction=botright<CR>
-" noremap <C-n> :Unite -buffer-name=file file <CR>
 noremap <C-]> :Unite file_mru -winheight=10 -direction=botright<CR>
-noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
-au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
-au FileType unite inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
-au FileType unite nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
-au FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
-au FileType unite nnoremap <silent> <buffer> <C-c> :q<CR>
-au FileType unite inoremap <silent> <buffer> <C-c> <ESC>:q<CR>
+autocmd FileType unite call s:unite_my_settings()
+function! s:unite_my_settings()
+  " Overwrite settings.
+  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+  imap <buffer> <C-c>   <Plug>(unite_exit)
+
+  imap <silent><buffer><expr> <C-x>     unite#do_action('split')
+  imap <silent><buffer><expr> <C-v>     unite#do_action('vsplit')
+endfunction
 
 " --------------------------------------------------------
 " neoyank.vim
 " --------------------------------------------------------
 nmap <silent> <Leader>a :Unite history/yank<CR>
-
 
 " --------------------------------------------------------
 " open-browser.vim
