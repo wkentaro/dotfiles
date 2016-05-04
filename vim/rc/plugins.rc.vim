@@ -46,6 +46,8 @@ NeoBundle 'tomtom/tcomment_vim'
 
 NeoBundle 'bling/vim-airline'
 
+NeoBundle 'itchyny/calendar.vim'
+
 " git diff, log
 " https://github.com/tpope/vim-fugitive
 NeoBundle 'tpope/vim-fugitive'
@@ -561,3 +563,11 @@ let g:indent_guides_guide_size = 1
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=darkgray ctermbg=8
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  guibg=darkgray ctermbg=8
 noremap <silent> <Leader>d :IndentGuidesToggle<CR>
+
+" --------------------------------------------------------
+" calendar.vim
+" --------------------------------------------------------
+let g:calendar_google_calendar = 1
+let g:calendar_google_task = 1
+let g:calendar_view = 'week'
+let g:calendar_views = ['week', 'month', 'day', 'clock']
