@@ -544,6 +544,10 @@ highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
 if exists('g:loaded_fugitive')
   set statusline+=%{fugitive#statusline()}
 endif
+cnoreabbrev ga Gwrite
+cnoreabbrev gc Gcommit --verbose
+cnoreabbrev gst Gstatus
+cnoreabbrev gd Gdiff
 
 " --------------------------------------------------------
 " ConqueTerm
