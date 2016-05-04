@@ -46,6 +46,8 @@ roseus_completions:
   .roseus_completions
 sh:
   .sh
+tmux:
+  .tmux
 tmux.conf:
   .tmux.conf
 vim:
