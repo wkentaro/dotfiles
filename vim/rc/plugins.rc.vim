@@ -509,7 +509,7 @@ let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/neosnippe
 " unite.vim
 " --------------------------------------------------------
 let g:unite_enable_start_insert=1
-nmap <silent> <Leader>s :Unite -quick-match buffer<CR>
+nmap <silent> <Leader>s :Unite -winheight=10 -direction=botright -quick-match buffer<CR>
 noremap <C-]> :Unite file_mru -winheight=10 -direction=botright<CR>
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
