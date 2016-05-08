@@ -224,13 +224,15 @@ show_python () {
 
 show_ros () {
   CATKIN_TOOLS_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('catkin-tools').version)")
-  echo "CATKIN_TOOLS: $CATKIN_TOOLS_VERSION"
+  echo "CATKIN_TOOLS_VERSION: $CATKIN_TOOLS_VERSION"
   echo "CMAKE_PREFIX_PATH: $CMAKE_PREFIX_PATH"
 }
 
-show_cuda () {
+show_dnn () {
+  # cuda
   CUDA_VERSION=$(command nvcc --version | sed -n 4p | sed 's/.*, release .*, V\(.*\)/\1/')
   echo "CUDA_VERSION: $CUDA_VERSION"
+  # cudnn
   if [ -e $CUDA_PATH/include/cudnn.h ]; then
     CUDNN_MAJOR=$(cat $CUDA_PATH/include/cudnn.h | grep '#define CUDNN_MAJOR' | awk '{print $3}')
     CUDNN_MINOR=$(cat $CUDA_PATH/include/cudnn.h | grep '#define CUDNN_MINOR' | awk '{print $3}')
@@ -238,4 +240,10 @@ show_cuda () {
     CUDNN_VERSION="$CUDNN_MAJOR.$CUDNN_MINOR.$CUDNN_PATCHLEVEL"
     echo "CUDNN_VERSION: $CUDNN_VERSION"
   fi
+  # chainer
+  CHAINER_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('chainer').version)")
+  echo "CHAINER_VERSION: $CHAINER_VERSION"
+  # tensorflow
+  TENSORFLOW_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('tensorflow').version)")
+  echo "TENSORFLOW_VERSION: $TENSORFLOW_VERSION"
 }
