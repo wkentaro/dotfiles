@@ -218,15 +218,24 @@ slacker_notify_done () {
 # ----------------------------------------------------
 # Show Setup
 # ----------------------------------------------------
-show_python_executable () {
+show_python () {
   echo "PYTHON_EXECUTABLE: $(command which python)"
 }
 
-show_cmake_prefix_path () {
+show_ros () {
+  CATKIN_TOOLS_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('catkin-tools').version)")
+  echo "CATKIN_TOOLS: $CATKIN_TOOLS_VERSION"
   echo "CMAKE_PREFIX_PATH: $CMAKE_PREFIX_PATH"
 }
 
-show_catkin_tools_version () {
-  CATKIN_TOOLS_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('catkin-tools').version)")
-  echo "CATKIN_TOOLS: $CATKIN_TOOLS_VERSION"
+show_cuda () {
+  CUDA_VERSION=$(command nvcc --version | sed -n 4p | sed 's/.*, release .*, V\(.*\)/\1/')
+  echo "CUDA_VERSION: $CUDA_VERSION"
+  if [ -e $CUDA_PATH/include/cudnn.h ]; then
+    CUDNN_MAJOR=$(cat $CUDA_PATH/include/cudnn.h | grep '#define CUDNN_MAJOR' | awk '{print $3}')
+    CUDNN_MINOR=$(cat $CUDA_PATH/include/cudnn.h | grep '#define CUDNN_MINOR' | awk '{print $3}')
+    CUDNN_PATCHLEVEL=$(cat $CUDA_PATH/include/cudnn.h | grep '#define CUDNN_PATCHLEVEL' | awk '{print $3}')
+    CUDNN_VERSION="$CUDNN_MAJOR.$CUDNN_MINOR.$CUDNN_PATCHLEVEL"
+    echo "CUDNN_VERSION: $CUDNN_VERSION"
+  fi
 }
