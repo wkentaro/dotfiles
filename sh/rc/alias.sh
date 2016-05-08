@@ -233,10 +233,10 @@ show_dnn () {
   CUDA_VERSION=$(command nvcc --version | sed -n 4p | sed 's/.*, release .*, V\(.*\)/\1/')
   echo "CUDA_VERSION: $CUDA_VERSION"
   # cudnn
-  if [ -e $CUDA_PATH/include/cudnn.h ]; then
-    CUDNN_MAJOR=$(cat $CUDA_PATH/include/cudnn.h | grep '#define CUDNN_MAJOR' | awk '{print $3}')
-    CUDNN_MINOR=$(cat $CUDA_PATH/include/cudnn.h | grep '#define CUDNN_MINOR' | awk '{print $3}')
-    CUDNN_PATCHLEVEL=$(cat $CUDA_PATH/include/cudnn.h | grep '#define CUDNN_PATCHLEVEL' | awk '{print $3}')
+  if [ -e $CUDA_HOME/include/cudnn.h ]; then
+    CUDNN_MAJOR=$(cat $CUDA_HOME/include/cudnn.h | grep '#define CUDNN_MAJOR' | awk '{print $3}')
+    CUDNN_MINOR=$(cat $CUDA_HOME/include/cudnn.h | grep '#define CUDNN_MINOR' | awk '{print $3}')
+    CUDNN_PATCHLEVEL=$(cat $CUDA_HOME/include/cudnn.h | grep '#define CUDNN_PATCHLEVEL' | awk '{print $3}')
     CUDNN_VERSION="$CUDNN_MAJOR.$CUDNN_MINOR.$CUDNN_PATCHLEVEL"
     echo "CUDNN_VERSION: $CUDNN_VERSION"
   fi
