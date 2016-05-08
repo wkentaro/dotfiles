@@ -213,3 +213,20 @@ slacker_notify_done () {
   "${cmd[@]}"
   echo "@wkentaro '$cmd' is done at '$(date)' with exitcode '$?'" | slacker -u wkentaro
 }
+
+
+# ----------------------------------------------------
+# Show Setup
+# ----------------------------------------------------
+show_python_executable () {
+  echo "PYTHON_EXECUTABLE: $(command which python)"
+}
+
+show_cmake_prefix_path () {
+  echo "CMAKE_PREFIX_PATH: $CMAKE_PREFIX_PATH"
+}
+
+show_catkin_tools_version () {
+  CATKIN_TOOLS_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('catkin-tools').version)")
+  echo "CATKIN_TOOLS: $CATKIN_TOOLS_VERSION"
+}
