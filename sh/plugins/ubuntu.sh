@@ -13,3 +13,5 @@ alias apuu='sudo aptitude update && sudo aptitude upgrade'
 compdef _apuu apuu='sudo aptitude update && sudo aptitude upgrade'
 
 alias allpkgs='aptitude search -F "%p" --disable-columns $1'
+
+alias shutdown='sudo shutdown -h now'
