@@ -1,6 +1,10 @@
 ========
 dotfiles
 ========
+
+.. image:: https://badge.fury.io/gh/wkentaro%2Fdotfiles.svg
+    :target: https://badge.fury.io/gh/wkentaro%2Fdotfiles
+
 Dotfiles in home directory.
 
 These are dotfiles for below utils.
