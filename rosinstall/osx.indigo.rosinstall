@@ -45,11 +45,11 @@
 - git:
     local-name: ros-perception/image_pipeline
     uri: https://github.com/ros-perception/image_pipeline.git
-    version: 1.12.16
+    version: indigo
 - git:
     local-name: ros-perception/vision_opencv
     uri: https://github.com/ros-perception/vision_opencv.git
-    version: 1.11.12
+    version: indigo
 - git:
     local-name: start-jsk/jsk_apc
     uri: https://github.com/start-jsk/jsk_apc.git
