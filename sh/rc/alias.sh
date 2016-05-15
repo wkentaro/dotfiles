@@ -223,7 +223,7 @@ show_python () {
 }
 
 show_ros () {
-  CATKIN_TOOLS_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('catkin-tools').version)")
+  CATKIN_TOOLS_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('catkin-tools').version)" 2>/dev/null)
   echo "ROS_DISTRO: $ROS_DISTRO"
   echo "CATKIN_TOOLS_VERSION: $CATKIN_TOOLS_VERSION"
   echo "CMAKE_PREFIX_PATH: $CMAKE_PREFIX_PATH"
@@ -242,9 +242,19 @@ show_dnn () {
     echo "CUDNN_VERSION: $CUDNN_VERSION"
   fi
   # chainer
-  CHAINER_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('chainer').version)")
-  echo "CHAINER_VERSION: $CHAINER_VERSION"
+  CHAINER_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('chainer').version)" 2>/dev/null)
+  if [ ! -z $CHAINER_VERSION ]; then
+    echo "CHAINER_VERSION: $CHAINER_VERSION"
+  fi
   # tensorflow
-  TENSORFLOW_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('tensorflow').version)")
-  echo "TENSORFLOW_VERSION: $TENSORFLOW_VERSION"
+  TENSORFLOW_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('tensorflow').version)" 2>/dev/null)
+  if [ ! -z $TENSORFLOW_VERSION ]; then
+    echo "TENSORFLOW_VERSION: $TENSORFLOW_VERSION"
+  fi
+}
+
+
+init_autoenv () {
+  vim .autoenv.zsh
+  vim .autoenv_leave.zsh
 }
