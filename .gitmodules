@@ -1,9 +1,6 @@
 [submodule "private"]
 	path = private
 	url = https://github.com/wkentaro/private.git
-[submodule "vim/bundle/neobundle.vim"]
-	path = vim/bundle/neobundle.vim
-	url = https://github.com/Shougo/neobundle.vim
 [submodule "emacs.d/packages/platform-p"]
 	path = emacs.d/packages/platform-p
 	url = https://github.com/ongaeshi/platform-p
