@@ -7,4 +7,4 @@ cd vim-7.4.865/src
 make distclean
 ./configure
 make
-make install PREFIX=$HOME/.local
+make install prefix=~/.local

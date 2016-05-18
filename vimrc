@@ -188,6 +188,8 @@ call s:source_rc('mappings.rc.vim')
 " ----------------------------------------------------------
 " Plugins
 " ----------------------------------------------------------
-if &g:loadplugins
-  call s:source_rc('plugins.rc.vim')
+if v:version >= 740
+  if &g:loadplugins
+    call s:source_rc('plugins.rc.vim')
+  endif
 endif
