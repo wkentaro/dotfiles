@@ -209,9 +209,9 @@ startbitbucket () {
 
 
 slacker_notify_done () {
-  cmd=($*)
-  "${cmd[@]}"
-  echo "@wkentaro '$cmd' is done at '$(date)' with exitcode '$?'" | slacker -u wkentaro
+  "$@"
+  local retcode=$?
+  echo "@wkentaro '$@' is done at '$(date)' with exitcode '${retcode}'" | slacker -u wkentaro
 }
 
 
