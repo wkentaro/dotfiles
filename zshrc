@@ -356,11 +356,6 @@ if [ "$(uname)" = "Linux" ]; then
 elif [ "$(uname)" = "Darwin" ]; then
   export COWPATH=/usr/local/share/cows:$HOME/.cows
 fi
-# if [ -z $NO_COWSAY ]; then
-#   if [ $COLUMNS -gt 79 ]; then
-#     echo "Current time is $(date +'%a %b %d %Y %H:%M')" | cowthink -f snake-hi-kentaro
-#   fi
-# fi
 
 fancy-ctrl-z () {
   if [[ $#BUFFER -eq 0 ]]; then
