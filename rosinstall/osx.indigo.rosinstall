@@ -43,18 +43,6 @@
     uri: https://github.com/jsk-ros-pkg/jsk_visualization.git
     version: master
 - git:
-    local-name: ros-perception/image_pipeline
-    uri: https://github.com/ros-perception/image_pipeline.git
-    version: indigo
-- git:
-    local-name: ros-perception/opencv_apps
-    uri: https://github.com/ros-perception/opencv_apps.git
-    version: indigo
-- git:
-    local-name: ros-perception/vision_opencv
-    uri: https://github.com/ros-perception/vision_opencv.git
-    version: indigo
-- git:
     local-name: start-jsk/jsk_apc
     uri: https://github.com/start-jsk/jsk_apc.git
     version: master
