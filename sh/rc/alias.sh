@@ -148,6 +148,10 @@ else
   alias lsa='gls -lahF --show-control-chars --color=always'
 fi
 
+if hash gls &>/dev/null; then
+  alias sleep=gsleep
+fi
+
 convert_to_gif () {
   if which ffmpeg &>/dev/null; then
     ffmpeg -i $1 -pix_fmt rgb8 -r 10 -f gif - | gifsicle --optimize=3 --delay=3

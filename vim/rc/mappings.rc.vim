@@ -11,6 +11,9 @@ let maplocalleader='\\'
 
 inoremap # X<BS>#
 
+" FIXME: C-h does not work...
+imap <C-h> <BS>
+
 
 " ----------------------------------------------------------
 " Delete keymap
