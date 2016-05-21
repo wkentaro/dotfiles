@@ -121,6 +121,7 @@ ZSH=$HOME/.zsh/oh-my-zsh
 source $ZSH/oh-my-zsh.sh 2>/dev/null
 # FIXME: no completion function without this
 compinit 2>/dev/null
+unalias please
 
 # https://github.com/wkentaro/pycd
 type pycd.sh &>/dev/null && source `which pycd.sh`

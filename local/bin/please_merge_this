@@ -1,0 +1,75 @@
+#!/usr/bin/env python
+
+from __future__ import print_function
+
+import argparse
+from distutils.spawn import find_executable
+import re
+import shlex
+import subprocess
+import sys
+import time
+
+
+def expression_to_duration(expr):
+    if expr.endswith('h'):
+        expr = int(expr[:-1]) * 60 * 60
+    elif expr.endswith('m'):
+        expr = int(expr[:-1]) * 60
+    elif expr.endswith('s'):
+        expr = int(expr[:-1])
+    else:
+        try:
+            expr = int(expr)
+        except ValueError:
+            print('Unable to convert expression {0} to duration'.format(expr))
+            return
+    return expr
+
+
+def main():
+    if not find_executable('ghi'):
+        print("Please install 'ghi' by 'gem install ghi'", file=sys.stderr)
+        sys.exit(1)
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('url', nargs='+')
+    parser.add_argument('-s', '--sleep', default='10s',
+            help='Sleep duration. default is 10s.')
+    args = parser.parse_args()
+
+    urls = args.url
+    sleep = args.sleep
+
+    duration = expression_to_duration(sleep)
+    if duration is None:
+        return
+    print('Sleeping for {0} seconds ({1}).'.format(duration, sleep))
+    time.sleep(duration)
+
+    for url in urls:
+        m = re.match('^https?://github.com/(.*)/(.*)/pull/([0-9]*)', url)
+        if m is None:
+            print('ERROR: Unexpected GitHub PR url {0}'.format(url))
+            continue
+        else:
+            owner, repo, pr_num = m.groups()
+
+        # check if open/closed
+        cmd = 'ghi --no-pager show {pr_num}'.format(pr_num=pr_num)
+        line = subprocess.check_output(shlex.split(cmd)).splitlines()[1]
+        if '[closed]' in line:
+            print('The PR is already closed: {0}'.format(url), file=sys.stderr)
+            continue
+
+        # comment "please merge this"
+        comment = '''\
+Please merge this.
+<img src="https://cdn.meme.am/instances/67078973.jpg" width="30%" />'''
+        cmd = "ghi comment {pr_num} -m '{comment}' -- {owner}/{repo}"\
+            .format(owner=owner, repo=repo, pr_num=pr_num, comment=comment)
+        subprocess.call(shlex.split(cmd))
+
+
+if __name__ == '__main__':
+    main()

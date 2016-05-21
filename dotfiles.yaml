@@ -32,6 +32,8 @@ ipython_config.py:
   .ipython/profile_default/ipython_config.py
 lessfilter:
   .lessfilter
+local/bin/please_merge_this:
+  .local/bin/please_merge_this
 nvimrc:
   .nvimrc
 percol.d:
