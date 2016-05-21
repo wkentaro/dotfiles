@@ -27,6 +27,15 @@ def expression_to_duration(expr):
     return expr
 
 
+def parse_pr_url(url):
+    m = re.match('^https?://github.com/(.*)/(.*)/pull/([0-9]*)', url)
+    if m is None:
+        print('ERROR: Unexpected GitHub PR url {0}'.format(url))
+        return
+    owner, repo, pr_num = m.groups()
+    return owner, repo, pr_num
+
+
 def main():
     if not find_executable('ghi'):
         print("Please install 'ghi' by 'gem install ghi'", file=sys.stderr)
@@ -41,20 +50,20 @@ def main():
     urls = args.url
     sleep = args.sleep
 
+    # parse PR url first
+    prs = filter(None, [parse_pr_url(url) for url in urls])
+    if not prs:
+        print('No PRs to comment on.', file=sys.stderr)
+        sys.exit(1)
+
+    # convert expression to duration with seconds
     duration = expression_to_duration(sleep)
     if duration is None:
-        return
+        sys.exit(1)
     print('Sleeping for {0} seconds ({1}).'.format(duration, sleep))
     time.sleep(duration)
 
-    for url in urls:
-        m = re.match('^https?://github.com/(.*)/(.*)/pull/([0-9]*)', url)
-        if m is None:
-            print('ERROR: Unexpected GitHub PR url {0}'.format(url))
-            continue
-        else:
-            owner, repo, pr_num = m.groups()
-
+    for owner, repo, pr_num in prs:
         # check if open/closed
         cmd = 'ghi --no-pager show {pr_num}'.format(pr_num=pr_num)
         line = subprocess.check_output(shlex.split(cmd)).splitlines()[1]
