@@ -65,7 +65,8 @@ def main():
 
     for owner, repo, pr_num in prs:
         # check if open/closed
-        cmd = 'ghi --no-pager show {pr_num}'.format(pr_num=pr_num)
+        cmd = 'ghi --no-pager show {pr_num} -- {owner}/{repo}'\
+            .format(owner=owner, repo=repo, pr_num=pr_num)
         line = subprocess.check_output(shlex.split(cmd)).splitlines()[1]
         if '[closed]' in line:
             print('The PR is already closed: {0}'.format(url), file=sys.stderr)
