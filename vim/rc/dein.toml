@@ -89,8 +89,9 @@ repo = 'Shougo/neomru.vim'
 [[plugins]]
 repo = 'Shougo/neosnippet.vim'
 
-[[plugins]]
-repo = 'Shougo/neosnippet-snippets'
+# FIXME: neosnippet-snippets won't work with dein.vim
+# [[plugins]]
+# repo = 'Shougo/neosnippet-snippets'
 
 [[plugins]]
 # RestructuredText
