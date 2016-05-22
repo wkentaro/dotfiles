@@ -1,14 +1,18 @@
 snippet launch
 abbr    <launch></launch>
 	<launch>
+	
 	  ${1}
+	
 	</launch>
+
 snippet test
 abbr    <test></test>
 	<test test-name="${1}"
 	      name="$1"
 	      pkg="${2}" type="${3}">
 	</test>
+
 snippet test_with_option
 abbr    <test time-limit="" retry=""></test>
 	<test test-name="${1}"
@@ -16,51 +20,64 @@ abbr    <test time-limit="" retry=""></test>
 	      pkg="${2}" type="${3}"
 	      time-limit="${4}" retry="${5}">
 	</test>
+
 snippet node
 abbr    <node name=" " pkg=" " type=" " />
 	<node name="${1}"
 	      pkg="${2}" type="${3}">
 	</node>
+
 snippet nodelet_manager
 abbr    <node pkg="nodelet" type="nodelet" args="manager" />
 	<node name="${1}"
 	      pkg="nodelet" type="nodelet" args="manager" />
+
 snippet arg
 abbr    <arg name=" " />
 	<arg name="${1}" />
+
 snippet argv
 abbr    <arg name=" " value=" " />
 	<arg name="${1}" value="${2}" />
+
 snippet argd
 abbr    <arg name=" " default=" " />
 	<arg name="${1}" default="${2}" />
+
 snippet remap
 abbr    <remap from=" " to=" " />
 	<remap from="${1}" to="${2}" />
+
 snippet param
 abbr    <param name=" " value=" " />
 	<param name="${1}" value="${2}" />
+
 snippet paramt
 abbr    <param name=" " type=" " value=" " />
 	<param name="${1}" type="${2}" value="${3}" />
+
 snippet rosparam
 abbr    <rosparam  />
 	<rosparam>
 		${1}
 	</rosparam>
+
 snippet rosparam_subst_value
 abbr    <rosparam subst_value="" />
 	<rosparam subst_value="${1}">
 		${2}
 	</rosparam>
+
 snippet rosparam_load
 abbr    <rosparam command="load" file=" " />
 	<rosparam command="load" file=" " />
+
 snippet include
 abbr    <include file=" " />
 	<include file="${1}">
 		${2}
 	</include>
+
 snippet nodelet_standalone
 abbr <node pkg="nodelet" type="nodelet" arg="standalone" />
 	<node name="${1}"
@@ -68,6 +85,7 @@ abbr <node pkg="nodelet" type="nodelet" arg="standalone" />
 	      args="standalone ${2}/${3}">
 		${4}
 	</node>
+
 snippet nodelet_load
 abbr <node pkg="nodelet" type="nodelet" arg="load" />
 	<node name="${1}"
