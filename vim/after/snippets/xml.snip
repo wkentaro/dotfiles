@@ -93,3 +93,21 @@ abbr <node pkg="nodelet" type="nodelet" arg="load" />
 	      args="load ${2}/${3} ${4}">
 		${5}
 	</node>
+
+snippet group_ns
+abbr <group ns="..">
+	<group ns="${1}">
+		${0}
+	</group>
+
+snippet group_if
+abbr <group if="$(... ... )">
+	<group if="${1}">
+		${0}
+	</group>
+
+snippet group_unless
+abbr <group unless="$(... ...)">
+	<group unless="${1}">
+		${0}
+	</group>

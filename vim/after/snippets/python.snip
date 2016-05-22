@@ -79,9 +79,14 @@ options     head
 
 snippet     ifmain
 abbr        if __name__ == '__main__': ...
-alias       main
 options     head
 	if __name__ == '__main__':
+		${0:pass}
+
+snippet     main
+abbr        def main(): ...
+options     head
+	def main():
 		${0:pass}
 
 snippet     tryexcept
