@@ -43,8 +43,8 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('url', nargs='+')
-    parser.add_argument('-s', '--sleep', default='10s',
-            help='Sleep duration. default is 10s.')
+    parser.add_argument('-s', '--sleep', default='0s',
+            help='Sleep duration. default is 0s.')
     args = parser.parse_args()
 
     urls = args.url
