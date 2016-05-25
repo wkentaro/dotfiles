@@ -90,3 +90,8 @@ abbr		file(GLOB_RECURSE ...)
 options		head
 	file(GLOB_RECURSE ${1:#:var} ${2:#:glob_paths})
 
+snippet print_debug
+abbr >>>>>>>>>> ... <<<<<<<<<<<<
+	message(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+	message("${1:DEBUG}")
+	message("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
