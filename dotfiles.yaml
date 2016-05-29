@@ -54,6 +54,8 @@ tmux:
   .tmux
 tmux.conf:
   .tmux.conf
+tmuxinator:
+  .tmuxinator
 vim:
   .vim
 vimrc:
