@@ -31,6 +31,10 @@
     uri: https://github.com/fetchrobotics/fetch_ros.git
     version: indigo-devel
 - git:
+    local-name: ipa320/softkinetic
+    uri: https://github.com/ipa320/softkinetic.git
+    version: indigo_dev
+- git:
     local-name: jsk-ros-pkg/jsk_common
     uri: https://github.com/jsk-ros-pkg/jsk_common.git
     version: master
