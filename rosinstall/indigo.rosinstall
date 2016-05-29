@@ -55,6 +55,10 @@
     uri: https://github.com/jsk-ros-pkg/jsk_visualization.git
     version: master
 - git:
+    local-name: ros-perception/opencv_apps
+    uri: https://github.com/ros-perception/opencv_apps.git
+    version: indigo
+- git:
     local-name: ros-simulation/gazebo_ros_demos
     uri: https://github.com/ros-simulation/gazebo_ros_demos.git
     version: master
