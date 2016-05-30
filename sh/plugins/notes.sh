@@ -23,5 +23,9 @@ nup () {
 }
 
 notes () {
-  open http://wkentaro-notes.readthedocs.org
+  if [ "$(uname -s)" = "Linux" ]; then
+    gnome-open "http://wkentaro-notes.readthedocs.org"
+  else
+    open "http://wkentaro-notes.readthedocs.org"
+  fi
 }
