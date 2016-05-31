@@ -1,7 +1,7 @@
 # ~/.tmuxinator/fcn_apc2015.yml
 
 name: fcn_apc
-root: ~/fcn/examples/apc2015
+root: ~
 
 # Optional tmux socket
 # socket_name: foo
@@ -28,10 +28,5 @@ root: ~/fcn/examples/apc2015
 # post: tmux -CC attach -t fcn_apc2015
 
 windows:
-  - editor:
-      layout: main-vertical
-      panes:
-        - vim
-        - ipython
-  - train: ls
-  - logs: tail -f snapshot/log.csv
+  - editor: cd ~/fcn/examples/apc2015 && vim
+  - train: cd ~/fcn/examples/apc2015
