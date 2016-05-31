@@ -84,7 +84,7 @@
     version: master
 - git:
     local-name: wkentaro/bthesis2016-paper
-    uri: git@bitbucket.org:wkentaro/bthesis2016-paper.git
+    uri: git@github.com:wkentaro/bthesis2016-paper.git
     version: master
 - git:
     local-name: wkentaro/chainer-fast-rcnn
@@ -105,6 +105,10 @@
 - git:
     local-name: wkentaro/gshell
     uri: git@github.com:wkentaro/gshell.git
+    version: master
+- git:
+    local-name: wkentaro/labelme
+    uri: https://github.com/wkentaro/labelme.git
     version: master
 - git:
     local-name: wkentaro/lora
