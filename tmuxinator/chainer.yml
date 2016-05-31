@@ -30,4 +30,4 @@ root: ~/chainer
 windows:
   - build: cd ~/chainer
   - editor: vim ~/chainer
-  - htop: htop
+  - run:
