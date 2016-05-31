@@ -19,6 +19,10 @@
     uri: https://github.com/euslisp/jskeus.git
     version: master
 - git:
+    local-name: fkie/catkin_lint
+    uri: https://github.com/fkie/catkin_lint.git
+    version: master
+- git:
     local-name: furushchev/creative-informatics
     uri: git@bitbucket.org:furushchev/creative-informatics
     version: master
@@ -73,6 +77,10 @@
 - git:
     local-name: vcstools/wstool
     uri: https://github.com/vcstools/wstool.git
+    version: master
+- git:
+    local-name: wkentaro/EffectivePython
+    uri: https://github.com/wkentaro/EffectivePython.git
     version: master
 - git:
     local-name: wkentaro/apc-od
