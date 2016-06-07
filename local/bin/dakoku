@@ -1,0 +1,61 @@
+#!/usr/bin/env python
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+import ConfigParser
+import os
+
+import click
+import pyvirtualdisplay
+import splinter
+
+
+CONTEXT_SETTINGS = dict(
+    help_option_names=['-h', '--help'],
+)
+
+
+def dakoku(action):
+    config = ConfigParser.RawConfigParser()
+    config.read(os.path.expanduser('~/.dakokurc'))
+    username = config.get('user', 'username')
+    password = config.get('user', 'password')
+    host = 'https://ut-ppsweb.adm.u-tokyo.ac.jp/cws/srwtimerec'
+
+    display = pyvirtualdisplay.Display(visible=0, size=(1024, 768))
+    display.start()
+
+    browser = splinter.Browser('firefox')
+    browser.visit(host)
+    browser.fill('user_id', username)
+    browser.fill('password', password)
+    if action == 'attend':
+        browser.find_by_name('syussya').click()
+    elif action == 'leave':
+        browser.find_by_name('taisya').click()
+    else:
+        raise ValueError
+    browser.quit()
+
+    display.stop()
+
+
+@click.group(context_settings=CONTEXT_SETTINGS)
+def cli():
+    pass
+
+
+@cli.command(name='attend', help='Dakoku for attendance')
+def cmd_attend():
+    dakoku('attend')
+
+
+@cli.command(name='leave', help='Dakoku for leaving')
+def cmd_leave():
+    dakoku('leave')
+
+
+if __name__ == '__main__':
+    cli()
