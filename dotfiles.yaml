@@ -38,6 +38,8 @@ local/bin/dakoku:
   .local/bin/dakoku
 local/bin/please_merge_this:
   .local/bin/please_merge_this
+local/bin/dakoku:
+  .local/bin/dakoku
 nvimrc:
   .nvimrc
 percol.d:
