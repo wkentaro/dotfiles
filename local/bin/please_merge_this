@@ -4,6 +4,7 @@ from __future__ import print_function
 
 import argparse
 from distutils.spawn import find_executable
+import random
 import re
 import shlex
 import subprocess
@@ -72,10 +73,16 @@ def main():
             print('The PR is already closed: {0}'.format(url), file=sys.stderr)
             continue
 
+        img_urls = [
+            'https://camo.githubusercontent.com/c8c380b758d6fbb9e7edfe3fccacf273a646819a/68747470733a2f2f6d65646961332e67697068792e636f6d2f6d656469612f787953505848646749575743512f67697068792e676966',
+            'https://camo.githubusercontent.com/9fc45525610e240a047efddac55044194e8f3c18/68747470733a2f2f6d65646961322e67697068792e636f6d2f6d656469612f36666a6c454142446e363079412f67697068792e676966',
+        ]
+        img_url = img_urls[random.randint(0, len(img_urls)-1)]
+
         # comment "please merge this"
         comment = '''\
 Please merge this.
-<img src="https://cdn.meme.am/instances/67078973.jpg" width="200px" />'''
+<img src="{url}" width="200px" />'''.format(url=img_url)
         cmd = "ghi comment {pr_num} -m '{comment}' -- {owner}/{repo}"\
             .format(owner=owner, repo=repo, pr_num=pr_num, comment=comment)
         subprocess.call(shlex.split(cmd))
