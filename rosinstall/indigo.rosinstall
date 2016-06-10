@@ -32,8 +32,8 @@
     version: indigo-devel
 - git:
     local-name: ipa320/softkinetic
-    uri: https://github.com/ipa320/softkinetic.git
-    version: indigo_dev
+    uri: https://github.com/k-okada/softkinetic.git
+    version: jsk_apc_fixed_rebase_for_knorh55
 - git:
     local-name: jsk-ros-pkg/jsk_common
     uri: https://github.com/jsk-ros-pkg/jsk_common.git

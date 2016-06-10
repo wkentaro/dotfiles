@@ -63,6 +63,10 @@
     uri: git://github.com/ros/rosdistro.git
     version: master
 - git:
+    local-name: scikit-image/scikit-image
+    uri: https://github.com/scikit-image/scikit-image.git
+    version: master
+- git:
     local-name: shelhamer/fcn.berkeleyvision.org
     uri: https://github.com/shelhamer/fcn.berkeleyvision.org.git
     version: master
