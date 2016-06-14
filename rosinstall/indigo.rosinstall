@@ -59,6 +59,10 @@
     uri: https://github.com/jsk-ros-pkg/jsk_visualization.git
     version: master
 - git:
+    local-name: ros-drivers/openni2_camera
+    uri: https://github.com/ros-drivers/openni2_camera.git
+    version: indigo-devel
+- git:
     local-name: ros-perception/opencv_apps
     uri: https://github.com/ros-perception/opencv_apps.git
     version: indigo
