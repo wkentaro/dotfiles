@@ -31,10 +31,6 @@
     uri: https://github.com/fetchrobotics/fetch_ros.git
     version: indigo-devel
 - git:
-    local-name: ipa320/softkinetic
-    uri: https://github.com/k-okada/softkinetic.git
-    version: jsk_apc_fixed_rebase_for_knorh55
-- git:
     local-name: jsk-ros-pkg/jsk_common
     uri: https://github.com/jsk-ros-pkg/jsk_common.git
     version: master
