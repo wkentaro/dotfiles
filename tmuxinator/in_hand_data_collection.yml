@@ -28,8 +28,19 @@ root: ~/
 # post: tmux -CC attach -t in_hand_data_collection
 
 windows:
-  - table: read && roslaunch jsk_2016_01_baxter_apc recognition_on_table.launch
-  - collect: read && roslaunch jsk_2016_01_baxter_apc in_hand_data_collection.launch
+  - table:
+    - ssh eyelash
+    - source ~/ros/wkentaro_ws/devel/setup.zsh
+    - export DISPLAY=:0
+    - read && roslaunch jsk_2016_01_baxter_apc recognition_on_table.launch
+  - collect:
+    - ssh satan
+    - source ~/ros/wkentaro_ws/devel/setup.zsh
+    - export DISPLAY=:0
+    - read && roslaunch jsk_2016_01_baxter_apc in_hand_data_collection.launch
   - data:
+    - ssh satan
+    - source ~/ros/wkentaro_ws/devel/setup.zsh
+    - export DISPLAY=:0
     - cd ~/.ros/jsk_2016_01_baxter_apc/in_hand_data_collection
     - ls
