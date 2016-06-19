@@ -32,7 +32,7 @@
     version: indigo-devel
 - git:
     local-name: jsk-ros-pkg/jsk_common
-    uri: https://github.com/wkentaro/jsk_common.git
+    uri: git@github.com:wkentaro/jsk_common.git
     version: develop
 - git:
     local-name: jsk-ros-pkg/jsk_model_tools
@@ -40,7 +40,7 @@
     version: master
 - git:
     local-name: jsk-ros-pkg/jsk_recognition
-    uri: https://github.com/jsk-ros-pkg/jsk_recognition.git
+    uri: git@github.com:wkentaro/jsk_recognition.git
     version: master
 - git:
     local-name: jsk-ros-pkg/jsk_robot
