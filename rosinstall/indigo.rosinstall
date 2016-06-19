@@ -41,7 +41,7 @@
 - git:
     local-name: jsk-ros-pkg/jsk_recognition
     uri: git@github.com:wkentaro/jsk_recognition.git
-    version: master
+    version: develop
 - git:
     local-name: jsk-ros-pkg/jsk_robot
     uri: https://github.com/jsk-ros-pkg/jsk_robot.git
