@@ -25,6 +25,7 @@ alias gml='git pull $GITHUB_USER $(git_current_branch)'
 alias gmpull='git pull $GITHUB_USER $(git_current_branch)'
 alias gmpnp='git pull $GITHUB_USER $(git_current_branch) && git push $GITHUB_USER $(git_current_branch)'
 
+alias gbg='git branch --all | command grep origin | sed "s/ *//g"'
 alias gbm='git branch --all | command grep $GITHUB_USER | sed "s/ *//g"'
 
 ggp () {
