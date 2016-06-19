@@ -32,8 +32,8 @@
     version: indigo-devel
 - git:
     local-name: jsk-ros-pkg/jsk_common
-    uri: https://github.com/jsk-ros-pkg/jsk_common.git
-    version: master
+    uri: https://github.com/wkentaro/jsk_common.git
+    version: develop
 - git:
     local-name: jsk-ros-pkg/jsk_model_tools
     uri: https://github.com/jsk-ros-pkg/jsk_model_tools.git
@@ -55,9 +55,17 @@
     uri: https://github.com/jsk-ros-pkg/jsk_visualization.git
     version: master
 - git:
+    local-name: ros-drivers/axis_camera
+    uri: https://github.com/wkentaro/axis_camera.git
+    version: develop
+- git:
     local-name: ros-drivers/openni2_camera
     uri: https://github.com/ros-drivers/openni2_camera.git
     version: indigo-devel
+- git:
+    local-name: ros-perception/image_pipeline
+    uri: https://github.com/wkentaro/image_pipeline.git
+    version: develop
 - git:
     local-name: ros-perception/opencv_apps
     uri: https://github.com/ros-perception/opencv_apps.git
@@ -76,8 +84,8 @@
     version: master
 - git:
     local-name: start-jsk/jsk_apc
-    uri: https://github.com/start-jsk/jsk_apc.git
-    version: master
+    uri: https://github.com/wkentaro/jsk_apc.git
+    version: develop
 - git:
     local-name: wkentaro/jsk_201604_cmo
     uri: https://github.com/wkentaro/jsk_201604_cmo.git
