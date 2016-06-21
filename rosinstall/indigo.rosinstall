@@ -52,8 +52,8 @@
     version: master
 - git:
     local-name: jsk-ros-pkg/jsk_visualization
-    uri: https://github.com/jsk-ros-pkg/jsk_visualization.git
-    version: master
+    uri: git@github.com:wkentaro/jsk_visualization.git
+    version: develop
 - git:
     local-name: ros-drivers/axis_camera
     uri: https://github.com/wkentaro/axis_camera.git
