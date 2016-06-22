@@ -84,7 +84,7 @@
     version: master
 - git:
     local-name: start-jsk/jsk_apc
-    uri: https://github.com/wkentaro/jsk_apc.git
+    uri: git@github.com:wkentaro/jsk_apc.git
     version: develop
 - git:
     local-name: wkentaro/jsk_201604_cmo
