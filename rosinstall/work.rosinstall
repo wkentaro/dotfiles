@@ -142,3 +142,7 @@
     local-name: wkentaro/pycd
     uri: git@github.com:wkentaro/pycd.git
     version: master
+- git:
+    local-name: wkentaro/wkentaro.com
+    uri: git@github.com:wkentaro/wkentaro.com.git
+    version: master
