@@ -56,8 +56,8 @@
     version: develop
 - git:
     local-name: ros-drivers/axis_camera
-    uri: https://github.com/wkentaro/axis_camera.git
-    version: develop
+    uri: https://github.com/ros-drivers/axis_camera.git
+    version: master
 - git:
     local-name: ros-drivers/openni2_camera
     uri: https://github.com/ros-drivers/openni2_camera.git
@@ -84,8 +84,8 @@
     version: master
 - git:
     local-name: start-jsk/jsk_apc
-    uri: git@github.com:wkentaro/jsk_apc.git
-    version: develop
+    uri: git@github.com:start-jsk/jsk_apc.git
+    version: master
 - git:
     local-name: wkentaro/jsk_201604_cmo
     uri: https://github.com/wkentaro/jsk_201604_cmo.git
