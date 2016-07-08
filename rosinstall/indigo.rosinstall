@@ -75,6 +75,14 @@
     uri: https://github.com/ros-perception/opencv_apps.git
     version: indigo
 - git:
+    local-name: ros-planning/moveit_robots
+    uri: https://github.com/ros-planning/moveit_robots.git
+    version: master
+- git:
+    local-name: ros-planning/moveit_ros
+    uri: https://github.com/ros-planning/moveit_ros.git
+    version: indigo-devel
+- git:
     local-name: ros-simulation/gazebo_ros_demos
     uri: https://github.com/ros-simulation/gazebo_ros_demos.git
     version: master
