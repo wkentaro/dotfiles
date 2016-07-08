@@ -87,6 +87,10 @@
     uri: https://github.com/ros-visualization/rqt_common_plugins.git
     version: master
 - git:
+    local-name: ros/ros_comm
+    uri: https://github.com/ros/ros_comm.git
+    version: kinetic-devel
+- git:
     local-name: start-jsk/jsk_apc
     uri: git@github.com:start-jsk/jsk_apc.git
     version: master
