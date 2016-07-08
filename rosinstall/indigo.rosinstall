@@ -23,6 +23,10 @@
     uri: https://github.com/RethinkRobotics/baxter_tools.git
     version: v1.2.0
 - git:
+    local-name: code-iai/iai_kinect2
+    uri: https://github.com/code-iai/iai_kinect2.git
+    version: master
+- git:
     local-name: fetchrobotics/fetch_gazebo
     uri: https://github.com/fetchrobotics/fetch_gazebo.git
     version: gazebo2
