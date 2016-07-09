@@ -100,8 +100,8 @@
     version: kinetic-devel
 - git:
     local-name: start-jsk/jsk_apc
-    uri: git@github.com:start-jsk/jsk_apc.git
-    version: master
+    uri: git@github.com:wkentaro/jsk_apc.git
+    version: develop
 - git:
     local-name: wkentaro/jsk_201604_cmo
     uri: https://github.com/wkentaro/jsk_201604_cmo.git
