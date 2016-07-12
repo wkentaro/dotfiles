@@ -59,6 +59,10 @@
     uri: git@github.com:wkentaro/jsk_visualization.git
     version: develop
 - git:
+    local-name: lucasw/screen_grab
+    uri: https://github.com/lucasw/screen_grab.git
+    version: master
+- git:
     local-name: ros-drivers/axis_camera
     uri: https://github.com/ros-drivers/axis_camera.git
     version: master
