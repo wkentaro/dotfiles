@@ -1,3 +1,7 @@
+if [ "$(uname -s)" != "Linux" ]; then
+  return
+fi
+
 alias aps='aptitude search'
 compdef _aps aps='aptitude search'
 
