@@ -103,6 +103,10 @@
     uri: https://github.com/ros-visualization/rqt_common_plugins.git
     version: master
 - git:
+    local-name: ros-visualization/rviz
+    uri: https://github.com/ros-visualization/rviz.git
+    version: indigo-devel
+- git:
     local-name: ros/ros_comm
     uri: https://github.com/ros/ros_comm.git
     version: kinetic-devel
