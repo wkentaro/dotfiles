@@ -50,6 +50,17 @@ if [ -d "/opt/ros" ]; then
   fi
   alias imv='image_view'
   alias imv2='image_view2'
+  _point_cloud_topics () {
+    local -a reply
+    if [[ ${CURRENT} = 2 ]]; then
+      reply=($(rostopic find sensor_msgs/PointCloud2))
+    fi
+    _describe 'values' reply
+  }
+  if which compdef &>/dev/null; then
+    compdef _point_cloud_topics point_cloud_view
+  fi
+  alias pcv='point_cloud_view'
   # nodelet
   alias nodelet_standalone='rosrun nodelet nodelet standalone'
 fi
