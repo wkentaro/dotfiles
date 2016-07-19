@@ -102,7 +102,7 @@ fi
 # zsh plugins
 # ---------------------------------
 
-source $HOME/.zsh/antibody/antibody/antibody.zsh
+source $HOME/.zsh/antibody/path.zsh
 
 antibody bundle < $HOME/.zsh/antibody/bundles.txt
 
