@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ -f ~/.zsh/antibody/antibody/bin/antibody ]; then
+if [ -f ~/.local/bin/antibody ]; then
   exit 0
 fi
 
