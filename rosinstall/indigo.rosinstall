@@ -1,28 +1,4 @@
 - git:
-    local-name: RethinkRobotics/baxter
-    uri: https://github.com/RethinkRobotics/baxter.git
-    version: v1.2.0
-- git:
-    local-name: RethinkRobotics/baxter_common
-    uri: https://github.com/RethinkRobotics/baxter_common.git
-    version: v1.2.0
-- git:
-    local-name: RethinkRobotics/baxter_examples
-    uri: https://github.com/RethinkRobotics/baxter_examples.git
-    version: v1.2.0
-- git:
-    local-name: RethinkRobotics/baxter_interface
-    uri: https://github.com/RethinkRobotics/baxter_interface.git
-    version: v1.2.0
-- git:
-    local-name: RethinkRobotics/baxter_simulator
-    uri: https://github.com/RethinkRobotics/baxter_simulator.git
-    version: v1.2.0
-- git:
-    local-name: RethinkRobotics/baxter_tools
-    uri: https://github.com/RethinkRobotics/baxter_tools.git
-    version: v1.2.0
-- git:
     local-name: code-iai/iai_kinect2
     uri: https://github.com/code-iai/iai_kinect2.git
     version: master
@@ -39,33 +15,13 @@
     uri: git@github.com:wkentaro/jsk_common.git
     version: develop
 - git:
-    local-name: jsk-ros-pkg/jsk_model_tools
-    uri: https://github.com/jsk-ros-pkg/jsk_model_tools.git
-    version: master
-- git:
     local-name: jsk-ros-pkg/jsk_recognition
     uri: git@github.com:wkentaro/jsk_recognition.git
     version: develop
 - git:
-    local-name: jsk-ros-pkg/jsk_robot
-    uri: https://github.com/jsk-ros-pkg/jsk_robot.git
-    version: master
-- git:
-    local-name: jsk-ros-pkg/jsk_roseus
-    uri: https://github.com/jsk-ros-pkg/jsk_roseus.git
-    version: master
-- git:
     local-name: jsk-ros-pkg/jsk_visualization
     uri: git@github.com:wkentaro/jsk_visualization.git
     version: develop
-- git:
-    local-name: lucasw/screen_grab
-    uri: https://github.com/lucasw/screen_grab.git
-    version: master
-- git:
-    local-name: ros-drivers/axis_camera
-    uri: https://github.com/ros-drivers/axis_camera.git
-    version: master
 - git:
     local-name: ros-drivers/openni2_camera
     uri: https://github.com/ros-drivers/openni2_camera.git
@@ -75,50 +31,6 @@
     uri: https://github.com/wkentaro/image_pipeline.git
     version: develop
 - git:
-    local-name: ros-perception/opencv_apps
-    uri: https://github.com/ros-perception/opencv_apps.git
-    version: indigo
-- git:
-    local-name: ros-perception/vision_opencv
-    uri: https://github.com/ros-perception/vision_opencv.git
-    version: indigo
-- git:
-    local-name: ros-planning/moveit_robots
-    uri: https://github.com/ros-planning/moveit_robots.git
-    version: master
-- git:
-    local-name: ros-planning/moveit_ros
-    uri: https://github.com/ros-planning/moveit_ros.git
-    version: indigo-devel
-- git:
-    local-name: ros-simulation/gazebo_ros_demos
-    uri: https://github.com/ros-simulation/gazebo_ros_demos.git
-    version: master
-- git:
-    local-name: ros-simulation/gazebo_ros_pkgs
-    uri: https://github.com/ros-simulation/gazebo_ros_pkgs.git
-    version: jade-devel
-- git:
-    local-name: ros-visualization/rqt_common_plugins
-    uri: https://github.com/ros-visualization/rqt_common_plugins.git
-    version: master
-- git:
-    local-name: ros-visualization/rviz
-    uri: https://github.com/ros-visualization/rviz.git
-    version: indigo-devel
-- git:
     local-name: ros/ros_comm
     uri: https://github.com/ros/ros_comm.git
     version: kinetic-devel
-- git:
-    local-name: start-jsk/jsk_apc
-    uri: git@github.com:wkentaro/jsk_apc.git
-    version: develop
-- git:
-    local-name: wkentaro/jsk_201604_cmo
-    uri: https://github.com/wkentaro/jsk_201604_cmo.git
-    version: master
-- git:
-    local-name: wkentaro/ros-pkg
-    uri: git@github.com:wkentaro/ros-pkg.git
-    version: master
