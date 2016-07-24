@@ -63,6 +63,8 @@ if [ -d "/opt/ros" ]; then
   alias pcv='point_cloud_view'
   # nodelet
   alias nodelet_standalone='rosrun nodelet nodelet standalone'
+  # dynamic_reconfigure
+  alias dynparam='rosrun dynamic_reconfigure dynparam'
 fi
 
 # wstool
