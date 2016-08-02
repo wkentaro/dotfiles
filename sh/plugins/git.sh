@@ -21,11 +21,14 @@ alias co='git checkout'
 
 alias gbug='git branch -u origin/$(git_current_branch)'
 alias gbum='git branch -u $GITHUB_USER/$(git_current_branch)'
+alias gul='git pull upstream $(git_current_branch)'
+alias gupull='git pull upstream $(git_current_branch)'
 alias gml='git pull $GITHUB_USER $(git_current_branch)'
 alias gmpull='git pull $GITHUB_USER $(git_current_branch)'
 alias gmpnp='git pull $GITHUB_USER $(git_current_branch) && git push $GITHUB_USER $(git_current_branch)'
 
 alias gbg='git branch --all | command grep origin | sed "s/ *//g"'
+alias gbu='git branch --all | command grep upstream | sed "s/ *//g"'
 alias gbm='git branch --all | command grep $GITHUB_USER | sed "s/ *//g"'
 
 ggp () {
@@ -72,6 +75,23 @@ _is_option () {
   return 1
 }
 
+grbu () {
+  local branch arg
+  local -a opts args
+  for arg in $@; do
+    if _is_option $arg; then
+      opts=($arg $opts)
+    else
+      args=($arg $args)
+    fi
+  done
+  if [ ${#args} -eq 0 ]; then
+    branch="master"
+  else
+    branch=${args[1]}
+  fi
+  git rebase upstream/$branch $opts
+}
 grbg () {
   local branch arg
   local -a opts args
@@ -91,10 +111,13 @@ grbg () {
 }
 if which compdef &>/dev/null; then
   compdef _git grbg=git-checkout 2>/dev/null
+  compdef _git grbu=git-checkout 2>/dev/null
 fi
 alias grbgi='grbg --interactive'
+alias grbui='grbu --interactive'
 if which compdef &>/dev/null; then
   compdef _git grbgi=git-checkout 2>/dev/null
+  compdef _git grbui=git-checkout 2>/dev/null
 fi
 
 alias gcsmg='gcmsg'
@@ -120,14 +143,23 @@ alias gbw='hub browse $@ 2>/dev/null'
 #}}}
 
 # alias gbd='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
-gbdra () {
-  local remote
+gbdg () {
+  local branch
   if [ $# -eq 0 ]; then
-    remote=$GITHUB_USER
+    branch=master
   else
-    remote=$1
+    branch=$1
   fi
-  git branch -r --merged origin/master | grep "$remote\\/" | sed "s/$remote\\///" | egrep -v "HEAD|master|develop|release" | xargs git push $remote --delete
+  git branch -r --merged origin/master | grep "$GITHUB_USER\\/" | sed "s/$GITHUB_USER\\///" | egrep -v "HEAD|master|develop|release|${branch}" | xargs git push $GITHUB_USER --delete
+}
+gbdu () {
+  local branch
+  if [ $# -eq 0 ]; then
+    branch=master
+  else
+    branch=$1
+  fi
+  git branch -r --merged upstream/$branch | grep "$GITHUB_USER\\/" | sed "s/$GITHUB_USER\\///" | egrep -v "HEAD|master|develop|release|${branch}" | xargs git push $GITHUB_USER --delete
 }
 gbdr () {
   local remote branch

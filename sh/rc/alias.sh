@@ -9,10 +9,8 @@ if which pygmentize &>/dev/null; then
 fi
 
 # date
-alias date1='date +"%Y-%m-%d"'
-alias date2='date +"%Y%m%d"'
-alias time1='date +"%H-%M-%S"'
-alias datetime1='date +"%Y-%m-%d-%H-%M-%S"'
+alias datestamp='date +"%Y%m%d"'
+alias timestamp='date +"%Y%m%d_%H%M%S"'
 
 # mv
 alias mvi='mv -i'
@@ -229,11 +227,11 @@ show_python () {
 show_ros () {
   CATKIN_TOOLS_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('catkin-tools').version)" 2>/dev/null)
   echo "ROS_DISTRO: $ROS_DISTRO"
-  echo "CATKIN_TOOLS_VERSION: $CATKIN_TOOLS_VERSION"
+  # echo "CATKIN_TOOLS_VERSION: $CATKIN_TOOLS_VERSION"
   echo "CMAKE_PREFIX_PATH: $CMAKE_PREFIX_PATH"
 }
 
-show_dnn () {
+show_cuda () {
   # cuda
   CUDA_VERSION=$(command nvcc --version | sed -n 4p | sed 's/.*, release .*, V\(.*\)/\1/')
   echo "CUDA_VERSION: $CUDA_VERSION"
@@ -245,6 +243,10 @@ show_dnn () {
     CUDNN_VERSION="$CUDNN_MAJOR.$CUDNN_MINOR.$CUDNN_PATCHLEVEL"
     echo "CUDNN_VERSION: $CUDNN_VERSION"
   fi
+}
+
+show_dnn () {
+  show_cuda
   # chainer
   CHAINER_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('chainer').version)" 2>/dev/null)
   if [ ! -z $CHAINER_VERSION ]; then

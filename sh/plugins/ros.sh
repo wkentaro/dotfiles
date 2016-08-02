@@ -81,6 +81,7 @@ wlsethub () {
 alias c='catkin'
 alias cb='catkin build'
 alias cbt='catkin bt'
+alias cbtt='catkin build --this --no-deps'
 alias crt='catkin run_tests'
 alias crtt='catkin run_tests --this --no-deps -iv'
 alias crl='catkin roslint'
