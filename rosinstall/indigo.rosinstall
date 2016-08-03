@@ -12,24 +12,24 @@
     version: indigo-devel
 - git:
     local-name: jsk-ros-pkg/jsk_common
-    uri: git@github.com:wkentaro/jsk_common.git
-    version: develop
+    uri: https://github.com/jsk-ros-pkg/jsk_common.git
+    version: master
 - git:
     local-name: jsk-ros-pkg/jsk_recognition
-    uri: git@github.com:wkentaro/jsk_recognition.git
-    version: develop
+    uri: https://github.com/jsk-ros-pkg/jsk_recognition.git
+    version: master
 - git:
     local-name: jsk-ros-pkg/jsk_visualization
-    uri: git@github.com:wkentaro/jsk_visualization.git
-    version: develop
+    uri: https://github.com/jsk-ros-pkg/jsk_visualization.git
+    version: master
 - git:
     local-name: ros-drivers/openni2_camera
     uri: https://github.com/ros-drivers/openni2_camera.git
     version: indigo-devel
 - git:
     local-name: ros-perception/image_pipeline
-    uri: https://github.com/wkentaro/image_pipeline.git
-    version: develop
+    uri: https://github.com/ros-perception/image_pipeline.git
+    version: indigo
 - git:
     local-name: ros-perception/vision_opencv
     uri: https://github.com/ros-perception/vision_opencv.git
