@@ -87,3 +87,43 @@ alias crtt='catkin run_tests --this --no-deps -iv'
 alias crl='catkin roslint'
 alias crlt='catkin roslint --this --no-deps -iv'
 alias cli='catkin lint'
+
+_get_ros_home () {
+  if [ "$ROS_HOME" != "" ]; then
+    echo $ROS_HOME
+  else
+    echo "$HOME/.ros"
+  fi
+}
+
+export ROSWS_LIST="/opt/ros/indigo"
+rosws () {
+  local ws
+  local ros_home=$(_get_ros_home)
+  if [ -e $ros_home/rosws ]; then
+    ws=$(cat $ros_home/rosws)
+    if [ "$ws" = "" ]; then
+      ws=/opt/ros/indigo
+    fi
+    if [ -e $ws/setup.zsh ]; then
+      source $ws/setup.zsh
+    else
+      export WSTOOL_DEFAULT_WORKSPACE=$ws/src
+      source $ws/devel/setup.zsh
+    fi
+  else
+    source /opt/ros/indigo/setup.zsh
+  fi
+  show_ros
+}
+rossetws () {
+  local ws
+  if [ ! $# -eq 1 ]; then
+    ws=$(echo $ROSWS_LIST | xargs -n1 | percol)
+  else
+    ws=$1
+  fi
+  local ros_home=$(_get_ros_home)
+  echo -e "$ws" > $ros_home/rosws
+  rosws
+}
