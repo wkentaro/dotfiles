@@ -11,6 +11,7 @@ abbr    <test></test>
 	<test test-name="${1}"
 	      name="$1"
 	      pkg="${2}" type="${3}">
+	  ${4}
 	</test>
 
 snippet test_with_option
@@ -19,6 +20,7 @@ abbr    <test time-limit="" retry=""></test>
 	      name="$1"
 	      pkg="${2}" type="${3}"
 	      time-limit="${4}" retry="${5}">
+	  ${6}
 	</test>
 
 snippet node
@@ -70,7 +72,7 @@ abbr    <rosparam subst_value="" />
 
 snippet rosparam_load
 abbr    <rosparam command="load" file=" " />
-	<rosparam command="load" file=" " />
+	<rosparam command="load" file="${1}" />
 
 snippet include
 abbr    <include file=" " />
