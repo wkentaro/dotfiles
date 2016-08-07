@@ -76,6 +76,14 @@ def main():
         img_urls = [
             'https://camo.githubusercontent.com/c8c380b758d6fbb9e7edfe3fccacf273a646819a/68747470733a2f2f6d65646961332e67697068792e636f6d2f6d656469612f787953505848646749575743512f67697068792e676966',
             'https://camo.githubusercontent.com/9fc45525610e240a047efddac55044194e8f3c18/68747470733a2f2f6d65646961322e67697068792e636f6d2f6d656469612f36666a6c454142446e363079412f67697068792e676966',
+            'https://cdn.meme.am/instances/400x/56569992.jpg',
+            'https://cdn.meme.am/instances/400x/65467812.jpg',
+            'https://cdn.meme.am/instances/65311258.jpg',
+            'https://cdn.meme.am/instances/63004458.jpg',
+            'http://m.memegen.com/ac03my.jpg',
+            'http://assets.diylol.com/hfs/346/5ba/7d3/resized/hobo-meme-generator-please-merge-my-pr-e35b52.jpg',
+            'https://www.ortussolutions.com/__media/pull_requests/please_sir_merge.jpg',
+            'http://s2.quickmeme.com/img/8a/8a55479006ca2daa7d3025704311292a8dcdc6da5af9f1d4782f7c502954c4cd.jpg',
         ]
         img_url = img_urls[random.randint(0, len(img_urls)-1)]
 
