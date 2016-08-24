@@ -98,3 +98,7 @@ git_current_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 alias current_branch=git_current_branch
+
+export VIM_COLORSCHEME='default'
+
+export EDITOR='vim'
