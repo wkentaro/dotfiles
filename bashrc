@@ -29,6 +29,7 @@ PS1='${debian_chroot:+($debian_chroot)}\e[35m\u\e[0m at \e[33m\h\e[0m in \e[32m\
 plugins=(
   $HOME/.sh/plugins/browse.sh
   $HOME/.sh/plugins/git.sh
+  $HOME/.sh/plugins/ros.sh
 )
 for plugin in ${plugins[@]}; do
   source $plugin
@@ -102,3 +103,4 @@ alias current_branch=git_current_branch
 export VIM_COLORSCHEME='default'
 
 export EDITOR='vim'
+export LESS='--tabs=4 --LONG-PROMPT --ignore-case --RAW-CONTROL-CHARS'
