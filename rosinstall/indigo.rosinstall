@@ -39,6 +39,10 @@
     uri: https://github.com/ros-perception/vision_opencv.git
     version: indigo
 - git:
+    local-name: ros/catkin
+    uri: https://github.com/ros/catkin.git
+    version: kinetic-devel
+- git:
     local-name: ros/ros_comm
     uri: https://github.com/ros/ros_comm.git
     version: kinetic-devel
