@@ -25,6 +25,7 @@ alias gdt='git difftool'
 alias gg='git gui citool'
 alias gga='git gui citool --amend'
 alias ggpnp='git pull origin $(current_branch) && git push origin $(current_branch)'
+alias ggl='git pull origin $(current_branch)'
 alias ggpull='git pull origin $(current_branch)'
 alias ggpur='git pull --rebase origin $(current_branch)'
 alias ggpush='git push origin $(current_branch)'
@@ -75,3 +76,12 @@ alias gup='git pull --rebase'
 alias gvt='git verify-tag'
 alias gwc='git whatchanged -p --abbrev-commit --pretty=medium'
 alias gwip='git add -A; git ls-files --deleted -z | xargs -r0 git rm; git commit -m "--wip--"'
+
+
+if type pbcopy &>/dev/null; then
+  alias C='pbcopy' # osx
+elif type xsel &>/dev/null; then
+  alias C='xsel --input --clipboard'  # linux
+elif type putclip &>/dev/null; then
+  alias C='putclip' # windows
+fi
