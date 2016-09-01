@@ -127,3 +127,5 @@ rossetws () {
   echo -e "$ws" > $ros_home/rosws
   rosws
 }
+
+export ROSCONSOLE_FORMAT='[${severity}] [${time}]: [${node}] [${function}] ${message}'
