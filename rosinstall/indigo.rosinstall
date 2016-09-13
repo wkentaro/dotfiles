@@ -23,6 +23,10 @@
     uri: https://github.com/jsk-ros-pkg/jsk_recognition.git
     version: master
 - git:
+    local-name: jsk-ros-pkg/jsk_robot
+    uri: https://github.com/jsk-ros-pkg/jsk_robot.git
+    version: 64619b9a15e0b132affe3b79470ebd7381f3c97e
+- git:
     local-name: jsk-ros-pkg/jsk_visualization
     uri: https://github.com/jsk-ros-pkg/jsk_visualization.git
     version: master
@@ -48,5 +52,5 @@
     version: kinetic-devel
 - git:
     local-name: start-jsk/jsk_apc
-    uri: https://github.com/start-jsk/jsk_apc.git
-    version: master
+    uri: git@github.com:wkentaro/jsk_apc.git
+    version: label-occupancy-octomap
