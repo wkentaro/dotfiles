@@ -40,6 +40,8 @@ local/bin/please_merge_this:
   .local/bin/please_merge_this
 local/bin/point_cloud_view:
   .local/bin/point_cloud_view
+local/bin/video_to_images:
+  .local/bin/video_to_images
 nvimrc:
   .nvimrc
 percol.d:
