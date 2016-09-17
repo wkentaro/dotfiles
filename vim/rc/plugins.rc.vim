@@ -238,10 +238,10 @@ if v:version > 703
       colorscheme default
   endtry
   hi Normal ctermbg=none
-  " hi NonText ctermbg=none
+  hi NonText ctermbg=none
   hi Normal ctermfg=none
-  " hi ColorColumn ctermbg=8
-  " hi Visual ctermbg=0
+  hi ColorColumn ctermbg=8
+  hi Visual ctermbg=0
 endif
 
 " --------------------------------------------------------
