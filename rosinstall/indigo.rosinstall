@@ -43,14 +43,6 @@
     uri: https://github.com/ros-perception/vision_opencv.git
     version: indigo
 - git:
-    local-name: ros/nodelet_core
-    uri: https://github.com/ros/nodelet_core.git
-    version: indigo-devel
-- git:
-    local-name: ros/ros_comm
-    uri: https://github.com/ros/ros_comm.git
-    version: kinetic-devel
-- git:
     local-name: start-jsk/jsk_apc
-    uri: git@github.com:wkentaro/jsk_apc.git
-    version: label-occupancy-octomap
+    uri: https://github.com/start-jsk/jsk_apc.git
+    version: master
