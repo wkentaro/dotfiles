@@ -2,29 +2,30 @@
 
 import argparse
 import os
+import os.path as osp
 import subprocess
 import yaml
 
 
 def install_dotfiles(force, dry_run):
-    this_dir = os.path.dirname(os.path.abspath(__file__))
-    home_dir = os.path.expanduser('~')
+    this_dir = osp.dirname(osp.abspath(__file__))
+    home_dir = osp.expanduser('~')
 
-    with open(os.path.join(this_dir, 'dotfiles.yaml')) as f:
+    with open(osp.join(this_dir, 'dotfiles.yaml')) as f:
         link_config = yaml.load(f)
 
     for from_, to in link_config.items():
-        from_ = os.path.join(this_dir, from_)
-        to = os.path.join(home_dir, to)
+        from_ = osp.join(this_dir, from_)
+        to = osp.join(home_dir, to)
         if dry_run:
             print('{0} -> {1}'.format(from_, to))
         else:
-            if not os.path.exists(os.path.dirname(to)):
-                os.makedirs(os.path.dirname(to))
-            if not force and os.path.exists(to):
+            if not osp.exists(osp.dirname(to)):
+                os.makedirs(osp.dirname(to))
+            if not force and osp.exists(to):
                 continue
-            if os.path.islink(to):
-                if force and not os.path.isdir(to):
+            if osp.islink(to):
+                if force and not osp.isdir(to):
                     os.system('ln -fs {0} {1}'.format(from_, to))
                 else:
                     print('skipping: {0}'.format(from_))
@@ -33,14 +34,14 @@ def install_dotfiles(force, dry_run):
 
 
 def install_commands():
-    bin_path = os.path.expanduser('~/.local/bin')
-    if not os.path.exists(bin_path):
+    bin_path = osp.expanduser('~/.local/bin')
+    if not osp.exists(bin_path):
         os.makedirs(bin_path)
 
-    this_dir = os.path.dirname(os.path.abspath(__file__))
-    scripts_dir = os.path.join(this_dir, 'install_scripts')
+    this_dir = osp.dirname(osp.abspath(__file__))
+    scripts_dir = osp.join(this_dir, 'install_scripts')
     for script in os.listdir(scripts_dir):
-        script = os.path.join(scripts_dir, script)
+        script = osp.join(scripts_dir, script)
         if not os.access(script, os.X_OK):
             continue
         subprocess.call(script, shell=True)
