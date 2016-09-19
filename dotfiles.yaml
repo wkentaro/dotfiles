@@ -42,6 +42,8 @@ local/bin/point_cloud_view:
   .local/bin/point_cloud_view
 local/bin/video_to_images:
   .local/bin/video_to_images
+local/bin/video_speed_up:
+  .local/bin/video_speed_up
 nvimrc:
   .nvimrc
 percol.d:
