@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+
+import argparse
+import os
+import os.path as osp
+import shlex
+import shutil
+import subprocess
+
+
+def resize_video_with_scale(video_file, scale):
+    base, ext = osp.splitext(video_file)
+    out_file = base + '_x{scale}'.format(scale=scale) + ext
+    cmd = 'ffmpeg -i {video_file} -vf ' \
+          'scale=iw*{scale}:ih*{scale} {out_file}'
+    cmd = cmd.format(
+        video_file=video_file,
+        scale=scale,
+        out_file=out_file,
+    )
+    subprocess.call(shlex.split(cmd))
+
+
+def resize_video_with_max_size(video_file, max_size):
+    base, ext = osp.splitext(video_file)
+    out_file = base + '_{max_size}MB'.format(max_size=max_size) + ext
+    shutil.copy(video_file, out_file)
+    scale = 1.0
+    while os.stat(out_file).st_size > max_size * 1e6:
+        os.remove(out_file)
+        scale -= 0.01
+        cmd = 'ffmpeg -i {video_file} -vf ' \
+              'scale=iw*{scale}:ih*{scale} {out_file}'
+        cmd = cmd.format(
+            video_file=video_file,
+            scale=scale,
+            out_file=out_file,
+        )
+        retcode = subprocess.call(shlex.split(cmd))
+        if retcode != 0:
+            shutil.copy(video_file, out_file)
+    print('Finished with size: {size} [MB]'
+          .format(size=os.stat(out_file).st_size / 1e6))
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('video_file')
+    parser.add_argument('--scale', type=float, help='Scale of resizing')
+    parser.add_argument('--max-size', type=float, help='Max size in [MB]')
+    args = parser.parse_args()
+
+    video_file = args.video_file
+    scale = args.scale
+    max_size = args.max_size
+
+    if scale is None and max_size is None:
+        parser.error('You must specify either --scale or --max-size')
+    elif scale is not None and max_size is not None:
+        parser.error('You can not specify both --scale and --max-size')
+    else:
+        pass
+
+    if max_size:
+        resize_video_with_max_size(video_file, max_size)
+    else:
+        resize_video_with_scale(video_file, scale)
+
+
+if __name__ == '__main__':
+    main()
