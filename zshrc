@@ -93,7 +93,7 @@ export SSH_USER='wada'
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
 if [ -z $NO_LOAD_XMODMAP ]; then
-  if [ "$(uname)" = "Linux" -a "$DISPLAY" != "" ]; then
+  if [ "$(uname)" = "Linux" -a "$DISPLAY" = ":0" ]; then
     xmodmap ~/.Xmodmap
   fi
 fi
