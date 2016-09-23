@@ -27,6 +27,10 @@
     uri: https://github.com/jsk-ros-pkg/jsk_robot.git
     version: 64619b9a15e0b132affe3b79470ebd7381f3c97e
 - git:
+    local-name: jsk-ros-pkg/jsk_roseus
+    uri: https://github.com/jsk-ros-pkg/jsk_roseus.git
+    version: master
+- git:
     local-name: jsk-ros-pkg/jsk_visualization
     uri: https://github.com/jsk-ros-pkg/jsk_visualization.git
     version: master
@@ -35,6 +39,10 @@
     uri: https://github.com/ros-drivers/openni2_camera.git
     version: indigo-devel
 - git:
+    local-name: ros-perception/image_common
+    uri: https://github.com/ros-perception/image_common.git
+    version: hydro-devel
+- git:
     local-name: ros-perception/image_pipeline
     uri: https://github.com/ros-perception/image_pipeline.git
     version: indigo
@@ -42,6 +50,14 @@
     local-name: ros-perception/vision_opencv
     uri: https://github.com/ros-perception/vision_opencv.git
     version: indigo
+- git:
+    local-name: ros/common_msgs
+    uri: https://github.com/ros/common_msgs.git
+    version: indigo-devel
+- git:
+    local-name: ros/nodelet_core
+    uri: https://github.com/ros/nodelet_core.git
+    version: indigo-devel
 - git:
     local-name: start-jsk/jsk_apc
     uri: https://github.com/start-jsk/jsk_apc.git
