@@ -1,5 +1,6 @@
 hchbaw/opp.zsh
 Tarrasch/zsh-autoenv
+Tarrasch/zsh-bd
 rupa/z
 zsh-users/zsh-completions
 zsh-users/zsh-syntax-highlighting
