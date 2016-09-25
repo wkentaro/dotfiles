@@ -166,3 +166,6 @@ repo = 'rhysd/committia.vim'
 
 [[plugins]]
 repo = 'ctrlpvim/ctrlp.vim'
+
+[[plugins]]
+repo = 'digitaltoad/vim-pug'
