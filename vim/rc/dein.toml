@@ -169,3 +169,6 @@ repo = 'ctrlpvim/ctrlp.vim'
 
 [[plugins]]
 repo = 'digitaltoad/vim-pug'
+
+[[plugins]]
+repo = 'neilagabriel/vim-geeknote'
