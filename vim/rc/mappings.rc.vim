@@ -174,3 +174,9 @@ map <Leader>s? z=
 " Path handling
 " ----------------------------------------------------------
 nnoremap ,cd :cd %:p:h<CR>
+
+
+"--------------------------------------
+" Visualization handling
+"--------------------------------------
+nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
