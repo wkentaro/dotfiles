@@ -1,4 +1,8 @@
 - git:
+    local-name: RethinkRobotics/baxter_interface
+    uri: https://github.com/wkentaro/baxter_interface.git
+    version: baxtereus-devel
+- git:
     local-name: code-iai/iai_kinect2
     uri: https://github.com/code-iai/iai_kinect2.git
     version: master
@@ -27,10 +31,6 @@
     uri: https://github.com/jsk-ros-pkg/jsk_visualization.git
     version: master
 - git:
-    local-name: RethinkRobotics/baxter_interface
-    uri: https://github.com/wkentaro/baxter_interface.git
-    version: baxtereus-devel
-- git:
     local-name: ros-drivers/openni2_camera
     uri: https://github.com/ros-drivers/openni2_camera.git
     version: indigo-devel
@@ -58,6 +58,10 @@
     local-name: ros/nodelet_core
     uri: https://github.com/ros/nodelet_core.git
     version: indigo-devel
+- git:
+    local-name: ros/ros_comm
+    uri: https://github.com/ros/ros_comm.git
+    version: kinetic-devel
 - git:
     local-name: start-jsk/jsk_apc
     uri: https://github.com/start-jsk/jsk_apc.git
