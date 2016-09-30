@@ -172,3 +172,6 @@ repo = 'digitaltoad/vim-pug'
 
 [[plugins]]
 repo = 'neilagabriel/vim-geeknote'
+
+[[plugins]]
+repo = 'jaxbot/github-issues.vim'
