@@ -123,7 +123,7 @@ alias sl='ls'
 if type dircolors &>/dev/null; then
   [ -f $HOME/.dircolors.256dark ] && eval $(dircolors $HOME/.dircolors.256dark 2>/dev/null)
 fi
-if ls --color &>/dev/null; then
+if command ls --color &>/dev/null; then
   # GNU ls
   if [ $TERM = "dumb" ]; then
     # Disable colors in GVim
