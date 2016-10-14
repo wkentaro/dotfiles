@@ -55,6 +55,10 @@
     uri: https://github.com/ros/common_msgs.git
     version: indigo-devel
 - git:
+    local-name: ros/dynamic_reconfigure
+    uri: https://github.com/ros/dynamic_reconfigure.git
+    version: master
+- git:
     local-name: ros/nodelet_core
     uri: https://github.com/ros/nodelet_core.git
     version: indigo-devel
