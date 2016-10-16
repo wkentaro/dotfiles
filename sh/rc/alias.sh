@@ -82,11 +82,6 @@ alias ta='tmux_percol_attach'
 alias tn='tmux new'
 alias tns='tmux new -s'
 
-# gifify
-gifify () {
-  docker run -it --rm -v `pwd`:/data maxogden/gifify $@
-}
-
 # brew
 if type brew &>/dev/null; then
   alias bubu='brew update && brew upgrade && brew cleanup'

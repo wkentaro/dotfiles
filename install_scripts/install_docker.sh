@@ -20,4 +20,3 @@ sudo chown $USER /var/run/docker.sock
 
 # install using dockers
 docker pull ubuntu
-docker pull maxogden/gifify
