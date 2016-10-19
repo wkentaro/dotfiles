@@ -11,10 +11,15 @@ def speed_up_video(video_file, times):
     base, ext = osp.splitext(video_file)
     out_file = base + '_x{times}'.format(times=times) + ext
 
-    cmd = 'ffmpeg -i {in_file} -filter:v "setpts={rate}*PTS" {out_file}'
+    cmd = 'ffmpeg -i {in_file}'
+    cmd += ' -filter_complex "[0:v]setpts={rate}*PTS[v];[0:a]atempo={times}[a]"'
+    cmd += ' -map "[v]"'
+    cmd += ' -map "[a]"'
+    cmd += ' {out_file}'
     cmd = cmd.format(
         in_file=video_file,
         rate=1.0 / times,
+        times=times,
         out_file=out_file,
     )
 
