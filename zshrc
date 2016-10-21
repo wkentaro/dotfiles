@@ -279,6 +279,8 @@ bindkey "^Y" yank
 # source common aliases
 source $HOME/.sh/rc/alias.sh
 
+alias reload='exec zsh'
+
 # Global aliases {{{
 alias -g A="| awk"
 alias -g G="| grep"
