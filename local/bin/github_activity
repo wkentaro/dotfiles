@@ -1,0 +1,50 @@
+#!/usr/bin/env python
+
+from __future__ import print_function
+
+from collections import OrderedDict
+import datetime as dt
+import os
+import sys
+
+from github import Github
+import yaml
+
+
+gh = Github(os.environ['GHI_TOKEN'])
+user = gh.get_user('wkentaro')
+
+now = dt.datetime.now()
+
+for i, event in enumerate(user.get_events()):
+    if event.created_at < now - dt.timedelta(days=1):
+        continue
+    print('{:04} {} {}'.format(i, event.repo.name, event.type), end='')
+    payload = event.payload
+    if event.type == 'IssueCommentEvent':
+        print(' --- issue title: {}'.format(payload['issue']['title']))
+    elif event.type == 'PushEvent':
+        print(' --- commits: {} commits "{}"'.format(
+            len(payload['commits']),
+            payload['commits'][0]['message'].splitlines()[0][:40],
+        ))
+    elif event.type == 'PullRequestReviewCommentEvent':
+        print(' --- comment: {}'.format(payload['comment']['body'].splitlines()[0][:40]))
+    elif event.type == 'WatchEvent':
+        print(' --- action: {}'.format(payload['action'].replace('started', 'starred')))
+    elif event.type == 'PullRequestEvent':
+        print(' --- pr action: {}, title: {}'.format(payload['action'], payload['pull_request']['title']))
+    elif event.type == 'CommitCommentEvent':
+        print(' --- comment: {}'.format(payload['comment']['body']))
+    elif event.type == 'CreateEvent':
+        print(' --- ref_type: {}, ref: {}, pusher_type: {}'.format(payload['ref_type'], payload['ref'], payload['pusher_type']))
+    elif event.type == 'DeleteEvent':
+        print(' --- ref_type: {}, ref: {}, pusher_type: {}'.format(payload['ref_type'], payload['ref'], payload['pusher_type']))
+    elif event.type == 'ReleaseEvent':
+        print(' --- action: {}, release: {}'.format(payload['action'], payload['release']['tag_name']))
+    elif event.type == 'IssueEvent':
+        print(' --- action: {}, issue: {}'.format(payload['action'], payload['issue']['title']))
+    elif event.type == 'IssuesEvent':
+        print(' --- action: {}, issue: {}'.format(payload['action'], payload['issue']['title']))
+    else:
+        print('WARNING: Unsupported event type: {}'.format(event.type), file=sys.stderr)
