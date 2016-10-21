@@ -185,7 +185,7 @@ au BufNewFile,BufRead * match ZenkakuSpace /　/
 call s:source_rc('mappings.rc.vim')
 
 
-let g:github_access_token = $GHI_TOKEN
+let g:github_access_token = $GITHUB_TOKEN
 
 
 " ----------------------------------------------------------

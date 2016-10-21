@@ -11,7 +11,7 @@ from github import Github
 import yaml
 
 
-gh = Github(os.environ['GHI_TOKEN'])
+gh = Github(os.environ['GITHUB_TOKEN'])
 user = gh.get_user('wkentaro')
 
 now = dt.datetime.now()
