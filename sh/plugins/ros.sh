@@ -61,7 +61,27 @@ if [ -d "/opt/ros" ]; then
   fi
   alias pcv='point_cloud_view'
   # nodelet
-  alias nodelet_standalone='rosrun nodelet nodelet standalone'
+  nodelet () {
+    rosrun nodelet nodelet "$@"
+  }
+  _nodelet () {
+    local -a reply
+    local -a nodelets
+    if [[ ${CURRENT} = 2 ]]; then
+      reply=(standalone load unload manager)
+    elif [[ ${CURRENT} = 3 ]] && [[ "${words[$CURRENT - 1]}" = "load" ]] || [[ "${words[$CURRENT - 1]}" = "standalone" ]]; then
+      if ( [[ ${+declared_nodelets} -eq 0 ]] ||  _cache_invalid declared_nodelets) \
+           && ! _retrieve_cache declared_nodelets; then
+        nodelets=($(rosrun nodelet declared_nodelets))
+        _store_cache declared_nodelets nodelets
+      fi
+      reply=($nodelets)
+    fi
+    _describe 'values' reply
+  }
+  if which compdef &>/dev/null; then
+    compdef _nodelet nodelet
+  fi
   # dynamic_reconfigure
   alias dynparam='rosrun dynamic_reconfigure dynparam'
 fi

@@ -19,7 +19,9 @@ setopt print_eight_bit
 setopt extended_glob
 # setopt globdots  # enable completion for dotfiles
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-zstyle ':completion:*' use-cache true
+zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
 zstyle ':completion:*:default' menu select=1
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
