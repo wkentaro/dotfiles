@@ -384,3 +384,9 @@ bindkey '^Z' fancy-ctrl-z
 # Travis completion
 # -----------------
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+
+
+# -----------------
+# ghi configuration
+# -----------------
+export GHI_TOKEN=$GITHUB_TOKEN
