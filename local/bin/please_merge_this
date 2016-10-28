@@ -75,7 +75,6 @@ def main():
 
         img_urls = [
             'https://camo.githubusercontent.com/9fc45525610e240a047efddac55044194e8f3c18/68747470733a2f2f6d65646961322e67697068792e636f6d2f6d656469612f36666a6c454142446e363079412f67697068792e676966',
-            'https://cdn.meme.am/instances/400x/65467812.jpg',
             'http://m.memegen.com/ac03my.jpg',
             'http://i.giphy.com/LqNjfI9ZXLLmo.gif',
             'http://i.giphy.com/MGdfeiKtEiEPS.gif',
