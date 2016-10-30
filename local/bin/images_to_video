@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+
+import argparse
+import os
+import os.path as osp
+import shlex
+import subprocess
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('out_file')
+parser.add_argument('-i', '--input-files', default='*.jpg',
+                    help="Input patterns like '*.jpg' and 'frame%04d.jpg'")
+parser.add_argument('-r', '--rate', type=int, default=1)
+args = parser.parse_args()
+
+out_file = args.out_file
+input_files = args.input_files
+rate = args.rate
+
+cmd = 'ffmpeg -framerate {rate}'.format(rate=rate)
+if '*' in input_files:
+    cmd += '-pattern_type glob'
+cmd += "-pattern_type glob -i '{inputs}'".format(inputs=input_files)
+cmd += '-c:v libx264 {out_file}'.format(out_file=out_file)
+
+subprocess.call(shlex.split(cmd))

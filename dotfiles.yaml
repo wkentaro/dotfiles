@@ -36,6 +36,8 @@ lessfilter:
   .lessfilter
 local/bin/dakoku:
   .local/bin/dakoku
+local/bin/images_to_video:
+  .local/bin/images_to_video
 local/bin/please_merge_this:
   .local/bin/please_merge_this
 local/bin/point_cloud_view:
