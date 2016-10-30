@@ -1,0 +1,60 @@
+#!/usr/bin/env python
+
+import argparse
+import os
+import os.path as osp
+import tarfile
+import tempfile
+
+
+def extract_file(path, to_directory='.'):
+    print("Extracting '{path}'...".format(path=path))
+    if path.endswith('.zip'):
+        opener, mode = zipfile.ZipFile, 'r'
+    elif path.endswith('.tar'):
+        opener, mode = tarfile.open, 'r'
+    elif path.endswith('.tar.gz') or path.endswith('.tgz'):
+        opener, mode = tarfile.open, 'r:gz'
+    elif path.endswith('.tar.bz2') or path.endswith('.tbz'):
+        opener, mode = tarfile.open, 'r:bz2'
+    else:
+        raise ValueError("Could not extract '%s' as no appropriate "
+                         "extractor is found" % path)
+
+    cwd = os.getcwd()
+    os.chdir(to_directory)
+    root_files = []
+    try:
+        file = opener(path, mode)
+        try:
+            file.extractall()
+            root_files = list(set(name.split('/')[0]
+                                  for name in file.getnames()))
+        finally:
+            file.close()
+    finally:
+        os.chdir(cwd)
+    print('...done')
+    return root_files
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('path')
+    args = parser.parse_args()
+
+    path = osp.abspath(args.path)
+
+    cache_dir = tempfile.mktemp(prefix=os.path.expanduser('~/.cache/'))
+    os.makedirs(cache_dir)
+    root_files = extract_file(path, to_directory=cache_dir)
+
+    for root_file in root_files:
+        src = osp.join(cache_dir, root_file)
+        dst = osp.join(osp.dirname(path), root_file)
+        print('{} -> {}'.format(src, dst))
+        os.symlink(src, dst)
+
+
+if __name__ == '__main__':
+    main()

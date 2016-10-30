@@ -36,6 +36,8 @@ lessfilter:
   .lessfilter
 local/bin/dakoku:
   .local/bin/dakoku
+local/bin/extract_with_cache:
+  .local/bin/extract_with_cache
 local/bin/images_to_video:
   .local/bin/images_to_video
 local/bin/please_merge_this:
