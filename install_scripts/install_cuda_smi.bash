@@ -19,7 +19,7 @@ elif [ "$(uname)" = "Darwin" ]; then
 
   git clone https://github.com/wkentaro/mac-cuda-smi.git
   cd mac-cuda-smi
-  git checkout v1.0
+  git checkout v1.1
 else
   echo "[install_cuda_smi.bash] Unsupported arch: $(uname)"
   exit 1
