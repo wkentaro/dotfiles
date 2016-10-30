@@ -141,6 +141,10 @@ else
   alias lsa='gls -lahF --show-control-chars --color=always'
 fi
 
+# ssh
+alias ssh='ssh -C'
+alias sshq='ssh -q'
+
 if hash gls &>/dev/null; then
   alias sleep=gsleep
 fi
