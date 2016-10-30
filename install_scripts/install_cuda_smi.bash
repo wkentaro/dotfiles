@@ -17,8 +17,8 @@ elif [ "$(uname)" = "Darwin" ]; then
   TMPDIR=$(mktemp -d /tmp/tmp.XXXX)
   cd $TMPDIR
 
-  git clone https://github.com/wkentaro/osx-cuda-smi.git
-  cd osx-cuda-smi
+  git clone https://github.com/wkentaro/mac-cuda-smi.git
+  cd mac-cuda-smi
   git checkout v1.0
 else
   echo "[install_cuda_smi.bash] Unsupported arch: $(uname)"
