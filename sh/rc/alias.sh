@@ -237,6 +237,7 @@ show_cuda () {
   # cudnn
   if [ -e $CUDA_HOME/include/cudnn.h ]; then
     CUDNN_MAJOR=$(cat $CUDA_HOME/include/cudnn.h | grep '#define CUDNN_MAJOR' | awk '{print $3}')
+
     CUDNN_MINOR=$(cat $CUDA_HOME/include/cudnn.h | grep '#define CUDNN_MINOR' | awk '{print $3}')
     CUDNN_PATCHLEVEL=$(cat $CUDA_HOME/include/cudnn.h | grep '#define CUDNN_PATCHLEVEL' | awk '{print $3}')
     CUDNN_VERSION="$CUDNN_MAJOR.$CUDNN_MINOR.$CUDNN_PATCHLEVEL"
@@ -262,4 +263,9 @@ show_dnn () {
 init_autoenv () {
   vim .autoenv.zsh
   vim .autoenv_leave.zsh
+}
+
+
+macclean () {
+  find . -type f -name '.DS_Store' -delete
 }
