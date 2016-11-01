@@ -17,11 +17,6 @@ c.InteractiveShell.confirm_exit = False
 c.InteractiveShell.editor = 'vim'
 c.InteractiveShell.xmode = 'Context'
 
-c.PromptManager.in_template = r'{color.Blue}\Y1 [\#]:\n'
-c.PromptManager.in2_template = r''
-c.PromptManager.out_template = r'> '
-c.PromptManager.justify = True
-
 c.PrefilterManager.multi_line_specials = True
 
 if sys.platform == 'linux2':
