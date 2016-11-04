@@ -20,8 +20,9 @@ rate = args.rate
 
 cmd = 'ffmpeg -framerate {rate}'.format(rate=rate)
 if '*' in input_files:
-    cmd += '-pattern_type glob'
-cmd += "-pattern_type glob -i '{inputs}'".format(inputs=input_files)
-cmd += '-c:v libx264 {out_file}'.format(out_file=out_file)
+    cmd += ' -pattern_type glob'
+cmd += " -i '{inputs}'".format(inputs=input_files)
+cmd += " -vf 'scale=trunc(iw/2)*2:trunc(ih/2)*2'"
+cmd += ' -c:v libx264 {out_file}'.format(out_file=out_file)
 
 subprocess.call(shlex.split(cmd))
