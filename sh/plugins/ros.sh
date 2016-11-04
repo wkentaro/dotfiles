@@ -98,7 +98,6 @@ wlsethub () {
 }
 
 # catkin-tools
-alias c='catkin'
 alias cb='catkin build'
 alias cbt='catkin bt'
 alias cbtt='catkin build --this --no-deps'
