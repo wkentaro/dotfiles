@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if which nvcc &>/dev/null; then
+if ! which nvcc &>/dev/null; then
   exit 0
 fi
 
@@ -19,9 +19,10 @@ else
   exit 1
 fi
 
+cd $TMPDIR
+
 git clone https://github.com/wkentaro/cuda-smi.git -b mac-build
 cd cuda-smi
-git checkout 58c9cbc16d3f4e070cb061cdae4550bf1c6c70ea
 
 make
 cp $(pwd)/cuda-smi $HOME/.local/bin/cuda-smi
