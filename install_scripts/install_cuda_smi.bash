@@ -19,7 +19,7 @@ else
   exit 1
 fi
 
-git clone https://github.com/al42and/cuda-smi.git -b mac-build
+git clone https://github.com/wkentaro/cuda-smi.git -b mac-build
 cd cuda-smi
 git checkout 58c9cbc16d3f4e070cb061cdae4550bf1c6c70ea
 
