@@ -94,7 +94,10 @@ alias wlset='wstool set'
 alias wlup='wstool update'
 alias wllist='wstool info --only=localname'
 wlsethub () {
-  wstool set $1 https://github.com/$1.git --git
+  local repo
+  repo=$1
+  shift
+  wstool set ${repo} https://github.com/${repo}.git --git "$@"
 }
 
 # catkin-tools
