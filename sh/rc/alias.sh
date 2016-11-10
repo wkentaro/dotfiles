@@ -281,3 +281,25 @@ init_autoenv () {
 macclean () {
   find . -type f -name '.DS_Store' -delete
 }
+
+compress_pdf () {
+  if [ ! $# -eq 2 ]; then
+    echo "Usage: compress_pdf INPUT_FILE OUTPUT_FILE"
+  fi
+  local input
+  local output
+  input=$1
+  output=$2
+  gs \
+    -sDEVICE=pdfwrite \
+    -dCompatibilityLevel=1.4 \
+    -dPDFSETTINGS=/default \
+    -dNOPAUSE \
+    -dQUIET \
+    -dBATCH \
+    -dDetectDuplicateImages \
+    -dCompressFonts=true \
+    -r300 \
+    -sOutputFile=${output} \
+    ${input}
+}
