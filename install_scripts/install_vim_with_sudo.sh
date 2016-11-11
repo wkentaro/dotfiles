@@ -13,8 +13,8 @@ sudo mv /usr/include/lua5.1/*.h /usr/include/lua5.1/include/
 
 sudo ln -s /usr/bin/luajit-2.0.0-beta9 /usr/bin/luajit
 
-cd ~
-hg clone https://code.google.com/p/vim/
+cd /tmp
+git clone https://github.com/vim/vim.git -b v8.0.0075
 cd vim/src
 make distclean
 ./configure --with-features=huge \
