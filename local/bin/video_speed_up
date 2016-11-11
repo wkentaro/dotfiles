@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 
 import argparse
-import multiprocessing
+# import multiprocessing
 import os.path as osp
 import shlex
 import subprocess
+import tempfile
 
 
-def speed_up_video(video_file, times):
-    base, ext = osp.splitext(video_file)
-    out_file = base + '_x{times}'.format(times=times) + ext
+def speed_up_video_with_ffmpeg(video_file, times, out_file):
+    if times > 2.0:
+        raise ValueError
 
     cmd = 'ffmpeg -i {in_file}'
     cmd += ' -filter_complex "[0:v]setpts={rate}*PTS[v];[0:a]atempo={times}[a]"'
@@ -23,7 +24,21 @@ def speed_up_video(video_file, times):
         out_file=out_file,
     )
 
+    print('+ ' + cmd)
     subprocess.call(shlex.split(cmd))
+
+
+def speed_up_video(video_file, times):
+    base, ext = osp.splitext(video_file)
+    out_file = base + '_x{times}'.format(times=times) + ext
+
+    while times > 2.0:
+        times /= 2.0
+        tmp_file = tempfile.mktemp() + ext
+        speed_up_video_with_ffmpeg(video_file, 2.0, tmp_file)
+        video_file = tmp_file
+
+    speed_up_video_with_ffmpeg(video_file, times, out_file)
 
 
 def main():
@@ -37,12 +52,7 @@ def main():
     times = args.times
 
     for file_ in video_files:
-        kwargs = {'video_file': file_, 'times': times}
-        p = multiprocessing.Process(
-            target=speed_up_video,
-            kwargs=kwargs,
-        )
-        p.start()
+        speed_up_video(video_file=file_, times=times)
 
 
 if __name__ == '__main__':
