@@ -21,7 +21,7 @@ fi
 
 cd $TMPDIR
 
-git clone https://github.com/wkentaro/cuda-smi.git -b mac-build
+git clone https://github.com/al42and/cuda-smi
 cd cuda-smi
 
 make
