@@ -11,7 +11,7 @@ c.InteractiveShellApp.exec_lines = [
     #'import numpy as np',
 ]
 c.InteractiveShell.autoindent = True
-c.InteractiveShell.colors = 'LightBG'
+# c.InteractiveShell.colors = 'LightBG'
 c.InteractiveShell.confirm_exit = False
 # c.InteractiveShell.deep_reload = True
 c.InteractiveShell.editor = 'vim'
