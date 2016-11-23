@@ -9,6 +9,7 @@
 
 (el-get-bundle auto-complete)
 (el-get-bundle kawabata/emacs-trr)
+(el-get-bundle jorgenschaefer/elpy)
 
 ;; for Homebrew
 (let ((default-directory "/usr/local/share/emacs/site-lisp/"))
@@ -36,3 +37,6 @@
 
 ;; avoid yn for symlink
 (setq vc-follow-symlinks t)
+
+;; elpy
+(elpy-enable)
