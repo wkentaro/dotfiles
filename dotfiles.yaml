@@ -2,8 +2,6 @@ bash:
   .bash
 bashrc:
   .bashrc.wkentaro
-cheat:
-  .cheat
 private/dakokurc:
   .dakokurc
 config/catkin/verb_aliases/01-roslint.yaml:
