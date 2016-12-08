@@ -174,3 +174,10 @@ abbr        import numpy as..
 snippet     noqa
 abbr        # NOQA
 	# NOQA
+
+snippet     argparser
+abbr        parser = argparse.ArgumentParser()...
+options     head
+	parser = argparse.ArgumentParser()
+	parser.add_argument(${1})
+	args = parser.parse_args()
