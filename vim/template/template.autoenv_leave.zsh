@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 leave () {
-  # deactivate
+  deactivate
 }
 
 leave
