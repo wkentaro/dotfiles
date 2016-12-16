@@ -25,6 +25,7 @@ git clone https://github.com/al42and/cuda-smi
 cd cuda-smi
 
 make
+mkdir -p $HOME/.local/bin
 cp $(pwd)/cuda-smi $HOME/.local/bin/cuda-smi
 
 rm -rf $TMPDIR
