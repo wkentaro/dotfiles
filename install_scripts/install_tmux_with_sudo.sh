@@ -1,8 +1,10 @@
 #!/bin/sh
 
-if [ -f ~/.local/bin/tmux ]; then
+if [ -f /usr/local/bin/tmux ]; then
   exit 0
 fi
+
+sudo aptitude install libevent-dev
 
 cd /tmp
 
@@ -11,4 +13,4 @@ tar zxvf tmux-2.2.tar.gz
 cd tmux-2.2
 ./configure
 make
-make install prefix=~/.local
+sudo make install
