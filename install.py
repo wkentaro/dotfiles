@@ -37,7 +37,11 @@ def install_dotfiles(force, dry_run):
         from_ = osp.join(this_dir, from_)
         to = osp.join(home_dir, to)
         for from_file in glob.glob(from_):
-            link_file(from_file, to, force, dry_run)
+            if from_file == from_:
+                link_file(from_file, to, force, dry_run)
+            else:
+                to_file = osp.join(to, osp.basename(from_file))
+                link_file(from_file, to_file, force, dry_run)
 
 
 def install_commands():
