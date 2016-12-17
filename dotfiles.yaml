@@ -32,22 +32,8 @@ ipython_config.py:
   .ipython/profile_default/ipython_config.py
 lessfilter:
   .lessfilter
-local/bin/dakoku:
-  .local/bin/dakoku
-local/bin/extract_with_cache:
-  .local/bin/extract_with_cache
-local/bin/images_to_video:
-  .local/bin/images_to_video
-local/bin/please_merge_this:
-  .local/bin/please_merge_this
-local/bin/point_cloud_view:
-  .local/bin/point_cloud_view
-local/bin/video_resize:
-  .local/bin/video_resize
-local/bin/video_speed_up:
-  .local/bin/video_speed_up
-local/bin/video_to_images:
-  .local/bin/video_to_images
+local/bin/*:
+  .local/bin
 nvimrc:
   .nvimrc
 percol.d:

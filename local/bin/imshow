@@ -1,0 +1,35 @@
+#!/usr/bin/env python
+
+import argparse
+import platform
+
+import matplotlib
+
+OS = platform.platform().split('-')[0]
+if OS == 'Darwin':
+    matplotlib.use('MacOSX')
+else:
+    matplotlib.use('TkAgg')
+
+import matplotlib.pyplot as plt
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('image_file', help='Image file to show.')
+    args = parser.parse_args()
+
+    image_file = args.image_file
+
+    img = plt.imread(image_file)
+
+    matplotlib.rcParams['toolbar'] = 'None'
+    fig = plt.figure(num=image_file)
+    plt.imshow(img)
+
+    plt.tight_layout()
+    plt.show()
+
+
+if __name__ == '__main__':
+    main()

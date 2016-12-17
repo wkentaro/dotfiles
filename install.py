@@ -1,10 +1,29 @@
 #!/usr/bin/env python
 
 import argparse
+import glob
 import os
 import os.path as osp
 import subprocess
 import yaml
+
+
+def link_file(from_, to, force=False, dry_run=False):
+    if not osp.exists(osp.dirname(to)):
+        os.makedirs(osp.dirname(to))
+    if not force and osp.exists(to):
+        return
+    if osp.islink(to):
+        if force and not osp.isdir(to):
+            if dry_run:
+                print('{0} -> {1}'.format(from_, to))
+            os.system('ln -fs {0} {1}'.format(from_, to))
+        else:
+            print('skipping: {0}'.format(from_))
+    else:
+        if dry_run:
+            print('{0} -> {1}'.format(from_, to))
+        os.system('ln -s {0} {1}'.format(from_, to))
 
 
 def install_dotfiles(force, dry_run):
@@ -17,20 +36,8 @@ def install_dotfiles(force, dry_run):
     for from_, to in link_config.items():
         from_ = osp.join(this_dir, from_)
         to = osp.join(home_dir, to)
-        if dry_run:
-            print('{0} -> {1}'.format(from_, to))
-        else:
-            if not osp.exists(osp.dirname(to)):
-                os.makedirs(osp.dirname(to))
-            if not force and osp.exists(to):
-                continue
-            if osp.islink(to):
-                if force and not osp.isdir(to):
-                    os.system('ln -fs {0} {1}'.format(from_, to))
-                else:
-                    print('skipping: {0}'.format(from_))
-            else:
-                os.system('ln -s {0} {1}'.format(from_, to))
+        for from_file in glob.glob(from_):
+            link_file(from_file, to, force, dry_run)
 
 
 def install_commands():
