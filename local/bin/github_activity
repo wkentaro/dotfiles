@@ -2,49 +2,91 @@
 
 from __future__ import print_function
 
+import argparse
 from collections import OrderedDict
 import datetime as dt
+import itertools
 import os
 import sys
 
 from github import Github
+import tabulate
 import yaml
 
 
-gh = Github(os.environ['GITHUB_TOKEN'])
-user = gh.get_user('wkentaro')
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('date', nargs='?', help='default: today')
+    args = parser.parse_args()
 
-now = dt.datetime.now()
+    date = args.date
 
-for i, event in enumerate(user.get_events()):
-    if event.created_at < now - dt.timedelta(days=1):
-        continue
-    print('{:04} {} {}'.format(i, event.repo.name, event.type), end='')
-    payload = event.payload
-    if event.type == 'IssueCommentEvent':
-        print(' --- issue title: {}'.format(payload['issue']['title']))
-    elif event.type == 'PushEvent':
-        print(' --- commits: {} commits "{}"'.format(
-            len(payload['commits']),
-            payload['commits'][0]['message'].splitlines()[0][:40],
-        ))
-    elif event.type == 'PullRequestReviewCommentEvent':
-        print(' --- comment: {}'.format(payload['comment']['body'].splitlines()[0][:40]))
-    elif event.type == 'WatchEvent':
-        print(' --- action: {}'.format(payload['action'].replace('started', 'starred')))
-    elif event.type == 'PullRequestEvent':
-        print(' --- pr action: {}, title: {}'.format(payload['action'], payload['pull_request']['title']))
-    elif event.type == 'CommitCommentEvent':
-        print(' --- comment: {}'.format(payload['comment']['body']))
-    elif event.type == 'CreateEvent':
-        print(' --- ref_type: {}, ref: {}, pusher_type: {}'.format(payload['ref_type'], payload['ref'], payload['pusher_type']))
-    elif event.type == 'DeleteEvent':
-        print(' --- ref_type: {}, ref: {}, pusher_type: {}'.format(payload['ref_type'], payload['ref'], payload['pusher_type']))
-    elif event.type == 'ReleaseEvent':
-        print(' --- action: {}, release: {}'.format(payload['action'], payload['release']['tag_name']))
-    elif event.type == 'IssueEvent':
-        print(' --- action: {}, issue: {}'.format(payload['action'], payload['issue']['title']))
-    elif event.type == 'IssuesEvent':
-        print(' --- action: {}, issue: {}'.format(payload['action'], payload['issue']['title']))
+    today = dt.date.today()
+    if date is None:
+        now = dt.datetime(today.year, today.month, today.day)
     else:
-        print('WARNING: Unsupported event type: {}'.format(event.type), file=sys.stderr)
+        try:
+            date = int(date)
+            now = dt.datetime(today.year, today.month, today.day)
+            now += dt.timedelta(days=date)
+        except ValueError:
+            now = dt.strptime('%Y-%m-%d', date)
+
+    gh = Github(os.environ['GITHUB_TOKEN'])
+    user = gh.get_user('wkentaro')
+
+    msg = 'Getting GitHub activities on %s...' % now.strftime('%Y-%m-%d')
+    spinner = itertools.cycle(list('|/-\\'))
+
+    rows = []
+    for i, event in enumerate(user.get_events()):
+        sys.stdout.write(msg + ' ' + next(spinner))
+        sys.stdout.flush()
+        sys.stdout.write('\r')
+
+        if event.created_at < now - dt.timedelta(days=1):
+            continue
+
+        cols = []
+        cols.append('{:04}'.format(i))
+        cols.append(event.repo.name)
+        cols.append(event.type)
+
+        payload = event.payload
+        if event.type == 'IssueCommentEvent':
+            event = 'issue title: {}'.format(payload['issue']['title'])
+        elif event.type == 'PushEvent':
+            event = 'commits: {} commits "{}"'.format(
+                len(payload['commits']),
+                payload['commits'][0]['message'].splitlines()[0][:40],
+            )
+        elif event.type == 'PullRequestReviewCommentEvent':
+            event = 'comment: {}'.format(payload['comment']['body'].splitlines()[0][:40])
+        elif event.type == 'WatchEvent':
+            event = 'action: {}'.format(payload['action'].replace('started', 'starred'))
+        elif event.type == 'PullRequestEvent':
+            event = 'pr action: {}, title: {}'.format(payload['action'], payload['pull_request']['title'])
+        elif event.type == 'CommitCommentEvent':
+            event = 'comment: {}'.format(payload['comment']['body'])
+        elif event.type == 'CreateEvent':
+            event = 'ref_type: {}, ref: {}, pusher_type: {}'.format(payload['ref_type'], payload['ref'], payload['pusher_type'])
+        elif event.type == 'DeleteEvent':
+            event = 'ref_type: {}, ref: {}, pusher_type: {}'.format(payload['ref_type'], payload['ref'], payload['pusher_type'])
+        elif event.type == 'ReleaseEvent':
+            event = 'action: {}, release: {}'.format(payload['action'], payload['release']['tag_name'])
+        elif event.type == 'IssueEvent':
+            event = 'action: {}, issue: {}'.format(payload['action'], payload['issue']['title'])
+        elif event.type == 'IssuesEvent':
+            event = 'action: {}, issue: {}'.format(payload['action'], payload['issue']['title'])
+        else:
+            print('WARNING: Unsupported event type: {}'.format(event.type), file=sys.stderr)
+        cols.append(event)
+
+        rows.append(cols)
+
+    table = tabulate.tabulate(rows, headers=['index', 'repository', 'type', 'event'])
+    print(table)
+
+
+if __name__ == '__main__':
+    main()
