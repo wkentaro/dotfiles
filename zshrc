@@ -397,7 +397,11 @@ export GHI_TOKEN=$GITHUB_TOKEN
 if [ -e /usr/local/cuda ]; then
   export CUDA_HOME=/usr/local/cuda
   export PATH=$CUDA_HOME/bin:$PATH
-  export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+  if [ "$(uname)" = "Darwin" ]; then
+    export LD_LIBRARY_PATH=$CUDA_HOME/lib:$LD_LIBRARY_PATH
+  else
+    export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+  fi
   if [ -e /usr/local/cuda/include/cudnn.h ]; then
     export CFLAGS=-I$CUDA_HOME/include
     export LDFLAGS=-I$CUDA_HOME/lib64
