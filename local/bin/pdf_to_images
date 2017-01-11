@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+
+import argparse
+import os
+import shlex
+import subprocess
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('pdf')
+args = parser.parse_args()
+
+pdf = args.pdf
+out_dir = os.path.splitext(pdf)[0]
+
+if not os.path.exists(out_dir):
+    os.makedirs(out_dir)
+
+cmd = 'pdfimages {pdf} {out_dir}/image'.format(
+    pdf=pdf,
+    out_dir=out_dir,
+)
+subprocess.call(shlex.split(cmd))
+print('wrote result to: {}'.format(out_dir))
