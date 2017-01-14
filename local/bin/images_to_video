@@ -1,28 +1,54 @@
 #!/usr/bin/env python
 
 import argparse
-import os
+import glob
+import math
 import os.path as osp
+import re
 import shlex
+import shutil
 import subprocess
+import tempfile
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument('out_file')
-parser.add_argument('-i', '--input-files', default='*.jpg',
-                    help="Input patterns like '*.jpg'")
-parser.add_argument('-r', '--rate', type=int, default=1)
-args = parser.parse_args()
+def natural_sort(l):
+    convert = lambda text: int(text) if text.isdigit() else text.lower()  # NOQA
+    alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]  # NOQA
+    return sorted(l, key=alphanum_key)
 
-out_file = args.out_file
-input_files = args.input_files
-rate = args.rate
 
-cmd = 'ffmpeg -framerate {rate}'.format(rate=rate)
-if '*' in input_files:
-    cmd += ' -pattern_type glob'
-cmd += " -i '{inputs}'".format(inputs=input_files)
-cmd += " -vf 'scale=trunc(iw/2)*2:trunc(ih/2)*2'"
-cmd += ' -c:v libx264 {out_file}'.format(out_file=out_file)
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('out_file')
+    parser.add_argument('-i', '--input-files', default='*.jpg',
+                        help="Input patterns like '*.jpg'")
+    parser.add_argument('-r', '--rate', type=int, default=1)
+    args = parser.parse_args()
 
-subprocess.call(shlex.split(cmd))
+    out_file = args.out_file
+    input_files = args.input_files
+    rate = args.rate
+
+    input_files = glob.glob(input_files)
+
+    tmp_dir = tempfile.mkdtemp()
+
+    n_frames = len(input_files)
+    log10 = int(math.floor(math.log(n_frames, 10)))
+    for index, file_ in enumerate(natural_sort(input_files)):
+        fmt = '%0{}d.jpg'.format(log10)
+        shutil.copy(file_, osp.join(tmp_dir, fmt % index))
+
+    input_files = osp.join(tmp_dir, fmt)
+    cmd = 'ffmpeg -framerate {rate}'.format(rate=rate)
+    if '*' in input_files:
+        cmd += ' -pattern_type glob'
+    cmd += " -i '{inputs}'".format(inputs=input_files)
+    cmd += " -vf 'scale=trunc(iw/2)*2:trunc(ih/2)*2'"
+    cmd += ' -c:v libx264 {out_file}'.format(out_file=out_file)
+
+    subprocess.call(shlex.split(cmd))
+
+
+if __name__ == '__main__':
+    main()
