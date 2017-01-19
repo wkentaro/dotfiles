@@ -30,7 +30,7 @@ def main():
             now = dt.datetime(today.year, today.month, today.day)
             now += dt.timedelta(days=date)
         except ValueError:
-            now = dt.strptime('%Y-%m-%d', date)
+            now = dt.datetime.strptime(date, '%Y-%m-%d')
 
     gh = Github(os.environ['GITHUB_TOKEN'])
     user = gh.get_user('wkentaro')
