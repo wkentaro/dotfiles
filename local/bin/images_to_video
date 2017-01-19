@@ -35,8 +35,9 @@ def main():
 
     n_frames = len(input_files)
     log10 = int(math.floor(math.log(n_frames, 10)))
+    ext = osp.splitext(input_files[0])[1]
     for index, file_ in enumerate(natural_sort(input_files)):
-        fmt = '%0{}d.jpg'.format(log10)
+        fmt = '%0{}d.{}'.format(log10, ext)
         shutil.copy(file_, osp.join(tmp_dir, fmt % index))
 
     input_files = osp.join(tmp_dir, fmt)
