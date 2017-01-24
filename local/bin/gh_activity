@@ -26,11 +26,18 @@ def main():
         now = dt.datetime(today.year, today.month, today.day)
     else:
         try:
-            date = int(date)
-            now = dt.datetime(today.year, today.month, today.day)
-            now += dt.timedelta(days=date)
-        except ValueError:
             now = dt.datetime.strptime(date, '%Y-%m-%d')
+        except ValueError:
+            try:
+                now = dt.datetime.strptime(date, '%Y%m%d')
+            except ValueError:
+                try:
+                    date = int(date)
+                    now = dt.datetime(today.year, today.month, today.day)
+                    now += dt.timedelta(days=date)
+                except ValueError:
+                    print('Failed to parse the date argument: %s' % date)
+                    return
 
     gh = Github(os.environ['GITHUB_TOKEN'])
     user = gh.get_user('wkentaro')
