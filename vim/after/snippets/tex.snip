@@ -216,11 +216,68 @@ alias   \begin{document} \document
 
 snippet figure
 alias   \begin{figure} \figure
-    \begin{figure}[${1}]
+    \begin{figure}[${1:htbp}]
         \centering
         \includegraphics[${2:width=${3\}}]{${4}}
         \caption{${5}}
-        \label{${6}}
+        \figlab{${6}}
+    \end{figure}
+
+snippet subfloath
+alias \subfloat (horizontal)
+    \subfloat[]{
+            \includegraphics[width=${1:}\textwidth]{${2}}
+            \figlab{${3}}
+    }
+    \subfloat[]{
+            \includegraphics[width=${4:}\textwidth]{${5}}
+            \figlab{${6}}
+    }
+
+snippet subfloatv
+alias   \subfloat (vertical)
+    \begin{tabular}{c}
+        \subfloat[]{
+            \includegraphics[width=${1:}\textwidth]{${2}}
+            \figlab{${3}}
+        }
+        \subfloat[]{
+                \includegraphics[width=${4:}\textwidth]{${5}}
+                \figlab{${6}}
+        }
+    \end{tabular}
+
+snippet figsubfloath
+alias   \figure \subfloat (horizontal)
+    \begin{figure}[htbp]
+        \centering
+        \subfloat[]{
+                \includegraphics[width=${1:}\textwidth]{${2}}
+                \figlab{${3}}
+        }
+        \subfloat[]{
+                \includegraphics[width=${4:}\textwidth]{${5}}
+                \figlab{${6}}
+        }
+        \caption{${7}}
+        \label{${8}}
+    \end{figure}
+
+snippet figsubfloatv
+alias   \figure \subfloat (vertical)
+    \begin{figure}[htbp]
+        \begin{tabular}{c}
+                \subfloat[]{
+                        \includegraphics[width=${1:}\textwidth]{${2}}
+                        \figlab{${3}}
+                }
+                \subfloat[]{
+                        \includegraphics[width=${4:}\textwidth]{${5}}
+                        \figlab{${6}}
+                }
+        \end{tabular}
+        \caption{${7}}
+        \label{${8}}
     \end{figure}
 
 snippet filecontents
