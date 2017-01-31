@@ -151,9 +151,9 @@ fi
 
 convert_to_gif () {
   if which ffmpeg &>/dev/null; then
-    ffmpeg -i $1 -pix_fmt rgb8 -r 10 -f gif - | gifsicle --optimize=3 --delay=3
+    ffmpeg -i $1 -pix_fmt rgb8 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > ${1}.gif
   elif which avconv &>/dev/null; then
-    avconv -i $1 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3
+    avconv -i $1 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > ${1}.gif
   fi
 }
 
