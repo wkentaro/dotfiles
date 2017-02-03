@@ -229,3 +229,6 @@ _what_ros_package () {
 # }
 # alias gc='_git_commit_verbose'
 alias gc='git commit --verbose'
+
+alias gsui='git submodule update --init'
+alias gsuir='gsui --recursive'
