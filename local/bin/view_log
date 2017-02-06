@@ -14,12 +14,15 @@ def main():
     log_file = args.log_file
 
     if osp.exists(log_file):
-        ext = osp.splitext(log_file)[-1]
-        if ext == '.json':
-            df = pd.read_json(log_file)
-        elif ext == '.csv':
-            df = pd.read_csv(log_file)
-        print(df.tail(n=10))
+        try:
+            ext = osp.splitext(log_file)[-1]
+            if ext == '.json':
+                df = pd.read_json(log_file)
+            elif ext == '.csv':
+                df = pd.read_csv(log_file)
+            print(df.tail(n=10))
+        except ValueError:
+            pass
 
 
 if __name__ == '__main__':
