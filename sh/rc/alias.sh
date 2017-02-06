@@ -303,14 +303,3 @@ compress_pdf () {
     -sOutputFile=${output} \
     ${input}
 }
-
-
-view_log () {
-  log=$1
-  while true; do
-    clear
-    csvtool readable $log | head -n1
-    csvtool readable $log | tail -n 50
-    sleep 1
-  done
-}
