@@ -10,6 +10,12 @@ import time
 import pandas as pd
 
 
+def print_bar(title=''):
+    if title:
+        title = ' ' + title + ' '
+    print('=' * 39 + title + '=' * (40 - len(title)))
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('log_file')
@@ -29,10 +35,32 @@ def main():
             elif ext == '.csv':
                 df = pd.read_csv(log_file)
             df = df.set_index(['epoch', 'iteration'])
+
+            train_cols, val_cols = [], []
+            for col in df.columns:
+                if col.startswith('validation/'):
+                    val_cols.append(col)
+                else:
+                    train_cols.append(col)
+
+            if show_all:
+                print(df.to_string())
+                break
+
             print(chr(27) + "[2J")
-            print(df.tail(n=10))
+
+            print_bar('train')
+            print(df[train_cols].tail(n=10))
             print()
-            print(pd.DataFrame([df.max(), df.min()], index=['max', 'min']))
+
+            print_bar('val')
+            print(df[val_cols].dropna().tail(n=5))
+            print()
+
+            print_bar('min/max')
+            print(pd.DataFrame([df.min(), df.max()], index=['min', 'max']))
+            print_bar()
+
             time.sleep(1)
         except KeyboardInterrupt:
             break
