@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
+
 import argparse
 import os
 import os.path as osp
@@ -17,6 +19,8 @@ def main():
     log_file = args.log_file
     show_all = args.all
 
+    pd.set_option('display.float_format', lambda x: '%.3f' % x)
+
     while True:
         try:
             ext = osp.splitext(log_file)[-1]
@@ -27,6 +31,8 @@ def main():
             df = df.set_index(['epoch', 'iteration'])
             print(chr(27) + "[2J")
             print(df.tail(n=10))
+            print()
+            print(pd.DataFrame([df.max(), df.min()], index=['max', 'min']))
             time.sleep(1)
         except KeyboardInterrupt:
             break
