@@ -303,3 +303,19 @@ compress_pdf () {
     -sOutputFile=${output} \
     ${input}
 }
+
+pyview_yaml () {
+  ipython -c "import yaml; data = yaml.load(open('$1'))" -i
+}
+
+pdview_csv () {
+  ipython -c "import pandas; data = pandas.read_csv(open('$1'))" -i
+}
+alias pyview_csv=pdview_csv
+
+pdview_json () {
+  ipython -c "import pandas; data = pandas.read_json(open('$1'))" -i
+}
+pyview_json () {
+  ipython -c "import json; data = json.load(open('$1'))" -i
+}
