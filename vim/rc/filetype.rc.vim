@@ -10,9 +10,8 @@ au BufNewFile,BufRead *.bash set ft=sh tabstop=8 shiftwidth=2
 au BufNewFile,BufRead *.py set tabstop=8 shiftwidth=4
 au BufNewFile,BufRead *.py set colorcolumn=80
 au BufNewFile,BufRead *.py set indentkeys-=:
-au BufNewFile,BufRead *.yaml set indentkeys-=:
-au BufNewFile,BufRead *.yml set indentkeys-=:
 au BufNewFile,BufRead *.pyx set ft=python tabstop=8 shiftwidth=4
+autocmd FileType yaml setlocal indentkeys-=<:> tabstop=8 shiftwidth=2
 au BufNewFile,BufRead *.cfg set ft=python tabstop=8 shiftwidth=4
 au BufNewFile,BufRead *.c set tabstop=8 shiftwidth=4
 au BufNewFile,BufRead *.cpp set tabstop=8 shiftwidth=2
