@@ -309,12 +309,12 @@ pyview_yaml () {
 }
 
 pdview_csv () {
-  ipython -c "import pandas; data = pandas.read_csv(open('$1'))" -i
+  ipython -c "import pandas; df = pandas.read_csv(open('$1'))" -i
 }
 alias pyview_csv=pdview_csv
 
 pdview_json () {
-  ipython -c "import pandas; data = pandas.read_json(open('$1'))" -i
+  ipython -c "import pandas; df = pandas.read_json(open('$1'))" -i
 }
 pyview_json () {
   ipython -c "import json; data = json.load(open('$1'))" -i
