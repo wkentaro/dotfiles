@@ -305,17 +305,45 @@ compress_pdf () {
 }
 
 pyview_yaml () {
-  ipython -c "import yaml; data = yaml.load(open('$1'))" -i
+  if [ $# -eq 1 ]; then
+    ipython -c "import yaml; data = yaml.load(open('$1'))" -i
+  else
+    echo "Usage: pdview_json YAML_FILE"
+    return 1
+  fi
 }
 
 pdview_csv () {
-  ipython -c "import pandas; df = pandas.read_csv(open('$1'))" -i
+  if [ $# -eq 1 ]; then
+    ipython -c "import pandas; df = pandas.read_csv(open('$1'))" -i
+  else
+    echo "Usage: pdview_json CSV_FILE"
+    return 1
+  fi
 }
 alias pyview_csv=pdview_csv
 
 pdview_json () {
-  ipython -c "import pandas; df = pandas.read_json(open('$1'))" -i
+  if [ $# -eq 1 ]; then
+    ipython -c "import pandas; df = pandas.read_json(open('$1'))" -i
+  else
+    echo "Usage: pdview_json JSON_FILE"
+    return 1
+  fi
 }
 pyview_json () {
-  ipython -c "import json; data = json.load(open('$1'))" -i
+  if [ $# -eq 1 ]; then
+    ipython -c "import json; data = json.load(open('$1'))" -i
+  else
+    echo "Usage: pyview_json JSON_FILE"
+    return 1
+  fi
+}
+pyview_image () {
+  if [ $# -eq 1 ]; then
+    ipython -c "import scipy.misc; img = scipy.misc.imread('$1')" -i
+  else
+    echo "Usage: pyview_image IMAGE_FILE"
+    return 1
+  fi
 }
