@@ -38,7 +38,7 @@ def main():
 
             train_cols, val_cols = [], []
             for col in df.columns:
-                if col.startswith('validation/'):
+                if col.startswith('validation/') or col.startswith('valid/'):
                     val_cols.append(col)
                 else:
                     train_cols.append(col)
