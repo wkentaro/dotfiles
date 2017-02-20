@@ -59,6 +59,9 @@ export PATH="$HOME/.local/bin:$PATH"
 export MANPATH="$HOME/.local/bin:$MANPATH"
 # export PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH"
 
+# anaconda
+export PATH=$HOME/anaconda2/bin:$PATH
+
 # bookmark
 # hash -d dotfiles=$HOME/.dotfiles
 
