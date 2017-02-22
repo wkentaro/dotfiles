@@ -60,7 +60,10 @@ export MANPATH="$HOME/.local/bin:$MANPATH"
 # export PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH"
 
 # anaconda
-export PATH=$HOME/.anaconda2/bin:$PATH
+activate () {
+  unset PYTHONPATH
+  source $HOME/.anaconda2/bin/activate
+}
 
 # bookmark
 # hash -d dotfiles=$HOME/.dotfiles
