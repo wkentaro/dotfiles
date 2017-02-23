@@ -1,0 +1,44 @@
+#!/bin/bash
+
+function usage() {
+  echo "usage: `basename $0` [-h/--help] [-n/--dry-run] [-v/--verbose] <filename> <...> <...>"
+  [ -z "$1" ] || echo $1
+
+  exit 1
+}
+
+[ ! -d .git ] && usage "error: must be ran from within the root of the repository"
+
+dryrun=0
+verbose=""
+repo=$(basename `git rev-parse --show-toplevel`)
+
+while [[ $1 =~ ^\- ]]; do
+  case $1 in
+    -h|--help)
+      usage
+      ;;
+
+    -n|--dry-run)
+      dryrun=1
+      ;;
+
+    -v|--verbose)
+      verbose="-v"
+      ;;
+
+    *)
+      usage "invalid argument: $1"
+  esac
+
+  shift
+done
+
+[ $# -eq 0 ] && usage
+
+cmd="git filter-branch -f --prune-empty --tree-filter 'rm -rf $@'"
+if [ $dryrun -eq 1 ]; then
+  echo $cmd
+else
+  eval $cmd
+fi
