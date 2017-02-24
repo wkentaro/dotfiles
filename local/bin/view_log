@@ -50,7 +50,7 @@ def main():
             print(chr(27) + "[2J")
 
             print_bar('train')
-            print(df[train_cols].tail(n=5))
+            print(df[train_cols].dropna().tail(n=5))
             print()
 
             print_bar('val')
