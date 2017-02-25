@@ -2,13 +2,35 @@
 
 import argparse
 import glob
-import math
-import os.path as osp
+import platform
 import re
-import shlex
-import shutil
-import subprocess
-import tempfile
+
+import cv2
+import tqdm
+
+
+class CvVideoWriter(object):
+
+    def __init__(self, out, fps):
+        if platform.uname()[0] == 'Darwin':
+            self.fourcc = cv2.cv.CV_FOURCC(*'mp4v')
+            self.out = out + '.mp4'
+        else:
+            self.fourcc = cv2.cv.CV_FOURCC(*'XVID')
+            self.out = out + '.avi'
+        self.fps = fps
+        self._writer = None
+
+    def write(self, stamp, frame):
+        if self._writer is None:
+            self._writer = cv2.VideoWriter(
+                self.out, self.fourcc, self.fps,
+                frameSize=(frame.shape[1], frame.shape[0]),
+                isColor=frame.ndim == 3)
+        self._writer.write(frame)
+
+    def __del__(self):
+        self._writer.release()
 
 
 def natural_sort(l):
@@ -31,24 +53,18 @@ def main():
 
     input_files = glob.glob(input_files)
 
-    tmp_dir = tempfile.mkdtemp()
+    if rate < 30:
+        fps = ((30 // rate) + 1) * rate
+    else:
+        fps = rate
+    writer = CvVideoWriter(out_file, fps=fps)
 
-    n_frames = len(input_files)
-    log10 = int(math.floor(math.log(n_frames, 10)))
-    ext = osp.splitext(input_files[0])[1]
-    for index, file_ in enumerate(natural_sort(input_files)):
-        fmt = '%0{}d.{}'.format(log10, ext)
-        shutil.copy(file_, osp.join(tmp_dir, fmt % index))
+    for f in tqdm.tqdm(input_files, ncols=80):
+        frame = cv2.imread(f)
+        for _ in xrange(fps // rate):
+            writer.write(None, frame)
 
-    input_files = osp.join(tmp_dir, fmt)
-    cmd = 'ffmpeg -framerate {rate}'.format(rate=rate)
-    if '*' in input_files:
-        cmd += ' -pattern_type glob'
-    cmd += " -i '{inputs}'".format(inputs=input_files)
-    cmd += " -vf 'scale=trunc(iw/2)*2:trunc(ih/2)*2'"
-    cmd += ' -c:v libx264 {out_file}'.format(out_file=out_file)
-
-    subprocess.call(shlex.split(cmd))
+    print('==> Saved video to: %s' % writer.out)
 
 
 if __name__ == '__main__':
