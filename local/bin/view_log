@@ -13,7 +13,13 @@ import pandas as pd
 def print_bar(title=''):
     if title:
         title = ' ' + title + ' '
-    print('=' * 39 + title + '=' * (40 - len(title)))
+    length = len(title)
+    if length % 2 == 0:
+        length_left = length_right = length / 2
+    else:
+        length_left = length // 2
+        length_right = length - length_left
+    print('=' * (39 - length_left) + title + '=' * (40 - length_right))
 
 
 def main():
