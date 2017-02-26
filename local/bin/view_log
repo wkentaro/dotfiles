@@ -57,8 +57,9 @@ def main():
             print(df[val_cols].dropna().tail(n=3))
             print()
 
-            print_bar('min/max')
-            print(pd.DataFrame([df.min(), df.max()], index=['min', 'max']))
+            print_bar('min/mean/median/max')
+            print(pd.DataFrame([df.min(), df.mean(), df.median(), df.max()],
+                               index=['min', 'mean', 'median', 'max']))
             print_bar()
 
             time.sleep(1)
