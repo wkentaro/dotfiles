@@ -55,6 +55,8 @@ def main():
 
             print(chr(27) + "[2J")
 
+            print('log_file: %s' % log_file)
+
             print_bar('train')
             print(df[train_cols].dropna().tail(n=5))
             print()
