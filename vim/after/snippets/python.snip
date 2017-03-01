@@ -181,3 +181,7 @@ options     head
 	parser = argparse.ArgumentParser()
 	parser.add_argument(${1})
 	args = parser.parse_args()
+
+snippet      todo
+abbr         # TODO
+	# TODO(${1:wkentaro})
