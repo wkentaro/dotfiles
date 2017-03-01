@@ -16,7 +16,7 @@ def main():
     ext = osp.splitext(filename)[-1]
 
     if ext == '.csv':
-        df = pandas.read_csv(filenaeme)
+        df = pandas.read_csv(filename)
     elif ext == '.json':
         import json
         data = json.load(filename)
@@ -25,6 +25,9 @@ def main():
         import yaml
         data = yaml.load(open(filename))
         df = pandas.DataFrame(data)
+
+    from IPython import embed
+    embed()
 
 
 if __name__ == '__main__':
