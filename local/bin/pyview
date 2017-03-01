@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+
+import argparse
+import os.path as osp
+
+import pandas
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('filename')
+    args = parser.parse_args()
+
+    filename = args.filename
+
+    ext = osp.splitext(filename)[-1]
+
+    if ext == '.csv':
+        df = pandas.read_csv(filenaeme)
+    elif ext == '.json':
+        import json
+        data = json.load(filename)
+        df = pandas.DataFrame(data)
+    elif ext == '.yaml':
+        import yaml
+        data = yaml.load(open(filename))
+        df = pandas.DataFrame(data)
+
+
+if __name__ == '__main__':
+    main()
