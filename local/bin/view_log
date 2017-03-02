@@ -55,6 +55,14 @@ def main():
 
             print(chr(27) + "[2J")
 
+            param_file = osp.join(osp.dirname(log_file), 'params.yaml')
+            if osp.exists(param_file):
+                import yaml
+                data = yaml.load(open(param_file))
+                print_bar('params')
+                print(yaml.safe_dump(data, default_flow_style=False))
+                print_bar('')
+
             print('log_file: %s' % log_file)
 
             print_bar('train')
