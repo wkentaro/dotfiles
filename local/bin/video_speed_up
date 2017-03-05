@@ -8,40 +8,23 @@ import subprocess
 import tempfile
 
 
-def speed_up_video_with_ffmpeg(video_file, times, out_file, audio):
-    if times > 2.0:
-        raise ValueError
-
-    cmd = 'ffmpeg -i {in_file}'
-    if audio:
-        cmd += ' -filter_complex "[0:v]setpts={rate}*PTS[v];[0:a]atempo={times}[a]"'
-        cmd += ' -map "[v]"'
-        cmd += ' -map "[a]"'
-    else:
-        cmd += ' -filter:v "setpts={rate}*PTS"'
-    cmd += ' {out_file}'
+def speed_up_video_with_mencoder(video_file, times, out_file):
+    cmd = 'mencoder -speed {times} -o {out_file} -oac pcm -ovc copy {in_file}'
     cmd = cmd.format(
         in_file=video_file,
-        rate=1.0 / times,
         times=times,
         out_file=out_file,
     )
 
-    print('+ ' + cmd)
+    print('+ %s' % cmd)
     subprocess.call(shlex.split(cmd))
 
 
-def speed_up_video(video_file, times, audio):
+def speed_up_video(video_file, times):
     base, ext = osp.splitext(video_file)
     out_file = base + '_x{times}'.format(times=times) + ext
 
-    while times > 2.0:
-        times /= 2.0
-        tmp_file = tempfile.mktemp() + ext
-        speed_up_video_with_ffmpeg(video_file, 2.0, tmp_file, audio)
-        video_file = tmp_file
-
-    speed_up_video_with_ffmpeg(video_file, times, out_file, audio)
+    speed_up_video_with_mencoder(video_file, times, out_file)
 
 
 def main():
@@ -49,15 +32,13 @@ def main():
     parser.add_argument('video_files', nargs='+', help='File to convert.')
     parser.add_argument('-x', '--times', type=int, required=True,
                         help='How many times to speed/slow up/down the video.')
-    parser.add_argument('--no-audio', action='store_true')
     args = parser.parse_args()
 
     video_files = args.video_files
     times = args.times
-    audio = not args.no_audio
 
     for file_ in video_files:
-        speed_up_video(video_file=file_, times=times, audio=audio)
+        speed_up_video(video_file=file_, times=times)
 
 
 if __name__ == '__main__':
