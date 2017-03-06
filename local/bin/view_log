@@ -77,12 +77,11 @@ def main():
             print(df[val_cols].dropna().tail(n=3))
             print()
 
-            print_bar('min/mean/median/max', width=width)
+            print_bar('min/mean/max', width=width)
             for cols in [train_cols, val_cols]:
                 df_split = df[cols]
-                print(pd.DataFrame([df_split.min(), df_split.mean(),
-                                    df_split.median(), df_split.max()],
-                                   index=['min', 'mean', 'median', 'max']))
+                print(pd.DataFrame([df_split.min(), df_split.mean(), df_split.max()],
+                                   index=['min', 'mean', 'max']))
             print_bar(width=width)
 
             time.sleep(1)
