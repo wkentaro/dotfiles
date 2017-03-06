@@ -10,7 +10,7 @@ import time
 import pandas as pd
 
 
-def print_bar(title=''):
+def print_bar(title='', width=80):
     if title:
         title = ' ' + title + ' '
     length = len(title)
@@ -19,7 +19,8 @@ def print_bar(title=''):
     else:
         length_left = length // 2
         length_right = length - length_left
-    print('=' * (39 - length_left) + title + '=' * (40 - length_right))
+    print('=' * (width // 2 - 1 - length_left) +
+          title + '=' * (width // 2 - length_right))
 
 
 def main():
@@ -31,6 +32,7 @@ def main():
     log_file = args.log_file
     show_all = args.all
 
+    pd.set_option('display.width', 200)
     pd.set_option('display.float_format', lambda x: '%.3f' % x)
 
     while True:
@@ -53,30 +55,35 @@ def main():
                 print(df.to_string())
                 break
 
+            width = len('  '.join(['epoch', 'iteration']) + '  '.join(train_cols) + '   ')
+
             print(chr(27) + "[2J")
 
             param_file = osp.join(osp.dirname(log_file), 'params.yaml')
             if osp.exists(param_file):
                 import yaml
                 data = yaml.load(open(param_file))
-                print_bar('params')
+                print_bar('params', width=width)
                 print(yaml.safe_dump(data, default_flow_style=False))
-                print_bar('')
+                print_bar('', width=width)
 
             print('log_file: %s' % log_file)
 
-            print_bar('train')
+            print_bar('train', width=width)
             print(df[train_cols].dropna().tail(n=5))
             print()
 
-            print_bar('val')
+            print_bar('val', width=width)
             print(df[val_cols].dropna().tail(n=3))
             print()
 
-            print_bar('min/mean/median/max')
-            print(pd.DataFrame([df.min(), df.mean(), df.median(), df.max()],
-                               index=['min', 'mean', 'median', 'max']))
-            print_bar()
+            print_bar('min/mean/median/max', width=width)
+            for cols in [train_cols, val_cols]:
+                df_split = df[cols]
+                print(pd.DataFrame([df_split.min(), df_split.mean(),
+                                    df_split.median(), df_split.max()],
+                                   index=['min', 'mean', 'median', 'max']))
+            print_bar(width=width)
 
             time.sleep(1)
         except KeyboardInterrupt:
