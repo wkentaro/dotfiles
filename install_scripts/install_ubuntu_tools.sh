@@ -15,6 +15,7 @@ which compiz &>/dev/null || sudo apt-get install compizconfig-settings-manager c
 which cowsay &>/dev/null || sudo apt-get install cowsay -y
 which fortune &>/dev/null || sudo apt-get install fortune -y
 which pandoc &>/dev/null || sudo apt-get install pandoc -y
+which gthumb &>/dev/null || sudo apt-get install gthumb -y
 
 # python
 if ! which pip &>/dev/null; then
