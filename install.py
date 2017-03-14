@@ -26,6 +26,12 @@ def link_file(from_, to, force=False, dry_run=False):
         os.system('ln -s {0} {1}'.format(from_, to))
 
 
+def install_private():
+    url = 'https://github.com/wkentaro/private.git'
+    cmd = 'git clone {} {}'.format(url, osp.expanduser('~/.dotfiles/private'))
+    subprocess.call(cmd, shell=True)
+
+
 def install_dotfiles(force, dry_run):
     this_dir = osp.dirname(osp.abspath(__file__))
     home_dir = osp.expanduser('~')
@@ -64,12 +70,14 @@ def main():
                         help='force to link dotfiles')
     parser.add_argument('-n', '--dry-run', action='store_true',
                         help='output the commands which will be executed')
+    parser.add_argument('-p', '--private', action='store_true',
+                        help='install private')
     args = parser.parse_args()
 
-    force = args.force
-    dry_run = args.dry_run
+    if args.private:
+        install_private()
 
-    install_dotfiles(force=force, dry_run=dry_run)
+    install_dotfiles(force=args.force, dry_run=args.dry_run)
     install_commands()
 
 

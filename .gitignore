@@ -1,2 +1,4 @@
-.vim/bundle
+/.vim/bundle
+/private/
+
 *.py[cdo]
