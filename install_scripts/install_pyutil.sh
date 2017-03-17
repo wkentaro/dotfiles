@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if pip show util &>/dev/null; then
   exit 0
