@@ -19,7 +19,7 @@ def main():
         df = pandas.read_csv(filename)
     elif ext == '.json':
         import json
-        data = json.load(filename)
+        data = json.load(open(filename))
         df = pandas.DataFrame(data)
     elif ext == '.yaml':
         import yaml
