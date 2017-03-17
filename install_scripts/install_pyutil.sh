@@ -9,6 +9,10 @@ cd $TMPDIR
 
 git clone https://github.com/wkentaro/pyutil.git
 cd pyutil
-python setup.py install --user --prefix=
+if [ $(uname) = Darwin ]; then
+  python setup.py install
+else
+  python setup.py install --user
+fi
 
 rm -rf $TMPDIR
