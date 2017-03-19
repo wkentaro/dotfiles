@@ -2,8 +2,12 @@
 
 import argparse
 import glob
+import os
+import os.path as osp
 import platform
 import re
+import shlex
+import subprocess
 
 import cv2
 import tqdm
@@ -47,24 +51,30 @@ def main():
     parser.add_argument('-r', '--rate', type=int, default=1)
     args = parser.parse_args()
 
-    out_file = args.out_file
-    input_files = args.input_files
-    rate = args.rate
+    args.input_files = glob.glob(args.input_files)
 
-    input_files = glob.glob(input_files)
+    basename, ext = osp.splitext(args.out_file)
 
-    if rate < 30:
-        fps = ((30 // rate) + 1) * rate
+    if args.rate < 30:
+        fps = ((30 // args.rate) + 1) * args.rate
     else:
-        fps = rate
-    writer = CvVideoWriter(out_file, fps=fps)
+        fps = args.rate
+    writer = CvVideoWriter(basename, fps=fps)
 
-    for f in tqdm.tqdm(natural_sort(input_files), ncols=80):
+    for f in tqdm.tqdm(natural_sort(args.input_files), ncols=80):
         frame = cv2.imread(f)
-        for _ in xrange(fps // rate):
+        for _ in xrange(fps // args.rate):
             writer.write(None, frame)
 
-    print('==> Saved video to: %s' % writer.out)
+    out_file = writer.out
+    if osp.splitext(writer.out)[1] == '.avi' and ext == '.mp4':
+        cmd = 'avi_to_mp4 %s' % writer.out
+        subprocess.call(shlex.split(cmd),
+                        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        os.remove(writer.out)
+        out_file = basename + ext
+
+    print('==> Saved video to: %s' % out_file)
 
 
 if __name__ == '__main__':
