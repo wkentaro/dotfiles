@@ -150,10 +150,12 @@ if hash gls &>/dev/null; then
 fi
 
 convert_to_gif () {
+  filename="$1"
+  basename="${filename%.*}"
   if which ffmpeg &>/dev/null; then
-    ffmpeg -i $1 -pix_fmt rgb8 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > ${1}.gif
+    ffmpeg -i $1 -pix_fmt rgb8 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > ${basename}.gif
   elif which avconv &>/dev/null; then
-    avconv -i $1 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > ${1}.gif
+    avconv -i $1 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > ${basename}.gif
   fi
 }
 
