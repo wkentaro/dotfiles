@@ -29,10 +29,12 @@ def link_file(from_, to, force=False, dry_run=False):
 def install_private():
     path = osp.expanduser('~/.dotfiles/private')
     if osp.exists(path):
-        return
-    url = 'https://github.com/wkentaro/private.git'
-    cmd = 'git clone {} {}'.format(url, path)
-    subprocess.call(cmd, shell=True)
+        cmd = 'git pull origin master'
+        subprocess.call(cmd, shell=True, cwd=path)
+    else:
+        url = 'https://github.com/wkentaro/private.git'
+        cmd = 'git clone {} {}'.format(url, path)
+        subprocess.call(cmd, shell=True)
 
 
 def install_dotfiles(force, dry_run):
