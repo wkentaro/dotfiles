@@ -26,9 +26,9 @@ repo = 'Shougo/neoyank.vim'
 # Interactive terminal tool
 repo = 'wkentaro/conque.vim'
 
-[[plugins]]
-# roscd & rosed
-repo = 'taketwo/vim-ros'
+# [[plugins]]
+# # roscd & rosed
+# repo = 'taketwo/vim-ros'
 
 [[plugins]]
 # https://github.com/tpope/vim-repeat
