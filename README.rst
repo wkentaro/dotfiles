@@ -1,25 +1,21 @@
-========
 dotfiles
 ========
 
-.. image:: https://badge.fury.io/gh/wkentaro%2Fdotfiles.svg
-    :target: https://badge.fury.io/gh/wkentaro%2Fdotfiles
+My dotfiles.
 
-Dotfiles in home directory.
+Usage
+-----
 
-These are dotfiles for below utils.
+.. code-block:: bash
 
-* git
-* zsh
-* iPython
-* vim
-* tmux
-* Ubuntu
-* Mac OS X
+  git clone https://github.com/wkentaro/dotfiles.git ~/.dotfiles --recursive
+  cd ~/.dotfiles
+  ./install.py
 
+Optional
+--------
 
-iTerm2 Settings
-===============
+**iTerm2**
 
 * Download iTerm color schemes from https://github.com/mbadolato/iTerm2-Color-Schemes.
 * `Iterm2 > Preferences > Profiles > Colors > Load Presets > __Dark Pastel__`.
