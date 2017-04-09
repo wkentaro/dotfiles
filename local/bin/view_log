@@ -59,9 +59,12 @@ def main():
 
             print(chr(27) + "[2J")
 
-            param_file = osp.join(osp.dirname(log_file), 'params.yaml')
-            if osp.exists(param_file):
+            log_dir = osp.dirname(log_file)
+            param_files = [osp.join(log_dir, f) for f in ['params.yaml', 'config.yaml']]
+            exists = [osp.exists(f) for f in param_files]
+            if any(exists):
                 import yaml
+                param_file = param_files[exists.index(True)]
                 data = yaml.load(open(param_file))
                 print_bar('params', width=width)
                 print(yaml.safe_dump(data, default_flow_style=False))
@@ -87,7 +90,7 @@ def main():
             time.sleep(1)
         except KeyboardInterrupt:
             break
-        except:
+        except Exception as e:
             pass
 
 
