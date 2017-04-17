@@ -70,11 +70,11 @@ if [ -d "/opt/ros" ]; then
     if [[ ${CURRENT} = 2 ]]; then
       reply=(standalone load unload manager)
     elif [[ ${CURRENT} = 3 ]] && [[ "${words[$CURRENT - 1]}" = "load" ]] || [[ "${words[$CURRENT - 1]}" = "standalone" ]]; then
-      if ( [[ ${+declared_nodelets} -eq 0 ]] ||  _cache_invalid declared_nodelets) \
-           && ! _retrieve_cache declared_nodelets; then
+      # if ( [[ ${+declared_nodelets} -eq 0 ]] ||  _cache_invalid declared_nodelets) \
+      #      && ! _retrieve_cache declared_nodelets; then
         nodelets=($(rosrun nodelet declared_nodelets))
-        _store_cache declared_nodelets nodelets
-      fi
+      #   _store_cache declared_nodelets nodelets
+      # fi
       reply=($nodelets)
     fi
     _describe 'values' reply
