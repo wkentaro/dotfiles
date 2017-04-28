@@ -4,7 +4,8 @@ RUN \
   useradd wkentaro && \
   echo wkentaro:wkentaro | chpasswd && \
   adduser wkentaro sudo && \
-  su - wkentaro
+  su - wkentaro && \
+  mkdir -p /home/wkentaro
 
 RUN \
   set -x && \
@@ -32,7 +33,6 @@ RUN \
   cd ~
 
 RUN \
-  chsh -s $(which zsh) && \
   echo 'source $HOME/.zshrc.wkentaro' > ~/.zshrc && \
   exec zsh --login
 
