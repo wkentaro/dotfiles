@@ -6,6 +6,8 @@ elif [ "$(uname)" = "Darwin" ]; then
   exit 1
 fi
 
+sudo mkdir -p /usr/local/share/man/man1
+
 url="https://github.com/github/hub/releases/download/v2.2.2/hub-linux-amd64-2.2.2.tgz"
 wget $url -O /tmp/hub-linux-amd64-2.2.2.tgz
 cd /tmp
