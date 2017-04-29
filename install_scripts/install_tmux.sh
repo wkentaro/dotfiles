@@ -8,7 +8,7 @@ if [ -f /usr/local/bin/tmux ]; then
   exit 0
 fi
 
-sudo -H apt-get install -qq -y libevent-dev
+sudo -H apt-get install -qq -y libevent-dev libncurses-dev
 
 TMPDIR=$(mktemp -d)
 cd $TMPDIR
