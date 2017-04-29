@@ -2,14 +2,22 @@
 
 My dotfiles.
 
-## Usage
 
+## Usage
 
 ```bash
 git clone https://github.com/wkentaro/dotfiles.git ~/.dotfiles --recursive
 cd ~/.dotfiles
 ./install.py
 ```
+
+
+## Docker
+
+```bash
+docker run -u wkentaro -it wkentaro/dotfiles /bin/zsh
+```
+
 
 ## Optional
 
