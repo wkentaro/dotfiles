@@ -53,3 +53,6 @@ RUN \
   bash ./install_tmux.sh && \
   bash ./install_vim_with_sudo.sh && \
   bash ./install_zsh.sh
+
+RUN \
+  chsh -s /usr/local/bin/zsh wkentaro
