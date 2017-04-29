@@ -11,7 +11,6 @@ RUN \
   apt-get update -qq && \
   apt-get upgrade -qq -y && \
   apt-get install -qq -y \
-    build-essential \
     git \
     fontconfig \
     python \
