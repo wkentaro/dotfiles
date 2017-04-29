@@ -14,11 +14,15 @@ RUN \
     git \
     fontconfig \
     python \
+    python-setuptools \
     python-yaml \
     unzip \
     vim \
     wget \
-    zsh
+    zsh && \
+  easy_install -q pip && \
+  pip install -q -U pip setuptool && \
+  pip install -q percol
 
 RUN \
   locale-gen 'en_US.UTF-8'
@@ -31,11 +35,3 @@ RUN \
   cd ~/.dotfiles && \
   ./install.py && \
   echo 'source $HOME/.zshrc.wkentaro' > ~/.zshrc
-
-USER root
-
-RUN \
-  apt-get install -qq -y python-setuptools && \
-  easy_install -q pip && \
-  pip install -q -U pip setuptools && \
-  pip install -q percol
