@@ -17,7 +17,7 @@ wget http://sourceforge.net/projects/zsh/files/zsh/5.0.7/zsh-5.0.7.tar.bz2
 tar jxf zsh-5.0.7.tar.bz2
 cd zsh-5.0.7
 
-./configure
+./configure --with-tcsetpgrp
 make
 sudo make install
 
