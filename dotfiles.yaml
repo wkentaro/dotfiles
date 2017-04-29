@@ -38,10 +38,12 @@ nvimrc:
   .nvimrc
 percol.d:
   .percol.d
-private/zshrc:
-  .zshrc.private
+private/pypirc:
+  .pypirc
 private/ssh/config:
   .ssh/config
+private/zshrc:
+  .zshrc.private
 pythonstartup:
   .pythonstartup
 ptpython/config.py:
