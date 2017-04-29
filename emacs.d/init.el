@@ -38,5 +38,5 @@
 ;; avoid yn for symlink
 (setq vc-follow-symlinks t)
 
-;; elpy
-(elpy-enable)
+; ;; elpy
+; (elpy-enable)
