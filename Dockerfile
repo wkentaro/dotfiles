@@ -24,7 +24,7 @@ RUN \
 
 RUN \
   easy_install -q pip && \
-  pip install -q -U pip setuptool && \
+  pip install -q -U pip setuptools && \
   pip install -q percol
 
 RUN \
