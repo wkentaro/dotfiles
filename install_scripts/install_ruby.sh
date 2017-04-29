@@ -10,7 +10,7 @@ sudo apt-get install -qq -y git-core curl zlib1g-dev build-essential libssl-dev 
 TMPDIR=$(mktemp -d)
 cd $TMPDIR
 
-wget http://ftp.ruby-lang.org/pub/ruby/2.2/ruby-2.2.3.tar.gz
+wget -q http://ftp.ruby-lang.org/pub/ruby/2.2/ruby-2.2.3.tar.gz
 tar -zxf ruby-2.2.3.tar.gz
 cd ruby-2.2.3
 

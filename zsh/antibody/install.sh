@@ -10,7 +10,7 @@ ARCH="386"
 OS="$(uname -s | tr "[:upper:]" "[:lower:]")"
 ARCH="$(uname -m)"
 mkdir -p ~/.zsh/antibody/antibody
-wget -O /tmp/antibody.tar.gz \
+wget -q -O /tmp/antibody.tar.gz \
   "${BASE_URL}/${VERSION}/antibody_${OS}_${ARCH}.tar.gz"
 tar xvzf /tmp/antibody.tar.gz -C ~/.zsh/antibody/antibody
 
