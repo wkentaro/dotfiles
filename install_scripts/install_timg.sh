@@ -10,7 +10,7 @@ fi
 
 TMPDIR=$(mktemp -d)
 
-sudo apt-get install libwebp-dev libgraphicsmagick++-dev
+sudo apt-get install -qq -y libwebp-dev libgraphicsmagick++-dev
 
 cd $TMPDIR
 git clone https://github.com/hzeller/timg.git

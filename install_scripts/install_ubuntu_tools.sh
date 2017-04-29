@@ -4,18 +4,18 @@ if [ "$(uname)" != "Linux" ]; then
   exit 1
 fi
 
-which aptitude &>/dev/null || sudo apt-get install aptitude -y
-which zsh &>/dev/null || sudo apt-get install zsh -y
-which vim &>/dev/null || sudo apt-get install vim -y
-which xsel &>/dev/null || sudo apt-get install xsel -y
-which xclip &>/dev/null || sudo apt-get install xclip -y
-which atool &>/dev/null || sudo apt-get install atool -y
-which tmux &>/dev/null || sudo apt-get install tmux -y
-which compiz &>/dev/null || sudo apt-get install compizconfig-settings-manager compiz-plugins-extra -y
-which cowsay &>/dev/null || sudo apt-get install cowsay -y
-which fortune &>/dev/null || sudo apt-get install fortune -y
-which pandoc &>/dev/null || sudo apt-get install pandoc -y
-which gthumb &>/dev/null || sudo apt-get install gthumb -y
+which aptitude &>/dev/null || sudo apt-get install -qq -y aptitude
+which zsh &>/dev/null || sudo apt-get install -qq -y zsh
+which vim &>/dev/null || sudo apt-get install -qq -y vim
+which xsel &>/dev/null || sudo apt-get install xsel
+which xclip &>/dev/null || sudo apt-get install -qq -y xclip
+which atool &>/dev/null || sudo apt-get install -qq -y atool
+which tmux &>/dev/null || sudo apt-get install -qq -y tmux
+which compiz &>/dev/null || sudo apt-get install -qq -y compizconfig-settings-manager compiz-plugins-extra
+which cowsay &>/dev/null || sudo apt-get install -qq -y cowsay
+which fortune &>/dev/null || sudo apt-get install -qq -y fortune
+which pandoc &>/dev/null || sudo apt-get install -qq -y pandoc
+which gthumb &>/dev/null || sudo apt-get install -qq -y gthumb
 
 # python
 if ! which pip &>/dev/null; then
@@ -24,11 +24,11 @@ if ! which pip &>/dev/null; then
 fi
 
 # scientific tools
-pip show numpy &>/dev/null || sudo pip install numpy
-pip show scipy &>/dev/null || sudo pip install scipy
-pip show scikit-learn &>/dev/null || sudo pip install scikit-learn
-pip show scikit-image &>/dev/null || sudo pip install scikit-image
+pip show numpy &>/dev/null || sudo pip install -q numpy
+pip show scipy &>/dev/null || sudo pip install -q scipy
+pip show scikit-learn &>/dev/null || sudo pip install -q scikit-learn
+pip show scikit-image &>/dev/null || sudo pip install -q scikit-image
 
 # ros tools
-pip show wstool &>/dev/null || sudo pip install wstool
-pip show catkin-tools &>/dev/null || sudo pip install catkin-tools
+pip show wstool &>/dev/null || sudo pip install -q wstool
+pip show catkin-tools &>/dev/null || sudo pip install -q catkin-tools
