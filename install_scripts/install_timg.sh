@@ -16,6 +16,6 @@ cd $TMPDIR
 git clone https://github.com/hzeller/timg.git
 cd timg/src
 make
-cp timg ~/.local/bin/timg
+cp timg /usr/local/bin/timg
 
 rm -rf $TMPDIR
