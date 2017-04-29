@@ -32,5 +32,10 @@ RUN \
   ./install.py && \
   echo 'source $HOME/.zshrc.wkentaro' > ~/.zshrc
 
-# RUN \
-#   chsh -s /bin/zsh
+USER root
+
+RUN \
+  apt-get install -qq -y python-setuptools && \
+  easy_install -q pip && \
+  pip install -q -U pip setuptools && \
+  pip install -q percol
