@@ -6,13 +6,16 @@ My dotfiles.
 ## Usage
 
 ```bash
-git clone https://github.com/wkentaro/dotfiles.git ~/.dotfiles --recursive
-cd ~/.dotfiles
+cd ~
+git clone --recursive https://github.com/wkentaro/dotfiles.git
+cd .dotfiles
 ./install.py
 ```
 
 
 ## Docker
+
+You can try my shell env in docker.
 
 ```bash
 docker run -u wkentaro -it wkentaro/dotfiles /bin/zsh
