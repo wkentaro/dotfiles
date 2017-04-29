@@ -18,7 +18,7 @@ cd .dotfiles
 You can try my shell env in docker.
 
 ```bash
-docker run -u wkentaro -it wkentaro/dotfiles /bin/zsh
+docker run -u wkentaro -e SHELL=/usr/local/bin/zsh -it wkentaro/dotfiles /usr/local/bin/zsh
 ```
 
 
