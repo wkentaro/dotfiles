@@ -5,7 +5,7 @@ if [ -e ~/.anaconda2 ]; then
 fi
 
 VERSION=4.3.1
-cd ~/Downloads
+mkdir -p ~/Downloads && cd ~/Downloads
 if [ "$(uname)" = "Linux" ]; then
   if [ ! -e Anaconda2-${VERSION}-Linux-x86_64.sh ]; then
     wget "https://repo.continuum.io/archive/Anaconda2-${VERSION}-Linux-x86_64.sh"
