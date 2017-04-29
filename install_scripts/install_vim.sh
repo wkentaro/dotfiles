@@ -1,7 +1,6 @@
 #!/bin/sh
 
 TMPDIR=$(mktemp -d)
-
 cd $TMPDIR
 
 git clone https://github.com/vim/vim.git -b v8.0.0075
@@ -23,3 +22,5 @@ make distclean
 make VIMRUNTIMEDIR=~/.local/share/vim/vim80
 
 make install prefix=~/.local
+
+rm -rf $TMPDIR
