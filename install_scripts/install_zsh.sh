@@ -18,7 +18,7 @@ tar jxf zsh-5.0.7.tar.bz2
 cd zsh-5.0.7
 
 ./configure --with-tcsetpgrp
-make
+make -j
 sudo make install
 
 if ! grep '/usr/local/bin/zsh' /etc/shells; then

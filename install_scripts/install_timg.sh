@@ -15,7 +15,7 @@ sudo apt-get install -qq -y libwebp-dev libgraphicsmagick++-dev
 cd $TMPDIR
 git clone https://github.com/hzeller/timg.git
 cd timg/src
-make
+make -j
 cp timg /usr/local/bin/timg
 
 rm -rf $TMPDIR

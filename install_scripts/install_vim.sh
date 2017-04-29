@@ -19,7 +19,7 @@ make distclean
             --enable-luainterp=yes \
             --enable-gui=gtk2 --enable-cscope --prefix=/usr
 
-make VIMRUNTIMEDIR=~/.local/share/vim/vim80
+make -j VIMRUNTIMEDIR=~/.local/share/vim/vim80
 
 make install prefix=~/.local
 

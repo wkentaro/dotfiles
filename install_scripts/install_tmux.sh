@@ -18,7 +18,7 @@ tar zxf tmux-2.2.tar.gz
 cd tmux-2.2
 
 ./configure
-make
+make -j
 sudo make install
 
 rm -rf $TMPDIR

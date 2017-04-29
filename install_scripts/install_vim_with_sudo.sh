@@ -33,7 +33,7 @@ make distclean
     --enable-fail-if-missing \
     --with-lua-prefix=/usr/include/lua5.1 \
     --enable-cscope 
-make
+make -j
 sudo make install
 cd 
 rm -rf $TMPDIR

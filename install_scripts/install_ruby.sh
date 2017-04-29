@@ -15,7 +15,7 @@ tar -zxf ruby-2.2.3.tar.gz
 cd ruby-2.2.3
 
 ./configure
-make
+make -j
 sudo make install
 
 ruby -v
