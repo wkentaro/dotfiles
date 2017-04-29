@@ -3,9 +3,9 @@ FROM ubuntu:trusty
 RUN \
   useradd wkentaro && \
   echo wkentaro:wkentaro | chpasswd && \
+  mkdir -p /home/wkentaro && \
   adduser wkentaro sudo && \
   su - wkentaro && \
-  mkdir -p /home/wkentaro
 
 RUN \
   set -x && \
