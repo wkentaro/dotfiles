@@ -22,6 +22,9 @@ RUN \
     zsh
 
 RUN \
+  chsh -s $(which zsh)
+
+RUN \
   cd ~ && \
   git clone --recursive \
     https://github.com/wkentaro/dotfiles.git .dotfiles
