@@ -4,14 +4,13 @@ RUN \
   useradd wkentaro && \
   echo wkentaro:wkentaro | chpasswd && \
   mkdir -p /home/wkentaro && \
-  adduser wkentaro sudo && \
-  su - wkentaro
+  chown -R wkentaro:wkentaro /home/wkentaro && \
+  adduser wkentaro sudo
 
 RUN \
-  set -x && \
-  sudo -H apt-get update -qq && \
-  sudo -H apt-get upgrade -qq -y && \
-  sudo -H apt-get install -qq -y \
+  apt-get update -qq && \
+  apt-get upgrade -qq -y && \
+  apt-get install -qq -y \
     git \
     fontconfig \
     python \
@@ -22,22 +21,16 @@ RUN \
     zsh
 
 RUN \
-  chsh -s $(which zsh)
+  locale-gen 'en_US.UTF-8'
+
+USER wkentaro
 
 RUN \
-  cd ~ && \
-  git clone --recursive \
-    https://github.com/wkentaro/dotfiles.git .dotfiles
-
-RUN \
-  mkdir -p ~/Downloads && \
+  git clone -q --recursive \
+    https://github.com/wkentaro/dotfiles.git ~/.dotfiles && \
   cd ~/.dotfiles && \
   ./install.py && \
-  cd ~
+  echo 'source $HOME/.zshrc.wkentaro' > ~/.zshrc
 
-RUN \
-  echo 'source $HOME/.zshrc.wkentaro' > ~/.zshrc && \
-  exec zsh --login
-
-RUN \
-  sudo locale-gen 'en_US.UTF-8'
+# RUN \
+#   chsh -s /bin/zsh
