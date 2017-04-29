@@ -5,7 +5,7 @@ RUN \
   echo wkentaro:wkentaro | chpasswd && \
   mkdir -p /home/wkentaro && \
   adduser wkentaro sudo && \
-  su - wkentaro && \
+  su - wkentaro
 
 RUN \
   set -x && \
