@@ -12,7 +12,7 @@ TMPDIR=$(mktemp -d)
 
 cd $TMPDIR
 url="https://github.com/github/hub/releases/download/v2.2.2/hub-linux-amd64-2.2.2.tgz"
-wget $url -O /tmp/hub-linux-amd64-2.2.2.tgz
+wget $url -O hub-linux-amd64-2.2.2.tgz
 tar zxf hub-linux-amd64-2.2.2.tgz
 
 cp hub-linux-amd64-2.2.2/bin/hub /usr/local/bin/hub
