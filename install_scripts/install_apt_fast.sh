@@ -5,6 +5,7 @@ if hash apt-fast &>/dev/null; then
   exit 0
 fi
 
-sudo add-apt-repository ppa:saiarcot895/myppa
-sudo apt-get update
-sudo apt-get -y install apt-fast
+sudo apt-get install -qq -y software-properties-common
+sudo add-apt-repository ppa:saiarcot895/myppa -y
+sudo apt-get update -qq
+sudo apt-get install -qq -y apt-fast
