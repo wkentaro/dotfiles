@@ -11,6 +11,7 @@ RUN \
   apt-get update -qq && \
   apt-get upgrade -qq -y && \
   apt-get install -qq -y \
+    build-essential \
     git \
     fontconfig \
     python \
@@ -19,7 +20,9 @@ RUN \
     unzip \
     vim \
     wget \
-    zsh && \
+    zsh
+
+RUN \
   easy_install -q pip && \
   pip install -q -U pip setuptool && \
   pip install -q percol
