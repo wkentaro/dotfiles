@@ -12,6 +12,7 @@ RUN \
   apt-get upgrade -qq -y && \
   apt-get install -qq -y \
     aptitude \
+    ctags \
     git \
     fontconfig \
     python \
