@@ -28,7 +28,8 @@ RUN \
   pip install -q percol
 
 RUN \
-  locale-gen 'en_US.UTF-8'
+  locale-gen 'en_US.UTF-8' && \
+  chsh -s /bin/zsh wkentaro
 
 USER wkentaro
 
