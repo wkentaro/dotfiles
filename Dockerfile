@@ -47,10 +47,11 @@ RUN \
   cd /home/wkentaro/.dotfiles/install_scripts && \
   bash ./install_ffmpeg_trusty.sh && \
   bash ./install_hub.sh && \
+  bash ./install_ros_indigo.sh && \
   bash ./install_ruby.sh && \
-  bash ./install_ubuntu_tools.sh && \
   bash ./install_timg.sh && \
   bash ./install_tmux.sh && \
+  bash ./install_ubuntu_tools.sh && \
   bash ./install_vim_with_sudo.sh && \
   bash ./install_zsh.sh
 
