@@ -46,3 +46,5 @@
 	diff = diff-highlight | less
 [credential]
 	helper = cache
+[hub]
+	protocol = https
