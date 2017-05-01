@@ -1,0 +1,39 @@
+#!/usr/bin/env python
+
+import datetime
+
+import dateutil.parser
+import requests
+import pytz
+import tabulate
+import yaml
+
+
+def main():
+    now = datetime.datetime.now(pytz.timezone('Asia/Tokyo'))
+
+    url = 'https://raw.githubusercontent.com/abhshkdz/ai-deadlines/gh-pages/_data/conferences.yml'  # NOQA
+    res = requests.get(url)
+
+    conferences = []
+    for conf in yaml.load(res.content):
+        timezone = conf.get('timezone', 'America/New_York')
+        deadline = dateutil.parser.parse(conf['deadline'])
+        deadline = deadline.replace(tzinfo=pytz.timezone(timezone))
+        deadline = deadline.astimezone(pytz.timezone('Asia/Tokyo'))
+        conf['deadline'] = deadline
+        conf['remain'] = deadline - now
+        conferences.append(conf)
+
+    headers = ['name', 'year', 'deadline', 'remain', 'sub', 'place', 'date']
+    rows = []
+    for conf in sorted(conferences, key=lambda x: x['deadline']):
+        if conf['deadline'] < now:
+            continue
+        rows.append([conf[h] for h in headers])
+    table = tabulate.tabulate(rows, headers=headers, stralign='right')
+    print(table)
+
+
+if __name__ == '__main__':
+    main()
