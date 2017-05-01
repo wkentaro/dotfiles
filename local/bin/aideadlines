@@ -25,7 +25,7 @@ def main():
         conf['remain'] = deadline - now
         conferences.append(conf)
 
-    headers = ['name', 'year', 'deadline', 'remain', 'sub', 'place', 'date']
+    headers = ['name', 'year', 'deadline', 'remain', 'sub']
     rows = []
     for conf in sorted(conferences, key=lambda x: x['deadline']):
         if conf['deadline'] < now:
