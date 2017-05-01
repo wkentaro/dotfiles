@@ -1,33 +1,51 @@
 #!/usr/bin/env python
 
 import datetime
+import glob
+import os
+import os.path as osp
+import urllib2
 
 import dateutil.parser
-import requests
 import pytz
 import tabulate
 import yaml
 
 
-def main():
+def get_conferences_data():
+    cache_dir = osp.expanduser('~/.cache/aideadlines')
+    if not osp.exists(cache_dir):
+        os.makedirs(cache_dir)
+
     now = datetime.datetime.now(pytz.timezone('Asia/Tokyo'))
+    cache_file = osp.join(cache_dir, now.strftime('%Y-%m-%d.yaml'))
 
-    url = 'https://raw.githubusercontent.com/abhshkdz/ai-deadlines/gh-pages/_data/conferences.yml'  # NOQA
-    res = requests.get(url)
+    if osp.exists(cache_file):
+        data = yaml.load(open(cache_file))
+    else:
+        for f in glob.glob(osp.join(cache_dir, '*.yaml')):
+            os.remove(f)
+        url = 'https://raw.githubusercontent.com/abhshkdz/ai-deadlines/gh-pages/_data/conferences.yml'  # NOQA
+        response = urllib2.request(url)
+        data = yaml.load(response.read())
+        with open(cache_file, 'w') as f:
+            yaml.safe_dump(data, f, default_flow_style=False)
 
-    conferences = []
-    for conf in yaml.load(res.content):
+    for conf in data:
         timezone = conf.get('timezone', 'America/New_York')
         deadline = dateutil.parser.parse(conf['deadline'])
         deadline = deadline.replace(tzinfo=pytz.timezone(timezone))
         deadline = deadline.astimezone(pytz.timezone('Asia/Tokyo'))
         conf['deadline'] = deadline
         conf['remain'] = deadline - now
-        conferences.append(conf)
+        yield conf
 
+
+def main():
+    now = datetime.datetime.now(pytz.timezone('Asia/Tokyo'))
     headers = ['name', 'year', 'deadline', 'remain', 'sub']
     rows = []
-    for conf in sorted(conferences, key=lambda x: x['deadline']):
+    for conf in sorted(get_conferences_data(), key=lambda x: x['deadline']):
         if conf['deadline'] < now:
             continue
         rows.append([conf[h] for h in headers])
