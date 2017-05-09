@@ -93,7 +93,7 @@ export EDITOR='vim'
 export SSH_KEY_PATH='$HOME/.ssh/id_rsa'
 
 # GitHub
-if [ -z GITHUB_USER ]; then
+if [ -z $GITHUB_USER ]; then
   export GITHUB_USER='wkentaro'
 fi
 
