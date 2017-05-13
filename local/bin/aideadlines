@@ -26,7 +26,7 @@ def get_conferences_data():
         for f in glob.glob(osp.join(cache_dir, '*.yaml')):
             os.remove(f)
         url = 'https://raw.githubusercontent.com/abhshkdz/ai-deadlines/gh-pages/_data/conferences.yml'  # NOQA
-        response = urllib2.request(url)
+        response = urllib2.urlopen(url)
         data = yaml.load(response.read())
         with open(cache_file, 'w') as f:
             yaml.safe_dump(data, f, default_flow_style=False)
