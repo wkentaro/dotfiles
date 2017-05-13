@@ -57,3 +57,7 @@ RUN \
 
 RUN \
   chsh -s /usr/local/bin/zsh wkentaro
+
+USER wkentaro
+ENV HOME /home/wkentaro
+ENV SHELL /usr/local/bin/zsh
