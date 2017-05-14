@@ -61,3 +61,4 @@ RUN \
 USER wkentaro
 ENV HOME /home/wkentaro
 ENV SHELL /usr/local/bin/zsh
+CMD /usr/local/bin/zsh
