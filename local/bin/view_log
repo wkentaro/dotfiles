@@ -44,12 +44,14 @@ def main():
                 df = pd.read_csv(log_file)
             df = df.set_index(['epoch', 'iteration'])
 
-            train_cols, val_cols = [], []
+            train_cols, valid_cols, else_cols = [], [], []
             for col in df.columns:
                 if col.startswith('validation/') or col.startswith('valid/'):
-                    val_cols.append(col)
-                else:
+                    valid_cols.append(col)
+                elif col.startswith('train/'):
                     train_cols.append(col)
+                else:
+                    else_cols.append(col)
 
             if show_all:
                 print(df.to_string())
@@ -76,15 +78,16 @@ def main():
             print(df[train_cols].dropna().tail(n=5))
             print()
 
-            print_bar('val', width=width)
-            print(df[val_cols].dropna().tail(n=3))
+            print_bar('valid', width=width)
+            print(df[valid_cols].dropna().tail(n=3))
             print()
 
             print_bar('min/mean/max', width=width)
-            for cols in [train_cols, val_cols]:
-                df_split = df[cols]
-                print(pd.DataFrame([df_split.min(), df_split.mean(), df_split.max()],
-                                   index=['min', 'mean', 'max']))
+            for cols in [train_cols, valid_cols]:
+                split = osp.split(cols[0])[0]
+                idx_min = df[osp.join(split, 'loss')].idxmin()
+                idx_max = df[osp.join(split, 'loss')].idxmax()
+                print(df.ix[idx_min][cols])
             print_bar(width=width)
 
             time.sleep(1)
