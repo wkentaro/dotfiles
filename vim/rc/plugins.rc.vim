@@ -230,8 +230,9 @@ if v:version > 703
   try
     set background=dark
     if $VIM_COLORSCHEME == ""
-      colorscheme solarized
+      colorscheme default
     else
+      " colorscheme solarized
       colorscheme $VIM_COLORSCHEME
     endif
   catch /^Vim\%((\a\+)\)\=:E185/
