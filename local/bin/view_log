@@ -74,6 +74,10 @@ def main():
 
             print('log_file: %s' % log_file)
 
+            if df.empty:
+                time.sleep(1)
+                continue
+
             print_bar('train', width=width)
             print(df[train_cols].dropna().tail(n=5))
             print()
