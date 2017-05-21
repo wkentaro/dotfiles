@@ -3,7 +3,6 @@
 from __future__ import print_function
 
 import argparse
-import os
 import os.path as osp
 import time
 
@@ -27,10 +26,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('log_file')
     parser.add_argument('--all', action='store_true')
+    parser.add_argument('-1', '--once', action='store_true')
     args = parser.parse_args()
 
     log_file = args.log_file
-    show_all = args.all
 
     pd.set_option('display.width', 200)
     pd.set_option('display.float_format', lambda x: '%.3f' % x)
@@ -53,7 +52,7 @@ def main():
                 else:
                     else_cols.append(col)
 
-            if show_all:
+            if args.all:
                 print(df.to_string())
                 break
 
@@ -86,18 +85,23 @@ def main():
             print(df[valid_cols].dropna().tail(n=3))
             print()
 
-            print_bar('min/mean/max', width=width)
-            for cols in [train_cols, valid_cols]:
-                split = osp.split(cols[0])[0]
-                idx_min = df[osp.join(split, 'loss')].idxmin()
-                idx_max = df[osp.join(split, 'loss')].idxmax()
-                print(df.ix[idx_min][cols].dropna())
+            for col in valid_cols:
+                if 'loss' in col:
+                    print_bar('min:%s' % col, width=width)
+                    idx = df[col].idxmin()
+                else:
+                    print_bar('max:%s' % col, width=width)
+                    idx = df[col].idxmax()
+                print(df.ix[idx][valid_cols].dropna())
             print_bar(width=width)
 
+            if args.once:
+                break
             time.sleep(1)
         except KeyboardInterrupt:
             break
         except Exception as e:
+            print(e)
             pass
 
 
