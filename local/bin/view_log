@@ -100,8 +100,7 @@ def main():
             time.sleep(1)
         except KeyboardInterrupt:
             break
-        except Exception as e:
-            print(e)
+        except Exception:
             pass
 
 
