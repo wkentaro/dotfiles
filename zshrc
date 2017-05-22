@@ -413,6 +413,6 @@ if [ -e /usr/local/cuda ]; then
   fi
   if [ -e /usr/local/cuda/include/cudnn.h ]; then
     export CFLAGS=-I$CUDA_HOME/include
-    export LDFLAGS=-I$CUDA_HOME/lib64
+    export LDFLAGS=-L$CUDA_HOME/lib64
   fi
 fi
