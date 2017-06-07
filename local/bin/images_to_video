@@ -9,32 +9,8 @@ import re
 import shlex
 import subprocess
 
-import cv2
+import imageio
 import tqdm
-
-
-class CvVideoWriter(object):
-
-    def __init__(self, out, fps):
-        if platform.uname()[0] == 'Darwin':
-            self.fourcc = cv2.cv.CV_FOURCC(*'mp4v')
-            self.out = out + '.mp4'
-        else:
-            self.fourcc = cv2.cv.CV_FOURCC(*'XVID')
-            self.out = out + '.avi'
-        self.fps = fps
-        self._writer = None
-
-    def write(self, stamp, frame):
-        if self._writer is None:
-            self._writer = cv2.VideoWriter(
-                self.out, self.fourcc, self.fps,
-                frameSize=(frame.shape[1], frame.shape[0]),
-                isColor=frame.ndim == 3)
-        self._writer.write(frame)
-
-    def __del__(self):
-        self._writer.release()
 
 
 def natural_sort(l):
@@ -53,28 +29,13 @@ def main():
 
     args.input_files = glob.glob(args.input_files)
 
-    basename, ext = osp.splitext(args.out_file)
-
-    if args.rate < 30:
-        fps = ((30 // args.rate) + 1) * args.rate
-    else:
-        fps = args.rate
-    writer = CvVideoWriter(basename, fps=fps)
+    writer = imageio.get_writer(args.out_file, fps=args.rate)
 
     for f in tqdm.tqdm(natural_sort(args.input_files), ncols=80):
-        frame = cv2.imread(f)
-        for _ in xrange(fps // args.rate):
-            writer.write(None, frame)
+        frame = imageio.imread(f)
+        writer.append_data(frame)
 
-    out_file = writer.out
-    if osp.splitext(writer.out)[1] == '.avi' and ext == '.mp4':
-        cmd = 'avi_to_mp4 %s' % writer.out
-        subprocess.call(shlex.split(cmd),
-                        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        os.remove(writer.out)
-        out_file = basename + ext
-
-    print('==> Saved video to: %s' % out_file)
+    print('==> Saved video to: %s' % args.out_file)
 
 
 if __name__ == '__main__':
