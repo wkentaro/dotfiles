@@ -13,9 +13,10 @@ sudo -H apt-get install -qq -y libevent-dev libncurses-dev
 TMPDIR=$(mktemp -d)
 cd $TMPDIR
 
-wget -q https://github.com/tmux/tmux/releases/download/2.2/tmux-2.2.tar.gz
-tar zxf tmux-2.2.tar.gz
-cd tmux-2.2
+VERSION=2.5
+wget -q https://github.com/tmux/tmux/releases/download/${VERSION}/tmux-${VERSION}.tar.gz
+tar zxf tmux-${VERSION}.tar.gz
+cd tmux-${VERSION}
 
 ./configure
 make -j
