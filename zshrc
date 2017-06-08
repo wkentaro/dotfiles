@@ -413,6 +413,10 @@ if [ -e /usr/local/cuda ]; then
   fi
   if [ -e /usr/local/cuda/include/cudnn.h ]; then
     export CFLAGS=-I$CUDA_HOME/include
-    export LDFLAGS=-L$CUDA_HOME/lib64
+    if [ "$(uname)" = "Darwin" ]; then
+      export LDFLAGS=-L$CUDA_HOME/lib
+    else
+      export LDFLAGS=-L$CUDA_HOME/lib64
+    fi
   fi
 fi
