@@ -4,7 +4,7 @@ if [ "$(uname)" != "Linux" ]; then
   exit 1
 fi
 
-if [ -f /usr/local/bin/tmux ]; then
+if [ -f ~/.local/bin/tmux ]; then
   exit 0
 fi
 
@@ -18,8 +18,8 @@ wget -q https://github.com/tmux/tmux/releases/download/${VERSION}/tmux-${VERSION
 tar zxf tmux-${VERSION}.tar.gz
 cd tmux-${VERSION}
 
-./configure
+./configure --prefix=$HOME/.local
 make -j
-sudo make install
+make install
 
 rm -rf $TMPDIR
