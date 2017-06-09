@@ -16,6 +16,6 @@
 #             exit 1
 #         fi
 # esac
-pygmentize "$1" 2>/dev/null
-
-exit 0
+# pygmentize "$1" 2>/dev/null
+#
+# exit 0
