@@ -85,7 +85,7 @@ def main():
 
         # comment "please merge this"
         comment = '''\
-Please merge this.
+Could you please merge this?
 <img src="{url}" width="300px" />'''.format(url=img_url)
         cmd = "ghi comment {pr_num} -m '{comment}' -- {owner}/{repo}"\
             .format(owner=owner, repo=repo, pr_num=pr_num, comment=comment)
