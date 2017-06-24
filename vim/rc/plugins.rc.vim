@@ -167,7 +167,7 @@ let g:syntastic_check_on_wq = 0
 " let g:syntastic_quiet_messages = {"level": "warning"}
 " au BufNewFile,BufRead *.l let g:syntastic_quiet_messages = {"level": "error"}
 let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_cpp_checkers = ['roslint_cpplint', 'gcc']
+let g:syntastic_cpp_checkers = ['cpplint']
 " let g:syntastic_c_remove_include_errors = 1
 " let g:syntastic_cpp_remove_include_errors = 1
 
