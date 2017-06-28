@@ -3,8 +3,7 @@
 import argparse
 import os
 import os.path as osp
-import shlex
-import subprocess
+import imageio
 
 
 parser = argparse.ArgumentParser()
@@ -18,10 +17,5 @@ rate = args.rate
 out_dir = osp.splitext(osp.basename(video_file))[0]
 os.mkdir(out_dir)
 
-cmd = 'ffmpeg -i {video_file} -r {rate} {out_dir}/%03d.png'.format(
-    video_file=video_file,
-    rate=rate,
-    out_dir=out_dir,
-)
-
-subprocess.call(shlex.split(cmd))
+for i, img in enumerate(imageio.get_reader(video_file)):
+    imageio.imsave(osp.join(out_dir, '%08d.jpg' % i), img)

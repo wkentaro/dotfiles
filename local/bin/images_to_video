@@ -29,11 +29,17 @@ def main():
 
     args.input_files = glob.glob(args.input_files)
 
+    n_times_write = 1
+    if args.rate < 10:
+        n_times_write = 10 // args.rate
+        args.rate = 10
+
     writer = imageio.get_writer(args.out_file, fps=args.rate)
 
     for f in tqdm.tqdm(natural_sort(args.input_files), ncols=80):
         frame = imageio.imread(f)
-        writer.append_data(frame)
+        for _ in xrange(n_times_write):
+            writer.append_data(frame)
 
     print('==> Saved video to: %s' % args.out_file)
 
