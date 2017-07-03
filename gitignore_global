@@ -9,3 +9,4 @@ venv
 .autoenv_leave.zsh
 .clang_complete
 build/
+*.py[cdo]
