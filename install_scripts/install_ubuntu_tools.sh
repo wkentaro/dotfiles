@@ -13,6 +13,7 @@ which atool &>/dev/null || sudo apt-get install -qq -y atool
 which tmux &>/dev/null || sudo apt-get install -qq -y tmux
 sudo apt-get install -qq -y compizconfig-settings-manager compiz-plugins-extra
 sudo apt-get install -qq -y indicator-multiload
+sudo apt-get install -qq -y uim uim-mozc
 which cowsay &>/dev/null || sudo apt-get install -qq -y cowsay
 which fortune &>/dev/null || sudo apt-get install -qq -y fortune
 which pandoc &>/dev/null || sudo apt-get install -qq -y pandoc
