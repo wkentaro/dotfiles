@@ -1,5 +1,7 @@
 # dotfiles
 
+[![Docker Build Status](https://img.shields.io/docker/build/wkentaro/dotfiles.svg)](https://hub.docker.com/r/wkentaro/dotfiles/)
+
 My dotfiles.
 
 
