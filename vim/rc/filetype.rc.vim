@@ -19,8 +19,8 @@ au BufNewFile,BufRead *.launch set tabstop=8 shiftwidth=2 ft=xml
 au BufNewFile,BufRead *.test set tabstop=8 shiftwidth=2 ft=xml
 au BufNewFile,BufRead *.php set tabstop=8 shiftwidth=4
 au BufNewFile,BufRead *.md set tabstop=8 shiftwidth=2 ft=markdown
-au BufNewFile,BufRead *.html set tabstop=8 shiftwidth=4
-au BufNewFile,BufRead *.js set tabstop=8 shiftwidth=4
+au BufNewFile,BufRead *.html set tabstop=8 shiftwidth=2
+au BufNewFile,BufRead *.js set tabstop=8 shiftwidth=2
 au BufNewFile,BufRead *.rst set tabstop=8 shiftwidth=2 ft=rst
 au BufNewFile,BufRead *.tex set tabstop=8 shiftwidth=2 ft=tex colorcolumn=100
 au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
