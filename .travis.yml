@@ -1,0 +1,15 @@
+sudo: required
+
+dist: trusty
+
+language: generic
+
+install:
+  - sudo apt-get install -qq -y python-setuptools
+  - sudo easy_install pip
+  - sudo pip install -U pip setuptools
+
+script:
+  - ./install.py
+  - bash ./install_scripts/install_docker.sh
+  - sudo docker build -t wkentaro-dotfiles .
