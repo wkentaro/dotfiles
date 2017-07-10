@@ -2,7 +2,8 @@ sudo apt-get remove --purge -qq -y vim vim-runtime vim-gnome vim-tiny vim-common
 
 sudo apt-get build-dep -qq -y vim-gnome
 
-sudo apt-get install -qq -y liblua5.1-dev luajit libluajit-5.1 python-dev ruby-dev libperl-dev mercurial libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev
+sudo apt-get install aptitude
+sudo aptitude install -qq -y liblua5.1-dev luajit libluajit-5.1 python-dev ruby-dev libperl-dev mercurial libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev
 
 sudo rm -rf /usr/local/share/vim
 
@@ -38,4 +39,4 @@ sudo make install
 cd 
 rm -rf $TMPDIR
 
-sudo apt-get install -qq -y vim-gtk
+sudo aptitude install -qq -y vim-gtk
