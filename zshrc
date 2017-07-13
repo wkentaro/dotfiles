@@ -212,7 +212,7 @@ if type percol &>/dev/null; then
       case $cmd in
         (commands)
           local -a ros_commands
-          ros_commands=(rosrun roscd rostopic rosmsg rosmsg-proto rospack rosnode)
+          ros_commands=(rosrun roscd rostopic rosservice rosmsg rosmsg-proto rospack rosnode)
           LBUFFER="$(echo $ros_commands | xargs -n1 | percol) "
           ;;
         (rosmsg)
@@ -226,6 +226,9 @@ if type percol &>/dev/null; then
           ;;
         (rospack)
           LBUFFER=$LBUFFER$(rospack list | awk '{print $1}' | percol)
+          ;;
+        (rosservice)
+          LBUFFER=$LBUFFER$(rosservice list | percol)
           ;;
         (rosservice)
           LBUFFER=$LBUFFER$(rosservice list | percol)
