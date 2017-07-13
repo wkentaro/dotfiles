@@ -151,3 +151,17 @@ rossetws () {
 }
 
 export ROSCONSOLE_FORMAT='[${severity}] [${time}]: [${node}] [${function}] ${message}'
+
+topic_hz_monitor () {
+  rosrun jsk_tools topic_hz_monitor.py $@
+}
+_rostopics () {
+  local -a reply
+  if [[ ${CURRENT} = 2 ]]; then
+    reply=($(rostopic list))
+  fi
+  _describe 'values' reply
+}
+if which compdef &>/dev/null; then
+  compdef _rostopics topic_hz_monitor
+fi
