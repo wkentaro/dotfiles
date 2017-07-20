@@ -56,7 +56,7 @@ def main():
                 print(df.to_string())
                 break
 
-            width = len('  '.join(['epoch', 'iteration']) + '  '.join(train_cols) + '   ')
+            width = len('  '.join(['epoch', 'iteration']) + '  '.join(train_cols + else_cols) + '   ')
 
             print(chr(27) + "[2J")
 
@@ -77,22 +77,27 @@ def main():
                 time.sleep(1)
                 continue
 
-            print_bar('train', width=width)
-            print(df[train_cols].dropna().tail(n=5))
-            print()
+            df_train = df[train_cols + else_cols].dropna()
+            if not df_train.empty:
+                print_bar('train', width=width)
+                print(df_train.tail(n=5))
+                print()
 
-            print_bar('valid', width=width)
-            print(df[valid_cols].dropna().tail(n=3))
-            print()
+            df_valid = df[valid_cols + else_cols].dropna()
+            if not df_valid.empty:
+                print_bar('valid', width=width)
+                print(df_valid.tail(n=3))
+                print()
 
-            for col in valid_cols:
-                if 'loss' in col:
-                    print_bar('min:%s' % col, width=width)
-                    idx = df[col].idxmin()
-                else:
-                    print_bar('max:%s' % col, width=width)
-                    idx = df[col].idxmax()
-                print(df.ix[idx][valid_cols].dropna())
+                for col in valid_cols:
+                    if 'loss' in col:
+                        print_bar('min:%s' % col, width=width)
+                        idx = df[col].idxmin()
+                    else:
+                        print_bar('max:%s' % col, width=width)
+                        idx = df[col].idxmax()
+                    print(df.ix[idx][valid_cols + else_cols].dropna())
+
             print_bar(width=width)
 
             if args.once:
@@ -100,8 +105,12 @@ def main():
             time.sleep(1)
         except KeyboardInterrupt:
             break
-        except Exception:
-            pass
+        except IOError as e:
+            print(e)
+            continue
+        except Exception as e:
+            print(e)
+            break
 
 
 if __name__ == '__main__':
