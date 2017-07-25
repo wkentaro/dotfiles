@@ -106,7 +106,9 @@ def main():
         except KeyboardInterrupt:
             break
         except IOError as e:
+            print(chr(27) + "[2J")
             print(e)
+            time.sleep(1)
             continue
         except Exception as e:
             print(e)
