@@ -34,6 +34,11 @@ windows:
   - baxter: read && roslaunch jsk_arc2017_baxter baxter.launch pick:=false moveit:=true
   - setup: read && roslaunch jsk_arc2017_baxter setup_for_stow.launch
   - main:
-    - dirname=~/stow_$(date +%Y%m%d_%H%M%S)
-    - rosrun jsk_arc2017_common json_generator.py --stow -d $dirname
-    - read && roslaunch jsk_arc2017_baxter stow.launch moveit:=true json_dir:=$dirname rosbag:=true rosbag_filename:=$dirname/rosbag.bag
+    - dirname=~/stow_$(date +%Y%m%d_%H%M)
+    #- dirname=~/stow_20170721_1519/
+    - read && rosrun jsk_arc2017_common json_generator.py -d $dirname --stow
+    - read && roslaunch jsk_arc2017_baxter stow.launch moveit:=true json_dir:=$dirname rosbag:=false
+  - rosbag:
+    - dirname=~/stow_$(date +%Y%m%d_%H%M)
+    #- dirname=~/stow_20170721_1519/
+    - read && roslaunch jsk_arc2017_baxter record_rosbag.launch filename:=$dirname/rosbag.bag
