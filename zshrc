@@ -16,7 +16,8 @@ setopt magic_equal_subst
 setopt complete_in_word
 setopt always_last_prompt
 setopt print_eight_bit
-setopt extended_glob
+unsetopt extended_glob  # for git reset HEAD^
+unsetopt magicequalsubst  # for ~input:=/camera/rgb/image_raw
 # setopt globdots  # enable completion for dotfiles
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' accept-exact '*(N)'
