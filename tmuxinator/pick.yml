@@ -34,11 +34,9 @@ windows:
   - baxter: read && roslaunch jsk_arc2017_baxter baxter.launch pick:=true moveit:=true
   - setup: read && roslaunch jsk_arc2017_baxter setup_for_pick.launch
   - main:
-    # - dirname=~/pick_$(date +%Y%m%d_%H%M)
-    - dirname=~/pick_20170723_1111/
+    - dirname=~/json_dirs/pick_$(date +%Y%m%d_%H%M)
     - read && rosrun jsk_arc2017_common json_generator.py -d $dirname
-    - read && roslaunch jsk_arc2017_baxter pick.launch moveit:=true json_dir:=$dirname rosbag:=false
+    - read && roslaunch jsk_arc2017_baxter pick.launch moveit:=true json_dir:=$dirname data_collection:=true
   - rosbag:
-    # - dirname=~/pick_$(date +%Y%m%d_%H%M)
-    - dirname=~/pick_20170723_1111/
+    - dirname=~/json_dirs/pick_$(date +%Y%m%d_%H%M)
     - read && roslaunch jsk_arc2017_baxter record_rosbag.launch filename:=$dirname/rosbag.bag
