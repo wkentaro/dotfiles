@@ -8,6 +8,7 @@ install:
   - sudo apt-get install -qq -y python-setuptools
   - sudo easy_install pip
   - sudo pip install -U pip setuptools
+  - sudo pip install PyYaml
 
 script:
   - ./install.py
