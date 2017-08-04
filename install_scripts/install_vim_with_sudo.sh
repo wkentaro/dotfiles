@@ -26,7 +26,7 @@ make distclean
     --enable-largefile \
     --disable-netbeans \
     --enable-pythoninterp \
-    --with-python-config-dir=/usr/lib/python2.7/config \
+    #--with-python-config-dir=/usr/lib/python2.7/config \
     --enable-perlinterp \
     --enable-luainterp \
     --with-luajit \
