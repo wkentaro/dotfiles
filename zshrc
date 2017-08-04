@@ -56,7 +56,7 @@ zstyle ':completion:*:cd:*' tag-order local-directories path-directories
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
 # prefix: /usr/local
-export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+export PATH="/usr/lib/ccache:/usr/local/bin:/usr/local/sbin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 
 # prefix: $HOME/local
