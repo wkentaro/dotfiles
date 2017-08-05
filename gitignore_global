@@ -10,3 +10,4 @@ venv
 .clang_complete
 build/
 *.py[cdo]
+*.egg-info/
