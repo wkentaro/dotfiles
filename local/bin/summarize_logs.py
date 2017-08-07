@@ -7,11 +7,8 @@ import pandas as pd
 import tabulate
 
 
-here = osp.dirname(osp.abspath(__file__))
-
-
 def main():
-    logs_dir = osp.join(here, 'logs')
+    logs_dir = 'logs'
 
     headers = ['name', 'epoch', 'iteration', 'valid/mean_iu']
     rows = []
@@ -30,7 +27,7 @@ def main():
         except Exception:
             continue
         rows.append([
-            log,
+            osp.join(logs_dir, log),
             row_best.index[0][0],
             row_best.index[0][1],
             100 * row_best['valid/mean_iu'].values[0],
