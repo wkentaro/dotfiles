@@ -14,8 +14,8 @@ c.InteractiveShell.autoindent = True
 # c.InteractiveShell.colors = 'LightBG'
 c.InteractiveShell.confirm_exit = False
 # c.InteractiveShell.deep_reload = True
-c.InteractiveShell.editor = 'vim'
-c.TerminalInteractiveShell.editing_mode = 'vi'
+# c.InteractiveShell.editor = 'vim'
+# c.TerminalInteractiveShell.editing_mode = 'vi'
 c.InteractiveShell.xmode = 'Context'
 
 c.PrefilterManager.multi_line_specials = True
