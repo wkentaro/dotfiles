@@ -236,7 +236,7 @@ if v:version > 703
       colorscheme $VIM_COLORSCHEME
     endif
   catch /^Vim\%((\a\+)\)\=:E185/
-      colorscheme default
+      "colorscheme default
   endtry
   hi Normal ctermbg=none
   hi NonText ctermbg=none
