@@ -1,10 +1,7 @@
+
 #!/bin/sh
 
 if [ "$(uname)" != "Linux" ]; then
-  exit 1
-fi
-
-if [ "$(uname)" = "Linux" ]; then
   exit 1
 fi
 
