@@ -70,3 +70,5 @@ zsh:
   .zsh
 zshrc:
   .zshrc.wkentaro
+zshrc.template:
+  .zshrc

@@ -1,17 +1,8 @@
 source ~/.zshrc.wkentaro
-
-# export HOMEBREW_GITHUB_API_TOKEN='XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-
-# export PYLEARN2_DATA_PATH="$HOME/d/lisa/data"
-# export PYLEARN2_VIEWER_COMMAND="eog --new-instance"
-# export PYTHONPATH=$HOME/s/caffe/python:$PYTHONPATH
-
-# export CUDA_HOME=/usr/local/cuda-7.0
-# export LD_LIBRARY_PATH=$CUDA_HOME/lib64
-# export PATH=$CUDA_HOME/bin:$PATH
+# export VIM_COLORSCHEME=solarized
+# show_cuda
 
 # source ~/ros/indigo/devel/setup.zsh
-# export ROBOT=pr2
-
 # rossetip
 # rosdefault
+# show_ros
