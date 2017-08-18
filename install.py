@@ -8,6 +8,12 @@ import subprocess
 import yaml
 
 
+def run_command(cmd, cwd=None):
+    cwd = os.getcwd() if cwd is None else cwd
+    print('+ cd %s && %s' % (cwd, cmd))
+    subprocess.call(cmd, shell=True, cwd=cwd)
+
+
 def link_file(from_, to, force=False, dry_run=False):
     if not osp.exists(osp.dirname(to)):
         os.makedirs(osp.dirname(to))
@@ -17,24 +23,22 @@ def link_file(from_, to, force=False, dry_run=False):
         if force and not osp.isdir(to):
             if dry_run:
                 print('{0} -> {1}'.format(from_, to))
-            os.system('ln -fs {0} {1}'.format(from_, to))
+            run_command('ln -fs {0} {1}'.format(from_, to))
         else:
             print('skipping: {0}'.format(from_))
     else:
         if dry_run:
             print('{0} -> {1}'.format(from_, to))
-        os.system('ln -s {0} {1}'.format(from_, to))
+        run_command('ln -s {0} {1}'.format(from_, to))
 
 
 def install_private():
     path = osp.expanduser('~/.dotfiles/private')
     if osp.exists(path):
-        cmd = 'git pull origin master'
-        subprocess.call(cmd, shell=True, cwd=path)
+        run_command('git pull origin master', cwd=path)
     else:
         url = 'https://github.com/wkentaro/private.git'
-        cmd = 'git clone {} {}'.format(url, path)
-        subprocess.call(cmd, shell=True)
+        run_command('git clone {} {}'.format(url, path))
 
 
 def install_dotfiles(force, dry_run):
@@ -66,7 +70,10 @@ def install_commands():
         script = osp.join(scripts_dir, script)
         if not os.access(script, os.X_OK):
             continue
-        subprocess.call(script, shell=True)
+        run_command(script)
+
+
+here = osp.dirname(osp.abspath(__file__))
 
 
 def main():
@@ -78,6 +85,8 @@ def main():
     parser.add_argument('-p', '--private', action='store_true',
                         help='install private')
     args = parser.parse_args()
+
+    run_command('git submodule update --init --recursive', cwd=here)
 
     if args.private:
         install_private()
