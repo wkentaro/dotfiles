@@ -1,6 +1,7 @@
 #!/bin/sh
 
 if [ -e ~/.anaconda2 ]; then
+  echo '[install_anaconda2.sh] Already installed.'
   exit 0
 fi
 

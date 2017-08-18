@@ -1,17 +1,12 @@
-#!/bin/sh
-
-# source-code-pro
-# ~~~~~~~~~~~~~~~
+#!/bin/bash
 
 
 if [ "`uname`" != "Linux" ]; then
-  echo "This script only supports Darwin."
   exit 1
 fi
 
 if [ -f ~/.fonts/SourceCodePro-Black.otf ]; then
-  echo "Font SourceCodePro is already installed."
-  exit 1
+  exit 0
 fi
 
 TMPDIR=$(mktemp -d)

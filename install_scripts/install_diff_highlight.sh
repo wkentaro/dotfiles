@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 
-# diff-highlight
-# ~~~~~~~~~~~~~~
-
 if type diff-highlight &>/dev/null; then
-  echo "diff-highlight is already installed"
   exit 0
 fi
 
