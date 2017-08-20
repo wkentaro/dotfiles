@@ -11,7 +11,7 @@ My dotfiles.
 
 ```bash
 cd ~
-git clone --recursive https://github.com/wkentaro/dotfiles.git
+git clone --recursive https://github.com/wkentaro/dotfiles.git .dotfiles
 cd .dotfiles
 ./install.py
 ```
