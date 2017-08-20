@@ -12,7 +12,9 @@ RUN \
   apt-get upgrade -qq -y && \
   apt-get install -qq -y \
     aptitude \
+    build-essential \
     ctags \
+    curl \
     git \
     fontconfig \
     python \
@@ -45,7 +47,9 @@ USER root
 
 RUN \
   cd /home/wkentaro/.dotfiles/install_scripts && \
-  for fname in $(command ls *.sh); do bash $fname; done
+  set -e && \
+  for fname in $(command ls *.sh); do bash $fname; done && \
+  set +e
 
 RUN \
   chsh -s /usr/local/bin/zsh wkentaro
