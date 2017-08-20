@@ -8,7 +8,7 @@ TMPDIR=$(mktemp -d)
 cd $TMPDIR
 
 wget https://github.com/git/git/archive/v2.13.2.tar.gz
-tar zxvf v2.13.2.tar.gz
+tar zxf v2.13.2.tar.gz
 cd git-2.13.2/contrib/diff-highlight
 make
 
