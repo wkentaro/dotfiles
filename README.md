@@ -1,5 +1,6 @@
 # dotfiles
 
+[![](https://badge.fury.io/gh/wkentaro%2Fdotfiles.svg)](https://badge.fury.io/gh/wkentaro%2Fdotfiles)
 [![Build Status](https://travis-ci.org/wkentaro/dotfiles.svg?branch=master)](https://travis-ci.org/wkentaro/dotfiles)
 [![Docker Build Status](https://img.shields.io/docker/build/wkentaro/dotfiles.svg)](https://hub.docker.com/r/wkentaro/dotfiles/)
 
