@@ -4,6 +4,7 @@ import argparse
 import glob
 import os
 import os.path as osp
+import shutil
 import subprocess
 import yaml
 
@@ -14,22 +15,38 @@ def run_command(cmd, cwd=None):
     subprocess.call(cmd, shell=True, cwd=cwd)
 
 
-def link_file(from_, to, force=False, dry_run=False):
+def link_file(from_, to, dry_run=False):
     if not osp.exists(osp.dirname(to)):
         os.makedirs(osp.dirname(to))
-    if not force and osp.exists(to):
+    if osp.exists(to):
         return
     if osp.islink(to):
-        if force and not osp.isdir(to):
+        if not osp.isdir(to):
             if dry_run:
                 print('{0} -> {1}'.format(from_, to))
+                return
             run_command('ln -fs {0} {1}'.format(from_, to))
         else:
             print('skipping: {0}'.format(from_))
     else:
         if dry_run:
             print('{0} -> {1}'.format(from_, to))
+            return
         run_command('ln -s {0} {1}'.format(from_, to))
+
+
+def copy_file(from_, to, dry_run=False):
+    if not osp.exists(osp.dirname(to)):
+        os.makedirs(osp.dirname(to))
+    if osp.exists(to):
+        return
+    if dry_run:
+        print('{0} -> {1}'.format(from_, to))
+        return
+    if osp.isdir(from_):
+        shutil.copytree(from_, to)
+    else:
+        shutil.copy(from_, to)
 
 
 def install_private():
@@ -41,7 +58,7 @@ def install_private():
         run_command('git clone {} {}'.format(url, path))
 
 
-def install_dotfiles(force, dry_run):
+def install_dotfiles(dry_run):
     this_dir = osp.dirname(osp.abspath(__file__))
     home_dir = osp.expanduser('~')
 
@@ -49,14 +66,22 @@ def install_dotfiles(force, dry_run):
         link_config = yaml.load(f)
 
     for from_, to in link_config.items():
+        if isinstance(to, basestring):
+            type_ = 'symlink'
+        elif isinstance(to, dict):
+            type_ = to['type']
+            to = to['name']
         from_ = osp.join(this_dir, from_)
         to = osp.join(home_dir, to)
         for from_file in glob.glob(from_):
             if from_file == from_:
-                link_file(from_file, to, force, dry_run)
+                to_file = to
             else:
                 to_file = osp.join(to, osp.basename(from_file))
-                link_file(from_file, to_file, force, dry_run)
+            if type_ == 'symlink':
+                link_file(from_file, to_file, dry_run)
+            elif type_ == 'copy':
+                copy_file(from_file, to_file, dry_run)
 
 
 def install_commands():
@@ -78,8 +103,6 @@ here = osp.dirname(osp.abspath(__file__))
 
 def main():
     parser = argparse.ArgumentParser(description='options to link dotfiles')
-    parser.add_argument('-f', '--force', action='store_true',
-                        help='force to link dotfiles')
     parser.add_argument('-n', '--dry-run', action='store_true',
                         help='output the commands which will be executed')
     parser.add_argument('-p', '--private', action='store_true',
@@ -91,7 +114,7 @@ def main():
     if args.private:
         install_private()
 
-    install_dotfiles(force=args.force, dry_run=args.dry_run)
+    install_dotfiles(dry_run=args.dry_run)
     install_commands()
 
 

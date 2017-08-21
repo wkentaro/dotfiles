@@ -71,4 +71,5 @@ zsh:
 zshrc:
   .zshrc.wkentaro
 zshrc.template:
-  .zshrc
+  name: .zshrc
+  type: copy
