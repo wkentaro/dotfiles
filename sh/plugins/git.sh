@@ -12,7 +12,20 @@ alias grh~2='git reset HEAD~2'
 alias grh~3='git reset HEAD~3'
 alias g1msg='git log -1 --format="%s" | cat'
 alias g1hash='git log -1 --format="%h" | cat'
-alias gram='git remote add ${GITHUB_USER} && git fetch ${GITHUB_USER}'
+grahttp () {
+  if [ "$#" != 1 ]; then
+    echo "Usage: $0 GITHUB_USER"
+  fi
+  HUB_PROTOCOL=https hub remote add $1 && git fetch $1
+}
+grassh () {
+  if [ "$#" != 1 ]; then
+    echo "Usage: $0 GITHUB_USER"
+  fi
+  HUB_PROTOCOL=ssh hub remote add $1 && git fetch $1
+}
+alias grahttpm='grahttp ${GITHUB_USER}'
+alias grasshm='grassh ${GITHUB_USER}'
 
 # Use hub as git client
 type hub &>/dev/null && alias git=hub
