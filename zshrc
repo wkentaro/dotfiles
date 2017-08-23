@@ -439,7 +439,7 @@ activate () {
 _activate () {
   local -a reply
   if [[ ${CURRENT} = 2 ]]; then
-    reply=(root $(command ls ~/.anaconda2/envs))
+    reply=($(command ls ~/.anaconda2/envs))
   fi
   _describe 'values' reply
 }
