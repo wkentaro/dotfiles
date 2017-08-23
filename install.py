@@ -4,9 +4,14 @@ import argparse
 import glob
 import os
 import os.path as osp
+import platform
 import shutil
 import subprocess
+
 import yaml
+
+
+UNAME = platform.platform().split('-')[0]
 
 
 def run_command(cmd, cwd=None):
@@ -69,7 +74,9 @@ def install_dotfiles(dry_run):
         if isinstance(to, basestring):
             type_ = 'symlink'
         elif isinstance(to, dict):
-            type_ = to['type']
+            if to.get('uname') not in [None, UNAME]:
+                continue
+            type_ = to.get('type', 'symlink')
             to = to['name']
         from_ = osp.join(this_dir, from_)
         to = osp.join(home_dir, to)
