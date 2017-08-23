@@ -73,3 +73,5 @@ zshrc:
 zshrc.template:
   name: .zshrc
   type: copy
+matplotlib/matplotlibrc:
+  .matplotlib/matplotlibrc
