@@ -2,7 +2,7 @@
 
 setup() {
   . $_autoenv_this_dir/venv/bin/activate
-  # anaconda_activate
+  # activate mvtk
 }
 
 _autoenv_this_dir=${0:a:h}

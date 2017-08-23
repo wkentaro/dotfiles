@@ -2,7 +2,6 @@
 
 leave () {
   deactivate
-  # anaconda_deactivate
 }
 
 leave
