@@ -65,9 +65,15 @@ export MANPATH="$HOME/.local/bin:$MANPATH"
 # export PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH"
 
 # anaconda
-activate () {
+anaconda_activate () {
+  export _PYTHONPATH=$PYTHONPATH
   unset PYTHONPATH
   source $HOME/.anaconda2/bin/activate $1
+}
+anaconda_deactivate () {
+  source deactivate
+  export PYTHONPATH=$_PYTHONPATH
+  unset _PYTHONPATH
 }
 
 # bookmark
