@@ -67,8 +67,7 @@ export MANPATH="$HOME/.local/bin:$MANPATH"
 # anaconda
 activate () {
   unset PYTHONPATH
-  source $HOME/.anaconda2/bin/activate
-  conda --version
+  source $HOME/.anaconda2/bin/activate $1
 }
 
 # bookmark
