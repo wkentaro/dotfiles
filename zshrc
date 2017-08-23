@@ -64,18 +64,6 @@ export PATH="$HOME/.local/bin:$PATH"
 export MANPATH="$HOME/.local/bin:$MANPATH"
 # export PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH"
 
-# anaconda
-anaconda_activate () {
-  export _PYTHONPATH=$PYTHONPATH
-  unset PYTHONPATH
-  source $HOME/.anaconda2/bin/activate $1
-}
-anaconda_deactivate () {
-  source deactivate
-  export PYTHONPATH=$_PYTHONPATH
-  unset _PYTHONPATH
-}
-
 # bookmark
 # hash -d dotfiles=$HOME/.dotfiles
 
@@ -436,3 +424,30 @@ if [ -e /usr/local/cuda ]; then
     fi
   fi
 fi
+# ----------------------
+# anaconda configuration
+# ----------------------
+activate () {
+  if [ ! -e $HOME/.anaconda2/bin/activate ]; then
+    echo 'Please install anaconda'
+    return 1
+  fi
+  export _PYTHONPATH=$PYTHONPATH
+  unset PYTHONPATH
+  source $HOME/.anaconda2/bin/activate $1
+}
+_activate () {
+  local -a reply
+  if [[ ${CURRENT} = 2 ]]; then
+    reply=(root $(command ls ~/.anaconda2/envs))
+  fi
+  _describe 'values' reply
+}
+compdef _activate activate
+deactivate () {
+  source deactivate
+  export PYTHONPATH=$_PYTHONPATH
+  unset _PYTHONPATH
+}
+alias a=activate
+alias da=deactivate
