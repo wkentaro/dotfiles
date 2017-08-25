@@ -77,13 +77,19 @@ def main():
                 time.sleep(1)
                 continue
 
-            df_train = df[train_cols + else_cols].dropna()
+            try:
+                df_train = df[train_cols + else_cols].dropna(thresh=len(train_cols))
+            except:
+                df_train = df[train_cols + else_cols].dropna()
             if not df_train.empty:
                 print_bar('train', width=width)
                 print(df_train.tail(n=5))
                 print()
 
-            df_valid = df[valid_cols + else_cols].dropna()
+            try:
+                df_valid = df[valid_cols + else_cols].dropna(thresh=len(valid_cols))
+            except:
+                df_valid = df[valid_cols + else_cols].dropna()
             if not df_valid.empty:
                 print_bar('valid', width=width)
                 print(df_valid.tail(n=3))
@@ -96,7 +102,10 @@ def main():
                     else:
                         print_bar('max:%s' % col, width=width)
                         idx = df[col].idxmax()
-                    print(df.ix[idx][valid_cols + else_cols].dropna())
+                    try:
+                        print(df.ix[idx][valid_cols + else_cols].dropna(thresh=len(valid_cols)))
+                    except:
+                        print(df.ix[idx][valid_cols + else_cols].dropna())
 
             print_bar(width=width)
 
