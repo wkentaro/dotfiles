@@ -443,5 +443,5 @@ deactivate () {
   export PYTHONPATH=$_PYTHONPATH
   unset _PYTHONPATH
 }
-alias a=activate
+alias ac=activate
 alias da=deactivate
