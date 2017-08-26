@@ -58,7 +58,12 @@ alias matrix='cmatrix -sb'
 
 # tmux
 alias t='tmux'
-alias tls='tmux ls'
+# alias tls='tmux ls'
+tls () {
+  for s in $(command ls /tmp/tmux-1000); do
+    echo "[/tmp/tmux-1000/$s] $(tmux -S /tmp/tmux-1000/$s ls 2>/dev/null)"
+  done
+}
 tmux_percol_attach() {
     if [[ $1 == "" ]]; then
         PERCOL=percol
@@ -66,21 +71,30 @@ tmux_percol_attach() {
         PERCOL="percol --query $1"
     fi
 
-    sessions=$(tmux ls)
+    sessions=$(tls)
     [ $? -ne 0 ] && return
 
     if [ $(echo $sessions | wc -l) -eq 1 ]; then
-      tmux attach && return
+      # tmux attach && return
+      socket=$(echo $sessions | awk '{print $1}' | sed 's/^\[.*\]$//')
+      tmux -S $socket attach
     fi
 
-    session=$(echo $sessions | eval $PERCOL | cut -d : -f 1)
+    session=$(echo $sessions | eval $PERCOL)
     if [[ -n "$session" ]]; then
-        tmux attach -t $session
+      socket=$(echo $session | awk '{print $1}' | sed -e 's/^\[\(.*\)\]$/\1/')
+      session=$(echo $session | awk '{print $2}' | sed -e 's/^\(.*\):$/\1/')
+      tmux -S $socket attach -t $session
     fi
 }
 alias ta='tmux_percol_attach'
 alias tn='tmux new'
-alias tns='tmux new -s'
+tns () {
+  if [ $# -eq 0 ]; then
+    echo 'Please specify session name.'
+  fi
+  tmux -L $1 new -s $1
+}
 
 # brew
 if type brew &>/dev/null; then
