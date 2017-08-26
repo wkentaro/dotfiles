@@ -12,5 +12,3 @@ install:
 
 script:
   - ./install.py
-  - bash ./install_scripts/install_docker.sh
-  - sudo docker build -t wkentaro-dotfiles .
