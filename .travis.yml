@@ -12,3 +12,6 @@ install:
 
 script:
   - ./install.py
+
+notifications:
+  email: false
