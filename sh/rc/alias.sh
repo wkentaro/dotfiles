@@ -76,8 +76,12 @@ tmux_percol_attach() {
 
     if [ $(echo $sessions | wc -l) -eq 1 ]; then
       # tmux attach && return
-      socket=$(echo $sessions | awk '{print $1}' | sed 's/^\[.*\]$//')
-      tmux -S $socket attach
+      socket=$(echo $sessions | awk '{print $1}' | sed -e 's/^\[\(.*\)\]$/\1/')
+      session=$(echo $sessions | awk '{print $2}' | sed -e 's/^\(.*\):$/\1/')
+      echo $socket
+      echo $session
+      tmux -S $socket attach -t $session
+      return 0
     fi
 
     session=$(echo $sessions | eval $PERCOL)
@@ -85,6 +89,7 @@ tmux_percol_attach() {
       socket=$(echo $session | awk '{print $1}' | sed -e 's/^\[\(.*\)\]$/\1/')
       session=$(echo $session | awk '{print $2}' | sed -e 's/^\(.*\):$/\1/')
       tmux -S $socket attach -t $session
+      return 0
     fi
 }
 alias ta='tmux_percol_attach'
