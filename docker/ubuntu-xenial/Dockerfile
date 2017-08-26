@@ -31,7 +31,8 @@ RUN \
   pip install -q percol
 
 RUN \
-  locale-gen 'en_US.UTF-8' && \
+  echo en_US.UTF-8 UTF-8 >> /var/lib/locales/supported.d/local && \
+  dpkg-reconfigure locales && \
   chsh -s /bin/zsh wkentaro
 
 USER wkentaro
