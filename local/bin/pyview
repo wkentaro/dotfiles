@@ -25,6 +25,12 @@ def main():
         import yaml
         data = yaml.load(open(filename))
         df = pandas.DataFrame(data)
+    elif ext in ['.npy', '.npz']:
+        import numpy as np
+        df = np.load(filename)
+    else:
+        return 1
+    print('Loaded to variable df')
 
     from IPython import embed
     embed()
