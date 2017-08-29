@@ -60,6 +60,9 @@ alias matrix='cmatrix -sb'
 alias t='tmux'
 # alias tls='tmux ls'
 tls () {
+  if [ ! -d /tmp/tmux-1000 ]; then
+    return 1
+  fi
   for s in $(command ls /tmp/tmux-1000); do
     echo "[/tmp/tmux-1000/$s] $(tmux -S /tmp/tmux-1000/$s ls 2>/dev/null)"
   done
