@@ -26,7 +26,9 @@ abbr    <test time-limit="" retry=""></test>
 snippet node
 abbr    <node name=" " pkg=" " type=" " />
 	<node name="${1}"
-	      pkg="${2}" type="${3}">
+	      pkg="${2}" type="${3}"
+				clear_params="true">
+		${4}
 	</node>
 
 snippet nodelet_manager
@@ -60,14 +62,8 @@ abbr    <param name=" " type=" " value=" " />
 
 snippet rosparam
 abbr    <rosparam  />
-	<rosparam>
+	<rosparam subst_value="true">
 		${1}
-	</rosparam>
-
-snippet rosparam_subst_value
-abbr    <rosparam subst_value="" />
-	<rosparam subst_value="${1}">
-		${2}
 	</rosparam>
 
 snippet rosparam_load
