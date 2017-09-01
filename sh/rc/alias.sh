@@ -60,11 +60,12 @@ alias matrix='cmatrix -sb'
 alias t='tmux'
 # alias tls='tmux ls'
 tls () {
-  if [ ! -d /tmp/tmux-1000 ]; then
+  local user_id=$(id -u)
+  if [ ! -d /tmp/tmux-$user_id ]; then
     return 1
   fi
-  for s in $(command ls /tmp/tmux-1000); do
-    echo "[/tmp/tmux-1000/$s] $(tmux -S /tmp/tmux-1000/$s ls 2>/dev/null)"
+  for s in $(command ls /tmp/tmux-$user_id); do
+    echo "[/tmp/tmux-$user_id/$s] $(tmux -S /tmp/tmux-$user_id/$s ls 2>/dev/null)"
   done
 }
 tmux_percol_attach() {
