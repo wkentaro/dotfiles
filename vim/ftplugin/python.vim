@@ -10,6 +10,8 @@ for path in [
           home + "/mvtk/scikit-image",
           home + "/mvtk/imgaug",
           home + "/mvtk/fcn",
+          home + "/mask_rcnn/mask-rcnn/",
+          home + "/mask_rcnn/mask-rcnn/chainer",
       ]:
   if not path in sys.path:
       sys.path.insert(0, path)
