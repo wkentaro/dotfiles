@@ -1,13 +1,6 @@
 FROM ubuntu:xenial
 
 RUN \
-  useradd wkentaro && \
-  echo wkentaro:wkentaro | chpasswd && \
-  mkdir -p /home/wkentaro && \
-  chown -R wkentaro:wkentaro /home/wkentaro && \
-  adduser wkentaro sudo
-
-RUN \
   apt-get update -qq && \
   apt-get upgrade -qq -y && \
   apt-get install -qq -y \
@@ -15,11 +8,13 @@ RUN \
     build-essential \
     ctags \
     curl \
-    git \
     fontconfig \
+    git \
+    lsb_release \
     python \
     python-setuptools \
     python-yaml \
+    sudo \
     unzip \
     vim \
     wget \
@@ -31,8 +26,13 @@ RUN \
   pip install -q percol
 
 RUN \
-  echo en_US.UTF-8 UTF-8 >> /etc/locale.gen && \
-  dpkg-reconfigure locales && \
+  useradd wkentaro && \
+  echo wkentaro:wkentaro | chpasswd && \
+  mkdir -p /home/wkentaro && \
+  chown -R wkentaro:wkentaro /home/wkentaro && \
+  adduser wkentaro sudo
+
+RUN \
   chsh -s /bin/zsh wkentaro
 
 USER wkentaro
@@ -48,9 +48,9 @@ USER root
 
 RUN \
   cd /home/wkentaro/.dotfiles/install_scripts && \
-  set -e && \
+  set -x -e && \
   for fname in $(command ls *.sh); do bash $fname; done && \
-  set +e
+  set +x +e
 
 RUN \
   chsh -s /usr/local/bin/zsh wkentaro
