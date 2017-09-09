@@ -4,8 +4,6 @@
 # zsh options
 # ---------------------------------
 
-# completion
-autoload -Uz compinit && compinit
 setopt auto_param_slash
 setopt mark_dirs
 setopt list_types
@@ -124,9 +122,9 @@ DISABLE_AUTO_UPDATE=true
 plugins=(git history python web-search vi-mode)
 ZSH=$HOME/.zsh/oh-my-zsh
 # FIXME: parser error in .zcompdump
-source $ZSH/oh-my-zsh.sh 2>/dev/null
+source $ZSH/oh-my-zsh.sh
 # FIXME: no completion function without this
-compinit 2>/dev/null
+# compinit 2>/dev/null
 
 # https://github.com/wkentaro/pycd
 type pycd.sh &>/dev/null && source `which pycd.sh`
@@ -147,6 +145,15 @@ for plugin in $plugins; do
   source $plugin
 done
 fpath=($HOME/.zsh/plugins $fpath)
+
+# completion
+autoload -Uz compinit
+typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
+if [ $(date +'%j') != $updated_at ]; then
+  compinit -i
+else
+  compinit -C -i
+fi
 
 # ----------------------------
 # Improved less option
