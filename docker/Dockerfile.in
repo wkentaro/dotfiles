@@ -15,7 +15,7 @@ RUN \
     curl \
     fontconfig \
     git \
-    lsb_release \
+    lsb-release \
     python \
     python-setuptools \
     python-yaml \
