@@ -33,11 +33,6 @@ type vim &>/dev/null && {
   alias vii='vim --noplugin'
   alias viii='vim -u NONE'
 }
-type nvim &>/dev/null && {
-  alias nvi='nvim'
-  alias nvii='nvim --noplugin'
-  alias nviii='nvim -u NONE'
-}
 alias vim-euc='vim -c ":e ++enc=euc-jp"'
 alias vim-iso='vim -c ":e ++enc=iso-2022-jp"'
 
@@ -49,12 +44,6 @@ alias py='python'
 alias ipy='ipython'
 alias ipp='ptipython'
 alias fl='flake8'
-
-# ruby
-alias irb='irb --simple-prompt'
-
-# cmatrix
-alias matrix='cmatrix -sb'
 
 # tmux
 alias t='tmux'
@@ -182,58 +171,6 @@ convert_to_gif () {
   fi
 }
 
-get_lena_jpg () {
-  wget https://jviolajones.googlecode.com/files/lena.jpg
-}
-tile_images() {
-  montage $@ -geometry +2+2 $(date +%Y%m%d-%H%M%S)_output.jpg
-}
-
-ghcomment () {
-  number=$(ghi list | percol | awk '{print $1}')
-  ghi comment $number --list C
-  ghi comment $number --verbose $@
-}
-ghlist () {
-  ghi show $(ghi list | percol | awk '{print $1}')
-}
-
-trres () {
-  list=$(ghi list -p)
-  repo_slug=$(echo $list | sed -n 1p | awk '{print $2}')
-  pr_num=$(echo $list | sed -n '2,$p' | percol | awk '{print $1}')
-  build_num=$(travis history -R $repo_slug | grep "(PR #$pr_num)" | sed -n 1p | awk '{print $1}' | sed 's/^#//g')
-  build_nums=$(travis show $build_num | percol | awk '{print $1}' | sed 's/^#//')
-  for b in ${=build_nums}; do
-    eval "restart_travis $repo_slug $b"
-  done
-}
-
-trlog () {
-  list=$(ghi list -p)
-  repo_slug=$(echo $list | sed -n 1p | awk '{print $2}')
-  pr_num=$(echo $list | sed -n '2,$p' | percol | awk '{print $1}')
-  build_num=$(travis history -R $repo_slug | grep "(PR #$pr_num)" | sed -n 1p | awk '{print $1}' | sed 's/^#//g')
-  build_num=$(travis show $build_num | percol | awk '{print $1}' | sed 's/^#//')
-  travis logs $build_num
-}
-
-
-startbitbucket () {
-    echo 'Username?'
-    read username
-    echo 'Password?'
-    read -s password  # -s flag hides password text
-    echo 'Repo name?'
-    read reponame
-
-    curl --user $username:$password https://api.bitbucket.org/1.0/repositories/ --data name=$reponame --data is_private='true'
-    git remote add origin git@bitbucket.org:$username/$reponame.git
-    git push -u origin --all
-    git push -u origin --tags
-}
-
-
 slacker_notify_done () {
   "$@"
   local retcode=$?
@@ -244,9 +181,6 @@ slacker_notify_done () {
 # ----------------------------------------------------
 # Show Setup
 # ----------------------------------------------------
-show_python () {
-  echo "PYTHON_EXECUTABLE: $(command which python)"
-}
 
 show_ros () {
   CATKIN_TOOLS_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('catkin-tools').version)" 2>/dev/null)
@@ -280,20 +214,6 @@ watch_gpu () {
     nvidia-smi
   fi
   '''
-}
-
-show_dnn () {
-  show_cuda
-  # chainer
-  CHAINER_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('chainer').version)" 2>/dev/null)
-  if [ ! -z $CHAINER_VERSION ]; then
-    echo "CHAINER_VERSION: $CHAINER_VERSION"
-  fi
-  # tensorflow
-  TENSORFLOW_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('tensorflow').version)" 2>/dev/null)
-  if [ ! -z $TENSORFLOW_VERSION ]; then
-    echo "TENSORFLOW_VERSION: $TENSORFLOW_VERSION"
-  fi
 }
 
 
