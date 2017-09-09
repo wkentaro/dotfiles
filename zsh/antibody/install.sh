@@ -13,4 +13,5 @@ wget -q -O /tmp/antibody.tar.gz \
   "${BASE_URL}/${VERSION}/antibody_${OS}_${ARCH}.tar.gz"
 tar xvzf /tmp/antibody.tar.gz -C ~/.zsh/antibody/antibody
 
+mkdir -p ~/.local/bin
 ln -s ~/.zsh/antibody/antibody/antibody ~/.local/bin/antibody
