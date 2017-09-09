@@ -1,4 +1,4 @@
-hchbaw/opp.zsh
+# hchbaw/opp.zsh  # obsolete
 Tarrasch/zsh-autoenv
 Tarrasch/zsh-bd
 rupa/z
