@@ -86,7 +86,7 @@ export LC_CTYPE='en_US.UTF-8'
 export EDITOR='vim'
 
 # ssh
-export SSH_KEY_PATH='$HOME/.ssh/id_rsa'
+export SSH_KEY_PATH="$HOME/.ssh/id_rsa"
 
 # GitHub
 if [ -z $GITHUB_USER ]; then
@@ -158,11 +158,13 @@ fi
 # ----------------------------
 # Improved less option
 # ----------------------------
+
 export LESS='--tabs=4 --LONG-PROMPT --ignore-case --RAW-CONTROL-CHARS'
 
 # --------------------------------
 # bindkey
 # --------------------------------
+
 if type percol &>/dev/null; then
   # percol history search
   # Ctrl-R
@@ -291,6 +293,7 @@ bindkey "^Y" yank
 # --------------------------------
 # alias
 # --------------------------------
+
 # source common aliases
 source $HOME/.sh/rc/alias.sh
 
@@ -349,6 +352,7 @@ alias z=_z_cd
 # --------------------------------
 # command line stack
 # --------------------------------
+
 show_buffer_stack() {
   POSTDISPLAY="
 stack: $LBUFFER"
@@ -369,6 +373,7 @@ fi
 # ---------------------------------
 # ascii art
 # ---------------------------------
+
 if [ "$(uname)" = "Linux" ]; then
   export COWPATH=/usr/share/cowsay/cows:$HOME/.cows
 elif [ "$(uname)" = "Darwin" ]; then
@@ -392,22 +397,22 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
-
 # -----------------
 # Travis completion
 # -----------------
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 
+[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 
 # -----------------
 # ghi configuration
 # -----------------
-export GHI_TOKEN=$GITHUB_TOKEN
 
+export GHI_TOKEN=$GITHUB_TOKEN
 
 # ------------------
 # cuda configuration
 # ------------------
+
 if [ -e /usr/local/cuda ]; then
   export CUDA_HOME=/usr/local/cuda
   export PATH=$CUDA_HOME/bin:$PATH
@@ -425,9 +430,11 @@ if [ -e /usr/local/cuda ]; then
     fi
   fi
 fi
+
 # ----------------------
 # anaconda configuration
 # ----------------------
+
 activate () {
   if [ ! -e $HOME/.anaconda2/bin/activate ]; then
     echo 'Please install anaconda'
