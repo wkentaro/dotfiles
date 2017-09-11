@@ -1,9 +1,12 @@
-#!/bin/sh
-
+#!/bin/bash
 
 if [ "$(uname)" != "Linux" ]; then
-  exit 1
+  exit 0
 fi
 
-sudo apt-get install dconf-cli
-~/.dotfiles/config/gnome-terminal-colors-solarized/install.sh
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR=$(dirname $DIR)
+
+sudo apt-get install -qq -y dconf-cli
+
+$DOTFILES_DIR/config/gnome-terminal-colors-solarized/install.sh
