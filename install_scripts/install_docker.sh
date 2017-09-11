@@ -12,9 +12,4 @@ sudo apt-get update -qq -y
 
 sudo apt-get install -qq -y lxc-docker
 
-sudo usermod -aG docker $(whoami)
-
-# install using dockers
-docker pull ubuntu
-
 set +x
