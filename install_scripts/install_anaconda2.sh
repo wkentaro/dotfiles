@@ -15,8 +15,8 @@ if [ "$(uname)" = "Linux" ]; then
 elif [ "$(uname)" = "Darwin" ]; then
   wget -q 'https://repo.continuum.io/miniconda/Miniconda2-latest-MacOSX-x86_64.sh'
   bash ./Miniconda2-latest-MacOSX-x86_64.sh -p $HOME/.anaconda2 -b
-else;
-  echo "[install_anaconda2.sh] Unsupported platform: $(uname)"
+else
+  echo "[$(basename $0)] Unsupported platform: $(uname)"
   exit 0
 fi
 
