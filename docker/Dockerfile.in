@@ -53,9 +53,9 @@ USER root
 
 RUN \
   cd /home/wkentaro/.dotfiles/install_scripts && \
-  set -x -e && \
-  for fname in $(command ls *.sh); do bash $fname; done && \
-  set +x +e
+  set -e && \
+  for fname in $(command ls *.sh); do bash $fname || exit 1; done && \
+  set +e
 
 RUN \
   chsh -s /usr/local/bin/zsh wkentaro
