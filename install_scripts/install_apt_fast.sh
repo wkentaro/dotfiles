@@ -10,13 +10,6 @@ fi
 
 set -x
 
-if ! type add-apt-repository &>/dev/null; then
-  sudo apt-get install -y \
-    software-properties-common \
-    python-software-properties \
-    python3-software-properties
-fi
-
 sudo add-apt-repository ppa:saiarcot895/myppa
 
 sudo apt-get update -qq

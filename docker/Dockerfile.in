@@ -9,6 +9,7 @@ RUN \
   apt-get update -qq && \
   apt-get upgrade -qq -y && \
   apt-get install -qq -y \
+    apt-transport-https \
     aptitude \
     build-essential \
     ctags \
@@ -19,6 +20,7 @@ RUN \
     python \
     python-setuptools \
     python-yaml \
+    software-properties-common \
     sudo \
     unzip \
     vim \
