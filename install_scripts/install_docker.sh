@@ -15,8 +15,7 @@ sudo apt-get update -qq -y
 
 sudo apt-get install -qq -y lxc-docker
 
-# change owner of docker.sock
-sudo chown $(whoami) /var/run/docker.sock
+sudo usermod -aG docker $(whoami)
 
 # install using dockers
 docker pull ubuntu
