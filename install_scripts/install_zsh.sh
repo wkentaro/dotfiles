@@ -1,12 +1,15 @@
 #!/bin/bash
 
 if [ "$(uname)" != "Linux" ]; then
-  exit 1
+  exit 0
 fi
 
 if [ -e /usr/local/bin/zsh ]; then
+  echo "[$(basename $0)] zsh is already installed."
   exit 0
 fi
+
+set -x
 
 sudo apt-get install -qq -y build-essential libncurses5-dev
 
@@ -26,3 +29,5 @@ if ! grep '/usr/local/bin/zsh' /etc/shells; then
 fi
 
 rm -rf $TMPDIR
+
+set +x

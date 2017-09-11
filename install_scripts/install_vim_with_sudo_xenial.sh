@@ -1,3 +1,9 @@
+#!/bin/bash
+
+if [ "$(uname)" != "Linux" ]; then
+  exit 0
+fi
+
 set -x
 
 sudo apt-get remove --purge vim vim-runtime vim-gnome vim-tiny vim-gui-common
@@ -31,3 +37,5 @@ make distclean # if vim was prev installed
 
 make
 sudo make install
+
+set +x
