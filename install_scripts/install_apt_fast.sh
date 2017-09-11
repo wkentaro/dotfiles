@@ -1,12 +1,28 @@
-#!/bin/sh
+#!/bin/bash
 
-if hash apt-fast &>/dev/null; then
+if [ "$(uname)" != "Linux" ]; then
+  exit 1
+fi
+
+if type apt-fast &>/dev/null; then
   exit 0
 fi
 
-sudo add-apt-repository ppa:saiarcot895/myppa < /dev/null
-sudo apt-get update
+set -x
+
+if ! type add-apt-repository &>/dev/null; then
+  sudo apt-get install -y \
+    software-properties-common \
+    python-software-properties \
+    python3-software-properties
+fi
+
+sudo add-apt-repository ppa:saiarcot895/myppa
+
+sudo apt-get update -qq
 echo debconf apt-fast/maxdownloads string 16 | sudo debconf-set-selections
 echo debconf apt-fast/dlflag boolean true | sudo debconf-set-selections
 echo debconf apt-fast/aptmanager string apt-get | sudo debconf-set-selections
-sudo apt-get install -y apt-fast
+sudo apt-get install -qq -y apt-fast
+
+set +x

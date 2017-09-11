@@ -1,4 +1,3 @@
-
 #!/bin/sh
 
 if [ "$(uname)" != "Linux" ]; then
@@ -6,7 +5,7 @@ if [ "$(uname)" != "Linux" ]; then
 fi
 
 if which ffmpeg &>/dev/null; then
-  exit 1
+  exit 0
 fi
 
 set -x
@@ -17,6 +16,7 @@ if ! type add-apt-repository &>/dev/null; then
     python-software-properties \
     python3-software-properties
 fi
+
 sudo add-apt-repository ppa:jonathonf/ffmpeg-3
 if [ "$(lsb_release -cs)" = "trusty" ]; then
   sudo add-apt-repository ppa:jonathonf/tesseract
