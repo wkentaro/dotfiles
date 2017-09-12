@@ -86,7 +86,7 @@ export LC_CTYPE='en_US.UTF-8'
 export EDITOR='vim'
 
 # ssh
-export SSH_KEY_PATH="$HOME/.ssh/id_rsa"
+export SSH_KEY_PATH='$HOME/.ssh/id_rsa'
 
 # GitHub
 if [ -z $GITHUB_USER ]; then
