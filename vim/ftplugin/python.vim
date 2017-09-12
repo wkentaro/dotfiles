@@ -12,6 +12,7 @@ for path in [
           home + "/mvtk/fcn",
           home + "/mask_rcnn/mask-rcnn/",
           home + "/mask_rcnn/mask-rcnn/chainer",
+          home + "/vision/core",
       ]:
   if not path in sys.path:
       sys.path.insert(0, path)
