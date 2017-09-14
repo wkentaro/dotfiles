@@ -1,7 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ "$(uname)" = "Darwin" ]; then
-  exit 1
+  echo "[$(basename $0)] Unsupported platform: $(uname)"
+  exit 0
 fi
 
 if [ ! -f $HOME/.local/bin/binvox ]; then

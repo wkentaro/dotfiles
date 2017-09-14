@@ -1,5 +1,5 @@
 if [ "`uname`" != "Darwin" ]; then
-  exit 1
+  exit 0
 elif which brew &>/dev/null; then
   exit 0
 fi

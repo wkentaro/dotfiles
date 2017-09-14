@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$(uname)" != "Linux" ]; then
-  exit 1
+  exit 0
 fi
 
 # 1. Add the Spotify repository signing key to be able to verify downloaded packages

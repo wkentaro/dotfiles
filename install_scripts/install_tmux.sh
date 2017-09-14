@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$(uname)" != "Linux" ]; then
-  exit 1
+  exit 0
 fi
 
 if [ -f ~/.local/bin/tmux ]; then

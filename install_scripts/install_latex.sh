@@ -1,14 +1,8 @@
 #!/bin/sh
 
-
-# latex
-# ~~~~~
-
-
 if [ "`uname`" != "Linux" ]; then
-  exit 1
+  exit 0
 fi
-
 
 sudo apt-get install -qq -y texlive
 sudo apt-get install -qq -y texlive-lang-cjk

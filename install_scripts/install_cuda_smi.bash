@@ -1,10 +1,12 @@
 #!/bin/bash
 
 if ! which nvcc &>/dev/null; then
+  echo "[$(basename $0)] nvcc is not found."
   exit 0
 fi
 
 if which cuda-smi &>/dev/null; then
+  echo "[$(basename $0)] cuda-smi is already installed."
   exit 0
 fi
 
@@ -15,8 +17,8 @@ if [ "$(uname)" = "Linux" ]; then
 elif [ "$(uname)" = "Darwin" ]; then
   TMPDIR=$(mktemp -d /tmp/tmp.XXXX)
 else
-  echo "[install_cuda_smi.bash] Unsupported arch: $(uname)"
-  exit 1
+  echo "[$(basename $0)] Unsupported platform: $(uname)"
+  exit 0
 fi
 
 cd $TMPDIR

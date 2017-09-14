@@ -3,7 +3,7 @@
 if [ -f /usr/local/bin/hub ]; then
   exit 0
 elif [ "$(uname)" = "Darwin" ]; then
-  exit 1
+  exit 0
 fi
 
 sudo mkdir -p /usr/local/share/man/man1

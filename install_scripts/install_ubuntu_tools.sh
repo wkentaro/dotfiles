@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$(uname)" != "Linux" ]; then
-  exit 1
+  exit 0
 fi
 
 which aptitude &>/dev/null || sudo apt-get install -qq -y aptitude

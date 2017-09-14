@@ -1,10 +1,12 @@
 #!/bin/bash
 
 if [ "$(uname)" != "Linux" ]; then
-  exit 1
+  echo "[$(basename $0)] Unsupported platform: $(uname)"
+  exit 0
 fi
 
 if type apt-fast &>/dev/null; then
+  echo "[$(basename $0)] apt-fast is already installed."
   exit 0
 fi
 

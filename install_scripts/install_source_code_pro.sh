@@ -2,7 +2,7 @@
 
 
 if [ "`uname`" != "Linux" ]; then
-  exit 1
+  exit 0
 fi
 
 if [ -f ~/.fonts/SourceCodePro-Black.otf ]; then

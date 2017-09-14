@@ -1,11 +1,7 @@
-#!/bin/sh
-#
-
-# latex font
-# ~~~~~~~~~~
+#!/bin/bash
 
 if [ "`uname`" != "Darwin" ]; then
-  exit 1
+  exit 0
 fi
 
 sudo mkdir -p /usr/local/texlive/texmf-local/fonts/opentype/public/hiragino/
