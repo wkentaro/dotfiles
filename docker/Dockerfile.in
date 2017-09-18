@@ -52,9 +52,10 @@ RUN \
   echo 'source $HOME/.zshrc.wkentaro' > ~/.zshrc
 
 USER root
+ENV HOME /home/wkentaro
 
 RUN \
-  cd /home/wkentaro/.dotfiles/install_scripts && \
+  cd $HOME/.dotfiles/install_scripts && \
   set -e && \
   for fname in $(command ls *.sh); do bash $fname || exit 1; done && \
   set +e
