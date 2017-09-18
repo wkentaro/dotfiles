@@ -10,6 +10,11 @@ if type apt-fast &>/dev/null; then
   exit 0
 fi
 
+if [ "$PS1" = "" ]; then
+  echo "[$(basename $0)] Must be interactive mode."
+  exit 0
+fi
+
 set -x
 
 sudo add-apt-repository ppa:saiarcot895/myppa
