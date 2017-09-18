@@ -12,9 +12,9 @@ fi
 
 set -x
 
-sudo add-apt-repository ppa:jonathonf/ffmpeg-3
+sudo add-apt-repository -y ppa:jonathonf/ffmpeg-3
 if [ "$(lsb_release -cs)" = "trusty" ]; then
-  sudo add-apt-repository ppa:jonathonf/tesseract
+  sudo add-apt-repository -y ppa:jonathonf/tesseract
 fi
 sudo apt-get update -qq
 sudo apt-get install -qq -y ffmpeg

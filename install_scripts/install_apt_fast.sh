@@ -17,7 +17,7 @@ fi
 
 set -x
 
-sudo add-apt-repository ppa:saiarcot895/myppa
+sudo add-apt-repository -y ppa:saiarcot895/myppa
 
 sudo apt-get update -qq
 echo debconf apt-fast/maxdownloads string 16 | sudo debconf-set-selections

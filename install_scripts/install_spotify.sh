@@ -11,7 +11,7 @@ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys BBEBDCB31
 echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
 
 # 3. Update list of available packages
-sudo apt-get update
+sudo apt-get update -qq
 
 # 4. Install Spotify
-sudo apt-get install spotify-client
+sudo apt-get install -y -qq spotify-client

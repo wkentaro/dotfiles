@@ -7,7 +7,7 @@ fi
 set -x
 
 # install dependencies
-sudo apt-get update
+sudo apt-get update -qq
 sudo apt-get install -y build-essential
 sudo apt-get install -y cmake
 sudo apt-get install -y libgtk2.0-dev
