@@ -43,4 +43,4 @@ sudo make install
 cd 
 rm -rf $TMPDIR
 
-sudo aptitude install -qq -y vim-gtk
+sudo apt-get install -qq -y vim-gtk
