@@ -17,7 +17,7 @@ RUN \
     fontconfig \
     git \
     lsb-release \
-    python \
+    python-dev \
     python-setuptools \
     python-yaml \
     software-properties-common \
