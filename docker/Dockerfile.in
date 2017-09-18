@@ -57,7 +57,7 @@ ENV HOME /home/wkentaro
 RUN \
   cd $HOME/.dotfiles/install_scripts && \
   set -e && \
-  for fname in $(command ls *.sh); do bash $fname || exit 1; done && \
+  for fname in $(command ls *.sh | grep -v -e '.*opt\.sh$'); do bash $fname || exit 1; done && \
   set +e
 
 RUN \
