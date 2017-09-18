@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$(uname)" != "Linux" ]; then
+if [ "$(uname)" != "Linux" -o "$(lsb_release -sr)" != "14.04" ]; then
   exit 0
 fi
 
