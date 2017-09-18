@@ -27,7 +27,7 @@ grassh () {
 alias grahttpm='grahttp ${GITHUB_USER}'
 alias grasshm='grassh ${GITHUB_USER}'
 
-gcy () {
+gcauto () {
   files=$(git status --porcelain | grep -e '^M' | awk '{print $2}')
   tmpfile=$(mktemp)
   echo "Update $files" > $tmpfile
