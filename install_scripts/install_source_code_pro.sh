@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 if [ "`uname`" != "Linux" ]; then
   exit 0
 fi
@@ -8,6 +7,8 @@ fi
 if [ -f ~/.fonts/SourceCodePro-Black.otf ]; then
   exit 0
 fi
+
+set -x
 
 TMPDIR=$(mktemp -d)
 cd $TMPDIR
@@ -20,3 +21,5 @@ cp source-code-pro-2.010R-ro-1.030R-it/OTF/*.otf ~/.fonts/
 fc-cache -f -v
 
 rm -rf $TMPDIR
+
+set +x

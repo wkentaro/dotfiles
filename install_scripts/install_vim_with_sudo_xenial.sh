@@ -4,6 +4,11 @@ if [ "$(uname)" != "Linux" ]; then
   exit 0
 fi
 
+if [ -e /usr/local/bin/vim ]; then
+  echo "[$(basename $0)] Already installed: /usr/local/bin/vim"
+  exit 0
+fi
+
 set -x
 
 sudo apt-get remove --purge vim vim-runtime vim-gnome vim-tiny vim-gui-common

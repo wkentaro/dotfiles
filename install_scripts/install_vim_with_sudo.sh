@@ -1,3 +1,5 @@
+#!/bin/bash
+
 set -x
 
 sudo apt-get remove --purge -qq -y vim vim-runtime vim-gnome vim-tiny vim-common vim-gui-common

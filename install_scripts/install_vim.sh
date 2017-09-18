@@ -1,5 +1,12 @@
 #!/bin/sh
 
+if [ "$(uname)" != "Linux" ]; then
+  echo "[$(basename $0)] Unsupported platform: $(uname)"
+  exit 0
+fi
+
+set -x
+
 TMPDIR=$(mktemp -d)
 cd $TMPDIR
 
@@ -24,3 +31,5 @@ make -j VIMRUNTIMEDIR=~/.local/share/vim/vim80
 make install prefix=~/.local
 
 rm -rf $TMPDIR
+
+set +x
