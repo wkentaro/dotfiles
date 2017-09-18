@@ -1,6 +1,11 @@
 #!/bin/bash
 
-if [ "$(uname)" != "Linux" -o "$(lsb_release -sr)" != "14.04" ]; then
+if [ "$(uname)" != "Linux" ]; then
+  exit 0
+fi
+
+if [ "$(lsb_release -sr)" = "16.04" ]; then
+  sudo apt-get install -qq -y zsh
   exit 0
 fi
 

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ "$(uname)" != "Linux" -o "$(lsb_release -sr)" != "14.04" ]; then
+  exit 0
+fi
+
 set -x
 
 sudo apt-get remove --purge -qq -y vim vim-runtime vim-gnome vim-tiny vim-common vim-gui-common
