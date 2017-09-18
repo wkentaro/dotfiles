@@ -27,6 +27,14 @@ grassh () {
 alias grahttpm='grahttp ${GITHUB_USER}'
 alias grasshm='grassh ${GITHUB_USER}'
 
+gcy () {
+  files=$(git status --porcelain | grep -e '^M' | awk '{print $2}')
+  tmpfile=$(mktemp)
+  echo "Update $files" > $tmpfile
+  git commit --edit --file $tmpfile
+  rm -f $tmpfile
+}
+
 # Use hub as git client
 type hub &>/dev/null && alias git=hub
 
