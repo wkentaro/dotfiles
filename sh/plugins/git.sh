@@ -34,7 +34,7 @@ gcauto () {
   git commit --edit --file $tmpfile
   rm -f $tmpfile
 }
-gsti='git status --ignored'
+alias gsti='git status --ignored'
 
 # Use hub as git client
 type hub &>/dev/null && alias git=hub
