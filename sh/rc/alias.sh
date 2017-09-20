@@ -145,7 +145,7 @@ if command ls --color &>/dev/null; then
     alias ll='ls -lhF --show-control-chars --color=always'
     alias lsa='ls -lahF --show-control-chars --color=always'
   fi
-else
+elif which gls &>/dev/null; then
   eval $(gdircolors $HOME/.dircolors.256dark 2>/dev/null)
   alias ls='gls -F --show-control-chars --color=always'
   alias la='gls -ahF --show-control-chars --color=always'
