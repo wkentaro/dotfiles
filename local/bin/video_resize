@@ -10,7 +10,7 @@ import subprocess
 
 def resize_video_with_scale(video_file, scale):
     base, ext = osp.splitext(video_file)
-    out_file = base + '_x{scale}'.format(scale=scale) + ext
+    out_file = base + '_s{scale}'.format(scale=scale) + ext
     cmd = 'ffmpeg -i {video_file} -vf ' \
           'scale=iw*{scale}:ih*{scale} {out_file}'
     cmd = cmd.format(
@@ -46,7 +46,7 @@ def resize_video_with_max_size(video_file, max_size):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('video_file')
-    parser.add_argument('--scale', type=float, help='Scale of resizing')
+    parser.add_argument('-s', '--scale', type=float, help='Scale of resizing')
     parser.add_argument('--max-size', type=float, help='Max size in [MB]')
     args = parser.parse_args()
 
