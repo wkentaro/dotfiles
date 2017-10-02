@@ -248,3 +248,7 @@ compress_pdf () {
     -sOutputFile=${output} \
     ${input}
 }
+
+alias rsync_avt='rsync -avt'
+
+alias rsync_rlt='rsync -rltDv'
