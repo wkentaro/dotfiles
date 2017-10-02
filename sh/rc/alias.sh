@@ -252,3 +252,11 @@ compress_pdf () {
 alias rsync_avt='rsync -avt'
 
 alias rsync_rlt='rsync -rltDv'
+
+cmake_prefix.. () {
+  if [ $# != 1 ]; then
+    return 1
+  fi
+
+  cmake -DCMAKE_INSTALL_PREFIX:PATH=$1 ..
+}
