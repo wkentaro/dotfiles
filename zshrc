@@ -155,6 +155,8 @@ else
   compinit -C -i
 fi
 
+compdef _todo todo
+
 # ----------------------------
 # Improved less option
 # ----------------------------
