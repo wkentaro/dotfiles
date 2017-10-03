@@ -117,6 +117,9 @@ else
   antibody bundle $MY_ZSH_THEME
 fi
 
+# enhancd
+export ENHANCD_DISABLE_HOME=1
+
 # oh-my-zsh
 DISABLE_AUTO_UPDATE=true
 plugins=(git history python web-search vi-mode)
