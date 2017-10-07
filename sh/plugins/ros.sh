@@ -141,7 +141,7 @@ rosws () {
 rossetws () {
   local ws
   if [ ! $# -eq 1 ]; then
-    ws=$(echo $ROSWS_LIST | xargs -n1 | percol)
+    ws=$(echo $ROSWS_LIST | xargs -n1 | fzy)
   else
     ws=$1
   fi

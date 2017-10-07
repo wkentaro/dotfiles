@@ -57,11 +57,11 @@ tls () {
     echo "[/tmp/tmux-$user_id/$s] $(tmux -S /tmp/tmux-$user_id/$s ls 2>/dev/null)"
   done
 }
-tmux_percol_attach() {
+tmux_fzy_attach() {
     if [[ $1 == "" ]]; then
-        PERCOL=percol
+        PERCOL=fzy
     else
-        PERCOL="percol --query $1"
+        PERCOL="fzy --query $1"
     fi
 
     sessions=$(tls)
@@ -85,7 +85,7 @@ tmux_percol_attach() {
       return 0
     fi
 }
-alias ta='tmux_percol_attach'
+alias ta='tmux_fzy_attach'
 alias tn='tmux new'
 tns () {
   if [ $# -eq 0 ]; then
