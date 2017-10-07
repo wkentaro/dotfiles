@@ -119,6 +119,7 @@ fi
 
 # enhancd
 export ENHANCD_DISABLE_HOME=1
+export ENHANCD_DISABLE_HYPHEN=1
 
 # oh-my-zsh
 DISABLE_AUTO_UPDATE=true
