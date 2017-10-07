@@ -10,8 +10,9 @@ for path in [
           home + "/mvtk/scikit-image",
           home + "/mvtk/imgaug",
           home + "/mvtk/fcn",
-          home + "/mask_rcnn/mask-rcnn/",
-          home + "/mask_rcnn/mask-rcnn/chainer",
+          home + "/mask_rcnn/",
+          home + "/mask_rcnn/chainer",
+          home + "/mask_rcnn/chainercv",
           home + "/vision/vision",
           home + "/vision/core",
       ]:

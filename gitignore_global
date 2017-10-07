@@ -12,5 +12,4 @@ build/
 *.py[cdo]
 *.egg-info/
 
-result/
-logs/
+logs
