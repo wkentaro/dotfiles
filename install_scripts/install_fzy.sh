@@ -15,6 +15,6 @@ tar zxf ${VERSION}.tar.gz
 cd fzy-${VERSION}
 
 make PREFIX=$HOME/.local
-make install DESTDIR=$HOME/.local
+make install DESTDIR= PREFIX=$HOME/.local
 
 set +x
