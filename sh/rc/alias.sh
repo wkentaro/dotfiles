@@ -134,23 +134,23 @@ if command ls --color &>/dev/null; then
   # GNU ls
   if [ $TERM = "dumb" ]; then
     # Disable colors in GVim
-    alias ls='ls -F --show-control-chars'
-    alias la='ls -ahF --show-control-chars'
-    alias ll='ls -lhF --show-control-chars'
-    alias lsa='ls -lahF --show-control-chars'
+    alias ls='ls --show-control-chars'
+    alias la='ls -ah --show-control-chars'
+    alias ll='ls -lh --show-control-chars'
+    alias lsa='ls -lah --show-control-chars'
   else
     # Color settings for zsh complete candidates
-    alias ls='ls -F --show-control-chars --color=always'
-    alias la='ls -ahF --show-control-chars --color=always'
-    alias ll='ls -lhF --show-control-chars --color=always'
-    alias lsa='ls -lahF --show-control-chars --color=always'
+    alias ls='ls --show-control-chars --color=always'
+    alias la='ls -ah --show-control-chars --color=always'
+    alias ll='ls -lh --show-control-chars --color=always'
+    alias lsa='ls -lah --show-control-chars --color=always'
   fi
 elif which gls &>/dev/null; then
   eval $(gdircolors $HOME/.dircolors.256dark 2>/dev/null)
-  alias ls='gls -F --show-control-chars --color=always'
-  alias la='gls -ahF --show-control-chars --color=always'
-  alias ll='gls -lhF --show-control-chars --color=always'
-  alias lsa='gls -lahF --show-control-chars --color=always'
+  alias ls='gls --show-control-chars --color=always'
+  alias la='gls -ah --show-control-chars --color=always'
+  alias ll='gls -lh --show-control-chars --color=always'
+  alias lsa='gls -lah --show-control-chars --color=always'
 fi
 
 # ssh
