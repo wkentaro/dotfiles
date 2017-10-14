@@ -382,17 +382,6 @@ fi
 # ascii art
 # ---------------------------------
 
-if [ "$(uname)" = "Linux" ]; then
-  export COWPATH=/usr/share/cowsay/cows:$HOME/.cows
-elif [ "$(uname)" = "Darwin" ]; then
-  export COWPATH=/usr/local/share/cows:$HOME/.cows
-fi
-# if [ -z $NO_COWSAY ]; then
-#   if [ $COLUMNS -gt 79 ]; then
-#     echo "Current time is $(date +'%a %b %d %Y %H:%M')" | cowthink -f snake-hi-kentaro
-#   fi
-# fi
-
 fancy-ctrl-z () {
   if [[ $#BUFFER -eq 0 ]]; then
     BUFFER="fg"
