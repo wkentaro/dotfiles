@@ -460,3 +460,5 @@ deactivate () {
 }
 alias ac=activate
 alias da=deactivate
+
+xmodmap $HOME/.Xmodmap &>/dev/null
