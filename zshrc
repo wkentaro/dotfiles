@@ -62,6 +62,10 @@ export PATH="$HOME/.local/bin:$PATH"
 export MANPATH="$HOME/.local/bin:$MANPATH"
 # export PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH"
 
+if [ "$(uname)" = "Darwin" ]; then
+  export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+fi
+
 # bookmark
 # hash -d dotfiles=$HOME/.dotfiles
 
