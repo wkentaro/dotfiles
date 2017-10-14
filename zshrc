@@ -99,6 +99,9 @@ export SSH_USER='wada'
 # Homebrew
 export HOMEBREW_NO_AUTO_UPDATE=1
 
+# Chainer
+export CHAINER_DATASET_ROOT=$HOME/data/datasets
+
 # Travis
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
