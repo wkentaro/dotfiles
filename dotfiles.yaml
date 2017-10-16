@@ -36,6 +36,8 @@ nvimrc:
   .nvimrc
 percol.d:
   .percol.d
+private/gpu_checker.cfg:
+  .gpu_checker.cfg
 private/pypirc:
   .pypirc
 private/ssh/config:
