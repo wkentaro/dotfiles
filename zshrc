@@ -177,30 +177,30 @@ export LESS='--tabs=4 --LONG-PROMPT --ignore-case --RAW-CONTROL-CHARS'
 # bindkey
 # --------------------------------
 
-if type fzy &>/dev/null; then
-  # fzy history search
+if type percol &>/dev/null; then
+  # percol history search
   # Ctrl-R
-  function fzy-history() {
+  function percol-history() {
     if [ "$(uname)" = "Linux" ]; then
-      BUFFER=$(fc -l -n 1 | tac | fzy --query "$LBUFFER")
+      BUFFER=$(fc -l -n 1 | tac | percol --query "$LBUFFER")
     else
-      BUFFER=$(fc -l -n 1 | tail -r | fzy --query "$LBUFFER")
+      BUFFER=$(fc -l -n 1 | tail -r | percol --query "$LBUFFER")
     fi
     CURSOR=$#BUFFER         # move cursor
     zle -R -c               # refresh
   }
-  zle -N fzy-history
-  bindkey '^R' fzy-history
+  zle -N percol-history
+  bindkey '^R' percol-history
 
   # Alt-T
   if [ -d "/opt/ros" ]; then
     # rostopic search
-    function search-rostopic-by-fzy(){
-      LBUFFER=$LBUFFER$(rostopic list | fzy)
+    function search-rostopic-by-percol(){
+      LBUFFER=$LBUFFER$(rostopic list | percol)
       zle -R -c
     }
-    zle -N search-rostopic-by-fzy
-    bindkey '^[p' search-rostopic-by-fzy
+    zle -N search-rostopic-by-percol
+    bindkey '^[p' search-rostopic-by-percol
 
     function ros-bind () {
       local cmd
@@ -223,37 +223,37 @@ if type fzy &>/dev/null; then
       elif [ "$LBUFFER" = "image_view " ]; then
         cmd=rostopic
       else
-        cmd=$(echo $candidates | xargs -n1 | fzy)
+        cmd=$(echo $candidates | xargs -n1 | percol)
       fi
       case $cmd in
         (commands)
           local -a ros_commands
           ros_commands=(rosrun roscd rostopic rosservice rosmsg rosmsg-proto rospack rosnode)
-          LBUFFER="$(echo $ros_commands | xargs -n1 | fzy) "
+          LBUFFER="$(echo $ros_commands | xargs -n1 | percol) "
           ;;
         (rosmsg)
-          LBUFFER=$LBUFFER$(rosmsg list | fzy)
+          LBUFFER=$LBUFFER$(rosmsg list | percol)
           ;;
         (rosmsg-proto)
-          msg=$(rosmsg list | fzy)
+          msg=$(rosmsg list | percol)
           if [ "$msg" != "" ]; then
             LBUFFER=$LBUFFER$(rosmsg-proto msg $msg)
           fi
           ;;
         (rospack)
-          LBUFFER=$LBUFFER$(rospack list | awk '{print $1}' | fzy)
+          LBUFFER=$LBUFFER$(rospack list | awk '{print $1}' | percol)
           ;;
         (rosservice)
-          LBUFFER=$LBUFFER$(rosservice list | fzy)
+          LBUFFER=$LBUFFER$(rosservice list | percol)
           ;;
         (rosservice)
-          LBUFFER=$LBUFFER$(rosservice list | fzy)
+          LBUFFER=$LBUFFER$(rosservice list | percol)
           ;;
         (rostopic)
-          LBUFFER=$LBUFFER$(rostopic list | fzy)
+          LBUFFER=$LBUFFER$(rostopic list | percol)
           ;;
         (rosnode)
-          LBUFFER=$LBUFFER$(rosnode list | fzy)
+          LBUFFER=$LBUFFER$(rosnode list | percol)
           ;;
         (*) ;;
       esac
@@ -348,9 +348,9 @@ function _z_cd ()
 {
   if [ "$1" = "" ]; then
     if [ "$(uname)" = "Linux" ]; then
-      dir=$(_z 2>&1 | awk '{print $2}' | tac | fzy)
+      dir=$(_z 2>&1 | awk '{print $2}' | tac | percol)
     else
-      dir=$(_z 2>&1 | awk '{print $2}' | tail -r | fzy)
+      dir=$(_z 2>&1 | awk '{print $2}' | tail -r | percol)
     fi
   else
     dir=$1
