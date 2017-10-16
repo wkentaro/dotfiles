@@ -7,6 +7,7 @@ warnings.filterwarnings('ignore')  # NOQA
 
 from paramiko import AutoAddPolicy
 from paramiko import SSHClient
+from termcolor import colored
 import yaml
 
 
@@ -32,7 +33,8 @@ def cuda_smi(host, user, port, private_key):
         return
     stdin, stdout, stderr = ssh.exec_command('$HOME/.local/bin/cuda-smi')
     for line in stdout:
-        print("{}: ".format(host) + line.strip('\n'))
+        line = line.strip()
+        print(colored('{:<6}'.format(host), attrs=['bold']) + ': ' + line)
     ssh.close()
 
 
@@ -42,7 +44,6 @@ def main():
     with open(filename, 'r') as f:
         PORT = 22
         PRIVATE_KEY = osp.expanduser('~/.ssh/id_rsa')
-        # q = multiprocessing.Queue()
         try:
             server_list = yaml.load(f)
             user = server_list['username']
