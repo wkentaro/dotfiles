@@ -190,6 +190,7 @@ show_ros () {
 }
 
 show_cuda () {
+  which nvcc &>/dev/null || return 1
   # cuda
   CUDA_VERSION=$(command nvcc --version | sed -n 4p | sed 's/.*, release .*, V\(.*\)/\1/')
   echo "CUDA_VERSION: $CUDA_VERSION"

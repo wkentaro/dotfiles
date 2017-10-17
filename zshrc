@@ -461,4 +461,17 @@ deactivate () {
 alias ac=activate
 alias da=deactivate
 
+# !!! Slow !!!
+# ---------------------------------
+
 xmodmap $HOME/.Xmodmap &>/dev/null
+
+show_cuda
+
+if which dropbox &>/dev/null; then
+  echo "Dropbox: $(dropbox status | sed 2d)"
+fi
+
+if [ ! -z $CONDA_DEFAULT_ENV ]; then
+  source $CONDA_PREFIX/bin/activate $CONDA_DEFAULT_ENV
+fi
