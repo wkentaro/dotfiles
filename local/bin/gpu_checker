@@ -47,16 +47,14 @@ def main():
     pool = multiprocessing.Pool()
     processes = []
     for host in hosts:
-        p = pool.apply_async(cuda_smi, args=(host, user, port, private_key))
-        processes.append(p)
+        process = pool.apply_async(cuda_smi, args=(host, user, port, private_key))
+        processes.append((host, process))
 
-    hosts = collections.deque(hosts)
     processes = collections.deque(processes)
     print('-' * 110)
-    host_str_size = max(len(host) for host in hosts)
+    host_str_size = max(len(host) for host, _ in processes)
     while processes:
-        host = hosts.pop()
-        process = processes.popleft()
+        host, process = processes.popleft()
         if process.ready():
             result = process.get()
             template_host = '{:<%ds}' % host_str_size
@@ -69,8 +67,7 @@ def main():
                 print('{}: Cannot connect.'.format(host))
             print('-' * 110)
         else:
-            hosts.append(host)
-            processes.append(process)
+            processes.append((host, process))
         time.sleep(0.01)
 
 
