@@ -33,10 +33,6 @@ def cuda_smi(host, user, port, private_key):
     return output
 
 
-def _cuda_smi(args):
-    return cuda_smi(*args)
-
-
 def main():
     filename = osp.expanduser('~/.gpu_checker.cfg')
 
@@ -57,17 +53,20 @@ def main():
     hosts = collections.deque(hosts)
     processes = collections.deque(processes)
     print('-' * 110)
+    host_str_size = max(len(host) for host in hosts)
     while processes:
         host = hosts.pop()
         process = processes.popleft()
         if process.ready():
-            host = colored(host, attrs=['bold'])
             result = process.get()
+            template_host = '{:<%ds}' % host_str_size
+            host = template_host.format(host)
+            host = colored(host, attrs=['bold'])
             if result:
                 for line in result.splitlines():
-                    print('%s: %s' % (host, line))
+                    print('{}: {}'.format(host, line))
             else:
-                print('%s: Cannot connect.' % host)
+                print('{}: Cannot connect.'.format(host))
             print('-' * 110)
         else:
             hosts.append(host)
