@@ -1,7 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
+from __future__ import print_function
+
+import collections
 import multiprocessing
 import os.path as osp
+import time
 import warnings
 warnings.filterwarnings('ignore')  # NOQA
 
@@ -11,46 +15,64 @@ from termcolor import colored
 import yaml
 
 
-def exec_ssh_command(*args, **kwargs):
-    p = multiprocessing.Process(
-        target=cuda_smi,
-        args=args,
-        kwargs=kwargs)
-    p.start()
-
-
 def cuda_smi(host, user, port, private_key):
     ssh = SSHClient()
     ssh.set_missing_host_key_policy(AutoAddPolicy())
-    for i in range(3):
+    n_retry = 3
+    for i in range(n_retry):
         try:
             ssh.connect(host, port, user, key_filename=private_key)
             break
-        except:
+        except Exception:
             pass
     else:
-        print('Cannot connect to: %s' % host)
         return
     stdin, stdout, stderr = ssh.exec_command('$HOME/.local/bin/cuda-smi')
-    for line in stdout:
-        line = line.strip()
-        print(colored('{:<6}'.format(host), attrs=['bold']) + ': ' + line)
+    output = stdout.read()
     ssh.close()
+    return output
+
+
+def _cuda_smi(args):
+    return cuda_smi(*args)
 
 
 def main():
     filename = osp.expanduser('~/.gpu_checker.cfg')
 
     with open(filename, 'r') as f:
-        PORT = 22
-        PRIVATE_KEY = osp.expanduser('~/.ssh/id_rsa')
-        try:
-            server_list = yaml.load(f)
-            user = server_list['username']
-            for host in server_list['hosts']:
-                exec_ssh_command(host, user, PORT, PRIVATE_KEY)
-        except yaml.YAMLError as e:
-            print(e)
+        server_list = yaml.load(f)
+
+    port = 22
+    private_key = osp.expanduser('~/.ssh/id_rsa')
+    user = server_list['username']
+    hosts = server_list['hosts']
+
+    pool = multiprocessing.Pool()
+    processes = []
+    for host in hosts:
+        p = pool.apply_async(cuda_smi, args=(host, user, port, private_key))
+        processes.append(p)
+
+    hosts = collections.deque(hosts)
+    processes = collections.deque(processes)
+    print('-' * 110)
+    while processes:
+        host = hosts.pop()
+        process = processes.popleft()
+        if process.ready():
+            host = colored(host, attrs=['bold'])
+            result = process.get()
+            if result:
+                for line in result.splitlines():
+                    print('%s: %s' % (host, line))
+            else:
+                print('%s: Cannot connect.' % host)
+            print('-' * 110)
+        else:
+            hosts.append(host)
+            processes.append(process)
+        time.sleep(0.01)
 
 
 if __name__ == '__main__':
