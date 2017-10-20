@@ -461,6 +461,10 @@ deactivate () {
 alias ac=activate
 alias da=deactivate
 
+users_by_ps () {
+  ps auxwww | awk '{print $1}' | sort | uniq | xargs
+}
+
 # !!! Slow !!!
 # ---------------------------------
 
