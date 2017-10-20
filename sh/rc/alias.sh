@@ -53,8 +53,11 @@ tls () {
   if [ ! -d /tmp/tmux-$user_id ]; then
     return 1
   fi
+  IFS=$'\n'
   for s in $(command ls /tmp/tmux-$user_id); do
-    echo "[/tmp/tmux-$user_id/$s] $(tmux -S /tmp/tmux-$user_id/$s ls 2>/dev/null)"
+    for t in $(tmux -S /tmp/tmux-$user_id/$s ls 2>/dev/null); do
+      echo "[/tmp/tmux-$user_id/$s] $t"
+    done
   done
 }
 tmux_fzy_attach() {
