@@ -15,7 +15,7 @@ from termcolor import colored
 import yaml
 
 
-def cuda_smi(host, user, port, private_key):
+def ssh_and_run(host, user, port, private_key, commands):
     ssh = SSHClient()
     ssh.set_missing_host_key_policy(AutoAddPolicy())
     n_retry = 3
@@ -27,10 +27,13 @@ def cuda_smi(host, user, port, private_key):
             pass
     else:
         return
-    stdin, stdout, stderr = ssh.exec_command('$HOME/.local/bin/cuda-smi')
-    output = stdout.read()
+    outputs = []
+    for cmd in commands:
+        stdin, stdout, stderr = ssh.exec_command(cmd)
+        output = stdout.read()
+        outputs.append(output)
     ssh.close()
-    return output
+    return outputs
 
 
 def main():
@@ -44,10 +47,15 @@ def main():
     user = server_list['username']
     hosts = server_list['hosts']
 
+    cmds = [
+        '$HOME/.local/bin/cuda-smi',
+        '''ps auxwww | awk '{print $1}' | egrep "$(command ls /home)" | sort | uniq -c | sort -nr | xargs''',
+    ]
+
     pool = multiprocessing.Pool()
     processes = []
     for host in hosts:
-        process = pool.apply_async(cuda_smi, args=(host, user, port, private_key))
+        process = pool.apply_async(ssh_and_run, args=(host, user, port, private_key, cmds))
         processes.append((host, process))
 
     processes = collections.deque(processes)
@@ -56,13 +64,14 @@ def main():
     while processes:
         host, process = processes.popleft()
         if process.ready():
-            result = process.get()
+            outputs = process.get()
             template_host = '{:<%ds}' % host_str_size
             host = template_host.format(host)
             host = colored(host, attrs=['bold'])
-            if result:
-                for line in result.splitlines():
-                    print('{}: {}'.format(host, line))
+            if outputs:
+                for output in outputs:
+                    for line in output.splitlines():
+                        print('{}: {}'.format(host, line))
             else:
                 print('{}: Cannot connect.'.format(host))
             print('-' * 110)

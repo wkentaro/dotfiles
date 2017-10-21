@@ -462,7 +462,7 @@ alias ac=activate
 alias da=deactivate
 
 users_by_ps () {
-  ps auxwww | awk '{print $1}' | sort | uniq | xargs
+  ps auxwww | awk '{print $1}' | egrep "$(command ls /home)" | sort | uniq -c | sort -nr | xargs
 }
 
 # !!! Slow !!!
