@@ -12,6 +12,7 @@ for path in [
           home + "/mvtk/fcn",
           home + "/mask-rcnn/",
           home + "/mask-rcnn/chainer",
+          home + "/mask-rcnn/chainercv",
           home + "/vision/vision",
           home + "/vision/core",
       ]:
