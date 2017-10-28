@@ -2,6 +2,7 @@
 
 from __future__ import print_function
 
+import argparse
 import collections
 import multiprocessing
 import os.path as osp
@@ -37,6 +38,10 @@ def ssh_and_run(host, user, port, private_key, commands):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--no-color', action='store_true', help='Disable color output.')
+    args = parser.parse_args()
+
     filename = osp.expanduser('~/.gpu_checker.cfg')
 
     with open(filename, 'r') as f:
@@ -67,7 +72,8 @@ def main():
             outputs = process.get()
             template_host = '{:<%ds}' % host_str_size
             host = template_host.format(host)
-            host = colored(host, attrs=['bold'])
+            if not args.no_color:
+                host = colored(host, attrs=['bold'])
             if outputs:
                 for output in outputs:
                     for line in output.splitlines():
