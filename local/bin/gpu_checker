@@ -55,6 +55,7 @@ def main():
     cmds = [
         '$HOME/.local/bin/cuda-smi',
         '''ps auxwww | awk '{print $1}' | egrep "$(command ls /home)" | sort | uniq -c | sort -nr | xargs''',
+        """grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print "CPU: " usage "%"}'""",
     ]
 
     pool = multiprocessing.Pool()
