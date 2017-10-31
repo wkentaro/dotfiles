@@ -55,7 +55,7 @@ def main():
     cmds = [
         '$HOME/.local/bin/cuda-smi',
         '''ps auxwww | awk '{print $1}' | egrep "$(command ls /home)" | sort | uniq -c | sort -nr | xargs''',
-        'vmstat',
+        'vmstat -SM',
     ]
 
     pool = multiprocessing.Pool()
