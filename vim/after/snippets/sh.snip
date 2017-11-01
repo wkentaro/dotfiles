@@ -95,4 +95,8 @@ options     head
 	echo "${0:TARGET}" 1>&2
 	exit 1
 
+snippet     HERE
+abbr        HERE=...
+	HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # vim: set noexpandtab :
