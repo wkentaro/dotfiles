@@ -5,15 +5,20 @@ from __future__ import print_function
 import argparse
 import collections
 import multiprocessing
+import os
 import os.path as osp
 import time
 import warnings
 warnings.filterwarnings('ignore')  # NOQA
 
+import paramiko
 from paramiko import AutoAddPolicy
 from paramiko import SSHClient
 from termcolor import colored
 import yaml
+
+
+paramiko.util.log_to_file('/tmp/gpu_checker-%d.log' % os.getuid())
 
 
 def ssh_and_run(host, user, port, private_key, commands):
