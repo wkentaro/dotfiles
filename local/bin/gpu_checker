@@ -2,32 +2,45 @@
 
 from __future__ import print_function
 
-import argparse
-import collections
-import multiprocessing
+from concurrent.futures import ProcessPoolExecutor
 import os
 import os.path as osp
-import time
 import warnings
 warnings.filterwarnings('ignore')  # NOQA
 
 import paramiko
-from paramiko import AutoAddPolicy
-from paramiko import SSHClient
-from termcolor import colored
+import six
 import yaml
+
+
+PRIVATE_KEY = osp.expanduser('~/.ssh/id_rsa')
+CONFIG_FILE = osp.expanduser('~/.ssh/config')
+
+
+ssh_config = paramiko.SSHConfig()
+if osp.exists(CONFIG_FILE):
+    with open(CONFIG_FILE) as f:
+        ssh_config.parse(f)
 
 
 paramiko.util.log_to_file('/tmp/gpu_checker-%d.log' % os.getuid())
 
 
-def ssh_and_run(host, user, port, private_key, commands):
-    ssh = SSHClient()
-    ssh.set_missing_host_key_policy(AutoAddPolicy())
+def ssh_and_run(args):
+    host, user, commands = args
+
+    user_config = ssh_config.lookup(host)
+    host = user_config.get('hostname', host)
+    user = user_config.get('username', user)
+    port = user_config.get('port', 22)
+
+    ssh = paramiko.SSHClient()
+    ssh._policy = paramiko.WarningPolicy()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     n_retry = 3
     for i in range(n_retry):
         try:
-            ssh.connect(host, port, user, key_filename=private_key)
+            ssh.connect(host, port, user, key_filename=PRIVATE_KEY)
             break
         except Exception:
             pass
@@ -43,52 +56,43 @@ def ssh_and_run(host, user, port, private_key, commands):
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--no-color', action='store_true', help='Disable color output.')
-    args = parser.parse_args()
-
     filename = osp.expanduser('~/.gpu_checker.cfg')
 
     with open(filename, 'r') as f:
         server_list = yaml.load(f)
 
-    port = 22
-    private_key = osp.expanduser('~/.ssh/id_rsa')
     user = server_list['username']
     hosts = server_list['hosts']
 
     cmds = [
         '$HOME/.local/bin/cuda-smi',
-        '''ps auxwww | awk '{print $1}' | egrep "$(command ls /home)" | sort | uniq -c | sort -nr | xargs''',
+        '''ps auxwww | awk '{print $1}' | egrep "$(command ls /home)" | sort | uniq -c | sort -nr | xargs''',  # NOQA
     ]
 
-    pool = multiprocessing.Pool()
-    processes = []
-    for host in hosts:
-        process = pool.apply_async(ssh_and_run, args=(host, user, port, private_key, cmds))
-        processes.append((host, process))
+    with ProcessPoolExecutor(max_workers=4) as executor:
+        params = [(host, user, cmds) for host in hosts]
+        cmd_outputs = executor.map(ssh_and_run, params)
 
-    processes = collections.deque(processes)
-    print('-' * 110)
-    host_str_size = max(len(host) for host, _ in processes)
-    while processes:
-        host, process = processes.popleft()
-        if process.ready():
-            outputs = process.get()
-            template_host = '{:<%ds}' % host_str_size
-            host = template_host.format(host)
-            if not args.no_color:
-                host = colored(host, attrs=['bold'])
-            if outputs:
-                for output in outputs:
-                    for line in output.splitlines():
-                        print('{}: {}'.format(host, line))
-            else:
-                print('{}: Cannot connect.'.format(host))
-            print('-' * 110)
+    headers = ['hostname', 'status']
+    rows = []
+    for host, outputs in six.moves.zip(hosts, cmd_outputs):
+        host_template = '{:<%d}' % max(len(h) for h in hosts)
+        host = host_template.format(host)
+        if outputs is None:
+            rows.append('%s: %s' % (host, 'Cannot connect.'))
         else:
-            processes.append((host, process))
-        time.sleep(0.01)
+            for output in outputs:
+                for line in output.splitlines():
+                    rows.append('%s: %s' % (host, line))
+        rows.append(None)
+    max_width = max(len(row) for row in rows if row is not None)
+
+    print('-' * max_width)
+    for row in rows:
+        if row is None:
+            print('-' * max_width)
+        else:
+            print(row)
 
 
 if __name__ == '__main__':
