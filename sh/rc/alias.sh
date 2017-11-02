@@ -68,7 +68,7 @@ tmux_fzy_attach() {
     fi
 
     sessions=$(tls)
-    [ $? -ne 0 ] && return
+    [ $? -ne 0 -o "$sessions" = "" ] && return
 
     if [ $(echo $sessions | wc -l) -eq 1 ]; then
       # tmux attach && return
