@@ -74,8 +74,6 @@ tmux_fzy_attach() {
       # tmux attach && return
       socket=$(echo $sessions | awk '{print $1}' | sed -e 's/^\[\(.*\)\]$/\1/')
       session=$(echo $sessions | awk '{print $2}' | sed -e 's/^\(.*\):$/\1/')
-      echo $socket
-      echo $session
       tmux -S $socket attach -t $session
       return 0
     fi
