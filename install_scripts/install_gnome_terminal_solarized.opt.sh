@@ -4,8 +4,8 @@ if [ "$(uname)" != "Linux" ]; then
   exit 0
 fi
 
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DOTFILES_DIR=$(dirname $DIR)
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR=$(dirname $HERE)
 
 sudo apt-get install -qq -y dconf-cli
 
