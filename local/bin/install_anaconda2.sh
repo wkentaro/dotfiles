@@ -6,6 +6,7 @@ if [ ! $# -eq 1 ]; then
 fi
 
 INSTALL_DIR=$1
+INSTALL_DIR=$(cd $INSTALL_DIR && pwd)
 
 if [ -e $INSTALL_DIR/.anaconda2 ]; then
   echo "Anaconda2 is already installed: $INSTALL_DIR/.anaconda2"
