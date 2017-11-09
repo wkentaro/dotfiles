@@ -56,6 +56,8 @@ def ssh_and_run(args):
 
 
 def main():
+    # sample:
+    # https://gist.github.com/iory/10aafd62515ea1b08eb97c1d41c3b5f5
     filename = osp.expanduser('~/.gpu_checker.cfg')
 
     with open(filename, 'r') as f:
