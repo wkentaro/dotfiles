@@ -428,7 +428,7 @@ if [ -e /usr/local/cuda ]; then
     if [ "$(uname)" = "Darwin" ]; then
       export LDFLAGS=-L$CUDA_PATH/lib
     else
-      export LDFLAGS=-L$CUDA_PATH/lib64
+      export LDFLAGS=-L$CUDA_PATH/lib64:$CUDA_PATH/lib
     fi
   fi
 fi
