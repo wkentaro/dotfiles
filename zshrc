@@ -417,6 +417,7 @@ export GHI_TOKEN=$GITHUB_TOKEN
 if [ -e /usr/local/cuda ]; then
   export CUDA_PATH=/usr/local/cuda
   export PATH=$CUDA_PATH/bin:$PATH
+  export CPATH=$CUDA_PATH/include:$CPATH
   if [ "$(uname)" = "Darwin" ]; then
     export LD_LIBRARY_PATH=$CUDA_PATH/lib:$LD_LIBRARY_PATH
   else
