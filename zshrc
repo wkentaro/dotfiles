@@ -418,19 +418,9 @@ if [ -e /usr/local/cuda ]; then
   export CUDA_PATH=/usr/local/cuda
   export PATH=$CUDA_PATH/bin:$PATH
   export CPATH=$CUDA_PATH/include:$CPATH
-  if [ "$(uname)" = "Darwin" ]; then
-    export LD_LIBRARY_PATH=$CUDA_PATH/lib:$LD_LIBRARY_PATH
-  else
-    export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$CUDA_PATH/lib:$LD_LIBRARY_PATH
-  fi
-  if [ -e /usr/local/cuda/include/cudnn.h ]; then
-    export CFLAGS=-I$CUDA_PATH/include
-    if [ "$(uname)" = "Darwin" ]; then
-      export LDFLAGS=-L$CUDA_PATH/lib
-    else
-      export LDFLAGS=-L$CUDA_PATH/lib64:$CUDA_PATH/lib
-    fi
-  fi
+  export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$CUDA_PATH/lib:$LD_LIBRARY_PATH
+  export CFLAGS=-I$CUDA_PATH/include
+  export LDFLAGS="-L$CUDA_PATH/lib64 -L$CUDA_PATH/lib"
 fi
 
 # ----------------------
