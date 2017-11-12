@@ -46,7 +46,7 @@ alias ipp='ptipython'
 alias fl='flake8'
 
 # tmux
-alias t='tmux'
+# alias t='tmux'
 # alias tls='tmux ls'
 tls () {
   local user_id=$(id -u)
