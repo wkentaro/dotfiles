@@ -4,14 +4,25 @@ from __future__ import print_function
 
 import os
 import os.path as osp
-import signal
+import sys
 import warnings
 warnings.filterwarnings('ignore')  # NOQA
 
-from concurrent.futures import ProcessPoolExecutor  # pip install futures
+try:
+    from concurrent.futures import ProcessPoolExecutor
+except ImportError:
+    print('Please run: pip install futures')
+    sys.exit(1)
 import paramiko
 import six
 import yaml
+
+from distutils.version import StrictVersion
+
+
+if StrictVersion(paramiko.__version__) < StrictVersion('2.4.0'):
+    print('Please install paramiko>=2.4.0.')
+    sys.exit(1)
 
 
 PRIVATE_KEY = osp.expanduser('~/.ssh/id_rsa')
@@ -27,10 +38,6 @@ if osp.exists(CONFIG_FILE):
 paramiko.util.log_to_file('/tmp/gpu_checker-%d.log' % os.getuid())
 
 
-def timeout_ssh(signum, frame):
-    raise Exception
-
-
 def ssh_and_run(args):
     host, user, commands = args
 
@@ -42,12 +49,10 @@ def ssh_and_run(args):
     ssh = paramiko.SSHClient()
     ssh._policy = paramiko.WarningPolicy()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    signal.signal(signal.SIGALRM, timeout_ssh)
-    signal.alarm(3)  # timeout: 3s
     try:
-        # FIXME: timeout param does not work.
-        ssh.connect(host, port, user, key_filename=PRIVATE_KEY)
-    except Exception:
+        ssh.connect(host, port, user, key_filename=PRIVATE_KEY,
+                    timeout=3, banner_timeout=3, auth_timeout=3)
+    except paramiko.SSHException:
         return
     outputs = []
     for cmd in commands:
