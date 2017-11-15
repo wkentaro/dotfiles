@@ -27,12 +27,8 @@ if osp.exists(CONFIG_FILE):
 paramiko.util.log_to_file('/tmp/gpu_checker-%d.log' % os.getuid())
 
 
-class CommandTimeoutError(Exception):
-    pass
-
-
 def timeout_ssh(signum, frame):
-    raise CommandTimeoutError
+    raise Exception
 
 
 def ssh_and_run(args):
@@ -51,7 +47,7 @@ def ssh_and_run(args):
     try:
         # FIXME: timeout param does not work.
         ssh.connect(host, port, user, key_filename=PRIVATE_KEY)
-    except CommandTimeoutError:
+    except Exception:
         return
     outputs = []
     for cmd in commands:
