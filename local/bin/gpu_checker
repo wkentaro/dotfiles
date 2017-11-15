@@ -2,12 +2,13 @@
 
 from __future__ import print_function
 
-from concurrent.futures import ProcessPoolExecutor
 import os
 import os.path as osp
+import signal
 import warnings
 warnings.filterwarnings('ignore')  # NOQA
 
+from concurrent.futures import ProcessPoolExecutor  # pip install futures
 import paramiko
 import six
 import yaml
@@ -26,6 +27,14 @@ if osp.exists(CONFIG_FILE):
 paramiko.util.log_to_file('/tmp/gpu_checker-%d.log' % os.getuid())
 
 
+class CommandTimeoutError(Exception):
+    pass
+
+
+def timeout_ssh(signum, frame):
+    raise CommandTimeoutError
+
+
 def ssh_and_run(args):
     host, user, commands = args
 
@@ -37,14 +46,12 @@ def ssh_and_run(args):
     ssh = paramiko.SSHClient()
     ssh._policy = paramiko.WarningPolicy()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    n_retry = 3
-    for i in range(n_retry):
-        try:
-            ssh.connect(host, port, user, key_filename=PRIVATE_KEY)
-            break
-        except Exception:
-            pass
-    else:
+    signal.signal(signal.SIGALRM, timeout_ssh)
+    signal.alarm(3)  # timeout: 3s
+    try:
+        # FIXME: timeout param does not work.
+        ssh.connect(host, port, user, key_filename=PRIVATE_KEY)
+    except CommandTimeoutError:
         return
     outputs = []
     for cmd in commands:
@@ -75,7 +82,6 @@ def main():
         params = [(host, user, cmds) for host in hosts]
         cmd_outputs = executor.map(ssh_and_run, params)
 
-    headers = ['hostname', 'status']
     rows = []
     for host, outputs in six.moves.zip(hosts, cmd_outputs):
         host_template = '{:<%d}' % max(len(h) for h in hosts)
