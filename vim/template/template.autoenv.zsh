@@ -1,7 +1,8 @@
 #!/usr/bin/env zsh
 
 setup() {
-  . $HERE/venv/bin/activate
+  source $HERE/.anaconda2/bin/activate
+  # . $HERE/venv/bin/activate
   # activate mvtk
 }
 
