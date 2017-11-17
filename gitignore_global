@@ -4,6 +4,7 @@
 venv
 .venv
 .idea/
+.anaconda2/
 ,*
 .autoenv.zsh
 .autoenv_leave.zsh
