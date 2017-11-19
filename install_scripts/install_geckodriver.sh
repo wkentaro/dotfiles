@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ -e $HOME/.local/bin/geckodriver ]; then
+  exit 0
+fi
+
 set -x
 
 if [ "$(uname)" = "Linux" ]; then

@@ -2,6 +2,7 @@
 
 from __future__ import print_function
 
+import os.path as osp
 import time
 
 from selenium.common.exceptions import ElementNotInteractableException
@@ -12,7 +13,8 @@ from selenium import webdriver
 
 
 print('==> Opening browser.')
-driver = webdriver.Firefox()
+driver = webdriver.Firefox(
+    executable_path=osp.expanduser('~/.local/bin/geckodriver'))
 driver.get('https://133.11.216.231/login.html')
 assert 'idrac-B1FKWBX' in driver.title
 print('==> Complete.')
