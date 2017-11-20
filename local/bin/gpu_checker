@@ -49,9 +49,12 @@ def ssh_and_run(args):
     ssh = paramiko.SSHClient()
     ssh._policy = paramiko.WarningPolicy()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    sock = None
+    if 'proxycommand' in user_config:
+        sock = paramiko.ProxyCommand(user_config['proxycommand'])
     try:
         ssh.connect(host, port, user, key_filename=PRIVATE_KEY,
-                    timeout=3, banner_timeout=3, auth_timeout=3)
+                    sock=sock, timeout=3, banner_timeout=3, auth_timeout=3)
     except paramiko.SSHException:
         return
     outputs = []
