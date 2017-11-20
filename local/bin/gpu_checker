@@ -54,7 +54,7 @@ def ssh_and_run(args):
         sock = paramiko.ProxyCommand(user_config['proxycommand'])
     try:
         ssh.connect(host, port, user, key_filename=PRIVATE_KEY,
-                    sock=sock, timeout=3, banner_timeout=3, auth_timeout=3)
+                    sock=sock, timeout=10, banner_timeout=10, auth_timeout=10)
     except paramiko.SSHException:
         return
     outputs = []
