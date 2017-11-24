@@ -14,7 +14,8 @@ from selenium import webdriver
 
 print('==> Opening browser.')
 driver = webdriver.Firefox(
-    executable_path=osp.expanduser('~/.local/bin/geckodriver'))
+    executable_path=osp.expanduser('~/.local/bin/geckodriver'),
+    log_path='/tmp/restart_jenkins_py_geckodriver.log')
 driver.get('https://133.11.216.231/login.html')
 assert 'idrac-B1FKWBX' in driver.title
 print('==> Complete.')
