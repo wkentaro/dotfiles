@@ -33,6 +33,10 @@ def get_conferences_data():
 
     for conf in data:
         timezone = conf.get('timezone', 'America/New_York')
+        if timezone == 'PST':
+            timezone = 'US/Pacific'
+        if timezone == 'AoE':
+            timezone = 'Etc/GMT+12'
         deadline = dateutil.parser.parse(conf['deadline'])
         deadline = deadline.replace(tzinfo=pytz.timezone(timezone))
         deadline = deadline.astimezone(pytz.timezone('Asia/Tokyo'))
