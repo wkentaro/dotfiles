@@ -13,7 +13,7 @@ def main():
     if now.minute != 0:
         sys.exit(1)
 
-    text = [now.strftime('%m月%d日%H時をお知らせします。')]
+    text = [now.strftime('%-m月%-d日%-H時をお知らせします。')]
 
     cmd = 'curl -X POST -d "text={text}" {endpoint}'.format(
         text='\n'.join(text),

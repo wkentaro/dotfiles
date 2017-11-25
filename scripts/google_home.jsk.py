@@ -13,7 +13,7 @@ def main():
     if now.minute != 0:
         sys.exit(1)
 
-    text = [now.strftime('%m月%d日%H時をお知らせします。')]
+    text = [now.strftime('%-m月%-d日%-H時をお知らせします。')]
     if now.hour == 0:
         text.append('あと30分で門が閉まります。そろそろ帰りましょう。')
 
