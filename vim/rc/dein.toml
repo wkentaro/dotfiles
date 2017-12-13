@@ -165,3 +165,6 @@ repo = 'ctrlpvim/ctrlp.vim'
 
 # [[plugins]]
 # repo = 'jaxbot/github-issues.vim'
+
+[[plugins]]
+repo = 'hotwatermorning/auto-git-diff'
