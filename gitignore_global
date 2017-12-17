@@ -4,6 +4,7 @@
 venv
 .venv
 .idea/
+.anaconda
 .anaconda2/
 .anaconda3/
 ,*
