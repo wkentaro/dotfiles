@@ -29,7 +29,7 @@ def main():
 
     args.input_files = glob.glob(args.input_files)
 
-    if not out_file.endswith('.gif'):
+    if not args.out_file.endswith('.gif'):
         n_times_write = 1
         if args.rate < 10:
             n_times_write = 10 // args.rate
