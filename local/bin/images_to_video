@@ -29,10 +29,11 @@ def main():
 
     args.input_files = glob.glob(args.input_files)
 
-    n_times_write = 1
-    if args.rate < 10:
-        n_times_write = 10 // args.rate
-        args.rate = 10
+    if not out_file.endswith('.gif'):
+        n_times_write = 1
+        if args.rate < 10:
+            n_times_write = 10 // args.rate
+            args.rate = 10
 
     writer = imageio.get_writer(args.out_file, fps=args.rate)
 
