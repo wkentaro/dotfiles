@@ -3,7 +3,7 @@
 	url = https://github.com/ongaeshi/platform-p
 [submodule "zsh/oh-my-zsh"]
 	path = zsh/oh-my-zsh
-	url = https://github.com/robbyrussell/oh-my-zsh.git
+	url = https://github.com/wkentaro/oh-my-zsh.git
 [submodule "tmux/plugins/tpm"]
 	path = tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm.git
