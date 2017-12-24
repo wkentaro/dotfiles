@@ -53,9 +53,12 @@ setopt auto_cd
 zstyle ':completion:*:cd:*' tag-order local-directories path-directories
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
+# ccache
+export PATH="/usr/lib/ccache:$PATH"
+
 # prefix: /usr/local
-export PATH="/usr/lib/ccache:/usr/local/bin:/usr/local/sbin:$PATH"
-export MANPATH="/usr/local/man:$MANPATH"
+# export PATH="/usr/lib/ccache:/usr/local/bin:/usr/local/sbin:$PATH"
+# export MANPATH="/usr/local/man:$MANPATH"
 
 # prefix: $HOME/local
 export PATH="$HOME/.local/bin:$PATH"
