@@ -7,6 +7,7 @@ au BufNewFile * set endofline
 au BufNewFile,BufRead *.sh set ft=sh tabstop=8 shiftwidth=2
 au BufNewFile,BufRead *.zsh set ft=zsh tabstop=8 shiftwidth=2
 au BufNewFile,BufRead *.bash set ft=sh tabstop=8 shiftwidth=2
+au BufNewFile,BufRead *.go set tabstop=8 shiftwidth=4
 au BufNewFile,BufRead *.py set tabstop=8 shiftwidth=4
 au BufNewFile,BufRead *.py set colorcolumn=80
 au BufNewFile,BufRead *.py set indentkeys-=:
