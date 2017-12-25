@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
+import math
 import platform
 
 import matplotlib
@@ -16,16 +17,28 @@ import matplotlib.pyplot as plt
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('image_file', help='Image file to show.')
+    parser.add_argument('img_files', nargs='+', help='Image file to show.')
     args = parser.parse_args()
 
-    image_file = args.image_file
+    img_files = args.img_files
 
-    img = plt.imread(image_file)
+    n_imgs = len(img_files)
+    cols = max(1, int(round(math.sqrt(n_imgs))))
+    rows = max(1, int(math.ceil(n_imgs / cols)))
 
     matplotlib.rcParams['toolbar'] = 'None'
-    fig = plt.figure(num=image_file)
-    plt.imshow(img)
+
+    _, axes = plt.subplots(rows, cols)
+    if rows * cols == 1:
+        img_file = img_files[0]
+        img = plt.imread(img_file)
+        axes.imshow(img)
+    else:
+        for j in range(rows):
+            for i in range(cols):
+                img_file = img_files[j * rows + i]
+                img = plt.imread(img_file)
+                axes[j, i].imshow(img)
 
     plt.tight_layout()
     plt.show()
