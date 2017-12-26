@@ -4,15 +4,9 @@ import argparse
 import math
 import platform
 
-import matplotlib
-
-OS = platform.platform().split('-')[0]
-if OS == 'Darwin':
-    matplotlib.use('MacOSX')
-else:
-    matplotlib.use('TkAgg')
-
-import matplotlib.pyplot as plt
+import cv2
+import fcn
+import skimage.io
 
 
 def main():
@@ -20,28 +14,12 @@ def main():
     parser.add_argument('img_files', nargs='+', help='Image file to show.')
     args = parser.parse_args()
 
-    img_files = args.img_files
+    imgs = [skimage.io.imread(img_file) for img_file in args.img_files]
+    viz = fcn.utils.get_tile_image(imgs)
 
-    n_imgs = len(img_files)
-    cols = max(1, int(round(math.sqrt(n_imgs))))
-    rows = max(1, int(math.ceil(n_imgs / cols)))
+    cv2.imshow(__file__, viz[:, :, ::-1])
+    cv2.waitKey(0)
 
-    matplotlib.rcParams['toolbar'] = 'None'
-
-    _, axes = plt.subplots(rows, cols)
-    if rows * cols == 1:
-        img_file = img_files[0]
-        img = plt.imread(img_file)
-        axes.imshow(img)
-    else:
-        for j in range(rows):
-            for i in range(cols):
-                img_file = img_files[i * rows + j]
-                img = plt.imread(img_file)
-                axes[j, i].imshow(img)
-
-    plt.tight_layout()
-    plt.show()
 
 
 if __name__ == '__main__':

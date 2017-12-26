@@ -2,34 +2,38 @@
 
 import argparse
 
+import fcn
 import skimage.io
 
-import mvtk
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('img_files', nargs='+')
+    parser.add_argument('-n', type=int)
+    parser.add_argument('-x', help='(ex. 5x6)')
+    parser.add_argument('-O', '--out')
+    args = parser.parse_args()
+
+    shape = None
+    if args.x:
+        shape = args.x.split('x')
+        shape = int(shape[0]), int(shape[1])
+
+    imgs = []
+    for img_file in args.img_files:
+        img = skimage.io.imread(img_file)
+        imgs.append(img)
+        if args.n == len(imgs):
+            break
+
+    tiled = fcn.utils.get_tile_image(imgs, shape)
+    if args.out:
+        skimage.io.imsave(args.out, tiled)
+    else:
+        import cv2
+        cv2.imshow(__file__, tiled[:, :, ::-1])
+        cv2.waitKey(0)
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument('img_files', nargs='+')
-parser.add_argument('-n', type=int)
-parser.add_argument('-x', help='(ex. 5x6)')
-parser.add_argument('-O', '--out')
-args = parser.parse_args()
-
-shape = None
-if args.x:
-    shape = args.x.split('x')
-    shape = int(shape[0]), int(shape[1])
-
-imgs = []
-for img_file in args.img_files:
-    img = skimage.io.imread(img_file)
-    imgs.append(img)
-    if args.n == len(imgs):
-        break
-
-tiled = mvtk.image.tile(imgs, shape)
-if args.out:
-    skimage.io.imsave(args.out, tiled)
-else:
-    import matplotlib.pyplot as plt
-    plt.imshow(tiled)
-    plt.show()
+if __name__ == '__main__':
+    main()
