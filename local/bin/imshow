@@ -6,7 +6,6 @@ import platform
 
 import cv2
 import fcn
-import skimage.io
 
 
 def main():
@@ -14,7 +13,7 @@ def main():
     parser.add_argument('img_files', nargs='+', help='Image file to show.')
     args = parser.parse_args()
 
-    imgs = [skimage.io.imread(img_file) for img_file in args.img_files]
+    imgs = [cv2.imread(img_file)[:, :, ::-1] for img_file in args.img_files]
     viz = fcn.utils.get_tile_image(imgs)
 
     cv2.imshow(__file__, viz[:, :, ::-1])
