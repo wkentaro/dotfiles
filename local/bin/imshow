@@ -16,6 +16,12 @@ def main():
     imgs = [cv2.imread(img_file)[:, :, ::-1] for img_file in args.img_files]
     viz = fcn.utils.get_tile_image(imgs)
 
+    H, W = viz.shape[:2]
+    scale_H = 1000. / H
+    scale_W = 1600. / W
+    scale = min(scale_H, scale_W)
+    viz = cv2.resize(viz, None, None, fx=scale, fy=scale)
+
     cv2.imshow(__file__, viz[:, :, ::-1])
     cv2.waitKey(0)
 
