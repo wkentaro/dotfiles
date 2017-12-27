@@ -7,11 +7,12 @@ import skimage.io
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('img_files', nargs='+')
-    parser.add_argument('-n', type=int)
-    parser.add_argument('-x', help='(ex. 5x6)')
-    parser.add_argument('-O', '--out')
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('img_files', nargs='+', help='image files')
+    parser.add_argument('-O', '--out', required=True, help='output file')
+    parser.add_argument('-n', '--n-imgs', type=int, help='number of images')
+    parser.add_argument('-x', '--shape', help='image shape (ex. 5x6)')
     args = parser.parse_args()
 
     shape = None
@@ -27,12 +28,7 @@ def main():
             break
 
     tiled = fcn.utils.get_tile_image(imgs, shape)
-    if args.out:
-        skimage.io.imsave(args.out, tiled)
-    else:
-        import cv2
-        cv2.imshow(__file__, tiled[:, :, ::-1])
-        cv2.waitKey(0)
+    skimage.io.imsave(args.out, tiled)
 
 
 if __name__ == '__main__':
