@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+
+import argparse
+
+import imageio
+import tqdm
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('in_file')
+    parser.add_argument('out_file')
+    args = parser.parse_args()
+
+    video_in = imageio.get_reader(args.in_file)
+    video_out = imageio.get_writer(args.out_file)
+
+    for img in tqdm.tqdm(video_in):
+        video_out.append_data(img)
+
+    print('Saved file: %s' % args.out_file)
+
+
+if __name__ == '__main__':
+    main()
