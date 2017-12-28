@@ -1,3 +1,5 @@
+<img src=".readme/screencast.gif" align="right" width="365" />
+
 # dotfiles
 
 [![Github Version](https://badge.fury.io/gh/wkentaro%2Fdotfiles.svg)](https://badge.fury.io/gh/wkentaro%2Fdotfiles)
