@@ -18,7 +18,7 @@ def main():
 
     H, W = viz.shape[:2]
     scale_H = 900. / H
-    scale_W = 1800. / W
+    scale_W = 1600. / W
     scale = min(scale_H, scale_W)
     viz = cv2.resize(viz, None, None, fx=scale, fy=scale)
 
