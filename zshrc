@@ -430,30 +430,30 @@ fi
 # anaconda configuration
 # ----------------------
 
-activate () {
-  if [ ! -e $HOME/.anaconda2/bin/activate ]; then
-    echo 'Please install anaconda'
-    return 1
-  fi
-  export _PYTHONPATH=$PYTHONPATH
-  unset PYTHONPATH
-  source $HOME/.anaconda2/bin/activate $1
-}
-_activate () {
-  local -a reply
-  if [[ ${CURRENT} = 2 ]]; then
-    reply=($(command ls ~/.anaconda2/envs))
-  fi
-  _describe 'values' reply
-}
-compdef _activate activate
-deactivate () {
-  source deactivate
-  export PYTHONPATH=$_PYTHONPATH
-  unset _PYTHONPATH
-}
-alias ac=activate
-alias da=deactivate
+# activate () {
+#   if [ ! -e $HOME/.anaconda2/bin/activate ]; then
+#     echo 'Please install anaconda'
+#     return 1
+#   fi
+#   export _PYTHONPATH=$PYTHONPATH
+#   unset PYTHONPATH
+#   source $HOME/.anaconda2/bin/activate $1
+# }
+# _activate () {
+#   local -a reply
+#   if [[ ${CURRENT} = 2 ]]; then
+#     reply=($(command ls ~/.anaconda2/envs))
+#   fi
+#   _describe 'values' reply
+# }
+# compdef _activate activate
+# deactivate () {
+#   source deactivate
+#   export PYTHONPATH=$_PYTHONPATH
+#   unset _PYTHONPATH
+# }
+# alias ac=activate
+# alias da=deactivate
 
 users_by_ps () {
   ps auxwww | awk '{print $1}' | egrep "$(command ls /home)" | sort | uniq -c | sort -nr | xargs
