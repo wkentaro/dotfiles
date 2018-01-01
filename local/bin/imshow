@@ -3,6 +3,7 @@
 import argparse
 import math
 import platform
+import time
 
 import cv2
 import fcn
@@ -13,17 +14,30 @@ def main():
     parser.add_argument('img_files', nargs='+', help='Image file to show.')
     args = parser.parse_args()
 
-    imgs = [cv2.imread(img_file)[:, :, ::-1] for img_file in args.img_files]
-    viz = fcn.utils.get_tile_image(imgs)
+    while True:
+        print('[{}]: {}'.format(int(time.time()), args.img_files))
+        imgs = []
+        for img_file in args.img_files:
+            img = cv2.imread(img_file)
+            if img is None:
+                print('File does not exist: %s' % img_file)
+                continue
+            img = img[:, :, ::-1]  # BGR -> RGB
+            imgs.append(img)
+        if not imgs:
+            conitinue
 
-    H, W = viz.shape[:2]
-    scale_H = 900. / H
-    scale_W = 1600. / W
-    scale = min(scale_H, scale_W)
-    viz = cv2.resize(viz, None, None, fx=scale, fy=scale)
+        viz = fcn.utils.get_tile_image(imgs)
 
-    cv2.imshow(__file__, viz[:, :, ::-1])
-    cv2.waitKey(0)
+        H, W = viz.shape[:2]
+        scale_H = 900. / H
+        scale_W = 1600. / W
+        scale = min(scale_H, scale_W)
+        viz = cv2.resize(viz, None, None, fx=scale, fy=scale)
+
+        cv2.imshow(__file__, viz[:, :, ::-1])
+        if cv2.waitKey(1000) == ord('q'):
+            break
 
 
 
