@@ -25,7 +25,7 @@ def main():
             img = img[:, :, ::-1]  # BGR -> RGB
             imgs.append(img)
         if not imgs:
-            conitinue
+            continue
 
         viz = fcn.utils.get_tile_image(imgs)
 
