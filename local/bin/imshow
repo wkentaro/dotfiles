@@ -15,12 +15,11 @@ def main():
     args = parser.parse_args()
 
     while True:
-        print('[{}]: {}'.format(int(time.time()), args.img_files))
+        # print('[{}]: {}'.format(int(time.time()), args.img_files))
         imgs = []
         for img_file in args.img_files:
             img = cv2.imread(img_file)
             if img is None:
-                print('File does not exist: %s' % img_file)
                 continue
             img = img[:, :, ::-1]  # BGR -> RGB
             imgs.append(img)
