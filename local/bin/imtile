@@ -16,15 +16,15 @@ def main():
     args = parser.parse_args()
 
     shape = None
-    if args.x:
-        shape = args.x.split('x')
+    if args.shape:
+        shape = args.shape.split('x')
         shape = int(shape[0]), int(shape[1])
 
     imgs = []
     for img_file in args.img_files:
         img = skimage.io.imread(img_file)
         imgs.append(img)
-        if args.n == len(imgs):
+        if args.n_imgs == len(imgs):
             break
 
     tiled = fcn.utils.get_tile_image(imgs, shape)
