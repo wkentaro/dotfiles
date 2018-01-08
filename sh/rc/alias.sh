@@ -99,6 +99,7 @@ tns () {
 if type brew &>/dev/null; then
   alias bubu='brew update && brew upgrade && brew cleanup'
   alias bububu='bubu && brew cask cleanup'
+  alias bbb='bububu'
 fi
 
 # ----------------------------------------------------
