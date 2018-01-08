@@ -34,7 +34,8 @@ def main():
         scale = min(scale_H, scale_W)
         viz = cv2.resize(viz, None, None, fx=scale, fy=scale)
 
-        cv2.imshow(__file__, viz[:, :, ::-1])
+        win_name = ','.join(args.img_files)
+        cv2.imshow(win_name, viz[:, :, ::-1])
         if cv2.waitKey(1000) == ord('q'):
             break
 
