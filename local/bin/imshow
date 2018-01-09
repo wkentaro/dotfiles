@@ -14,6 +14,8 @@ def main():
     parser.add_argument('img_files', nargs='+', help='Image file to show.')
     args = parser.parse_args()
 
+    n_fail = 0
+
     while True:
         # print('[{}]: {}'.format(int(time.time()), args.img_files))
         imgs = []
@@ -23,8 +25,14 @@ def main():
                 continue
             img = img[:, :, ::-1]  # BGR -> RGB
             imgs.append(img)
+
         if not imgs:
+            if n_fail >= 3:
+                print('No such files: {}'.format(','.join(args.img_files)))
+                break
+            n_fail += 1
             continue
+        n_fail = 0
 
         viz = fcn.utils.get_tile_image(imgs)
 
