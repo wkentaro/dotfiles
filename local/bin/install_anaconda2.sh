@@ -13,8 +13,6 @@ if [ -e $INSTALL_DIR/.anaconda2 ]; then
   exit 0
 fi
 
-set -x
-
 cd $(mktemp -d)
 
 if [ "$(uname)" = "Linux" ]; then
@@ -27,5 +25,3 @@ else
   echo "[$(basename $0)] Unsupported platform: $(uname)"
   exit 0
 fi
-
-set +x
