@@ -16,8 +16,9 @@ def main():
     parser.add_argument('-x', '--shape', default=None, help='tile shape')
     args = parser.parse_args()
 
-    args.shape = map(int, args.shape.split('x'))
-    assert len(args.shape) == 2
+    if args.shape is not None:
+        args.shape = map(int, args.shape.split('x'))
+        assert len(args.shape) == 2
 
     n_fail = 0
 
