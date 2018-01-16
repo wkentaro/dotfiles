@@ -10,9 +10,14 @@ import fcn
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('img_files', nargs='+', help='Image file to show.')
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('img_files', nargs='+', help='image file to show')
+    parser.add_argument('-x', '--shape', default=None, help='tile shape')
     args = parser.parse_args()
+
+    args.shape = map(int, args.shape.split('x'))
+    assert len(args.shape) == 2
 
     n_fail = 0
 
@@ -34,7 +39,7 @@ def main():
             continue
         n_fail = 0
 
-        viz = fcn.utils.get_tile_image(imgs)
+        viz = fcn.utils.get_tile_image(imgs, tile_shape=args.shape)
 
         H, W = viz.shape[:2]
         scale_H = 900. / H
