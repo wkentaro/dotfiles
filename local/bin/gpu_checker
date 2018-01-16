@@ -61,6 +61,8 @@ def ssh_and_run(args):
     for cmd in commands:
         stdin, stdout, stderr = ssh.exec_command(cmd)
         output = stdout.read()
+        if six.PY3:
+            output = output.decode()
         outputs.append(output)
     ssh.close()
     return outputs
