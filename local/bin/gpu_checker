@@ -80,6 +80,7 @@ def main():
     cmds = [
         '$HOME/.local/bin/cuda-smi',
         '''ps auxwww | awk '{print $1}' | egrep "$(command ls /home)" | sort | uniq -c | sort -nr | xargs''',  # NOQA
+        '''ps auxwww | grep wkentaro | grep tmux | grep -v grep''',  # NOQA
     ]
 
     with ProcessPoolExecutor(max_workers=4) as executor:
