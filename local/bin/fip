@@ -1,0 +1,138 @@
+#!/usr/bin/env python
+
+import argparse
+import socket
+import threading
+import os
+import mimetypes
+
+from grip.browser import start_browser_when_ready
+from grip.exceptions import AlreadyRunningError
+from grip.readers import DirectoryReader
+import six
+
+import flask
+
+
+def mimetype_for(subpath):
+    mimetype, _ = mimetypes.guess_type(subpath)
+    return mimetype
+
+
+class Clip(flask.Flask):
+
+    def __init__(self, source=None, auth=None, renderer=None,
+                 assets=None, render_wide=None, render_inline=None, title=None,
+                 autorefresh=None, quiet=None, grip_url=None,
+                 static_url_path=None, instance_path=None, **kwargs):
+        # Flask application
+        super(Clip, self).__init__(
+            __name__, static_url_path=static_url_path,
+            instance_path=instance_path, **kwargs)
+
+        # Thread-safe event to signal to the polling threads to exit
+        self._run_mutex = threading.Lock()
+        self._shutdown_event = None
+
+        # Parameterized attributes
+        self.quiet = quiet
+        self.reader = source
+
+        self.add_url_rule('/', 'render', self._render_page)
+        self.add_url_rule('/<path:subpath>', 'render', self._render_page)
+
+    def _render_page(self, subpath=None):
+        if subpath is None:
+            subpath = os.path.curdir
+
+        if os.path.isdir(subpath):
+            content = []
+            for fname in os.listdir(subpath):
+                if os.path.isdir(os.path.join(subpath, fname)):
+                    fname = fname + '/'
+                fname_url = os.path.join('/', subpath, fname)
+                content.append('<tr><td><a href="%s">%s</a></td></tr>' % (fname_url, fname))
+            return flask.Response('<table>' + '\n'.join(content) + '</table>')
+
+        text = open(subpath, 'r').read()
+
+        mimetype = mimetype_for(subpath)
+        if mimetype is None:
+            mimetype = 'text/plain'
+
+        if mimetype.startswith('text/'):
+            import pygments
+            import pygments.lexers
+            from pygments.lexers.special import TextLexer
+            import pygments.formatters
+            lexer = pygments.lexers.get_lexer_for_mimetype(mimetype)
+            if isinstance(lexer, TextLexer):
+                if len(text.splitlines()) >= 10000:
+                    return 'Is binary file?'
+                text = '\n'.join(text.splitlines()[:100])
+                lexer = pygments.lexers.guess_lexer(text)
+            if lexer:
+                formatter = pygments.formatters.HtmlFormatter(linenos=True, cssclass='source')
+                text = pygments.highlight(text, lexer, formatter)
+                text += '\n<link rel="stylesheet" href="http://pygments.org/_static/pygments.css" type="text/css" />'
+                return flask.Response(text)
+            return flask.Response(text, mimetype=mimetype)
+        if mimetype.startswith('image/'):
+            return flask.Response(text, mimetype=mimetype)
+
+        return 'Unsupported mimetype: %s' % mimetype
+
+    def run(self, host=None, port=None, debug=False,
+            use_reloader=None, open_browser=False):
+        if host is None:
+            host = 'localhost'
+        if port is None:
+            port = 5000
+        if use_reloader is None:
+            use_reloader = debug
+
+        # Verify the server is not already running and start
+        with self._run_mutex:
+            if self._shutdown_event:
+                raise AlreadyRunningError()
+            self._shutdown_event = threading.Event()
+
+        # Get random port manually when needed ahead of time
+        if port == 0 and open_browser:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.bind(('localhost', 0))
+            port = sock.getsockname()[1]
+            sock.close()
+
+        # Open browser
+        browser_thread = (
+            start_browser_when_ready(host, port, self._shutdown_event)
+            if open_browser else None)
+
+        # Run local server
+        super(Clip, self).run(host, port, debug=debug,
+                              use_reloader=use_reloader,
+                              threaded=True)
+
+        # Signal to the polling and browser threads that they should exit
+        if not self.quiet:
+            print(' * Shutting down...')
+        self._shutdown_event.set()
+
+        # Wait for browser thread to finish
+        if browser_thread:
+            browser_thread.join()
+
+        # Cleanup
+        self._shutdown_event = None
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('-b', '--browser', action='store_true',
+                        help='open browser')
+    args = parser.parse_args()
+
+    app = Clip(__name__)
+    app.run(debug=True, open_browser=args.browser)
