@@ -156,7 +156,8 @@ elif which gls &>/dev/null; then
 fi
 
 # ssh
-alias ssh='ssh -C -X'
+# alias ssh='ssh -C -X'
+alias ssh='ssh -c arcfour'
 
 if hash gls &>/dev/null; then
   alias sleep=gsleep
