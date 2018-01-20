@@ -255,3 +255,13 @@ alias gc='git commit --verbose'
 
 alias gsui='git submodule update --init'
 alias gsuir='gsui --recursive'
+
+git_checkout_by_fzy() {
+  if [ $# -eq 0 ]; then
+    branch=$(git branch -a | grep -v '*' | grep -v 'HEAD' | awk '{print $1}' | sed 's,^remotes/,,g' | fzy)
+    git checkout $branch
+  else
+    git checkout $*
+  fi
+}
+alias gco=git_checkout_by_fzy
