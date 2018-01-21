@@ -143,6 +143,10 @@ if which compdef &>/dev/null; then
   compdef _git grbui=git-checkout 2>/dev/null
 fi
 
+git_commit_m () {
+  git commit -m "$*"
+}
+alias gcmsg='git_commit_m'
 alias gcsmg='gcmsg'
 
 # for hub command
