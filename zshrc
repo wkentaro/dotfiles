@@ -418,6 +418,7 @@ export GHI_TOKEN=$GITHUB_TOKEN
 # ------------------
 
 export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+export LIBRARY_PATH=/usr/local/lib:/usr/lib:$LIBRARY_PATH
 export CPATH=/usr/include:$CPATH
 export CFLAGS=-I/usr/include
 export LDFLAGS="-L/usr/local/lib -L/usr/lib"
