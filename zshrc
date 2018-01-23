@@ -417,7 +417,10 @@ export GHI_TOKEN=$GITHUB_TOKEN
 # cuda configuration
 # ------------------
 
-export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+export CPATH=/usr/include:$CPATH
+export CFLAGS=-I/usr/include
+export LDFLAGS="-L/usr/local/lib -L/usr/lib"
 if [ -e /usr/local/cuda ]; then
   export CUDA_PATH=/usr/local/cuda
   export PATH=$CUDA_PATH/bin:$PATH
