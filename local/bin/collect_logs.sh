@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 if [ "$(hostname)" != "hoop" ]; then
   exit 1
@@ -9,6 +9,7 @@ if [ ! -e logs ]; then
 fi
 
 for server in green dlboxs1 dlbox1 dlbox2 dlbox3 dlbox4 dlbox5; do
-  timeout 1 ssh $server ls &>/dev/null && rsync -avt $server:$(pwd)/logs/ logs/ &
+  echo "[$server] Synchronizing $(pwd)/logs ..."
+  timeout 1 ssh $server ls &>/dev/null && rsync -at $server:$(pwd)/logs/ logs/ 2>/dev/null &
 done
 wait
