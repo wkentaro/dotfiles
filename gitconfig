@@ -41,6 +41,8 @@
 [push]
 	default = current
 [pager]
+	status = false
+	branch = false
 	log = diff-highlight | less
 	show = diff-highlight | less
 	diff = diff-highlight | less
