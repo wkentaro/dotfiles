@@ -40,7 +40,7 @@ def speed_up_video(video_file, times):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('video_files', nargs='+', help='File to convert.')
-    parser.add_argument('-x', '--times', type=int, required=True,
+    parser.add_argument('-x', '--times', type=float, required=True,
                         help='How many times to speed/slow up/down the video.')
     args = parser.parse_args()
 
