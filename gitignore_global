@@ -16,3 +16,5 @@ build/
 *.egg-info/
 
 logs
+
+00.myfiles/
