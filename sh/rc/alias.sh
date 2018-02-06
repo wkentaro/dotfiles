@@ -218,6 +218,7 @@ watch_gpu () {
   fi
   '''
 }
+alias nvid='nvidia-smi'
 
 
 init_autoenv () {
