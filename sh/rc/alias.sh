@@ -264,3 +264,5 @@ cmake_prefix.. () {
 
   cmake -DCMAKE_INSTALL_PREFIX:PATH=$1 ..
 }
+
+alias efind='find -regextype posix-basic'
