@@ -8,6 +8,9 @@ if which pygmentize &>/dev/null; then
   export LESSOPEN="|$HOME/.lessfilter %s"
 fi
 
+alias rm='rm -i'
+alias rmr='rm -r'
+
 # date
 alias datestamp='date +"%Y%m%d"'
 alias timestamp='date +"%Y%m%d_%H%M%S"'
