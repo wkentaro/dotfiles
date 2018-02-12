@@ -328,6 +328,7 @@ alias -g T="| tail"
 alias -g V="| vim -R -"
 alias -g U=' --help | head'
 alias -g W="| wc"
+alias -g X="| xargs"
 alias -g GM="origin/master"
 
 # copy
