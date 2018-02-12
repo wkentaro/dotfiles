@@ -17,7 +17,7 @@ def main():
 
     if ext == '.csv':
         df = pandas.read_csv(filename)
-    elif ext == '.json':
+    elif ext == '.json' or osp.basename(filename) == 'log':
         import json
         data = json.load(open(filename))
         df = pandas.DataFrame(data)
