@@ -22,6 +22,7 @@ alias mvi='mv -i'
 
 # rm
 alias rmi='rm -i'
+alias rmr='rm -r'
 
 # open
 type gnome-open &>/dev/null && alias open=gnome-open
