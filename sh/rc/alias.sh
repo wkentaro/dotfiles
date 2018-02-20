@@ -10,6 +10,8 @@ fi
 
 alias rm='rm -i'
 alias rmr='rm -r'
+alias mv='mv -i'
+alias cp='cp -i'
 
 # date
 alias datestamp='date +"%Y%m%d"'
