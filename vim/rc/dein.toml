@@ -18,7 +18,7 @@ repo = 'wkentaro/conque.vim'
 
 [[plugins]]
 # roscd & rosed
-repo = 'taketwo/vim-ros'
+repo = 'wkentaro/vim-ros'
 
 [[plugins]]
 # https://github.com/tpope/vim-repeat
