@@ -12,9 +12,9 @@ repo = 'Shougo/neocomplete.vim'
 [[plugins]]
 repo = 'Shougo/neoyank.vim'
 
-[[plugins]]
-# Interactive terminal tool
-repo = 'wkentaro/conque.vim'
+# [[plugins]]
+# # Interactive terminal tool
+# repo = 'wkentaro/conque.vim'
 
 [[plugins]]
 # roscd & rosed
