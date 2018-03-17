@@ -19,6 +19,7 @@ repo = 'Shougo/neoyank.vim'
 [[plugins]]
 # roscd & rosed
 repo = 'taketwo/vim-ros'
+if = 'has("python")'
 
 [[plugins]]
 # https://github.com/tpope/vim-repeat
