@@ -42,10 +42,10 @@ nnoremap k gk
 nnoremap gj j
 nnoremap gk k
 
-nnoremap 1 0
-vnoremap 1 0
-nnoremap 0 $
-vnoremap 0 $
+" nnoremap 1 0
+" vnoremap 1 0
+" nnoremap 0 $
+" vnoremap 0 $
 "}}}
 
 
