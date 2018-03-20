@@ -7,7 +7,6 @@ venv
 .anaconda
 .anaconda2/
 .anaconda3/
-.vscode/
 ,*
 .autoenv.zsh
 .autoenv_leave.zsh
