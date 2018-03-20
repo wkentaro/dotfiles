@@ -70,6 +70,8 @@ xinputrc:
   .xinputrc
 Xmodmap:
   .Xmodmap
+zprofile:
+  .zprofile
 zsh:
   .zsh
 zshrc:
