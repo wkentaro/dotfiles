@@ -483,5 +483,5 @@ if which dropbox &>/dev/null; then
 fi
 
 if [ ! -z $CONDA_DEFAULT_ENV ]; then
-  source $CONDA_PREFIX/bin/activate $CONDA_DEFAULT_ENV
+  source $(dirname $CONDA_PYTHON_EXE)/activate $CONDA_DEFAULT_ENV
 fi
