@@ -1,4 +1,4 @@
 #!/bin/bash
 
 pip install --user cudnnenv
-cudnnenv install v7.0.3-cuda8
+$HOME/.local/bin/cudnnenv install v7.0.3-cuda8
