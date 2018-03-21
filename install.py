@@ -71,7 +71,7 @@ def install_dotfiles(dry_run):
         link_config = yaml.load(f)
 
     for from_, to in link_config.items():
-        if isinstance(to, basestring):
+        if isinstance(to, str):
             type_ = 'symlink'
         elif isinstance(to, dict):
             if to.get('uname') not in [None, UNAME]:
