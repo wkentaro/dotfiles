@@ -430,11 +430,12 @@ if [ -e /usr/local/cuda ]; then
   export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$CUDA_PATH/lib:$LD_LIBRARY_PATH
   export CFLAGS=-I$CUDA_PATH/include
   export LDFLAGS="-L$CUDA_PATH/lib64 -L$CUDA_PATH/lib"
+  # cudnn
+  export CUDNN_PATH=~/.cudnn/active/cuda
+  export LD_LIBRARY_PATH=~/.cudnn/active/cuda/lib64:$LD_LIBRARY_PATH
+  export CPATH=~/.cudnn/active/cuda/include:$CPATH
+  export LIBRARY_PATH=~/.cudnn/active/cuda/lib64:$LIBRARY_PATH
 fi
-export CUDNN_PATH=~/.cudnn/active/cuda
-export LD_LIBRARY_PATH=~/.cudnn/active/cuda/lib64:$LD_LIBRARY_PATH
-export CPATH=~/.cudnn/active/cuda/include:$CPATH
-export LIBRARY_PATH=~/.cudnn/active/cuda/lib64:$LIBRARY_PATH
 
 # ----------------------
 # anaconda configuration
