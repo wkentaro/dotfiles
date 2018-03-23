@@ -71,7 +71,8 @@ xinputrc:
 Xmodmap:
   .Xmodmap
 zprofile:
-  .zprofile
+  name: .zprofile
+  uname: Darwin
 zsh:
   .zsh
 zshrc:
