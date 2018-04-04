@@ -26,17 +26,15 @@ docker run -it wkentaro/dotfiles
 ```
 
 
-## Optional
+## macOS
 
-### macOS
-
-#### iTerm2
+### iTerm2
 
 * Download iTerm color schemes from https://github.com/mbadolato/iTerm2-Color-Schemes.
 * `Iterm2 > Preferences > Profiles > Colors > Load Presets > __Dark Pastel__`.
 
 
-### Ubuntu 16.04
+## Ubuntu 16.04
 
 * Select `fcitx` for `Keyboard input method system` in `Language Support`.
 * Logout + login.
