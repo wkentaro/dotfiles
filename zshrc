@@ -486,3 +486,15 @@ fi
 if [ ! -z $CONDA_DEFAULT_ENV ]; then
   source $(dirname $CONDA_PYTHON_EXE)/activate $CONDA_DEFAULT_ENV
 fi
+
+store_env_for_ros () {
+  export _PYTHONPATH=$PYTHONPATH
+  export _LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+  export _CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH
+}
+
+restore_env_for_ros () {
+  export PYTHONPATH=$_PYTHONPATH
+  export LD_LIBRARY_PATH=$_LD_LIBRARY_PATH
+  export CMAKE_PREFIX_PATH=$_CMAKE_PREFIX_PATH
+}
