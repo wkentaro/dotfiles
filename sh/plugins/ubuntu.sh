@@ -2,21 +2,21 @@ if [ "$(uname -s)" != "Linux" ]; then
   return
 fi
 
-alias aps='aptitude search'
-compdef _aps aps='aptitude search'
+alias aps='apt search'
+compdef _aps aps='apt search'
 
-alias ap='sudo aptitude'
-compdef _ap ap='sudo aptitude'
-alias apa='sudo aptitude autoclean'
-compdef _apa apa='sudo aptitude autoclean'
-alias app='sudo aptitude purge'
-compdef _app app='sudo aptitude purge'
-alias apu='sudo aptitude update'
-compdef _apu apu='sudo aptitude update'
-alias apuu='sudo aptitude update && sudo aptitude safe-upgrade -y && sudo apt-get autoremove -y && sudo apt-get autoclean'
-compdef _apuu apuu='sudo aptitude update && sudo aptitude upgrade'
+alias ap='sudo apt'
+compdef _ap ap='sudo apt'
+alias apa='sudo apt autoclean'
+compdef _apa apa='sudo apt autoclean'
+alias app='sudo apt purge'
+compdef _app app='sudo apt purge'
+alias apu='sudo apt update'
+compdef _apu apu='sudo apt update'
+alias apuu='sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean'
+compdef _apuu apuu='sudo apt update && sudo apt upgrade'
 
-alias allpkgs='aptitude search -F "%p" --disable-columns $1'
+alias allpkgs='apt search -F "%p" --disable-columns $1'
 
 alias shutdown='sudo shutdown -h now'
 
