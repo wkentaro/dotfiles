@@ -40,6 +40,8 @@ nvimrc:
   .nvimrc
 percol.d:
   .percol.d
+private/aws:
+  .aws
 private/gpu_checker.cfg:
   .gpu_checker.cfg
 private/pypirc:
