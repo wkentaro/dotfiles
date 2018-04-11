@@ -484,7 +484,11 @@ if which dropbox &>/dev/null; then
 fi
 
 if [ ! -z $CONDA_DEFAULT_ENV ]; then
-  source $(dirname $CONDA_PYTHON_EXE)/activate $CONDA_DEFAULT_ENV
+  if [ ! -z $CONDA_PREFIX ]; then
+    source $CONDA_PREFIX/bin/activate $CONDA_DEFAULT_ENV
+  else
+    source $(dirname $CONDA_PYTHON_EXE)/activate $CONDA_DEFAULT_ENV
+  fi
 fi
 
 store_env_for_ros () {
