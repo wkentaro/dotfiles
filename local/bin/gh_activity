@@ -10,6 +10,7 @@ import os
 import sys
 
 from github import Github
+import pytz
 import tabulate
 import yaml
 
@@ -23,7 +24,7 @@ def main():
 
     today = dt.date.today()
     if date is None:
-        now = dt.datetime(today.year, today.month, today.day)
+        now = dt.datetime.now(pytz.timezone('Asia/Tokyo'))
     else:
         try:
             now = dt.datetime.strptime(date, '%Y-%m-%d')
@@ -51,11 +52,15 @@ def main():
         sys.stdout.flush()
         sys.stdout.write('\r')
 
-        if event.created_at < now - dt.timedelta(days=1):
+        # UTC -> Asia/Tokyo
+        created_at = event.created_at.replace(tzinfo=pytz.timezone('UTC'))
+        created_at = created_at.astimezone(pytz.timezone('Asia/Tokyo'))
+
+        if created_at < now - dt.timedelta(days=1):
             continue
 
         cols = []
-        cols.append('{:04}'.format(i))
+        cols.append(created_at.strftime('%Y-%m-%dT%H:%M:%S'))
         cols.append(event.repo.name)
         cols.append(event.type)
 
@@ -91,7 +96,7 @@ def main():
 
         rows.append(cols)
 
-    table = tabulate.tabulate(rows, headers=['index', 'repository', 'type', 'event'])
+    table = tabulate.tabulate(rows, headers=['time', 'repository', 'type', 'event'])
     print(table)
 
 
