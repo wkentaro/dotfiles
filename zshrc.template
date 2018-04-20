@@ -1,4 +1,5 @@
 source ~/.zshrc.wkentaro
+# export HUB_PROTOCOL=https
 # export VIM_COLORSCHEME=solarized
 # show_cuda
 
