@@ -502,3 +502,7 @@ restore_env_for_ros () {
   export LD_LIBRARY_PATH=$_LD_LIBRARY_PATH
   export CMAKE_PREFIX_PATH=$_CMAKE_PREFIX_PATH
 }
+
+# setup for go
+export GOPATH=$HOME/.go
+export PATH=$GOPATH/bin:$PATH
