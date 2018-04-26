@@ -179,8 +179,14 @@ let g:syntastic_cpp_checkers = ['cpplint']
 if has('mac')
   let g:clang_library_path = '/Library/Developer/CommandLineTools/usr/lib/'
 else
-  " let g:clang_library_path = '/usr/lib'
-  let g:clang_library_path = '/usr/lib/llvm-3.4/lib'
+  let s:codename = system("echo -n \"$(lsb_release -sc)\"")
+  if s:codename == 'trusty'
+    let g:clang_library_path = '/usr/lib/llvm-3.4/lib'
+  elseif s:codename == 'xenial'
+    let g:clang_library_path = '/usr/lib/llvm-3.8/lib'
+  else
+    echo "Unsupported linux version"
+  endif
 endif
 let g:clang_user_options = '-std=c++11'
 " use with neocomplete.vim
