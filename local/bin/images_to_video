@@ -2,12 +2,7 @@
 
 import argparse
 import glob
-import os
-import os.path as osp
-import platform
 import re
-import shlex
-import subprocess
 
 import imageio
 import tqdm
@@ -25,21 +20,20 @@ def main():
     parser.add_argument('-i', '--input-files', default='*.jpg',
                         help="Input patterns like '*.jpg'")
     parser.add_argument('-r', '--rate', type=int, default=1)
+    parser.add_argument('--fixlowfps', action='store_true')
     args = parser.parse_args()
 
     args.input_files = glob.glob(args.input_files)
 
     n_times_write = 1
-    if not args.out_file.endswith('.gif'):
-        if args.rate < 10:
-            n_times_write = 10 // args.rate
-            args.rate = 10
+    if args.fixlowfps and args.rate < 10:
+        n_times_write = 10 // args.rate
+        args.rate = 10
 
     writer = imageio.get_writer(args.out_file, fps=args.rate)
-
     for f in tqdm.tqdm(natural_sort(args.input_files), ncols=80):
         frame = imageio.imread(f)
-        for _ in xrange(n_times_write):
+        for _ in range(n_times_write):
             writer.append_data(frame)
 
     print('==> Saved video to: %s' % args.out_file)
