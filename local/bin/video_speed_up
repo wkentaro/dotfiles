@@ -16,7 +16,7 @@ def speed_up_video_with_mencoder(video_file, times, out_file):
     fps = meta_data['fps']
     size = meta_data['size']
 
-    for macro_block_size in xrange(16, 7, -1):
+    for macro_block_size in range(16, 7, -1):
         if size[0] % macro_block_size == 0 and \
                 size[1] % macro_block_size == 0:
             break
