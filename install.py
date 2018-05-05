@@ -120,8 +120,11 @@ def main():
     )
     args = parser.parse_args()
 
-    run_command('git submodule update --init --recursive', cwd=here,
-                dry_run=args.dry_run)
+    run_command(
+        'git submodule update --init --recursive',
+        cwd=here,
+        dry_run=args.dry_run,
+    )
 
     if args.private:
         install_private(dry_run=args.dry_run)
