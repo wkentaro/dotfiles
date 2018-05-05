@@ -14,18 +14,18 @@ import sys
 try:
     import yaml
 except ImportError:
-    print('Please install PyYAML: pip install --user PyYAML',
-          file=sys.stderr)
+    print('Please install PyYAML: pip install --user PyYAML', file=sys.stderr)
     quit(1)
 
 
 UNAME = platform.platform().split('-')[0]
 
 
-def run_command(cmd, cwd=None):
+def run_command(cmd, cwd=None, dry_run=False):
     cwd = os.getcwd() if cwd is None else cwd
     print('+ cd %s && %s' % (cwd, cmd))
-    subprocess.call(cmd, shell=True, cwd=cwd)
+    if not dry_run:
+        subprocess.call(cmd, shell=True, cwd=cwd)
 
 
 def link_file(from_, to, dry_run=False):
@@ -34,18 +34,12 @@ def link_file(from_, to, dry_run=False):
     if osp.exists(to):
         return
     if osp.islink(to):
-        if not osp.isdir(to):
-            if dry_run:
-                print('{0} -> {1}'.format(from_, to))
-                return
-            run_command('ln -fs {0} {1}'.format(from_, to))
-        else:
+        if osp.isdir(to):
             print('skipping: {0}'.format(from_))
+        else:
+            run_command('ln -fs {0} {1}'.format(from_, to), dry_run=dry_run)
     else:
-        if dry_run:
-            print('{0} -> {1}'.format(from_, to))
-            return
-        run_command('ln -s {0} {1}'.format(from_, to))
+        run_command('ln -s {0} {1}'.format(from_, to), dry_run=dry_run)
 
 
 def copy_file(from_, to, dry_run=False):
@@ -53,25 +47,22 @@ def copy_file(from_, to, dry_run=False):
         os.makedirs(osp.dirname(to))
     if osp.exists(to):
         return
-    if dry_run:
-        print('{0} -> {1}'.format(from_, to))
-        return
     if osp.isdir(from_):
-        shutil.copytree(from_, to)
+        run_command('cp -r {0} {1}'.format(from_, to), dry_run=dry_run)
     else:
-        shutil.copy(from_, to)
+        run_command('cp {0} {1}'.format(from_, to), dry_run=dry_run)
 
 
-def install_private():
+def install_private(dry_run=False):
     path = osp.expanduser('~/.dotfiles/private')
     if osp.exists(path):
-        run_command('git pull origin master', cwd=path)
+        run_command('git pull origin master', cwd=path, dry_run=dry_run)
     else:
         url = 'https://github.com/wkentaro/private.git'
-        run_command('git clone {} {}'.format(url, path))
+        run_command('git clone {} {}'.format(url, path), dry_run=dry_run)
 
 
-def install_dotfiles(dry_run):
+def install_dotfiles(dry_run=False):
     this_dir = osp.dirname(osp.abspath(__file__))
     home_dir = osp.expanduser('~')
 
@@ -94,12 +85,12 @@ def install_dotfiles(dry_run):
             else:
                 to_file = osp.join(to, osp.basename(from_file))
             if type_ == 'symlink':
-                link_file(from_file, to_file, dry_run)
+                link_file(from_file, to_file, dry_run=dry_run)
             elif type_ == 'copy':
-                copy_file(from_file, to_file, dry_run)
+                copy_file(from_file, to_file, dry_run=dry_run)
 
 
-def install_commands():
+def install_commands(dry_run=False):
     bin_path = osp.expanduser('~/.local/bin')
     if not osp.exists(bin_path):
         os.makedirs(bin_path)
@@ -110,7 +101,7 @@ def install_commands():
         script = osp.join(scripts_dir, script)
         if not os.access(script, os.X_OK):
             continue
-        run_command(script)
+        run_command(script, dry_run=dry_run)
 
 
 here = osp.dirname(osp.abspath(__file__))
@@ -118,19 +109,25 @@ here = osp.dirname(osp.abspath(__file__))
 
 def main():
     parser = argparse.ArgumentParser(description='options to link dotfiles')
-    parser.add_argument('-n', '--dry-run', action='store_true',
-                        help='output the commands which will be executed')
-    parser.add_argument('-p', '--private', action='store_true',
-                        help='install private')
+    parser.add_argument(
+        '-n',
+        '--dry-run',
+        action='store_true',
+        help='just output commands to be executed',
+    )
+    parser.add_argument(
+        '-p', '--private', action='store_true', help='install private'
+    )
     args = parser.parse_args()
 
-    run_command('git submodule update --init --recursive', cwd=here)
+    run_command('git submodule update --init --recursive', cwd=here,
+                dry_run=args.dry_run)
 
     if args.private:
-        install_private()
+        install_private(dry_run=args.dry_run)
 
     install_dotfiles(dry_run=args.dry_run)
-    install_commands()
+    install_commands(dry_run=args.dry_run)
 
 
 if __name__ == '__main__':
