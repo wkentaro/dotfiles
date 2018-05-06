@@ -12,7 +12,7 @@ c.InteractiveShellApp.exec_lines = [
     'import os.path as osp',
     'import time',
     'import numpy as np',
-    'import matplotlib.pyplot as plt',
+    # 'import matplotlib.pyplot as plt',
 ]
 c.InteractiveShell.autoindent = True
 # c.InteractiveShell.colors = 'LightBG'
