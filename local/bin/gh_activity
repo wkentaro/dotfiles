@@ -39,6 +39,7 @@ def main():
                 except ValueError:
                     print('Failed to parse the date argument: %s' % date)
                     return
+        now = now.replace(tzinfo=pytz.timezone('Asia/Tokyo'))
 
     gh = Github(os.environ['GITHUB_TOKEN'])
     user = gh.get_user('wkentaro')
@@ -68,10 +69,10 @@ def main():
         if event.type == 'IssueCommentEvent':
             event = 'issue title: {}'.format(payload['issue']['title'])
         elif event.type == 'PushEvent':
-            event = 'commits: {} commits "{}"'.format(
-                len(payload['commits']),
-                payload['commits'][0]['message'].splitlines()[0][:40],
-            )
+            n_commit = len(payload['commits'])
+            if n_commit > 0:
+                repr_commit = payload['commits'][0]['message'].splitlines()[0][:40]
+            event = 'commits: {} commits "{}"'.format(n_commit, repr_commit)
         elif event.type == 'PullRequestReviewCommentEvent':
             event = 'comment: {}'.format(payload['comment']['body'].splitlines()[0][:40])
         elif event.type == 'WatchEvent':
