@@ -13,7 +13,7 @@ alias app='sudo apt purge'
 compdef _app app='sudo apt purge'
 alias apu='sudo apt update'
 compdef _apu apu='sudo apt update'
-alias apuu='sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean'
+alias apuu='sudo apt update && sudo apt upgrade -y && sudo apt-get autoremove -y && sudo apt-get autoclean'
 compdef _apuu apuu='sudo apt update && sudo apt upgrade'
 
 alias allpkgs='apt search -F "%p" --disable-columns $1'
