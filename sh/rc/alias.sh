@@ -25,7 +25,7 @@ alias rmi='rm -i'
 alias rmr='rm -r'
 
 # open
-type gnome-open &>/dev/null && alias open=gnome-open
+type gnome-open &>/dev/null && alias open='gnome-open $@ 2>/dev/null'
 alias o='open'
 alias o.='open .'
 
