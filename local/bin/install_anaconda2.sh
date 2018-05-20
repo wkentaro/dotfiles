@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ ! $# -eq 1 ]; then
   echo "Usage: $0 INSTALL_DIR"
@@ -25,3 +25,7 @@ else
   echo "[$(basename $0)] Unsupported platform: $(uname)"
   exit 0
 fi
+
+source $INSTALL_DIR/.anaconda2/bin/activate
+conda update -n base -y conda
+source $INSTALL_DIR/.anaconda2/bin/deactivate
