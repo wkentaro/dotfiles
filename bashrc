@@ -22,9 +22,14 @@ export TERM=xterm-256color
 parse_branch() {
   local branch
   branch=`git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
-  [ "$branch" != "" ] && printf "\e[0m on \e[35m$branch\e[0m"
+  [ "$branch" != "" ] && printf "\e[0m on \e[1;35m$branch\e[0m"
 }
-PS1='${debian_chroot:+($debian_chroot)}\e[35m\u\e[0m at \e[33m\h\e[0m in \e[32m\W\e[35m$(parse_branch)\e[0m\n$ '
+show_venv() {
+  if [ ! -z $CONDA_PREFIX ]; then
+    printf " workon \e[1;34mconda:$CONDA_DEFAULT_ENV\e[0m"
+  fi
+}
+PS1='${debian_chroot:+($debian_chroot)}\e[0;35m\u\e[0m at \e[1;33m\h\e[0m in \e[1;32m\w\e[0m tm \e[0;35m$(date +%H:%M)$(parse_branch)\e[0m$(show_venv)\n$ '
 
 plugins=(
   $HOME/.sh/plugins/browse.sh
