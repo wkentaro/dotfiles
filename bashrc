@@ -62,7 +62,6 @@ google () {
 # -----------------------------------------------
 # Basics
 alias h=history
-alias history='fc -l 1'
 alias md='mkdir -p'
 alias rd=rmdir
 alias d='dirs -v | head -10'
