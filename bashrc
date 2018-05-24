@@ -108,3 +108,15 @@ export VIM_COLORSCHEME='default'
 
 export EDITOR='vim'
 export LESS='--tabs=4 --LONG-PROMPT --ignore-case --RAW-CONTROL-CHARS'
+
+# history search bindkey
+_replace_by_history() {
+  local l=$(HISTTIMEFORMAT= history | tac | sed -e 's/^\s*[0-9]\+\s\+//' | percol --query "$READLINE_LINE")
+  READLINE_LINE="$l"
+  READLINE_POINT=${#l}
+}
+bind -x '"\C-r": _replace_by_history'
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
