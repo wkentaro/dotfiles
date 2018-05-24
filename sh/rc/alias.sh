@@ -76,15 +76,15 @@ tmux_fzy_attach() {
     sessions=$(tls)
     [ $? -ne 0 -o "$sessions" = "" ] && return
 
-    if [ $(echo $sessions | wc -l) -eq 1 ]; then
+    if [ $(echo "${sessions[*]}" | wc -l) -eq 1 ]; then
       # tmux attach && return
-      socket=$(echo $sessions | awk '{print $1}' | sed -e 's/^\[\(.*\)\]$/\1/')
-      session=$(echo $sessions | awk '{print $2}' | sed -e 's/^\(.*\):$/\1/')
+      socket=$(echo "${sessions[*]}" | awk '{print $1}' | sed -e 's/^\[\(.*\)\]$/\1/')
+      session=$(echo "${sessions[*]}" | awk '{print $2}' | sed -e 's/^\(.*\):$/\1/')
       tmux -S $socket attach -t $session
       return 0
     fi
 
-    session=$(echo $sessions | eval $PERCOL)
+    session=$(echo "${sessions[*]}" | eval $PERCOL)
     if [[ -n "$session" ]]; then
       socket=$(echo $session | awk '{print $1}' | sed -e 's/^\[\(.*\)\]$/\1/')
       session=$(echo $session | awk '{print $2}' | sed -e 's/^\(.*\):$/\1/')
