@@ -80,7 +80,7 @@ tmux_fzy_attach() {
       # tmux attach && return
       socket=$(echo "${sessions[*]}" | awk '{print $1}' | sed -e 's/^\[\(.*\)\]$/\1/')
       session=$(echo "${sessions[*]}" | awk '{print $2}' | sed -e 's/^\(.*\):$/\1/')
-      tmux -S $socket attach -t $session
+      tmux -S $socket $TMUX_OPTIONS attach -t $session
       return 0
     fi
 
@@ -88,11 +88,12 @@ tmux_fzy_attach() {
     if [[ -n "$session" ]]; then
       socket=$(echo $session | awk '{print $1}' | sed -e 's/^\[\(.*\)\]$/\1/')
       session=$(echo $session | awk '{print $2}' | sed -e 's/^\(.*\):$/\1/')
-      tmux -S $socket attach -t $session
+      tmux -S $socket $TMUX_OPTIONS attach -t $session
       return 0
     fi
 }
 alias ta='tmux_fzy_attach'
+alias tca="TMUX_OPTIONS='-CC' tmux_fzy_attach"
 alias tn='tmux new'
 tns () {
   if [ $# -eq 0 ]; then
