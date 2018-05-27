@@ -271,3 +271,5 @@ cmake_prefix.. () {
 
   cmake -DCMAKE_INSTALL_PREFIX:PATH=$1 ..
 }
+
+cud='cuda-smi'
