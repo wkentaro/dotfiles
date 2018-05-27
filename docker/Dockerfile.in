@@ -28,8 +28,8 @@ RUN \
     zsh
 
 RUN \
-  easy_install -q pip && \
-  pip install -q -U pip setuptools && \
+  easy_install -q 'pip<10' && \
+  pip install -q -U setuptools && \
   pip install -q percol
 
 RUN \
