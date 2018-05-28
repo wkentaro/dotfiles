@@ -14,6 +14,7 @@ setopt magic_equal_subst
 setopt complete_in_word
 setopt always_last_prompt
 setopt print_eight_bit
+setopt no_hup
 # for git reset HEAD^
 unsetopt extended_glob
 # for ~input:=/camera/rgb/image_raw
