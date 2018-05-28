@@ -273,3 +273,5 @@ alias gco=git_checkout_by_fzy
 if which compdef &>/dev/null; then
   compdef _git git_checkout_by_fzy=git-checkout 2>/dev/null
 fi
+
+gap='git add -p'
