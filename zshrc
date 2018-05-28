@@ -508,3 +508,10 @@ restore_env_for_ros () {
 # setup for go
 export GOPATH=$HOME/.go
 export PATH=$GOPATH/bin:$PATH
+
+alias jhoop='ssh jhoop'
+alias login000='ssh login000'
+alias jdlbox7='ssh jdlbox7'
+alias jdlbox8='ssh jdlbox8'
+alias jdlbox9='ssh jdlbox9'
+alias jdlboxs1='ssh jdlboxs1'

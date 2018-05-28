@@ -94,12 +94,13 @@ tmux_fzy_attach() {
 }
 alias ta='tmux_fzy_attach'
 alias tca="TMUX_OPTIONS='-CC' tmux_fzy_attach"
+alias tcns="TMUX_OPTIONS='-CC' tns"
 alias tn='tmux new'
 tns () {
   if [ $# -eq 0 ]; then
     echo 'Please specify session name.'
   fi
-  tmux -L $1 new -s $1
+  tmux -L $1 $TMUX_OPTIONS new -s $1
 }
 
 # brew
