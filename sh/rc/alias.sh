@@ -274,5 +274,5 @@ cmake_prefix.. () {
   cmake -DCMAKE_INSTALL_PREFIX:PATH=$1 ..
 }
 
-cud='cuda-smi'
-tailf='tail -n1000 -f'
+alias cud='cuda-smi'
+alias tailf='tail -n1000 -f'
