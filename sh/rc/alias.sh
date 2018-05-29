@@ -275,3 +275,4 @@ cmake_prefix.. () {
 }
 
 cud='cuda-smi'
+tailf='tail -n1000 -f'
