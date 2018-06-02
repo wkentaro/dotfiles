@@ -276,3 +276,10 @@ cmake_prefix.. () {
 
 alias cud='cuda-smi'
 alias tailf='tail -n1000 -f'
+psf () {
+  if [ ! $# -eq 1 ]; then
+    echo "Usage: $0 PATTERN"
+    exit 1
+  fi
+  ps auxwww | grep $1
+}
