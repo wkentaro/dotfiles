@@ -9,10 +9,10 @@ if [ ! -e logs ]; then
 fi
 
 printf "# servers:"
-for server in green dlboxs1 dlboxs2 dlbox1 dlbox2 dlbox3 dlbox4 dlbox5 dlbox6 dlbox7 dlbox8 dlbox9 login000; do
+for server in green dlboxs1 dlboxs2 dlbox1 dlbox2 dlbox3 dlbox4 dlbox5 dlbox6 dlbox7 dlbox8 dlbox9 istcluster; do
   printf " $server"
   user=wkentaro
-  if [ $server = login000 ]; then
+  if [ $server = istcluster ]; then
     user=u00001
   fi
   cwd=$(pwd | sed "s,/home/wkentaro,/home/$user,")
