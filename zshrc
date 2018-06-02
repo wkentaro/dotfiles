@@ -509,7 +509,7 @@ restore_env_for_ros () {
 export GOPATH=$HOME/.go
 export PATH=$GOPATH/bin:$PATH
 
-alias istcluster='ssh login000'
+alias istcluster='ssh istcluster'
 alias jenkins='ssh jenkins'
 alias aries='ssh aries'
 
