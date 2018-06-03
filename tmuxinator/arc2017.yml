@@ -1,6 +1,6 @@
-# ~/.tmuxinator/jsk_apc_icra2018.yml
+# ~/.tmuxinator/arc2017.yml
 
-name: jsk_apc
+name: arc2017
 root: ~/ros_mvtk
 
 # Optional tmux socket
@@ -8,6 +8,7 @@ root: ~/ros_mvtk
 
 # Runs before everything. Use it to start daemons etc.
 # pre: sudo /etc/rc.d/mysqld start
+pre: ~/03_setup_for_pick_re-experiment.bash
 
 # Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
 # pre_window: rbenv shell 2.0.0-p247
