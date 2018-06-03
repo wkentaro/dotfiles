@@ -283,3 +283,5 @@ psf () {
   fi
   ps auxwww | grep $1
 }
+alias pii='pip install'
+alias piu='pip uninstall'
