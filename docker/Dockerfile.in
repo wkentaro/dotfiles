@@ -28,9 +28,9 @@ RUN \
     zsh
 
 RUN \
-  easy_install -q 'pip<10' && \
-  pip install -q -U setuptools && \
-  pip install -q percol
+  easy_install 'pip<10' && \
+  pip install -U setuptools && \
+  pip install percol
 
 RUN \
   useradd wkentaro && \
