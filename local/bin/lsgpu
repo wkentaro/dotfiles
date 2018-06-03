@@ -83,7 +83,7 @@ def main():
         '$HOME/.local/bin/cuda-smi',
         '''ps auxwww | awk '{print $1}' | egrep "$(command ls /home)" | sort | uniq -c | sort -nr | xargs''',  # NOQA
         '''ps auxwww | grep wkentaro | grep tmux | grep -v grep''',  # NOQA
-        '''ps auxwww | grep wkentaro | grep python | grep train | grep -v grep | grep -v lsgpu''',  # NOQA
+        '''ps auxwww | grep wkentaro | grep python | grep -v logs | grep -v grep | grep -v lsgpu''',  # NOQA
     ]
 
     with ProcessPoolExecutor(max_workers=4) as executor:
