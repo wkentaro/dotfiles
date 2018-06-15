@@ -1,4 +1,6 @@
-/.vim/bundle
+/vim/bundle/
+/vim/.netrwhist
+
 /private/
 
 *.py[cdo]
