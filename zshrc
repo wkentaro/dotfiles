@@ -433,7 +433,9 @@ if [ -e /usr/local/cuda ]; then
   export CFLAGS=-I$CUDA_PATH/include
   export LDFLAGS="-L$CUDA_PATH/lib64 -L$CUDA_PATH/lib"
   # cudnn
-  export CUDNN_PATH=~/.cudnn/active/cuda
+  if [ "$CUDNN_PATH" = "" ]; then
+    export CUDNN_PATH=~/.cudnn/active/cuda
+  fi
   export LD_LIBRARY_PATH=~/.cudnn/active/cuda/lib64:$LD_LIBRARY_PATH
   export CPATH=~/.cudnn/active/cuda/include:$CPATH
   export LIBRARY_PATH=~/.cudnn/active/cuda/lib64:$LIBRARY_PATH
