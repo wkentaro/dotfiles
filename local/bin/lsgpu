@@ -2,6 +2,7 @@
 
 from __future__ import print_function
 
+import argparse
 import os
 import os.path as osp
 import sys
@@ -69,6 +70,14 @@ def ssh_and_run(args):
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        '--ps', '-p', action='store_true', help='show process',
+    )
+    args = parser.parse_args()
+
     # sample:
     # https://gist.github.com/iory/10aafd62515ea1b08eb97c1d41c3b5f5
     filename = osp.expanduser('~/.gpu_checker.cfg')
@@ -82,9 +91,12 @@ def main():
     cmds = [
         '$HOME/.local/bin/cuda-smi',
         '''ps auxwww | awk '{print $1}' | egrep "$(command ls /home)" | sort | uniq -c | sort -nr | xargs''',  # NOQA
-        '''ps auxwww | grep wkentaro | grep tmux | grep -v grep''',  # NOQA
-        '''ps auxwww | grep wkentaro | grep python | grep -v logs | grep -v grep | grep -v lsgpu''',  # NOQA
     ]
+    if args.ps:
+        cmds.extend([
+            '''ps auxwww | grep wkentaro | grep tmux | grep -v grep''',  # NOQA
+            '''ps auxwww | grep wkentaro | grep python | grep -v logs | grep -v grep | grep -v lsgpu''',  # NOQA
+        ])
 
     with ProcessPoolExecutor(max_workers=4) as executor:
         params = [(host, user, cmds) for host in hosts]
