@@ -285,3 +285,13 @@ psf () {
 }
 alias pii='pip install'
 alias piu='pip uninstall'
+
+pdf2image () {
+  if [ $# -ne 2 ]; then
+    echo "Usage: pdf2png INPUT_FILE OUTPUT_FILE"
+    exit 1
+  fi
+  pdf_file=$1
+  out_file=$2
+  convert -density 300x300 -quality 95 $pdf_file $out_file
+}
