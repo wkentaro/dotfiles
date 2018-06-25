@@ -99,8 +99,8 @@ snippet table
 alias   \begin{table} \table
     \begin{table}[${1}]
         \centering
-        \caption{${2}}
-        \label{${3}}
+        \caption{{\bf ${2}}}
+        \label{table:${3}}
         \begin{tabular}{${4}}
             ${5}
         \end{tabular}
@@ -219,8 +219,8 @@ alias   \begin{figure} \figure
     \begin{figure}[${1:htbp}]
         \centering
         \includegraphics[${2:width=${3\}}]{${4}}
-        \caption{${5}}
-        \figlab{${6}}
+        \caption{{\bf ${5}}}
+        \label{figure:${6}}
     \end{figure}
 
 snippet subfloath
