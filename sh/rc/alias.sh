@@ -295,3 +295,6 @@ pdf2image () {
   out_file=$2
   convert -density 300x300 -quality 95 $pdf_file $out_file
 }
+
+alias m='make'
+alias mw='make watch'
