@@ -298,3 +298,4 @@ pdf2image () {
 
 alias m='make'
 alias mw='make watch'
+alias sqm='sq | grep u00001'
