@@ -488,7 +488,10 @@ if which dropbox &>/dev/null; then
 fi
 
 if [ ! -z $CONDA_DEFAULT_ENV ]; then
-  source $(dirname $CONDA_PYTHON_EXE)/activate $CONDA_DEFAULT_ENV
+  conda_path=$(dirname $CONDA_PYTHON_EXE)
+  conda_env=$CONDA_DEFAULT_ENV
+  source $conda_path/deactivate
+  source $conda_path/activate $conda_env
   # if [ ! -z $CONDA_PREFIX ]; then
   #   source $CONDA_PREFIX/bin/activate $CONDA_DEFAULT_ENV
   # else
