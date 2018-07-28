@@ -248,10 +248,11 @@ compress_pdf () {
   local output
   input=$1
   output=$2
+    # -dPDFSETTINGS=/default \
   gs \
     -sDEVICE=pdfwrite \
     -dCompatibilityLevel=1.4 \
-    -dPDFSETTINGS=/default \
+    -dPDFSETTINGS=/prepress \
     -dNOPAUSE \
     -dQUIET \
     -dBATCH \
