@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import division
+
 import argparse
 
 import imageio
@@ -7,16 +9,27 @@ import tqdm
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('in_file')
-    parser.add_argument('out_file')
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument('in_file', help='input filename')
+    parser.add_argument('out_file', help='output filename')
+    parser.add_argument('--fps', type=int, help='fps of output file')
     args = parser.parse_args()
 
     video_in = imageio.get_reader(args.in_file)
-    video_out = imageio.get_writer(args.out_file)
+    src_fps = video_in.get_meta_data()['fps']
+    dst_fps = args.fps or src_fps
+    video_out = imageio.get_writer(args.out_file, fps=dst_fps)
 
-    for img in tqdm.tqdm(video_in):
-        video_out.append_data(img)
+    assert dst_fps <= src_fps
+    scale = dst_fps / src_fps
+
+    j = -1
+    for i, img in tqdm.tqdm(enumerate(video_in)):
+        if int(round((i * scale))) != j:
+            video_out.append_data(img)
+            j += 1
 
     print('Saved file: %s' % args.out_file)
 
