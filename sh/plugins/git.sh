@@ -261,17 +261,17 @@ alias gc='git commit --verbose'
 alias gsui='git submodule update --init'
 alias gsuir='gsui --recursive'
 
-git_checkout_by_fzy() {
-  if [ $# -eq 0 ]; then
-    branch=$(git branch -a | grep -v '*' | grep -v 'HEAD' | awk '{print $1}' | sed 's,^remotes/,,g' | fzy)
-    git checkout $branch
-  else
-    git checkout $*
-  fi
-}
-alias gco=git_checkout_by_fzy
-if which compdef &>/dev/null; then
-  compdef _git git_checkout_by_fzy=git-checkout 2>/dev/null
-fi
-
+# git_checkout_by_fzy() {
+#   if [ $# -eq 0 ]; then
+#     branch=$(git branch -a | grep -v '*' | grep -v 'HEAD' | awk '{print $1}' | sed 's,^remotes/,,g' | fzy)
+#     git checkout $branch
+#   else
+#     git checkout $*
+#   fi
+# }
+# alias gco=git_checkout_by_fzy
+# if which compdef &>/dev/null; then
+#   compdef _git git_checkout_by_fzy=git-checkout 2>/dev/null
+# fi
+#
 gap='git add -p'
