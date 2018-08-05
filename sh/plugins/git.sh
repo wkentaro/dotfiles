@@ -5,7 +5,7 @@
 # ----------------------------------------------------
 
 # basic command
-alias gfa='git fetch --all'
+alias gfa='git fetch --all --prune'
 alias grh!='git reset --hard'
 alias grh~='git reset HEAD~'
 alias grh~1='git reset HEAD~1'
