@@ -3,7 +3,9 @@
 from __future__ import division
 
 import argparse
+import math
 
+import cv2
 import imageio
 import tqdm
 
@@ -15,6 +17,8 @@ def main():
     parser.add_argument('in_file', help='input filename')
     parser.add_argument('out_file', help='output filename')
     parser.add_argument('--fps', type=int, help='fps of output file')
+    parser.add_argument('--size', type=int,
+                        help='max size of height x width')
     args = parser.parse_args()
 
     video_in = imageio.get_reader(args.in_file)
@@ -28,6 +32,9 @@ def main():
     j = -1
     for i, img in tqdm.tqdm(enumerate(video_in)):
         if int(round((i * scale))) != j:
+            if args.size is not None:
+                scale = math.sqrt(args.size / (img.shape[0] * img.shape[1]))
+                img = cv2.resize(img, None, None, fx=scale, fy=scale)
             video_out.append_data(img)
             j += 1
 
