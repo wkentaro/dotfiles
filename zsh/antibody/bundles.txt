@@ -1,7 +1,7 @@
 # hchbaw/opp.zsh  # obsolete
 # b4b4r07/enhancd
 Tarrasch/zsh-autoenv
-Tarrasch/zsh-bd
+# Tarrasch/zsh-bd
 rupa/z
 zsh-users/zsh-completions
 zsh-users/zsh-syntax-highlighting
