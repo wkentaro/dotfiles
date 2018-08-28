@@ -43,7 +43,7 @@ else
 endif
 
 " Allow cursor keys in insert mode
-set esckeys
+" set esckeys
 
 " Optimize for fast terminal connections
 if has('nvim')
