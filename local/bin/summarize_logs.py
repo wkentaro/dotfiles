@@ -23,7 +23,7 @@ def main():
             df = df[columns]
             df = df.set_index(['epoch', 'iteration'])
             index_best = df['valid/mean_iu'].idxmax()
-            row_best = df.ix[index_best].dropna()
+            row_best = df.loc[index_best].dropna()
         except Exception:
             continue
         rows.append([
