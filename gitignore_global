@@ -21,6 +21,8 @@ logs
 00.myfiles/
 my_*
 
+*.bak*
+
 nohup.out
 0
 1
