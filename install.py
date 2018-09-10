@@ -7,7 +7,6 @@ import glob
 import os
 import os.path as osp
 import platform
-import shutil
 import subprocess
 import sys
 
