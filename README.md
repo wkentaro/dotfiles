@@ -36,6 +36,11 @@ docker run -it wkentaro/dotfiles
 
 ## Ubuntu 16.04
 
+### Input Method
+
 * Select `fcitx` for `Keyboard input method system` in `Language Support`.
 * Logout + login.
-* Open mozc tool, and load keyboard settings `config/mozc_keymap_for_win_keyboard.txt`.
+* Open fcitx settings and configure as below:
+
+![](.readme/xenial/input_method_001.jpg)
+![](.readme/xenial/input_method_002.jpg)
