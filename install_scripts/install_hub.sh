@@ -9,7 +9,7 @@ fi
 sudo mkdir -p /usr/local/share/man/man1
 
 TMPDIR=$(mktemp -d)
-VERSION='2.3.0-pre10'
+VERSION='2.5.1'
 
 cd $TMPDIR
 URL="https://github.com/github/hub/releases/download/v$VERSION/hub-linux-amd64-$VERSION.tgz"
