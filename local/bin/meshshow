@@ -14,10 +14,7 @@ def main():
 
     geometries = []
     for filename in args.filenames:
-        if filename.endswith('.pcd') or filename.endswith('.ply'):
-            geo = open3d.read_point_cloud(filename)
-        else:
-            geo = open3d.read_triangle_mesh(filename)
+        geo = open3d.read_triangle_mesh(filename)
         geometries.append(geo)
     open3d.draw_geometries(geometries)
 
