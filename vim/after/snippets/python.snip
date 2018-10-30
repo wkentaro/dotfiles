@@ -192,6 +192,14 @@ snippet      here
 abbr         here = ...
 	here = osp.dirname(osp.abspath(__file__))
 
+snippet      here2
+abbr         here = ...
+	here = pathlib.Path(__file__).resolve().parent
+
+snippet      home2
+abbr         home = ...
+	home = pathlib.Path('~').expanduser()
+
 snippet     flake8
 abbr        # flake8...
 	# flake8: noqa
