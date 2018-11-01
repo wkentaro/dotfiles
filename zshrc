@@ -423,14 +423,14 @@ export GHI_TOKEN=$GITHUB_TOKEN
 export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
 export LIBRARY_PATH=/usr/local/lib:/usr/lib:$LIBRARY_PATH
 export CPATH=/usr/include:$CPATH
-export CFLAGS=-I/usr/include
+# export CFLAGS=-I/usr/include
 export LDFLAGS="-L/usr/local/lib -L/usr/lib"
 if [ -e /usr/local/cuda ]; then
   export CUDA_PATH=/usr/local/cuda
   export PATH=$CUDA_PATH/bin:$PATH
   export CPATH=$CUDA_PATH/include:$CPATH
   export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$CUDA_PATH/lib:$LD_LIBRARY_PATH
-  export CFLAGS=-I$CUDA_PATH/include
+  # export CFLAGS=-I$CUDA_PATH/include
   export LDFLAGS="-L$CUDA_PATH/lib64 -L$CUDA_PATH/lib"
   # cudnn
   if [ "$CUDNN_PATH" = "" ]; then
