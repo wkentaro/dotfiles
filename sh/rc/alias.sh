@@ -49,7 +49,7 @@ alias emacs='emacs -nw'
 alias py='python'
 alias ipy='ipython'
 alias ipp='ptipython'
-alias fl='flake8'
+alias fl='PYTHONWARNINGS=ignore flake8'
 
 # tmux
 # alias t='tmux'
