@@ -280,7 +280,7 @@ alias tailf='tail -n1000 -f'
 psf () {
   if [ ! $# -eq 1 ]; then
     echo "Usage: $0 PATTERN"
-    exit 1
+    return 1
   fi
   ps auxwww | grep $1
 }
@@ -290,7 +290,7 @@ alias piu='pip uninstall'
 pdf2image () {
   if [ $# -ne 2 ]; then
     echo "Usage: pdf2png INPUT_FILE OUTPUT_FILE"
-    exit 1
+    return 1
   fi
   pdf_file=$1
   out_file=$2
@@ -299,3 +299,12 @@ pdf2image () {
 
 alias m='make'
 alias mw='make watch'
+
+meshlab2 () {
+  if [ $# -ne 1 ]; then
+    echo "Usage: $0 FILENAME"
+    return 1
+  fi
+  local filename=$1
+  (cd $(dirname $filename) && meshlab $(basename $filename))
+}
