@@ -68,8 +68,6 @@ vim:
   .vim
 vimrc:
   .vimrc
-xinputrc:
-  .xinputrc
 Xmodmap:
   .Xmodmap
 zprofile:
