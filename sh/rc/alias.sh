@@ -308,3 +308,4 @@ meshlab2 () {
   local filename=$1
   (cd $(dirname $filename) && meshlab $(basename $filename))
 }
+alias mlab='meshlab2 &>/dev/null'
