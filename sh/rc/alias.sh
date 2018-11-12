@@ -181,9 +181,9 @@ convert-to-gif () {
   local TMP_FILE=$(mktemp).gif
   echo "[$0] $INPUT_FILE -> $TMP_FILE"
   if which ffmpeg &>/dev/null; then
-    ffmpeg -loglevel panic -i $INPUT_FILE -pix_fmt rgb8 -r 3 -f gif - &>/dev/null | gifsicle --optimize=3 --delay=3 > $OUTPUT_FILE
+    ffmpeg -loglevel panic -i $INPUT_FILE -pix_fmt rgb8 -r 3 -f gif - &>/dev/null | gifsicle --optimize=3 --delay=3 > $TMP_FILE
   elif which avconv &>/dev/null; then
-    avconv -loglevel panic -i $INPUT_FILE -pix_fmt rgb24 -r 3 -f gif - &>/dev/null | gifsicle --optimize=3 --delay=3 > $OUTPUT_FILE
+    avconv -loglevel panic -i $INPUT_FILE -pix_fmt rgb8 -r 3 -f gif - &>/dev/null | gifsicle --optimize=3 --delay=3 > $TMP_FILE
   else
     echo "Please install ffmpeg or avconv"
     exit 1
