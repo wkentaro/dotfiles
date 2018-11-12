@@ -172,21 +172,21 @@ if hash gls &>/dev/null; then
 fi
 
 convert_to_gif () {
+  if [ $# -ne 1 ]; then
+    echo "Usage: $0 FILENAME"
+    exit 1
+  fi
   filename="$1"
   basename="${filename%.*}"
   if which ffmpeg &>/dev/null; then
     ffmpeg -i $1 -pix_fmt rgb8 -r 3 -f gif - | gifsicle --optimize=3 --delay=3 > ${basename}.gif
   elif which avconv &>/dev/null; then
     avconv -i $1 -pix_fmt rgb24 -r 3 -f gif - | gifsicle --optimize=3 --delay=3 > ${basename}.gif
+  else
+    echo "Please install ffmpeg or avconv"
+    exit 1
   fi
 }
-
-slacker_notify_done () {
-  "$@"
-  local retcode=$?
-  echo "@wkentaro '$@' is done at '$(date)' with exitcode '${retcode}'" | slacker -u wkentaro
-}
-
 
 # ----------------------------------------------------
 # Show Setup
