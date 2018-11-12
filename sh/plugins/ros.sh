@@ -136,7 +136,7 @@ rosws () {
   else
     source /opt/ros/indigo/setup.zsh
   fi
-  show_ros
+  show-ros
 }
 rossetws () {
   local ws

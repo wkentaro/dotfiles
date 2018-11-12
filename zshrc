@@ -481,7 +481,7 @@ if [ "$(uname)" = "Linux" ]; then
   xmodmap $HOME/.Xmodmap &>/dev/null
 fi
 
-show_cuda
+show-cuda
 
 if which dropbox &>/dev/null; then
   echo "Dropbox: $(dropbox status | sed 2d)"

@@ -196,14 +196,15 @@ convert-to-gif () {
 # Show Setup
 # ----------------------------------------------------
 
-show_ros () {
+show-ros () {
   CATKIN_TOOLS_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('catkin-tools').version)" 2>/dev/null)
   echo "ROS_DISTRO: $ROS_DISTRO"
   # echo "CATKIN_TOOLS_VERSION: $CATKIN_TOOLS_VERSION"
   echo "CMAKE_PREFIX_PATH: $CMAKE_PREFIX_PATH"
 }
+alias show_ros=show-ros
 
-show_cuda () {
+show-cuda () {
   which nvcc &>/dev/null || return 1
   # cuda
   CUDA_VERSION=$(command nvcc --version | sed -n 4p | sed 's/.*, release .*, V\(.*\)/\1/')
@@ -218,20 +219,26 @@ show_cuda () {
     echo "CUDNN_VERSION: $CUDNN_VERSION"
   fi
 }
+alias show_cuda=show-cuda
 
-watch_gpu () {
-  watch -n1 --no-title '''
-  echo "====================================================================================================="
-  cuda-smi
-  echo "====================================================================================================="
-  echo
-  if which nvidia-smi &>/dev/null; then
-    nvidia-smi
-  fi
-  '''
-}
-alias nvid='nvidia-smi'
-alias cud='cuda-smi'
+if which nvidia-smi &>/dev/null; then
+  alias nvid='nvidia-smi'
+
+  watch-gpu () {
+    watch -n1 --no-title '''
+    echo "====================================================================================================="
+    cuda-smi
+    echo "====================================================================================================="
+    echo
+    if which nvidia-smi &>/dev/null; then
+      nvidia-smi
+    fi
+    '''
+  }
+fi
+if which cuda-smi &>/dev/null; then
+  alias cud='cuda-smi'
+fi
 
 
 init_autoenv () {
@@ -244,7 +251,7 @@ macclean () {
   find . -type f -name '.DS_Store' -delete
 }
 
-compress_pdf () {
+compress-pdf () {
   if [ ! $# -eq 2 ]; then
     echo "Usage: compress_pdf INPUT_FILE OUTPUT_FILE"
   fi
@@ -271,7 +278,7 @@ alias rsync_avt='rsync -avt'
 
 alias rsync_rlt='rsync -rltDv'
 
-cmake_prefix.. () {
+cmake-prefix.. () {
   if [ $# != 1 ]; then
     return 1
   fi
