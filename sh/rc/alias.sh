@@ -241,10 +241,11 @@ if which cuda-smi &>/dev/null; then
 fi
 
 
-init_autoenv () {
+init-autoenv () {
   vim .autoenv.zsh
   vim .autoenv_leave.zsh
 }
+alias init_autoenv=init-autoenv
 
 
 macclean () {
