@@ -12,7 +12,7 @@ c.InteractiveShellApp.exec_lines = [
     'import os.path as osp',
     'import time',
     'import numpy as np',
-    # 'import matplotlib.pyplot as plt',
+    'import matplotlib.pyplot as plt',
 ]
 c.InteractiveShell.autoindent = True
 # c.InteractiveShell.colors = 'LightBG'
@@ -26,15 +26,15 @@ c.PrefilterManager.multi_line_specials = True
 
 if sys.platform == 'linux2':
     c.AliasManager.user_aliases = [
-            ('ls', 'ls --color=auto'),
-            ('la', 'ls --color=auto -al'),
-            ('lsa', 'ls --color=auto -lah'),
-            ('..', 'cd ..'),
-            ]
+        ('ls', 'ls --color=auto'),
+        ('la', 'ls --color=auto -al'),
+        ('lsa', 'ls --color=auto -lah'),
+        ('..', 'cd ..'),
+    ]
 else:
     c.AliasManager.user_aliases = [
-            ('ls', 'ls -G'),
-            ('la', 'ls -G -al'),
-            ('lsa', 'ls -G -lah'),
-            ('..', 'cd ..'),
-            ]
+        ('ls', 'ls -G'),
+        ('la', 'ls -G -al'),
+        ('lsa', 'ls -G -lah'),
+        ('..', 'cd ..'),
+    ]
