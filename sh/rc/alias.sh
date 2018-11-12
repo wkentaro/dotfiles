@@ -300,12 +300,24 @@ pdf2image () {
 alias m='make'
 alias mw='make watch'
 
-meshlab2 () {
-  if [ $# -ne 1 ]; then
-    echo "Usage: $0 FILENAME"
-    return 1
+if [ $(uname) = Darwin ]; then
+  alias matlab='/Applications/MATLAB_R2018b.app/bin/matlab -nodesktop -nosplash'
+  alias matlab-desktop='/Applications/MATLAB_R2018b.app/bin/matlab'
+else
+  alias matlab='$(command matlab) -nodesktop -nosplash'
+  alias matlab-desktop='$(command matlab)'
+fi
+
+meshlab () {
+  if [ $(uname) = Darwin ]; then
+    cmd=/Applications/meshlab.app/Contents/MacOS/meshlab
+  else
+    cmd=$(command meshlab)
   fi
-  local filename=$1
-  (cd $(dirname $filename) && meshlab $(basename $filename))
+  if [ $# -ge 1 ]; then
+    local filename=$1
+    (cd $(dirname $filename) && $cmd $(basename $filename) &>/dev/null)
+  else
+    $cmd &>/dev/null
+  fi
 }
-alias mlab='meshlab2 &>/dev/null'
