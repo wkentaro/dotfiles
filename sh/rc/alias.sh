@@ -171,10 +171,10 @@ if hash gls &>/dev/null; then
   alias sleep=gsleep
 fi
 
-convert_to_gif () {
+convert-to-gif () {
   if [ $# -ne 1 ]; then
     echo "Usage: $0 FILENAME"
-    exit 1
+    return 1
   fi
   filename="$1"
   basename="${filename%.*}"
