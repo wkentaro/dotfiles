@@ -186,7 +186,7 @@ convert-to-gif () {
     avconv -loglevel panic -i $INPUT_FILE -pix_fmt rgb8 -r 3 -f gif - &>/dev/null | gifsicle --optimize=3 --delay=3 > $TMP_FILE
   else
     echo "Please install ffmpeg or avconv"
-    exit 1
+    return 1
   fi
   echo "[$0] $TMP_FILE -> $OUTPUT_FILE"
   mv $TMP_FILE $OUTPUT_FILE
@@ -274,10 +274,6 @@ compress-pdf () {
     ${input}
 }
 
-alias rsync_avt='rsync -avt'
-
-alias rsync_rlt='rsync -rltDv'
-
 cmake-prefix.. () {
   if [ $# != 1 ]; then
     return 1
@@ -286,7 +282,6 @@ cmake-prefix.. () {
   cmake -DCMAKE_INSTALL_PREFIX:PATH=$1 ..
 }
 
-alias cud='cuda-smi'
 alias tailf='tail -n1000 -f'
 psf () {
   if [ ! $# -eq 1 ]; then
