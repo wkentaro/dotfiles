@@ -316,10 +316,10 @@ else
 fi
 
 meshlab () {
-  if [ $(uname) = Darwin ]; then
+  if [ "$(uname)" = "Darwin" ]; then
     cmd=/Applications/meshlab.app/Contents/MacOS/meshlab
   else
-    cmd=$(command meshlab)
+    cmd=$(command which meshlab)
   fi
   if [ $# -ge 1 ]; then
     local filename=$1
