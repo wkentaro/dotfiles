@@ -173,19 +173,23 @@ fi
 
 convert-to-gif () {
   if [ $# -ne 1 ]; then
-    echo "Usage: $0 FILENAME"
+    echo "Usage: $0 INPUT_FILE"
     return 1
   fi
-  filename="$1"
-  basename="${filename%.*}"
+  local INPUT_FILE=$1
+  local OUTPUT_FILE="${INPUT_FILE%.*}".gif
+  local TMP_FILE=$(mktemp).gif
+  echo "[$0] $INPUT_FILE -> $TMP_FILE"
   if which ffmpeg &>/dev/null; then
-    ffmpeg -i $1 -pix_fmt rgb8 -r 3 -f gif - | gifsicle --optimize=3 --delay=3 > ${basename}.gif
+    ffmpeg -loglevel panic -i $INPUT_FILE -pix_fmt rgb8 -r 3 -f gif - &>/dev/null | gifsicle --optimize=3 --delay=3 > $OUTPUT_FILE
   elif which avconv &>/dev/null; then
-    avconv -i $1 -pix_fmt rgb24 -r 3 -f gif - | gifsicle --optimize=3 --delay=3 > ${basename}.gif
+    avconv -loglevel panic -i $INPUT_FILE -pix_fmt rgb24 -r 3 -f gif - &>/dev/null | gifsicle --optimize=3 --delay=3 > $OUTPUT_FILE
   else
     echo "Please install ffmpeg or avconv"
     exit 1
   fi
+  echo "[$0] $TMP_FILE -> $OUTPUT_FILE"
+  mv $TMP_FILE $OUTPUT_FILE
 }
 
 # ----------------------------------------------------
