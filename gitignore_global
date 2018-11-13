@@ -21,6 +21,7 @@ logs
 00.myfiles/
 my_*
 
+*.gdrive*
 *.bak*
 
 nohup.out
