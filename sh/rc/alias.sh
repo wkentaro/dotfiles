@@ -4,9 +4,9 @@
 alias sudo='sudo '
 alias cl='clear'
 alias lv='less'
-if which pygmentize &>/dev/null; then
-  export LESSOPEN="|$HOME/.lessfilter %s"
-fi
+# if which pygmentize &>/dev/null; then
+#   export LESSOPEN="|$HOME/.lessfilter %s"
+# fi
 
 alias rm='rm -i'
 alias rmr='rm -r'
