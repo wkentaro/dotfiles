@@ -321,3 +321,10 @@ meshlab () {
     $cmd &>/dev/null
   fi
 }
+
+if [ "$(uname)" = "Darwin" ]; then
+  meshlabserver () {
+    base_dir=/Applications/meshlab.app/Contents
+    DYLD_FRAMEWORK_PATH=$base_dir/Frameworks $base_dir/MacOS/meshlabserver $*
+  }
+fi
