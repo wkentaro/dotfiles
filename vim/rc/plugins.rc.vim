@@ -142,6 +142,7 @@ let g:airline#extensions#ctrlp#color_template = 'replace'
 " taglist.vim
 " --------------------------------------------------------
 noremap <silent> <Leader>t :TlistToggle<CR>
+let Tlist_Use_Right_Window = 1
 
 " --------------------------------------------------------
 " riv
