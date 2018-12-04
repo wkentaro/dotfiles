@@ -2,7 +2,7 @@
 
 import argparse
 
-import open3d
+import trimesh
 
 
 def main():
@@ -14,9 +14,9 @@ def main():
 
     geometries = []
     for filename in args.filenames:
-        geo = open3d.read_triangle_mesh(filename)
+        geo = trimesh.load(filename)
         geometries.append(geo)
-    open3d.draw_geometries(geometries)
+    trimesh.Scene(geometries).show()
 
 
 if __name__ == '__main__':
