@@ -47,10 +47,11 @@ def main():
     args = parser.parse_args()
 
     if args.speed != 1:
-        in_file = tempfile.mktemp() + osp.splitext(args.in_file)[-1]
-        speed_up_video_with_mencoder(args.in_file, args.speed, in_file)
-        os.remove(in_file)
+        tmp_file = tempfile.mktemp() + osp.splitext(args.in_file)[-1]
+        speed_up_video_with_mencoder(args.in_file, args.speed, tmp_file)
+        in_file = tmp_file
     else:
+        tmp_file = None
         in_file = args.in_file
 
     video_in = imageio.get_reader(in_file)
@@ -71,6 +72,9 @@ def main():
             j += 1
 
     print('Saved file: %s' % args.out_file)
+
+    if tmp_file is not None:
+        os.remove(tmp_file)
 
 
 if __name__ == '__main__':
