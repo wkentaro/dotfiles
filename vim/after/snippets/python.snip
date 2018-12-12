@@ -196,9 +196,13 @@ snippet      here2
 abbr         here = ...
 	here = pathlib.Path(__file__).resolve().parent
 
+snippet      home
+abbr         home = ...
+	home = osp.expanduser('~')
+
 snippet      home2
 abbr         home = ...
-	home = pathlib.Path('~').expanduser()
+	home = pathlib.Path.home()
 
 snippet     flake8
 abbr        # flake8...
