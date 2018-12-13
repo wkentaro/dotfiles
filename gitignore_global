@@ -18,9 +18,7 @@ build/
 
 logs
 
-00.myfiles/
-my_*
-
+a.*
 *.gdrive*
 *.bak*
 
