@@ -23,5 +23,5 @@ a.*
 *.bak*
 
 nohup.out
-0
-1
+
+.mypy_cache
