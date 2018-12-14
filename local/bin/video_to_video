@@ -4,9 +4,9 @@ from __future__ import division
 
 import argparse
 import math
-import tempfile
-import os
 import os.path as osp
+import shutil
+import tempfile
 
 import cv2
 import imageio
@@ -24,8 +24,11 @@ def speed_up_video_with_mencoder(video_file, times, out_file):
                 size[1] % macro_block_size == 0:
             break
 
-    writer = imageio.get_writer(out_file, fps=fps * times,
-                                macro_block_size=macro_block_size)
+    writer = imageio.get_writer(
+        out_file,
+        fps=fps * times,
+        macro_block_size=macro_block_size,
+    )
     for frame in tqdm.tqdm(reader):
         writer.append_data(frame)
 
@@ -46,35 +49,41 @@ def main():
                         default=1, help='speed up')
     args = parser.parse_args()
 
-    if args.speed != 1:
-        tmp_file = tempfile.mktemp() + osp.splitext(args.in_file)[-1]
-        speed_up_video_with_mencoder(args.in_file, args.speed, tmp_file)
-        in_file = tmp_file
-    else:
-        tmp_file = None
-        in_file = args.in_file
+    tmp_dir = tempfile.mkdtemp()
 
-    video_in = imageio.get_reader(in_file)
-    src_fps = video_in.get_meta_data()['fps']
+    ext_in = osp.splitext(args.in_file)[1]
+    ext_out = osp.splitext(args.out_file)[1]
+
+    if args.speed == 1:
+        speededup_file = args.in_file
+    else:
+        speededup_file = osp.join(tmp_dir, 'speededup' + ext_in)
+        speed_up_video_with_mencoder(args.in_file, args.speed, speededup_file)
+
+    reader = imageio.get_reader(speededup_file)
+
+    src_fps = reader.get_meta_data()['fps']
     dst_fps = args.fps or src_fps
-    video_out = imageio.get_writer(args.out_file, fps=dst_fps)
+
+    out_file = osp.join(tmp_dir, 'output' + ext_out)
+    writer = imageio.get_writer(out_file, fps=dst_fps)
 
     assert dst_fps <= src_fps
     scale = dst_fps / src_fps
 
     j = -1
-    for i, img in tqdm.tqdm(enumerate(video_in)):
+    for i, img in tqdm.tqdm(enumerate(reader), total=len(reader)):
         if int(round((i * scale))) != j:
             if args.size is not None:
                 scale = math.sqrt(args.size / (img.shape[0] * img.shape[1]))
                 img = cv2.resize(img, None, None, fx=scale, fy=scale)
-            video_out.append_data(img)
+            writer.append_data(img)
             j += 1
 
-    print('Saved file: %s' % args.out_file)
+    shutil.move(out_file, args.out_file)
+    shutil.rmtree(tmp_dir)
 
-    if tmp_file is not None:
-        os.remove(tmp_file)
+    print('Saved to: {}'.format(args.out_file))
 
 
 if __name__ == '__main__':

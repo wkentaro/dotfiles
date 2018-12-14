@@ -178,11 +178,7 @@ convert-to-gif () {
   fi
   local INPUT_FILE=$1
   local OUTPUT_FILE="${INPUT_FILE%.*}".gif
-  local TMP_FILE=$(mktemp).gif
-  echo "[$0] $INPUT_FILE -> $TMP_FILE"
-  video_to_video $INPUT_FILE $TMP_FILE --fps 3 --speed 3
-  echo "[$0] $TMP_FILE -> $OUTPUT_FILE"
-  mv $TMP_FILE $OUTPUT_FILE
+  video_to_video $INPUT_FILE $OUTPUT_FILE --fps 3 --speed 3
 }
 
 # ----------------------------------------------------
