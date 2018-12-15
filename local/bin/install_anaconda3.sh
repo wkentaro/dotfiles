@@ -13,7 +13,8 @@ if [ -e $INSTALL_DIR/.anaconda3 ]; then
   exit 0
 fi
 
-cd $(mktemp -d)
+TMPDIR=$(mktemp -d)
+cd $TMPDIR
 
 if [ "$(uname)" = "Linux" ]; then
   wget -q 'https://repo.continuum.io/miniconda/Miniconda3-4.5.4-Linux-x86_64.sh' -O miniconda3.sh
@@ -25,6 +26,7 @@ else
 fi
 
 bash ./miniconda3.sh -p $INSTALL_DIR/.anaconda3 -b
+rm -rf $TMPDIR
 
 source $INSTALL_DIR/.anaconda3/bin/activate
 conda update -n base -y conda
