@@ -13,18 +13,20 @@ if [ -e $INSTALL_DIR/.anaconda2 ]; then
   exit 0
 fi
 
-cd $(mktemp -d)
+TMPDIR=$(mktemp -d)
+cd $TMPDIR
 
 if [ "$(uname)" = "Linux" ]; then
-  wget -q 'https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh'
-  bash ./Miniconda2-latest-Linux-x86_64.sh -p $INSTALL_DIR/.anaconda2 -b
+  wget -q 'https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh' -O miniconda2.sh
 elif [ "$(uname)" = "Darwin" ]; then
-  wget -q 'https://repo.continuum.io/miniconda/Miniconda2-latest-MacOSX-x86_64.sh'
-  bash ./Miniconda2-latest-MacOSX-x86_64.sh -p $INSTALL_DIR/.anaconda2 -b
+  wget -q 'https://repo.continuum.io/miniconda/Miniconda2-latest-MacOSX-x86_64.sh' -O miniconda2.sh
 else
   echo "[$(basename $0)] Unsupported platform: $(uname)"
   exit 0
 fi
+
+bash ./miniconda2.sh -p $INSTALL_DIR/.anaconda2 -b
+rm -rf $TMPDIR
 
 source $INSTALL_DIR/.anaconda2/bin/activate
 conda update -n base -y conda
