@@ -26,6 +26,7 @@ else
 fi
 
 bash ./miniconda2.sh -p $INSTALL_DIR/.anaconda2 -b
+cd -
 rm -rf $TMPDIR
 
 source $INSTALL_DIR/.anaconda2/bin/activate
