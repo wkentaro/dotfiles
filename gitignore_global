@@ -11,6 +11,7 @@ venv
 .autoenv.zsh
 .autoenv_leave.zsh
 .clang_complete
+dist/
 build/
 *.py[cdo]
 *.egg-info/
