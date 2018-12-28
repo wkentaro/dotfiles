@@ -2,7 +2,7 @@
 
 import argparse
 
-import fcn
+import imgviz
 import skimage.io
 
 
@@ -27,7 +27,7 @@ def main():
         if args.n_imgs == len(imgs):
             break
 
-    tiled = fcn.utils.get_tile_image(imgs, shape)
+    tiled = imgviz.tile(imgs, shape=shape)
     skimage.io.imsave(args.out, tiled)
 
 
