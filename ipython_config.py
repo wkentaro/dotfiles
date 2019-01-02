@@ -7,13 +7,13 @@ c = get_config()
 
 c.TerminalIPythonApp.display_banner = True
 c.InteractiveShellApp.log_level = 0
-c.InteractiveShellApp.exec_lines = [
-    'import os',
-    'import os.path as osp',
-    'import time',
-    'import numpy as np',
-    'import matplotlib.pyplot as plt',
-]
+# c.InteractiveShellApp.exec_lines = [
+#     'import os',
+#     'import os.path as osp',
+#     'import time',
+#     'import numpy as np',
+#     'import matplotlib.pyplot as plt',
+# ]
 c.InteractiveShell.autoindent = True
 # c.InteractiveShell.colors = 'LightBG'
 c.InteractiveShell.confirm_exit = False
