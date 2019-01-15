@@ -32,7 +32,7 @@ gcauto () {
   files=$(git status --porcelain | grep -e '^M' | awk '{print $2}')
   tmpfile=$(mktemp)
   echo "Update $files" > $tmpfile
-  git commit --edit --file $tmpfile
+  git commit --verbose --edit --file $tmpfile
   rm -f $tmpfile
 }
 alias gsti='git status --ignored'
