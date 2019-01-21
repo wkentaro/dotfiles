@@ -32,6 +32,8 @@ alias o.='open .'
 # browsing
 alias gcal='open https://www.google.com/calendar/render#g >/dev/null 2>&1'
 alias gmail='open https://mail.google.com/mail/u/0/ >/dev/null 2>&1'
+alias evernote='open https://www.evernote.com/client/web?login=true 2>&1'
+alias trello='open https://trello.com/b/pd7DRCtJ/all 2>&1'
 
 # vim
 type vim &>/dev/null && {
