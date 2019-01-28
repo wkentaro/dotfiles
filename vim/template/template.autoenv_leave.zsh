@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 leave () {
-  source deactivate
+  conda deactivate
   # deactivate
 }
 
