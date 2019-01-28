@@ -99,4 +99,24 @@ snippet     HERE
 abbr        HERE=...
 	HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+snippet     func_echo_bold
+	echo_bold () {
+		echo -e "\033[1m$*\033[0m"
+	}
+
+snippet     func_echo_warning
+	echo_warning () {
+		echo -e "\033[33m$*\033[0m"
+	}
+
+snippet     func_conda_check_installed
+	conda_check_installed () {
+		if [ ! $# -eq 1 ]; then
+			echo "usage: \$0 PACKAGE_NAME"
+			return 1
+		fi
+		conda list | awk '{print \$1}' | egrep "^\$1$" &>/dev/null
+	}
+
+
 # vim: set noexpandtab :
