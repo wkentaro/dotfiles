@@ -118,5 +118,10 @@ snippet     func_conda_check_installed
 		conda list | awk '{print \$1}' | egrep "^\$1$" &>/dev/null
 	}
 
+snippet    func_verbose_eval
+	verbose_eval () {
+		echo "+ $*"
+		eval $*
+	}
 
 # vim: set noexpandtab :
