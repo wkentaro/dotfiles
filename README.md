@@ -14,7 +14,7 @@
 <br/>
 
 <div align="center">
-  <img src=".readme/screencast.gif" width="80%" />
+  <img src=".readme/screencast.gif" width="400px" />
 </div>
 
 
