@@ -1,11 +1,21 @@
-<img src=".readme/screencast.gif" align="right" width="365" />
+<h1 align="center">
+  dotfiles
+</h1>
 
-# dotfiles
+<h4 align="center">
+  My dotfiles.
+</h4>
 
-[![Build Status](https://travis-ci.org/wkentaro/dotfiles.svg?branch=master)](https://travis-ci.org/wkentaro/dotfiles)
-[![Docker Build Status](https://img.shields.io/docker/build/wkentaro/dotfiles.svg)](https://hub.docker.com/r/wkentaro/dotfiles/)
+<div align="center">
+  <a href="https://travis-ci.org/wkentaro/dotfiles"><img src="https://travis-ci.org/wkentaro/dotfiles.svg?branch=master"></a>
+  <a href="https://hub.docker.com/r/wkentaro/dotfiles/"><img src="https://img.shields.io/docker/build/wkentaro/dotfiles.svg"></a>
+</div>
 
-My dotfiles.
+<br/>
+
+<div align="center">
+  <img src=".readme/screencast.gif" width="80%" />
+</div>
 
 
 ## Usage
