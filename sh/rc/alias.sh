@@ -173,7 +173,7 @@ if hash gls &>/dev/null; then
   alias sleep=gsleep
 fi
 
-convert-to-gif () {
+togif () {
   if [ $# -ne 1 ]; then
     echo "Usage: $0 INPUT_FILE"
     return 1
