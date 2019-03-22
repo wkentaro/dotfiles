@@ -19,6 +19,7 @@ build/
 .pytest_cache/
 
 logs
+logs.*
 
 a.*
 *.gdrive*
