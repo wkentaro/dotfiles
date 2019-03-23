@@ -425,8 +425,10 @@ export LIBRARY_PATH=/usr/local/lib:/usr/lib:$LIBRARY_PATH
 export CPATH=/usr/include:$CPATH
 # export CFLAGS=-I/usr/include
 export LDFLAGS="-L/usr/local/lib -L/usr/lib"
-if [ -e /usr/local/cuda ]; then
+if [ "$CUDA_PATH" = "" ]; then
   export CUDA_PATH=/usr/local/cuda
+fi
+if [ -e $CUDA_PATH ]; then
   export PATH=$CUDA_PATH/bin:$PATH
   export CPATH=$CUDA_PATH/include:$CPATH
   export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$CUDA_PATH/lib:$LD_LIBRARY_PATH
