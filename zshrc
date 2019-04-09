@@ -534,3 +534,7 @@ alias dlbox8='ssh dlbox8'
 alias dlbox9='ssh dlbox9'
 alias dlboxs1='ssh dlboxs1'
 alias dlboxs2='ssh dlboxs2'
+
+alias jararacussu='ssh jararacussu'
+alias sjararacussu='ssh sjararacussu'
+alias bigdaddy='ssh bigdaddy'
