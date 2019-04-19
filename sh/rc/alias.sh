@@ -181,8 +181,18 @@ togif () {
   fi
   local INPUT_FILE=$1
   local OUTPUT_FILE="${INPUT_FILE%.*}".gif
-  video_to_video $INPUT_FILE $OUTPUT_FILE --fps 3 --speed 3
+  video_to_video $INPUT_FILE $OUTPUT_FILE --fps 3 --speed 9
 }
+
+if [ $(uname) = Linux ]; then
+  trash() {
+    if [ $# -eq 0 ]; then
+      echo "usage: $0 FILES"
+      return 1
+    fi
+    mv $* ~/.local/share/Trash
+  }
+fi
 
 # ----------------------------------------------------
 # Show Setup
