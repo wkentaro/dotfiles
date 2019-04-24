@@ -175,13 +175,15 @@ if hash gls &>/dev/null; then
 fi
 
 togif () {
-  if [ $# -ne 1 ]; then
-    echo "Usage: $0 INPUT_FILE"
+  if [ $# -lt 1 ]; then
+    echo "usage: $0 INPUT_FILE [FPS] [SPEED]"
     return 1
   fi
-  local INPUT_FILE=$1
-  local OUTPUT_FILE="${INPUT_FILE%.*}".gif
-  video_to_video $INPUT_FILE $OUTPUT_FILE --fps 3 --speed 9
+  local input_file=$1
+  local output_file="${input_file%.*}".gif
+  local fps=${2:-3}
+  local speed=${3:-1}
+  video_to_video $input_file $output_file --fps $fps --speed $speed
 }
 
 if [ $(uname) = Linux ]; then
