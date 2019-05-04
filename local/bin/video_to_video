@@ -72,7 +72,7 @@ def main():
     scale = dst_fps / src_fps
 
     j = -1
-    for i, img in tqdm.tqdm(enumerate(reader), total=len(reader)):
+    for i, img in enumerate(tqdm.tqdm(reader)):
         if int(round((i * scale))) != j:
             if args.size is not None:
                 scale = math.sqrt(args.size / (img.shape[0] * img.shape[1]))
