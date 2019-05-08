@@ -174,27 +174,32 @@ if hash gls &>/dev/null; then
   alias sleep=gsleep
 fi
 
-togif () {
-  if [ $# -lt 1 ]; then
-    echo "usage: $0 INPUT_FILE [FPS] [SPEED]"
+# togif () {
+#   if [ $# -lt 1 ]; then
+#     echo "usage: $0 INPUT_FILE [FPS] [SPEED]"
+#     return 1
+#   fi
+#   local input_file=$1
+#   local output_file="${input_file%.*}".gif
+#   local fps=${2:-3}
+#   local speed=${3:-1}
+#   video_to_video $input_file $output_file --fps $fps --speed $speed
+# }
+
+trash() {
+  if [ $# -eq 0 ]; then
+    echo "usage: $0 FILES"
     return 1
   fi
-  local input_file=$1
-  local output_file="${input_file%.*}".gif
-  local fps=${2:-3}
-  local speed=${3:-1}
-  video_to_video $input_file $output_file --fps $fps --speed $speed
-}
-
-if [ $(uname) = Linux ]; then
-  trash() {
-    if [ $# -eq 0 ]; then
-      echo "usage: $0 FILES"
-      return 1
-    fi
+  if [ $(uname) = Linux ]; then
     mv $* ~/.local/share/Trash
-  }
-fi
+  elif [ $(uname) = Darwin ]; then
+    mv $* ~/.Trash
+  else
+    echo "ERROR: unsupported os: $(uname)"
+    return 1
+  fi
+}
 
 # ----------------------------------------------------
 # Show Setup
