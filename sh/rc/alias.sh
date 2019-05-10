@@ -158,7 +158,7 @@ if command ls --color &>/dev/null; then
     alias lsa='ls -lah --show-control-chars --color=always'
   fi
 else
-  export LSCOLORS=ExFxBxDxCxegedabagacad
+  export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
   alias ls='ls -G'
   alias la='ls -ah'
   alias ll='ls -lh'
@@ -168,22 +168,6 @@ fi
 # ssh
 # alias ssh='ssh -C -X'
 # alias ssh='ssh -c arcfour'
-
-if hash gls &>/dev/null; then
-  alias sleep=gsleep
-fi
-
-# togif () {
-#   if [ $# -lt 1 ]; then
-#     echo "usage: $0 INPUT_FILE [FPS] [SPEED]"
-#     return 1
-#   fi
-#   local input_file=$1
-#   local output_file="${input_file%.*}".gif
-#   local fps=${2:-3}
-#   local speed=${3:-1}
-#   video_to_video $input_file $output_file --fps $fps --speed $speed
-# }
 
 trash() {
   if [ $# -eq 0 ]; then
