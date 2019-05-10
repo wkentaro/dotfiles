@@ -157,13 +157,12 @@ if command ls --color &>/dev/null; then
     alias ll='ls -lh --show-control-chars --color=always'
     alias lsa='ls -lah --show-control-chars --color=always'
   fi
-elif which gls &>/dev/null; then
-  eval $(gdircolors $HOME/.dircolors.256dark 2>/dev/null)
-  alias ls2='/bin/ls -G'
-  alias ls='gls --show-control-chars --color=always'
-  alias la='gls -ah --show-control-chars --color=always'
-  alias ll='gls -lh --show-control-chars --color=always'
-  alias lsa='gls -lah --show-control-chars --color=always'
+else
+  export LSCOLORS=ExFxBxDxCxegedabagacad
+  alias ls='ls -G'
+  alias la='ls -ah'
+  alias ll='ls -lh'
+  alias lsa='ls -lah'
 fi
 
 # ssh
