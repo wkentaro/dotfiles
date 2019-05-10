@@ -31,10 +31,9 @@ if [ -d "/opt/ros" ]; then
   }
   # image_view
   image_view () {
-    rosrun image_view image_view image:=$@
-  }
-  image_view2 () {
-    rosrun image_view2 image_view2 image:=$@
+    local topic=$1
+    shift
+    rosrun image_view image_view image:=$topic $*
   }
   _image_topics () {
     local -a reply
