@@ -349,6 +349,8 @@ let g:quickrun_config = {
 \}
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 nnoremap <silent> <Leader>r :QuickRun<CR>
+" nnoremap <silent> <Leader>m :w<CR> :QuickRun -exec make -outputter/error/success "null" -outputter/error "message"<CR>
+nnoremap <silent> <Leader>m :w<CR> :QuickRun -exec make -outputter/error/success "message" -outputter/error "message"<CR>
 
 " --------------------------------------------------------
 " vim-snippets
