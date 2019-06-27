@@ -99,7 +99,7 @@ snippet table
 alias   \begin{table} \table
     \begin{table}[${1}]
         \centering
-        \caption{{\bf ${2}}}
+        \caption{${2}}
         \label{table:${3}}
         \begin{tabular}{${4}}
             ${5}
@@ -219,66 +219,33 @@ alias   \begin{figure} \figure
     \begin{figure}[${1:htbp}]
         \centering
         \includegraphics[width=\linewidth]{${2}}
-        \caption{{\bf $2}}
+        \caption{$2}
         \label{figure:$2}
     \end{figure}
 
-snippet subfloath
-alias \subfloat (horizontal)
-    \subfloat[]{
-            \includegraphics[width=${1:}\textwidth]{${2}}
-            \figlab{${3}}
+snippet subfigureh
+alias \subfigure (horizontal)
+    \subfigure[]{
+        \includegraphics[width=${1:}\textwidth]{${2}}
+        \label{figure:${3}}
     }
-    \subfloat[]{
-            \includegraphics[width=${4:}\textwidth]{${5}}
-            \figlab{${6}}
+    \subfigure[]{
+        \includegraphics[width=${4:}\textwidth]{${5}}
+        \label{figure:${6}}
     }
 
-snippet subfloatv
-alias   \subfloat (vertical)
+snippet subfigurev
+alias   \subfigure (vertical)
     \begin{tabular}{c}
-        \subfloat[]{
+        \subfigure[]{
             \includegraphics[width=${1:}\textwidth]{${2}}
-            \figlab{${3}}
+            \label{figure:${3}}
         }
-        \subfloat[]{
-                \includegraphics[width=${4:}\textwidth]{${5}}
-                \figlab{${6}}
+        \subfigure[]{
+            \includegraphics[width=${4:}\textwidth]{${5}}
+            \label{figure:${6}}
         }
     \end{tabular}
-
-snippet figsubfloath
-alias   \figure \subfloat (horizontal)
-    \begin{figure}[htbp]
-        \centering
-        \subfloat[]{
-                \includegraphics[width=${1:}\textwidth]{${2}}
-                \figlab{${3}}
-        }
-        \subfloat[]{
-                \includegraphics[width=${4:}\textwidth]{${5}}
-                \figlab{${6}}
-        }
-        \caption{${7}}
-        \label{${8}}
-    \end{figure}
-
-snippet figsubfloatv
-alias   \figure \subfloat (vertical)
-    \begin{figure}[htbp]
-        \begin{tabular}{c}
-                \subfloat[]{
-                        \includegraphics[width=${1:}\textwidth]{${2}}
-                        \figlab{${3}}
-                }
-                \subfloat[]{
-                        \includegraphics[width=${4:}\textwidth]{${5}}
-                        \figlab{${6}}
-                }
-        \end{tabular}
-        \caption{${7}}
-        \label{${8}}
-    \end{figure}
 
 snippet filecontents
 alias   \begin{filecontents} \filecontents
