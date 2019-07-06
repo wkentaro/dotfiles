@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+
+import os
+import sys
+
+import linebot
+
+
+message = sys.stdin.read().strip()
+api = linebot.LineBotApi(os.environ['LINEBOT_TOKEN'])
+api.push_message(
+    os.environ['LINEBOT_USER_ID'],
+    linebot.models.TextSendMessage(message),
+)
