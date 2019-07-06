@@ -66,7 +66,7 @@ def install_dotfiles(dry_run=False):
     home_dir = osp.expanduser('~')
 
     with open(osp.join(this_dir, 'dotfiles.yaml')) as f:
-        link_config = yaml.load(f)
+        link_config = yaml.safe_load(f)
 
     for from_, to in link_config.items():
         if isinstance(to, str):
