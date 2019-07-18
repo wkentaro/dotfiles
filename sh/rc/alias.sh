@@ -334,5 +334,5 @@ if [ "$(uname)" = "Darwin" ]; then
 fi
 
 nhup () {
-  nohup $* > nohup_$(date +%Y%m%d_%H%M%S.%N).out &
+  nohup $* > nohup.$(date +%Y%m%d_%H%M%S.%N).out &
 }
