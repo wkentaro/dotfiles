@@ -281,9 +281,9 @@ psf () {
     echo "Usage: $0 PATTERN"
     return 1
   fi
-  ps auxwww | grep $1 | grep -v grep
+  pgrep -f -a $1
 }
-pskill() {
+psk() {
   while read data; do
     echo $data | awk '{print $2}' | xargs -n1 kill -9
   done
