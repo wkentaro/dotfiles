@@ -332,3 +332,7 @@ if [ "$(uname)" = "Darwin" ]; then
     DYLD_FRAMEWORK_PATH=$base_dir/Frameworks $base_dir/MacOS/meshlabserver $*
   }
 fi
+
+nhup () {
+  nohup $* > nohup_$(date +%Y%m%d_%H%M%S.%N).out &
+}
