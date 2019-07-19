@@ -14,8 +14,8 @@ alias mv='mv -i'
 alias cp='cp -i'
 
 # date
-alias datestamp='date +"%Y-%m-%d"'
-alias timestamp='date +"%Y-%m-%d_%H-%M-%S"'
+alias datestamp='date +"%Y%m%d"'
+alias timestamp='date +"%Y%m-d_%H%M%S.%N"'
 
 # mv
 alias mvi='mv -i'
@@ -336,3 +336,5 @@ fi
 nhup () {
   nohup $* > nohup.$(date +%Y%m%d_%H%M%S.%N).out &
 }
+
+alias k9='kill -9'
