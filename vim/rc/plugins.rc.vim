@@ -187,7 +187,6 @@ else
   elseif s:codename == 'xenial'
     let g:clang_library_path = '/usr/lib/llvm-3.8/lib'
   else
-    echo "Unsupported linux version"
   endif
 endif
 let g:clang_user_options = '-std=c++11'
