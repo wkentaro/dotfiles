@@ -15,7 +15,11 @@ fi
 TMP_DIR=$(mktemp -d)
 
 cd $TMP_DIR
-wget $URL -O geckodriver.tar.gz
+if which wget &>/dev/null; then
+  wget $URL -O geckodriver.tar.gz
+else
+  curl -L $URL -o geckodriver.tar.gz
+fi
 tar zxvf geckodriver.tar.gz
 mv geckodriver $HOME/.local/bin/geckodriver
 cd -
