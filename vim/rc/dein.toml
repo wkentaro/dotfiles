@@ -125,9 +125,9 @@ repo = 'hail2u/vim-css3-syntax'
 # For JavaScript
 repo = 'pangloss/vim-javascript'
 
-[[plugins]]
-# Show variables and functions
-repo = 'vim-scripts/taglist.vim'
+ # [[plugins]]
+ # # Show variables and functions
+ # repo = 'vim-scripts/taglist.vim'
 
 [[plugins]]
 # Syntastic Check
