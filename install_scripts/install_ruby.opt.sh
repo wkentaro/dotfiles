@@ -10,7 +10,12 @@ sudo apt-get install -qq -y git-core curl zlib1g-dev build-essential libssl-dev 
 TMPDIR=$(mktemp -d)
 cd $TMPDIR
 
-wget -q http://ftp.ruby-lang.org/pub/ruby/2.4/ruby-2.4.1.tar.gz
+URL=http://ftp.ruby-lang.org/pub/ruby/2.4/ruby-2.4.1.tar.gz
+if which wget &>/dev/null; then
+  wget -q $URL
+else
+  curl -s -L -O $URL
+fi
 tar -zxf ruby-2.4.1.tar.gz
 cd ruby-2.4.1
 
