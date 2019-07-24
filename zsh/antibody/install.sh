@@ -12,8 +12,12 @@ VERSION="v3.1.4"
 OS="$(uname -s | tr "[:upper:]" "[:lower:]")"
 ARCH="$(uname -m)"
 mkdir -p ~/.zsh/antibody/antibody
-wget -q -O /tmp/antibody.tar.gz \
-  "${BASE_URL}/${VERSION}/antibody_${OS}_${ARCH}.tar.gz"
+URL="${BASE_URL}/${VERSION}/antibody_${OS}_${ARCH}.tar.gz"
+if which wget &>/dev/null; then
+  wget -q -O /tmp/antibody.tar.gz $URL
+else
+  curl -s -L -o /tmp/antibody.tar.gz $URL
+fi
 tar xvzf /tmp/antibody.tar.gz -C ~/.zsh/antibody/antibody
 
 mkdir -p ~/.local/bin
