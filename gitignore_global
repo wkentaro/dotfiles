@@ -29,3 +29,6 @@ nohup.out
 nohup_*.out
 
 .mypy_cache
+
+external/
+this_vis/
