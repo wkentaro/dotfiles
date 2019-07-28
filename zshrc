@@ -485,10 +485,6 @@ fi
 
 show-cuda
 
-if which dropbox &>/dev/null; then
-  echo "Dropbox: $(dropbox status | sed 2d)"
-fi
-
 if [ ! -z $CONDA_DEFAULT_ENV ]; then
   conda_path=$(dirname $CONDA_PYTHON_EXE)
   conda_env=$CONDA_DEFAULT_ENV
