@@ -3,6 +3,7 @@
 import argparse
 import os.path as osp
 import shlex
+import shutil
 import subprocess
 import tempfile
 
@@ -30,11 +31,14 @@ def speed_up_video_with_mencoder(video_file, times, out_file):
     writer.close()
 
 
-def speed_up_video(video_file, times):
+def speed_up_video(video_file, times, overwrite=False):
     base, ext = osp.splitext(video_file)
     out_file = base + '_x{times}'.format(times=times) + ext
 
     speed_up_video_with_mencoder(video_file, times, out_file)
+
+    if overwrite:
+        shutil.move(out_file, video_file)
 
 
 def main():
@@ -42,13 +46,16 @@ def main():
     parser.add_argument('video_files', nargs='+', help='File to convert.')
     parser.add_argument('-x', '--times', type=float, required=True,
                         help='How many times to speed/slow up/down the video.')
+    parser.add_argument('--overwrite', action='store_true',
+                        help='overwrite the camera')
     args = parser.parse_args()
 
-    video_files = args.video_files
-    times = args.times
-
-    for file_ in video_files:
-        speed_up_video(video_file=file_, times=times)
+    for file_ in args.video_files:
+        speed_up_video(
+            video_file=file_,
+            times=args.times,
+            overwrite=args.overwrite,
+        )
 
 
 if __name__ == '__main__':
