@@ -282,7 +282,7 @@ psf () {
     echo "Usage: $0 PATTERN"
     return 1
   fi
-  pgrep -f -a $1
+  ps auxwww | grep $1 | grep -v grep
 }
 psk() {
   while read data; do
