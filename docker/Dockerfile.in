@@ -28,11 +28,6 @@ RUN \
     zsh
 
 RUN \
-  easy_install -U pip && \
-  pip install -U pip setuptools && \
-  pip install percol
-
-RUN \
   useradd wkentaro && \
   echo wkentaro:wkentaro | chpasswd && \
   mkdir -p /home/wkentaro && \
@@ -43,6 +38,9 @@ RUN \
   chsh -s /bin/zsh wkentaro
 
 USER wkentaro
+
+RUN \
+  pip install --user percol
 
 RUN \
   git clone -q --recursive \
