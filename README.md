@@ -7,7 +7,7 @@
 </h4>
 
 <div align="center">
-  <a href="https://travis-ci.org/wkentaro/dotfiles"><img src="https://travis-ci.org/wkentaro/dotfiles.svg?branch=master"></a>
+  <a href="https://github.com/wkentaro/dotfiles/actions"><img src="https://github.com/wkentaro/dotfiles/workflows/CI/badge.svg"></a>
   <a href="https://hub.docker.com/r/wkentaro/dotfiles/"><img src="https://img.shields.io/docker/build/wkentaro/dotfiles.svg"></a>
 </div>
 
