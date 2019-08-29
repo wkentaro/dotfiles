@@ -1,0 +1,23 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Update submodules
+      run: |
+        git submodule update --init --recursive
+
+    - name: Install system requirements
+      run: |
+        sudo apt-get install -qq -y python-setuptools python-pip python-yaml
+
+    - name: Install this project
+      run: |
+        ./install.py
