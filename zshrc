@@ -488,8 +488,7 @@ show-cuda
 if [ ! -z $CONDA_DEFAULT_ENV ]; then
   conda_path=$(dirname $CONDA_PYTHON_EXE)
   conda_env=$CONDA_DEFAULT_ENV
-  conda $conda_path/deactivate
-  conda $conda_path/activate $conda_env
+  source $conda_path/activate $conda_env
   # if [ ! -z $CONDA_PREFIX ]; then
   #   source $CONDA_PREFIX/bin/activate $CONDA_DEFAULT_ENV
   # else
