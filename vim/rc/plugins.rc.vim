@@ -258,7 +258,7 @@ endif
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 let g:vimfiler_ignore_pattern = '\%(.pyc\)$'
-noremap <silent> <Leader>f :VimFiler -split -explorer<CR>
+noremap <silent> <Leader>f :VimFiler -split -explorer -winwidth=50<CR>
 
 " --------------------------------------------------------
 " html5.vim
