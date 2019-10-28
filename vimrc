@@ -199,7 +199,7 @@ if v:version >= 704
 endif
 
 
-" FIXME: https://github.com/davidhalter/jedi-vim/issues/889#issuecomment-449547214
-if has('mac')
-  py3 sys.executable = '/usr/local/bin/python3'
-endif
+" " FIXME: https://github.com/davidhalter/jedi-vim/issues/889#issuecomment-449547214
+" if has('mac')
+"   py3 sys.executable = '/usr/local/bin/python3'
+" endif
