@@ -126,6 +126,7 @@ set noshowmode
 set number
 
 " Highlight dynamically as pattern is typed
+set nohlsearch
 set incsearch
 set showmatch
 set smartcase
