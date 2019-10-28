@@ -29,10 +29,10 @@ repo = 'tpope/vim-repeat'
 # https://github.com/nathanaelkane/vim-indent-guides
 repo = 'nathanaelkane/vim-indent-guides'
 
-[[plugins]]
-# Surrounding editing
-# https://github.com/tpope/vim-surround
-repo = 'tpope/vim-surround'
+# [[plugins]]
+# # Surrounding editing
+# # https://github.com/tpope/vim-surround
+# repo = 'tpope/vim-surround'
 
 [[plugins]]
 # Easy commenting tool
@@ -42,22 +42,22 @@ repo = 'tomtom/tcomment_vim'
 [[plugins]]
 repo = 'bling/vim-airline'
 
-[[plugins]]
-repo = 'itchyny/calendar.vim'
+# [[plugins]]
+# repo = 'itchyny/calendar.vim'
 
 [[plugins]]
 # git diff, log
 # https://github.com/tpope/vim-fugitive
 repo = 'tpope/vim-fugitive'
 
-[[plugins]]
-repo = 'cohama/agit.vim'
+# [[plugins]]
+# repo = 'cohama/agit.vim'
 
-[[plugins]]
-repo = 'idanarye/vim-merginal'
+# [[plugins]]
+# repo = 'idanarye/vim-merginal'
 
-[[plugins]]
-repo = 'AndrewRadev/gapply.vim'
+# [[plugins]]
+# repo = 'AndrewRadev/gapply.vim'
 
 [[plugins]]
 # https://github.com/gregsexton/gitv
@@ -84,15 +84,15 @@ repo = 'Shougo/neosnippet.vim'
 # [[plugins]]
 # repo = 'Shougo/neosnippet-snippets'
 
-[[plugins]]
-# RestructuredText
-repo = 'Rykka/riv.vim'
+# [[plugins]]
+# # RestructuredText
+# repo = 'Rykka/riv.vim'
 
-[[plugins]]
-repo = 'greyblake/vim-preview'
+# [[plugins]]
+# repo = 'greyblake/vim-preview'
 
-[[plugins]]
-repo = 'thinca/vim-ref'
+# [[plugins]]
+# repo = 'thinca/vim-ref'
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
@@ -108,26 +108,26 @@ repo = 'flazz/vim-colorschemes'
 # python completion
 repo = 'davidhalter/jedi-vim'
 
-[[plugins]]
-# For HTML and XML
-# https://github.com/mattn/emmet-vim
-repo = 'mattn/emmet-vim'
+# [[plugins]]
+# # For HTML and XML
+# # https://github.com/mattn/emmet-vim
+# repo = 'mattn/emmet-vim'
 
-[[plugins]]
-# https://github.com/othree/html5.vim
-repo = 'othree/html5.vim'
+# [[plugins]]
+# # https://github.com/othree/html5.vim
+# repo = 'othree/html5.vim'
 
-[[plugins]]
-# For CSS
-repo = 'hail2u/vim-css3-syntax'
+# [[plugins]]
+# # For CSS
+# repo = 'hail2u/vim-css3-syntax'
 
-[[plugins]]
-# For JavaScript
-repo = 'pangloss/vim-javascript'
+# [[plugins]]
+# # For JavaScript
+# repo = 'pangloss/vim-javascript'
 
- # [[plugins]]
- # # Show variables and functions
- # repo = 'vim-scripts/taglist.vim'
+# [[plugins]]
+# # Show variables and functions
+# repo = 'vim-scripts/taglist.vim'
 
 [[plugins]]
 # Syntastic Check
@@ -138,19 +138,19 @@ repo = 'scrooloose/syntastic'
 # https://github.com/Rip-Rip/clang_complete
 repo = 'Rip-Rip/clang_complete'
 
-[[plugins]]
-# https://github.com/greyblake/vim-preview
-repo = 'greyblake/vim-preview'
+# [[plugins]]
+# # https://github.com/greyblake/vim-preview
+# repo = 'greyblake/vim-preview'
 
 [[plugins]]
 # https://github.com/gerw/vim-latex-suite
 repo = 'gerw/vim-latex-suite'
 
-[[plugins]]
-repo = 'kchmck/vim-coffee-script'
+# [[plugins]]
+# repo = 'kchmck/vim-coffee-script'
 
-[[plugins]]
-repo = 'claco/jasmine.vim'
+# [[plugins]]
+# repo = 'claco/jasmine.vim'
 
 [[plugins]]
 repo = 'rhysd/committia.vim'
@@ -169,3 +169,6 @@ repo = 'ctrlpvim/ctrlp.vim'
 
 [[plugins]]
 repo = 'hotwatermorning/auto-git-diff'
+
+[[plugins]]
+repo = 'cespare/vim-toml'
