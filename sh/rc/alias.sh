@@ -26,10 +26,12 @@ alias rmi='rm -i'
 alias rmr='rm -r'
 
 # open
-if type xdg-open &>/dev/null; then
-  alias open='xdg-open $@ 2>/dev/null'
-else
-  alias open='gnome-open $@ 2>/dev/null'
+if [ "$(uname)" = "Linux" ]; then
+  if type xdg-open &>/dev/null; then
+    alias open='xdg-open $@ 2>/dev/null'
+  else
+    alias open='gnome-open $@ 2>/dev/null'
+  fi
 fi
 alias o='open'
 alias o.='open .'
