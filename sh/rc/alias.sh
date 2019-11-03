@@ -146,31 +146,31 @@ fi
 # ls aliases
 # ----------------------------------------------------
 alias sl='ls'
-if type dircolors &>/dev/null; then
-  [ -f $HOME/.dircolors.256dark ] && eval $(dircolors $HOME/.dircolors.256dark 2>/dev/null)
-fi
-if command ls --color &>/dev/null; then
-  # GNU ls
-  if [ $TERM = "dumb" ]; then
-    # Disable colors in GVim
-    alias ls='ls --show-control-chars'
-    alias la='ls -ah --show-control-chars'
-    alias ll='ls -lh --show-control-chars'
-    alias lsa='ls -lah --show-control-chars'
-  else
-    # Color settings for zsh complete candidates
-    alias ls='ls --show-control-chars --color=always'
-    alias la='ls -ah --show-control-chars --color=always'
-    alias ll='ls -lh --show-control-chars --color=always'
-    alias lsa='ls -lah --show-control-chars --color=always'
-  fi
-else
-  export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
-  alias ls='ls -G'
-  alias la='ls -ah'
-  alias ll='ls -lh'
-  alias lsa='ls -lah'
-fi
+# if type dircolors &>/dev/null; then
+#   [ -f $HOME/.dircolors.256dark ] && eval $(dircolors $HOME/.dircolors.256dark 2>/dev/null)
+# fi
+# if command ls --color &>/dev/null; then
+#   # GNU ls
+#   if [ $TERM = "dumb" ]; then
+#     # Disable colors in GVim
+#     alias ls='ls --show-control-chars'
+#     alias la='ls -ah --show-control-chars'
+#     alias ll='ls -lh --show-control-chars'
+#     alias lsa='ls -lah --show-control-chars'
+#   else
+#     # Color settings for zsh complete candidates
+#     alias ls='ls --show-control-chars --color=always'
+#     alias la='ls -ah --show-control-chars --color=always'
+#     alias ll='ls -lh --show-control-chars --color=always'
+#     alias lsa='ls -lah --show-control-chars --color=always'
+#   fi
+# else
+#   export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
+#   alias ls='ls -G'
+#   alias la='ls -ah'
+#   alias ll='ls -lh'
+#   alias lsa='ls -lah'
+# fi
 
 # ssh
 # alias ssh='ssh -C -X'
@@ -364,3 +364,4 @@ alias k9='kill -9'
 # }
 
 alias diff=diff-so-fancy
+alias ls=exa
