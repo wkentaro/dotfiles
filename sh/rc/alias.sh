@@ -346,19 +346,21 @@ nhup () {
 
 alias k9='kill -9'
 
-diff () {
-        if zstyle -t ':prezto:module:utility:diff' color
-        then
-                if (( $+commands[colordiff] ))
-                then
-                        command colordiff --unified "$@"
-                elif (( $+commands[git] ))
-                then
-                        git --no-pager diff --color=auto --no-ext-diff --no-index "$@"
-                else
-                        command diff --unified "$@"
-                fi
-        else
-                command diff --unified "$@"
-        fi
-}
+# diff () {
+#         if zstyle -t ':prezto:module:utility:diff' color
+#         then
+#                 if (( $+commands[colordiff] ))
+#                 then
+#                         command colordiff --unified "$@"
+#                 elif (( $+commands[git] ))
+#                 then
+#                         git --no-pager diff --color=auto --no-ext-diff --no-index "$@"
+#                 else
+#                         command diff --unified "$@"
+#                 fi
+#         else
+#                 command diff --unified "$@"
+#         fi
+# }
+
+alias diff=diff-so-fancy
