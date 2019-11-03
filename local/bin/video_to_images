@@ -27,7 +27,7 @@ def main():
     n_frames = meta_data['nframes']
 
     for i, img in tqdm.tqdm(enumerate(reader), total=n_frames):
-        if rate is None or i % int(round(fps / rate)) == 0:
+        if rate is None or i % rate == 0:
             imageio.imsave(osp.join(out_dir, '%08d.jpg' % i), img)
 
 
