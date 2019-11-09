@@ -363,5 +363,8 @@ alias k9='kill -9'
 #         fi
 # }
 
-alias diff=diff-so-fancy
 alias ls=exa
+
+diff () {
+  command diff -u "$@" | diff-so-fancy
+}
