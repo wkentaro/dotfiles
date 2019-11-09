@@ -8,5 +8,6 @@ if ( $os =~ /linux/i ) {
   # brew install cpanminus
   # cpanm URI
   # brew install okular
-  $pdf_previewer = "open -a /usr/local/Cellar/okular/19.08.2/bin/okular.app";
+  # $pdf_previewer = "open -a /usr/local/Cellar/okular/19.08.2/bin/okular.app";
+  $pdf_previewer = "open -a /Applications/Skim.app";
 }
