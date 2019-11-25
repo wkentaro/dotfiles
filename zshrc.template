@@ -1,7 +1,6 @@
 source ~/.zshrc.wkentaro
 # export HUB_PROTOCOL=https
-# export VIM_COLORSCHEME=solarized
-# show-cuda
+export VIM_COLORSCHEME=solarized
 
 # source ~/ros/indigo/devel/setup.zsh
 # rossetip
