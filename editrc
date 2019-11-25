@@ -1,2 +1,0 @@
-bind -v
-bind ^I rl_complete
