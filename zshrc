@@ -485,16 +485,16 @@ fi
 
 show-cuda
 
-if [ ! -z $CONDA_DEFAULT_ENV ]; then
-  conda_path=$(dirname $CONDA_PYTHON_EXE)
-  conda_env=$CONDA_DEFAULT_ENV
-  source $conda_path/activate $conda_env
-  # if [ ! -z $CONDA_PREFIX ]; then
-  #   source $CONDA_PREFIX/bin/activate $CONDA_DEFAULT_ENV
-  # else
-  #   source $(dirname $CONDA_PYTHON_EXE)/activate $CONDA_DEFAULT_ENV
-  # fi
-fi
+# if [ ! -z $CONDA_DEFAULT_ENV ]; then
+#   conda_path=$(dirname $CONDA_PYTHON_EXE)
+#   conda_env=$CONDA_DEFAULT_ENV
+#   source $conda_path/activate $conda_env
+#   # if [ ! -z $CONDA_PREFIX ]; then
+#   #   source $CONDA_PREFIX/bin/activate $CONDA_DEFAULT_ENV
+#   # else
+#   #   source $(dirname $CONDA_PYTHON_EXE)/activate $CONDA_DEFAULT_ENV
+#   # fi
+# fi
 
 store_env_for_ros () {
   export _PYTHONPATH=$PYTHONPATH
