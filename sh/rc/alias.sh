@@ -370,6 +370,5 @@ fi
 diff () {
   command diff -u "$@" | diff-so-fancy
 }
-alias diff=diff-so-fancy
 
 which bat &>/dev/null && alias cat=bat
