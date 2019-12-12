@@ -120,6 +120,3 @@ bind -x '"\C-r": _replace_by_history'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-
-export CHAINER_DATASET_ROOT=$HOME/data/datasets
-
