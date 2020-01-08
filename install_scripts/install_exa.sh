@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$(uname)" = "Darwin" ]; then
-  brew install exa
+  brew list | egrep '^exa$' &>/dev/null || brew install exa
   exit 0
 fi
 
