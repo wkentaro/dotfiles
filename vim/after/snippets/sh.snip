@@ -97,7 +97,7 @@ options     head
 
 snippet     HERE
 abbr        HERE=...
-	HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+	HERE=$(realpath $(dirname ${BASH_SOURCE[0]}))
 
 snippet     func_echo_bold
 	echo_bold () {
