@@ -1,4 +1,0 @@
-#!/bin/bash
-
-
-ffmpeg -i $1 -c:v libx264 -c:a copy ${1/.avi/.mp4}
