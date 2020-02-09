@@ -17,7 +17,7 @@ def get_conferences_data():
     if not osp.exists(cache_dir):
         os.makedirs(cache_dir)
 
-    now = datetime.datetime.now(pytz.timezone('Asia/Tokyo'))
+    now = datetime.datetime.now(pytz.timezone('GMT'))
     cache_file = osp.join(cache_dir, now.strftime('%Y-%m-%d.yaml'))
 
     if osp.exists(cache_file):
@@ -33,21 +33,26 @@ def get_conferences_data():
 
     for conf in data:
         timezone = conf.get('timezone', 'America/New_York')
+        delta = datetime.timedelta(hours=0)
         if timezone == 'PST':
             timezone = 'US/Pacific'
         if timezone == 'AoE':
             timezone = 'Etc/GMT+12'
+        if timezone != 'UTC' and timezone[:3] == 'UTC':
+            delta = datetime.timedelta(hours=int(timezone[3:]))
+            timezone = 'UTC'
         deadline = dateutil.parser.parse(conf['deadline'])
         deadline = deadline.replace(tzinfo=pytz.timezone(timezone))
-        deadline = deadline.astimezone(pytz.timezone('Asia/Tokyo'))
+        deadline += delta
+        deadline = deadline.astimezone(pytz.timezone('GMT'))
         conf['deadline'] = deadline
         conf['remain'] = deadline - now
         yield conf
 
 
 def main():
-    now = datetime.datetime.now(pytz.timezone('Asia/Tokyo'))
-    headers = ['name', 'year', 'deadline', 'remain', 'sub']
+    now = datetime.datetime.now(pytz.timezone('GMT'))
+    headers = ['title', 'year', 'deadline', 'remain', 'sub']
     rows = []
     for conf in sorted(get_conferences_data(), key=lambda x: x['deadline']):
         if conf['deadline'] < now:
