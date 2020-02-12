@@ -29,7 +29,7 @@ for video_file in sorted(args.video_files):
         imageio.get_reader(video_file),
     ))
 
-writer = imageio.get_writer(args.out)
+writer = imageio.get_writer(args.out, fps=readers[0][1].get_meta_data()['fps'])
 i = 0
 images_blank = None
 pbar = tqdm.tqdm()
