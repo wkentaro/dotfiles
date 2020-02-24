@@ -289,11 +289,15 @@ psf () {
     echo "Usage: $0 PATTERN"
     return 1
   fi
-  ps auxwww | grep $1 | grep -v grep
+  ps auxwww | egrep $1 | grep -v grep
 }
 psk() {
-  while read data; do
-    echo $data | awk '{print $2}' | xargs -n1 kill -9
+  while read line; do
+    read -q "REPLY?[KILL?] [$line] [yn]: "
+    echo
+    if [ "$REPLY" == "y" ]; then
+      echo $line | awk '{print $2}' | xargs kill -9
+    fi
   done
 }
 alias pii='pip install'
