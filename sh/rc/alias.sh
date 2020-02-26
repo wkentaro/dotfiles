@@ -289,7 +289,7 @@ psf () {
     echo "Usage: $0 PATTERN"
     return 1
   fi
-  ps auxwww | egrep $1 | grep -v grep
+  ps auxwww | egrep $USER | egrep $1 | grep -v grep
 }
 psk() {
   while read line; do
