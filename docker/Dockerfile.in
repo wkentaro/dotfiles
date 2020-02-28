@@ -62,7 +62,7 @@ RUN \
 RUN \
   export LANG=en_US.UTF-8 && \
   export LC_ALL=$LANG && \
-  locale-gen --purge $LANG && \
+  locale-gen --purge $LANG
 
 RUN \
   chsh -s /usr/local/bin/zsh wkentaro
