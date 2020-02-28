@@ -18,6 +18,7 @@ RUN \
     git \
     lsb-release \
     python-dev \
+    python-pip \
     python-setuptools \
     python-yaml \
     software-properties-common \
