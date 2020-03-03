@@ -168,7 +168,7 @@ plugins=(
 for plugin in $plugins; do
   source $plugin
 done
-fpath=($HOME/.zsh/plugins $fpath)
+# fpath=($HOME/.zsh/plugins $fpath)
 
 # ----------------------------
 # Improved less option
