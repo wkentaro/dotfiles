@@ -132,7 +132,7 @@ export ENHANCD_DISABLE_HYPHEN=1
 
 # oh-my-zsh
 DISABLE_AUTO_UPDATE=true
-plugins=(git history python web-search vi-mode)
+plugins=(git github history python web-search vi-mode)
 ZSH=$HOME/.zsh/oh-my-zsh
 # FIXME: parser error in .zcompdump
 source $ZSH/oh-my-zsh.sh
