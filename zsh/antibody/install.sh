@@ -5,8 +5,6 @@ if [ -f ~/.local/bin/antibody ]; then
   exit 0
 fi
 
-set -x
-
 BASE_URL="https://github.com/caarlos0/antibody/releases/download"
 VERSION="v3.1.4"
 OS="$(uname -s | tr "[:upper:]" "[:lower:]")"
@@ -22,5 +20,3 @@ tar xvzf /tmp/antibody.tar.gz -C ~/.zsh/antibody/antibody
 
 mkdir -p ~/.local/bin
 ln -s ~/.zsh/antibody/antibody/antibody ~/.local/bin/antibody
-
-set +x
