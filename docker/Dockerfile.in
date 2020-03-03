@@ -5,6 +5,8 @@
 #
 FROM @upstream_image
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN \
   apt-get update -qq && \
   apt-get upgrade -qq -y && \
@@ -16,11 +18,14 @@ RUN \
     curl \
     fontconfig \
     git \
+    locales \
     lsb-release \
     python-dev \
     python-pip \
     python-setuptools \
     python-yaml \
+    python3-setuptools \
+    python3-pip \
     software-properties-common \
     sudo \
     unzip \
@@ -56,7 +61,7 @@ ENV HOME /home/wkentaro
 RUN \
   cd $HOME/.dotfiles/install_scripts && \
   set -e && \
-  for fname in $(command ls *.sh | grep -v -e '.*opt\.sh$'); do bash $fname || exit 1; done && \
+  for fname in $(command ls *.sh | grep -v -e '.*opt\.sh$'); do echo $fname; bash $fname || exit 1; done && \
   set +e
 
 RUN \
