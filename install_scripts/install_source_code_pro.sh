@@ -8,6 +8,11 @@ if [ -f ~/.fonts/SourceCodePro-Black.otf ]; then
   exit 0
 fi
 
+if ! which fc-cache &>/dev/null; then
+  echo "fc-cache is not installed"
+  exit 0
+fi
+
 set -x
 
 TMPDIR=$(mktemp -d)
