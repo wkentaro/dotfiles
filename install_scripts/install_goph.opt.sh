@@ -5,7 +5,6 @@ if [ "$(uname)" != "Linux" ]; then
 fi
 
 set -e
-set -x
 
 sudo apt-get install dconf-cli uuid-runtime
 bash -c  "$(wget -qO- https://git.io/vQgMr)"

@@ -5,8 +5,6 @@ if which rg &>/dev/null; then
   exit 1
 fi
 
-set -x
-
 TMPDIR=$(mktemp -d)
 cd $TMPDIR
 

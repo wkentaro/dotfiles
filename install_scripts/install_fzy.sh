@@ -4,8 +4,6 @@ if which fzy &>/dev/null; then
   exit 0
 fi
 
-set -x
-
 TMPDIR=$(mktemp -d)
 
 cd $TMPDIR
@@ -16,5 +14,3 @@ cd fzy-${VERSION}
 
 make PREFIX=$HOME/.local
 make install DESTDIR= PREFIX=$HOME/.local
-
-set +x
