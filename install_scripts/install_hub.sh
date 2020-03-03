@@ -6,8 +6,6 @@ elif [ "$(uname)" = "Darwin" ]; then
   exit 0
 fi
 
-sudo mkdir -p /usr/local/share/man/man1
-
 TMPDIR=$(mktemp -d)
 VERSION='2.5.1'
 
@@ -20,7 +18,7 @@ mkdir -p $HOME/.local/bin
 cp hub-linux-amd64-$VERSION/bin/hub $HOME/.local/bin/hub
 
 mkdir -p $HOME/.bash_completion.d
-sudo cp hub-linux-amd64-$VERSION/etc/hub.bash_completion.sh $HOME/.bash_completion.d/hub.bash_completion.sh
+cp hub-linux-amd64-$VERSION/etc/hub.bash_completion.sh $HOME/.bash_completion.d/hub.bash_completion.sh
 
 # installed as oh-my-zsh plugin
 # mkdir -p $HOME/.zsh/oh-my-zsh/completions
