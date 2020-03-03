@@ -119,6 +119,11 @@ source $HOME/.zsh/antibody/path.zsh
 
 antibody bundle < $HOME/.zsh/antibody/bundles.txt
 
+# for rupa/z
+if [ ! -e $HOME/.z ]; then
+  touch $HOME/.z
+fi
+
 # load theme
 if [[ $MY_ZSH_THEME = "" ]]; then
   antibody bundle wkentaro/wkentaro.zsh-theme
