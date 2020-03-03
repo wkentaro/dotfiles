@@ -1,5 +1,7 @@
 bash:
   .bash
+bash_completion:
+  .bash_completion
 bashrc:
   .bashrc.wkentaro
 config/catkin/verb_aliases/01-roslint.yaml:
