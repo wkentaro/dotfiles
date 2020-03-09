@@ -5,5 +5,5 @@ if [ -e $HOME/.local/bin/imgcat ]; then
 fi
 
 if which pip3 &>/dev/null; then
-  pip3 install -q --user imgcat
+  pip3 install --user imgcat
 fi
