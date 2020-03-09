@@ -16,8 +16,8 @@ jobs:
 
     - name: Install system requirements
       run: |
-        sudo apt-get install -qq -y python-setuptools python-pip python-yaml
+        sudo apt-get install -qq -y python3-setuptools python3-pip python3-yaml
 
     - name: Install this project
       run: |
-        ./install.py
+        python3 install.py
