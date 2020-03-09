@@ -38,13 +38,12 @@ RUN \
   export LC_ALL=$LANG && \
   locale-gen --purge $LANG
 
-RUN \
-  useradd wkentaro && \
-  echo wkentaro:wkentaro | chpasswd && \
-  mkdir -p /home/wkentaro && \
-  chown -R wkentaro:wkentaro /home/wkentaro && \
-  adduser wkentaro sudo && \
-  chsh -s /usr/bin/zsh wkentaro
+RUN useradd wkentaro && \
+    echo "user ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/user && \
+    chmod 0440 /etc/sudoers.d/user && \
+    mkdir -p /home/wkentaro && \
+    chown wkentaro:wkentaro /home/wkentaro && \
+    chsh -s /usr/bin/zsh wkentaro
 
 USER wkentaro
 
@@ -56,6 +55,6 @@ RUN \
   echo 'source $HOME/.zshrc.wkentaro' > ~/.zshrc
 
 USER wkentaro
-ENV HOME /home/wkentaro
+WORKDIR /home/wkentaro
 ENV SHELL /usr/bin/zsh
 CMD /usr/bin/zsh
