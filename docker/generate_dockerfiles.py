@@ -20,7 +20,7 @@ def main():
     args[0] = osp.realpath(args[0])
 
     template = Template(open(osp.join(here, 'Dockerfile.in')).read())
-    for dist in ['trusty', 'xenial']:
+    for dist in ['xenial']:
         content = template.substitute({
             'timestamp': datetime.datetime.now(pytz.utc).isoformat(),
             'command': ' '.join(args),
