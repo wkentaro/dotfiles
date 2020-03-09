@@ -39,8 +39,8 @@ RUN \
   locale-gen --purge $LANG
 
 RUN useradd wkentaro && \
-    echo "user ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/user && \
-    chmod 0440 /etc/sudoers.d/user && \
+    echo "wkentaro ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/wkentaro && \
+    chmod 0440 /etc/sudoers.d/wkentaro && \
     mkdir -p /home/wkentaro && \
     chown wkentaro:wkentaro /home/wkentaro && \
     chsh -s /usr/bin/zsh wkentaro
