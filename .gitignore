@@ -1,6 +1,8 @@
 /vim/bundle/
 /vim/.netrwhist
 
+/zsh/antibody/antibody/
+
 /private/
 
 *.py[cdo]
