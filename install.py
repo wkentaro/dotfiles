@@ -24,7 +24,7 @@ def run_command(cmd, cwd=None, dry_run=False):
     cwd = os.getcwd() if cwd is None else cwd
     print('+ cd %s && %s' % (cwd, cmd))
     if not dry_run:
-        subprocess.call(cmd, shell=True, cwd=cwd)
+        subprocess.check_call(cmd, shell=True, cwd=cwd)
 
 
 def link_file(from_, to, dry_run=False):
