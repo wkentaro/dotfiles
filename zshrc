@@ -102,9 +102,6 @@ if [ -z $GITHUB_USER ]; then
   export GITHUB_USER='wkentaro'
 fi
 
-# Server in lab
-export SSH_USER='wada'
-
 # Homebrew
 export HOMEBREW_NO_AUTO_UPDATE=1
 
