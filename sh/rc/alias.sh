@@ -183,7 +183,7 @@ trash() {
     return 1
   fi
   if [ $(uname) = Linux ]; then
-    mv $* ~/.local/share/Trash
+    mv $* ~/.local/share/Trash/files
   elif [ $(uname) = Darwin ]; then
     mv $* ~/.Trash
   else
