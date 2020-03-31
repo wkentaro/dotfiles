@@ -86,6 +86,3 @@ zshrc:
 zshrc.template:
   name: .zshrc
   type: copy
-matplotlib/matplotlibrc:
-  name: .matplotlib/matplotlibrc
-  uname: Darwin
