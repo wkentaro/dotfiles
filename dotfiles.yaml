@@ -56,8 +56,6 @@ pythonstartup:
   .pythonstartup
 ptpython/config.py:
   .ptpython/config.py
-roseus_completions:
-  .roseus_completions
 sh:
   .sh
 tmux:
