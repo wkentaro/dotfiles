@@ -128,9 +128,12 @@ else
   antibody bundle $MY_ZSH_THEME
 fi
 
-# enhancd
-export ENHANCD_DISABLE_HOME=1
-export ENHANCD_DISABLE_HYPHEN=1
+# autoenv
+export AUTOENV_CHECK_AUTH=0
+
+# # enhancd
+# export ENHANCD_DISABLE_HOME=1
+# export ENHANCD_DISABLE_HYPHEN=1
 
 # oh-my-zsh
 DISABLE_AUTO_UPDATE=true
