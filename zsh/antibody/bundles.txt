@@ -1,6 +1,6 @@
 # hchbaw/opp.zsh  # obsolete
 # b4b4r07/enhancd
-Tarrasch/zsh-autoenv
+wkentaro/zsh-autoenv
 # Tarrasch/zsh-bd
 rupa/z
 zsh-users/zsh-completions
