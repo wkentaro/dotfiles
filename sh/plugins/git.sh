@@ -38,7 +38,7 @@ gcauto () {
 alias gsti='git status --ignored'
 
 # Use hub as git client
-type hub &>/dev/null && alias git=hub
+type hub &>/dev/null && eval "$(hub alias -s)"
 
 alias ga.='git add .'
 alias co='git checkout'
