@@ -59,6 +59,7 @@ alias py='python'
 alias ipy='ipython'
 alias ipp='ptipython'
 alias fl='PYTHONWARNINGS=ignore flake8'
+alias bl='black'
 
 # tmux
 # alias t='tmux'
