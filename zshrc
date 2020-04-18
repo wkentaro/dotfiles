@@ -67,6 +67,7 @@ export MANPATH="$HOME/.local/bin:$MANPATH"
 # export PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH"
 
 if [ "$(uname)" = "Darwin" ]; then
+    export PATH="$HOME/.go/bin:$PATH"
 #   export PATH="/usr/local/opt/python@2/libexec/bin:$PATH"
     export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 fi
