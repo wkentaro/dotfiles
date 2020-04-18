@@ -108,6 +108,9 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # Travis
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
+# direnv
+eval "$(direnv hook zsh)"
+
 # ---------------------------------
 # zsh plugins
 # ---------------------------------
