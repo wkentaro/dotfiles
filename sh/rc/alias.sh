@@ -109,7 +109,8 @@ tns () {
   if [ $# -eq 0 ]; then
     echo 'Please specify session name.'
   fi
-  tmux -L $1 $TMUX_OPTIONS new -s $1
+  # tmux -L $1 $TMUX_OPTIONS new -s $1
+  tmux new -s $1
 }
 
 # brew
@@ -240,13 +241,9 @@ if which cuda-smi &>/dev/null; then
   alias cud='cuda-smi'
 fi
 
-
-init-autoenv () {
-  vim .autoenv.zsh
-  vim .autoenv_leave.zsh
+init-direnv() {
+  vim .envrc
 }
-alias init_autoenv=init-autoenv
-
 
 macclean () {
   find . -type f -name '.DS_Store' -delete

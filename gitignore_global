@@ -9,6 +9,7 @@ venv
 .anaconda3/
 .ipynb_checkpoints/
 ,*
+.envrc
 .autoenv.zsh
 .autoenv_leave.zsh
 .clang_complete
