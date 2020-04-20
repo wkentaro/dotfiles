@@ -373,3 +373,5 @@ fi
 diff () {
   command diff -u "$@" | diff-so-fancy
 }
+
+alias install-anaconda3='install_anaconda3.sh'
