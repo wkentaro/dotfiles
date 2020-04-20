@@ -141,7 +141,7 @@ export AUTOENV_CHECK_AUTH=0
 
 # oh-my-zsh
 DISABLE_AUTO_UPDATE=true
-plugins=(git history python web-search vi-mode)
+plugins=(git python web-search vi-mode)
 ZSH=$HOME/.zsh/oh-my-zsh
 # FIXME: parser error in .zcompdump
 source $ZSH/oh-my-zsh.sh
@@ -323,6 +323,7 @@ bindkey "^Y" yank
 # source common aliases
 source $HOME/.sh/rc/alias.sh
 
+alias history='history -i 1'
 alias reload='exec zsh'
 
 # Global aliases {{{
