@@ -1,4 +1,5 @@
 .DS_Store
 
+.anaconda3/
 .envrc
 a.*
