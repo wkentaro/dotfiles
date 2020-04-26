@@ -543,3 +543,8 @@ alias dlboxs2='ssh dlboxs2'
 alias jararacussu='ssh jararacussu'
 alias sjararacussu='ssh sjararacussu'
 alias bigdaddy='ssh bigdaddy'
+
+if [ "$TMUX" != "" -a "$DIRENV_DIR" != "" ]; then
+  cd /
+  cd -
+fi
