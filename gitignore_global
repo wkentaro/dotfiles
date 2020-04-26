@@ -1,5 +1,10 @@
 .DS_Store
 
+dist/
+
+*.egg-info/
+__pycache__/
+
 .anaconda3/
 .envrc
 a.*
