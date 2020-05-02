@@ -172,3 +172,6 @@ repo = 'hotwatermorning/auto-git-diff'
 
 [[plugins]]
 repo = 'cespare/vim-toml'
+
+[[plugins]]
+repo = 'junegunn/vim-easy-align'
