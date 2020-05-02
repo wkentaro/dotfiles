@@ -375,3 +375,5 @@ diff () {
 }
 
 alias install-anaconda3='install_anaconda3.sh'
+
+alias lt="logtable"
