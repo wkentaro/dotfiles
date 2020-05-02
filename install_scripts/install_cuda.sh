@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd $(mktemp -d)
+
 if [ "$(lsb_release -sc)" = "bionic" ]; then
   wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin
   sudo mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
@@ -20,3 +22,5 @@ else
   echo "[$0] Unsupported OS: $(uname), $(lsb_release -sc)"
   exit 1
 fi
+
+cd -
