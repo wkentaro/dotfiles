@@ -97,12 +97,14 @@ alias   \begin{verse} \verse
 
 snippet table
 alias   \begin{table} \table
-    \begin{table}[${1}]
+    \begin{table}[htbp]
         \centering
-        \caption{${2}}
-        \label{table:${3}}
-        \begin{tabular}{${4}}
-            ${5}
+        \caption{Caption}
+        \label{table:my_label}
+        \begin{tabular}{c|cc}
+                 & col1 & col2 \\\\ \hline
+            row1 & value11 & value21 \\\\
+            row2 & value12 & value22 \\\
         \end{tabular}
     \end{table}
 
