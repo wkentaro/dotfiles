@@ -20,7 +20,10 @@ def main():
     elif ext == '.json' or osp.basename(filename) == 'log':
         import json
         data = json.load(open(filename))
-        df = pandas.DataFrame(data)
+        try:
+            df = pandas.DataFrame(data)
+        except:
+            pass
     elif ext == '.yaml':
         import yaml
         data = yaml.load(open(filename))
@@ -30,7 +33,6 @@ def main():
         df = np.load(filename)
     else:
         return 1
-    print('Loaded to variable df')
 
     from IPython import embed
     embed()
