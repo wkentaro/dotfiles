@@ -61,11 +61,7 @@ sh:
 tmux:
   .tmux
 tmux.conf:
-  name: .tmux.conf
-  uname: Darwin
-tmux.2_8.conf:
-  name: .tmux.conf
-  uname: Linux
+  .tmux.conf
 tmuxinator:
   .tmuxinator
 vim:
