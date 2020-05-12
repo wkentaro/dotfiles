@@ -387,9 +387,7 @@ watch() {
   local stdout
   while true; do
     stdout=$(eval "$*")
-    clear
-    echo $stdout
-    sleep 1
+    (clear && echo $stdout)
   done
 }
 alias w=watch
