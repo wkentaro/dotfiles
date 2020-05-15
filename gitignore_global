@@ -8,3 +8,4 @@ __pycache__/
 .anaconda3/
 .envrc
 a.*
+nohup.*.out
