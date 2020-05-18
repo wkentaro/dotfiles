@@ -115,10 +115,6 @@ repo = 'Rip-Rip/clang_complete'
 # # https://github.com/greyblake/vim-preview
 # repo = 'greyblake/vim-preview'
 
-[[plugins]]
-# https://github.com/gerw/vim-latex-suite
-repo = 'gerw/vim-latex-suite'
-
 # [[plugins]]
 # repo = 'kchmck/vim-coffee-script'
 

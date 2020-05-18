@@ -208,29 +208,6 @@ let g:clang_complete_auto = 0
 let g:clang_auto_select = 0
 
 " --------------------------------------------------------
-" vim-latex-suite
-" --------------------------------------------------------
-set grepprg=grep\ -nH\ $*
-set shellslash
-let g:tex_conceal=''
-let tex_flavor = 'latex'
-let g:Tex_DefaultTargetFormat = 'pdf'
-let g:Tex_CompileRule_dvi = 'platex --interaction=nonstopmode $*'
-let g:Tex_BibtexFlavor = 'pbibtex -kanji=euc'
-let g:Tex_CompileRule_pdf = 'dvipdfmx $*.dvi;open $*.pdf'
-let g:Tex_FormatDependency_pdf = 'dvi,pdf'
-let g:Tex_ViewRule_dvi = 'xdvi'
-let g:Tex_ViewRule_pdf = 'evince'
-let Tex_FoldedSections=''
-let Tex_FoldedEnvironments=''
-let Tex_FoldedMisc=''
-au BufNewFile,BufRead *.tex inoremap 、 ，
-au BufNewFile,BufRead *.tex inoremap 。 ．
-au BufNewFile,BufRead *.tex inoremap （ (
-au BufNewFile,BufRead *.tex inoremap ） )
-nnoremap <SID>I_won’t_ever_type_this <Plug>IMAP_JumpForward
-
-" --------------------------------------------------------
 " flazz/vim-colorschemes
 " --------------------------------------------------------
 if v:version > 703
