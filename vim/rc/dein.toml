@@ -94,10 +94,6 @@ repo = 'davidhalter/jedi-vim'
 # # For JavaScript
 # repo = 'pangloss/vim-javascript'
 
-# [[plugins]]
-# # Show variables and functions
-# repo = 'vim-scripts/taglist.vim'
-
 [[plugins]]
 # Syntastic Check
 # https://github.com/scrooloose/syntastic
