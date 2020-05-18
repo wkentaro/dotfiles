@@ -333,25 +333,6 @@ let g:jedi#show_call_signatures = 0
 let g:jedi#rename_command = '<Leader>R'
 
 " --------------------------------------------------------
-" quickrun
-" --------------------------------------------------------
-let g:quickrun_config = {
-\   "_" : {
-\       "outputter/buffer/split" : ":botright 8sp",
-\       "outputter/buffer/close_on_empty" : 1,
-\       "outputter" : "error",
-\       "outputter/error/success" : "buffer",
-\       "outputter/error" : "quickfix",
-\       "runner" : "vimproc",
-\       "runner/vimproc/updatetime" : 60
-\   },
-\}
-nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
-nnoremap <silent> <Leader>r :QuickRun<CR>
-" nnoremap <silent> <Leader>m :w<CR> :QuickRun -exec make -outputter/error/success "null" -outputter/error "message"<CR>
-nnoremap <silent> <Leader>m :w<CR> :QuickRun -exec make -outputter/error/success "message" -outputter/error "message"<CR>
-
-" --------------------------------------------------------
 " vim-snippets
 " --------------------------------------------------------
 " Plugin key-mappings.

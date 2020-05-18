@@ -80,9 +80,6 @@ repo = 'Shougo/neosnippet.vim'
 # repo = 'thinca/vim-ref'
 
 [[plugins]]
-repo = 'thinca/vim-quickrun'
-
-[[plugins]]
 repo = 'thinca/vim-template'
 
 [[plugins]]
