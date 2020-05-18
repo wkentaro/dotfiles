@@ -70,10 +70,6 @@ repo = 'Shougo/neosnippet.vim'
 # repo = 'Shougo/neosnippet-snippets'
 
 # [[plugins]]
-# # RestructuredText
-# repo = 'Rykka/riv.vim'
-
-# [[plugins]]
 # repo = 'greyblake/vim-preview'
 
 # [[plugins]]

@@ -144,10 +144,6 @@ let g:airline#extensions#ctrlp#color_template = 'replace'
 noremap <silent> <Leader>t :TlistToggle<CR>
 let Tlist_Use_Right_Window = 1
 
-" --------------------------------------------------------
-" riv
-" --------------------------------------------------------
-let g:riv_disable_folding = 1
 
 " --------------------------------------------------------
 " syntastic
