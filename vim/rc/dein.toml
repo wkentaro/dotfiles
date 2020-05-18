@@ -91,11 +91,6 @@ repo = 'flazz/vim-colorschemes'
 repo = 'davidhalter/jedi-vim'
 
 # [[plugins]]
-# # For HTML and XML
-# # https://github.com/mattn/emmet-vim
-# repo = 'mattn/emmet-vim'
-
-# [[plugins]]
 # # https://github.com/othree/html5.vim
 # repo = 'othree/html5.vim'
 

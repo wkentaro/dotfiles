@@ -280,31 +280,6 @@ syn match   htmlArg contained "\s*data-[-a-zA-Z0-9_]\+"
 let g:html_indent_inctags = "html,body,head,tbody"
 
 " --------------------------------------------------------
-" emmet-vim
-" --------------------------------------------------------
-let g:user_emmet_mode = 'iv'
-let g:user_emmet_leader_key = '<C-Y>'
-let g:use_emmet_complete_tag = 1
-let g:user_emmet_settings = {
-      \ 'lang' : 'ja',
-      \ 'html' : {
-      \   'extends' : 'html',
-      \   'filters' : 'html',
-      \ },
-      \ 'css' : {
-      \   'filters' : 'fc',
-      \ },
-      \ 'php' : {
-      \   'extends' : 'html',
-      \   'filters' : 'html',
-      \ },
-      \}
-augroup EmmitVim
-  autocmd!
-  autocmd FileType * let g:user_emmet_settings.indentation = '  '[:&tabstop]
-augroup END
-
-" --------------------------------------------------------
 " vim-template
 " --------------------------------------------------------
 augroup MyAutoCmd
