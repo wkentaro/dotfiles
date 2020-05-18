@@ -40,10 +40,6 @@ repo = 'bling/vim-airline'
 # repo = 'AndrewRadev/gapply.vim'
 
 [[plugins]]
-# https://github.com/gregsexton/gitv
-repo = 'gregsexton/gitv'
-
-[[plugins]]
 # Open URL
 # https://github.com/tyru/open-browser.vim
 repo =  'tyru/open-browser.vim'
