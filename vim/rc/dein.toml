@@ -25,10 +25,6 @@ if = 'has("python")'
 # https://github.com/tpope/vim-repeat
 repo = 'tpope/vim-repeat'
 
-[[plugins]]
-# https://github.com/nathanaelkane/vim-indent-guides
-repo = 'nathanaelkane/vim-indent-guides'
-
 # [[plugins]]
 # # Surrounding editing
 # # https://github.com/tpope/vim-surround
