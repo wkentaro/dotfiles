@@ -428,12 +428,6 @@ nnoremap :gst :Gstatus
 nnoremap :gd :Gdiff
 
 " --------------------------------------------------------
-" ConqueTerm
-" --------------------------------------------------------
-nnoremap <silent> <Leader>ls :ConqueTerm zsh <CR>
-nnoremap <silent> <Leader>is :ConqueTerm ipython <CR>
-
-" --------------------------------------------------------
 " ctrlp.vim
 " --------------------------------------------------------
 let g:ctrlp_map = '<c-p>'
