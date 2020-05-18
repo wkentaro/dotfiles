@@ -17,11 +17,6 @@ repo = 'Shougo/neoyank.vim'
 repo = 'taketwo/vim-ros'
 if = 'has("python")'
 
-# [[plugins]]
-# # Surrounding editing
-# # https://github.com/tpope/vim-surround
-# repo = 'tpope/vim-surround'
-
 [[plugins]]
 # Easy commenting tool
 # https://github.com/tomtom/tcomment_vim
