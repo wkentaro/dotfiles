@@ -107,10 +107,6 @@ repo = 'davidhalter/jedi-vim'
 # https://github.com/scrooloose/syntastic
 repo = 'scrooloose/syntastic'
 
-[[plugins]]
-# https://github.com/Rip-Rip/clang_complete
-repo = 'Rip-Rip/clang_complete'
-
 # [[plugins]]
 # # https://github.com/greyblake/vim-preview
 # repo = 'greyblake/vim-preview'

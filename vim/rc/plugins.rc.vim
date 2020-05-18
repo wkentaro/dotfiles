@@ -174,40 +174,6 @@ let g:syntastic_cpp_checkers = ['cpplint']
 " let g:syntastic_cpp_remove_include_errors = 1
 
 " --------------------------------------------------------
-" clang_complete
-" --------------------------------------------------------
-" let g:clang_use_library=1
-" let g:clang_debug=1
-if has('mac')
-  let g:clang_library_path = '/Library/Developer/CommandLineTools/usr/lib/'
-else
-  let s:codename = system("echo -n \"$(lsb_release -sc)\"")
-  if s:codename == 'trusty'
-    let g:clang_library_path = '/usr/lib/llvm-3.4/lib'
-  elseif s:codename == 'xenial'
-    let g:clang_library_path = '/usr/lib/llvm-3.8/lib'
-  else
-  endif
-endif
-let g:clang_user_options = '-std=c++11'
-" use with neocomplete.vim
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#force_overwrite_completefunc = 1
-let g:neocomplete#force_omni_input_patterns.c =
-      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-let g:neocomplete#force_omni_input_patterns.cpp =
-      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-let g:neocomplete#force_omni_input_patterns.objc =
-      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-let g:neocomplete#force_omni_input_patterns.objcpp =
-      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-" don't auto complete with clang_complete
-let g:clang_complete_auto = 0
-let g:clang_auto_select = 0
-
-" --------------------------------------------------------
 " flazz/vim-colorschemes
 " --------------------------------------------------------
 if v:version > 703
