@@ -42,9 +42,6 @@ repo = 'tomtom/tcomment_vim'
 [[plugins]]
 repo = 'bling/vim-airline'
 
-# [[plugins]]
-# repo = 'itchyny/calendar.vim'
-
 [[plugins]]
 # git diff, log
 # https://github.com/tpope/vim-fugitive
