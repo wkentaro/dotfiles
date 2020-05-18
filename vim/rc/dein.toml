@@ -13,30 +13,16 @@ repo = 'Shougo/neocomplete.vim'
 repo = 'Shougo/neoyank.vim'
 
 [[plugins]]
-# roscd & rosed
 repo = 'taketwo/vim-ros'
 if = 'has("python")'
 
 [[plugins]]
-# Easy commenting tool
-# https://github.com/tomtom/tcomment_vim
 repo = 'tomtom/tcomment_vim'
 
 [[plugins]]
 repo = 'bling/vim-airline'
 
-# [[plugins]]
-# repo = 'cohama/agit.vim'
-
-# [[plugins]]
-# repo = 'idanarye/vim-merginal'
-
-# [[plugins]]
-# repo = 'AndrewRadev/gapply.vim'
-
 [[plugins]]
-# Open URL
-# https://github.com/tyru/open-browser.vim
 repo =  'tyru/open-browser.vim'
 
 [[plugins]]
@@ -51,61 +37,23 @@ repo = 'Shougo/neomru.vim'
 [[plugins]]
 repo = 'Shougo/neosnippet.vim'
 
-# FIXME: neosnippet-snippets won't work with dein.vim
-# [[plugins]]
-# repo = 'Shougo/neosnippet-snippets'
-
-# [[plugins]]
-# repo = 'greyblake/vim-preview'
-
-# [[plugins]]
-# repo = 'thinca/vim-ref'
-
 [[plugins]]
 repo = 'thinca/vim-template'
 
 [[plugins]]
-# Add colorschemes
 repo = 'flazz/vim-colorschemes'
 
 [[plugins]]
-# python completion
 repo = 'davidhalter/jedi-vim'
 
-# [[plugins]]
-# # For CSS
-# repo = 'hail2u/vim-css3-syntax'
-
-# [[plugins]]
-# # For JavaScript
-# repo = 'pangloss/vim-javascript'
-
 [[plugins]]
-# Syntastic Check
-# https://github.com/scrooloose/syntastic
 repo = 'scrooloose/syntastic'
-
-# [[plugins]]
-# # https://github.com/greyblake/vim-preview
-# repo = 'greyblake/vim-preview'
-
-# [[plugins]]
-# repo = 'kchmck/vim-coffee-script'
-
-# [[plugins]]
-# repo = 'claco/jasmine.vim'
 
 [[plugins]]
 repo = 'rhysd/committia.vim'
 
 [[plugins]]
 repo = 'ctrlpvim/ctrlp.vim'
-
-# [[plugins]]
-# repo = 'digitaltoad/vim-pug'
-
-# [[plugins]]
-# repo = 'jaxbot/github-issues.vim'
 
 [[plugins]]
 repo = 'hotwatermorning/auto-git-diff'
