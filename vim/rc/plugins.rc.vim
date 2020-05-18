@@ -434,11 +434,6 @@ nnoremap <silent> <Leader>ls :ConqueTerm zsh <CR>
 nnoremap <silent> <Leader>is :ConqueTerm ipython <CR>
 
 " --------------------------------------------------------
-" vim-repeat
-" --------------------------------------------------------
-silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
-
-" --------------------------------------------------------
 " ctrlp.vim
 " --------------------------------------------------------
 let g:ctrlp_map = '<c-p>'

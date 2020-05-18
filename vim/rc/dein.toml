@@ -21,10 +21,6 @@ repo = 'Shougo/neoyank.vim'
 repo = 'taketwo/vim-ros'
 if = 'has("python")'
 
-[[plugins]]
-# https://github.com/tpope/vim-repeat
-repo = 'tpope/vim-repeat'
-
 # [[plugins]]
 # # Surrounding editing
 # # https://github.com/tpope/vim-surround
