@@ -280,23 +280,6 @@ nmap <silent> <Leader>y :Unite history/yank -direction=botright<CR>
 nmap <silent> <Leader>o <Plug>(openbrowser-open)
 
 " --------------------------------------------------------
-" vim-fugitive
-" --------------------------------------------------------
-autocmd QuickFixCmdPost *grep* cwindow
-" color settings for git diff
-highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
-highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
-highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
-highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
-if exists('g:loaded_fugitive')
-  set statusline+=%{fugitive#statusline()}
-endif
-nnoremap :ga :Gwrite
-nnoremap :gc :Gcommit --verbose
-nnoremap :gst :Gstatus
-nnoremap :gd :Gdiff
-
-" --------------------------------------------------------
 " ctrlp.vim
 " --------------------------------------------------------
 let g:ctrlp_map = '<c-p>'

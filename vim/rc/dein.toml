@@ -30,11 +30,6 @@ repo = 'tomtom/tcomment_vim'
 [[plugins]]
 repo = 'bling/vim-airline'
 
-[[plugins]]
-# git diff, log
-# https://github.com/tpope/vim-fugitive
-repo = 'tpope/vim-fugitive'
-
 # [[plugins]]
 # repo = 'cohama/agit.vim'
 
