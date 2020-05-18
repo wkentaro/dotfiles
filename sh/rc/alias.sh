@@ -391,3 +391,5 @@ watch() {
   done
 }
 alias w=watch
+
+alias sudo="sudo -H"
