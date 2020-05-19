@@ -30,6 +30,11 @@ call plug#begin('~/.vim/plugged')
   Plug 'rhysd/committia.vim'
 call plug#end()
 
+" deoplete
+if has('unix') && !has('macunix')
+  let g:python3_host_prog = '/usr/bin/python3.7'
+endif
+
 " flazz/vim-colorschemes
 syntax on
 set background=dark
