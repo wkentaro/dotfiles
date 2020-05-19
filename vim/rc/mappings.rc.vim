@@ -167,22 +167,27 @@ nmap <leader>q :q<cr>
 " Spell checking
 " ----------------------------------------------------------
 " Pressing ,ss will toggle and untoggle spell checking
-map <Leader>ss :setlocal spell!<cr>
+map <leader>ss :setlocal spell!<cr>
 
 " Shortcuts using <leader>
-map <Leader>sn ]s
-map <Leader>sp [s
-map <Leader>sa zg
-map <Leader>s? z=
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>s? z=
 
 
 " ----------------------------------------------------------
 " Path handling
 " ----------------------------------------------------------
-nnoremap ,cd :cd %:p:h<CR>
+nnoremap ,cd :cd %:p:h<cr>
 
 
 "--------------------------------------
 " Visualization handling
 "--------------------------------------
-nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+nnoremap <leader>c :set cursorline! cursorcolumn!<cr>
+
+"--------------------------------------
+" Black
+"--------------------------------------
+nnoremap ,bl :!black %<cr> :e<cr>
