@@ -21,6 +21,8 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'Shougo/unite.vim'
 
+  Plug 'Shougo/vimfiler.vim'
+
   Plug 'ctrlpvim/ctrlp.vim'
 
   Plug 'Shougo/neoyank.vim'
@@ -61,7 +63,6 @@ nmap <silent> <C-n> :Unite -winheight=10 -direction=botright buffer<CR>
 noremap <C-]> :Unite file_mru -winheight=10 -direction=botright<CR>
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()
-  " Overwrite settings.
   imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
   imap <buffer> <C-j>   <Plug>(unite_select_next_line)
   imap <buffer> <C-c>   <Plug>(unite_exit)
@@ -69,6 +70,12 @@ function! s:unite_my_settings()
   imap <silent><buffer><expr> <C-x>     unite#do_action('split')
   imap <silent><buffer><expr> <C-v>     unite#do_action('vsplit')
 endfunction
+
+" Shougo/vimfiler.vim
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_safe_mode_by_default = 0
+let g:vimfiler_ignore_pattern = '\%(.pyc\)$'
+noremap <silent> <Leader>f :VimFiler -split -explorer -winwidth=50<CR>
 
 " ctrlpvim/ctrlp.vim
 let g:ctrlp_map = '<c-p>'
