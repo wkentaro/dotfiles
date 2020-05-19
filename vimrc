@@ -178,9 +178,6 @@ au BufNewFile,BufRead * match ZenkakuSpace /　/
 execute 'source' '~/.vim/rc/mappings.rc.vim'
 
 
-let g:github_access_token = $GITHUB_TOKEN
-
-
 " ----------------------------------------------------------
 " Plugins
 " ----------------------------------------------------------
