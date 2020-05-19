@@ -1,12 +1,4 @@
 " ----------------------------------------------------------------
-" source_rc function
-" ----------------------------------------------------------------
-function! s:source_rc(path)
-  execute 'source' fnameescape(expand('~/.vim/rc/' . a:path))
-endfunction
-
-
-" ----------------------------------------------------------------
 " vim useful options
 " ----------------------------------------------------------------
 if has('nvim')
@@ -170,7 +162,7 @@ set cinoptions+=:0,g0
 " ----------------------------------------------------------
 " Filetype
 " ----------------------------------------------------------
-call s:source_rc('filetype.rc.vim')
+execute 'source' '~/.vim/rc/filetype.rc.vim'
 
 
 " ----------------------------------------------------------
@@ -183,7 +175,7 @@ au BufNewFile,BufRead * match ZenkakuSpace /　/
 " ----------------------------------------------------------
 " Key mappings
 " ----------------------------------------------------------
-call s:source_rc('mappings.rc.vim')
+execute 'source' '~/.vim/rc/mappings.rc.vim'
 
 
 let g:github_access_token = $GITHUB_TOKEN
@@ -192,13 +184,8 @@ let g:github_access_token = $GITHUB_TOKEN
 " ----------------------------------------------------------
 " Plugins
 " ----------------------------------------------------------
-if v:version >= 704
-  if &g:loadplugins
-    call s:source_rc('plugins.rc.vim')
+if &g:loadplugins
+  if v:version >= 704
+    execute 'source' '~/.vim/rc/plugins.rc.vim'
   endif
 endif
-
-" " FIXME: https://github.com/davidhalter/jedi-vim/issues/889#issuecomment-449547214
-" if has('mac')
-"   py3 sys.executable = '/usr/local/bin/python3'
-" endif
