@@ -53,6 +53,7 @@ let g:syntastic_check_on_open = 1
 
 " aperezdc/vim-template
 let g:templates_directory = ['~/.vim/after/templates']
+let g:templates_no_builtin_templates = 1
 
 " tyru/open-browser.vim
 nmap <silent> <Leader>o <Plug>(openbrowser-open)
