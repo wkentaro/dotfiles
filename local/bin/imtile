@@ -14,6 +14,12 @@ def main():
     parser.add_argument('-n', '--n-imgs', type=int, help='number of images')
     parser.add_argument('-x', '--shape', help='image shape (ex. 5x6)')
     parser.add_argument('--border', help='border ex. (0, 0, 0)')
+    parser.add_argument(
+        '--border-width',
+        type=int,
+        default=5,
+        help='border_width',
+    )
     args = parser.parse_args()
 
     shape = None
@@ -31,7 +37,12 @@ def main():
     if args.border:
         args.border = eval(args.border)
 
-    tiled = imgviz.tile(imgs, shape=shape, border=args.border)
+    tiled = imgviz.tile(
+        imgs,
+        shape=shape,
+        border=args.border,
+        border_width=args.border_width,
+    )
     skimage.io.imsave(args.out, tiled)
 
 
