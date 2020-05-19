@@ -378,19 +378,20 @@ alias install-anaconda3='install_anaconda3.sh'
 
 alias lt="logtable"
 
-watch() {
-  if [ $# -eq 0 ]; then
-    echo "usage: watch [COMMANDS]"
-    return 1
-  fi
-
-  local stdout
-  while true; do
-    stdout=$(eval "$*")
-    (clear && echo $stdout)
-  done
-}
-alias w=watch
+alias watch="watch -t"
+# watch() {
+#   if [ $# -eq 0 ]; then
+#     echo "usage: watch [COMMANDS]"
+#     return 1
+#   fi
+#
+#   local stdout
+#   while true; do
+#     stdout=$(eval "$*")
+#     (clear && echo $stdout)
+#   done
+# }
+# alias w=watch
 
 alias sudo="sudo -H"
 
