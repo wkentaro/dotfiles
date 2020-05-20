@@ -244,6 +244,7 @@ fi
 
 init-direnv() {
   vim .envrc
+  direnv allow
 }
 
 macclean () {
