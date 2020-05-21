@@ -19,7 +19,7 @@ au BufNewFile,BufRead *.cpp set tabstop=8 shiftwidth=2 colorcolumn=80
 au BufNewFile,BufRead *.launch set tabstop=8 shiftwidth=2 ft=xml
 au BufNewFile,BufRead *.test set tabstop=8 shiftwidth=2 ft=xml
 au BufNewFile,BufRead *.php set tabstop=8 shiftwidth=4
-au BufNewFile,BufRead *.md set tabstop=8 shiftwidth=2 ft=markdown colorcolumn=80 textwidth=79
+au BufNewFile,BufRead *.md set tabstop=8 shiftwidth=2 ft=markdown colorcolumn=80
 au BufNewFile,BufRead *.html set tabstop=8 shiftwidth=2
 au BufNewFile,BufRead *.js set tabstop=8 shiftwidth=2
 au BufNewFile,BufRead *.json set tabstop=8 shiftwidth=4
