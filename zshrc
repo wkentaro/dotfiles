@@ -448,9 +448,9 @@ if [ -e $CUDA_PATH ]; then
   if [ "$CUDNN_PATH" = "" ]; then
     export CUDNN_PATH=~/.cudnn/active/cuda
   fi
-  export LD_LIBRARY_PATH=~/.cudnn/active/cuda/lib64:$LD_LIBRARY_PATH
-  export CPATH=~/.cudnn/active/cuda/include:$CPATH
-  export LIBRARY_PATH=~/.cudnn/active/cuda/lib64:$LIBRARY_PATH
+  export LD_LIBRARY_PATH=$CUDNN_PATH/lib64:$LD_LIBRARY_PATH
+  export CPATH=$CUDNN_PATH/include:$CPATH
+  export LIBRARY_PATH=$CUDNN_PATH/lib64:$LIBRARY_PATH
 fi
 
 # ----------------------
