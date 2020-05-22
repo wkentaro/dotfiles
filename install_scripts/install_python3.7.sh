@@ -13,4 +13,4 @@ fi
 
 sudo add-apt-repository ppa:deadsnakes/ppa
 sudo apt update
-sudo apt install python3.7
+sudo apt install -y python3.7
