@@ -1,7 +1,6 @@
 #!/bin/sh
 
 if [ -f ~/.local/bin/antibody ]; then
-  echo "[$(basename $0)] antibody is already installed."
   exit 0
 fi
 
