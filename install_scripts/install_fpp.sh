@@ -1,7 +1,6 @@
 #!/bin/bash
 
 if [ -f ~/.local/bin/fpp ]; then
-  echo "[$(basename $0)] fpp is already installed."
   exit 0
 fi
 

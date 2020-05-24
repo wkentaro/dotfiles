@@ -1,12 +1,10 @@
 #!/bin/bash
 
 if ! which nvcc &>/dev/null; then
-  echo "[$(basename $0)] nvcc is not found."
   exit 0
 fi
 
 if which cuda-smi &>/dev/null; then
-  echo "[$(basename $0)] cuda-smi is already installed."
   exit 0
 fi
 
