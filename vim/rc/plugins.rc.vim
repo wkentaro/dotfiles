@@ -31,6 +31,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'Shougo/neosnippet.vim'
 
   Plug 'rhysd/committia.vim'
+
+  Plug 'hotwatermorning/auto-git-diff'
 call plug#end()
 
 " deoplete
