@@ -20,6 +20,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'tyru/open-browser.vim'
 
   Plug 'Shougo/unite.vim'
+  Plug 'Shougo/neomru.vim'
 
   Plug 'Shougo/vimfiler.vim'
 
