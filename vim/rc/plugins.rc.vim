@@ -108,7 +108,16 @@ let g:neosnippet#disable_runtime_snippets = {
 let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/neosnippets,~/.vim/after/snippets'
 
-" deoplete vs neocomplete
+
+  " davidhalter/jedi.vim
+  autocmd FileType python setl omnifunc=jedi#completions
+  autocmd FileType python setl completeopt-=preview
+  let g:jedi#popup_select_first = 0
+  let g:jedi#completions_enabled = 1
+  let g:jedi#auto_vim_configuration = 1
+  let g:jedi#show_call_signatures = 0
+  let g:jedi#rename_command = '<Leader>R'
+
 if has('nvim')
   " Shougo/deoplete.nvim
   let g:deoplete#enable_at_startup = 1
@@ -139,13 +148,4 @@ else
     let g:neocomplete#force_omni_input_patterns.python =
       \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
   endif
-
-  " davidhalter/jedi-vim
-  autocmd FileType python setl omnifunc=jedi#completions
-  autocmd FileType python setl completeopt-=preview
-  let g:jedi#popup_select_first = 0
-  let g:jedi#completions_enabled = 1
-  let g:jedi#auto_vim_configuration = 1
-  let g:jedi#show_call_signatures = 0
-  let g:jedi#rename_command = '<Leader>R'
 endif
