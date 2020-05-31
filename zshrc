@@ -173,6 +173,7 @@ plugins=(
   $HOME/.sh/plugins/gshell.sh
   $HOME/.sh/plugins/ubuntu.sh
   $HOME/.sh/plugins/minerva.sh
+  $HOME/.sh/plugins/aws.sh
 )
 for plugin in $plugins; do
   source $plugin
