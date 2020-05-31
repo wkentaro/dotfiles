@@ -4,4 +4,6 @@ if [ "$(uname)" != 'Linux' ]; then
   exit 0
 fi
 
-pip install --user cudnnenv
+if which pip &>/dev/null; then
+  pip install --user cudnnenv
+fi
