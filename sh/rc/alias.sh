@@ -401,3 +401,10 @@ if which nvim &>/dev/null; then
 fi
 
 alias ic=imgcat
+
+sshL() {
+  local host=$1
+  local port=$2
+  ssh ${host} -L ${port}:localhost:${port}
+}
+compdef sshL=ssh
