@@ -9,8 +9,6 @@
 	tool = vimdiff
 	renames = true
 	algorithm = histogram
-[color]
-	ui = auto
 [alias]
 	co = checkout
 	ci = commit
@@ -26,7 +24,7 @@
 	smudge = git-media-smudge %f
 [core]
 	excludesfile = ~/.gitignore_global
-	pager = diff-so-fancy | less --tabs=4 -RFX
+	pager = delta | less
 [http]
 	sslVerify = false
 [rerere]
@@ -44,9 +42,6 @@
 [pager]
 	status = false
 	branch = false
-	log = diff-so-fancy | less
-	show = diff-so-fancy | less
-	diff = diff-so-fancy | less
 [credential]
 	helper = cache
 [hub]
