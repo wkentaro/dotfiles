@@ -6,6 +6,7 @@ dist/
 __pycache__/
 
 .anaconda3/
-.envrc
+.in
+.out
 a.*
 nohup.*.out
