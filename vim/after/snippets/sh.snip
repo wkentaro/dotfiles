@@ -95,10 +95,6 @@ options     head
 	echo "${0:TARGET}" 1>&2
 	exit 1
 
-snippet     HERE
-abbr        HERE=...
-	HERE=$(realpath $(dirname ${BASH_SOURCE[0]}))
-
 snippet     func_echo_bold
 	echo_bold () {
 		echo -e "\033[1m$*\033[0m"
