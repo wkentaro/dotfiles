@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+# vim: set ft=zsh
+
+setup() {
+  source $HERE/.anaconda3/bin/activate
+}
+
+HERE=${0:a:h}
+setup

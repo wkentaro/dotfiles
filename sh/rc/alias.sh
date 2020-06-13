@@ -242,9 +242,9 @@ if which cuda-smi &>/dev/null; then
   alias cud='cuda-smi'
 fi
 
-init-direnv() {
-  vim .envrc
-  direnv allow
+init-autoenv() {
+  vim .in
+  vim .out
 }
 
 macclean () {

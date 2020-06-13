@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+# vim: set ft=zsh
+
+cleanup() {
+  conda deactivate
+}
+
+HERE=${0:a:h}
+cleanup
