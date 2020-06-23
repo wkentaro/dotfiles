@@ -394,8 +394,6 @@ alias watch="watch -t"
 # }
 # alias w=watch
 
-alias sudo="sudo -H"
-
 if which nvim &>/dev/null; then
   alias vim=nvim
 fi
