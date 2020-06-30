@@ -149,7 +149,7 @@ set nobackup
 set nowb
 set noswapfile
 
-" set undofile
+set undofile
 set nofoldenable
 set list
 set number
