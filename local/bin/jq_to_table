@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+
+import json
+import sys
+
+import tabulate
+import pandas
+
+
+jq = sys.stdin.read()
+
+lines = jq.splitlines()
+
+data = []
+datum = []
+for line in lines:
+    datum.append(line)
+    if line.endswith("}"):
+        data.append(json.loads("\n".join(datum)))
+        datum = []
+
+df = pandas.DataFrame(data)
+table = tabulate.tabulate(df, headers="keys", tablefmt="psql")
+print(table)
