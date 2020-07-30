@@ -405,4 +405,6 @@ sshL() {
   local port=$2
   ssh ${host} -L ${port}:localhost:${port}
 }
-compdef sshL=ssh
+if which compdef &>/dev/null; then
+  compdef sshL=ssh
+fi
