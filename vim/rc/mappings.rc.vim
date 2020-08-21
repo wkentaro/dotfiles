@@ -180,14 +180,3 @@ map <leader>s? z=
 " Path handling
 " ----------------------------------------------------------
 nnoremap ,cd :cd %:p:h<cr>
-
-
-"--------------------------------------
-" Visualization handling
-"--------------------------------------
-nnoremap <leader>c :set cursorline! cursorcolumn!<cr>
-
-"--------------------------------------
-" Black
-"--------------------------------------
-nnoremap ,bl :!black %<cr> :e<cr>

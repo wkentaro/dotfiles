@@ -29,20 +29,17 @@ au BufNewFile,BufRead *.tex set isk+=-
 au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
 autocmd FileType coffee setlocal sw=2 sts=2 ts=2 et
 
+"--------------------------------------
+" Python setting
+"--------------------------------------
+autocmd FileType python nnoremap ,bl :!black %<cr> :e<cr>
+
 
 " ----------------------------------------------------------
-" Cpp setting
+" C++ setting
 " ----------------------------------------------------------
 autocmd FileType cpp setlocal path=.,./include,../include/,/usr/include,/usr/local/include,/usr/include/c++/4.8/,/opt/ros/indigo/include,/usr/include/pcl-1.7
-
-
-" ----------------------------------------------------------
-" Lisp setting
-" ----------------------------------------------------------
-au BufNewFile,BufRead *.l set wrap tabstop=8 shiftwidth=2 ft=lisp
-au BufNewFile,BufRead *.l set colorcolumn=100
-au BufNewFile,BufRead *.l set isk+=-
-let lisp_rainbow = 1
+autocmd FileType cpp nnoremap ,cl :!clang-format -i %<cr> :e<cr>
 
 
 " ----------------------------------------------------------
