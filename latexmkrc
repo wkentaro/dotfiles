@@ -1,6 +1,8 @@
 # vim: ft=perl
 my $os = `uname`;
 
+$bibtex = 'pbibtex';
+
 if ( $os =~ /linux/i ) {
   $pdf_previewer = 'start okular';
 } else {
