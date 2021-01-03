@@ -53,6 +53,8 @@ hi Visual ctermbg=0
 " scrooloose/syntastic
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_check_on_open = 1
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 
 " aperezdc/vim-template
 let g:templates_directory = ['~/.vim/after/templates']
