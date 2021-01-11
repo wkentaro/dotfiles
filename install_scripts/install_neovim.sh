@@ -11,7 +11,7 @@ set -x
 
 sudo apt-get install -y software-properties-common
 
-sudo apt-add-repository -y ppa:neovim-ppa/stable
+sudo apt-add-repository -y ppa:neovim-ppa/unstable
 sudo apt-get update
 sudo apt-get install -y neovim
 
