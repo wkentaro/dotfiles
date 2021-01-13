@@ -1,4 +1,5 @@
-profiles=(minerva corvus)
+# profiles=(minerva corvus)
+profiles=(minerva)
 
 echo_bold () {
   echo -e "\033[1m$*\033[0m"
