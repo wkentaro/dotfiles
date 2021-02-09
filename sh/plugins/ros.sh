@@ -33,7 +33,12 @@ if [ -d "/opt/ros" ]; then
   image_view () {
     local topic=$1
     shift
-    rosrun image_view image_view image:=$topic $*
+    rosrun image_view image_view image:=$topic $* _autosize:=true
+  }
+  depth_view () {
+    local topic=$1
+    shift
+    rosrun image_view image_view image:=$topic $* _autosize:=true _colormap:=2 _do_dynamic_scaling:=true
   }
   _image_topics () {
     local -a reply
@@ -44,10 +49,10 @@ if [ -d "/opt/ros" ]; then
   }
   if which compdef &>/dev/null; then
     compdef _image_topics image_view
-    compdef _image_topics image_view2
+    compdef _image_topics depth_view
   fi
   alias imv='image_view'
-  alias imv2='image_view2'
+  alias dpv='depth_view'
   _point_cloud_topics () {
     local -a reply
     if [[ ${CURRENT} = 2 ]]; then
