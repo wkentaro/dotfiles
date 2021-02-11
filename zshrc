@@ -443,13 +443,7 @@ if [ -e $CUDA_PATH ]; then
   export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$CUDA_PATH/lib:$CUDA_PATH/targets/x86_64-linux/lib/stubs:$LD_LIBRARY_PATH
   # export CFLAGS=-I$CUDA_PATH/include
   export LDFLAGS="-L$CUDA_PATH/lib64 -L$CUDA_PATH/lib -L$CUDA_PATH/targets/x86_64-linux/lib/stubs"
-  # cudnn
-  if [ "$CUDNN_PATH" = "" ]; then
-    export CUDNN_PATH=~/.cudnn/active/cuda
-  fi
-  export LD_LIBRARY_PATH=$CUDNN_PATH/lib64:$LD_LIBRARY_PATH
-  # export CPATH=$CUDNN_PATH/include:$CPATH
-  export LIBRARY_PATH=$CUDNN_PATH/lib64:$LIBRARY_PATH
+  export CUDNN_PATH=$CUDA_PATH
 fi
 
 # ----------------------
