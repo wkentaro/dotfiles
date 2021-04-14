@@ -26,7 +26,7 @@ else
 fi
 
 if which wget &>/dev/null; then
-  wget -q $URL -O miniconda3.sh
+  wget --no-check-certificate -q $URL -O miniconda3.sh
 else
   curl -s -L $URL -o miniconda3.sh
 fi
