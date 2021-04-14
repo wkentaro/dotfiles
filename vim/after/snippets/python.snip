@@ -65,7 +65,7 @@ options     head
 snippet     with_open
 alias       fileidiom
 options     head
-	with open(${1:#:file}, '${2:r}') as ${3:f}:
+	with open(${1:#:file}, "${2:r}") as ${3:f}:
 		${0:pass}
 
 snippet     for
@@ -160,9 +160,9 @@ abbr        import IPython..
 
 snippet     print_debug
 abbr        >>>
-	print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+	print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 	print(${1})
-	print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+	print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
 snippet     hline
 abbr        ----
@@ -205,11 +205,11 @@ abbr         here = ...
 
 snippet      home
 abbr         home = ...
-	home = osp.expanduser('~')
+	home = osp.expanduser("~")
 
 snippet      home2
 abbr         home = ...
-	home = path.Path('~').expanduser()
+	home = path.Path("~").expanduser()
 
 snippet     flake8
 abbr        # flake8...
