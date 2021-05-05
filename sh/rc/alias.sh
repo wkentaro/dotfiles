@@ -148,6 +148,7 @@ fi
 # ls aliases
 # ----------------------------------------------------
 alias sl='ls'
+alias lsa='ls -lha'
 alias la='lsa'
 # if type dircolors &>/dev/null; then
 #   [ -f $HOME/.dircolors.256dark ] && eval $(dircolors $HOME/.dircolors.256dark 2>/dev/null)
