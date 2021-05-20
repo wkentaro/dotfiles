@@ -21,7 +21,7 @@ au BufNewFile,BufRead *.json set tabstop=8 shiftwidth=4
 "--------------------------------------
 " Python setting
 "--------------------------------------
-autocmd FileType python nnoremap ,bl :!black %<cr> :e<cr>
+autocmd FileType python nnoremap ,bl :!black --line-length 79 %<cr> :e<cr>
 au BufNewFile,BufRead *.py set tabstop=8 shiftwidth=4
 au BufNewFile,BufRead *.py set colorcolumn=80
 au BufNewFile,BufRead *.py set indentkeys-=:
@@ -47,4 +47,4 @@ au BufRead,BufNewFile,BufReadPre *.rst nnoremap ,h3 VypVr+
 au BufNewFile,BufRead *.tex set tabstop=8 shiftwidth=2 ft=tex colorcolumn=80
 au BufNewFile,BufRead *.tex set isk+=-
 autocmd FileType,BufRead *.tex let b:syntastic_skip_checks = 1
-" autocmd FileType,BufRead *.tex nnoremap <leader>m :!make<cr><cr>
+autocmd FileType,BufRead *.tex nnoremap <leader>m :!make<cr>
