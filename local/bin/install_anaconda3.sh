@@ -37,4 +37,5 @@ rm -rf $TMPDIR
 
 source $INSTALL_DIR/.anaconda3/bin/activate
 conda update -n base -y conda
+conda install -n base -y pip  # pip is uninstalled when conda is updated
 source $INSTALL_DIR/.anaconda3/bin/deactivate
