@@ -24,17 +24,13 @@
 	smudge = git-media-smudge %f
 [core]
 	excludesfile = ~/.gitignore_global
-	pager = delta | less
+	pager = diff-so-fancy | less
 [http]
 	sslVerify = false
 [rerere]
 	enabled = true
 [branch]
 	autosetupmerge = always
-[filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
 [pull]
 	rebase = true
 [push]
