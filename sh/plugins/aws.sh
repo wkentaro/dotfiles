@@ -1,5 +1,5 @@
-# profiles=(minerva corvus)
 profiles=(minerva)
+regions=(eu-west-1 ap-northeast-1)
 
 echo_bold () {
   echo -e "\033[1m$*\033[0m"
@@ -8,7 +8,10 @@ echo_bold () {
 als() {
   for profile in $profiles; do
     echo "# $profile"
-    aws ec2 describe-instances --profile $profile | jq '.Reservations[] | ( .Instances[] | {state: .State.Name, id: .InstanceId, name: .KeyName, type: .InstanceType, ip: .PublicIpAddress})' | jq_to_table
+    for region in $regions; do
+      echo "## $region"
+      aws ec2 describe-instances --profile $profile --region $region | jq '.Reservations[] | ( .Instances[] | {state: .State.Name, id: .InstanceId, name: .KeyName, type: .InstanceType, ip: .PublicIpAddress})' | jq_to_table
+    done
   done
 }
 ast() {
