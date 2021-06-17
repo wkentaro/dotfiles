@@ -541,3 +541,7 @@ if [ "$TMUX" != "" -a "$DIRENV_DIR" != "" ]; then
   cd /
   cd -
 fi
+
+pip () {
+  command pip --use-deprecated=legacy-resolver $*
+}
