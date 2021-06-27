@@ -1,4 +1,4 @@
-profiles=(minerva)
+profiles=(default)
 regions=(eu-west-1 ap-northeast-1)
 
 echo_bold () {
