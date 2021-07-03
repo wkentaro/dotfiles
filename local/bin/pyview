@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import pickle
 import os.path as osp
 
 import pandas
@@ -31,6 +32,9 @@ def main():
     elif ext in ['.npy', '.npz']:
         import numpy as np
         df = np.load(filename)
+    elif ext == '.pkl':
+        with open(filename, "rb") as f:
+            df = pickle.load(f)
     else:
         return 1
 
