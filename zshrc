@@ -545,3 +545,5 @@ fi
 pip () {
   command pip --use-deprecated=legacy-resolver $*
 }
+
+alias gs='git status'
