@@ -33,6 +33,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'rhysd/committia.vim'
 
   Plug 'hotwatermorning/auto-git-diff'
+
+  Plug 'tpope/vim-fugitive'
 call plug#end()
 
 " flazz/vim-colorschemes
@@ -146,3 +148,7 @@ else
       \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
   endif
 endif
+
+" tpope/vim-fugitive
+command Gd Git diff
+command Gdca Git diff --cached
