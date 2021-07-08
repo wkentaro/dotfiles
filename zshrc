@@ -547,3 +547,4 @@ pip () {
 }
 
 alias gs='git status'
+alias w='watch'
