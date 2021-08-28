@@ -1,5 +1,5 @@
 #!/bin/zsh
 antibody() {
-  eval "$(command antibody init -)"
+  eval "$(command antibody init)"
   antibody "$@"
 }

@@ -5,7 +5,7 @@ if [ -f ~/.local/bin/antibody ]; then
 fi
 
 BASE_URL="https://github.com/caarlos0/antibody/releases/download"
-VERSION="v3.1.4"
+VERSION="v6.1.1"
 OS="$(uname -s | tr "[:upper:]" "[:lower:]")"
 ARCH="$(uname -m)"
 mkdir -p ~/.zsh/antibody/antibody
