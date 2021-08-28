@@ -40,5 +40,3 @@
 	branch = false
 [credential]
 	helper = cache
-[hub]
-	protocol = https
