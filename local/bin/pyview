@@ -18,6 +18,8 @@ def main():
 
     if ext == '.csv':
         df = pandas.read_csv(filename)
+    elif ext == '.tsv':
+        df = pandas.read_csv(filename, sep="\t")
     elif ext == '.json' or osp.basename(filename) == 'log':
         import json
         data = json.load(open(filename))
