@@ -35,6 +35,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'hotwatermorning/auto-git-diff'
 
   Plug 'tpope/vim-fugitive'
+
+  Plug 'lervag/vimtex'
 call plug#end()
 
 " flazz/vim-colorschemes
@@ -152,3 +154,6 @@ endif
 " tpope/vim-fugitive
 command Gd Git diff
 command Gdca Git diff --cached
+
+" lervag/vimtex
+let g:vimtex_view_method = 'skim'

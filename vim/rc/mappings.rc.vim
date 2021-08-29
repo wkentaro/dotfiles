@@ -5,7 +5,7 @@
 
 " Mapleader "{{{
 let mapleader=','
-let maplocalleader='\\'
+let maplocalleader='\'
 "}}}
 
 
