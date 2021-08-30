@@ -157,3 +157,7 @@ command Gdca Git diff --cached
 
 " lervag/vimtex
 let g:vimtex_view_method = 'skim'
+let g:vimtex_quickfix_ignore_filters = [
+      \ 'Package caption Warning: Unknown document class (or package)',
+      \ 'Package subfig Warning: Your document class has a bad definition',
+      \]
