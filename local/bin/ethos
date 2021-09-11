@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+
+import os
+import time
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import Select
+
+driver = webdriver.Chrome()
+driver.implicitly_wait(1)
+driver.get("https://www.imperial.ac.uk/sports/bookings/")
+
+# login
+element = driver.find_element_by_link_text("Log On")
+element.click()
+element = driver.find_element_by_id("UserName")
+element.send_keys(os.environ["IMPERIAL_USERNAME"])
+element = driver.find_element_by_id("Password")
+element.send_keys(os.environ["IMPERIAL_PASSWORD"])
+element.send_keys(Keys.RETURN)
+
+# search
+element = driver.find_element_by_id("searchForClass")
+element.click()
+select = Select(driver.find_element_by_id("SiteID"))
+select.select_by_visible_text("Ethos")
+select = Select(driver.find_element_by_id("Activity"))
+select.select_by_value("6010")  # Timed Gym Booking
+# select.select_by_value("6012")  # Timed Swim Booking
+element = driver.find_element_by_css_selector("#SearchButtonDiv > input.NavigationButton")
+element.click()
