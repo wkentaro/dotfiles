@@ -453,10 +453,6 @@ fi
 # alias ac=activate
 # alias da=deactivate
 
-users_by_ps () {
-  ps auxwww | awk '{print $1}' | egrep "$(command ls /home)" | sort | uniq -c | sort -nr | xargs
-}
-
 # !!! Slow !!!
 # ---------------------------------
 
@@ -476,22 +472,3 @@ show-cuda
 #   #   source $(dirname $CONDA_PYTHON_EXE)/activate $CONDA_DEFAULT_ENV
 #   # fi
 # fi
-
-# store_env_for_ros () {
-#   export _PYTHONPATH=$PYTHONPATH
-#   export _LD_LIBRARY_PATH=$LD_LIBRARY_PATH
-#   export _CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH
-# }
-#
-# restore_env_for_ros () {
-#   export PYTHONPATH=$_PYTHONPATH
-#   export LD_LIBRARY_PATH=$_LD_LIBRARY_PATH
-#   export CMAKE_PREFIX_PATH=$_CMAKE_PREFIX_PATH
-# }
-
-pip () {
-  command pip --use-deprecated=legacy-resolver $*
-}
-
-alias gs='git status'
-alias w='watch'
