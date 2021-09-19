@@ -515,28 +515,6 @@ restore_env_for_ros () {
 export GOPATH=$HOME/.go
 export PATH=$GOPATH/bin:$PATH
 
-alias istcluster='ssh istcluster'
-alias jenkins='ssh jenkins'
-alias aries='ssh aries'
-
-alias jhoop='ssh jhoop'
-alias jdlbox7='ssh jdlbox7'
-alias jdlbox8='ssh jdlbox8'
-alias jdlbox9='ssh jdlbox9'
-alias jdlboxs1='ssh jdlboxs1'
-alias jdlboxs2='ssh jdlboxs2'
-
-alias hoop='ssh hoop'
-alias dlbox7='ssh dlbox7'
-alias dlbox8='ssh dlbox8'
-alias dlbox9='ssh dlbox9'
-alias dlboxs1='ssh dlboxs1'
-alias dlboxs2='ssh dlboxs2'
-
-alias jararacussu='ssh jararacussu'
-alias sjararacussu='ssh sjararacussu'
-alias bigdaddy='ssh bigdaddy'
-
 if [ "$TMUX" != "" -a "$DIRENV_DIR" != "" ]; then
   cd /
   cd -
