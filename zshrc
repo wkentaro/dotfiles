@@ -149,17 +149,14 @@ source $ZSH/oh-my-zsh.sh
 # https://github.com/wkentaro/pycd
 type pycd.sh &>/dev/null && source `which pycd.sh`
 
-# https://github.com/wkentaro/wstool_cd
-type wstool_cd.sh &>/dev/null && source `which wstool_cd.sh`
-
 # completion
-autoload -Uz compinit
-typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
-if [ $(date +'%j') != $updated_at ]; then
-  compinit -i
-else
-  compinit -C -i
-fi
+#autoload -Uz compinit
+#typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
+#if [ $(date +'%j') != $updated_at ]; then
+#  compinit -i
+#else
+#  compinit -C -i
+#fi
 
 # compdef _todo todo
 
@@ -178,7 +175,7 @@ for plugin in $plugins; do
 done
 
 fpath=($HOME/.zsh/completions $fpath)
-autoload -U compinit && compinit
+#autoload -U compinit && compinit
 
 # ----------------------------
 # Improved less option
