@@ -460,9 +460,9 @@ users_by_ps () {
 # !!! Slow !!!
 # ---------------------------------
 
-if [ "$(uname)" = "Linux" ]; then
-  xmodmap $HOME/.Xmodmap &>/dev/null
-fi
+# if [ "$(uname)" = "Linux" ]; then
+#   xmodmap $HOME/.Xmodmap &>/dev/null
+# fi
 
 show-cuda
 
