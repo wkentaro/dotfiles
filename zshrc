@@ -107,9 +107,6 @@ fi
 # Homebrew
 export HOMEBREW_NO_AUTO_UPDATE=1
 
-# Travis
-[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
-
 # ---------------------------------
 # zsh plugins
 # ---------------------------------
@@ -405,13 +402,6 @@ fancy-ctrl-z () {
 }
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
-
-# -----------------
-# Travis completion
-# -----------------
-
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
-
 
 # ------------------
 # cuda configuration
