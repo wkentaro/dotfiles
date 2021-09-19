@@ -388,7 +388,7 @@ if [ -f $HOME/.zshrc.private ]; then
 fi
 
 # ---------------------------------
-# ascii art
+# fancy-ctrl-z
 # ---------------------------------
 
 fancy-ctrl-z () {
@@ -424,51 +424,11 @@ if [ -e $CUDA_PATH ]; then
   export CUDNN_PATH=$CUDA_PATH
 fi
 
-# ----------------------
-# anaconda configuration
-# ----------------------
-
-# activate () {
-#   if [ ! -e $HOME/.anaconda2/bin/activate ]; then
-#     echo 'Please install anaconda'
-#     return 1
-#   fi
-#   export _PYTHONPATH=$PYTHONPATH
-#   unset PYTHONPATH
-#   source $HOME/.anaconda2/bin/activate $1
-# }
-# _activate () {
-#   local -a reply
-#   if [[ ${CURRENT} = 2 ]]; then
-#     reply=($(command ls ~/.anaconda2/envs))
-#   fi
-#   _describe 'values' reply
-# }
-# compdef _activate activate
-# deactivate () {
-#   source deactivate
-#   export PYTHONPATH=$_PYTHONPATH
-#   unset _PYTHONPATH
-# }
-# alias ac=activate
-# alias da=deactivate
+show-cuda
 
 # !!! Slow !!!
 # ---------------------------------
 
 # if [ "$(uname)" = "Linux" ]; then
 #   xmodmap $HOME/.Xmodmap &>/dev/null
-# fi
-
-show-cuda
-
-# if [ ! -z $CONDA_DEFAULT_ENV ]; then
-#   conda_path=$(dirname $CONDA_PYTHON_EXE)
-#   conda_env=$CONDA_DEFAULT_ENV
-#   source $conda_path/activate $conda_env
-#   # if [ ! -z $CONDA_PREFIX ]; then
-#   #   source $CONDA_PREFIX/bin/activate $CONDA_DEFAULT_ENV
-#   # else
-#   #   source $(dirname $CONDA_PYTHON_EXE)/activate $CONDA_DEFAULT_ENV
-#   # fi
 # fi
