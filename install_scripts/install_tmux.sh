@@ -14,7 +14,7 @@ fi
 TMPDIR=$(mktemp -d)
 cd $TMPDIR
 
-VERSION=2.4
+VERSION=3.2a
 wget -q https://github.com/tmux/tmux/releases/download/${VERSION}/tmux-${VERSION}.tar.gz
 tar zxf tmux-${VERSION}.tar.gz
 cd tmux-${VERSION}
