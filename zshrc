@@ -415,11 +415,6 @@ bindkey '^Z' fancy-ctrl-z
 
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 
-# -----------------
-# ghi configuration
-# -----------------
-
-export GHI_TOKEN=$GITHUB_TOKEN
 
 # ------------------
 # cuda configuration
