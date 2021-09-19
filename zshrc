@@ -515,11 +515,6 @@ restore_env_for_ros () {
 export GOPATH=$HOME/.go
 export PATH=$GOPATH/bin:$PATH
 
-if [ "$TMUX" != "" -a "$DIRENV_DIR" != "" ]; then
-  cd /
-  cd -
-fi
-
 pip () {
   command pip --use-deprecated=legacy-resolver $*
 }
