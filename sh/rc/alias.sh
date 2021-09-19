@@ -400,3 +400,13 @@ sshL() {
 if which compdef &>/dev/null; then
   compdef sshL=ssh
 fi
+
+avi-to-mp4 () {
+  if [ $# -ne 1 ]; then
+    echo "Usage: $0 AVI_FILE"
+    return 1
+  fi
+  input_file=$1
+  output_file=${input_file/.avi/.mp4}
+  ffmpeg -i $input_file -c:v copy -c:a copy -y $output_file
+}
