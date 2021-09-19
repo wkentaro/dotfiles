@@ -477,21 +477,17 @@ show-cuda
 #   # fi
 # fi
 
-store_env_for_ros () {
-  export _PYTHONPATH=$PYTHONPATH
-  export _LD_LIBRARY_PATH=$LD_LIBRARY_PATH
-  export _CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH
-}
-
-restore_env_for_ros () {
-  export PYTHONPATH=$_PYTHONPATH
-  export LD_LIBRARY_PATH=$_LD_LIBRARY_PATH
-  export CMAKE_PREFIX_PATH=$_CMAKE_PREFIX_PATH
-}
-
-# setup for go
-export GOPATH=$HOME/.go
-export PATH=$GOPATH/bin:$PATH
+# store_env_for_ros () {
+#   export _PYTHONPATH=$PYTHONPATH
+#   export _LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+#   export _CMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH
+# }
+#
+# restore_env_for_ros () {
+#   export PYTHONPATH=$_PYTHONPATH
+#   export LD_LIBRARY_PATH=$_LD_LIBRARY_PATH
+#   export CMAKE_PREFIX_PATH=$_CMAKE_PREFIX_PATH
+# }
 
 pip () {
   command pip --use-deprecated=legacy-resolver $*
