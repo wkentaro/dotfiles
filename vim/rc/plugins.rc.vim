@@ -158,7 +158,14 @@ command Gd Git diff
 command Gdca Git diff --cached
 
 " lervag/vimtex
-let g:vimtex_view_method = 'skim'
+if has("mac")
+  let g:vimtex_view_method = 'skim'
+elseif has("unix")
+  let g:vimtex_view_method = 'general'
+  let g:vimtex_view_general_viewer = 'okular'
+  let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+  let g:vimtex_view_general_options_latexmk = '--unique'
+endif
 let g:vimtex_quickfix_ignore_filters = [
       \ 'Package caption Warning: Unknown document class (or package)',
       \ 'Package subfig Warning: Your document class has a bad definition',
