@@ -130,29 +130,6 @@ fi
 # autoenv
 export AUTOENV_CHECK_AUTH=0
 
-# oh-my-zsh
-DISABLE_AUTO_UPDATE=true
-plugins=(git python web-search vi-mode)
-ZSH=$HOME/.zsh/oh-my-zsh
-# FIXME: parser error in .zcompdump
-source $ZSH/oh-my-zsh.sh
-# FIXME: no completion function without this
-# compinit 2>/dev/null
-
-# https://github.com/wkentaro/pycd
-type pycd.sh &>/dev/null && source `which pycd.sh`
-
-# completion
-#autoload -Uz compinit
-#typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
-#if [ $(date +'%j') != $updated_at ]; then
-#  compinit -i
-#else
-#  compinit -C -i
-#fi
-
-# compdef _todo todo
-
 # local plugins
 plugins=(
   $HOME/.sh/plugins/git.sh
@@ -166,9 +143,16 @@ plugins=(
 for plugin in $plugins; do
   source $plugin
 done
-
 fpath=($HOME/.zsh/completions $fpath)
-#autoload -U compinit && compinit
+
+# oh-my-zsh
+DISABLE_AUTO_UPDATE=true
+plugins=(git python web-search vi-mode)
+ZSH=$HOME/.zsh/oh-my-zsh
+source $ZSH/oh-my-zsh.sh
+
+# https://github.com/wkentaro/pycd
+type pycd.sh &>/dev/null && source `which pycd.sh`
 
 # ----------------------------
 # Improved less option
