@@ -212,6 +212,12 @@ show-cuda () {
   # cuda
   CUDA_VERSION=$(command nvcc --version | sed -n 4p | sed 's/.*, release .*, V\(.*\)/\1/')
   echo "CUDA_VERSION: $CUDA_VERSION"
+  if [ -e $CUDA_PATH/include/cudnn_version.h ]; then
+    local cudnn_major=$(grep '#define CUDNN_MAJOR' $CUDA_PATH/include/cudnn_version.h | cut -d ' ' -f 3)
+    local cudnn_minor=$(grep '#define CUDNN_MINOR' $CUDA_PATH/include/cudnn_version.h | cut -d ' ' -f 3)
+    local cudnn_patch=$(grep '#define CUDNN_PATCHLEVEL' $CUDA_PATH/include/cudnn_version.h | cut -d ' ' -f 3)
+    echo "CUDNN_VERSION: $cudnn_major.$cudnn_minor.$cudnn_patch"
+  fi
 }
 alias show_cuda=show-cuda
 
