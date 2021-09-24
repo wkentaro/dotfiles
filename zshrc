@@ -368,15 +368,16 @@ bindkey '^Z' fancy-ctrl-z
 # cuda configuration
 # ------------------
 
-export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
-export LIBRARY_PATH=/usr/local/lib:/usr/lib:$LIBRARY_PATH
-# export CPATH=/usr/include:$CPATH
-# export CFLAGS=-I/usr/include
-export LDFLAGS="-L/usr/local/lib -L/usr/lib"
 if [ "$CUDA_PATH" = "" ]; then
   export CUDA_PATH=/usr/local/cuda
 fi
 if [ -e $CUDA_PATH ]; then
+  export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+  export LIBRARY_PATH=/usr/local/lib:/usr/lib:$LIBRARY_PATH
+  # export CPATH=/usr/include:$CPATH
+  # export CFLAGS=-I/usr/include
+  export LDFLAGS="-L/usr/local/lib -L/usr/lib"
+
   export PATH=$CUDA_PATH/bin:$PATH
   # export CPATH=$CUDA_PATH/include:$CPATH
   export LD_LIBRARY_PATH=$CUDA_PATH/lib64:$CUDA_PATH/lib:$CUDA_PATH/targets/x86_64-linux/lib/stubs:$LD_LIBRARY_PATH
