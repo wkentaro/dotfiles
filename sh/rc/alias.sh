@@ -200,7 +200,7 @@ trash() {
 # ----------------------------------------------------
 
 show-ros () {
-  CATKIN_TOOLS_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('catkin-tools').version)" 2>/dev/null)
+  # CATKIN_TOOLS_VERSION=$(python -c "import pkg_resources; print(pkg_resources.get_distribution('catkin-tools').version)" 2>/dev/null)
   echo "ROS_DISTRO: $ROS_DISTRO"
   # echo "CATKIN_TOOLS_VERSION: $CATKIN_TOOLS_VERSION"
   echo "CMAKE_PREFIX_PATH: $CMAKE_PREFIX_PATH"
