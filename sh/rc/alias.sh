@@ -429,10 +429,6 @@ restore_env_for_ros () {
   export CMAKE_PREFIX_PATH=$_CMAKE_PREFIX_PATH
 }
 
-pip () {
-  command pip --use-deprecated=legacy-resolver $*
-}
-
 alias gs='git status'
 alias w='watch'
 
