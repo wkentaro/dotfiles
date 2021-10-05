@@ -89,7 +89,7 @@ def install_dotfiles(dry_run=False):
                 copy_file(from_file, to_file, dry_run=dry_run)
 
 
-def install_commands(dry_run=False, sudo=False):
+def install_commands(dry_run=False):
     bin_path = osp.expanduser('~/.local/bin')
     if not osp.exists(bin_path):
         os.makedirs(bin_path)
@@ -100,8 +100,6 @@ def install_commands(dry_run=False, sudo=False):
         script = osp.join(scripts_dir, script)
         if os.access(script, os.X_OK):
             run_command(script, dry_run=dry_run)
-        elif sudo and not script.endswith('.manual.sh'):
-            run_command('bash {}'.format(script), dry_run=dry_run)
 
 
 here = osp.dirname(osp.abspath(__file__))
@@ -118,12 +116,6 @@ def main():
     parser.add_argument(
         '-p', '--private', action='store_true', help='install private'
     )
-    parser.add_argument(
-        '-s',
-        '--sudo',
-        action='store_true',
-        help='run installation scripts that requires sudo',
-    )
     args = parser.parse_args()
 
     run_command(
@@ -136,7 +128,7 @@ def main():
         install_private(dry_run=args.dry_run)
 
     install_dotfiles(dry_run=args.dry_run)
-    install_commands(dry_run=args.dry_run, sudo=args.sudo)
+    install_commands(dry_run=args.dry_run)
 
 
 if __name__ == '__main__':
