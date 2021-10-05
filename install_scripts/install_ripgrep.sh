@@ -8,7 +8,9 @@ fi
 TMPDIR=$(mktemp -d)
 cd $TMPDIR
 
-curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
-sudo dpkg -i ripgrep_11.0.2_amd64.deb
+VERSION=13.0.0
+
+curl -LO https://github.com/BurntSushi/ripgrep/releases/download/${VERSION}/ripgrep_${VERSION}_amd64.deb
+sudo dpkg -i ripgrep_${VERSION}_amd64.deb
 
 rm -rf $TMPDIR
