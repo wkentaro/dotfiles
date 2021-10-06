@@ -369,7 +369,7 @@ if which exa &>/dev/null; then
   alias ls=exa
 fi
 
-diff () {
+function diff () {
   command diff -u "$@" | diff-so-fancy
 }
 

@@ -145,10 +145,10 @@ for plugin in $plugins; do
 done
 fpath=($HOME/.zsh/completions $fpath)
 
-# oh-my-zsh
+# ohmyzsh
 DISABLE_AUTO_UPDATE=true
 plugins=(git python web-search vi-mode)
-ZSH=$HOME/.zsh/oh-my-zsh
+ZSH=$HOME/.zsh/ohmyzsh
 source $ZSH/oh-my-zsh.sh
 
 # https://github.com/wkentaro/pycd
