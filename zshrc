@@ -133,11 +133,9 @@ export AUTOENV_CHECK_AUTH=0
 # local plugins
 plugins=(
   $HOME/.sh/plugins/git.sh
-  $HOME/.sh/plugins/restart-travis.sh
   $HOME/.sh/plugins/ros.sh
   $HOME/.sh/plugins/gshell.sh
   $HOME/.sh/plugins/ubuntu.sh
-  $HOME/.sh/plugins/minerva.sh
   $HOME/.sh/plugins/aws.sh
 )
 for plugin in $plugins; do
