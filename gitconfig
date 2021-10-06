@@ -40,3 +40,5 @@
 	branch = false
 [credential]
 	helper = cache
+[init]
+	defaultBranch = main
