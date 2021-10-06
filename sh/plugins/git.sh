@@ -110,7 +110,7 @@ grbu () {
     fi
   done
   if [ ${#args} -eq 0 ]; then
-    branch="master"
+    branch="main"
   else
     branch=${args[1]}
   fi
@@ -127,7 +127,7 @@ grbg () {
     fi
   done
   if [ ${#args} -eq 0 ]; then
-    branch="master"
+    branch="main"
   else
     branch=${args[1]}
   fi
@@ -174,20 +174,20 @@ alias gbw='hub browse $@ 2>/dev/null'
 gbdg () {
   local branch
   if [ $# -eq 0 ]; then
-    branch=master
+    branch=main
   else
     branch=$1
   fi
-  git branch -r --merged origin/master | grep "$GITHUB_USER\\/" | sed "s/$GITHUB_USER\\///" | egrep -v "HEAD|master|develop|release|${branch}" | xargs git push $GITHUB_USER --delete
+  git branch -r --merged origin/main | grep "$GITHUB_USER\\/" | sed "s/$GITHUB_USER\\///" | egrep -v "HEAD|main|develop|release|${branch}" | xargs git push $GITHUB_USER --delete
 }
 gbdu () {
   local branch
   if [ $# -eq 0 ]; then
-    branch=master
+    branch=main
   else
     branch=$1
   fi
-  git branch -r --merged upstream/$branch | grep "$GITHUB_USER\\/" | sed "s/$GITHUB_USER\\///" | egrep -v "HEAD|master|develop|release|${branch}" | xargs git push $GITHUB_USER --delete
+  git branch -r --merged upstream/$branch | grep "$GITHUB_USER\\/" | sed "s/$GITHUB_USER\\///" | egrep -v "HEAD|main|develop|release|${branch}" | xargs git push $GITHUB_USER --delete
 }
 gbdr () {
   local remote branch
@@ -210,7 +210,7 @@ fi
 alias gbD='git branch -D'
 git_remote_to_local () {
   local branches
-  branches=(`git branch --all | grep $GITHUB_USER | egrep -v 'HEAD|master|develop|release' | sed "s@^ *remotes/$GITHUB_USER/@@"`)
+  branches=(`git branch --all | grep $GITHUB_USER | egrep -v 'HEAD|main|develop|release' | sed "s@^ *remotes/$GITHUB_USER/@@"`)
   for br in $branches; do
     git branch $br --track $GITHUB_USER/$br 2>/dev/null
   done
