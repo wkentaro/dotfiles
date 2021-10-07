@@ -145,6 +145,7 @@ fpath=($HOME/.zsh/completions $fpath)
 
 # ohmyzsh
 DISABLE_AUTO_UPDATE=true
+DISABLE_MAGIC_FUNCTIONS=true
 plugins=(git python web-search vi-mode)
 ZSH=$HOME/.zsh/ohmyzsh
 source $ZSH/oh-my-zsh.sh
