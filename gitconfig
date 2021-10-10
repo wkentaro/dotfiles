@@ -39,6 +39,6 @@
 	status = false
 	branch = false
 [credential]
-	helper = cache
+	helper = store
 [init]
 	defaultBranch = main
