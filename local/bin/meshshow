@@ -10,11 +10,14 @@ def main():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument('filenames', nargs='+', help='Mesh files')
+    parser.add_argument("--nocolor", action="store_true", help="no color")
     args = parser.parse_args()
 
     geometries = []
     for filename in args.filenames:
         geo = trimesh.load(filename)
+        if args.nocolor:
+            geo.visual.vertex_colors = None
         geometries.append(geo)
     trimesh.Scene(geometries).show()
 
