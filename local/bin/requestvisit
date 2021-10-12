@@ -34,24 +34,20 @@ driver.get(
     f"https://{USERNAME}:{PASSWORD}@www.doc.ic.ac.uk/~dcw/secure/requestvisit/visit"  # NOQA
 )
 for date in args.dates:
-    for is_am in [True, False]:
-        Select(driver.find_element_by_name("room")).select_by_value(
-            "WPL 301"
-        )
+    Select(driver.find_element_by_name("room")).select_by_value(
+        "WPL 301"
+    )
 
-        element = driver.find_element_by_name("cid")
-        element.clear()
-        element.send_keys(CID)
+    element = driver.find_element_by_name("cid")
+    element.clear()
+    element.send_keys(CID)
 
-        Select(driver.find_element_by_name("visdate")).select_by_value(
-            date
-        )
-        Select(driver.find_element_by_name("am")).select_by_value(
-            "t" if is_am else "f"
-        )
+    Select(driver.find_element_by_name("visdate")).select_by_value(
+        date
+    )
 
-        element = driver.find_element_by_name("purpose")
-        element.clear()
-        element.send_keys(PURPOSE)
+    element = driver.find_element_by_name("purpose")
+    element.clear()
+    element.send_keys(PURPOSE)
 
-        driver.find_element_by_name("Add Visit").click()
+    driver.find_element_by_name("Add Visit").click()
