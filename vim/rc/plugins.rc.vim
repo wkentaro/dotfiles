@@ -37,8 +37,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-fugitive'
 
   Plug 'lervag/vimtex'
-
-  Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 " flazz/vim-colorschemes
