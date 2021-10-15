@@ -9,8 +9,11 @@ au BufNewFile,BufRead *.bash set ft=sh tabstop=8 shiftwidth=2
 au BufNewFile,BufRead *.go set tabstop=8 shiftwidth=4
 autocmd FileType yaml setlocal indentkeys-=<:> tabstop=8 shiftwidth=2
 au BufNewFile,BufRead *.cfg set ft=python tabstop=8 shiftwidth=4
-au BufNewFile,BufRead *.c set tabstop=8 shiftwidth=4
-au BufNewFile,BufRead *.cpp set tabstop=8 shiftwidth=2
+" au BufNewFile,BufRead *.c set tabstop=8 shiftwidth=4
+" au BufNewFile,BufRead *.cpp set tabstop=8 shiftwidth=2
+au BufNewFile,BufRead *.h set noexpandtab
+au BufNewFile,BufRead *.c set noexpandtab
+au BufNewFile,BufRead *.cpp set noexpandtab
 au BufNewFile,BufRead *.launch set tabstop=8 shiftwidth=2 ft=xml
 au BufNewFile,BufRead *.test set tabstop=8 shiftwidth=2 ft=xml
 au BufNewFile,BufRead *.md set tabstop=8 shiftwidth=2 ft=markdown
