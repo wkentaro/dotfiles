@@ -37,6 +37,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-fugitive'
 
   Plug 'lervag/vimtex'
+
+  Plug 'JuliaEditorSupport/julia-vim'
 call plug#end()
 
 " flazz/vim-colorschemes
