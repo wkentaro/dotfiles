@@ -130,6 +130,15 @@ fi
 # autoenv
 export AUTOENV_CHECK_AUTH=0
 
+fpath=($HOME/.zsh/completions $fpath)
+
+# ohmyzsh
+DISABLE_AUTO_UPDATE=true
+DISABLE_MAGIC_FUNCTIONS=true
+plugins=(git python web-search vi-mode)
+ZSH=$HOME/.zsh/ohmyzsh
+source $ZSH/oh-my-zsh.sh
+
 # local plugins
 plugins=(
   $HOME/.sh/plugins/git.sh
@@ -141,14 +150,6 @@ plugins=(
 for plugin in $plugins; do
   source $plugin
 done
-fpath=($HOME/.zsh/completions $fpath)
-
-# ohmyzsh
-DISABLE_AUTO_UPDATE=true
-DISABLE_MAGIC_FUNCTIONS=true
-plugins=(git python web-search vi-mode)
-ZSH=$HOME/.zsh/ohmyzsh
-source $ZSH/oh-my-zsh.sh
 
 # https://github.com/wkentaro/pycd
 type pycd.sh &>/dev/null && source `which pycd.sh`
