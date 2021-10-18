@@ -32,10 +32,7 @@ driver.implicitly_wait(5)
 driver.get(
     f"https://{USERNAME}:{PASSWORD}@www.doc.ic.ac.uk/~dcw/secure/requestvisit/visit"  # NOQA
 )
-# WPL 301
-# WPL 306
-# WPL WP3
-Select(driver.find_element_by_name("room")).select_by_value("WPL 301")
+Select(driver.find_element_by_name("room")).select_by_value("301 (Approver Andrew Davison)")
 
 element = driver.find_element_by_name("cid")
 element.clear()
