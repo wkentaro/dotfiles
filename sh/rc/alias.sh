@@ -435,3 +435,8 @@ alias w='watch'
 users_by_ps () {
   ps auxwww | awk '{print $1}' | egrep "$(command ls /home)" | sort | uniq -c | sort -nr | xargs
 }
+
+function gcd () {
+  cd $(git rev-parse --show-toplevel)
+}
+alias gcd=gcd
