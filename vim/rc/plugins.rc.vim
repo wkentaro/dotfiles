@@ -39,6 +39,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'lervag/vimtex'
 
   Plug 'JuliaEditorSupport/julia-vim'
+
+  Plug 'preservim/tagbar'
 call plug#end()
 
 " flazz/vim-colorschemes
@@ -170,3 +172,7 @@ let g:vimtex_quickfix_ignore_filters = [
       \ 'Package caption Warning: Unknown document class (or package)',
       \ 'Package subfig Warning: Your document class has a bad definition',
       \]
+
+" preservim/tagbar
+let g:tagbar_sort = 0
+autocmd VimEnter * nested :TagbarOpen
