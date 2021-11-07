@@ -24,7 +24,7 @@ args = parser.parse_args()
 
 USERNAME = os.environ["IMPERIAL_USERNAME"]
 PASSWORD = os.environ["IMPERIAL_PASSWORD"]
-CID = os.environ["IMPERIAL_CID"]
+# CID = os.environ["IMPERIAL_CID"]
 PURPOSE = "Research on the desktop computer in the lab."
 
 driver = webdriver.Chrome()
@@ -34,9 +34,9 @@ driver.get(
 )
 Select(driver.find_element_by_name("room")).select_by_value("301 (Approver Andrew Davison)")
 
-element = driver.find_element_by_name("cid")
-element.clear()
-element.send_keys(CID)
+# element = driver.find_element_by_name("cid")
+# element.clear()
+# element.send_keys(CID)
 
 element = driver.find_element_by_name("purpose")
 element.clear()
