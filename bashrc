@@ -32,7 +32,6 @@ show_venv() {
 PS1='${debian_chroot:+($debian_chroot)}\e[0;35m\u\e[0m at \e[0;33m\h\e[0m in \e[0;32m\w\e[0m tm \e[0;37m$(date +%H:%M)$(parse_branch)\e[0m$(show_venv)\n$ '
 
 plugins=(
-  $HOME/.sh/plugins/browse.sh
   $HOME/.sh/plugins/git.sh
   $HOME/.sh/plugins/ros.sh
 )
