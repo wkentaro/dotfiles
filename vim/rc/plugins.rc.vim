@@ -172,6 +172,8 @@ let g:vimtex_quickfix_ignore_filters = [
       \ 'Package caption Warning: Unknown document class (or package)',
       \ 'Package subfig Warning: Your document class has a bad definition',
       \ 'Package hyperref Warning: Token not allowed in a PDF string (Unicode)',
+      \ 'Overfull ',
+      \ 'Underfull ',
       \]
 
 " preservim/tagbar
