@@ -174,8 +174,11 @@ let g:vimtex_quickfix_ignore_filters = [
       \ 'Package hyperref Warning: Token not allowed in a PDF string (Unicode)',
       \ 'Overfull ',
       \ 'Underfull ',
+      \ 'Package minitoc(hints) Warning: ',
+      \ 'LaTeX Warning: Citation ',
+      \ 'LaTeX Warning: No positions in optional float specifier.',
+      \ 'LaTeX Warning: There were undefined references.',
       \]
 
 " preservim/tagbar
 let g:tagbar_sort = 0
-autocmd VimEnter * nested :TagbarOpen
