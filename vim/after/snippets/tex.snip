@@ -200,11 +200,11 @@ alias   \begin{document} \document
 
 snippet figure
 alias   \begin{figure} \figure
-    \begin{figure}[${1:htbp}]
+    \begin{figure}[htbp]
         \centering
-        \includegraphics[width=\linewidth]{${2}}
-        \caption{<++>}
-        \label{figure:<++>}
+        \includegraphics[width=\linewidth]{${1}}
+        \caption{caption}
+        \label{figure:label}
     \end{figure}
 
 snippet subfloat
