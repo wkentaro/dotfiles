@@ -3,7 +3,7 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'davidhalter/jedi-vim'
 
-  Plug 'preservim/nerdtree'
+  " Plug 'preservim/nerdtree'
 
   if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -24,7 +24,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'Shougo/unite.vim'
   Plug 'Shougo/neomru.vim'
 
-  " Plug 'Shougo/vimfiler.vim'
+  Plug 'Shougo/vimfiler.vim'
 
   Plug 'ctrlpvim/ctrlp.vim'
 
@@ -82,11 +82,11 @@ function! s:unite_my_settings()
   imap <silent><buffer><expr> <C-v>     unite#do_action('vsplit')
 endfunction
 
-" " Shougo/vimfiler.vim
-" let g:vimfiler_as_default_explorer = 1
-" let g:vimfiler_safe_mode_by_default = 0
-" let g:vimfiler_ignore_pattern = '\%(.pyc\)$'
-" noremap <silent> <Leader>f :VimFiler -split -explorer -winwidth=50<CR>
+" Shougo/vimfiler.vim
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_safe_mode_by_default = 0
+let g:vimfiler_ignore_pattern = '\%(.pyc\)$'
+noremap <silent> <Leader>f :VimFiler -split -explorer -winwidth=40<CR>
 
 " ctrlpvim/ctrlp.vim
 let g:ctrlp_map = '<c-p>'
@@ -186,10 +186,11 @@ let g:tex_flavor = 'latex'
 
 " preservim/tagbar
 let g:tagbar_sort = 0
+noremap <silent> <Leader>t :TagbarToggle<CR>
 
-nnoremap <leader>f :NERDTreeFocus<CR>
+" nnoremap <leader>f :NERDTreeFocus<CR>
 " nnoremap <C-n> :NERDTree<CR>
 " nnoremap <C-t> :NERDTreeToggle<CR>
 " nnoremap <C-f> :NERDTreeFind<CR>
 " Open the existing NERDTree on each new tab.
-autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+" autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
