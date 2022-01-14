@@ -23,7 +23,7 @@ au BufNewFile,BufRead *.json set tabstop=8 shiftwidth=4
 "--------------------------------------
 " Python setting
 "--------------------------------------
-autocmd FileType python nnoremap ,b :!black --line-length 79 %<cr> :e<cr>
+autocmd FileType python nnoremap ,b :w<cr> :!black --line-length 79 %<cr> :e<cr>
 au BufNewFile,BufRead *.py set tabstop=8 shiftwidth=4
 au BufNewFile,BufRead *.py set
 au BufNewFile,BufRead *.py set indentkeys-=:
