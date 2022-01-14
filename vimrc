@@ -177,6 +177,7 @@ au BufNewFile,BufRead * match ZenkakuSpace /　/
 " ----------------------------------------------------------
 execute 'source' '~/.vim/rc/mappings.rc.vim'
 
+let maplocalleader = ','
 
 " ----------------------------------------------------------
 " Plugins
