@@ -3,8 +3,6 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'davidhalter/jedi-vim'
 
-  " Plug 'preservim/nerdtree'
-
   if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
@@ -25,6 +23,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'Shougo/neomru.vim'
 
   Plug 'Shougo/vimfiler.vim'
+  Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
   Plug 'ctrlpvim/ctrlp.vim'
 
@@ -43,6 +42,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'JuliaEditorSupport/julia-vim'
 
   Plug 'preservim/tagbar'
+
+  Plug 'thinca/vim-quickrun'
 call plug#end()
 
 " flazz/vim-colorschemes
@@ -188,9 +189,9 @@ let g:tex_flavor = 'latex'
 let g:tagbar_sort = 0
 noremap <silent> <Leader>t :TagbarToggle<CR>
 
-" nnoremap <leader>f :NERDTreeFocus<CR>
-" nnoremap <C-n> :NERDTree<CR>
-" nnoremap <C-t> :NERDTreeToggle<CR>
-" nnoremap <C-f> :NERDTreeFind<CR>
-" Open the existing NERDTree on each new tab.
-" autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+let g:quickrun_config = {
+      \'*': {
+      \'outputter/buffer/opener': '%{winwidth(0) * 2 < winheight(0) * 5 ? "10new" : "vnew"}',
+      \'outputter/buffer/close_on_empty': 1}}
+nnoremap <silent> <Leader>r :QuickRun<CR>
+nnoremap <Leader>rr :bw! quickrun://output<CR>
