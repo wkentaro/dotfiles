@@ -82,12 +82,6 @@ export VIRTUALENV_USE_DISTRIBUTE=1
 # Termcolor
 export TERM=xterm-256color
 
-# grep
-if [ "$(uname)" = "Darwin" ]; then
-  export GREP_OPTIONS='--color=always'
-  export GREP_COLOR='1;35;40'
-fi
-
 # Encoding
 export LANG='en_US.UTF-8'
 export LC_CTYPE='en_US.UTF-8'
