@@ -10,7 +10,7 @@ als() {
     echo "# $profile"
     for region in $regions; do
       echo "## $region"
-      aws ec2 describe-instances --profile $profile --region $region | jq '.Reservations[] | ( .Instances[] | {state: .State.Name, id: .InstanceId, name: .KeyName, type: .InstanceType, ip: .PublicIpAddress})' | jq_to_table
+      aws ec2 describe-instances --profile $profile --region $region | jq '.Reservations[] | ( .Instances[] | {state: .State.Name, id: .InstanceId, name: .Tags[0].Value, type: .InstanceType, ip: .PublicIpAddress})' | jq_to_table
     done
   done
 }
