@@ -9,9 +9,9 @@ TMPDIR=$(mktemp -d)
 cd $TMPDIR
 
 if [ "$(uname)" = "Linux" ]; then
-  curl -L -O https://github.com/dandavison/delta/releases/download/0.1.1/delta-0.1.1-x86_64-unknown-linux-musl.tar.gz
+  curl -L -O https://github.com/dandavison/delta/releases/download/0.11.3/delta-0.11.3-x86_64-unknown-linux-musl.tar.gz
 elif [ "$(uname)" = "Darwin" ]; then
-  curl -L -O https://github.com/dandavison/delta/releases/download/0.1.1/delta-0.1.1-x86_64-apple-darwin.tar.gz
+  curl -L -O https://github.com/dandavison/delta/releases/download/0.11.3/delta-0.11.3-x86_64-apple-darwin.tar.gz
 fi
 
 tar zxvf *.tar.gz
