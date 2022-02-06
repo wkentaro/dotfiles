@@ -10,8 +10,6 @@
 	renames = true
 	algorithm = histogram
 	colorMoved = default
-[interactive]
-	diffFilter = delta --color-only
 [alias]
 	co = checkout
 	ci = commit
@@ -27,11 +25,7 @@
 	smudge = git-media-smudge %f
 [core]
 	excludesfile = ~/.gitignore_global
-	# pager = diff-so-fancy | less
-	pager = delta | less
-[delta]
-	navigate = true
-	line-numbers = true
+	pager = diff-so-fancy | less
 [merge]
 	conflictstyle = diff3
 [http]
