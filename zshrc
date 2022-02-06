@@ -312,9 +312,9 @@ function _z_cd ()
 {
   if [ "$1" = "" ]; then
     if [ "$(uname)" = "Linux" ]; then
-      dir=$(_z 2>&1 | awk '{print $2}' | tac | percol)
+      dir=$(_z 2>&1 | awk '{print $2}' | tac | fzf)
     else
-      dir=$(_z 2>&1 | awk '{print $2}' | tail -r | percol)
+      dir=$(_z 2>&1 | awk '{print $2}' | tail -r | fzf)
     fi
   else
     dir=$1
@@ -387,3 +387,10 @@ show-cuda
 # if [ "$(uname)" = "Linux" ]; then
 #   xmodmap $HOME/.Xmodmap &>/dev/null
 # fi
+
+alias ql="qlmanage -p 2>/dev/null"
+
+export FZF_DEFAULT_COMMAND="rg --files"
+export FZF_COMPLETION_OPTS='--border --info=inline'
+
+alias jcurl='curl -H "Accept: application/json"'

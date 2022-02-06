@@ -1,3 +1,4 @@
+Aloxaf/fzf-tab
 # hchbaw/opp.zsh  # obsolete
 # b4b4r07/enhancd
 zpm-zsh/autoenv
