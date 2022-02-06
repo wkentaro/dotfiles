@@ -113,9 +113,9 @@ xnoremap id  i"
 " Buffer keymap
 " ----------------------------------------------------------
 " Fast buffer alternation, next/prev, close "{{{
-map ga <C-^>
-nmap gn :bn<CR>
-nmap gp :bp<CR>
+" map ga <C-^>
+" nmap gn :bn<CR>
+" nmap gp :bp<CR>
 nmap gk :bp<bar>bd #<CR>
 "}}}
 
