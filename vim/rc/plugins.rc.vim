@@ -103,8 +103,13 @@ endfunction "}}}
 " let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 " let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 " nnoremap <C-n> :CtrlPBuffer<CR>
-nmap <C-P> :GFiles<CR>
-nmap <C-N> :GFiles?<CR>
+nmap <C-N> :Rg<CR>
+
+function! s:find_git_root()
+    return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+command! ProjectFiles execute 'Files' s:find_git_root()
+nnoremap <C-p> :ProjectFiles<CR>
 
 " Shougo/neoyank.vim
 nmap <silent> <Leader>y :Unite history/yank -direction=botright<CR>
