@@ -22,7 +22,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'Shougo/unite.vim'
   Plug 'Shougo/neomru.vim'
 
-  Plug 'Shougo/vimfiler.vim'
+  Plug 'preservim/nerdtree'
+
+  " Plug 'Shougo/vimfiler.vim'
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -85,16 +87,16 @@ nmap <silent> <Leader>o <Plug>(openbrowser-open)
 " endfunction
 
 " Shougo/vimfiler.vim
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_safe_mode_by_default = 0
+" let g:vimfiler_as_default_explorer = 1
+" let g:vimfiler_safe_mode_by_default = 0
 " let g:vimfiler_ignore_pattern = '\%(.pyc\)$'
-noremap <silent> <Leader>f :VimFiler -split -explorer -winwidth=40<CR>
+" noremap <silent> <Leader>f :VimFiler -split -explorer -winwidth=40<CR>
 
 " Unite window mappings {{{
-autocmd FileType vimfiler call s:vimfiler_settings()
-function! s:vimfiler_settings() abort "{{{
-  silent! nunmap <buffer> <C-l>
-endfunction "}}}
+" autocmd FileType vimfiler call s:vimfiler_settings()
+" function! s:vimfiler_settings() abort "{{{
+"   silent! nunmap <buffer> <C-l>
+" endfunction "}}}
 
 " ctrlpvim/ctrlp.vim
 " let g:ctrlp_map = '<c-p>'
@@ -103,13 +105,13 @@ endfunction "}}}
 " let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 " let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 " nnoremap <C-n> :CtrlPBuffer<CR>
-nmap <C-N> :Rg<CR>
 
 function! s:find_git_root()
     return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
 command! ProjectFiles execute 'Files' s:find_git_root()
-nnoremap <C-p> :ProjectFiles<CR>
+" nnoremap <C-p> :ProjectFiles<CR>
+" nnoremap <C-n> :Buffer<CR>
 
 " Shougo/neoyank.vim
 nmap <silent> <Leader>y :Unite history/yank -direction=botright<CR>
@@ -210,3 +212,32 @@ let g:quickrun_config = {
       \'outputter/buffer/close_on_empty': 1}}
 nnoremap <silent> <Leader>r :QuickRun<CR>
 nnoremap <Leader>rr :bw! quickrun://output<CR>
+
+" Start NERDTree and put the cursor back in the other window.
+autocmd VimEnter * NERDTree | wincmd p
+" Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" Open the existing NERDTree on each new tab.
+autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+
+
+" Prevent FZF commands from opening in none modifiable buffers
+function! FZFOpen(cmd)
+    " If more than 1 window, and buffer is not modifiable or file type is
+    " NERD tree or Quickfix type
+    if winnr('$') > 1 && (!&modifiable || &ft == 'nerdtree' || &ft == 'qf')
+        " Move one window to the right, then up
+        wincmd l
+        wincmd k
+    endif
+    exe a:cmd
+endfunction
+
+" FZF in Open buffers
+nnoremap <silent> <C-n> :call FZFOpen(":Buffers")<CR>
+
+" FZF Search for Files
+nnoremap <silent> <C-p> :call FZFOpen(":ProjectFiles")<CR>
+
+" FZF Search for previous opened Files
+nnoremap <silent> <C-]> :call FZFOpen(":History")<CR>
