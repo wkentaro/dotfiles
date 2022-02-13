@@ -51,3 +51,5 @@ autocmd FileType,BufRead *.tex let b:syntastic_skip_checks = 1
 au BufNewFile,BufRead *.bib set iskeyword+=:
 " au BufNewFile,BufRead *.tex set isk+=-
 " autocmd FileType,BufRead *.tex nnoremap <leader>m :w<cr> :!make<cr> <cr>
+
+au BufNewFile,BufRead *.cfg set ft=cfg
