@@ -244,6 +244,6 @@ nnoremap <silent> <C-]> :call FZFOpen(":Files ~")<CR>
 
 let g:fzf_buffers_jump = 1
 let g:fzf_action = {
-    \ 'enter': 'tab split',
+    \ 'ctrl-j': 'tab split',
     \ 'ctrl-x': 'split',
     \ 'ctrl-v': 'vsplit'}
