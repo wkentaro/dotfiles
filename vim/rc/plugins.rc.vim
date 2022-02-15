@@ -24,7 +24,7 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'preservim/nerdtree'
 
-  " Plug 'Shougo/vimfiler.vim'
+  Plug 'Shougo/vimfiler.vim'
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -87,8 +87,8 @@ nmap <silent> <Leader>o <Plug>(openbrowser-open)
 " endfunction
 
 " Shougo/vimfiler.vim
-" let g:vimfiler_as_default_explorer = 1
-" let g:vimfiler_safe_mode_by_default = 0
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_safe_mode_by_default = 0
 " let g:vimfiler_ignore_pattern = '\%(.pyc\)$'
 " noremap <silent> <Leader>f :VimFiler -split -explorer -winwidth=40<CR>
 
@@ -214,11 +214,12 @@ nnoremap <silent> <Leader>r :QuickRun<CR>
 nnoremap <Leader>rr :bw! quickrun://output<CR>
 
 " Start NERDTree and put the cursor back in the other window.
-autocmd VimEnter * NERDTree | wincmd p
+" autocmd VimEnter * NERDTree | wincmd p
 " Close the tab if NERDTree is the only window remaining in it.
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 " Open the existing NERDTree on each new tab.
 autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+noremap <silent> <Leader>f :NERDTreeToggle<CR>
 
 
 " Prevent FZF commands from opening in none modifiable buffers
@@ -239,5 +240,10 @@ nnoremap <silent> <C-n> :call FZFOpen(":Buffers")<CR>
 " FZF Search for Files
 nnoremap <silent> <C-p> :call FZFOpen(":ProjectFiles")<CR>
 
-" FZF Search for previous opened Files
-nnoremap <silent> <C-]> :call FZFOpen(":History")<CR>
+nnoremap <silent> <C-]> :call FZFOpen(":Files ~")<CR>
+
+let g:fzf_buffers_jump = 1
+let g:fzf_action = {
+    \ 'enter': 'tab split',
+    \ 'ctrl-x': 'split',
+    \ 'ctrl-v': 'vsplit'}
