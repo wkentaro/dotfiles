@@ -440,3 +440,5 @@ function gcd () {
   cd $(git rev-parse --show-toplevel)
 }
 alias gcd=gcd
+
+alias skim='open -a Skim'
