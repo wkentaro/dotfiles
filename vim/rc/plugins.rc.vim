@@ -47,6 +47,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'preservim/tagbar'
 
   Plug 'thinca/vim-quickrun'
+
+  Plug 'RRethy/vim-illuminate'
 call plug#end()
 
 " flazz/vim-colorschemes
