@@ -239,7 +239,8 @@ function! FZFOpen(cmd)
 endfunction
 
 " FZF in Open buffers
-nnoremap <silent> <C-n> :call FZFOpen(":Buffers")<CR>
+" nnoremap <silent> <C-n> :call FZFOpen(":Buffers")<CR>
+nnoremap <silent> <C-n> :call FZFOpen(":Rg")<CR>
 
 " FZF Search for Files
 nnoremap <silent> <C-p> :call FZFOpen(":ProjectFiles")<CR>
@@ -251,3 +252,9 @@ let g:fzf_action = {
     \ 'ctrl-o': 'tab split',
     \ 'ctrl-x': 'split',
     \ 'ctrl-v': 'vsplit'}
+
+command! -bang -nargs=* Rg call fzf#vim#grep(
+    \ 'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>),
+    \ 1,
+    \ fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}),
+    \ <bang>0)
