@@ -392,3 +392,5 @@ alias ql="qlmanage -p 2>/dev/null"
 
 export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_CTRL_T_COMMAND='fd --strip-cwd-prefix'
+
+alias lv='bat --pager="less -RF" --style plain'
