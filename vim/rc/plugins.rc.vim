@@ -53,13 +53,17 @@ call plug#end()
 
 " flazz/vim-colorschemes
 syntax on
+" set termguicolors
+let g:solarized_termtrans = 1
+" let g:solarized_termcolors=16
+" let g:solarized_termcolors=256
 set background=dark
 colorscheme solarized
-hi Normal ctermbg=none
-hi NonText ctermbg=none
+" hi Normal ctermbg=none
+" hi NonText ctermbg=none
 hi Normal ctermfg=none
-hi ColorColumn ctermbg=8
-hi Visual ctermbg=0
+" hi ColorColumn ctermbg=8
+" hi Visual ctermbg=0
 
 " scrooloose/syntastic
 let g:syntastic_python_checkers = ['flake8']
