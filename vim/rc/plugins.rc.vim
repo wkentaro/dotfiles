@@ -64,6 +64,9 @@ colorscheme solarized
 hi Normal ctermfg=none
 " hi ColorColumn ctermbg=8
 " hi Visual ctermbg=0
+"hi TabLineFill ctermfg=LightGreen ctermbg=DarkGreen
+"hi TabLine ctermfg=Blue ctermbg=Yellow
+hi TabLineSel ctermfg=LightBlue ctermbg=Black
 
 " scrooloose/syntastic
 let g:syntastic_python_checkers = ['flake8']
