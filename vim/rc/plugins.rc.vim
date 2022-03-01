@@ -263,5 +263,5 @@ let g:fzf_action = {
 command! -bang -nargs=* Rg call fzf#vim#grep(
     \ 'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>),
     \ 1,
-    \ fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}),
+    \ fzf#vim#with_preview({'dir': system('git rev-parse --show-toplevel 2> /dev/null')[:-2], 'options': '--delimiter : --nth 4..'}),
     \ <bang>0)
