@@ -19,6 +19,7 @@ au BufNewFile,BufRead *.html set tabstop=8 shiftwidth=2
 autocmd FileType,BufRead *.html let b:syntastic_skip_checks = 1
 au BufNewFile,BufRead *.js set tabstop=8 shiftwidth=2
 au BufNewFile,BufRead *.json set tabstop=8 shiftwidth=4
+au BufNewFile,BufRead *.rsx set tabstop=4 shiftwidth=2
 
 "--------------------------------------
 " Python setting
