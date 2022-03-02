@@ -9,6 +9,7 @@ __pycache__/
 .in
 .out
 a.*
+,*
 nohup.*.out
 
 .nvimlog
