@@ -8,7 +8,6 @@ au BufNewFile,BufRead *.zsh set ft=zsh tabstop=8 shiftwidth=2
 au BufNewFile,BufRead *.bash set ft=sh tabstop=8 shiftwidth=2
 au BufNewFile,BufRead *.go set tabstop=8 shiftwidth=4
 autocmd FileType yaml setlocal indentkeys-=<:> tabstop=8 shiftwidth=2
-au BufNewFile,BufRead *.cfg set ft=python tabstop=8 shiftwidth=4
 au BufNewFile,BufRead *.h set tabstop=8 shiftwidth=2
 au BufNewFile,BufRead *.c set tabstop=8 shiftwidth=2
 au BufNewFile,BufRead *.cpp set tabstop=8 shiftwidth=2
@@ -53,4 +52,4 @@ au BufNewFile,BufRead *.bib set iskeyword+=:
 " au BufNewFile,BufRead *.tex set isk+=-
 " autocmd FileType,BufRead *.tex nnoremap <leader>m :w<cr> :!make<cr> <cr>
 
-au BufNewFile,BufRead *.cfg set ft=cfg
+au BufNewFile,BufRead *.cfg set ft=toml
