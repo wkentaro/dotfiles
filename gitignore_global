@@ -8,7 +8,6 @@ __pycache__/
 .anaconda3/
 .in
 .out
-a.*
 ,*
 nohup.*.out
 
