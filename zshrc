@@ -401,4 +401,7 @@ export PATH="/usr/local/lib/ruby/gems/3.0.0/bin:$PATH"
 if which batcat>/dev/null; then
   alias bat=batcat
 fi
+if which fdfind>/dev/null; then
+  alias fd=fdfind
+fi
 alias lv='bat --pager="less -R" --style plain'
