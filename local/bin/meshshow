@@ -19,7 +19,7 @@ def main():
         if args.nocolor:
             geo.visual.vertex_colors = None
         geometries.append(geo)
-    trimesh.Scene(geometries).show()
+    trimesh.Scene(geometries).show(resolution=(500, 500))
 
 
 if __name__ == '__main__':
