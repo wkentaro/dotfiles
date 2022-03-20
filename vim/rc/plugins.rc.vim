@@ -99,7 +99,7 @@ nmap <silent> <Leader>o <Plug>(openbrowser-open)
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 " let g:vimfiler_ignore_pattern = '\%(.pyc\)$'
-noremap <silent> <Leader>f :VimFilerExplorer<CR>
+noremap <silent> <leader>f :VimFilerBuffer -buffer-name=explorer -split -simple -winwidth=35 -toggle -no-quit<cr>
 
 " Unite window mappings {{{
 autocmd FileType vimfiler call s:vimfiler_settings()
