@@ -394,6 +394,8 @@ export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_CTRL_T_COMMAND='fd --strip-cwd-prefix'
 export FZF_CTRL_R_OPTS='--reverse'
 
+alias lv='bat --pager="less -R" --style plain'
+
 export PATH="/usr/local/lib/ruby/gems/3.0.0/bin:$PATH"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
