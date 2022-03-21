@@ -20,8 +20,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'Shougo/unite.vim'
   Plug 'Shougo/neomru.vim'
 
-  " Plug 'preservim/nerdtree'
-
   Plug 'Shougo/vimfiler.vim'
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
@@ -217,14 +215,6 @@ let g:quickrun_config = {
 nnoremap <silent> <Leader>r :QuickRun<CR>
 nnoremap <Leader>rr :bw! quickrun://output<CR>
 
-" " Start NERDTree and put the cursor back in the other window.
-" " autocmd VimEnter * NERDTree | wincmd p
-" " Close the tab if NERDTree is the only window remaining in it.
-" autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-" " Open the existing NERDTree on each new tab.
-" autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
-" noremap <silent> <Leader>f :NERDTreeToggle<CR>
-"
 autocmd BufEnter * if winnr('$') == 1 && exists('b:vimfiler') && b:vimfiler['context']['explorer'] | quit | endif
 
 
