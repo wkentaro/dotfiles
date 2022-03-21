@@ -1,15 +1,8 @@
-"--------------------------------------
-" Key mappings
-"--------------------------------------
-
-
 " Mapleader "{{{
 let mapleader=','
 let maplocalleader='\'
 "}}}
 
-
-inoremap # X<BS>#
 
 " FIXME: C-h does not work...
 imap <C-h> <BS>
@@ -45,52 +38,6 @@ nnoremap gk k
 
 
 " ----------------------------------------------------------
-" Select keymap
-" ----------------------------------------------------------
-nmap <Leader><Leader> <S-v>
-
-noremap gV `[V`]
-
-" a>, i], etc... "{{{
-" <angle>
-onoremap aa  a>
-xnoremap aa  a>
-onoremap ia  i>
-xnoremap ia  i>
-
-" [rectangle]
-onoremap ar  a]
-xnoremap ar  a]
-onoremap ir  i]
-xnoremap ir  i]
-
-" (circle)
-onoremap ac  a)
-xnoremap ac  a)
-onoremap ic  i)
-xnoremap ic  i)
-
-" {wave}
-onoremap av  a}
-xnoremap av  a}
-onoremap iv  i}
-xnoremap iv  i}
-
-" 'quote'
-onoremap aq  a'
-xnoremap aq  a'
-onoremap iq  i'
-xnoremap iq  i'
-
-" "double quote"
-onoremap ad  a"
-xnoremap ad  a"
-onoremap id  i"
-xnoremap id  i"
-"}}}
-
-
-" ----------------------------------------------------------
 " Buffer keymap
 " ----------------------------------------------------------
 " Fast buffer alternation, next/prev, close "{{{
@@ -116,15 +63,6 @@ nnoremap <S-Right> <C-w><<CR>
 nnoremap <S-Up>    <C-w>+<CR>
 nnoremap <S-Down>  <C-w>-<CR>
 "}}}
-
-
-" ----------------------------------------------------------
-" Inactivate no need keys
-" ----------------------------------------------------------
-nnoremap ZZ <Nop>
-nnoremap ZQ <Nop>
-
-nnoremap Q <Nop>
 
 
 " ----------------------------------------------------------
