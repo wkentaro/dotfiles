@@ -41,25 +41,6 @@ nnoremap j gj
 nnoremap k gk
 nnoremap gj j
 nnoremap gk k
-
-" nnoremap 1 0
-" vnoremap 1 0
-" nnoremap 0 $
-" vnoremap 0 $
-"}}}
-
-
-" ----------------------------------------------------------
-" Esc keymap
-" ----------------------------------------------------------
-" Easy escape."{{{
-" inoremap jj           <ESC>
-" inoremap <expr> j       getline('.')[col('.') - 2] ==# 'j' ? "\<BS>\<ESC>" : 'j'
-" cnoremap <expr> j       getcmdline()[getcmdpos()-2] ==# 'j' ? "\<BS>\<C-c>" : 'j'
-" onoremap jj           <ESC>
-
-" inoremap j<Space>     j
-" onoremap j<Space>     j
 "}}}
 
 
@@ -144,17 +125,6 @@ nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 
 nnoremap Q <Nop>
-
-
-" ----------------------------------------------------------
-" File save
-" ----------------------------------------------------------
-" Fast saving
-" nmap <leader>w :w!<cr>
-
-" :W sudo saves the file
-" (useful for handling the permission-denied error)
-command W w !sudo tee % > /dev/null
 
 
 " ----------------------------------------------------------
