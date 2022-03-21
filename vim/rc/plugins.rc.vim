@@ -17,8 +17,6 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'tomtom/tcomment_vim'
 
-  Plug 'tyru/open-browser.vim'
-
   Plug 'Shougo/unite.vim'
   Plug 'Shougo/neomru.vim'
 
@@ -77,9 +75,6 @@ let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 " aperezdc/vim-template
 let g:templates_directory = ['~/.vim/after/templates']
 let g:templates_no_builtin_templates = 1
-
-" tyru/open-browser.vim
-nmap <silent> <Leader>o <Plug>(openbrowser-open)
 
 " Shougo/unite.vim
 " let g:unite_enable_start_insert=1
