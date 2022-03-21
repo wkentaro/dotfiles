@@ -17,7 +17,6 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'Shougo/unite.vim'
   Plug 'Shougo/neomru.vim'
-
   Plug 'Shougo/vimfiler.vim'
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
