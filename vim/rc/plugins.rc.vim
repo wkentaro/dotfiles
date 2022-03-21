@@ -70,13 +70,7 @@ function! s:vimfiler_settings() abort
   silent! nunmap <buffer> <C-l>
 endfunction
 
-
-function! s:find_git_root()
-    return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-endfunction
-command! ProjectFiles execute 'Files' s:find_git_root()
-" nnoremap <C-p> :ProjectFiles<CR>
-" nnoremap <C-n> :Buffer<CR>
+autocmd BufEnter * if winnr('$') == 1 && exists('b:vimfiler') && b:vimfiler['context']['explorer'] | quit | endif
 
 
 " --------------------------------------------------------------------
@@ -99,52 +93,59 @@ let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#snippets_directory='~/.vim/after/snippets'
 
 
-  " davidhalter/jedi.vim
-  autocmd FileType python setl omnifunc=jedi#completions
-  autocmd FileType python setl completeopt-=preview
-  let g:jedi#popup_select_first = 0
-  let g:jedi#completions_enabled = 1
-  let g:jedi#auto_vim_configuration = 1
-  let g:jedi#show_call_signatures = 0
-  let g:jedi#rename_command = '<Leader>R'
+" --------------------------------------------------------------------
+" davidhalter/jedi.vim
+" --------------------------------------------------------------------
+autocmd FileType python setl omnifunc=jedi#completions
+autocmd FileType python setl completeopt-=preview
+let g:jedi#popup_select_first = 0
+let g:jedi#completions_enabled = 1
+let g:jedi#auto_vim_configuration = 1
+let g:jedi#show_call_signatures = 0
+let g:jedi#rename_command = '<Leader>R'
 
+
+" --------------------------------------------------------------------
+" Shougo/deoplete.nvim
+" --------------------------------------------------------------------
 if has('nvim')
-  " Shougo/deoplete.nvim
   let g:deoplete#enable_at_startup = 1
   autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-else
-  " Shougo/neocomplete.vim
-  if has('lua')
-    let g:acp_enableAtStartup = 0
-    let g:neocomplete#enable_at_startup = 1
-
-    let g:neocomplete#enable_smart_case = 1
-
-    let g:neocomplete#sources#syntax#min_keyword_length = 3
-    let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-    let g:neocomplete#enable_auto_select = 0
-    let g:neocomplete#enable_auto_close_preview = 1
-    let g:neocomplete#enable_ignore_case = 1
-
-    if !exists('g:neocomplete#sources#omni#input_patterns')
-      let g:neocomplete#sources#omni#input_patterns = {}
-    endif
-    let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-    if !exists('g:neocomplete#force_omni_input_patterns')
-      let g:neocomplete#force_omni_input_patterns = {}
-    endif
-    let g:neocomplete#force_omni_input_patterns.cpp =
-      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-    let g:neocomplete#force_omni_input_patterns.python =
-      \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-  endif
 endif
 
-" tpope/vim-fugitive
-command Gd Git diff
-command Gdca Git diff --cached
 
+" --------------------------------------------------------------------
+" Shougo/neocomplete.vim
+" --------------------------------------------------------------------
+if !has('nvim') && has('lua')
+  let g:acp_enableAtStartup = 0
+  let g:neocomplete#enable_at_startup = 1
+
+  let g:neocomplete#enable_smart_case = 1
+
+  let g:neocomplete#sources#syntax#min_keyword_length = 3
+  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+  let g:neocomplete#enable_auto_select = 0
+  let g:neocomplete#enable_auto_close_preview = 1
+  let g:neocomplete#enable_ignore_case = 1
+
+  if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+  endif
+  let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+  if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
+  endif
+  let g:neocomplete#force_omni_input_patterns.cpp =
+    \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+  let g:neocomplete#force_omni_input_patterns.python =
+    \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+endif
+
+
+" --------------------------------------------------------------------
 " lervag/vimtex
+" --------------------------------------------------------------------
 if has("mac")
   let g:vimtex_view_method = 'skim'
 elseif has("unix")
@@ -167,30 +168,36 @@ let g:vimtex_quickfix_ignore_filters = [
       \]
 let g:tex_flavor = 'latex'
 
+
+" --------------------------------------------------------------------
 " preservim/tagbar
+" --------------------------------------------------------------------
 let g:tagbar_sort = 0
 noremap <silent> <Leader>t :TagbarToggle<CR>
 
-autocmd BufEnter * if winnr('$') == 1 && exists('b:vimfiler') && b:vimfiler['context']['explorer'] | quit | endif
 
-
-" Prevent FZF commands from opening in none modifiable buffers
+" --------------------------------------------------------------------
+" junegunn/fzf.vim
+" --------------------------------------------------------------------
 function! FZFOpen(cmd)
-    " If more than 1 window, and buffer is not modifiable or file type is
-    " NERD tree or Quickfix type
     if winnr('$') > 1 && (!&modifiable || &ft == 'nerdtree' || &ft == 'qf')
-        " Move one window to the right, then up
         wincmd l
         wincmd k
     endif
     exe a:cmd
 endfunction
 
-" FZF in Open buffers
-" nnoremap <silent> <C-n> :call FZFOpen(":Buffers")<CR>
+command! -bang -nargs=* Rg call fzf#vim#grep(
+    \ 'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>),
+    \ 1,
+    \ fzf#vim#with_preview({'dir': system('git rev-parse --show-toplevel 2> /dev/null')[:-2], 'options': '--delimiter : --nth 4..'}),
+    \ <bang>0)
 nnoremap <silent> <C-n> :call FZFOpen(":Rg")<CR>
 
-" FZF Search for Files
+function! s:find_git_root()
+    return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+command! ProjectFiles execute 'Files' s:find_git_root()
 nnoremap <silent> <C-p> :call FZFOpen(":ProjectFiles")<CR>
 
 nnoremap <silent> <C-]> :call FZFOpen(":Files ~")<CR>
@@ -200,9 +207,3 @@ let g:fzf_action = {
     \ 'ctrl-o': 'tab split',
     \ 'ctrl-x': 'split',
     \ 'ctrl-v': 'vsplit'}
-
-command! -bang -nargs=* Rg call fzf#vim#grep(
-    \ 'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>),
-    \ 1,
-    \ fzf#vim#with_preview({'dir': system('git rev-parse --show-toplevel 2> /dev/null')[:-2], 'options': '--delimiter : --nth 4..'}),
-    \ <bang>0)
