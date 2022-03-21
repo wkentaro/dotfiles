@@ -53,9 +53,12 @@ hi Normal ctermfg=none
 hi TabLineSel ctermfg=LightBlue ctermbg=Black
 
 
+" --------------------------------------------------------------------
 " aperezdc/vim-template
+" --------------------------------------------------------------------
 let g:templates_directory = ['~/.vim/after/templates']
 let g:templates_no_builtin_templates = 1
+
 
 " Shougo/unite.vim
 " let g:unite_enable_start_insert=1
