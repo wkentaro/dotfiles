@@ -164,14 +164,6 @@ set cinoptions+=:0,g0
 " ----------------------------------------------------------
 execute 'source' '~/.vim/rc/filetype.rc.vim'
 
-
-" ----------------------------------------------------------
-" Highlight Zenkaku Space
-" ----------------------------------------------------------
-highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
-au BufNewFile,BufRead * match ZenkakuSpace /　/
-
-
 " ----------------------------------------------------------
 " Key mappings
 " ----------------------------------------------------------
