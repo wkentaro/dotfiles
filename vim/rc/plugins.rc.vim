@@ -58,20 +58,6 @@ let g:templates_directory = ['~/.vim/after/templates']
 let g:templates_no_builtin_templates = 1
 
 
-" Shougo/unite.vim
-" let g:unite_enable_start_insert=1
-" nmap <silent> <C-n> :Unite -winheight=10 -direction=botright buffer<CR>
-" noremap <C-]> :Unite file_mru -winheight=10 -direction=botright<CR>
-" autocmd FileType unite call s:unite_my_settings()
-" function! s:unite_my_settings()
-"   imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-"   imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-"   imap <buffer> <C-c>   <Plug>(unite_exit)
-"
-"   imap <silent><buffer><expr> <C-x>     unite#do_action('split')
-"   imap <silent><buffer><expr> <C-v>     unite#do_action('vsplit')
-" endfunction
-
 " Shougo/vimfiler.vim
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
