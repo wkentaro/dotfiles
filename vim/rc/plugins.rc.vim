@@ -29,8 +29,6 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'hotwatermorning/auto-git-diff'
 
-  Plug 'tpope/vim-fugitive'
-
   Plug 'lervag/vimtex'
 
   Plug 'preservim/tagbar'
