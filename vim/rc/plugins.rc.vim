@@ -24,8 +24,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
 
-  Plug 'Shougo/neoyank.vim'
-
   Plug 'Shougo/neosnippet.vim'
 
   Plug 'rhysd/committia.vim'
@@ -100,9 +98,6 @@ endfunction
 command! ProjectFiles execute 'Files' s:find_git_root()
 " nnoremap <C-p> :ProjectFiles<CR>
 " nnoremap <C-n> :Buffer<CR>
-
-" Shougo/neoyank.vim
-nmap <silent> <Leader>y :Unite history/yank -direction=botright<CR>
 
 " Shougo/neosnippet.vim
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
