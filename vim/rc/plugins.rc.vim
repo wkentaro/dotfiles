@@ -71,14 +71,6 @@ function! s:vimfiler_settings() abort
 endfunction
 
 
-" ctrlpvim/ctrlp.vim
-" let g:ctrlp_map = '<c-p>'
-" let g:ctrlp_cmd = 'CtrlP'
-" let g:ctrlp_working_path_mode = 'ra'
-" let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-" let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-" nnoremap <C-n> :CtrlPBuffer<CR>
-
 function! s:find_git_root()
     return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
