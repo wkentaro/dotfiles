@@ -35,14 +35,6 @@ au BufNewFile,BufRead *.pyx set ft=python tabstop=8 shiftwidth=4
 autocmd FileType cpp setlocal path=.,./include,../include/,/usr/include,/usr/local/include,/usr/include/c++/4.8/,/opt/ros/indigo/include,/usr/include/pcl-1.7
 autocmd FileType cpp nnoremap ,cl :!clang-format -i %<cr> :e<cr>
 
-" ----------------------------------------------------------
-" RestructuredText setting
-" ----------------------------------------------------------
-au BufNewFile,BufRead *.rst set tabstop=8 shiftwidth=2 ft=rst
-au BufRead,BufNewFile,BufReadPre *.rst nnoremap ,h1 VypVr=
-au BufRead,BufNewFile,BufReadPre *.rst nnoremap ,h2 VypVr-
-au BufRead,BufNewFile,BufReadPre *.rst nnoremap ,h3 VypVr+
-
 "--------------------------------------
 " Tex setting
 "--------------------------------------
