@@ -58,17 +58,18 @@ let g:templates_directory = ['~/.vim/after/templates']
 let g:templates_no_builtin_templates = 1
 
 
+" --------------------------------------------------------------------
 " Shougo/vimfiler.vim
+" --------------------------------------------------------------------
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
-" let g:vimfiler_ignore_pattern = '\%(.pyc\)$'
 noremap <silent> <leader>f :VimFilerBuffer -buffer-name=explorer -split -simple -winwidth=35 -toggle -no-quit<cr>
 
-" Unite window mappings {{{
 autocmd FileType vimfiler call s:vimfiler_settings()
-function! s:vimfiler_settings() abort "{{{
+function! s:vimfiler_settings() abort
   silent! nunmap <buffer> <C-l>
-endfunction "}}}
+endfunction
+
 
 " ctrlpvim/ctrlp.vim
 " let g:ctrlp_map = '<c-p>'
