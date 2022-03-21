@@ -43,9 +43,7 @@ call plug#end()
 " ----------------------------------------------------------------
 " flazz/vim-colorschemes
 " ----------------------------------------------------------------
-syntax on
 let g:solarized_termtrans = 1
-set background=dark
 colorscheme solarized
 hi Normal ctermfg=none
 hi TabLineSel ctermfg=LightBlue ctermbg=Black
