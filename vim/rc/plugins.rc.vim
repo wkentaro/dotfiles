@@ -200,7 +200,7 @@ endfunction
 command! ProjectFiles execute 'Files' s:find_git_root()
 nnoremap <silent> <C-p> :call FZFOpen(":ProjectFiles")<CR>
 
-nnoremap <silent> <C-]> :call FZFOpen(":Files ~")<CR>
+nnoremap <silent> <C-]> :call FZFOpen(":Buffers")<CR>
 
 let g:fzf_buffers_jump = 1
 let g:fzf_action = {
