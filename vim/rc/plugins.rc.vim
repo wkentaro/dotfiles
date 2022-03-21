@@ -78,7 +78,10 @@ command! ProjectFiles execute 'Files' s:find_git_root()
 " nnoremap <C-p> :ProjectFiles<CR>
 " nnoremap <C-n> :Buffer<CR>
 
+
+" --------------------------------------------------------------------
 " Shougo/neosnippet.vim
+" --------------------------------------------------------------------
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>     <Plug>(neosnippet_expand_target)
@@ -93,7 +96,7 @@ let g:neosnippet#disable_runtime_snippets = {
 \   '_' : 1,
 \ }
 let g:neosnippet#enable_snipmate_compatibility = 1
-let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/neosnippets,~/.vim/after/snippets'
+let g:neosnippet#snippets_directory='~/.vim/after/snippets'
 
 
   " davidhalter/jedi.vim
