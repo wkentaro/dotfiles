@@ -11,8 +11,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'Shougo/neocomplete.vim'
   endif
 
-  Plug 'scrooloose/syntastic'
-
   Plug 'aperezdc/vim-template'
 
   Plug 'tomtom/tcomment_vim'
@@ -54,12 +52,6 @@ colorscheme solarized
 hi Normal ctermfg=none
 hi TabLineSel ctermfg=LightBlue ctermbg=Black
 
-
-" scrooloose/syntastic
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_check_on_open = 1
-let g:syntastic_cpp_compiler = 'clang++'
-let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 
 " aperezdc/vim-template
 let g:templates_directory = ['~/.vim/after/templates']
