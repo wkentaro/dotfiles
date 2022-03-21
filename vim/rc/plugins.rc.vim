@@ -42,8 +42,6 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'preservim/tagbar'
 
-  Plug 'thinca/vim-quickrun'
-
   Plug 'RRethy/vim-illuminate'
 call plug#end()
 
@@ -207,13 +205,6 @@ let g:tex_flavor = 'latex'
 " preservim/tagbar
 let g:tagbar_sort = 0
 noremap <silent> <Leader>t :TagbarToggle<CR>
-
-let g:quickrun_config = {
-      \'*': {
-      \'outputter/buffer/opener': '%{winwidth(0) * 2 < winheight(0) * 5 ? "10new" : "vnew"}',
-      \'outputter/buffer/close_on_empty': 1}}
-nnoremap <silent> <Leader>r :QuickRun<CR>
-nnoremap <Leader>rr :bw! quickrun://output<CR>
 
 autocmd BufEnter * if winnr('$') == 1 && exists('b:vimfiler') && b:vimfiler['context']['explorer'] | quit | endif
 
