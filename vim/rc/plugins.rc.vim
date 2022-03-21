@@ -38,8 +38,6 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'lervag/vimtex'
 
-  Plug 'JuliaEditorSupport/julia-vim'
-
   Plug 'preservim/tagbar'
 
   Plug 'RRethy/vim-illuminate'
