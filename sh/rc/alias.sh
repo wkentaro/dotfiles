@@ -15,7 +15,7 @@ alias cp='cp -i'
 
 # date
 alias datestamp='date +"%Y%m%d"'
-alias timestamp='date +"%Y%m%d_%H%M%S.%N"'
+alias timestamp='date +"%Y%m%d_%H%M%S"'
 alias timestamp2='date +"%Y-%m-%d_%H-%M-%S"'
 
 # mv
