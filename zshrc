@@ -312,9 +312,9 @@ function _z_cd ()
 {
   if [ "$1" = "" ]; then
     if [ "$(uname)" = "Linux" ]; then
-      dir=$(_z 2>&1 | awk '{print $2}' | tac | fzf)
+      dir=$(_z 2>&1 | awk '{print $2}' | tac | fzf --layout reverse)
     else
-      dir=$(_z 2>&1 | awk '{print $2}' | tail -r | fzf)
+      dir=$(_z 2>&1 | awk '{print $2}' | tail -r | fzf --layout reverse)
     fi
   else
     dir=$1
