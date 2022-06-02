@@ -88,7 +88,11 @@ export LC_CTYPE='en_US.UTF-8'
 # export LC_ALL='C'
 
 # Editor
-export EDITOR='vim'
+if which nvim &>/dev/null; then
+  export EDITOR='nvim'
+else
+  export EDITOR='vim'
+fi
 
 # ssh
 export SSH_KEY_PATH='$HOME/.ssh/id_rsa'
