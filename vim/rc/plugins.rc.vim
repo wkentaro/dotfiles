@@ -35,6 +35,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'preservim/tagbar'
 
   Plug 'RRethy/vim-illuminate'
+
+  Plug 'scrooloose/syntastic'
+
+  Plug 'tyru/open-browser.vim'
 call plug#end()
 
 
@@ -208,3 +212,16 @@ let g:fzf_action = {
 " ycm-core/YouCompleteMe
 " ----------------------------------------------------------------
 let g:ycm_clangd_binary_path = trim(system('brew --prefix llvm')).'/bin/clangd'
+
+
+" ----------------------------------------------------------------
+" tyru/open-browser.vim
+" ----------------------------------------------------------------
+nmap <silent> <Leader>o <Plug>(openbrowser-open)
+
+
+" scrooloose/syntastic
+let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_check_on_open = 1
+" let g:syntastic_cpp_compiler = 'clang++'
+" let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
