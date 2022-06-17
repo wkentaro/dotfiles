@@ -4,8 +4,6 @@ bash_completion:
   .bash_completion
 bashrc:
   .bashrc.wkentaro
-config/htop/htoprc:
-  .config/htop/htoprc
 config/nvim/init.vim:
   .config/nvim/init.vim
 gitconfig:
