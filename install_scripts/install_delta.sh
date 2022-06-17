@@ -1,7 +1,6 @@
 #!/bin/sh
 
 if [ -e ~/.local/bin/delta ]; then
-  echo "delta is installed"
   exit 0
 fi
 
