@@ -26,10 +26,6 @@ private/ssh/config:
   .ssh/config
 private/zshrc:
   .zshrc.private
-pythonstartup:
-  .pythonstartup
-ptpython/config.py:
-  .ptpython/config.py
 sh:
   .sh
 tmux:
