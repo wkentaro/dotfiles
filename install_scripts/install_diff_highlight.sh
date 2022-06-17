@@ -15,7 +15,7 @@ else
 fi
 tar zxf v2.13.2.tar.gz
 cd git-2.13.2/contrib/diff-highlight
-make
+make -q
 
 mkdir -p $HOME/.local/bin
 mv diff-highlight $HOME/.local/bin
