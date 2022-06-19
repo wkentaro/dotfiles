@@ -366,7 +366,7 @@ bindkey '^Z' fancy-ctrl-z
 # cuda configuration
 # ------------------
 
-if [ "$CUDA_PATH" = "" ]; then
+if [ "$CUDA_PATH" = "" -a -e /usr/local/cuda ]; then
   export CUDA_PATH=/usr/local/cuda
 fi
 if [ -e $CUDA_PATH ]; then
