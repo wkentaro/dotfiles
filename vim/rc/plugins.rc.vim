@@ -39,6 +39,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'scrooloose/syntastic'
 
   Plug 'tyru/open-browser.vim'
+
+  Plug 'github/copilot.vim', { 'branch': 'release' }
 call plug#end()
 
 
