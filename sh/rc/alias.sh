@@ -76,11 +76,11 @@ tls () {
     done
   done
 }
-tmux_fzy_attach() {
+tmux_fzf_attach() {
     if [[ $1 == "" ]]; then
-        PERCOL=fzy
+        PERCOL=fzf
     else
-        PERCOL="fzy --query $1"
+        PERCOL="fzf --query $1"
     fi
 
     sessions=$(tls)
@@ -102,7 +102,7 @@ tmux_fzy_attach() {
       return 0
     fi
 }
-alias ta='tmux_fzy_attach'
+alias ta='tmux_fzf_attach'
 alias tca="TMUX_OPTIONS='-CC' tmux_fzy_attach"
 alias tcns="TMUX_OPTIONS='-CC' tns"
 alias tn='tmux new'
