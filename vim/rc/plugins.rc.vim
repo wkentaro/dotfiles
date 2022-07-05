@@ -204,6 +204,8 @@ nnoremap <silent> <C-p> :call FZFOpen(":ProjectFiles")<CR>
 
 nnoremap <silent> <C-]> :call FZFOpen(":Buffers")<CR>
 
+nnoremap <silent> <C-\> :call FZFOpen(":Files ~")<CR>
+
 let g:fzf_buffers_jump = 1
 let g:fzf_action = {
     \ 'ctrl-o': 'tab split',
