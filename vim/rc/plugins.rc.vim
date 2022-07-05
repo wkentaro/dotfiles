@@ -214,6 +214,8 @@ let g:fzf_action = {
 " ycm-core/YouCompleteMe
 " ----------------------------------------------------------------
 let g:ycm_clangd_binary_path = trim(system('brew --prefix llvm')).'/bin/clangd'
+nnoremap <expr> <S-k> &pvw == 1 ? ":pclose<CR>h" : ":YcmCompleter GetDoc<CR> <C-w>j"
+nnoremap <silent> <Leader>d :YcmCompleter GoTo<CR>
 
 
 " ----------------------------------------------------------------
