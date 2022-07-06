@@ -41,6 +41,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'tyru/open-browser.vim'
 
   Plug 'github/copilot.vim', { 'branch': 'release' }
+
+  Plug 'tpope/vim-fugitive'
 call plug#end()
 
 
@@ -227,7 +229,7 @@ nmap <silent> <Leader>o <Plug>(openbrowser-open)
 
 
 " scrooloose/syntastic
-let g:syntastic_check_on_wq = 0
+let g:syntastic_mode_map = {'mode': 'passive', 'active_filetypes': [], 'passive_filetypes': []}
 " let g:syntastic_python_checkers = ['flake8']
 " let g:syntastic_check_on_open = 1
 " let g:syntastic_cpp_compiler = 'clang++'
