@@ -41,12 +41,17 @@ nnoremap gk k
 " Buffer keymap
 " ----------------------------------------------------------
 " Fast buffer alternation, next/prev, close "{{{
-" map ga <C-^>
-" nmap gn :bn<CR>
-" nmap gp :bp<CR>
+map ga <C-^>
+nmap gn :bn<CR>
+nmap gp :bp<CR>
 nmap gk :bp<bar>bd #<CR>
 "}}}
 
+
+" ----------------------------------------------------------
+" Tab keymap
+" ----------------------------------------------------------
+nmap gr gT
 
 " ----------------------------------------------------------
 " Window keymap
