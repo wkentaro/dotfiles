@@ -78,9 +78,9 @@ tls () {
 }
 tmux_fzf_attach() {
     if [[ $1 == "" ]]; then
-        PERCOL=fzf
+        PERCOL="fzf --layout reverse"
     else
-        PERCOL="fzf --query $1"
+        PERCOL="fzf --layout reverse --query $1"
     fi
 
     sessions=$(tls)
