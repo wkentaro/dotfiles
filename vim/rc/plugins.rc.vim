@@ -204,7 +204,8 @@ endfunction
 command! ProjectFiles execute 'Files' s:find_git_root()
 nnoremap <silent> <C-p> :call FZFOpen(":ProjectFiles")<CR>
 
-nnoremap <silent> <C-]> :call FZFOpen(":Buffers")<CR>
+" nnoremap <silent> <C-]> :call FZFOpen(":Buffers")<CR>
+nnoremap <silent> <C-]> :call FZFOpen(":GFiles?")<CR>
 
 nnoremap <silent> <C-\> :call FZFOpen(":Files ~")<CR>
 
