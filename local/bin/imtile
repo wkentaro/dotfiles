@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 
@@ -8,28 +8,37 @@ import skimage.io
 
 def main():
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('img_files', nargs='+', help='image files')
-    parser.add_argument('-O', '--out', required=True, help='output file')
-    parser.add_argument('-n', '--n-imgs', type=int, help='number of images')
-    parser.add_argument('-x', '--shape', help='image shape (ex. 5x6)')
-    parser.add_argument('--border', help='border ex. (0, 0, 0)')
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    parser.add_argument("img_files", nargs="+", help="image files")
+    parser.add_argument("-O", "--out", required=True, help="output file")
+    parser.add_argument("-n", "--n-imgs", type=int, help="number of images")
+    parser.add_argument("-x", "--shape", help="image shape (ex. 5x6)")
+    parser.add_argument("--border", help="border ex. (0, 0, 0)")
     parser.add_argument(
-        '--border-width',
+        "--border-width",
         type=int,
         default=5,
-        help='border_width',
+        help="border_width",
     )
     args = parser.parse_args()
 
     shape = None
     if args.shape:
-        shape = args.shape.split('x')
+        shape = args.shape.split("x")
         shape = int(shape[0]), int(shape[1])
 
     imgs = []
     for img_file in args.img_files:
         img = skimage.io.imread(img_file)
+        img = imgviz.draw.text_in_rectangle(
+            img,
+            loc="lt+",
+            size=20,
+            text=img_file,
+            background=(0, 0, 0),
+            color=(255, 255, 255),
+        )
         imgs.append(img)
         if args.n_imgs == len(imgs):
             break
@@ -46,5 +55,5 @@ def main():
     skimage.io.imsave(args.out, tiled)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

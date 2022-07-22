@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+
+import argparse
+
+import imgviz
+
+
+def main():
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument("img_files", nargs="+")
+    args = parser.parse_args()
+
+    i_prev = -1
+    i = 0
+    while True:
+        if i_prev != i:
+            img_file = args.img_files[i]
+            i_prev = i
+
+            img = imgviz.io.imread(img_file)
+            if img.ndim == 2:
+                img = imgviz.gray2rgb(img)
+            imgviz.io.cv_imshow(img, img_file)
+            print(img_file)
+
+        key = imgviz.io.cv_waitkey(0)
+        if key == ord("n"):
+            i += 1
+        elif key == ord("p"):
+            i -= 1
+        elif key == ord("q"):
+            break
+
+        if i < 0:
+            i = 0
+        elif i >= len(args.img_files):
+            i = len(args.img_files) - 1
+
+
+if __name__ == '__main__':
+    main()
