@@ -6,8 +6,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'ycm-core/YouCompleteMe'
 
   if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'zchee/deoplete-jedi'
+    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    " Plug 'zchee/deoplete-jedi'
   else
     Plug 'Shougo/neocomplete.vim'
   endif
@@ -100,13 +100,13 @@ let g:neosnippet#snippets_directory='~/.vim/after/snippets'
 " ----------------------------------------------------------------
 " davidhalter/jedi.vim
 " ----------------------------------------------------------------
-autocmd FileType python setl omnifunc=jedi#completions
-autocmd FileType python setl completeopt-=preview
-let g:jedi#popup_select_first = 0
-let g:jedi#completions_enabled = 1  " use deoplete-jedi for async completion
-let g:jedi#auto_vim_configuration = 1
-let g:jedi#show_call_signatures = 0
-let g:jedi#rename_command = '<Leader>R'
+" autocmd FileType python setl omnifunc=jedi#completions
+" autocmd FileType python setl completeopt-=preview
+" let g:jedi#popup_select_first = 0
+" let g:jedi#completions_enabled = 1  " use deoplete-jedi for async completion
+" let g:jedi#auto_vim_configuration = 1
+" let g:jedi#show_call_signatures = 0
+" let g:jedi#rename_command = '<Leader>R'
 
 
 " ----------------------------------------------------------------
