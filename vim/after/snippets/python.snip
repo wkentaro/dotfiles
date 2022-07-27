@@ -146,17 +146,20 @@ abbr        hasattr(..., ...)
 options     word
 	hasattr(${1:#:obj}, ${2:#:attr})
 
-snippet     pdb_
+snippet     bp_pdb
 abbr        import pdb..
 	import pdb; pdb.set_trace()
 
-snippet     ipdb_
+snippet     bp_ipdb
 abbr        import ipdb..
 	import ipdb; ipdb.set_trace()  # NOQA
 
-snippet     ipython_
+snippet     bp_ipython
 abbr        import IPython..
 	import IPython; IPython.embed()  # NOQA
+
+snippet     bp
+  from IPython.core.debugger import Pdb; ipdb = Pdb(); ipdb.set_trace()  # NOQA
 
 snippet     print_debug
 abbr        >>>
