@@ -1,0 +1,5 @@
+! vim: set ft=xmodmap:
+
+! Thinkpad Keyboard, L_ALT -> Zenkaku_Hankaku, R_ALT -> Hiragana
+keycode 64 = Zenkaku_Hankaku
+keycode 108 = Hiragana
