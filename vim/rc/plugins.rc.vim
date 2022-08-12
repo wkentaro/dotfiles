@@ -188,7 +188,7 @@ function! FZFOpen(cmd)
         wincmd l
         wincmd k
     endif
-    exe a:cmd
+    execute a:cmd
 endfunction
 
 command! -bang -nargs=* Rg call fzf#vim#grep(
@@ -196,18 +196,28 @@ command! -bang -nargs=* Rg call fzf#vim#grep(
     \ 1,
     \ fzf#vim#with_preview({'dir': system('git rev-parse --show-toplevel 2> /dev/null')[:-2], 'options': '--delimiter : --nth 4..'}),
     \ <bang>0)
-nnoremap <silent> <C-n> :call FZFOpen(":Rg")<CR>
 
 function! s:find_git_root()
     return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
+
 command! ProjectFiles execute 'Files' s:find_git_root()
 nnoremap <silent> <C-p> :call FZFOpen(":ProjectFiles")<CR>
 
-" nnoremap <silent> <C-]> :call FZFOpen(":Buffers")<CR>
+nnoremap <silent> <C-n> :call FZFOpen(":Rg")<CR>
+
 nnoremap <silent> <C-]> :call FZFOpen(":GFiles?")<CR>
 
-nnoremap <silent> <C-\> :call FZFOpen(":Files ~")<CR>
+let g:coderoot = system('realpath ~/coderoot')[:-2]
+nnoremap <silent> <C-\> :call FZFOpen(":Files " . g:coderoot)<CR>
+
+function! RgAt(directory)
+    let cwd = getcwd()
+    execute "cd " . a:directory
+    call FZFOpen(":Rg")
+    execute "cd " . cwd
+endfunction
+nnoremap <silent> <C-]> :call FZFOpen(":call RgAt(g:coderoot)")<CR>
 
 let g:fzf_buffers_jump = 1
 let g:fzf_action = {
