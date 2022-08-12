@@ -32,7 +32,7 @@ def main():
     for img_file in args.img_files:
         img = skimage.io.imread(img_file)
         img = imgviz.draw.text_in_rectangle(
-            img,
+            imgviz.asrgb(img),
             loc="lt+",
             size=20,
             text=img_file,
