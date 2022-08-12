@@ -20,7 +20,7 @@ def main():
             img = imgviz.io.imread(img_file)
             if img.ndim == 2:
                 img = imgviz.gray2rgb(img)
-            imgviz.io.cv_imshow(img, img_file)
+            imgviz.io.cv_imshow(img)
             print(img_file)
 
         key = imgviz.io.cv_waitkey(0)
