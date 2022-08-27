@@ -208,10 +208,10 @@ nnoremap <silent> <C-p> :call FZFOpen(":ProjectFiles")<CR>
 
 nnoremap <silent> <C-n> :call FZFOpen(":Rg")<CR>
 
-nnoremap <silent> <C-]> :call FZFOpen(":GFiles?")<CR>
+nnoremap <silent> <C-s> :call FZFOpen(":GFiles?")<CR>
 
 let g:coderoot = system('realpath ~/coderoot')[:-2]
-nnoremap <silent> <C-\> :call FZFOpen(":Files " . g:coderoot)<CR>
+nnoremap <silent> <C-]> :call FZFOpen(":Files " . g:coderoot)<CR>
 
 function! RgAt(directory)
     let cwd = getcwd()
@@ -219,7 +219,7 @@ function! RgAt(directory)
     call FZFOpen(":Rg")
     execute "cd " . cwd
 endfunction
-nnoremap <silent> <C-]> :call FZFOpen(":call RgAt(g:coderoot)")<CR>
+nnoremap <silent> <C-\> :call FZFOpen(":call RgAt(g:coderoot)")<CR>
 
 let g:fzf_buffers_jump = 1
 let g:fzf_action = {
