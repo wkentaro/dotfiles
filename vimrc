@@ -159,6 +159,11 @@ set novisualbell
 set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
 set cinoptions+=:0,g0
 
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal! g'\"" | endif
+endif
+
 
 " ----------------------------------------------------------
 " Filetype
