@@ -299,7 +299,7 @@ alias -g GM="origin/master"
 if type pbcopy &>/dev/null; then
   alias -g C='| pbcopy' # osx
 elif type xsel &>/dev/null; then
-  alias -g C='| xsel --input --clipboard'  # linux
+  alias -g C='| sed -z "$ s/\n$//" | xsel --input --clipboard'  # linux
 elif type putclip &>/dev/null; then
   alias -g C='| putclip' # windows
 fi
@@ -409,5 +409,3 @@ if which fdfind>/dev/null; then
   alias fd=fdfind
 fi
 alias lv='bat --pager="less -R" --style plain'
-
-alias cat=bat
