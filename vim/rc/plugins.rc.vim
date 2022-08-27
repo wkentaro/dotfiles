@@ -50,7 +50,9 @@ call plug#end()
 " flazz/vim-colorschemes
 " ----------------------------------------------------------------
 let g:solarized_termtrans = 1
-colorscheme solarized
+if $VIM_COLORSCHEME == "solarized"
+  colorscheme solarized
+endif
 hi Normal ctermfg=none
 hi TabLineSel ctermfg=LightBlue ctermbg=Black
 
