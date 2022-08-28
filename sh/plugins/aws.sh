@@ -1,5 +1,5 @@
 profiles=(default)
-regions=(ap-northeast-1)
+regions=(ap-northeast-1 eu-west-1)
 
 echo_bold () {
   echo -e "\033[1m$*\033[0m"
