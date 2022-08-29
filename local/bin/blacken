@@ -1,0 +1,104 @@
+#!/usr/bin/env python3
+'''
+Usage: echo "python snippet" | enblacken
+Calls Black the Python formatter on a (possibly indented) Python snippet.
+Black, understandably, treats an indented snippet of Python as a syntax error.
+Hence, calling Black directly from your editor will not work on a snippet from
+the middle of a function, or on a class method.
+Hence, this script wraps Black, and:
+* Unindents the code read from stdin.
+* Passes the unindented code to Black.
+* Reindents by the same amount that was initially removed.
+* Outputs the result.
+Does not handle indents done with tabs.
+Call from Vim with:
+    function! EnBlackenFile()
+        let pos = getcurpos()
+        1,$!black -q --line-length=79 -
+        call setpos('.', pos)
+    endfunction
+    " Black(Python) format the whole file
+    nnoremap <leader>k :call EnBlackenFile()<CR>
+    " Black(Python) format the visual selection
+    " File writing shenanigans is to display the message from Black on failure,
+    " without putting it into the buffer's visual selection.
+    xnoremap <Leader>k :!enblacken 79 2>/tmp/vim.err <CR>:echo join(readfile("/tmp/vim.err"), "\n")<CR>
+    " Undo changes if a filter command fails.
+    " This prevents a failed filter from mangling the buffer or selection.
+    augroup FILTER_ERROR
+        au!
+        autocmd ShellFilterPost * if v:shell_error | silent undo | endif
+    augroup END
+'''
+import subprocess
+import sys
+
+DEFAULT_LINE_LENGTH = 79
+
+def command_line(argv):
+    line_length = DEFAULT_LINE_LENGTH
+    try:
+        assert len(argv) <= 2
+        if len(argv) == 2:
+            line_length = int(argv[1])
+    except (AssertionError, ValueError):
+        sys.exit("Usage: enblacken [line-length]")
+    return line_length
+
+def get_indent(line):
+    indent = 0
+    for char in line:
+        if char.isspace():
+            indent += 1
+        else:
+            return indent
+
+def min_indent(lines):
+    min_indent = 99999
+    for line in [line for line in lines if not line.isspace()]:
+        min_indent = min(min_indent, get_indent(line))
+    return min_indent if min_indent != 99999 else 0
+
+def unindent(lines, to_remove):
+    return ''.join(
+        line[min(to_remove, len(line) - 1):]
+        for line in lines
+    )
+
+def reindent(lines, indent):
+    return (
+        ' ' * indent + line if line else ''
+        for line in lines
+    )
+
+def black(source, line_length):
+    """
+    Call external 'black' process on the given source code.
+    """
+    line_length = '--line-length={}'.format(line_length)
+    process = subprocess.run(
+        ['black', '-q', '-S', line_length, '-'],
+        input=source.encode('utf-8'),
+        capture_output=True,
+    )
+    if process.returncode != 0:
+        return
+        print(process.stderr.decode('utf-8'), file=sys.stderr)
+        sys.exit(process.returncode)
+    return process.stdout.decode('utf-8').splitlines()
+
+def main(argv):
+    line_length = command_line(argv)
+    lines = sys.stdin.readlines()
+    indent = min_indent(lines)
+    formated = black(
+        unindent(lines, indent),
+        line_length - indent,
+    )
+    if formated is None:
+        print(''.join(lines), end='')
+    else:
+        print('\n'.join(reindent(formated, indent)))
+
+if __name__ == '__main__':
+    main(sys.argv)
