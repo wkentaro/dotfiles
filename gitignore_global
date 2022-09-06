@@ -6,6 +6,7 @@ dist/
 *.egg-info/
 __pycache__/
 
+.miniconda3/
 .anaconda3/
 .in
 .out
