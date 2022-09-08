@@ -16,6 +16,8 @@ latexmkrc:
   .latexmkrc
 local/bin/*:
   .local/bin
+pdbrc:
+  .pdbrc
 percol.d:
   .percol.d
 private/aws:
