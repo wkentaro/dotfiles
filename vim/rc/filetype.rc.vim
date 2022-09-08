@@ -11,4 +11,4 @@ autocmd FileType python inoremap ,k from IPython.core.debugger import Pdb; ipdb 
 autocmd FileType python nnoremap ,f :w<cr> :!flake8 %<cr>
 
 " Black(Python) format the visual selection
-xnoremap ,b :!blacken 79<CR>
+xnoremap ,b :!blacken 110<CR>
