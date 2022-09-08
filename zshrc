@@ -407,3 +407,10 @@ if which fdfind>/dev/null; then
   alias fd=fdfind
 fi
 alias lv='bat --pager="less -R" --style plain'
+
+if [ ! -z $CONDA_DEFAULT_ENV ]; then
+  conda_path=$(dirname $CONDA_PYTHON_EXE)
+  conda_env=$CONDA_DEFAULT_ENV
+  conda deactivate
+  source $conda_path/activate $conda_env
+fi
