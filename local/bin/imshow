@@ -30,6 +30,9 @@ def main():
             i -= 1
         elif key == ord("q"):
             break
+        elif key == ord("m"):
+            with open("marked.txt", "a") as f:
+                f.write(img_file + "\n")
 
         if i < 0:
             i = 0
