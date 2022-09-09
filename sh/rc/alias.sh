@@ -377,7 +377,7 @@ alias install-anaconda3='install_anaconda3.sh'
 
 alias lt="logtable"
 
-alias watch="watch -t"
+# alias watch="watch -t"
 # watch() {
 #   if [ $# -eq 0 ]; then
 #     echo "usage: watch [COMMANDS]"
