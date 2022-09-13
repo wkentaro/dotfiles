@@ -299,6 +299,7 @@ nnoremap <c-p> <cmd>Telescope frecency<cr>
 " nnoremap <c-p> <cmd>lua require('telescope.builtin').git_files()<cr>
 " nnoremap <c-n> <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <c-s> <cmd>lua require('telescope.builtin').git_status()<cr>
+nnoremap <c-n> <cmd>Telescope buffers<cr>
 
 nnoremap <leader>gf <cmd>lua require('telescope.builtin').git_files()<cr>
 nnoremap <leader>gs <cmd>lua require('telescope.builtin').git_status()<cr>
