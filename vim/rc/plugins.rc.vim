@@ -53,6 +53,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'nvim-treesitter/nvim-treesitter'
 
   Plug 'folke/which-key.nvim'
+
+  Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
+  " Plug 'ryanoasis/vim-devicons' Icons without colours
+  Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
 call plug#end()
 
 
@@ -320,4 +324,8 @@ lua << EOF
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
   }
+EOF
+
+lua << EOF
+require("bufferline").setup{}
 EOF
