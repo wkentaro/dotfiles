@@ -65,7 +65,9 @@ if $VIM_COLORSCHEME == "solarized"
 endif
 hi Normal ctermfg=none
 hi TabLineSel ctermfg=LightBlue ctermbg=Black
-hi WhichKeyFloat ctermbg=BLACK ctermfg=BLACK
+hi TelescopeNormal ctermbg=Black
+hi WhichKeyFloat ctermbg=Black
+
 
 
 " ----------------------------------------------------------------
