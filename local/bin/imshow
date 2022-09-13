@@ -18,10 +18,10 @@ def main():
             i_prev = i
 
             img = imgviz.io.imread(img_file)
-            if img.ndim == 2:
-                img = imgviz.gray2rgb(img)
-            imgviz.io.cv_imshow(img)
-            print(img_file)
+            img = imgviz.asrgb(img)
+            img = imgviz.centerize(img, (800, 800), cval=(127, 127, 127))
+            imgviz.io.cv_imshow(img, __file__)
+            print(img_file, f"{i + 1} / {len(args.img_files)}")
 
         key = imgviz.io.cv_waitkey(0)
         if key == ord("n"):
