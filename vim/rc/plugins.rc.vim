@@ -21,8 +21,11 @@ call plug#begin('~/.vim/plugged')
   Plug 'Shougo/vimfiler.vim'
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim'
+  " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  " Plug 'junegunn/fzf.vim'
+
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 
   Plug 'Shougo/neosnippet.vim'
 
@@ -43,6 +46,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'github/copilot.vim', { 'branch': 'release' }
 
   Plug 'tpope/vim-fugitive'
+
+  Plug 'nvim-treesitter/nvim-treesitter'
 call plug#end()
 
 
@@ -179,54 +184,53 @@ let g:tex_flavor = 'latex'
 " preservim/tagbar
 " ----------------------------------------------------------------
 let g:tagbar_sort = 0
-noremap <silent> <Leader>t :TagbarToggle<CR>
-
-
-" ----------------------------------------------------------------
-" junegunn/fzf.vim
-" ----------------------------------------------------------------
-function! FZFOpen(cmd)
-    if winnr('$') > 1 && (!&modifiable || &ft == 'nerdtree' || &ft == 'qf')
-        wincmd l
-        wincmd k
-    endif
-    execute a:cmd
-endfunction
-
-command! -bang -nargs=* Rg call fzf#vim#grep(
-    \ 'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>),
-    \ 1,
-    \ fzf#vim#with_preview({'dir': system('git rev-parse --show-toplevel 2> /dev/null')[:-2], 'options': '--delimiter : --nth 4..'}),
-    \ <bang>0)
-
-function! s:find_git_root()
-    return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-endfunction
-
-command! ProjectFiles execute 'Files' s:find_git_root()
-nnoremap <silent> <C-p> :call FZFOpen(":ProjectFiles")<CR>
-
-nnoremap <silent> <C-n> :call FZFOpen(":Rg")<CR>
-
-nnoremap <silent> <C-s> :call FZFOpen(":GFiles?")<CR>
-
-let g:coderoot = system('realpath ~/coderoot')[:-2]
-nnoremap <silent> <C-]> :call FZFOpen(":Files " . g:coderoot)<CR>
-
-function! RgAt(directory)
-    let cwd = getcwd()
-    execute "cd " . a:directory
-    call FZFOpen(":Rg")
-    execute "cd " . cwd
-endfunction
-nnoremap <silent> <C-\> :call FZFOpen(":call RgAt(g:coderoot)")<CR>
-
-let g:fzf_buffers_jump = 1
-let g:fzf_action = {
-    \ 'ctrl-o': 'tab split',
-    \ 'ctrl-x': 'split',
-    \ 'ctrl-v': 'vsplit'}
 noremap <silent> <localleader>t :TagbarToggle<CR>
+
+
+" " ----------------------------------------------------------------
+" " junegunn/fzf.vim
+" " ----------------------------------------------------------------
+" function! FZFOpen(cmd)
+"     if winnr('$') > 1 && (!&modifiable || &ft == 'nerdtree' || &ft == 'qf')
+"         wincmd l
+"         wincmd k
+"     endif
+"     execute a:cmd
+" endfunction
+"
+" command! -bang -nargs=* Rg call fzf#vim#grep(
+"     \ 'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>),
+"     \ 1,
+"     \ fzf#vim#with_preview({'dir': system('git rev-parse --show-toplevel 2> /dev/null')[:-2], 'options': '--delimiter : --nth 4..'}),
+"     \ <bang>0)
+"
+" function! s:find_git_root()
+"     return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+" endfunction
+"
+" command! ProjectFiles execute 'Files' s:find_git_root()
+" nnoremap <silent> <C-p> :call FZFOpen(":ProjectFiles")<CR>
+"
+" nnoremap <silent> <C-n> :call FZFOpen(":Rg")<CR>
+"
+" nnoremap <silent> <C-s> :call FZFOpen(":GFiles?")<CR>
+"
+" let g:coderoot = system('realpath ~/coderoot')[:-2]
+" nnoremap <silent> <C-]> :call FZFOpen(":Files " . g:coderoot)<CR>
+"
+" function! RgAt(directory)
+"     let cwd = getcwd()
+"     execute "cd " . a:directory
+"     call FZFOpen(":Rg")
+"     execute "cd " . cwd
+" endfunction
+" nnoremap <silent> <C-\> :call FZFOpen(":call RgAt(g:coderoot)")<CR>
+"
+" let g:fzf_buffers_jump = 1
+" let g:fzf_action = {
+"     \ 'ctrl-o': 'tab split',
+"     \ 'ctrl-x': 'split',
+"     \ 'ctrl-v': 'vsplit'}
 
 " ----------------------------------------------------------------
 " ycm-core/YouCompleteMe
@@ -248,3 +252,47 @@ nmap <silent> <localleader>o <Plug>(openbrowser-open)
 " let g:syntastic_check_on_open = 1
 " let g:syntastic_cpp_compiler = 'clang++'
 " let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+
+lua << EOF
+require('telescope').setup{
+  defaults = {
+    mappings = {
+      i = {
+        ["<C-j>"] = require('telescope.actions').move_selection_next,
+        ["<C-k>"] = require('telescope.actions').move_selection_previous,
+        ["<C-u>"] = false,  -- clear the search field
+        ["<C-f>"] = require('telescope.actions').cycle_history_next,
+        ["<C-b>"] = require('telescope.actions').cycle_history_prev,
+        ["<C-d>"] = require('telescope.actions').preview_scrolling_down,
+        ["<C-e>"] = require('telescope.actions').preview_scrolling_up,
+        ["<C-q>"] = require('telescope.actions').close,
+      },
+    }
+  }
+}
+EOF
+
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+
+nnoremap <leader>fc <cmd>lua require('telescope.builtin').commands()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
+nnoremap <c-p> <cmd>lua require('telescope.builtin').git_files()<cr>
+nnoremap <c-n> <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <c-s> <cmd>lua require('telescope.builtin').git_status()<cr>
+
+nnoremap <leader>gf <cmd>lua require('telescope.builtin').git_files()<cr>
+nnoremap <leader>gs <cmd>lua require('telescope.builtin').git_status()<cr>
+nnoremap <leader>gl <cmd>lua require('telescope.builtin').git_commits()<cr>
+nnoremap <leader>gb <cmd>lua require('telescope.builtin').git_bcommits()<cr>
+nnoremap <leader>gt <cmd>lua require('telescope.builtin').git_stash()<cr>
+
+nnoremap <leader>tr <cmd>lua require('telescope.builtin').treesitter()<cr>
+
+autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
+
+let g:copilot_filetypes = {
+  \ 'TelescopePrompt': v:false,
+  \ }
