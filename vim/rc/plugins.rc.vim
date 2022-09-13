@@ -27,6 +27,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 
+  Plug 'tami5/sql.nvim'  " sudo apt-get install sqlite3 libsqlite3-dev
+  Plug 'nvim-telescope/telescope-frecency.nvim'
+
   Plug 'Shougo/neosnippet.vim'
 
   Plug 'rhysd/committia.vim'
@@ -270,6 +273,7 @@ require('telescope').setup{
     }
   }
 }
+require('telescope').load_extension('frecency')
 EOF
 
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
@@ -279,8 +283,9 @@ nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fc <cmd>lua require('telescope.builtin').commands()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
-nnoremap <c-p> <cmd>lua require('telescope.builtin').git_files()<cr>
-nnoremap <c-n> <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <c-p> <cmd>Telescope frecency<cr>
+" nnoremap <c-p> <cmd>lua require('telescope.builtin').git_files()<cr>
+" nnoremap <c-n> <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <c-s> <cmd>lua require('telescope.builtin').git_status()<cr>
 
 nnoremap <leader>gf <cmd>lua require('telescope.builtin').git_files()<cr>
