@@ -36,7 +36,7 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'RRethy/vim-illuminate'
 
-  Plug 'scrooloose/syntastic'
+  " Plug 'scrooloose/syntastic'
 
   Plug 'tyru/open-browser.vim'
 
@@ -243,7 +243,7 @@ nmap <silent> <localleader>o <Plug>(openbrowser-open)
 
 
 " scrooloose/syntastic
-let g:syntastic_mode_map = {'mode': 'passive', 'active_filetypes': [], 'passive_filetypes': []}
+" let g:syntastic_mode_map = {'mode': 'passive', 'active_filetypes': [], 'passive_filetypes': []}
 " let g:syntastic_python_checkers = ['flake8']
 " let g:syntastic_check_on_open = 1
 " let g:syntastic_cpp_compiler = 'clang++'
