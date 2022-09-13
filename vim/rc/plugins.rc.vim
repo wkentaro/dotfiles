@@ -329,3 +329,23 @@ EOF
 lua << EOF
 require("bufferline").setup{}
 EOF
+
+if has('nvim')
+  tnoremap <Esc> <C-\><C-n>
+  tnoremap <M-[> <Esc>
+  tnoremap <C-v><Esc> <Esc>
+endif
+
+augroup terminal_settings
+  autocmd!
+
+  autocmd TermOpen * startinsert
+  autocmd TermOpen * setlocal nonumber norelativenumber
+
+  " Ignore various filetypes as those will close terminal automatically
+  " Ignore fzf, ranger, coc
+  autocmd TermClose term://*
+        \ if (expand('<afile>') !~ "fzf") && (expand('<afile>') !~ "ranger") && (expand('<afile>') !~ "coc") |
+        \   call nvim_input('<CR>')  |
+        \ endif
+augroup END
