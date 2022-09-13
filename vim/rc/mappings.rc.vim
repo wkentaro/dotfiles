@@ -1,6 +1,6 @@
 " Mapleader "{{{
-let mapleader=','
-let maplocalleader='\'
+let mapleader="\<space>"
+let maplocalleader=','
 "}}}
 
 
@@ -12,9 +12,9 @@ imap <C-h> <BS>
 " Delete keymap
 " ----------------------------------------------------------
 " delete without yanking it
-nnoremap <leader>d "_d
-vnoremap <leader>d "_d
-nnoremap <leader>x "_x
+nnoremap <localleader>d "_d
+vnoremap <localleader>d "_d
+nnoremap <localleader>x "_x
 "}}}
 
 
@@ -22,7 +22,7 @@ nnoremap <leader>x "_x
 " Paste keymap
 " ----------------------------------------------------------
 " without yanking it
-vnoremap <leader>p "_dP
+vnoremap <localleader>p "_dP
 "}}}
 
 
@@ -73,11 +73,11 @@ nnoremap <S-Down>  <C-w>-<CR>
 " ----------------------------------------------------------
 " File quiting
 " ----------------------------------------------------------
-nmap <Leader>w :w<CR>
-nmap <leader>q :q<cr>
+nmap <localleader>w :w<CR>
+nmap <localleader>q :q<cr>
 
 
 " ----------------------------------------------------------
 " Spell checking
 " ----------------------------------------------------------
-map <leader>ss :setlocal spell!<cr>
+map <localleader>ss :setlocal spell!<cr>

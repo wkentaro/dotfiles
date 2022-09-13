@@ -69,7 +69,7 @@ let g:templates_no_builtin_templates = 1
 " ----------------------------------------------------------------
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
-noremap <silent> <leader>f :VimFilerBuffer -buffer-name=explorer -split -simple -winwidth=35 -toggle -no-quit<cr>
+noremap <silent> <localleader>f :VimFilerBuffer -buffer-name=explorer -split -simple -winwidth=35 -toggle -no-quit<cr>
 
 autocmd FileType vimfiler call s:vimfiler_settings()
 function! s:vimfiler_settings() abort
@@ -226,19 +226,20 @@ let g:fzf_action = {
     \ 'ctrl-o': 'tab split',
     \ 'ctrl-x': 'split',
     \ 'ctrl-v': 'vsplit'}
+noremap <silent> <localleader>t :TagbarToggle<CR>
 
 " ----------------------------------------------------------------
 " ycm-core/YouCompleteMe
 " ----------------------------------------------------------------
 let g:ycm_clangd_binary_path = trim(system('brew --prefix llvm')).'/bin/clangd'
 nnoremap <expr> <S-k> &pvw == 1 ? ":pclose<CR>h" : ":YcmCompleter GetDoc<CR> <C-w>j"
-nnoremap <silent> <Leader>d :YcmCompleter GoTo<CR>
+nnoremap <silent> <localleader>d :YcmCompleter GoTo<CR>
 
 
 " ----------------------------------------------------------------
 " tyru/open-browser.vim
 " ----------------------------------------------------------------
-nmap <silent> <Leader>o <Plug>(openbrowser-open)
+nmap <silent> <localleader>o <Plug>(openbrowser-open)
 
 
 " scrooloose/syntastic
