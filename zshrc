@@ -316,9 +316,9 @@ function _z_cd ()
 {
   if [ "$1" = "" ]; then
     if [ "$(uname)" = "Linux" ]; then
-      dir=$(_z 2>&1 | awk '{print $2}' | tac | fzf --layout reverse)
+      dir=$(_z 2>&1 | awk '{print $2}' | tac | percol)
     else
-      dir=$(_z 2>&1 | awk '{print $2}' | tail -r | fzf --layout reverse)
+      dir=$(_z 2>&1 | awk '{print $2}' | tail -r | percol)
     fi
   else
     dir=$1
