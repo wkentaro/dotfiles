@@ -51,6 +51,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-fugitive'
 
   Plug 'nvim-treesitter/nvim-treesitter'
+
+  Plug 'folke/which-key.nvim'
 call plug#end()
 
 
@@ -63,6 +65,7 @@ if $VIM_COLORSCHEME == "solarized"
 endif
 hi Normal ctermfg=none
 hi TabLineSel ctermfg=LightBlue ctermbg=Black
+hi WhichKeyFloat ctermbg=BLACK ctermfg=BLACK
 
 
 " ----------------------------------------------------------------
@@ -256,6 +259,9 @@ nmap <silent> <localleader>o <Plug>(openbrowser-open)
 " let g:syntastic_cpp_compiler = 'clang++'
 " let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 
+" ----------------------------------------------------------------
+" telescope
+" ----------------------------------------------------------------
 lua << EOF
 require('telescope').setup{
   defaults = {
@@ -301,3 +307,15 @@ autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_comple
 let g:copilot_filetypes = {
   \ 'TelescopePrompt': v:false,
   \ }
+
+
+" ----------------------------------------------------------------
+" which-key
+" ----------------------------------------------------------------
+lua << EOF
+  require("which-key").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
+EOF
