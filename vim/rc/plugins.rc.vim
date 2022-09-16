@@ -288,26 +288,23 @@ require('telescope').setup{
 require('telescope').load_extension('frecency')
 EOF
 
-nnoremap <c-p> <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-
-nnoremap <leader>fc <cmd>lua require('telescope.builtin').commands()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <c-p> <cmd>Telescope find_files<cr>
+nnoremap <c-g> <cmd>Telescope live_grep<cr>
 
 nnoremap <leader>ff <cmd>Telescope frecency<cr>
-" nnoremap <c-p> <cmd>lua require('telescope.builtin').git_files()<cr>
-" nnoremap <c-n> <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <c-s> <cmd>lua require('telescope.builtin').git_status()<cr>
+nnoremap <leader>fc <cmd>Telescope commands<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+nnoremap <c-s> <cmd>Telescope git_status<cr>
 nnoremap <c-n> <cmd>Telescope buffers<cr>
 
-nnoremap <leader>gf <cmd>lua require('telescope.builtin').git_files()<cr>
-nnoremap <leader>gs <cmd>lua require('telescope.builtin').git_status()<cr>
-nnoremap <leader>gl <cmd>lua require('telescope.builtin').git_commits()<cr>
-nnoremap <leader>gb <cmd>lua require('telescope.builtin').git_bcommits()<cr>
-nnoremap <leader>gt <cmd>lua require('telescope.builtin').git_stash()<cr>
+nnoremap <leader>gf <cmd>Telescope git_files<cr>
+nnoremap <leader>gs <cmd>Telescope git_status<cr>
+nnoremap <leader>gl <cmd>Telescope git_commits<cr>
+nnoremap <leader>gb <cmd>Telescope git_bcommits<cr>
+nnoremap <leader>gt <cmd>Telescope git_stash<cr>
 
-nnoremap <leader>tr <cmd>lua require('telescope.builtin').treesitter()<cr>
+nnoremap <leader>tr <cmd>Telescope treesitter<cr>
 
 autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
 
