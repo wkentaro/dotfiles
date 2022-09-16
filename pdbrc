@@ -1,1 +1,1 @@
-alias ip from IPython import embed; print('break point \t#'); embed()
+alias ip from IPython import embed; embed()
