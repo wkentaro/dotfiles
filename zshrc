@@ -392,9 +392,9 @@ show-cuda
 
 alias ql="qlmanage -p 2>/dev/null"
 
-export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git" -g "!.DS_Store"'
-export FZF_CTRL_T_COMMAND='fd --strip-cwd-prefix'
-export FZF_CTRL_R_OPTS='--reverse'
+# export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git" -g "!.DS_Store"'
+# export FZF_CTRL_T_COMMAND='fd --strip-cwd-prefix'
+# export FZF_CTRL_R_OPTS='--reverse'
 
 export PATH="/usr/local/lib/ruby/gems/3.0.0/bin:$PATH"
 
