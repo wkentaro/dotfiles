@@ -166,20 +166,6 @@ endif
 
 
 " ----------------------------------------------------------
-" Filetype
-" ----------------------------------------------------------
-au BufNewFile,BufRead *.py set filetype=python tabstop=8 shiftwidth=4 indentkeys-=:
-autocmd FileType python inoremap <localleader>k from IPython.core.debugger import Pdb; ipdb = Pdb(); ipdb.set_trace()<esc>
-autocmd FileType python nnoremap <localleader>f :w<cr> :!flake8 %<cr>
-
-if $USER == 'mujin'
-  xnoremap <localleader>b :!blacken 110<CR>
-else
-  noremap <localleader>b :!black %<CR>
-  xnoremap <localleader>b :!blacken %<CR>
-endif
-
-" ----------------------------------------------------------
 " Key mappings
 " ----------------------------------------------------------
 execute 'source' '~/.vim/rc/mappings.rc.vim'
@@ -191,4 +177,18 @@ if &g:loadplugins
   if v:version >= 704
     execute 'source' '~/.vim/rc/plugins.rc.vim'
   endif
+endif
+
+" ----------------------------------------------------------
+" Filetype
+" ----------------------------------------------------------
+au BufNewFile,BufRead *.py set filetype=python tabstop=8 shiftwidth=4 indentkeys-=:
+autocmd FileType python inoremap <localleader>k from IPython.core.debugger import Pdb; ipdb = Pdb(); ipdb.set_trace()<esc>
+autocmd FileType python nnoremap <localleader>f :w<cr> :!flake8 %<cr>
+
+if $USER == 'mujin'
+  xnoremap <localleader>b :!blacken 110<CR>
+else
+  noremap <localleader>b :!black %<CR>
+  xnoremap <localleader>b :!blacken %<CR>
 endif
