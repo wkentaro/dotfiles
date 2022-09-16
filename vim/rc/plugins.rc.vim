@@ -288,14 +288,14 @@ require('telescope').setup{
 require('telescope').load_extension('frecency')
 EOF
 
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <c-p> <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 
 nnoremap <leader>fc <cmd>lua require('telescope.builtin').commands()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
-nnoremap <c-p> <cmd>Telescope frecency<cr>
+nnoremap <leader>ff <cmd>Telescope frecency<cr>
 " nnoremap <c-p> <cmd>lua require('telescope.builtin').git_files()<cr>
 " nnoremap <c-n> <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <c-s> <cmd>lua require('telescope.builtin').git_status()<cr>
