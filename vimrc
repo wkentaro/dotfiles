@@ -1,7 +1,7 @@
 " ----------------------------------------------------------------
 " vim useful options
 " ----------------------------------------------------------------
-if has('nvim')
+if !has('nvim')
   " make vim more useful
   set nocompatible
 endif
