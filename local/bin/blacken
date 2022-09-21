@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-'''
+"""
 Usage: echo "python snippet" | enblacken
 Calls Black the Python formatter on a (possibly indented) Python snippet.
 Black, understandably, treats an indented snippet of Python as a syntax error.
@@ -29,11 +29,12 @@ Call from Vim with:
         au!
         autocmd ShellFilterPost * if v:shell_error | silent undo | endif
     augroup END
-'''
+"""
 import subprocess
 import sys
 
 DEFAULT_LINE_LENGTH = 79
+
 
 def command_line(argv):
     line_length = DEFAULT_LINE_LENGTH
@@ -45,6 +46,7 @@ def command_line(argv):
         sys.exit("Usage: enblacken [line-length]")
     return line_length
 
+
 def get_indent(line):
     indent = 0
     for char in line:
@@ -53,39 +55,38 @@ def get_indent(line):
         else:
             return indent
 
+
 def min_indent(lines):
     min_indent = 99999
     for line in [line for line in lines if not line.isspace()]:
         min_indent = min(min_indent, get_indent(line))
     return min_indent if min_indent != 99999 else 0
 
+
 def unindent(lines, to_remove):
-    return ''.join(
-        line[min(to_remove, len(line) - 1):]
-        for line in lines
-    )
+    return "".join(line[min(to_remove, len(line) - 1) :] for line in lines)
+
 
 def reindent(lines, indent):
-    return (
-        ' ' * indent + line if line else ''
-        for line in lines
-    )
+    return (" " * indent + line if line else "" for line in lines)
+
 
 def black(source, line_length):
     """
     Call external 'black' process on the given source code.
     """
-    line_length = '--line-length={}'.format(line_length)
+    line_length = "--line-length={}".format(line_length)
     process = subprocess.run(
-        ['black', '-q', '-S', line_length, '-'],
-        input=source.encode('utf-8'),
+        ["black", "-q", "-S", line_length, "-"],
+        input=source.encode("utf-8"),
         capture_output=True,
     )
     if process.returncode != 0:
         return
-        print(process.stderr.decode('utf-8'), file=sys.stderr)
+        print(process.stderr.decode("utf-8"), file=sys.stderr)
         sys.exit(process.returncode)
-    return process.stdout.decode('utf-8').splitlines()
+    return process.stdout.decode("utf-8").splitlines()
+
 
 def main(argv):
     line_length = command_line(argv)
@@ -96,9 +97,10 @@ def main(argv):
         line_length - indent,
     )
     if formated is None:
-        print(''.join(lines), end='')
+        print("".join(lines), end="")
     else:
-        print('\n'.join(reindent(formated, indent)))
+        print("\n".join(reindent(formated, indent)))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main(sys.argv)
