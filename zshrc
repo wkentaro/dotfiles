@@ -272,7 +272,7 @@ bindkey "^Y" yank
 # --------------------------------
 
 # source common aliases
-source $HOME/.sh/rc/alias.sh
+source $HOME/.zsh/rc/alias.sh
 
 alias history='history -i 1'
 alias reload='exec zsh'

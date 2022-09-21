@@ -20,8 +20,6 @@ private/ssh/config:
   .ssh/config
 private/zshrc:
   .zshrc.private
-sh:
-  .sh
 tmux:
   .tmux
 tmux.conf:
