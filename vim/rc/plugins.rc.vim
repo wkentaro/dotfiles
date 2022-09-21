@@ -306,6 +306,8 @@ nnoremap <leader>gt <cmd>Telescope git_stash<cr>
 
 nnoremap <leader>tr <cmd>Telescope treesitter<cr>
 
+nnoremap <leader>gd <cmd>Git diff %<cr>
+
 autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
 
 let g:copilot_filetypes = {
