@@ -18,6 +18,6 @@ compdef _apuu apuu='sudo apt-get update && sudo apt-get upgrade'
 
 alias allpkgs='apt search -F "%p" --disable-columns $1'
 
-alias shutdown='sudo shutdown -h now'
+# alias shutdown='sudo shutdown -h now'
 
 alias purge="sudo sh -c 'echo 3 >/proc/sys/vm/drop_caches'"

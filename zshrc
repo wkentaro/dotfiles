@@ -139,10 +139,10 @@ source $ZSH/oh-my-zsh.sh
 
 # local plugins
 plugins=(
-  $HOME/.sh/plugins/git.sh
-  $HOME/.sh/plugins/ros.sh
-  $HOME/.sh/plugins/ubuntu.sh
-  $HOME/.sh/plugins/aws.sh
+  $HOME/.zsh/plugins/git.sh
+  $HOME/.zsh/plugins/ros.sh
+  $HOME/.zsh/plugins/ubuntu.sh
+  $HOME/.zsh/plugins/aws.sh
 )
 for plugin in $plugins; do
   source $plugin
