@@ -1,17 +1,9 @@
-bash:
-  .bash
-bash_completion:
-  .bash_completion
-bashrc:
-  .bashrc.wkentaro
 config/nvim/init.vim:
   .config/nvim/init.vim
 gitconfig:
   .gitconfig
 gitignore_global:
   .gitignore_global
-gvimrc:
-  .gvimrc
 latexmkrc:
   .latexmkrc
 local/bin/*:
@@ -38,9 +30,6 @@ vim:
   .vim
 vimrc:
   .vimrc
-zprofile:
-  name: .zprofile
-  uname: Darwin
 zsh:
   .zsh
 zshrc:
