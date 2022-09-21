@@ -56,9 +56,9 @@ filetype plugin indent on
 " use space aside from tab
 set expandtab
 
-" use 2 spaces for indentation
-set tabstop=2
-set shiftwidth=2
+" use 4 spaces for indentation
+set tabstop=4
+set shiftwidth=4
 set shiftround
 set iminsert=0
 
@@ -182,7 +182,7 @@ endif
 " ----------------------------------------------------------
 " Filetype
 " ----------------------------------------------------------
-au BufNewFile,BufRead *.py set filetype=python tabstop=8 shiftwidth=4 indentkeys-=:
+au BufNewFile,BufRead *.py set indentkeys-=:
 autocmd FileType python inoremap <localleader>k from IPython.core.debugger import Pdb; ipdb = Pdb(); ipdb.set_trace()<esc>
 autocmd FileType python nnoremap <localleader>f :w<cr> :!flake8 %<cr>
 
