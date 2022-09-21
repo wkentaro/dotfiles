@@ -1,3 +1,0 @@
-#!/bin/bash
-
-sq | grep 'u00001'
