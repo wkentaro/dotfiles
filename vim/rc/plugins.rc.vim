@@ -322,7 +322,19 @@ lua << EOF
   local which_key = require("which-key")
   which_key.setup {}
   which_key.register({
-    te = { "<cmd>terminal<cr>", "Open Terminal" },
+    f = { "<cmd>Telescope find_files<cr>", "Find file" },
+    t = { "<cmd>terminal<cr>", "Open terminal" },
+
+    w = "Window commands",
+    wv = { "<cmd>vsplit<cr>", "Vsplit window" },
+    wh = { "<cmd>split<cr>", "Split" },
+
+    b = "Buffer commands",
+    bk = { "<cmd>bp<bar>bd#<cr>", "Kill buffer" },
+
+    g = "Git commands",
+    gs = { "<cmd>Git<cr>", "Git status" },
+    gd = { "<cmd>Git diff<cr>", "Git diff" },
   }, { prefix = "<leader>" })
 EOF
 
