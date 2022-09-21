@@ -344,3 +344,40 @@ EOF
 lua << EOF
 require("bufferline").setup{}
 EOF
+
+lua << EOF
+-- External dependancies
+local actions = require("telescope.actions")
+local actions_set = require("telescope.actions.set")
+local actions_state = require("telescope.actions.state")
+local conf = require("telescope.config").values
+local entry_display = require("telescope.pickers.entry_display")
+local finders = require("telescope.finders")
+local from_entry = require("telescope.from_entry")
+local log = require("telescope.log")
+local pickers = require("telescope.pickers")
+local previewers = require("telescope.previewers")
+local t_utils = require("telescope.utils")
+local Path = require("plenary.path")
+
+function telescope_find_dir(opts)
+  pickers.new(opts, {
+    prompt_title = "Find Directory",
+    finder = finders.new_oneshot_job({ "fd", "^\\.git$", "--hidden", "--type", "d", "--absolute-path", vim.fn.expand("~/Documents"), "--exec", "dirname" }),
+    sorter = conf.generic_sorter(opts),
+    attach_mappings = function(prompt_bufnr, map)
+      actions_set.select:replace(function()
+        local entry = actions_state.get_selected_entry()
+        local dir = from_entry.path(entry)
+        if entry ~= nil then
+          actions.close(prompt_bufnr, false)
+          vim.cmd("cd " .. dir)
+          vim.cmd("echon ''")
+          print("cwd: " .. vim.fn.getcwd())
+        end
+      end)
+      return true
+    end,
+  }):find()
+end
+EOF

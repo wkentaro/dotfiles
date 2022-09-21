@@ -112,7 +112,9 @@ set hidden
 " something that looks useful.
 set cmdheight=1
 set laststatus=2
-set statusline=[%l,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})
+" set statusline=[%l,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})
+set statusline=[%{getcwd()}]\ %f\ [%P%M]
+
 set showcmd
 set noshowmode
 set number
