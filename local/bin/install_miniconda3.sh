@@ -8,8 +8,8 @@ fi
 INSTALL_DIR=$1
 INSTALL_DIR=$(cd $INSTALL_DIR && pwd)
 
-if [ -e $INSTALL_DIR/.anaconda3 ]; then
-  echo "Anaconda3 is already installed: $INSTALL_DIR/.anaconda3"
+if [ -e $INSTALL_DIR/.miniconda3 ]; then
+  echo "Anaconda3 is already installed: $INSTALL_DIR/.miniconda3"
   exit 0
 fi
 
@@ -31,11 +31,11 @@ else
   curl -s -L $URL -o miniconda3.sh
 fi
 
-bash ./miniconda3.sh -p $INSTALL_DIR/.anaconda3 -b
+bash ./miniconda3.sh -p $INSTALL_DIR/.miniconda3 -b
 cd -
 rm -rf $TMPDIR
 #
-# source $INSTALL_DIR/.anaconda3/bin/activate
+# source $INSTALL_DIR/.miniconda3/bin/activate
 # conda update -n base -y conda
 # conda install -n base -y pip  # pip is uninstalled when conda is updated
-# source $INSTALL_DIR/.anaconda3/bin/deactivate
+# source $INSTALL_DIR/.miniconda3/bin/deactivate
