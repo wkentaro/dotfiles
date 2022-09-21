@@ -1,7 +1,0 @@
-#!/bin/bash
-
-if [ $PWD == $HOME ]; then
-  echo ''
-else
-  echo "${PWD/#$HOME\/}"
-fi
