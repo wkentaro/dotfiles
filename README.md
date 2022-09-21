@@ -8,7 +8,6 @@
 
 <div align="center">
   <a href="https://github.com/wkentaro/dotfiles/actions"><img src="https://github.com/wkentaro/dotfiles/workflows/CI/badge.svg"></a>
-  <a href="https://hub.docker.com/r/wkentaro/dotfiles/"><img src="https://img.shields.io/docker/build/wkentaro/dotfiles.svg"></a>
 </div>
 
 <br/>
@@ -26,14 +25,6 @@ git clone --recursive https://github.com/wkentaro/dotfiles.git $INSTALL_DIR && c
 ./install.py
 ```
 
-
-## Docker
-
-You can try my shell env in docker.
-
-```bash
-docker run -it wkentaro/dotfiles
-```
 
 
 ## macOS
