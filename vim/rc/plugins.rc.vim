@@ -30,6 +30,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'tami5/sql.nvim'  " sudo apt-get install sqlite3 libsqlite3-dev
   Plug 'nvim-telescope/telescope-frecency.nvim'
 
+  Plug 'airblade/vim-rooter'
+
   Plug 'Shougo/neosnippet.vim'
 
   Plug 'rhysd/committia.vim'
@@ -287,6 +289,7 @@ require('telescope').setup{
 }
 require('telescope').load_extension('frecency')
 EOF
+let g:rooter_cd_cmd = 'lcd'
 
 nnoremap <c-p> <cmd>Telescope find_files<cr>
 nnoremap <c-g> <cmd>Telescope live_grep<cr>
