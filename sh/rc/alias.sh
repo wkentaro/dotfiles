@@ -373,8 +373,6 @@ function diff () {
   command diff -u "$@" | diff-so-fancy
 }
 
-alias install-anaconda3='install_anaconda3.sh'
-
 alias lt="logtable"
 
 # alias watch="watch -t"
