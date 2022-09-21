@@ -86,7 +86,7 @@ let g:templates_no_builtin_templates = 1
 " ----------------------------------------------------------------
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
-noremap <silent> <localleader>f :VimFilerBuffer -buffer-name=explorer -split -simple -winwidth=35 -toggle -no-quit<cr>
+" noremap <silent> <localleader>f :VimFilerBuffer -buffer-name=explorer -split -simple -winwidth=35 -toggle -no-quit<cr>
 
 autocmd FileType vimfiler call s:vimfiler_settings()
 function! s:vimfiler_settings() abort
@@ -196,7 +196,7 @@ let g:tex_flavor = 'latex'
 " preservim/tagbar
 " ----------------------------------------------------------------
 let g:tagbar_sort = 0
-noremap <silent> <localleader>t :TagbarToggle<CR>
+nnoremap <leader>tagbar :TagbarToggle<CR>
 
 
 " " ----------------------------------------------------------------
@@ -249,13 +249,13 @@ noremap <silent> <localleader>t :TagbarToggle<CR>
 " ----------------------------------------------------------------
 let g:ycm_clangd_binary_path = trim(system('brew --prefix llvm')).'/bin/clangd'
 nnoremap <expr> <S-k> &pvw == 1 ? ":pclose<CR>h" : ":YcmCompleter GetDoc<CR> <C-w>j"
-nnoremap <silent> <localleader>d :YcmCompleter GoTo<CR>
+" nnoremap <silent> <localleader>d :YcmCompleter GoTo<CR>
 
 
 " ----------------------------------------------------------------
 " tyru/open-browser.vim
 " ----------------------------------------------------------------
-nmap <silent> <localleader>o <Plug>(openbrowser-open)
+" nmap <silent> <localleader>o <Plug>(openbrowser-open)
 
 
 " scrooloose/syntastic
@@ -319,56 +319,13 @@ let g:copilot_filetypes = {
 " which-key
 " ----------------------------------------------------------------
 lua << EOF
-  require("which-key").setup {
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
-  }
+  local which_key = require("which-key")
+  which_key.setup {}
+  which_key.register({
+    te = { "<cmd>terminal<cr>", "Open Terminal" },
+  }, { prefix = "<leader>" })
 EOF
 
 lua << EOF
 require("bufferline").setup{}
 EOF
-
-" if has('nvim')
-"   tnoremap <Esc> <C-\><C-n>
-"   tnoremap <M-[> <Esc>
-"   tnoremap <C-v><Esc> <Esc>
-" endif
-"
-" augroup terminal_settings
-"   autocmd!
-"
-"   autocmd TermOpen * startinsert
-"   autocmd TermOpen * setlocal nonumber norelativenumber
-"   autocmd BufWinEnter,WinEnter term://* startinsert
-"   autocmd BufLeave term://* stopinsert
-"
-"   " Ignore various filetypes as those will close terminal automatically
-"   " Ignore fzf, ranger, coc
-"   autocmd TermClose term://*
-"         \ if (expand('<afile>') !~ "fzf") && (expand('<afile>') !~ "ranger") && (expand('<afile>') !~ "coc") |
-"         \   call nvim_input('<CR>')  |
-"         \ endif
-" augroup END
-"
-" " Terminal mode:
-" tnoremap <M-h> <c-\><c-n><c-w>h
-" tnoremap <M-j> <c-\><c-n><c-w>j
-" tnoremap <M-k> <c-\><c-n><c-w>k
-" tnoremap <M-l> <c-\><c-n><c-w>l
-" " Insert mode:
-" inoremap <M-h> <Esc><c-w>h
-" inoremap <M-j> <Esc><c-w>j
-" inoremap <M-k> <Esc><c-w>k
-" inoremap <M-l> <Esc><c-w>l
-" " Visual mode:
-" vnoremap <M-h> <Esc><c-w>h
-" vnoremap <M-j> <Esc><c-w>j
-" vnoremap <M-k> <Esc><c-w>k
-" vnoremap <M-l> <Esc><c-w>l
-" " Normal mode:
-" nnoremap <M-h> <c-w>h
-" nnoremap <M-j> <c-w>j
-" nnoremap <M-k> <c-w>k
-" nnoremap <M-l> <c-w>l
