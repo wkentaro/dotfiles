@@ -320,33 +320,6 @@ let g:copilot_filetypes = {
   \ }
 
 
-" ----------------------------------------------------------------
-" which-key
-" ----------------------------------------------------------------
-lua << EOF
-  local which_key = require("which-key")
-  which_key.setup {}
-  which_key.register({
-    f = { "<cmd>Telescope find_files<cr>", "Find file" },
-    t = { "<cmd>terminal<cr>", "Open terminal" },
-
-    w = "Window commands",
-    wv = { "<cmd>vsplit<cr>", "Vsplit window" },
-    wh = { "<cmd>split<cr>", "Split" },
-
-    b = "Buffer commands",
-    bk = { "<cmd>bp<bar>bd#<cr>", "Kill buffer" },
-
-    g = "Git commands",
-    gs = { "<cmd>Git<cr>", "Git status" },
-    gd = { "<cmd>Git diff<cr>", "Git diff" },
-  }, { prefix = "<leader>" })
-EOF
-
-lua << EOF
-require("bufferline").setup{}
-EOF
-
 lua << EOF
 -- External dependancies
 local actions = require("telescope.actions")
@@ -365,7 +338,7 @@ local Path = require("plenary.path")
 function telescope_find_dir(opts)
   pickers.new(opts, {
     prompt_title = "Find Directory",
-    finder = finders.new_oneshot_job({ "fdfind", "^\\.git$", "--hidden", "--type", "d", "--absolute-path", vim.fn.expand("~/workspaces/mujin/checkoutroot"), "--exec", "dirname" }),
+    finder = finders.new_oneshot_job({ "fdfind", "^\\.git$", "--hidden", "--type", "d", "--absolute-path", vim.fn.expand("~/workspaces"), "--exec", "dirname" }),
     sorter = conf.generic_sorter(opts),
     attach_mappings = function(prompt_bufnr, map)
       actions_set.select:replace(function()
@@ -384,4 +357,31 @@ function telescope_find_dir(opts)
 end
 EOF
 
-tmap <M-e> <C-x><C-e>
+" ----------------------------------------------------------------
+" which-key
+" ----------------------------------------------------------------
+lua << EOF
+  local which_key = require("which-key")
+  which_key.setup {}
+  which_key.register({
+    f = { "<cmd>Telescope find_files<cr>", "Find file" },
+    t = { "<cmd>terminal<cr>", "Open terminal" },
+
+    c = { "<cmd>lua telescope_find_dir()<cr>", "Change directory" },
+
+    w = "Window commands",
+    wv = { "<cmd>vsplit<cr>", "Vsplit window" },
+    wh = { "<cmd>split<cr>", "Split" },
+
+    b = "Buffer commands",
+    bk = { "<cmd>bp<bar>bd#<cr>", "Kill buffer" },
+
+    g = "Git commands",
+    gs = { "<cmd>Git<cr>", "Git status" },
+    gd = { "<cmd>Git diff<cr>", "Git diff" },
+  }, { prefix = "<leader>" })
+EOF
+
+lua << EOF
+require("bufferline").setup{}
+EOF
