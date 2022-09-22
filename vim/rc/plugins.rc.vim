@@ -59,6 +59,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
   " Plug 'ryanoasis/vim-devicons' Icons without colours
   Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
+
+  Plug 'brettanomyces/nvim-editcommand'
 call plug#end()
 
 
@@ -363,7 +365,7 @@ local Path = require("plenary.path")
 function telescope_find_dir(opts)
   pickers.new(opts, {
     prompt_title = "Find Directory",
-    finder = finders.new_oneshot_job({ "fd", "^\\.git$", "--hidden", "--type", "d", "--absolute-path", vim.fn.expand("~/Documents"), "--exec", "dirname" }),
+    finder = finders.new_oneshot_job({ "fdfind", "^\\.git$", "--hidden", "--type", "d", "--absolute-path", vim.fn.expand("~/workspaces/mujin/checkoutroot"), "--exec", "dirname" }),
     sorter = conf.generic_sorter(opts),
     attach_mappings = function(prompt_bufnr, map)
       actions_set.select:replace(function()
@@ -381,3 +383,5 @@ function telescope_find_dir(opts)
   }):find()
 end
 EOF
+
+tmap <M-e> <C-x><C-e>
