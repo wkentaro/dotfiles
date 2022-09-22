@@ -187,7 +187,8 @@ endif
 autocmd FileType python set tabstop=4
 autocmd FileType python set shiftwidth=4
 autocmd FileType python set indentkeys-=:
-autocmd FileType python inoremap <localleader>k from IPython.core.debugger import Pdb; ipdb = Pdb(); ipdb.set_trace()<esc>
+autocmd FileType python inoremap <localleader>p from IPython.core.debugger import Pdb; ipdb = Pdb(); print("[ipdb] >>> "); ipdb.set_trace()<esc>
+autocmd FileType python inoremap <localleader>i import IPython; print("[ipython] >>> "); IPython.embed()<esc>
 autocmd FileType python nnoremap <localleader>f :w<cr> :!flake8 %<cr>
 
 if $USER == 'mujin'
