@@ -60,7 +60,7 @@ call plug#begin('~/.vim/plugged')
   " Plug 'ryanoasis/vim-devicons' Icons without colours
   Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
 
-  Plug 'brettanomyces/nvim-editcommand'
+  " Plug 'brettanomyces/nvim-editcommand'
 call plug#end()
 
 
