@@ -1,44 +1,46 @@
 #!/usr/bin/env python3
 
 import argparse
+import os.path as osp
+
+import PIL.Image
 
 import imgviz
 
 
 def main():
-    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("img_files", nargs="+")
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    parser.add_argument("image_files", nargs="+")
     args = parser.parse_args()
 
-    i_prev = -1
-    i = 0
-    while True:
-        if i_prev != i:
-            img_file = args.img_files[i]
-            i_prev = i
+    images = [PIL.Image.open(image_file) for image_file in args.image_files]
 
-            img = imgviz.io.imread(img_file)
-            img = imgviz.asrgb(img)
-            img = imgviz.centerize(img, (800, 800), cval=(127, 127, 127))
-            imgviz.io.cv_imshow(img, __file__)
-            print(img_file, f"{i + 1} / {len(args.img_files)}")
+    marked = set()
+    if osp.exists("marked.txt"):
+        print("==> Loading from: marked.txt")
+        with open("marked.txt") as f:
+            for filename in f:
+                marked.add(filename.strip())
 
-        key = imgviz.io.cv_waitkey(0)
-        if key == ord("n"):
-            i += 1
-        elif key == ord("p"):
-            i -= 1
-        elif key == ord("q"):
-            break
-        elif key == ord("m"):
-            with open("marked.txt", "a") as f:
-                f.write(img_file + "\n")
+    def mark(images, index):
+        filename = images[index].filename
+        if filename in marked:
+            return
 
-        if i < 0:
-            i = 0
-        elif i >= len(args.img_files):
-            i = len(args.img_files) - 1
+        print("{} >> marked.txt".format(filename))
+        with open("marked.txt", "a") as f:
+            f.write(filename + "\n")
+        marked.add(filename)
+
+    keymap = {
+        "m": mark,
+    }
+
+    imgviz.io.pyglet_imshow(images, keymap=keymap)
+    imgviz.io.pyglet_run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
