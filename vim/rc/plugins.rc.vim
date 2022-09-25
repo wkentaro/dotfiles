@@ -61,6 +61,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
 
   " Plug 'brettanomyces/nvim-editcommand'
+
+  Plug 'romainl/vim-cool'
 call plug#end()
 
 

@@ -106,6 +106,8 @@ if has('nvim')
       \ endif
   augroup END
 
+  tnoremap <C-Enter> <Enter>
+
   tnoremap <M-n> <CMD>Telescope buffers<CR>
   inoremap <M-n> <Esc><CMD>Telescope buffers<CR>
   vnoremap <M-n> <Esc><CMD>Telescope buffers<CR>
