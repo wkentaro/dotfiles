@@ -108,15 +108,25 @@ if has('nvim')
 
   tnoremap <C-Enter> <Enter>
 
-  tnoremap <M-n> <CMD>Telescope buffers<CR>
-  inoremap <M-n> <Esc><CMD>Telescope buffers<CR>
-  vnoremap <M-n> <Esc><CMD>Telescope buffers<CR>
-  nnoremap <M-n> <CMD>Telescope buffers<CR>
+  tnoremap <M-n> gt
+  inoremap <M-n> <Esc>gt
+  vnoremap <M-n> <Esc>gt
+  nnoremap <M-n> gt
 
-  tnoremap <M-p> <CMD>Telescope find_files<CR>
-  inoremap <M-p> <Esc><CMD>Telescope find_files<CR>
-  vnoremap <M-p> <Esc><CMD>Telescope find_files<CR>
-  nnoremap <M-p> <CMD>Telescope find_files<CR>
+  tnoremap <M-p> gT
+  inoremap <M-p> <Esc>gT
+  vnoremap <M-p> <Esc>gT
+  nnoremap <M-p> gT
+
+  " tnoremap <M-n> <CMD>Telescope buffers<CR>
+  " inoremap <M-n> <Esc><CMD>Telescope buffers<CR>
+  " vnoremap <M-n> <Esc><CMD>Telescope buffers<CR>
+  " nnoremap <M-n> <CMD>Telescope buffers<CR>
+
+  " tnoremap <M-p> <CMD>Telescope find_files<CR>
+  " inoremap <M-p> <Esc><CMD>Telescope find_files<CR>
+  " vnoremap <M-p> <Esc><CMD>Telescope find_files<CR>
+  " nnoremap <M-p> <CMD>Telescope find_files<CR>
 
   " Terminal mode:
   tnoremap <M-h> <C-\><C-n><C-w>h
