@@ -5,15 +5,15 @@ let maplocalleader=','
 
 
 " FIXME: C-h does not work...
-imap <C-h> <BS>
+" imap <C-h> <BS>
 
 
 " ----------------------------------------------------------
 " Delete keymap
 " ----------------------------------------------------------
 " delete without yanking it
-nnoremap <localleader>d "_d
-vnoremap <localleader>d "_d
+" nnoremap <localleader>d "_d
+" vnoremap <localleader>d "_d
 " nnoremap <localleader>x "_x
 "}}}
 
@@ -22,7 +22,7 @@ vnoremap <localleader>d "_d
 " Paste keymap
 " ----------------------------------------------------------
 " without yanking it
-vnoremap <localleader>p "_dP
+" vnoremap <localleader>p "_dP
 "}}}
 
 
@@ -41,17 +41,17 @@ nnoremap gk k
 " Buffer keymap
 " ----------------------------------------------------------
 " Fast buffer alternation, next/prev, close "{{{
-map ga <C-^>
-nmap gn :bn<CR>
-nmap gp :bp<CR>
-nmap gk :bp<bar>bd #<CR>
+" map ga <C-^>
+" nmap gn :bn<CR>
+" nmap gp :bp<CR>
+" nmap gk :bp<bar>bd #<CR>
 "}}}
 
 
 " ----------------------------------------------------------
 " Tab keymap
 " ----------------------------------------------------------
-nmap gr gT
+" nmap gr gT
 
 " ----------------------------------------------------------
 " Window keymap
@@ -63,18 +63,18 @@ nmap gr gT
 " nnoremap <C-l> <C-w>l
 
 " Change window size
-nnoremap <S-Left>  <C-w>><CR>
-nnoremap <S-Right> <C-w><<CR>
-nnoremap <S-Up>    <C-w>+<CR>
-nnoremap <S-Down>  <C-w>-<CR>
+" nnoremap <S-Left>  <C-w>><CR>
+" nnoremap <S-Right> <C-w><<CR>
+" nnoremap <S-Up>    <C-w>+<CR>
+" nnoremap <S-Down>  <C-w>-<CR>
 "}}}
 
 
 " ----------------------------------------------------------
 " File quiting
 " ----------------------------------------------------------
-nmap <localleader>w :w<CR>
-nmap <localleader>q :q<cr>
+" nmap <localleader>w :w<CR>
+" nmap <localleader>q :q<cr>
 
 
 " ----------------------------------------------------------
@@ -87,11 +87,8 @@ nmap <localleader>q :q<cr>
 " Terminal
 " ----------------------------------------------------------
 if has('nvim')
-  nmap <localleader>x :terminal<cr>
-
   tnoremap <Esc> <C-\><C-n>
-  tnoremap <M-[> <Esc>
-  tnoremap <C-v><Esc> <Esc>
+  tnoremap <C-[> <C-\><C-n>
 
   augroup terminal_settings
     autocmd!
@@ -99,7 +96,7 @@ if has('nvim')
     autocmd TermOpen * startinsert
     autocmd TermOpen * setlocal nonumber norelativenumber
     autocmd BufWinEnter,WinEnter term://* startinsert
-    autocmd BufLeave term://* stopinsert
+    " autocmd BufLeave term://* stopinsert
 
     " Ignore various filetypes as those will close terminal automatically
     " Ignore fzf, ranger, coc
@@ -108,6 +105,16 @@ if has('nvim')
       \   call nvim_input('<CR>')  |
       \ endif
   augroup END
+
+  tnoremap <M-n> <CMD>Telescope buffers<CR>
+  inoremap <M-n> <Esc><CMD>Telescope buffers<CR>
+  vnoremap <M-n> <Esc><CMD>Telescope buffers<CR>
+  nnoremap <M-n> <CMD>Telescope buffers<CR>
+
+  tnoremap <M-p> <CMD>Telescope find_files<CR>
+  inoremap <M-p> <Esc><CMD>Telescope find_files<CR>
+  vnoremap <M-p> <Esc><CMD>Telescope find_files<CR>
+  nnoremap <M-p> <CMD>Telescope find_files<CR>
 
   " Terminal mode:
   tnoremap <M-h> <C-\><C-n><C-w>h

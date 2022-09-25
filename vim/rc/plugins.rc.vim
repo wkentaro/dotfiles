@@ -90,7 +90,7 @@ let g:templates_no_builtin_templates = 1
 " ----------------------------------------------------------------
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
-" noremap <silent> <localleader>f :VimFilerBuffer -buffer-name=explorer -split -simple -winwidth=35 -toggle -no-quit<cr>
+noremap <silent> <localleader>f :VimFilerBuffer -buffer-name=explorer -split -simple -winwidth=35 -toggle -no-quit<cr>
 
 autocmd FileType vimfiler call s:vimfiler_settings()
 function! s:vimfiler_settings() abort

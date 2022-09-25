@@ -117,7 +117,7 @@ set statusline=[%{getcwd()}]\ %f\ [%P%M]
 
 set showcmd
 set noshowmode
-set number
+"set number
 
 " Highlight dynamically as pattern is typed
 set nohlsearch
@@ -155,7 +155,7 @@ set noswapfile
 " set undofile
 set nofoldenable
 set list
-set number
+"set number
 set wrap
 set novisualbell
 set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
@@ -189,7 +189,7 @@ autocmd FileType python set shiftwidth=4
 autocmd FileType python set indentkeys-=:
 autocmd FileType python inoremap <localleader>p from IPython.core.debugger import Pdb; ipdb = Pdb(); print("[ipdb] >>> "); ipdb.set_trace()<esc>
 autocmd FileType python inoremap <localleader>i import IPython; print("[ipython] >>> "); IPython.embed()<esc>
-autocmd FileType python nnoremap <localleader>f :w<cr> :!flake8 %<cr>
+" autocmd FileType python nnoremap <localleader>f :w<cr> :!flake8 %<cr>
 
 if $USER == 'mujin'
   autocmd FileType python xnoremap <localleader>b :!blacken 110<CR>
