@@ -367,7 +367,7 @@ bindkey '^Z' fancy-ctrl-z
 if [ "$CUDA_PATH" = "" -a -e /usr/local/cuda ]; then
   export CUDA_PATH=/usr/local/cuda
 fi
-if [ -e $CUDA_PATH ]; then
+if [ -e "$CUDA_PATH" ]; then
   export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
   export LIBRARY_PATH=/usr/local/lib:/usr/lib:$LIBRARY_PATH
   # export CPATH=/usr/include:$CPATH
@@ -396,7 +396,7 @@ alias ql="qlmanage -p 2>/dev/null"
 # export FZF_CTRL_T_COMMAND='fd --strip-cwd-prefix'
 # export FZF_CTRL_R_OPTS='--reverse'
 
-export PATH="/usr/local/lib/ruby/gems/3.0.0/bin:$PATH"
+# export PATH="/usr/local/lib/ruby/gems/3.0.0/bin:$PATH"
 
 if which batcat>/dev/null; then
   alias bat=batcat
@@ -404,7 +404,6 @@ fi
 if which fdfind>/dev/null; then
   alias fd=fdfind
 fi
-alias lv='bat --pager="less -R" --style plain'
 
 if [ ! -z $CONDA_DEFAULT_ENV ]; then
   conda_path=$(dirname $CONDA_PYTHON_EXE)
