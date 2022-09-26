@@ -411,3 +411,8 @@ if [ ! -z $CONDA_DEFAULT_ENV ]; then
   conda deactivate
   source $conda_path/activate $conda_env
 fi
+
+neovim_autocd() {
+    [[ $NVIM ]] && neovim_autocd.py
+}
+chpwd_functions+=( neovim_autocd )
