@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 <image_file>"
+  exit 1
+fi
+
+image_file=$1
+
+if [[ ${image_file##*.} == png ]]; then
+  png_file=$image_file
+else
+  png_file=$(mktemp --suffix .png)
+  convert $image_file $png_file
+fi
+
+xclip -selection clipboard -t image/png -i "$png_file"
