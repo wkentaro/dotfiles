@@ -48,7 +48,7 @@ set fileencodings=ucs-bom,utf-8,iso-2022-jp,sjis,euc-jp
 
 " Don’t add empty newlines at the end of files
 set binary
-set noeol
+"set noeol
 
 " filetype detection on
 filetype plugin indent on
