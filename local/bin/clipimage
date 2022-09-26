@@ -7,11 +7,9 @@ fi
 
 image_file=$1
 
-if [[ ${image_file##*.} == png ]]; then
-  png_file=$image_file
-else
-  png_file=$(mktemp --suffix .png)
-  convert $image_file $png_file
-fi
+tmp_file=$(mktemp --suffix .png)
+convert $image_file $tmp_file
 
-xclip -selection clipboard -t image/png -i "$png_file"
+xclip -selection clipboard -t image/png -i "$tmp_file"
+
+rm -f $tmp_file
