@@ -110,12 +110,12 @@ if has('nvim')
 
   tnoremap <C-Enter> <Enter>
 
-  tnoremap <M-n> gt
+  tnoremap <M-n> <C-\><C-n>gt
   inoremap <M-n> <Esc>gt
   vnoremap <M-n> <Esc>gt
   nnoremap <M-n> gt
 
-  tnoremap <M-p> gT
+  tnoremap <M-p> <C-\><C-n>gT
   inoremap <M-p> <Esc>gT
   vnoremap <M-p> <Esc>gT
   nnoremap <M-p> gT
