@@ -365,9 +365,9 @@ alias k9='kill -9'
 #         fi
 # }
 
-if which exa &>/dev/null; then
-  alias ls=exa
-fi
+# if which exa &>/dev/null; then
+#   alias ls=exa
+# fi
 
 function diff () {
   command diff -u "$@" | diff-so-fancy
