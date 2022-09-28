@@ -84,6 +84,21 @@ nnoremap gk k
 " ----------------------------------------------------------
 " map <localleader>ss :setlocal spell!<cr>
 
+function! IsOnThePrompt(prompt)
+  let s:space_or_eol = '\( \|$\|\n\)'
+  let l:line_number = line('$')
+  while l:line_number > 0
+    if match(getline(l:line_number), a:prompt . s:space_or_eol) !=# -1
+      break
+    endif
+    let l:line_number = l:line_number - 1
+  endwhile
+
+  let l:line_number_prompt = l:line_number
+  let l:line_number_current = line('.')
+
+  return l:line_number_prompt == l:line_number_current
+endfunction
 
 " ----------------------------------------------------------
 " Terminal
@@ -97,8 +112,7 @@ if has('nvim')
 
     autocmd TermOpen * startinsert
     autocmd TermOpen * setlocal nonumber norelativenumber
-    autocmd BufWinEnter,WinEnter term://* startinsert
-    " autocmd BufLeave term://* stopinsert
+    autocmd BufWinEnter,WinEnter term://* if IsOnThePrompt('%') | startinsert | endif
 
     " Ignore various filetypes as those will close terminal automatically
     " Ignore fzf, ranger, coc
