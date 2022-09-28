@@ -275,21 +275,32 @@ nnoremap <expr> <S-k> &pvw == 1 ? ":pclose<CR>h" : ":YcmCompleter GetDoc<CR> <C-
 " telescope
 " ----------------------------------------------------------------
 lua << EOF
+local actions = require('telescope.actions')
 require('telescope').setup{
   defaults = {
     mappings = {
       i = {
-        ["<C-j>"] = require('telescope.actions').move_selection_next,
-        ["<C-k>"] = require('telescope.actions').move_selection_previous,
-        ["<C-u>"] = false,  -- clear the search field
-        ["<C-f>"] = require('telescope.actions').cycle_history_next,
-        ["<C-b>"] = require('telescope.actions').cycle_history_prev,
-        ["<C-d>"] = require('telescope.actions').preview_scrolling_down,
-        ["<C-e>"] = require('telescope.actions').preview_scrolling_up,
-        ["<C-q>"] = require('telescope.actions').close,
+        ["<C-d>"] = false,  -- -> delete_buffer
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-u>"] = false,  -- -> clear the search field
+        ["<C-f>"] = actions.cycle_history_next,
+        ["<C-b>"] = actions.cycle_history_prev,
+        ["<C-n>"] = actions.preview_scrolling_down,
+        ["<C-p>"] = actions.preview_scrolling_up,
+        ["<C-q>"] = actions.close,
       },
-    }
-  }
+    },
+  },
+  pickers = {
+    buffers = {
+      mappings = {
+        i = {
+          ["<c-d>"] = actions.delete_buffer + actions.move_to_top,
+        },
+      },
+    },
+  },
 }
 require('telescope').load_extension('frecency')
 EOF
