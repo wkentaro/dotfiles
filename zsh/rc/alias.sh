@@ -147,6 +147,11 @@ fi
 # ----------------------------------------------------
 # ls aliases
 # ----------------------------------------------------
+if which gls &>/dev/null; then
+  alias ls='gls --color=auto'
+else
+  alias ls='ls --color=auto'
+fi
 alias sl='ls'
 alias lsa='ls -lha'
 alias la='lsa'
@@ -373,7 +378,7 @@ function diff () {
   command diff -u "$@" | diff-so-fancy
 }
 
-alias lt="logtable"
+# alias lt="logtable"
 
 # alias watch="watch -t"
 # watch() {
