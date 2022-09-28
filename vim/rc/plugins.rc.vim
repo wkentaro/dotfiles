@@ -399,7 +399,13 @@ lua << EOF
 EOF
 
 lua << EOF
-require("bufferline").setup{}
+require("bufferline").setup{
+  highlights = {
+    fill = {
+      bg = 'none',
+    }
+  },
+}
 EOF
 
 let g:editcommand_prompt = '%'
