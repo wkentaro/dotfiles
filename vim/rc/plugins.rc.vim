@@ -63,6 +63,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'brettanomyces/nvim-editcommand'
 
   Plug 'romainl/vim-cool'
+
+  Plug 'catppuccin/nvim', { 'branch': 'main', 'as': 'catppuccin'}
 call plug#end()
 
 
@@ -401,3 +403,11 @@ require("bufferline").setup{}
 EOF
 
 let g:editcommand_prompt = '%'
+
+let g:catppuccin_flavour = "mocha" " latte, frappe, macchiato, mocha
+
+lua << EOF
+require("catppuccin").setup()
+EOF
+
+colorscheme catppuccin
