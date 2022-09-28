@@ -117,7 +117,7 @@ set statusline=[%{getcwd()}]\ %f\ [%P%M]
 
 set showcmd
 set noshowmode
-"set number
+set number
 
 " Highlight dynamically as pattern is typed
 " set nohlsearch
