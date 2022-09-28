@@ -25,7 +25,7 @@ call plug#begin('~/.vim/plugged')
   " Plug 'junegunn/fzf.vim'
 
   Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+  Plug 'nvim-telescope/telescope.nvim'
 
   Plug 'tami5/sql.nvim'  " sudo apt-get install sqlite3 libsqlite3-dev
   Plug 'nvim-telescope/telescope-frecency.nvim'
