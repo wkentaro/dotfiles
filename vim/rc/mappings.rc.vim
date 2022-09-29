@@ -4,7 +4,7 @@ let maplocalleader=','
 "}}}
 
 
-nnoremap ; :
+"nnoremap ; :
 
 " FIXME: C-h does not work...
 " imap <C-h> <BS>
