@@ -26,3 +26,5 @@ percol.import_keymap({
     "C-g" : lambda percol: percol.cancel(),
     "C-o" : lambda percol: percol.command.toggle_mark_and_next(),
 })
+
+percol.view.CANDIDATES_LINE_SELECTED = ("underline", "on_cyan", "black")
