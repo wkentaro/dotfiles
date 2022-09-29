@@ -86,18 +86,22 @@ nnoremap gk k
 
 function! IsOnThePrompt(prompt)
   let s:space_or_eol = '\( \|$\|\n\)'
-  let l:line_number = line('$')
-  while l:line_number > 0
-    if match(getline(l:line_number), a:prompt . s:space_or_eol) !=# -1
-      break
-    endif
-    let l:line_number = l:line_number - 1
-  endwhile
-
-  let l:line_number_prompt = l:line_number
+  let l:line_number_end = line('$')
   let l:line_number_current = line('.')
 
-  return l:line_number_prompt == l:line_number_current
+  if abs(l:line_number_end - l:line_number_current) < 3
+    return 1
+  endif
+
+  let l:line_number_prompt = l:line_number_end
+  while l:line_number_prompt > 0
+    if match(getline(l:line_number_prompt), a:prompt . s:space_or_eol) !=# -1
+      break
+    endif
+    let l:line_number_prompt = l:line_number_prompt - 1
+  endwhile
+
+  return abs(l:line_number_prompt - l:line_number_current) < 3
 endfunction
 
 " ----------------------------------------------------------
