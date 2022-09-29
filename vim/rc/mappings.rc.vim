@@ -14,9 +14,9 @@ nnoremap ; :
 " Delete keymap
 " ----------------------------------------------------------
 " delete without yanking it
-" nnoremap <localleader>d "_d
-" vnoremap <localleader>d "_d
-" nnoremap <localleader>x "_x
+nnoremap <localleader>d "_d
+vnoremap <localleader>d "_d
+nnoremap <localleader>x "_x
 "}}}
 
 
@@ -24,7 +24,7 @@ nnoremap ; :
 " Paste keymap
 " ----------------------------------------------------------
 " without yanking it
-" vnoremap <localleader>p "_dP
+vnoremap <localleader>p "_dP
 "}}}
 
 
@@ -43,10 +43,10 @@ nnoremap gk k
 " Buffer keymap
 " ----------------------------------------------------------
 " Fast buffer alternation, next/prev, close "{{{
-" map ga <C-^>
-" nmap gn :bn<CR>
-" nmap gp :bp<CR>
-" nmap gk :bp<bar>bd #<CR>
+map ga <C-^>
+nmap gn :bn<CR>
+nmap gp :bp<CR>
+nmap gk :bp<bar>bd #<CR>
 "}}}
 
 

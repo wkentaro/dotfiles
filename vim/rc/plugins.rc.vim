@@ -205,7 +205,7 @@ let g:tex_flavor = 'latex'
 " preservim/tagbar
 " ----------------------------------------------------------------
 let g:tagbar_sort = 0
-nnoremap <leader>tagbar :TagbarToggle<CR>
+nnoremap <silent> <localleader>t :TagbarToggle<CR>
 
 
 " " ----------------------------------------------------------------
@@ -417,3 +417,5 @@ require("catppuccin").setup()
 EOF
 
 colorscheme catppuccin
+
+autocmd TermOpen * IlluminationDisable
