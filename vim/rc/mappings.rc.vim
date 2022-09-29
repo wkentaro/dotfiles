@@ -93,15 +93,26 @@ function! IsOnThePrompt(prompt)
     return 1
   endif
 
+  let l:found_prompt = 0
   let l:line_number_prompt = l:line_number_end
   while l:line_number_prompt > 0
+    " found prompt
     if match(getline(l:line_number_prompt), a:prompt . s:space_or_eol) !=# -1
+      let l:found_prompt = 1
+      break
+    endif
+    " too long terminal
+    if l:line_number_end - l:line_number_prompt > 10000
       break
     endif
     let l:line_number_prompt = l:line_number_prompt - 1
   endwhile
 
-  return abs(l:line_number_prompt - l:line_number_current) < 3
+  if l:found_prompt == 0
+    return 1  " in less
+  endif
+
+  return l:found_prompt && (l:line_number_current - l:line_number_prompt > -3)
 endfunction
 
 " ----------------------------------------------------------
