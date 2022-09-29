@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # neovim-autocd.py
 import neovim
 import os
