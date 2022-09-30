@@ -776,7 +776,8 @@ EOF
 
 colorscheme catppuccin
 
-autocmd TermOpen * IlluminationDisable
+autocmd TermOpen * set ft=terminal
+let g:Illuminate_ftblacklist = ["terminal"]
 
 " ----------------------------------------------------------
 " Filetype
