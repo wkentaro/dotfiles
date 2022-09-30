@@ -169,7 +169,7 @@ if type percol &>/dev/null; then
   # Ctrl-R
   function percol-history() {
     if [ "$(uname)" = "Linux" ]; then
-      BUFFER=$(history | awk '{print substr($0, index($0, $4))}' | tac | percol --query "$LBUFFER")
+      BUFFER=$(history | tac | awk '{print substr($0, index($0, $4))}' | percol --query "$LBUFFER")
     else
       BUFFER=$(history | awk '{print substr($0, index($0, $4))}' | tail -r | percol --query "$LBUFFER")
     fi
