@@ -419,3 +419,11 @@ neovim_autocd() {
     [[ $NVIM ]] && neovim_autocd.py
 }
 chpwd_functions+=( neovim_autocd )
+
+function vim () {
+  if [[ $NVIM ]]; then
+    python3 -c "import os; import neovim; nvim = neovim.attach('socket', path=os.environ['NVIM']); nvim.command('edit $*')"
+  else
+    nvim $*
+  fi
+}

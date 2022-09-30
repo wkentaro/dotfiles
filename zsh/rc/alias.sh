@@ -43,13 +43,13 @@ alias evernote='open https://www.evernote.com/client/web?login=true >/dev/null 2
 alias trello='open https://trello.com/b/pd7DRCtJ/all >/dev/null 2>&1'
 
 # vim
-type vim &>/dev/null && {
-  alias vi='vim'
-  alias vii='vim --noplugin'
-  alias viii='vim -u NONE'
-}
-alias vim-euc='vim -c ":e ++enc=euc-jp"'
-alias vim-iso='vim -c ":e ++enc=iso-2022-jp"'
+# type vim &>/dev/null && {
+#   alias vi='vim'
+#   alias vii='vim --noplugin'
+#   alias viii='vim -u NONE'
+# }
+# alias vim-euc='vim -c ":e ++enc=euc-jp"'
+# alias vim-iso='vim -c ":e ++enc=iso-2022-jp"'
 
 # emacs
 alias emacs='emacs -nw'
@@ -395,9 +395,9 @@ function diff () {
 # }
 # alias w=watch
 
-if which nvim &>/dev/null; then
-  alias vim=nvim
-fi
+# if which nvim &>/dev/null; then
+#   alias vim=nvim
+# fi
 
 alias ic=imgcat
 
