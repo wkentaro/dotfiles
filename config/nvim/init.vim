@@ -7,8 +7,8 @@ if !has('nvim')
 endif
 
 " colorscheme
-set background=dark
-colorscheme default
+" set background=dark
+" colorscheme default
 
 " Enable syntax highlighting
 syntax on
@@ -351,7 +351,7 @@ endif
 " Plugins
 " ----------------------------------------------------------
 call plug#begin('~/.vim/plugged')
-  Plug 'flazz/vim-colorschemes'
+  " Plug 'flazz/vim-colorschemes'
 
   Plug 'davidhalter/jedi-vim'
 
@@ -423,15 +423,15 @@ call plug#end()
 " ----------------------------------------------------------------
 " flazz/vim-colorschemes
 " ----------------------------------------------------------------
-let g:solarized_termtrans = 1
-if $VIM_COLORSCHEME == "solarized"
-  colorscheme solarized
-endif
-hi Normal ctermfg=none
-hi PmenuSel ctermbg=none
+" let g:solarized_termtrans = 1
+" if $VIM_COLORSCHEME == "solarized"
+"   colorscheme solarized
+" endif
+" hi Normal ctermfg=none
+" hi PmenuSel ctermbg=none
 "hi TabLineSel ctermfg=LightBlue ctermbg=Black
-hi TelescopeNormal ctermbg=Black
-hi WhichKeyFloat ctermbg=Black
+" hi TelescopeNormal ctermbg=Black
+" hi WhichKeyFloat ctermbg=Black
 
 
 
