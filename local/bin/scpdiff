@@ -1,0 +1,21 @@
+#!/bin/bash -e
+
+if [ $# -ne 2 ]; then
+  echo "Usage: $0 <file_a> <file_b>"
+  exit 1
+fi
+
+file_a=$1
+file_b=$2
+
+tmp_dir=$(mktemp -d)
+tmp_a=$tmp_dir/$file_a
+tmp_b=$tmp_dir/$file_b
+
+mkdir -p $(dirname $tmp_a)
+mkdir -p $(dirname $tmp_b)
+
+scp -q $file_a $tmp_a
+scp -q $file_b $tmp_b
+
+diff -u $tmp_a $tmp_b
