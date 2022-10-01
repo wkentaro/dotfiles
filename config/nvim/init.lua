@@ -2,6 +2,7 @@
 
 -- navigation
 vim.cmd [[set virtualedit=all]]
+vim.cmd [[set ignorecase]]
 vim.cmd [[set incsearch]]
 vim.cmd [[set nowrapscan]]
 
@@ -274,6 +275,8 @@ require("packer").startup(function()
         autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
         nnoremap <C-p> :Telescope find_files<CR>
         nnoremap <C-n> :Telescope buffers<CR>
+        nnoremap <C-g> :Telescope live_grep<CR>
+        nnoremap <C-v> :Telescope current_buffer_fuzzy_find<CR>
         nnoremap <C-s> :Telescope git_status<CR>
       ]]
     end,
