@@ -1,5 +1,5 @@
-config/nvim/init.vim:
-  .config/nvim/init.vim
+config/nvim:
+  .config/nvim
 gitconfig:
   .gitconfig
 gitignore_global:

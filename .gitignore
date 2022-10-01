@@ -3,6 +3,8 @@
 /vim/bundle/
 /vim/.netrwhist
 
+/config/nvim/plugin/
+
 /zsh/antibody/antibody/
 /zsh/completions/
 
