@@ -256,7 +256,48 @@ require("packer").startup(function()
 
         nnoremap <leader>g :Telescope live_grep<CR>
         nnoremap <leader>f :Telescope current_buffer_fuzzy_find<CR>
+        nnoremap <leader>c :lua telescope_find_dir()<CR>
       ]]
+
+      local actions = require("telescope.actions")
+      local actions_set = require("telescope.actions.set")
+      local actions_state = require("telescope.actions.state")
+      local conf = require("telescope.config").values
+      local finders = require("telescope.finders")
+      local from_entry = require("telescope.from_entry")
+      local pickers = require("telescope.pickers")
+
+      function telescope_find_dir(opts)
+        pickers.new(opts, {
+          prompt_title = "Change Directory",
+          finder = finders.new_oneshot_job({
+            "fd",
+            "--full-path",
+            "/\\.git$",
+            vim.fn.expand("~"),
+            "--maxdepth=4",
+            "--hidden",
+            "--type=d",
+            "--exec=dirname",
+            "--exclude=\\.cache",
+            "--exclude=\\.local",
+          }),
+          sorter = conf.generic_sorter(opts),
+          attach_mappings = function(prompt_bufnr, map)
+            actions_set.select:replace(function()
+              local entry = actions_state.get_selected_entry()
+              local dir = from_entry.path(entry)
+              if entry ~= nil then
+                actions.close(prompt_bufnr, false)
+                vim.cmd("lcd " .. dir)
+                vim.cmd("echon ''")
+                print("cwd: " .. vim.fn.getcwd())
+              end
+            end)
+            return true
+          end,
+        }):find()
+      end
     end,
   }
 
