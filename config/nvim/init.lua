@@ -139,33 +139,40 @@ require("packer").startup(function()
   use {"tomtom/tcomment_vim"}
 
   use {
-    "Shougo/defx.nvim",
-    requires = {"kristijanhusak/defx-git"},
+    "mattn/vim-molder",
     config = function()
       vim.cmd [[
-        call defx#custom#column('git', 'column_length', 2)
-        call defx#custom#option('_', {
-          \ 'columns': 'mark:indent:git:filename',
-          \ })
-        function! s:defx_my_settings() abort
-          setlocal nonumber
-          nnoremap <silent><buffer><expr> l defx#do_action('open_directory')
-          nnoremap <silent><buffer><expr> h defx#do_action('cd', ['..'])
-          nnoremap <silent><buffer><expr> q defx#do_action('quit')
-          nnoremap <silent><buffer><expr> e defx#is_directory() ? '' : defx#do_action('open')
-          nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
-          nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
-          nnoremap <silent><buffer><expr> o defx#do_action('toggle_select') . 'j'
-          vnoremap <silent><buffer><expr> o defx#do_action('toggle_select_visual') . 'j'
-          nnoremap <silent><buffer><expr> <c-l> defx#do_action('redraw')
-          nnoremap <silent><buffer><expr> <s-k> defx#do_action('')
-          nnoremap <silent><buffer><expr> * defx#do_action('toggle_select_all')
-          nnoremap <silent><buffer><expr> ! defx#do_action('execute_command')
-          nnoremap <silent><buffer><expr> r defx#do_action('rename')
-          nnoremap <silent><buffer><expr> d defx#do_action('remove')
-          nnoremap <silent><buffer><expr> y defx#do_action('yank_path')
+        function! s:browse_check(path) abort
+          " Disable netrw.
+          augroup FileExplorer
+            autocmd!
+          augroup END
+
+          let path = a:path
+          " For ":edit ~".
+          if fnamemodify(path, ':t') ==# '~'
+            let path = '~'
+          endif
+
+          if &filetype ==# 'molder' && line('$') != 1
+            return
+          endif
+
+          if isdirectory(path)
+            execute "edit " . path
+          endif
         endfunction
-        autocmd FileType defx call s:defx_my_settings()
+
+        augroup vim-molder
+          autocmd!
+          autocmd FileType molder setlocal nonumber
+          autocmd FileType molder nmap <buffer> h <Plug>(molder-up)
+          autocmd FileType molder nmap <buffer> l <Plug>(molder-open)
+          autocmd FileType molder nmap <buffer> . <Plug>(molder-toggle-hidden)
+
+          autocmd BufEnter,VimEnter,BufNew,BufWinEnter,BufRead,BufCreate
+                \ * call s:browse_check(expand('<amatch>'))
+        augroup end
       ]]
     end,
   }
