@@ -40,7 +40,7 @@ vim.cmd [[
 vim.cmd [[
   nnoremap gn :bn<CR>
   nnoremap gp :bp<CR>
-  nnoremap gk :bp<bar>bd #<CR>
+  nnoremap gk :bp<bar>bd! #<CR>
 ]]
 
 vim.cmd [[
@@ -143,36 +143,12 @@ require("packer").startup(function()
     "mattn/vim-molder",
     config = function()
       vim.cmd [[
-        function! s:browse_check(path) abort
-          " Disable netrw.
-          augroup FileExplorer
-            autocmd!
-          augroup END
-
-          let path = a:path
-          " For ":edit ~".
-          if fnamemodify(path, ':t') ==# '~'
-            let path = '~'
-          endif
-
-          if &filetype ==# 'molder' && line('$') != 1
-            return
-          endif
-
-          if isdirectory(path)
-            execute "edit " . path
-          endif
-        endfunction
-
         augroup vim-molder
           autocmd!
           autocmd FileType molder setlocal nonumber
           autocmd FileType molder nmap <buffer> h <Plug>(molder-up)
           autocmd FileType molder nmap <buffer> l <Plug>(molder-open)
           autocmd FileType molder nmap <buffer> . <Plug>(molder-toggle-hidden)
-
-          autocmd BufEnter,VimEnter,BufNew,BufWinEnter,BufRead,BufCreate
-                \ * call s:browse_check(expand('<amatch>'))
         augroup end
       ]]
     end,
@@ -264,7 +240,7 @@ require("packer").startup(function()
           buffers = {
             mappings = {
               i = {
-                ["<c-d>"] = actions.delete_buffer,
+                ["<C-d>"] = actions.delete_buffer,
               },
             },
           },
@@ -276,8 +252,10 @@ require("packer").startup(function()
         nnoremap <C-p> :Telescope find_files<CR>
         nnoremap <C-n> :Telescope buffers<CR>
         nnoremap <C-g> :Telescope live_grep<CR>
-        nnoremap <C-v> :Telescope current_buffer_fuzzy_find<CR>
         nnoremap <C-s> :Telescope git_status<CR>
+
+        nnoremap <leader>g :Telescope live_grep<CR>
+        nnoremap <leader>f :Telescope current_buffer_fuzzy_find<CR>
       ]]
     end,
   }
