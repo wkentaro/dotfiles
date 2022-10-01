@@ -1,18 +1,24 @@
 -- options
 
+-- navigation
 vim.cmd [[set virtualedit=all]]
+vim.cmd [[set incsearch]]
+vim.cmd [[set nowrapscan]]
+
+-- yank
 vim.cmd [[set clipboard=unnamedplus]]
 
-vim.cmd [[set expandtab]]
-
+-- appearence
+vim.cmd [[set number]]
 vim.cmd [[set list]]
 vim.cmd [[set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲]]
 
-vim.cmd [[set number]]
+-- edit
 vim.cmd [[set noswapfile]]
-
 vim.cmd [[set shiftwidth=2]]
+vim.cmd [[set expandtab]]
 
+-- window
 vim.cmd [[set splitbelow]]
 vim.cmd [[set splitright]]
 
@@ -133,6 +139,38 @@ require("packer").startup(function()
   use {"tomtom/tcomment_vim"}
 
   use {
+    "Shougo/defx.nvim",
+    requires = {"kristijanhusak/defx-git"},
+    config = function()
+      vim.cmd [[
+        call defx#custom#column('git', 'column_length', 2)
+        call defx#custom#option('_', {
+          \ 'columns': 'mark:indent:git:filename',
+          \ })
+        function! s:defx_my_settings() abort
+          setlocal nonumber
+          nnoremap <silent><buffer><expr> l defx#do_action('open_directory')
+          nnoremap <silent><buffer><expr> h defx#do_action('cd', ['..'])
+          nnoremap <silent><buffer><expr> q defx#do_action('quit')
+          nnoremap <silent><buffer><expr> e defx#is_directory() ? '' : defx#do_action('open')
+          nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
+          nnoremap <silent><buffer><expr> cd defx#do_action('change_vim_cwd')
+          nnoremap <silent><buffer><expr> o defx#do_action('toggle_select') . 'j'
+          vnoremap <silent><buffer><expr> o defx#do_action('toggle_select_visual') . 'j'
+          nnoremap <silent><buffer><expr> <c-l> defx#do_action('redraw')
+          nnoremap <silent><buffer><expr> <s-k> defx#do_action('')
+          nnoremap <silent><buffer><expr> * defx#do_action('toggle_select_all')
+          nnoremap <silent><buffer><expr> ! defx#do_action('execute_command')
+          nnoremap <silent><buffer><expr> r defx#do_action('rename')
+          nnoremap <silent><buffer><expr> d defx#do_action('remove')
+          nnoremap <silent><buffer><expr> y defx#do_action('yank_path')
+        endfunction
+        autocmd FileType defx call s:defx_my_settings()
+      ]]
+    end,
+  }
+
+  use {
     "RRethy/vim-illuminate",
     config = function()
       vim.cmd [[
@@ -227,6 +265,9 @@ require("packer").startup(function()
 
       vim.cmd [[
         autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
+        nnoremap <C-p> :Telescope find_files<CR>
+        nnoremap <C-n> :Telescope buffers<CR>
+        nnoremap <C-s> :Telescope git_status<CR>
       ]]
     end,
   }
@@ -242,20 +283,20 @@ require("packer").startup(function()
     end
   }
 
-  use {
-    "lervag/vimtex",
-    config = function()
-      vim.cmd [[
-        if has("mac")
-          let g:vimtex_view_method = 'skim'
-        elseif has("unix")
-          let g:vimtex_view_method = 'general'
-          let g:vimtex_view_general_viewer = 'okular'
-          let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
-          let g:vimtex_view_general_options_latexmk = '--unique'
-        endif
-        let g:tex_flavor = 'latex'
-      ]]
-    end,
-  }
+  -- use {
+  --   "lervag/vimtex",
+  --   config = function()
+  --     vim.cmd [[
+  --       if has("mac")
+  --         let g:vimtex_view_method = 'skim'
+  --       elseif has("unix")
+  --         let g:vimtex_view_method = 'general'
+  --         let g:vimtex_view_general_viewer = 'okular'
+  --         let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+  --         let g:vimtex_view_general_options_latexmk = '--unique'
+  --       endif
+  --       let g:tex_flavor = 'latex'
+  --     ]]
+  --   end,
+  -- }
 end)
