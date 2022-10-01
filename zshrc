@@ -134,9 +134,6 @@ fpath=($HOME/.zsh/completions $fpath)
 DISABLE_AUTO_UPDATE=true
 DISABLE_MAGIC_FUNCTIONS=true
 plugins=(git python web-search)
-if [[ -z $NVIM ]]; then
-  plugins+=(vi-mode)
-fi
 ZSH=$HOME/.zsh/ohmyzsh
 source $ZSH/oh-my-zsh.sh
 
@@ -420,10 +417,10 @@ neovim_autocd() {
 }
 chpwd_functions+=( neovim_autocd )
 
-function vim () {
+function nvim () {
   if [[ $NVIM ]]; then
     python3 -c "import os; import neovim; nvim = neovim.attach('socket', path=os.environ['NVIM']); nvim.command('edit $*')"
   else
-    nvim $*
+    command nvim $*
   fi
 }
