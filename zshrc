@@ -424,3 +424,4 @@ function nvim () {
     command nvim $*
   fi
 }
+alias vim=nvim
