@@ -150,6 +150,8 @@ require("packer").startup(function()
           autocmd FileType molder nmap <buffer> l <Plug>(molder-open)
           autocmd FileType molder nmap <buffer> . <Plug>(molder-toggle-hidden)
         augroup end
+
+        autocmd BufEnter * silent! autocmd! FileExplorer *
       ]]
     end,
   }
