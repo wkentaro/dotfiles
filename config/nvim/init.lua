@@ -270,14 +270,14 @@ require("packer").startup(function()
 
       vim.cmd [[
         autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
-        nnoremap <C-p> :Telescope find_files<CR>
-        nnoremap <C-n> :Telescope buffers<CR>
-        nnoremap <C-g> :Telescope live_grep<CR>
-        nnoremap <C-s> :Telescope git_status<CR>
-
+        nnoremap <leader>f :Telescope find_files<CR>
+        nnoremap <leader>n :Telescope buffers<CR>
+        nnoremap <leader>s :Telescope git_status<CR>
         nnoremap <leader>g :Telescope live_grep<CR>
-        nnoremap <leader>f :Telescope current_buffer_fuzzy_find<CR>
-        nnoremap <leader>c :lua telescope_find_dir()<CR>
+        nnoremap <leader>b :Telescope current_buffer_fuzzy_find<CR>
+        nnoremap <leader>j :Telescope jumplist<CR>
+        nnoremap <leader>c :Telescope neoclip<CR>
+        nnoremap <leader>z :lua telescope_find_dir()<CR>
       ]]
 
       local actions = require("telescope.actions")
@@ -303,6 +303,7 @@ require("packer").startup(function()
             "--exclude=\\.cache",
             "--exclude=\\.local",
           }),
+          previewer = require("telescope.previewers").vim_buffer_cat.new({}),
           sorter = conf.generic_sorter(opts),
           attach_mappings = function(prompt_bufnr, map)
             actions_set.select:replace(function()
@@ -319,6 +320,41 @@ require("packer").startup(function()
           end,
         }):find()
       end
+    end,
+  }
+
+  use {
+    "AckslD/nvim-neoclip.lua",
+    requires = {
+      {"kkharji/sqlite.lua", module = "sqlite"},
+      {"nvim-telescope/telescope.nvim"},
+    },
+    config = function()
+      require("neoclip").setup({
+        enable_persistent_history = true,
+        default_register = "+",
+        keys = {
+          telescope = {
+            i = {
+              select = "<CR>",
+              paste = {},
+              paste_behind = {},
+              replay = {},
+              delete = "<C-d>",
+              custom = {},
+            },
+            n = {
+              select = "<CR>",
+              paste = {},
+              paste_behind = {},
+              replay = {},
+              delete = "d",
+              custom = {},
+            },
+          },
+        },
+      })
+      require("telescope").load_extension("neoclip")
     end,
   }
 
