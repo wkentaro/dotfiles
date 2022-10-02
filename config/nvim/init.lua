@@ -220,7 +220,10 @@ require("packer").startup(function()
   use {
     "airblade/vim-rooter",
     config = function()
-      vim.cmd [[let g:rooter_cd_cmd = 'lcd']]
+      vim.cmd [[
+        let g:rooter_cd_cmd = 'lcd'
+        let g:rooter_change_directory_for_non_project_files = 'current'
+      ]]
     end,
   }
 
