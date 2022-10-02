@@ -145,14 +145,14 @@ require("packer").startup(function()
       vim.cmd [[
         function! Molder_open_dir() abort
           let l:path = fnameescape(b:molder_dir .. substitute(getline('.'), '/$', '', ''))
-          if isdirectory(l:path)
+          if !filereadable(l:path)
             execute 'edit' l:path
           endif
         endfunction
 
         function! Molder_open_file() abort
           let l:path = fnameescape(b:molder_dir .. substitute(getline('.'), '/$', '', ''))
-          if !isdirectory(l:path)
+          if filereadable(l:path)
             execute 'edit' l:path
           endif
         endfunction
