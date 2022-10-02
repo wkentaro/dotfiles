@@ -271,10 +271,10 @@ require("packer").startup(function()
       vim.cmd [[
         autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
         nnoremap <leader>f :Telescope find_files<CR>
-        nnoremap <leader>n :Telescope buffers<CR>
+        nnoremap <leader>d :Telescope buffers<CR>
         nnoremap <leader>s :Telescope git_status<CR>
-        nnoremap <leader>g :Telescope live_grep<CR>
-        nnoremap <leader>b :Telescope current_buffer_fuzzy_find<CR>
+        nnoremap <leader>e :Telescope live_grep<CR>
+        nnoremap <leader>x :Telescope current_buffer_fuzzy_find<CR>
         nnoremap <leader>j :Telescope jumplist<CR>
         nnoremap <leader>c :Telescope neoclip<CR>
         nnoremap <leader>z :lua telescope_find_dir()<CR>
@@ -364,7 +364,7 @@ require("packer").startup(function()
     config = function()
       vim.cmd [[
         nnoremap <expr> <S-k> &pvw == 1 ? ":pclose<CR>" : ":YcmCompleter GetDoc<CR> <C-w>j"
-        nnoremap <leader>d :YcmCompleter GoToDefinition<CR>
+        nnoremap <leader>k :YcmCompleter GoToDefinition<CR>
       ]]
     end
   }
