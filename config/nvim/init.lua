@@ -143,14 +143,33 @@ require("packer").startup(function()
     "mattn/vim-molder",
     config = function()
       vim.cmd [[
+        function! Molder_open_dir() abort
+          let l:path = fnameescape(b:molder_dir .. substitute(getline('.'), '/$', '', ''))
+          if isdirectory(l:path)
+            execute 'edit' l:path
+          endif
+        endfunction
+
+        function! Molder_open_file() abort
+          let l:path = fnameescape(b:molder_dir .. substitute(getline('.'), '/$', '', ''))
+          if !isdirectory(l:path)
+            execute 'edit' l:path
+          endif
+        endfunction
+
+        nnoremap <silent> <plug>(molder-open-dir) :<c-u>call Molder_open_dir()<cr>
+        nnoremap <silent> <plug>(molder-open-file) :<c-u>call Molder_open_file()<cr>
+
         augroup vim-molder
           autocmd!
           autocmd FileType molder setlocal nonumber
           autocmd FileType molder nmap <buffer> h <Plug>(molder-up)
-          autocmd FileType molder nmap <buffer> l <Plug>(molder-open)
+          autocmd FileType molder nmap <buffer> l <Plug>(molder-open-dir)
+          autocmd FileType molder nmap <buffer> e <Plug>(molder-open-file)
           autocmd FileType molder nmap <buffer> . <Plug>(molder-toggle-hidden)
         augroup end
 
+        " disable netrw
         autocmd BufEnter * silent! autocmd! FileExplorer *
       ]]
     end,
