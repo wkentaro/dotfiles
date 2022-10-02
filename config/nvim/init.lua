@@ -144,16 +144,17 @@ require("packer").startup(function()
     config = function()
       vim.cmd [[
         function! Molder_open_dir() abort
-          let l:path = fnameescape(b:molder_dir .. substitute(getline('.'), '/$', '', ''))
-          if !filereadable(l:path)
-            execute 'edit' l:path
+          let l:path = b:molder_dir .. substitute(getline('.'), '/$', '', '')
+          echomsg l:path
+          if isdirectory(l:path)
+            execute 'edit' fnameescape(l:path)
           endif
         endfunction
 
         function! Molder_open_file() abort
-          let l:path = fnameescape(b:molder_dir .. substitute(getline('.'), '/$', '', ''))
-          if filereadable(l:path)
-            execute 'edit' l:path
+          let l:path = b:molder_dir .. substitute(getline('.'), '/$', '', '')
+          if !isdirectory(l:path)
+            execute 'edit' fnameescape(l:path)
           endif
         endfunction
 
@@ -163,10 +164,12 @@ require("packer").startup(function()
         augroup vim-molder
           autocmd!
           autocmd FileType molder setlocal nonumber
+          autocmd FileType molder unmap <buffer> <CR>
           autocmd FileType molder nmap <buffer> h <Plug>(molder-up)
           autocmd FileType molder nmap <buffer> l <Plug>(molder-open-dir)
           autocmd FileType molder nmap <buffer> e <Plug>(molder-open-file)
           autocmd FileType molder nmap <buffer> . <Plug>(molder-toggle-hidden)
+          autocmd FileType molder nmap <buffer> <C-l> <Plug>(molder-reload)
         augroup end
 
         " disable netrw
