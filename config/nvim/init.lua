@@ -102,7 +102,7 @@ vim.cmd [[
 ]]
 
 vim.cmd [[
-  inoremap <C-c> <Esc>
+  map <C-c> <Esc>
 
   nnoremap <C-;> :
   nnoremap <C-e> :e<Space>
@@ -380,7 +380,6 @@ require("packer").startup(function()
               ["<C-b>"] = actions.cycle_history_prev,
               ["<C-n>"] = actions.preview_scrolling_down,
               ["<C-p>"] = actions.preview_scrolling_up,
-              ["<C-q>"] = actions.close,
             },
           },
         },
