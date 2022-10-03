@@ -30,11 +30,6 @@ vim.cmd [[set splitright]]
 -- mappings
 
 vim.cmd [[
-  nnoremap ; :
-  nnoremap ' ;
-]]
-
-vim.cmd [[
   let mapleader="\<space>"
   let maplocalleader=","
   set tm=500
@@ -109,7 +104,16 @@ vim.cmd [[
 vim.cmd [[
   inoremap <C-c> <Esc>
 
-  nnoremap <C-e> :edit<Space>
+  nnoremap <C-;> :
+
+  cnoremap <C-b> <Left>
+  cnoremap <C-f> <Right>
+  cnoremap <C-n> <Down>
+  cnoremap <C-p> <Up>
+  cnoremap <C-a> <Home>
+  cnoremap <C-e> <End>
+  cnoremap <C-d> <Del>
+  cnoremap <C-x> <C-r>=expand('%:p')<CR>
 
   "tnoremap <C-Enter> <Enter>
 
