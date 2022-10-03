@@ -105,6 +105,7 @@ vim.cmd [[
   inoremap <C-c> <Esc>
 
   nnoremap <C-;> :
+  nnoremap <C-e> :e<Space>
 
   cnoremap <C-b> <Left>
   cnoremap <C-f> <Right>
