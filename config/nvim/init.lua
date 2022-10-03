@@ -352,7 +352,7 @@ require("packer").startup(function()
         "nnoremap <leader>r :Telescope buffers<CR>
         "nnoremap <leader>s :Telescope git_status<CR>
         nnoremap <leader>f :Telescope live_grep<CR>
-        nnoremap <leader>g :Telescope current_buffer_fuzzy_find<CR>
+        nnoremap <leader>e :Telescope current_buffer_fuzzy_find<CR>
         nnoremap <leader>j :Telescope jumplist<CR>
         nnoremap <leader>c :Telescope neoclip<CR>
       ]]
