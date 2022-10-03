@@ -225,7 +225,6 @@ require("packer").startup(function()
         augroup vim-molder
           autocmd!
           autocmd FileType molder setlocal nonumber
-          autocmd FileType molder unmap <buffer> <CR>
           autocmd FileType molder nmap <buffer> h <Plug>(molder-up)
           autocmd FileType molder nmap <buffer> l <Plug>(molder-open-dir)
           autocmd FileType molder nmap <buffer> e <Plug>(molder-open-file)
