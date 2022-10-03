@@ -107,6 +107,8 @@ vim.cmd [[
 ]]
 
 vim.cmd [[
+  inoremap <C-C> <Esc>
+
   "tnoremap <C-Enter> <Enter>
 
   "tnoremap <M-n> <C-\><C-n>gt
@@ -309,7 +311,44 @@ require("packer").startup(function()
     end,
     config = function()
       require("catppuccin").setup()
-      vim.cmd [[colorscheme catppuccin]]
+      vim.cmd [[
+        colorscheme catppuccin
+
+        " Status Line Custom
+        let g:currentmode={
+            \ 'n'  : 'Normal',
+            \ 'no' : 'Normal·Operator Pending',
+            \ 'v'  : 'Visual',
+            \ 'V'  : 'V·Line',
+            \ '^V' : 'V·Block',
+            \ 's'  : 'Select',
+            \ 'S'  : 'S·Line',
+            \ '^S' : 'S·Block',
+            \ 'i'  : 'Insert',
+            \ 'R'  : 'Replace',
+            \ 'Rv' : 'V·Replace',
+            \ 'c'  : 'Command',
+            \ 'cv' : 'Vim Ex',
+            \ 'ce' : 'Ex',
+            \ 'r'  : 'Prompt',
+            \ 'rm' : 'More',
+            \ 'r?' : 'Confirm',
+            \ '!'  : 'Shell',
+            \ 't'  : 'Terminal'
+            \}
+
+        "au InsertEnter * hi statusline guifg=black guibg=#d7afff
+        "au InsertLeave * hi statusline guifg=black guibg=#black
+
+        " black
+        hi User1 guifg=#cdd6f4 guibg=#black
+        au InsertLeave * hi User1 guifg=#cdd6f4 guibg=#black
+        " orange
+        au InsertEnter * hi User1 guifg=#181825 guibg=#fab387
+        " gray
+        hi User2 guifg=#cdd6f4 guibg=#45475a
+        set statusline=%1*\ %{toupper(mode())}\ %*%2*\ %{getcwd()}\ %*\ %f\ [%P%M]
+      ]]
     end,
   }
 
@@ -533,8 +572,6 @@ set browsedir=buffer
 " something that looks useful.
 set cmdheight=1
 set laststatus=2
-" set statusline=[%l,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})
-set statusline=[%{getcwd()}]\ %f\ [%P%M]
 
 set showcmd
 set noshowmode
