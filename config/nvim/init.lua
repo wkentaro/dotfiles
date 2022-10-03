@@ -172,6 +172,8 @@ require("packer").startup(function()
 
   use {"tomtom/tcomment_vim"}
 
+  use {"simeji/winresizer"}
+
   use {
     "akinsho/bufferline.nvim",
     tag = "v2.*",
