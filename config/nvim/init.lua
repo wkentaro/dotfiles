@@ -17,7 +17,10 @@ vim.cmd [[set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲]]
 -- edit
 vim.cmd [[set noswapfile]]
 vim.cmd [[set shiftwidth=2]]
-vim.cmd [[set expandtab]]
+vim.cmd [[
+  set expandtab
+  set autoindent
+]]
 
 -- window
 vim.cmd [[set splitbelow]]
@@ -29,6 +32,12 @@ vim.cmd [[set splitright]]
 vim.cmd [[
   let mapleader="\<space>"
   let maplocalleader=","
+  set tm=500
+]]
+
+vim.cmd [[
+  nnoremap j gj
+  nnoremap k gk
 ]]
 
 vim.cmd [[
@@ -41,6 +50,7 @@ vim.cmd [[
   nnoremap gn :bn<CR>
   nnoremap gp :bp<CR>
   nnoremap gk :bp<bar>bd! #<CR>
+  nnoremap gr gT
 ]]
 
 vim.cmd [[
@@ -92,37 +102,55 @@ vim.cmd [[
 ]]
 
 vim.cmd [[
-  tnoremap <C-Enter> <Enter>
+  "tnoremap <C-Enter> <Enter>
 
-  tnoremap <M-n> <C-\><C-n>gt
-  inoremap <M-n> <Esc>gt
-  vnoremap <M-n> <Esc>gt
-  nnoremap <M-n> gt
+  "tnoremap <M-n> <C-\><C-n>gt
+  "inoremap <M-n> <Esc>gt
+  "vnoremap <M-n> <Esc>gt
+  "nnoremap <M-n> gt
 
-  tnoremap <M-p> <C-\><C-n>gT
-  inoremap <M-p> <Esc>gT
-  vnoremap <M-p> <Esc>gT
-  nnoremap <M-p> gT
+  "tnoremap <M-p> <C-\><C-n>gT
+  "inoremap <M-p> <Esc>gT
+  "vnoremap <M-p> <Esc>gT
+  "nnoremap <M-p> gT
 
-  tnoremap <M-h> <C-\><C-n><C-w>h
-  tnoremap <M-j> <C-\><C-n><C-w>j
-  tnoremap <M-k> <C-\><C-n><C-w>k
-  tnoremap <M-l> <C-\><C-n><C-w>l
+  "tnoremap <M-h> <C-\><C-n><C-w>h
+  "tnoremap <M-j> <C-\><C-n><C-w>j
+  "tnoremap <M-k> <C-\><C-n><C-w>k
+  "tnoremap <M-l> <C-\><C-n><C-w>l
 
-  inoremap <M-h> <Esc><C-w>h
-  inoremap <M-j> <Esc><C-w>j
-  inoremap <M-k> <Esc><C-w>k
-  inoremap <M-l> <Esc><C-w>l
+  "inoremap <C-h> <Esc><C-w>h
+  "inoremap <C-j> <Esc><C-w>j
+  "inoremap <C-k> <Esc><C-w>k
+  "inoremap <C-l> <Esc><C-w>l
 
-  vnoremap <M-h> <Esc><C-w>h
-  vnoremap <M-j> <Esc><C-w>j
-  vnoremap <M-k> <Esc><C-w>k
-  vnoremap <M-l> <Esc><C-w>l
+  vnoremap <C-h> <Esc><C-w>h
+  vnoremap <C-j> <Esc><C-w>j
+  vnoremap <C-k> <Esc><C-w>k
+  vnoremap <C-l> <Esc><C-w>l
 
-  nnoremap <M-h> <C-w>h
-  nnoremap <M-j> <C-w>j
-  nnoremap <M-k> <C-w>k
-  nnoremap <M-l> <C-w>l
+  nnoremap <C-h> <C-w>h
+  nnoremap <C-j> <C-w>j
+  nnoremap <C-k> <C-w>k
+  nnoremap <C-l> <C-w>l
+]]
+
+vim.cmd [[
+  " ----------------------------------------------------------
+  " Filetype
+  " ----------------------------------------------------------
+  autocmd FileType python set tabstop=4
+  autocmd FileType python set shiftwidth=4
+  autocmd FileType python set indentkeys-=:
+  autocmd FileType python inoremap <localleader>p from IPython.core.debugger import Pdb; ipdb = Pdb(); print("[ipdb] >>> "); ipdb.set_trace()<esc>
+  autocmd FileType python inoremap <localleader>i import IPython; print("[ipython] >>> "); IPython.embed()<esc>
+  " autocmd FileType python nnoremap <localleader>f :w<cr> :!flake8 %<cr>
+
+  if $USER == 'mujin'
+    autocmd FileType python xnoremap <localleader>b :!blacken 110<CR>
+  else
+    autocmd FileType python noremap <localleader>b :!black %<CR>
+  endif
 ]]
 
 
@@ -138,6 +166,30 @@ require("packer").startup(function()
   use {"hotwatermorning/auto-git-diff"}
 
   use {"tomtom/tcomment_vim"}
+
+  use {
+    "akinsho/bufferline.nvim",
+    tag = "v2.*",
+    config = function()
+      require("bufferline").setup{
+        highlights = {
+          fill = {
+            bg = 'none',
+          }
+        },
+      }
+    end
+  }
+
+  use {
+    "folke/which-key.nvim",
+    config = function()
+      require("which-key").setup()
+      require("which-key").register({
+        z = { "<Cmd>lua telescope_find_dirs()<CR>", "Telescope find_dirs" },
+      }, { prefix = "<leader>" })
+    end,
+  }
 
   use {
     "mattn/vim-molder",
@@ -276,14 +328,16 @@ require("packer").startup(function()
 
       vim.cmd [[
         autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
-        nnoremap <leader>f :Telescope find_files<CR>
-        nnoremap <leader>d :Telescope buffers<CR>
-        nnoremap <leader>s :Telescope git_status<CR>
-        nnoremap <leader>e :Telescope live_grep<CR>
-        nnoremap <leader>x :Telescope current_buffer_fuzzy_find<CR>
+        nnoremap <C-p> :Telescope find_files<CR>
+        nnoremap <C-n> :Telescope buffers<CR>
+        nnoremap <C-s> :Telescope git_status<CR>
+        "nnoremap <leader>f :Telescope find_files<CR>
+        "nnoremap <leader>r :Telescope buffers<CR>
+        "nnoremap <leader>s :Telescope git_status<CR>
+        nnoremap <leader>f :Telescope live_grep<CR>
+        nnoremap <leader>g :Telescope current_buffer_fuzzy_find<CR>
         nnoremap <leader>j :Telescope jumplist<CR>
         nnoremap <leader>c :Telescope neoclip<CR>
-        nnoremap <leader>z :lua telescope_find_dir()<CR>
       ]]
 
       local actions = require("telescope.actions")
@@ -298,7 +352,7 @@ require("packer").startup(function()
       local fd_command = "fdfind"
       local search_dir = "~/workspaces"
 
-      function telescope_find_dir(opts)
+      function telescope_find_dirs(opts)
         pickers.new(opts, {
           prompt_title = "Change Directory",
           finder = finders.new_oneshot_job({
@@ -374,7 +428,7 @@ require("packer").startup(function()
     config = function()
       vim.cmd [[
         nnoremap <expr> <S-k> &pvw == 1 ? ":pclose<CR>" : ":YcmCompleter GetDoc<CR> <C-w>j"
-        nnoremap <leader>k :YcmCompleter GoToDefinition<CR>
+        nnoremap <leader>d :YcmCompleter GoToDefinition<CR>
       ]]
     end
   }
@@ -396,3 +450,93 @@ require("packer").startup(function()
   --   end,
   -- }
 end)
+
+-- legacy
+-- TODO(Kentaro):check if needed
+vim.cmd [[
+" Enhance command-line completion
+set wildmenu
+set wildignore+=*.dll,*.o,*.pyc,*.bak,*.exe,*.jpg,*.jpeg,*.png,*.gif,*$py.class,*.class,*/*.dSYM/*,*.dylib,*.so,*.swp,*.zip,*.tgz,*.gz
+set wildmode=list,full
+
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+  set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+else
+  set wildignore+=.git\*,.hg\*,.svn\*
+endif
+
+" Use UTF-8 without BOM
+set encoding=utf-8 nobomb
+set fileencodings=ucs-bom,utf-8,iso-2022-jp,sjis,euc-jp
+
+" use 2 spaces for indentation
+set tabstop=2
+set shiftround
+set iminsert=0
+
+" wrap for long line
+set wrap
+
+" Allow backspace in insert mode
+set backspace=indent,eol,start
+
+" Respect modeline in files
+set modeline
+set modelines=4
+
+" No annoying sound on errors
+set noerrorbells
+set novisualbell
+if has('nvim')
+  set t_vb=
+endif
+set tm=500
+
+" Don’t reset cursor to start of line when moving around.
+set nostartofline
+set modifiable
+
+set history=50
+set commentstring=\ #\ %s
+set autoindent
+set browsedir=buffer
+
+" Make the command line two lines high and change the statusline display to
+" something that looks useful.
+set cmdheight=1
+set laststatus=2
+" set statusline=[%l,%v\ %P%M]\ %f\ %r%h%w\ (%{&ff})
+set statusline=[%{getcwd()}]\ %f\ [%P%M]
+
+set showcmd
+set noshowmode
+set number
+
+" Highlight dynamically as pattern is typed
+" set nohlsearch
+set incsearch
+set showmatch
+set smartcase
+set smartindent
+set smarttab
+set whichwrap=b,s,h,l,<,>,[,]
+set nowrapscan
+set shiftround
+set infercase
+set virtualedit=all
+
+" A buffer becomes hidden when it is abandoned
+set hidden
+
+set switchbuf=useopen
+set showmatch
+set matchtime=3
+set matchpairs& matchpairs+=<:>
+set backspace=indent,eol,start
+set nowritebackup
+
+set nofoldenable
+set cinoptions+=:0,g0
+]]
