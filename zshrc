@@ -80,11 +80,7 @@ fi
 export VIRTUALENV_USE_DISTRIBUTE=1
 
 # Termcolor
-if [[ -z $TMUX ]] then
-  export TERM=xterm-256color
-else
-  export TERM=screen-256color
-fi
+export TERM=xterm-256color
 
 # Encoding
 export LANG='en_US.UTF-8'
