@@ -204,7 +204,7 @@ require("packer").startup(function()
   use {"tpope/vim-fugitive"}
 
   use {
-    "brettanomyces/nvim-editcommand",
+    "wkentaro/nvim-editcommand",
     config = function()
       vim.cmd [[let g:editcommand_prompt = '%']]
     end,
@@ -294,14 +294,18 @@ require("packer").startup(function()
       local from_entry = require("telescope.from_entry")
       local pickers = require("telescope.pickers")
 
+      -- mujin
+      local fd_command = "fdfind"
+      local search_dir = "~/workspaces"
+
       function telescope_find_dir(opts)
         pickers.new(opts, {
           prompt_title = "Change Directory",
           finder = finders.new_oneshot_job({
-            "fd",
+            fd_command,
             "--full-path",
             "/\\.git$",
-            vim.fn.expand("~"),
+            vim.fn.expand(search_dir),
             "--maxdepth=4",
             "--hidden",
             "--type=d",
