@@ -366,8 +366,15 @@ require("packer").startup(function()
       local pickers = require("telescope.pickers")
 
       -- mujin
-      local fd_command = "fdfind"
-      local search_dir = "~/workspaces"
+      local fd_command
+      local search_dir
+      if vim.fn.has("macunix") then
+        fd_command = "fd"
+        search_dir = "~"
+      else
+        fd_command = "fdfind"
+        search_dir = "~/workspaces"
+      end
 
       function telescope_find_dirs(opts)
         pickers.new(opts, {
