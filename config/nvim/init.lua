@@ -107,7 +107,9 @@ vim.cmd [[
 ]]
 
 vim.cmd [[
-  inoremap <C-C> <Esc>
+  inoremap <C-c> <Esc>
+
+  nnoremap <C-e> :edit<Space>
 
   "tnoremap <C-Enter> <Enter>
 
@@ -174,7 +176,12 @@ require("packer").startup(function()
 
   use {"tomtom/tcomment_vim"}
 
-  use {"simeji/winresizer"}
+  use {
+    "simeji/winresizer",
+    config=function()
+      vim.cmd [[ let g:winresizer_start_key = '<C-q>' ]]
+    end
+  }
 
   use {
     "akinsho/bufferline.nvim",
