@@ -251,6 +251,18 @@ require("packer").startup(function()
     end,
   }
 
+  use {
+    "akinsho/toggleterm.nvim",
+    config = function()
+      require("toggleterm").setup()
+      vim.cmd [[
+        inoremap <M-e> <Esc>:ToggleTerm direction=float<CR>
+        nnoremap <M-e> :ToggleTerm direction=float<CR>
+        tnoremap <M-e> <C-\><C-n>:ToggleTerm direction=float<CR>
+      ]]
+    end
+  }
+
   use {"romainl/vim-cool"}
 
   use {"tpope/vim-fugitive"}
