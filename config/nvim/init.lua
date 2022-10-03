@@ -30,6 +30,11 @@ vim.cmd [[set splitright]]
 -- mappings
 
 vim.cmd [[
+  nnoremap ; :
+  nnoremap ' ;
+]]
+
+vim.cmd [[
   let mapleader="\<space>"
   let maplocalleader=","
   set tm=500
