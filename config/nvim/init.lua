@@ -1,5 +1,14 @@
 -- options
 
+vim.cmd [[
+function! s:source_config()
+  luafile ~/.config/nvim/init.lua
+  PackerCompile
+endfunction
+
+command! SourceConfig call s:source_config()
+]]
+
 -- navigation
 vim.cmd [[set virtualedit=all]]
 vim.cmd [[set ignorecase]]
@@ -102,10 +111,10 @@ vim.cmd [[
 ]]
 
 vim.cmd [[
-  map <C-c> <Esc>
+  imap <C-c> <Esc>
+  nmap <C-c> <Esc>
 
-  nnoremap <C-;> :
-  nnoremap <C-e> :e<Space>
+  nnoremap <C-e> :
 
   cnoremap <C-b> <Left>
   cnoremap <C-f> <Right>
@@ -274,11 +283,21 @@ require("packer").startup(function()
   use {
     "akinsho/toggleterm.nvim",
     config = function()
-      require("toggleterm").setup()
+      require("toggleterm").setup({
+        shade_terminals = false,
+        size = function(term)
+          if term.direction == "horizontal" then
+            return vim.o.lines * 0.3
+          elseif term.direction == "vertical" then
+            return vim.o.columns * 0.4
+          end
+        end,
+        direction = 'vertical',
+      })
       vim.cmd [[
-        inoremap <M-e> <Esc>:ToggleTerm direction=float<CR>
-        nnoremap <M-e> :ToggleTerm direction=float<CR>
-        tnoremap <M-e> <C-\><C-n>:ToggleTerm direction=float<CR>
+        inoremap <silent> <M-e> <Esc>:ToggleTerm<CR>
+        nnoremap <silent> <M-e> :ToggleTerm<CR>
+        tnoremap <silent> <M-e> <C-\><C-n>:ToggleTerm<CR>
       ]]
     end
   }
