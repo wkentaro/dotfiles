@@ -147,7 +147,7 @@ fi
 # ----------------------------------------------------
 # ls aliases
 # ----------------------------------------------------
-if which gls &>/dev/null; then
+if command gls &>/dev/null; then
   alias ls='gls --color=auto'
 else
   alias ls='ls --color=auto'

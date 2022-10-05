@@ -275,3 +275,8 @@ alias gsuir='gsui --recursive'
 # fi
 #
 gap='git add -p'
+
+alias gl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset' --abbrev-commit --date=iso"
+alias glg="gl --graph"
+alias gls="gl --stat"
+alias glgs="glg --stat"
