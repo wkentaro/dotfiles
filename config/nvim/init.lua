@@ -114,7 +114,7 @@ vim.cmd [[
   imap <C-c> <Esc>
   nmap <C-c> <Esc>
 
-  nnoremap <C-e> :
+  nnoremap <C-q> :
 
   cnoremap <C-b> <Left>
   cnoremap <C-f> <Right>
@@ -193,7 +193,7 @@ require("packer").startup(function()
   use {
     "simeji/winresizer",
     config=function()
-      vim.cmd [[ let g:winresizer_start_key = '<C-q>' ]]
+      vim.cmd [[ let g:winresizer_start_key = '<C-\>' ]]
     end
   }
 
