@@ -370,14 +370,12 @@ require("packer").startup(function()
         "au InsertEnter * hi statusline guifg=black guibg=#d7afff
         "au InsertLeave * hi statusline guifg=black guibg=#black
 
-        " black
-        hi User1 guifg=#cdd6f4 guibg=#black
-        au InsertLeave * hi User1 guifg=#cdd6f4 guibg=#black
-        " magenta
-        au InsertEnter * hi User1 guifg=#181825 guibg=#cba6f7
-        " gray
-        hi User2 guifg=#cdd6f4 guibg=#45475a
-        set statusline=%1*\ %{toupper(mode())}\ %*%2*\ %{getcwd()}\ %*\ %f\ [%P%M]
+        hi VertSplit guifg=#45475a
+
+        hi User1 guifg=#cdd6f4 guibg=#11111b  " black
+        hi User2 guifg=#cdd6f4 guibg=#45475a  " gray
+
+        set statusline=%1*\ %{toupper(mode())}\ %*%2*\ %{getcwd()}\ %*%1*\ %f\ [%P%M]
       ]]
     end,
   }
