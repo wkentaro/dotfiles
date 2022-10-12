@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+
+import datetime
+import errno
+import os
+import re
+import sys
+
+import rich.text
+import rich.console
+
+
+try:
+    console = rich.console.Console(highlight=False, soft_wrap=True)
+
+    line = sys.stdin.readline().rstrip()
+    while line:
+        line_original = []
+        line_modified = []
+        next_start = 0
+        for i, m in enumerate(re.finditer("(16\d{11})", line)):
+            color = ["red", "green", "blue", "yellow", "magenta", "cyan"][i % 7]
+            cycleindex = m.groups()[0]
+            timestamp = datetime.datetime.fromtimestamp(int(cycleindex) / 1000).isoformat()[:-3]
+
+            line_original.append(line[next_start:m.start()])
+            line_original.append(f"[{color}]{cycleindex}[/]")
+
+            line_modified.append(line[next_start:m.start()])
+            line_modified.append(f"[u][{color}]{timestamp}[/][/]")
+
+            next_start = m.end()
+        line_original.append(line[next_start:])
+        line_modified.append(line[next_start:])
+
+        line_original = "".join(line_original)
+        line_modified = "".join(line_modified)
+
+        console.print(f"{line_original}\t{line_modified}")
+
+        line = sys.stdin.readline().rstrip()
+except BrokenPipeError:
+    devnull = os.open(os.devnull, os.O_WRONLY)
+    os.dup2(devnull, sys.stdout.fileno())
+    sys.exit(1)
