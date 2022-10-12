@@ -5,11 +5,11 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
-image_file=$1
+image_file="$1"
 
 tmp_file=$(mktemp --suffix .png)
-convert $image_file $tmp_file
+convert "$image_file" $tmp_file
 
-xclip -selection clipboard -t image/png -i "$tmp_file"
+xclip -selection clipboard -t image/png -i $tmp_file
 
 rm -f $tmp_file
