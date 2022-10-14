@@ -2,5 +2,8 @@
   "KeyMap": {
     "C-k": "peco.SelectUp",
     "C-j": "peco.SelectDown"
+  },
+  "Style": {
+    "Selected": ["underline", "on_cyan", "black"]
   }
 }
