@@ -436,7 +436,7 @@ require("packer").startup(function()
       -- mujin
       local fd_command
       local search_dir
-      if vim.fn.has("macunix") then
+      if vim.fn.has("macunix") == 1 then
         fd_command = "fd"
         search_dir = "~"
       else
