@@ -1,5 +1,7 @@
 config/nvim:
   .config/nvim
+config/peco:
+  .config/peco
 gitconfig:
   .gitconfig
 gitignore_global:

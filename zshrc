@@ -166,9 +166,9 @@ if type percol &>/dev/null; then
   # Ctrl-R
   function percol-history() {
     if [ "$(uname)" = "Linux" ]; then
-      BUFFER=$(history | tac | awk '{print substr($0, index($0, $4))}' | percol --query "$LBUFFER")
+      BUFFER=$(history | tac | peco --query "$LBUFFER" | awk '{print substr($0, index($0, $4))}')
     else
-      BUFFER=$(history | awk '{print substr($0, index($0, $4))}' | tail -r | percol --query "$LBUFFER")
+      BUFFER=$(history | tail -r | peco --query "$LBUFFER" | awk '{print substr($0, index($0, $4))}')
     fi
     CURSOR=$#BUFFER         # move cursor
     zle -R -c               # refresh
