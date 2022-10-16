@@ -6,6 +6,8 @@ gitconfig:
   .gitconfig
 gitignore_global:
   .gitignore_global
+flake8:
+  .flake8
 latexmkrc:
   .latexmkrc
 local/bin/*:
