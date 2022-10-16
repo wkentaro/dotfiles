@@ -190,9 +190,9 @@ require("packer").startup(function()
 
   use {
     "simeji/winresizer",
-    config=function()
+    config = function()
       vim.cmd [[ let g:winresizer_start_key = '<C-\>' ]]
-    end
+    end,
   }
 
   use {
