@@ -114,8 +114,6 @@ vim.cmd [[
   imap <C-c> <Esc>
   nmap <C-c> <Esc>
 
-  nnoremap <C-q> :
-
   cnoremap <C-b> <Left>
   cnoremap <C-f> <Right>
   cnoremap <C-n> <Down>
@@ -413,6 +411,7 @@ require("packer").startup(function()
 
       vim.cmd [[
         autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
+        nnoremap <C-q> :Telescope quickfix<CR>
         nnoremap <C-p> :Telescope find_files<CR>
         nnoremap <C-n> :Telescope buffers<CR>
         nnoremap <C-s> :Telescope git_status<CR>
