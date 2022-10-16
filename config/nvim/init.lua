@@ -50,6 +50,13 @@ vim.cmd [[
 ]]
 
 vim.cmd [[
+  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+  nnoremap <Leader>g :silent lgrep<Space>
+  nnoremap <silent> [f :lprevious<CR>
+  nnoremap <silent> ]f :lnext<CR>
+]]
+
+vim.cmd [[
   nnoremap <localleader>d "_d
   vnoremap <localleader>d "_d
   nnoremap <localleader>x "_x
