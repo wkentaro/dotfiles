@@ -534,6 +534,13 @@ require("packer").startup(function()
             vim.lsp.protocol.make_client_capabilities()
           )
         }
+        if (server == "jedi_language_server") then
+          opt.init_options = {
+            diagnostics = {
+              enable = false,
+            },
+          }
+        end
         require('lspconfig')[server].setup(opt)
       end })
 
