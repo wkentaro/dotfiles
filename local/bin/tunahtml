@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]
+then
+      echo "Usage: $0 <command>"
+      return 1
+fi
+filename=$1
+tmp_dir=$(mktemp -d)
+mkdir -p $tmp_dir/static
+command tuna $filename -o $tmp_dir --no-browser
+xdg-open $tmp_dir/index.html &> /dev/null
