@@ -170,8 +170,8 @@ vim.cmd [[
   autocmd FileType python set tabstop=4
   autocmd FileType python set shiftwidth=4
   autocmd FileType python set indentkeys-=:
-  autocmd FileType python inoremap <localleader>p from IPython.core.debugger import Pdb; ipdb = Pdb(); print("[ipdb] >>> "); ipdb.set_trace()<esc>
-  autocmd FileType python inoremap <localleader>i import IPython; print("[ipython] >>> "); IPython.embed()<esc>
+  " autocmd FileType python inoremap <localleader>p from IPython.core.debugger import Pdb; ipdb = Pdb(); print("[ipdb] >>> "); ipdb.set_trace()<esc>
+  " autocmd FileType python inoremap <localleader>i import IPython; print("[ipython] >>> "); IPython.embed()<esc>
   " autocmd FileType python nnoremap <localleader>f :w<cr> :!flake8 %<cr>
 
   if $USER == 'mujin'
@@ -589,10 +589,25 @@ require("packer").startup(function()
   }
 
   use {
+    "hrsh7th/vim-vsnip",
+    requires = {
+      {"hrsh7th/cmp-vsnip"},
+      {"rafamadriz/friendly-snippets"},
+    },
+    config = function()
+      vim.cmd [[
+        let g:vsnip_snippet_dir = expand('~/.config/nvim/vsnip')
+
+        imap <expr> <C-k>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-k>'
+        smap <expr> <C-k>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-k>'
+      ]]
+    end,
+  }
+
+  use {
     "hrsh7th/nvim-cmp",
     requires = {
       {"hrsh7th/cmp-nvim-lsp"},
-      {"hrsh7th/vim-vsnip"},
     },
     config = function()
       local cmp = require("cmp")
@@ -602,11 +617,6 @@ require("packer").startup(function()
             vim.fn["vsnip#anonymous"](args.body)
           end,
         },
-        sources = {
-          { name = "nvim_lsp" },
-          -- { name = "buffer" },
-          -- { name = "path" },
-        },
         mapping = cmp.mapping.preset.insert({
           ["<C-p>"] = cmp.mapping.select_prev_item(),
           ["<C-n>"] = cmp.mapping.select_next_item(),
@@ -614,23 +624,28 @@ require("packer").startup(function()
           ['<C-e>'] = cmp.mapping.abort(),
           ["<CR>"] = cmp.mapping.confirm { select = true },
         }),
-        experimental = {
-          ghost_text = true,
+        sources = {
+          { name = "nvim_lsp" },
+          { name = "vsnip" },
         },
       })
-      -- cmp.setup.cmdline('/', {
-      --   mapping = cmp.mapping.preset.cmdline(),
-      --   sources = {
-      --     { name = 'buffer' }
-      --   }
-      -- })
-      -- cmp.setup.cmdline(":", {
-      --   mapping = cmp.mapping.preset.cmdline(),
-      --   sources = {
-      --     { name = "path" },
-      --     { name = "cmdline" },
-      --   },
-      -- })
+      -- Use buffer source for `/` and `?`
+      cmp.setup.cmdline({ '/', '?' }, {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = 'buffer' }
+        }
+      })
+
+      -- Use cmdline & path source for ':'
+      cmp.setup.cmdline(':', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = 'path' }
+        }, {
+          { name = 'cmdline' }
+        })
+      })
     end,
   }
 
