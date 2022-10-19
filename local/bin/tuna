@@ -8,5 +8,5 @@ fi
 filename=$1
 tmp_dir=$(mktemp -d)
 mkdir -p $tmp_dir/static
-command tuna $filename -o $tmp_dir --no-browser
+/usr/local/bin/tuna $filename -o $tmp_dir --no-browser
 xdg-open $tmp_dir/index.html &> /dev/null
