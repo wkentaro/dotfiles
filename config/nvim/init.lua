@@ -668,8 +668,8 @@ require("packer").startup(function()
     run = "python3 install.py --all",
     config = function()
       vim.cmd [[
-        nnoremap <expr> <S-k> &pvw == 1 ? ":pclose<CR>" : ":YcmCompleter GetDoc<CR> <C-w>j"
-        nnoremap <leader>d :YcmCompleter GoToDefinition<CR>
+        nnoremap <silent> <expr> <S-k> &pvw == 1 ? ":pclose<CR>" : ":YcmCompleter GetDoc<CR> <C-w>j"
+        nnoremap <silent> <leader>d :YcmCompleter GoToDefinition<CR>
       ]]
     end
   }
