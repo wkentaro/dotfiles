@@ -60,6 +60,11 @@ vim.cmd [[
   nnoremap <localleader>d "_d
   vnoremap <localleader>d "_d
   nnoremap <localleader>x "_x
+  nnoremap <localleader>p "_p
+]]
+
+vim.cmd [[
+  nnoremap <localleader>w :w<CR>
 ]]
 
 vim.cmd [[
@@ -194,6 +199,15 @@ require("packer").startup(function()
   use {"hotwatermorning/auto-git-diff"}
 
   use {"tomtom/tcomment_vim"}
+
+  use {
+    "nvie/vim-flake8",
+    config = function()
+      vim.cmd [[
+        autocmd FileType python nnoremap <silent> <localleader>f :call Flake8()<CR>
+      ]]
+    end,
+  }
 
   use {
     "simeji/winresizer",
@@ -418,17 +432,17 @@ require("packer").startup(function()
 
       vim.cmd [[
         autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
-        nnoremap <C-q> :Telescope quickfix<CR>
-        nnoremap <C-p> :Telescope find_files<CR>
-        nnoremap <C-n> :Telescope buffers<CR>
-        nnoremap <C-s> :Telescope git_status<CR>
+        nnoremap <silent> <C-q> :Telescope quickfix<CR>
+        nnoremap <silent> <C-p> :Telescope find_files<CR>
+        nnoremap <silent> <C-n> :Telescope buffers<CR>
+        nnoremap <silent> <C-s> :Telescope git_status<CR>
         "nnoremap <leader>f :Telescope find_files<CR>
         "nnoremap <leader>r :Telescope buffers<CR>
         "nnoremap <leader>s :Telescope git_status<CR>
-        nnoremap <leader>f :Telescope live_grep<CR>
-        nnoremap <leader>e :Telescope current_buffer_fuzzy_find<CR>
-        nnoremap <leader>j :Telescope jumplist<CR>
-        nnoremap <leader>c :Telescope neoclip<CR>
+        nnoremap <silent> <leader>f :Telescope live_grep<CR>
+        nnoremap <silent> <leader>e :Telescope current_buffer_fuzzy_find<CR>
+        nnoremap <silent> <leader>j :Telescope jumplist<CR>
+        nnoremap <silent> <leader>c :Telescope neoclip<CR>
       ]]
 
       local actions = require("telescope.actions")
