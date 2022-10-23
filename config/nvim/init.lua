@@ -296,6 +296,9 @@ require("packer").startup(function()
           \ 'TelescopePrompt': v:false,
           \ }
       ]]
+      if vim.fn.has("macunix") == 1 then
+        vim.g.copilot_node_command = "~/.nodeenv/versions/16.5.0/bin/node"
+      end
     end,
   }
 
