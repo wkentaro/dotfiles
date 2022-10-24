@@ -609,7 +609,6 @@ require("packer").startup(function()
     "hrsh7th/vim-vsnip",
     requires = {
       {"hrsh7th/cmp-vsnip"},
-      {"rafamadriz/friendly-snippets"},
     },
     config = function()
       vim.cmd [[
