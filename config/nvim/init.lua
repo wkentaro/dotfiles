@@ -51,7 +51,7 @@ vim.cmd [[
 
 vim.cmd [[
   set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
-  nnoremap <Leader>g :silent grep<Space>
+  nnoremap <Leader>r :silent grep<Space>
   nnoremap <silent> [c :cprevious<CR>
   nnoremap <silent> ]c :cnext<CR>
   au QuickfixCmdPost make,grep,grepadd,vimgrep copen
@@ -440,9 +440,7 @@ require("packer").startup(function()
         nnoremap <silent> <C-p> :Telescope find_files<CR>
         nnoremap <silent> <C-n> :Telescope buffers<CR>
         nnoremap <silent> <C-s> :Telescope git_status<CR>
-        "nnoremap <leader>f :Telescope find_files<CR>
-        "nnoremap <leader>r :Telescope buffers<CR>
-        "nnoremap <leader>s :Telescope git_status<CR>
+        nnoremap <silent> <leader>g :Telescope grep_string<CR>
         nnoremap <silent> <leader>f :Telescope live_grep<CR>
         nnoremap <silent> <leader>e :Telescope current_buffer_fuzzy_find<CR>
         nnoremap <silent> <leader>j :Telescope jumplist<CR>
