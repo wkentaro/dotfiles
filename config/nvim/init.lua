@@ -51,9 +51,10 @@ vim.cmd [[
 
 vim.cmd [[
   set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
-  nnoremap <Leader>g :silent lgrep<Space>
-  nnoremap <silent> [f :lprevious<CR>
-  nnoremap <silent> ]f :lnext<CR>
+  nnoremap <Leader>g :silent grep<Space>
+  nnoremap <silent> [c :cprevious<CR>
+  nnoremap <silent> ]c :cnext<CR>
+  au QuickfixCmdPost make,grep,grepadd,vimgrep copen
 ]]
 
 vim.cmd [[
