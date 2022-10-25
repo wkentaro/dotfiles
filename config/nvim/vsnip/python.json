@@ -10,5 +10,21 @@
         "body": [
             "import IPython; print(\"[ipython] >>> \"); IPython.embed()"
         ]
+    },
+    "parser = argparse.ArgumentParser(...) ...": {
+        "prefix": ["parser"],
+        "body": [
+          "parser = argparse.ArgumentParser(",
+          "    formatter_class=argparse.ArgumentDefaultsHelpFormatter,",
+          ")",
+          "parser.add_argument(\"${1}\")",
+          "args = parser.parse_args()"
+        ]
+    },
+    "#!/usr/bin/env python3": {
+        "prefix": ["env3"],
+        "body": [
+            "#!/usr/bin/env python3"
+        ]
     }
 }
