@@ -1,12 +1,14 @@
 -- options
 
 vim.cmd [[
-function! s:source_config()
+function! s:reload_config()
   luafile ~/.config/nvim/init.lua
+  PackerInstall
+  PackerClean
   PackerCompile
 endfunction
 
-command! SourceConfig call s:source_config()
+command! Reload call s:reload_config()
 ]]
 
 -- navigation
