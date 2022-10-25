@@ -244,6 +244,19 @@ require("packer").startup(function()
   }
 
   use {
+    "qpkorr/vim-renamer",
+    config = function()
+      vim.cmd [[
+        function! MyRenamer() abort
+          execute 'enew'
+          setlocal nonumber
+          execute 'Renamer'
+        endfunction
+      ]]
+    end
+  }
+
+  use {
     "mattn/vim-molder",
     config = function()
       vim.cmd [[
@@ -276,6 +289,7 @@ require("packer").startup(function()
           autocmd FileType molder nmap <buffer> e <Plug>(molder-open-file)
           autocmd FileType molder nmap <buffer> . <Plug>(molder-toggle-hidden)
           "autocmd FileType molder nmap <buffer> <C-l> <Plug>(molder-reload)
+          autocmd FileType molder nmap <buffer> <Leader>r :<c-u>call MyRenamer()<CR>
         augroup end
 
         " disable netrw
