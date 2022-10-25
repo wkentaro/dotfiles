@@ -248,7 +248,7 @@ require("packer").startup(function()
     requires = {"mattn/vim-molder-operations"},
     config = function()
       vim.cmd [[
-        function! Molder_open_dir() abort
+        function! MolderOpenDir() abort
           let l:path = b:molder_dir .. substitute(getline('.'), '/$', '', '')
           echomsg l:path
           if isdirectory(l:path)
@@ -257,15 +257,15 @@ require("packer").startup(function()
           endif
         endfunction
 
-        function! Molder_open_file() abort
+        function! MolderOpenFile() abort
           let l:path = b:molder_dir .. substitute(getline('.'), '/$', '', '')
           if !isdirectory(l:path)
             execute 'edit' fnameescape(l:path)
           endif
         endfunction
 
-        nnoremap <silent> <plug>(molder-open-dir) :<c-u>call Molder_open_dir()<cr>
-        nnoremap <silent> <plug>(molder-open-file) :<c-u>call Molder_open_file()<cr>
+        nnoremap <silent> <plug>(molder-open-dir) :<c-u>call MolderOpenDir()<cr>
+        nnoremap <silent> <plug>(molder-open-file) :<c-u>call MolderOpenFile()<cr>
 
         augroup vim-molder
           autocmd!
