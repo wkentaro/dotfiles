@@ -245,7 +245,6 @@ require("packer").startup(function()
 
   use {
     "mattn/vim-molder",
-    requires = {"mattn/vim-molder-operations"},
     config = function()
       vim.cmd [[
         function! MolderOpenDir() abort
