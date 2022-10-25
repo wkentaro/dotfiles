@@ -276,7 +276,7 @@ require("packer").startup(function()
           autocmd FileType molder nmap <buffer> l <Plug>(molder-open-dir)
           autocmd FileType molder nmap <buffer> e <Plug>(molder-open-file)
           autocmd FileType molder nmap <buffer> . <Plug>(molder-toggle-hidden)
-          autocmd FileType molder nmap <buffer> <C-l> <Plug>(molder-reload)
+          "autocmd FileType molder nmap <buffer> <C-l> <Plug>(molder-reload)
         augroup end
 
         " disable netrw
