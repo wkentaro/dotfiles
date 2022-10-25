@@ -1,0 +1,14 @@
+{
+  "!/bin/bash": {
+    "prefix": ["shebang"],
+    "body": [
+      "#!/bin/bash"
+    ]
+  },
+  "{ set +x; } >/dev/null": {
+    "prefix": ["set+x"],
+    "body": [
+      "{ set +x; } >/dev/null"
+    ]
+  }
+}

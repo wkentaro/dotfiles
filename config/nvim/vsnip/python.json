@@ -21,8 +21,14 @@
         "args = parser.parse_args()"
       ]
   },
+  "#!/usr/bin/env python": {
+      "prefix": ["shebang"],
+      "body": [
+          "#!/usr/bin/env python"
+      ]
+  },
   "#!/usr/bin/env python3": {
-      "prefix": ["env3"],
+      "prefix": ["shebang3"],
       "body": [
           "#!/usr/bin/env python3"
       ]
