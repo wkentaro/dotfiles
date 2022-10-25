@@ -243,6 +243,7 @@ require("packer").startup(function()
 
   use {
     "mattn/vim-molder",
+    requires = {"mattn/vim-molder-operations"},
     config = function()
       vim.cmd [[
         function! Molder_open_dir() abort
@@ -250,6 +251,7 @@ require("packer").startup(function()
           echomsg l:path
           if isdirectory(l:path)
             execute 'edit' fnameescape(l:path)
+            execute 'lcd' fnameescape(l:path)
           endif
         endfunction
 
@@ -265,7 +267,9 @@ require("packer").startup(function()
 
         augroup vim-molder
           autocmd!
+          autocmd FileType molder lcd %
           autocmd FileType molder setlocal nonumber
+          autocmd FileType molder nmap <buffer> <Leader>c <Plug>(molder-operations-command)
           autocmd FileType molder nmap <buffer> h <Plug>(molder-up)
           autocmd FileType molder nmap <buffer> l <Plug>(molder-open-dir)
           autocmd FileType molder nmap <buffer> e <Plug>(molder-open-file)
@@ -352,6 +356,7 @@ require("packer").startup(function()
       vim.cmd [[
         let g:rooter_cd_cmd = 'lcd'
         let g:rooter_change_directory_for_non_project_files = 'current'
+        let g:rooter_targets = '*'
       ]]
     end,
   }
