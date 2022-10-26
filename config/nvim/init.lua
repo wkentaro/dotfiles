@@ -279,6 +279,30 @@ require("packer").startup(function()
         nnoremap <silent> <plug>(molder-open-dir) :<c-u>call MolderOpenDir()<cr>
         nnoremap <silent> <plug>(molder-open-file) :<c-u>call MolderOpenFile()<cr>
 
+        fun! Confirm(msg)
+            echo a:msg . ' '
+            let l:answer = nr2char(getchar())
+
+            if l:answer ==? 'y'
+              return 1
+            elseif l:answer ==? 'n'
+              return 0
+            else
+              return 0
+            endif
+        endfun
+
+        function! MolderDeleteSelected() range
+          let l:paths = getline(a:firstline, a:lastline)
+          if Confirm('Delete?: ' . join(l:paths, ' ') . ' (Y)es/[N]o')
+            silent execute '!rm -r' join(l:paths, ' ')
+            echo 'Deleted: ' . join(l:paths, ' ')
+          else
+            echo 'Aborted'
+          endif
+          call molder#reload()
+        endfunction
+
         augroup vim-molder
           autocmd!
           autocmd FileType molder lcd %
@@ -290,6 +314,7 @@ require("packer").startup(function()
           autocmd FileType molder nmap <buffer> . <Plug>(molder-toggle-hidden)
           "autocmd FileType molder nmap <buffer> <C-l> <Plug>(molder-reload)
           autocmd FileType molder nmap <buffer> <Leader>r :<c-u>call MyRenamer()<CR>
+          autocmd FileType molder xmap <buffer> <Leader>d :call MolderDeleteSelected()<CR>
         augroup end
 
         " disable netrw
