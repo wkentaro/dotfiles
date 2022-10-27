@@ -252,6 +252,8 @@ require("packer").startup(function()
           setlocal nonumber
           execute 'Renamer'
         endfunction
+
+        let g:RenamerSupportColonWToRename = 1
       ]]
     end
   }
