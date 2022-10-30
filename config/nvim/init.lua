@@ -376,13 +376,6 @@ require("packer").startup(function()
   use {"tpope/vim-fugitive"}
 
   use {
-    "wkentaro/nvim-editcommand",
-    config = function()
-      vim.cmd [[let g:editcommand_prompt = '%']]
-    end,
-  }
-
-  use {
     "preservim/tagbar",
     config = function()
       vim.cmd [[
