@@ -376,6 +376,15 @@ require("packer").startup(function()
   use {"tpope/vim-fugitive"}
 
   use {
+    "aperezdc/vim-template",
+    config = function()
+      vim.cmd [[
+        let g:templates_directory = '~/.config/nvim/templates'
+      ]]
+    end,
+  }
+
+  use {
     "preservim/tagbar",
     config = function()
       vim.cmd [[
