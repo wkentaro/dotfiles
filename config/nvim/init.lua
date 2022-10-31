@@ -454,11 +454,18 @@ require("packer").startup(function()
 
   use {
     "nvim-telescope/telescope.nvim",
-    requires = {"nvim-lua/plenary.nvim"},
+    requires = {
+      {"nvim-lua/plenary.nvim"},
+      {"nvim-telescope/telescope-smart-history.nvim"},
+    },
     config = function()
       local actions = require("telescope.actions")
       require("telescope").setup({
         defaults = {
+          history = {
+            path = '~/.local/share/nvim/databases/telescope_history.sqlite3',
+            limit = 100,
+          },
           mappings = {
             i = {
               ["<C-d>"] = false,  -- -> delete_buffer
@@ -482,6 +489,8 @@ require("packer").startup(function()
           },
         },
       })
+
+      require('telescope').load_extension('smart_history')
 
       vim.cmd [[
         autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
