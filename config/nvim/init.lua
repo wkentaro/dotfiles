@@ -452,6 +452,8 @@ require("packer").startup(function()
     end,
   }
 
+  use {'kshenoy/vim-signature'}
+
   use {
     "nvim-telescope/telescope.nvim",
     requires = {
