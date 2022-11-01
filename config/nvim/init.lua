@@ -452,7 +452,7 @@ require("packer").startup(function()
     end,
   }
 
-  -- use {'kshenoy/vim-signature'}
+  use {'kshenoy/vim-signature'}
 
   use({
     "kwkarlwang/bufjump.nvim",
