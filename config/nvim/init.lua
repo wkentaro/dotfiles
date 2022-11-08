@@ -294,6 +294,17 @@ require("packer").startup(function()
             endif
         endfun
 
+        function! MolderDelete() abort
+          let l:path = getline('.')
+          if Confirm('Delete?: ' . l:path . ' (Y)es/[N]o')
+            silent execute '!rm -r' l:path
+            echo 'Deleted: ' . l:path
+          else
+            echo 'Aborted'
+          endif
+          call molder#reload()
+        endfunction
+
         function! MolderDeleteSelected() range
           let l:paths = getline(a:firstline, a:lastline)
           if Confirm('Delete?: ' . join(l:paths, ' ') . ' (Y)es/[N]o')
@@ -316,6 +327,7 @@ require("packer").startup(function()
           autocmd FileType molder nmap <buffer> . <Plug>(molder-toggle-hidden)
           "autocmd FileType molder nmap <buffer> <C-l> <Plug>(molder-reload)
           autocmd FileType molder nmap <buffer> <Leader>r :<c-u>call MyRenamer()<CR>
+          autocmd FileType molder nmap <buffer> <Leader>d :call MolderDelete()<CR>
           autocmd FileType molder xmap <buffer> <Leader>d :call MolderDeleteSelected()<CR>
         augroup end
 
