@@ -392,6 +392,7 @@ require("packer").startup(function()
     config = function()
       vim.cmd [[
         let g:templates_directory = '~/.config/nvim/templates'
+        let g:templates_no_builtin_templates = 1
       ]]
     end,
   }
