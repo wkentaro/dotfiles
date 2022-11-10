@@ -19,7 +19,7 @@ parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFo
 parser.add_argument("file1", help="First file to compare")
 parser.add_argument("file2", help="Second file to compare")
 parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
-parser.add_argument("--reverse", action="store_true", help="Reverse the order of the files")
+parser.add_argument("--reverse", "-r", action="store_true", help="Reverse the order of the files")
 args = parser.parse_args()
 
 if args.reverse:
