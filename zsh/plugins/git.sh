@@ -110,7 +110,11 @@ grbu () {
     fi
   done
   if [ ${#args} -eq 0 ]; then
-    branch="main"
+    if [ "$USER" = "mujin" ]; then
+      branch="master"
+    else
+      branch="main"
+    fi
   else
     branch=${args[1]}
   fi
@@ -127,7 +131,11 @@ grbg () {
     fi
   done
   if [ ${#args} -eq 0 ]; then
-    branch="main"
+    if [ "$USER" = "mujin" ]; then
+      branch="master"
+    else
+      branch="main"
+    fi
   else
     branch=${args[1]}
   fi
