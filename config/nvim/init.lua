@@ -175,12 +175,7 @@ vim.cmd [[
   " ----------------------------------------------------------
   " Filetype
   " ----------------------------------------------------------
-  autocmd FileType python set tabstop=4
-  autocmd FileType python set shiftwidth=4
-  autocmd FileType python set indentkeys-=:
-  " autocmd FileType python inoremap <localleader>p from IPython.core.debugger import Pdb; ipdb = Pdb(); print("[ipdb] >>> "); ipdb.set_trace()<esc>
-  " autocmd FileType python inoremap <localleader>i import IPython; print("[ipython] >>> "); IPython.embed()<esc>
-  " autocmd FileType python nnoremap <localleader>f :w<cr> :!flake8 %<cr>
+  autocmd FileType python setl tabstop=4 shiftwidth=4 indentkeys-=:
 
   if $USER == 'mujin'
     autocmd FileType python xnoremap <localleader>b :!blacken 110<CR>
