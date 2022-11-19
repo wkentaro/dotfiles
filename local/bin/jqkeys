@@ -10,13 +10,14 @@ import rich.console
 
 
 class JqKeysMain:
-    def __init__(self, query=None, force_terminal=False):
+    def __init__(self, query=None, grep=False, force_terminal=False):
         self._query = query
+        self._grep = grep
         self._console = rich.console.Console(
             force_terminal=force_terminal, highlight=False, soft_wrap=True
         )
 
-    def print(self, data, parent_key=None, parent_key_color=None):
+    def print(self, data, parent_key=None, parent_key_color=None, dry_run=False):
         if parent_key is None:
             parent_key = []
         if parent_key_color is None:
@@ -26,6 +27,7 @@ class JqKeysMain:
         color_cycle = itertools.cycle(
             ["red", "green", "blue", "yellow", "magenta", "cyan"]
         )
+        key_strings = []
         for key in data:
             current_key = parent_key + [key]
 
@@ -34,33 +36,44 @@ class JqKeysMain:
                 color = next(color_cycle)
             current_key_color = parent_key_color + [color]
 
-            if self._query is None or ("." + ".".join(current_key)).startswith(
-                self._query
+            current_key_string = "." + ".".join(current_key)
+
+            if (
+                self._query is None
+                or self._query == "."
+                or current_key_string == self._query
+                or (
+                    not self._grep
+                    and current_key_string.startswith(self._query)
+                    and current_key_string[len(self._query) :][0] == "."
+                )
+                or (self._grep and self._query in current_key_string)
             ):
-                message = ""
-                for key, color in zip(current_key, current_key_color):
-                    message += f".[{color}]{key}[/{color}]"
-                self._console.print(message)
+                key_strings.append(current_key_string)
+
+                if not dry_run:
+                    message = ""
+                    for key, color in zip(current_key, current_key_color):
+                        message += f".[{color}]{key}[/{color}]"
+                    self._console.print(message)
 
             if isinstance(data[key], dict):
-                self.print(
+                key_strings += self.print(
                     data[key],
                     parent_key=current_key,
                     parent_key_color=current_key_color,
+                    dry_run=dry_run,
                 )
 
-
-def _type_query(query):
-    if not query.startswith("."):
-        raise ValueError
-    return query
+        return key_strings
 
 
 def main():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("query", nargs="?", type=_type_query, help="query for jq")
+    parser.add_argument("query", nargs="?", help="query for jq")
+    parser.add_argument("--grep", "-g", action="store_true", help="grep by key")
     parser.add_argument(
         "--exec", "-e", action="store_true", help="execute the query with jq"
     )
@@ -69,20 +82,27 @@ def main():
     )
     args = parser.parse_args()
 
-    if args.exec:
-        commands = ["jq"]
-        if args.query is not None:
-            commands.append(args.query)
-        subprocess.call(commands)
-    else:
-        if args.color_output:
-            force_terminal = True
-        else:
-            force_terminal = None
+    if not args.grep and args.query and not args.query.startswith("."):
+        parser.print_usage()
+        sys.stderr.write(
+            f"jqkeys: error: --query must start with '.' without --grep: '{args.query}'\n"
+        )
+        sys.exit(1)
 
-        string = sys.stdin.read()
-        data = json.loads(string)
-        JqKeysMain(query=args.query, force_terminal=force_terminal).print(data)
+    string = sys.stdin.read()
+    data = json.loads(string)
+    if args.color_output:
+        force_terminal = True
+    else:
+        force_terminal = None
+
+    key_strings = JqKeysMain(
+        query=args.query, grep=args.grep, force_terminal=force_terminal
+    ).print(data, dry_run=args.exec)
+
+    if args.exec:
+        commands = ["jq", ",".join(key_strings)]
+        subprocess.run(commands, input=string, text=True)
 
 
 if __name__ == "__main__":
