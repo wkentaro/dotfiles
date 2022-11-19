@@ -19,7 +19,7 @@ try:
         line_modified = []
         next_start = 0
         for i, m in enumerate(re.finditer("(16\d{11})", line)):
-            color = ["red", "green", "blue", "yellow", "magenta", "cyan"][i % 7]
+            color = ["red", "green", "blue", "yellow", "magenta", "cyan"][i % 6]
             cycleindex = m.groups()[0]
             timestamp = datetime.datetime.fromtimestamp(int(cycleindex) / 1000).isoformat()[:-3]
 
