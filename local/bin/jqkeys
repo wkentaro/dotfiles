@@ -10,9 +10,9 @@ import rich.console
 
 
 class JqKeysMain:
-    def __init__(self, query=None, grep=False, force_terminal=False):
+    def __init__(self, query=None, query_mode=False, force_terminal=False):
         self._query = query
-        self._grep = grep
+        self._query_mode = query_mode
         self._console = rich.console.Console(
             force_terminal=force_terminal, highlight=False, soft_wrap=True
         )
@@ -40,14 +40,12 @@ class JqKeysMain:
 
             if (
                 self._query is None
-                or self._query == "."
-                or current_key_string == self._query
                 or (
-                    not self._grep
+                    self._query_mode == "startwith"
                     and current_key_string.startswith(self._query)
-                    and current_key_string[len(self._query) :][0] == "."
                 )
-                or (self._grep and self._query in current_key_string)
+                or (self._query_mode == "search" and self._query in current_key_string)
+                or (self._query_mode == "match" and current_key_string == self._query)
             ):
                 key_strings.append(current_key_string)
 
@@ -72,8 +70,15 @@ def main():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("query", nargs="?", help="query for jq")
-    parser.add_argument("--grep", "-g", action="store_true", help="grep by key")
+    parser.add_argument(
+        "query", nargs="?", help="query for jq (used as startwith by default)"
+    )
+    parser.add_argument(
+        "--search", "-s", action="store_true", help="query is used as search"
+    )
+    parser.add_argument(
+        "--match", "-m", action="store_true", help="query is used as match"
+    )
     parser.add_argument(
         "--exec", "-e", action="store_true", help="execute the query with jq"
     )
@@ -82,22 +87,29 @@ def main():
     )
     args = parser.parse_args()
 
-    if not args.grep and args.query and not args.query.startswith("."):
+    if args.search and args.match:
         parser.print_usage()
         sys.stderr.write(
-            f"jqkeys: error: --query must start with '.' without --grep: '{args.query}'\n"
+            f"jqkeys: error: either --search or --match can be specified\n"
         )
         sys.exit(1)
 
     string = sys.stdin.read()
     data = json.loads(string)
+
+    query_mode = "startwith"
+    if args.search:
+        query_mode = "search"
+    elif args.match:
+        query_mode = "match"
+
     if args.color_output:
         force_terminal = True
     else:
         force_terminal = None
 
     key_strings = JqKeysMain(
-        query=args.query, grep=args.grep, force_terminal=force_terminal
+        query=args.query, query_mode=query_mode, force_terminal=force_terminal
     ).print(data, dry_run=args.exec)
 
     if args.exec:
