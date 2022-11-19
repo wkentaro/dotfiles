@@ -1,0 +1,89 @@
+#!/usr/bin/env python3
+
+import argparse
+import itertools
+import json
+import subprocess
+import sys
+
+import rich.console
+
+
+class JqKeysMain:
+    def __init__(self, query=None, force_terminal=False):
+        self._query = query
+        self._console = rich.console.Console(
+            force_terminal=force_terminal, highlight=False, soft_wrap=True
+        )
+
+    def print(self, data, parent_key=None, parent_key_color=None):
+        if parent_key is None:
+            parent_key = []
+        if parent_key_color is None:
+            parent_key_color = []
+        assert len(parent_key) == len(parent_key_color)
+
+        color_cycle = itertools.cycle(
+            ["red", "green", "blue", "yellow", "magenta", "cyan"]
+        )
+        for key in data:
+            current_key = parent_key + [key]
+
+            color = next(color_cycle)
+            if parent_key_color and color == parent_key_color[-1]:
+                color = next(color_cycle)
+            current_key_color = parent_key_color + [color]
+
+            if self._query is None or ("." + ".".join(current_key)).startswith(
+                self._query
+            ):
+                message = ""
+                for key, color in zip(current_key, current_key_color):
+                    message += f".[{color}]{key}[/{color}]"
+                self._console.print(message)
+
+            if isinstance(data[key], dict):
+                self.print(
+                    data[key],
+                    parent_key=current_key,
+                    parent_key_color=current_key_color,
+                )
+
+
+def _type_query(query):
+    if not query.startswith("."):
+        raise ValueError
+    return query
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument("query", nargs="?", type=_type_query, help="query for jq")
+    parser.add_argument(
+        "--exec", "-e", action="store_true", help="execute the query with jq"
+    )
+    parser.add_argument(
+        "--color-output", "-C", action="store_true", help="force writing with color"
+    )
+    args = parser.parse_args()
+
+    if args.exec:
+        commands = ["jq"]
+        if args.query is not None:
+            commands.append(args.query)
+        subprocess.call(commands)
+    else:
+        if args.color_output:
+            force_terminal = True
+        else:
+            force_terminal = None
+
+        string = sys.stdin.read()
+        data = json.loads(string)
+        JqKeysMain(query=args.query, force_terminal=force_terminal).print(data)
+
+
+if __name__ == "__main__":
+    main()
