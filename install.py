@@ -55,7 +55,7 @@ def copy_file(from_, to, dry_run=False):
 def install_private(dry_run=False):
     path = osp.expanduser("~/.dotfiles/private")
     if osp.exists(path):
-        run_command("git pull origin master", cwd=path, dry_run=dry_run)
+        run_command("git pull origin main", cwd=path, dry_run=dry_run)
     else:
         url = "https://github.com/wkentaro/private.git"
         run_command("git clone {} {}".format(url, path), dry_run=dry_run)
