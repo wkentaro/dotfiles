@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+
+import sys
+
+import numpy as np
+
+
+arr = sys.stdin.read().split()
+arr = np.array(arr)
+
+for operation in sys.argv[1:]:
+    if operation.startswith("."):
+        if operation == ".T":
+            arr = arr.T
+        else:
+            raise NotImplementedError
+    else:
+        shape = tuple(map(int, operation.split(",")))
+        arr = arr.reshape(shape)
+
+np.savetxt(sys.stdout.buffer, arr, fmt="%s")
