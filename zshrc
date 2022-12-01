@@ -427,3 +427,9 @@ function nvim () {
 alias vim=nvim
 
 alias feh='feh --keep-zoom-vp --auto-zoom'
+
+function k%% () {
+  for job_id in $(jobs | awk '{print $1}' | sed -r 's/\[([0-9]+)\]/\1/g'); do
+    kill %${job_id}
+  done
+}
