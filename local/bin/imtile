@@ -14,7 +14,7 @@ def main():
     parser.add_argument("-O", "--out", required=True, help="output file")
     parser.add_argument("-n", "--n-imgs", type=int, help="number of images")
     parser.add_argument("-x", "--shape", help="image shape (ex. 5x6)")
-    parser.add_argument("--border", help="border ex. (0, 0, 0)")
+    parser.add_argument("--border", default='(255, 255, 255)', help="border ex. (0, 0, 0)")
     parser.add_argument(
         "--border-width",
         type=int,
