@@ -200,6 +200,8 @@ require("packer").startup(function()
 
   use {"lambdalisue/suda.vim"}
 
+  use {"vmchale/just-vim"}
+
   use {
     "nvie/vim-flake8",
     config = function()
