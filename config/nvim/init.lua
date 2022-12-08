@@ -198,6 +198,8 @@ require("packer").startup(function()
 
   use {"tomtom/tcomment_vim"}
 
+  use {"lambdalisue/suda.vim"}
+
   use {
     "nvie/vim-flake8",
     config = function()
