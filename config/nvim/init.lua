@@ -264,7 +264,8 @@ require("packer").startup(function()
           echomsg l:path
           if isdirectory(l:path)
             execute 'edit' fnameescape(l:path)
-            execute 'lcd' fnameescape(l:path)
+            " execute 'lcd' fnameescape(l:path)
+            execute 'cd' fnameescape(l:path)
           endif
         endfunction
 
@@ -315,7 +316,7 @@ require("packer").startup(function()
 
         augroup vim-molder
           autocmd!
-          autocmd FileType molder lcd %
+          autocmd FileType molder cd %
           autocmd FileType molder setlocal nonumber
           autocmd FileType molder nmap <buffer> <Leader>c <Plug>(molder-operations-command)
           autocmd FileType molder nmap <buffer> h <Plug>(molder-up)
@@ -404,16 +405,16 @@ require("packer").startup(function()
     end,
   }
 
-  use {
-    "airblade/vim-rooter",
-    config = function()
-      vim.cmd [[
-        let g:rooter_cd_cmd = 'lcd'
-        let g:rooter_change_directory_for_non_project_files = 'current'
-        let g:rooter_targets = '*'
-      ]]
-    end,
-  }
+  -- use {
+  --   "airblade/vim-rooter",
+  --   config = function()
+  --     vim.cmd [[
+  --       let g:rooter_cd_cmd = 'lcd'
+  --       let g:rooter_change_directory_for_non_project_files = 'current'
+  --       let g:rooter_targets = '*'
+  --     ]]
+  --   end,
+  -- }
 
   use {
     "catppuccin/nvim",
