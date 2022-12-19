@@ -398,13 +398,6 @@ alias ql="qlmanage -p 2>/dev/null"
 
 # export PATH="/usr/local/lib/ruby/gems/3.0.0/bin:$PATH"
 
-if which batcat>/dev/null; then
-  alias bat=batcat
-fi
-if which fdfind>/dev/null; then
-  alias fd=fdfind
-fi
-
 if [ ! -z $CONDA_DEFAULT_ENV ]; then
   conda_path=$(dirname $CONDA_PYTHON_EXE)
   conda_env=$CONDA_DEFAULT_ENV
