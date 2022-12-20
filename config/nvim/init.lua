@@ -203,13 +203,34 @@ require("packer").startup(function()
   use {"vmchale/just-vim"}
 
   use {
-    "nvie/vim-flake8",
+    "vim-syntastic/syntastic",
     config = function()
       vim.cmd [[
-        autocmd FileType python nnoremap <silent> <localleader>f :call Flake8()<CR>
+        set statusline+=%#warningmsg#
+        set statusline+=%{SyntasticStatuslineFlag()}
+        set statusline+=%*
+        let g:syntastic_always_populate_loc_list = 1
+        let g:syntastic_auto_loc_list = 1
+        let g:syntastic_check_on_open = 0
+        let g:syntastic_check_on_wq = 0
+        let g:syntastic_mode_map = {
+            \ "mode": "passive",
+            \ "active_filetypes": [],
+            \ "passive_filetypes": [] }
+        let g:syntastic_python_checkers = ['flake8']
+        nnoremap <silent> <localleader>f :SyntasticCheck<CR>
       ]]
     end,
   }
+
+  -- use {
+  --   "nvie/vim-flake8",
+  --   config = function()
+  --     vim.cmd [[
+  --       autocmd FileType python nnoremap <silent> <localleader>f :call Flake8()<CR>
+  --     ]]
+  --   end,
+  -- }
 
   use {
     "simeji/winresizer",
