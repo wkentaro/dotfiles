@@ -2,13 +2,13 @@
   "from IPython.core.debugger import Pdb; ipdb = Pdb(); ...": {
       "prefix": ["ipdb"],
       "body": [
-          "from IPython.core.debugger import Pdb; ipdb = Pdb(); print(\"[ipdb] >>> \"); ipdb.set_trace()"
+          "from IPython.core.debugger import Pdb; ipdb = Pdb(); print(\"[ipdb] >>> \"); ipdb.set_trace(); print()  # NOQA"
       ]
   },
   "import IPython; print(\"[ipython] >>> \"); IPython.embed()": {
       "prefix": ["ipydb"],
       "body": [
-          "import IPython; print(\"[ipython] >>> \"); IPython.embed()"
+          "import IPython; print(\"[ipython] >>> \"); IPython.embed(); print()  # NOQA"
       ]
   },
   "parser = argparse.ArgumentParser(...) ...": {
