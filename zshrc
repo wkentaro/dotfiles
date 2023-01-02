@@ -417,7 +417,6 @@ function nvim () {
     command nvim $*
   fi
 }
-alias vim=nvim
 
 alias feh='feh --keep-zoom-vp --auto-zoom'
 
