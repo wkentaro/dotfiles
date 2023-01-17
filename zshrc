@@ -90,6 +90,7 @@ export LC_CTYPE='en_US.UTF-8'
 # Editor
 if which nvim &>/dev/null; then
   export EDITOR='nvim'
+  alias vim=nvim
 else
   export EDITOR='vim'
 fi
