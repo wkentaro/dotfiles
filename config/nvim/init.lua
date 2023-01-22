@@ -211,14 +211,15 @@ require("packer").startup(function()
         set statusline+=%*
         let g:syntastic_always_populate_loc_list = 1
         let g:syntastic_auto_loc_list = 1
-        let g:syntastic_check_on_open = 0
+        let g:syntastic_check_on_open = 1
         let g:syntastic_check_on_wq = 0
-        let g:syntastic_mode_map = {
-            \ "mode": "passive",
-            \ "active_filetypes": [],
-            \ "passive_filetypes": [] }
+        " let g:syntastic_mode_map = {
+        "     \ "mode": "passive",
+        "     \ "active_filetypes": [],
+        "     \ "passive_filetypes": [] }
         let g:syntastic_python_checkers = ['flake8']
         nnoremap <silent> <localleader>f :SyntasticCheck<CR>
+        let g:syntastic_loc_list_height = 5
       ]]
     end,
   }
@@ -239,19 +240,19 @@ require("packer").startup(function()
     end,
   }
 
-  use {
-    "akinsho/bufferline.nvim",
-    tag = "v2.*",
-    config = function()
-      require("bufferline").setup{
-        highlights = {
-          fill = {
-            bg = 'none',
-          }
-        },
-      }
-    end
-  }
+  -- use {
+  --   "akinsho/bufferline.nvim",
+  --   tag = "v2.*",
+  --   config = function()
+  --     require("bufferline").setup{
+  --       highlights = {
+  --         fill = {
+  --           bg = 'none',
+  --         }
+  --       },
+  --     }
+  --   end
+  -- }
 
   use {
     "folke/which-key.nvim",
@@ -406,7 +407,21 @@ require("packer").startup(function()
 
   use {"romainl/vim-cool"}
 
-  use {"tpope/vim-fugitive"}
+  use {"tpope/vim-fugitive",
+    config = function()
+      vim.cmd [[
+        autocmd FileType git set nonumber
+        autocmd FileType fugitive set nonumber
+        nnoremap <silent> <leader>gs :Git<CR>
+        nnoremap <silent> <leader>ga :Gwrite<CR>
+        nnoremap <silent> <leader>gc :G commit -v<CR>
+        nnoremap <silent> <leader>gb :G blame<CR>
+        nnoremap <silent> <leader>gd :G diff %<CR>
+        nnoremap <silent> <leader>gv :G difftool -y<CR>
+        nnoremap <silent> <leader>gm :G mergetool<CR>
+      ]]
+    end,
+  }
 
   use {
     "aperezdc/vim-template",
