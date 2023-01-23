@@ -534,14 +534,14 @@ require("packer").startup(function()
           },
           mappings = {
             i = {
-              ["<C-d>"] = false,  -- -> delete_buffer
+              -- ["<C-d>"] = false,  -- -> delete_buffer
               ["<C-j>"] = actions.move_selection_next,
               ["<C-k>"] = actions.move_selection_previous,
-              ["<C-u>"] = false,  -- -> clear the search field
+              -- ["<C-u>"] = false,  -- -> clear the search field
               ["<C-p>"] = actions.cycle_history_prev,
               ["<C-n>"] = actions.cycle_history_next,
-              ["<C-f>"] = actions.preview_scrolling_down,
-              ["<C-b>"] = actions.preview_scrolling_up,
+              ["<C-d>"] = actions.preview_scrolling_down,
+              ["<C-u>"] = actions.preview_scrolling_up,
             },
           },
         },
@@ -549,7 +549,7 @@ require("packer").startup(function()
           buffers = {
             mappings = {
               i = {
-                ["<C-d>"] = actions.delete_buffer,
+                -- ["<C-d>"] = actions.delete_buffer,
               },
             },
           },
