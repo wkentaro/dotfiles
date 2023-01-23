@@ -537,11 +537,11 @@ require("packer").startup(function()
               -- ["<C-d>"] = false,  -- -> delete_buffer
               ["<C-j>"] = actions.move_selection_next,
               ["<C-k>"] = actions.move_selection_previous,
-              -- ["<C-u>"] = false,  -- -> clear the search field
+              ["<C-u>"] = false,  -- -> clear the search field
               ["<C-p>"] = actions.cycle_history_prev,
               ["<C-n>"] = actions.cycle_history_next,
-              ["<C-d>"] = actions.preview_scrolling_down,
-              ["<C-u>"] = actions.preview_scrolling_up,
+              ["<C-f>"] = actions.preview_scrolling_down,
+              ["<C-b>"] = actions.preview_scrolling_up,
             },
           },
         },
