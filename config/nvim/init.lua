@@ -540,8 +540,8 @@ require("packer").startup(function()
               ["<C-u>"] = false,  -- -> clear the search field
               ["<C-p>"] = actions.cycle_history_prev,
               ["<C-n>"] = actions.cycle_history_next,
-              ["<C-f>"] = actions.preview_scrolling_down,
-              ["<C-b>"] = actions.preview_scrolling_up,
+              ["<C-e>"] = actions.preview_scrolling_down,
+              ["<C-y>"] = actions.preview_scrolling_up,
             },
           },
         },
