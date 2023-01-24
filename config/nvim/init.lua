@@ -179,6 +179,8 @@ vim.cmd [[
   autocmd FileType qf set nonumber
 
   if $USER == 'mujin'
+    autocmd FileType python noremap <localleader>b :!black --line-length 110 %<CR>
+    autocmd FileType python noremap <localleader>i :!isort --force-single-line %<CR>
     autocmd FileType python xnoremap <localleader>b :!blacken 110<CR>
   else
     autocmd FileType python noremap <localleader>b :!black %<CR>
