@@ -420,12 +420,6 @@ require("packer").startup(function()
         nnoremap <silent> <leader>gs :Git<CR>
         nnoremap <silent> <leader>gd :G diff %<CR>
         nnoremap <silent> <leader>ga :Gwrite<CR>
-        nnoremap <silent> <leader>gd :G diff --cached %<CR>
-        nnoremap <silent> <leader>gc :G commit -v<CR>
-        nnoremap <silent> <leader>gb :G blame<CR>
-        nnoremap <silent> <leader>gv :G difftool -y<CR>
-        nnoremap <silent> <leader>gm :G mergetool<CR>
-      ]]
     end,
   }
 
