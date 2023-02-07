@@ -63,7 +63,7 @@ vim.cmd [[
   nnoremap <localleader>d "_d
   vnoremap <localleader>d "_d
   nnoremap <localleader>x "_dx
-  nnoremap <localleader>p "_dp
+  vnoremap <localleader>p "_dP
 ]]
 
 vim.cmd [[
