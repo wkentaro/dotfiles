@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import argparse
 import datetime
 import errno
 import os
@@ -9,6 +10,12 @@ import sys
 import rich.text
 import rich.console
 
+
+parser = argparse.ArgumentParser(
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+)
+parser.add_argument("--tzoffset", type=int, default=0, help="Timezone offset")
+args = parser.parse_args()
 
 try:
     console = rich.console.Console(highlight=False, soft_wrap=True)
@@ -21,7 +28,11 @@ try:
         for i, m in enumerate(re.finditer("(16\d{11})", line)):
             color = ["red", "green", "blue", "yellow", "magenta", "cyan"][i % 6]
             cycleindex = m.groups()[0]
-            timestamp = datetime.datetime.fromtimestamp(int(cycleindex) / 1000).isoformat()[:-3]
+
+            when = datetime.datetime.fromtimestamp(int(cycleindex) / 1000)
+            when += datetime.timedelta(hours=args.tzoffset)
+
+            timestamp = when.isoformat()[:-3]
 
             line_original.append(line[next_start:m.start()])
             line_original.append(f"[{color}]{cycleindex}[/]")
