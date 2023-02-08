@@ -458,11 +458,13 @@ require("packer").startup(function()
   use {
     "catppuccin/nvim",
     as = "catppuccin",
-    setup = function()
-      vim.cmd [[let g:catppuccin_flavour = "mocha"]]
-    end,
     config = function()
-      require("catppuccin").setup()
+      require("catppuccin").setup({
+        flavour = "mocha",
+        styles = {
+          conditionals = {},
+        }
+      })
       vim.cmd [[
         colorscheme catppuccin
 
