@@ -462,6 +462,7 @@ require("packer").startup(function()
       require("catppuccin").setup({
         flavour = "mocha",
         styles = {
+          comments = {},
           conditionals = {},
         }
       })
