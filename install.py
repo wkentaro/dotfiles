@@ -57,7 +57,7 @@ def install_private(dry_run=False):
     if osp.exists(path):
         run_command("git pull origin main", cwd=path, dry_run=dry_run)
     else:
-        url = "https://github.com/wkentaro/private.git"
+        url = "git@github.com:wkentaro/private.git"
         run_command("git clone {} {}".format(url, path), dry_run=dry_run)
 
 
