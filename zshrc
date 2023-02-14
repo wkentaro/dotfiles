@@ -110,21 +110,28 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # zsh plugins
 # ---------------------------------
 
-source $HOME/.zsh/antibody/path.zsh
-
-antibody bundle < $HOME/.zsh/antibody/bundles.txt
-
-# for rupa/z
-if [ ! -e $HOME/.z ]; then
-  touch $HOME/.z
-fi
-
-# load theme
-if [[ $MY_ZSH_THEME = "" ]]; then
-  antibody bundle wkentaro/wkentaro.zsh-theme
+if [ -e ~/.zplug/init.zsh ]; then
+  source ~/.zplug/init.zsh
 else
-  antibody bundle $MY_ZSH_THEME
+  echo "Install zplug: https://github.com/zplug/zplug#installation"
+  exit 1
 fi
+
+zplug "zpm-zsh/autoenv"
+zplug "rupa/z"
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-syntax-highlighting"
+zplug "wkentaro/wkentaro.zsh-theme", as:theme
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+# Then, source plugins and add commands to $PATH
+zplug load #--verbose
 
 # autoenv
 export AUTOENV_CHECK_AUTH=0

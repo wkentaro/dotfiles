@@ -1,8 +1,0 @@
-# hchbaw/opp.zsh  # obsolete
-# b4b4r07/enhancd
-zpm-zsh/autoenv
-# wkentaro/zsh-autoenv
-# Tarrasch/zsh-bd
-rupa/z
-zsh-users/zsh-completions
-zsh-users/zsh-syntax-highlighting
