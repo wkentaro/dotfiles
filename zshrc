@@ -112,26 +112,25 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 
 if [ -e ~/.zplug/init.zsh ]; then
   source ~/.zplug/init.zsh
+
+  zplug "zpm-zsh/autoenv"
+  zplug "rupa/z"
+  zplug "zsh-users/zsh-completions"
+  zplug "zsh-users/zsh-syntax-highlighting"
+  zplug "wkentaro/wkentaro.zsh-theme", as:theme
+
+  # Install plugins if there are plugins that have not been installed
+  if ! zplug check --verbose; then
+      printf "Install? [y/N]: "
+      if read -q; then
+          echo; zplug install
+      fi
+  fi
+  # Then, source plugins and add commands to $PATH
+  zplug load #--verbose
 else
-  echo "Install zplug: https://github.com/zplug/zplug#installation"
-  exit 1
+  echo "Please install zplug: https://github.com/zplug/zplug#installation"
 fi
-
-zplug "zpm-zsh/autoenv"
-zplug "rupa/z"
-zplug "zsh-users/zsh-completions"
-zplug "zsh-users/zsh-syntax-highlighting"
-zplug "wkentaro/wkentaro.zsh-theme", as:theme
-
-# Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
-# Then, source plugins and add commands to $PATH
-zplug load #--verbose
 
 # autoenv
 export AUTOENV_CHECK_AUTH=0
