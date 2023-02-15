@@ -114,7 +114,7 @@ if [ -e ~/.zplug/init.zsh ]; then
   source ~/.zplug/init.zsh
 
   zplug "zpm-zsh/autoenv"
-  zplug "rupa/z"
+  zplug "rupa/z", use:z.sh
   zplug "zsh-users/zsh-completions"
   zplug "zsh-users/zsh-syntax-highlighting"
   zplug "wkentaro/wkentaro.zsh-theme", as:theme
