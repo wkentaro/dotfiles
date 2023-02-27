@@ -14,7 +14,7 @@ alias mv='mv -i'
 alias cp='cp -i'
 
 # date
-alias datetime="date +%Y-%m-%dT%H_%M"
+alias datetime="date +%Y%m%dT%H%M"
 alias stamp="date +%s%3N"
 
 # mv
