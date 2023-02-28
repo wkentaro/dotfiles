@@ -7,6 +7,7 @@ import os
 import re
 import sys
 
+import pytz
 import rich.text
 import rich.console
 
@@ -14,7 +15,7 @@ import rich.console
 parser = argparse.ArgumentParser(
     formatter_class=argparse.ArgumentDefaultsHelpFormatter,
 )
-parser.add_argument("--tzoffset", type=int, default=0, help="Timezone offset")
+parser.add_argument("--timezone", type=str, required=True, choices=pytz.all_timezones)
 args = parser.parse_args()
 
 try:
@@ -29,15 +30,14 @@ try:
             color = ["red", "green", "blue", "yellow", "magenta", "cyan"][i % 6]
             cycleindex = m.groups()[0]
 
-            when = datetime.datetime.fromtimestamp(int(cycleindex) / 1000)
-            when += datetime.timedelta(hours=args.tzoffset)
+            when = datetime.datetime.fromtimestamp(int(cycleindex) / 1000, tz=pytz.timezone(args.timezone))
 
             timestamp = when.isoformat()[:-3]
 
-            line_original.append(line[next_start:m.start()])
+            line_original.append(line[next_start : m.start()])
             line_original.append(f"[{color}]{cycleindex}[/]")
 
-            line_modified.append(line[next_start:m.start()])
+            line_modified.append(line[next_start : m.start()])
             line_modified.append(f"[u][{color}]{timestamp}[/][/]")
 
             next_start = m.end()
