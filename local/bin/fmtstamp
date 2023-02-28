@@ -15,7 +15,7 @@ import rich.console
 parser = argparse.ArgumentParser(
     formatter_class=argparse.ArgumentDefaultsHelpFormatter,
 )
-parser.add_argument("--timezone", type=str, required=True, choices=pytz.all_timezones)
+parser.add_argument("--timezone", type=str, choices=pytz.all_timezones)
 args = parser.parse_args()
 
 try:
@@ -30,7 +30,9 @@ try:
             color = ["red", "green", "blue", "yellow", "magenta", "cyan"][i % 6]
             cycleindex = m.groups()[0]
 
-            when = datetime.datetime.fromtimestamp(int(cycleindex) / 1000, tz=pytz.timezone(args.timezone))
+            when = datetime.datetime.fromtimestamp(
+                int(cycleindex) / 1000, tz=pytz.timezone(args.timezone) if args.timezone else None
+            )
 
             timestamp = when.isoformat()[:-3]
 
