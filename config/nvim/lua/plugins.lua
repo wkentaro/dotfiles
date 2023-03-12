@@ -192,27 +192,27 @@ require("packer").startup(function()
     end,
   }
 
-  use {
-    "akinsho/toggleterm.nvim",
-    config = function()
-      require("toggleterm").setup({
-        shade_terminals = false,
-        size = function(term)
-          if term.direction == "horizontal" then
-            return vim.o.lines * 0.5
-          elseif term.direction == "vertical" then
-            return vim.o.columns * 0.5
-          end
-        end,
-        direction = 'vertical',
-      })
-      vim.cmd [[
-        inoremap <silent> <M-e> <Esc>:ToggleTerm<CR>
-        nnoremap <silent> <M-e> :ToggleTerm<CR>
-        tnoremap <silent> <M-e> <C-\><C-n>:ToggleTerm<CR>
-      ]]
-    end
-  }
+  -- use {
+  --   "akinsho/toggleterm.nvim",
+  --   config = function()
+  --     require("toggleterm").setup({
+  --       shade_terminals = false,
+  --       size = function(term)
+  --         if term.direction == "horizontal" then
+  --           return vim.o.lines * 0.5
+  --         elseif term.direction == "vertical" then
+  --           return vim.o.columns * 0.5
+  --         end
+  --       end,
+  --       direction = 'vertical',
+  --     })
+  --     vim.cmd [[
+  --       inoremap <silent> <M-e> <Esc>:ToggleTerm<CR>
+  --       nnoremap <silent> <M-e> :ToggleTerm<CR>
+  --       tnoremap <silent> <M-e> <C-\><C-n>:ToggleTerm<CR>
+  --     ]]
+  --   end
+  -- }
 
   use {"romainl/vim-cool"}
 
