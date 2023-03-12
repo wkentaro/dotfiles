@@ -595,16 +595,16 @@ require("packer").startup(function()
     end,
   }
 
-  use {
-    "ycm-core/YouCompleteMe",
-    run = "python3 install.py --all",
-    config = function()
-      vim.cmd [[
-        nnoremap <silent> <expr> <S-k> &pvw == 1 ? ":pclose<CR>" : ":YcmCompleter GetDoc<CR> <C-w>j"
-        nnoremap <silent> <leader>d :YcmCompleter GoToDefinition<CR>
-      ]]
-    end
-  }
+  -- use {
+  --   "ycm-core/YouCompleteMe",
+  --   run = "python3 install.py --all",
+  --   config = function()
+  --     vim.cmd [[
+  --       nnoremap <silent> <expr> <S-k> &pvw == 1 ? ":pclose<CR>" : ":YcmCompleter GetDoc<CR> <C-w>j"
+  --       nnoremap <silent> <leader>d :YcmCompleter GoToDefinition<CR>
+  --     ]]
+  --   end
+  -- }
 
   -- use {
   --   "lervag/vimtex",
