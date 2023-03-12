@@ -76,6 +76,8 @@ def install_dotfiles(dry_run=False):
                 continue
             type_ = to.get("type", "symlink")
             to = to["name"]
+        else:
+            raise ValueError(f"Invalid type: {type(to)}")
         from_ = osp.join(this_dir, from_)
         to = osp.join(home_dir, to)
         for from_file in glob.glob(from_):
