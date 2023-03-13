@@ -371,10 +371,11 @@ require("packer").startup(function()
         nnoremap <silent> <C-p> :Telescope find_files<CR>
         nnoremap <silent> <C-n> :Telescope buffers<CR>
         nnoremap <silent> <C-s> :Telescope git_status<CR>
-        nnoremap <silent> <leader>r :Telescope grep_string<CR>
+        "nnoremap <silent> <leader>r :Telescope grep_string<CR>
+        nnoremap <silent> <leader>r :Telescope lsp_references<CR>
         nnoremap <silent> <leader>f :Telescope live_grep<CR>
-        nnoremap <silent> <leader>e :Telescope current_buffer_fuzzy_find<CR>
-        nnoremap <silent> <leader>j :Telescope jumplist<CR>
+        "nnoremap <silent> <leader>e :Telescope current_buffer_fuzzy_find<CR>
+        "nnoremap <silent> <leader>j :Telescope jumplist<CR>
         nnoremap <silent> <leader>c :Telescope neoclip<CR>
       ]]
 
@@ -480,6 +481,7 @@ require("packer").startup(function()
       {"hrsh7th/vim-vsnip"},
       {"hrsh7th/cmp-vsnip"},
       {'nvim-treesitter/nvim-treesitter', run=':TSUpdate'},
+      {'rmagatti/goto-preview'},
     },
     config = function()
       local cmp = require("cmp")
@@ -547,6 +549,9 @@ require("packer").startup(function()
         -- or a list of languages
         ensure_installed = { "python", "comment" },
       }
+
+      require('goto-preview').setup()
+      vim.keymap.set('n', '<leader>d', require('goto-preview').goto_preview_definition, bufopts)
     end,
   }
 
