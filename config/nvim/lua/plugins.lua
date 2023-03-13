@@ -475,6 +475,7 @@ require("packer").startup(function()
       {"hrsh7th/cmp-path"},
       {"hrsh7th/cmp-cmdline"},
       {"neovim/nvim-lspconfig"},
+      {"williamboman/nvim-lsp-installer"},
       {"ray-x/lsp_signature.nvim"},
       {"hrsh7th/vim-vsnip"},
       {"hrsh7th/cmp-vsnip"},
@@ -521,7 +522,12 @@ require("packer").startup(function()
 
       -- Set up lspconfig.
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
-      -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+
+      local lsp_installer = require("nvim-lsp-installer")
+      lsp_installer.on_server_ready(function(server)
+        local opts = {}
+        server:setup(opts)
+      end)
       require("lspconfig")["pyright"].setup {
         capabilities = capabilities
       }
