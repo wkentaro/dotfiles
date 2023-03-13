@@ -32,6 +32,12 @@ require("packer").startup(function()
         nnoremap <silent> <localleader>f :SyntasticCheck<CR>
         nnoremap <silent> <localleader>ff :SyntasticReset<CR>
         let g:syntastic_loc_list_height = 5
+
+        nnoremap <silent> <C-d> :lclose<CR>:bdelete<CR>
+        cabbrev <silent> bd <C-r>=(getcmdtype()==#':' && getcmdpos()==1 ? 'lclose\|bdelete' : 'bd')<CR>
+
+        nnoremap <silent> [c :lprevious<CR>
+        nnoremap <silent> ]c :lnext<CR>
       ]]
     end,
   }
