@@ -478,6 +478,7 @@ require("packer").startup(function()
       {"ray-x/lsp_signature.nvim"},
       {"hrsh7th/vim-vsnip"},
       {"hrsh7th/cmp-vsnip"},
+      {'nvim-treesitter/nvim-treesitter', run=':TSUpdate'},
     },
     config = function()
       local cmp = require("cmp")
@@ -493,6 +494,7 @@ require("packer").startup(function()
           ['<C-l>'] = cmp.mapping.complete(),
           ['<C-e>'] = cmp.mapping.abort(),
           ["<CR>"] = cmp.mapping.confirm { select = true },
+          ["<C-k>"] = cmp.mapping.confirm { select = true },
         }),
         sources = {
           { name = "nvim_lsp" },
@@ -525,11 +527,24 @@ require("packer").startup(function()
       }
       require("lsp_signature").setup()
 
+      local bufopts = { noremap=true, silent=true }
+      vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+      vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, bufopts)
+      vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+      vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+
       vim.cmd [[
         let g:vsnip_snippet_dir = expand('~/.config/nvim/vsnip')
         imap <expr> <C-k> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-k>'
         smap <expr> <C-k> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-k>'
       ]]
+
+      require('nvim-treesitter.configs').setup {
+        -- one of "all", "maintained" (parsers with maintainers),
+        -- or a list of languages
+        ensure_installed = { "python", "comment" },
+      }
     end,
   }
 
