@@ -376,8 +376,8 @@ require("packer").startup(function()
         nnoremap <silent> <C-p> :Telescope find_files<CR>
         nnoremap <silent> <C-n> :Telescope buffers<CR>
         nnoremap <silent> <C-s> :Telescope git_status<CR>
-        "nnoremap <silent> <leader>r :Telescope grep_string<CR>
-        nnoremap <silent> <leader>r :Telescope lsp_references<CR>
+        nnoremap <silent> <leader>r :Telescope grep_string<CR>
+        nnoremap <silent> <leader>l :Telescope lsp_references<CR>
         nnoremap <silent> <leader>f :Telescope live_grep<CR>
         "nnoremap <silent> <leader>e :Telescope current_buffer_fuzzy_find<CR>
         "nnoremap <silent> <leader>j :Telescope jumplist<CR>
@@ -476,17 +476,11 @@ require("packer").startup(function()
   use {
     "hrsh7th/nvim-cmp",
     requires = {
-      {"hrsh7th/cmp-nvim-lsp"},
       {"hrsh7th/cmp-buffer"},
       {"hrsh7th/cmp-path"},
       {"hrsh7th/cmp-cmdline"},
-      {"neovim/nvim-lspconfig"},
-      {"williamboman/mason.nvim"},
-      {"ray-x/lsp_signature.nvim"},
       {"hrsh7th/vim-vsnip"},
       {"hrsh7th/cmp-vsnip"},
-      {'nvim-treesitter/nvim-treesitter', run=':TSUpdate'},
-      {'rmagatti/goto-preview'},
     },
     config = function()
       local cmp = require("cmp")
@@ -502,7 +496,7 @@ require("packer").startup(function()
           ['<C-l>'] = cmp.mapping.complete(),
           ['<C-e>'] = cmp.mapping.abort(),
           ["<CR>"] = cmp.mapping.confirm { select = true },
-          ["<C-k>"] = cmp.mapping.confirm { select = true },
+          ["<C-j>"] = cmp.mapping.confirm { select = true },
         }),
         sources = {
           { name = "nvim_lsp" },
@@ -527,46 +521,105 @@ require("packer").startup(function()
         })
       })
 
-      -- Set up lspconfig.
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-      require("mason").setup()
-      require("lspconfig")["jedi_language_server"].setup {
-        capabilities = capabilities
-      }
-      require("lsp_signature").setup()
-
-      local bufopts = { noremap=true, silent=true }
-      vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-      vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, bufopts)
-      vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-      vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-
       vim.cmd [[
         let g:vsnip_snippet_dir = expand('~/.config/nvim/vsnip')
-        imap <expr> <C-k> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-k>'
-        smap <expr> <C-k> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-k>'
-      ]]
-
-      require('nvim-treesitter.configs').setup {
-        -- one of "all", "maintained" (parsers with maintainers),
-        -- or a list of languages
-        ensure_installed = { "python", "comment" },
-      }
-
-      require('goto-preview').setup()
-      vim.keymap.set('n', '<leader>d', require('goto-preview').goto_preview_definition, bufopts)
-
-      vim.cmd [[
-        function! IsFloating(id) abort
-            let l:cfg = nvim_win_get_config(a:id)
-            return !empty(l:cfg.relative) || l:cfg.external
-        endfunction
-        nnoremap <expr> q IsFloating(win_getid()) ? ":q<CR>" : ""
+        imap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
+        smap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
       ]]
     end,
   }
+
+    use {
+      "williamboman/mason.nvim",
+      requires = {
+        {"williamboman/mason-lspconfig.nvim"},
+        {"neovim/nvim-lspconfig"},
+        {"hrsh7th/cmp-nvim-lsp"},
+        {"ray-x/lsp_signature.nvim"},
+        {'nvim-treesitter/nvim-treesitter', run=':TSUpdate'},
+        {'rmagatti/goto-preview'},
+      },
+      config = function()
+        require('mason').setup()
+        require('mason-lspconfig').setup_handlers({ function(server)
+          local opt = {
+            capabilities = require('cmp_nvim_lsp').default_capabilities(
+              vim.lsp.protocol.make_client_capabilities()
+            )
+          }
+          if (server == "jedi_language_server") then
+            opt.init_options = {
+              diagnostics = {
+                enable = false,
+              },
+            }
+          end
+          require('lspconfig')[server].setup(opt)
+        end })
+
+        require('lsp_signature').setup()
+
+        vim.keymap.set('n', 'K',  '<cmd>lua vim.lsp.buf.hover()<CR>')
+        -- vim.keymap.set('n', '<leader>f', '<cmd>lua vim.lsp.buf.format()<CR>')
+        vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+        vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
+        vim.keymap.set('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+        vim.keymap.set('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+        vim.keymap.set('n', '<leader>d', '<cmd>lua vim.lsp.buf.definition()<CR>')
+        -- vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
+        -- vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
+        -- vim.keymap.set('n', '<leader>t', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+        -- vim.keymap.set('n', '<leader>r', '<cmd>lua vim.lsp.buf.rename()<CR>')
+        -- vim.keymap.set('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+        -- vim.keymap.set('n', 'ge', '<cmd>lua vim.diagnostic.open_float()<CR>')
+        -- vim.keymap.set('n', 'g]', '<cmd>lua vim.diagnostic.goto_next()<CR>')
+        -- vim.keymap.set('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
+
+        require('nvim-treesitter.configs').setup {
+          ensure_installed = { "python", "comment" },
+        }
+
+        require('goto-preview').setup()
+        vim.keymap.set('n', '<leader>d', require('goto-preview').goto_preview_definition)
+
+        vim.cmd [[
+          function! IsFloating(id) abort
+              let l:cfg = nvim_win_get_config(a:id)
+              return !empty(l:cfg.relative) || l:cfg.external
+          endfunction
+          nnoremap <expr> q IsFloating(win_getid()) ? ":q<CR>" : ""
+        ]]
+      end,
+    }
+
+    use {
+      "jose-elias-alvarez/null-ls.nvim",
+      requires = { "nvim-lua/plenary.nvim" },
+      config = function()
+        local mason = require("mason")
+        local mason_package = require("mason-core.package")
+        local mason_registry = require("mason-registry")
+        local null_ls = require("null-ls")
+
+        mason.setup({})
+
+        local null_sources = {}
+
+        for _, package in ipairs(mason_registry.get_installed_packages()) do
+          local package_category = package.spec.categories[1]
+          if package_category == mason_package.Cat.Formatter then
+            table.insert(null_sources, null_ls.builtins.formatting[package.name])
+          end
+          if package_category == mason_package.Cat.Linter then
+            table.insert(null_sources, null_ls.builtins.diagnostics[package.name])
+          end
+        end
+
+        null_ls.setup({
+          sources = null_sources,
+        })
+      end,
+    }
 
   -- use {
   --   "ycm-core/YouCompleteMe",
