@@ -531,7 +531,7 @@ require("packer").startup(function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
       require("mason").setup()
-      require("lspconfig")["pyright"].setup {
+      require("lspconfig")["jedi_language_server"].setup {
         capabilities = capabilities
       }
       require("lsp_signature").setup()
@@ -557,6 +557,14 @@ require("packer").startup(function()
 
       require('goto-preview').setup()
       vim.keymap.set('n', '<leader>d', require('goto-preview').goto_preview_definition, bufopts)
+
+      vim.cmd [[
+        function! IsFloating(id) abort
+            let l:cfg = nvim_win_get_config(a:id)
+            return !empty(l:cfg.relative) || l:cfg.external
+        endfunction
+        nnoremap <expr> q IsFloating(win_getid()) ? ":q<CR>" : ""
+      ]]
     end,
   }
 
