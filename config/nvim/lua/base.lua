@@ -19,7 +19,7 @@ vim.cmd [[set nowrapscan]]
 vim.cmd [[set clipboard=unnamedplus]]
 
 -- appearence
-vim.cmd [[set number]]
+vim.cmd [[set number relativenumber]]
 vim.cmd [[set list]]
 vim.cmd [[set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲]]
 
