@@ -468,24 +468,16 @@ require("packer").startup(function()
   }
 
   use {
-    "hrsh7th/vim-vsnip",
-    requires = {
-      {"hrsh7th/cmp-vsnip"},
-    },
-    config = function()
-      vim.cmd [[
-        let g:vsnip_snippet_dir = expand('~/.config/nvim/vsnip')
-
-        imap <expr> <C-k>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-k>'
-        smap <expr> <C-k>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-k>'
-      ]]
-    end,
-  }
-
-  use {
     "hrsh7th/nvim-cmp",
     requires = {
       {"hrsh7th/cmp-nvim-lsp"},
+      {"hrsh7th/cmp-buffer"},
+      {"hrsh7th/cmp-path"},
+      {"hrsh7th/cmp-cmdline"},
+      {"neovim/nvim-lspconfig"},
+      {"ray-x/lsp_signature.nvim"},
+      {"hrsh7th/vim-vsnip"},
+      {"hrsh7th/cmp-vsnip"},
     },
     config = function()
       local cmp = require("cmp")
@@ -524,6 +516,20 @@ require("packer").startup(function()
           { name = 'cmdline' }
         })
       })
+
+      -- Set up lspconfig.
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+      require("lspconfig")["pyright"].setup {
+        capabilities = capabilities
+      }
+      require("lsp_signature").setup()
+
+      vim.cmd [[
+        let g:vsnip_snippet_dir = expand('~/.config/nvim/vsnip')
+        imap <expr> <C-k> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-k>'
+        smap <expr> <C-k> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-k>'
+      ]]
     end,
   }
 
