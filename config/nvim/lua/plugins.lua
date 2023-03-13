@@ -41,6 +41,15 @@ require("packer").startup(function()
     end,
   }
 
+  use {
+    "mbbill/undotree",
+    config = function()
+      vim.cmd [[
+        nnoremap <silent> <localleader>u :UndotreeToggle<CR>
+      ]]
+    end,
+  }
+
   -- use {
   --   "nvie/vim-flake8",
   --   config = function()
