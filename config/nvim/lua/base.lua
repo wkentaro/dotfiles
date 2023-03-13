@@ -174,6 +174,7 @@ vim.cmd [[
   " Filetype
   " ----------------------------------------------------------
   autocmd FileType python setl tabstop=4 shiftwidth=4 indentkeys-=:
+  autocmd FileType cpp setl tabstop=4 shiftwidth=4 indentkeys-=:
   autocmd FileType qf set nonumber
 
   if $USER == 'mujin'
