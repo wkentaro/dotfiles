@@ -566,7 +566,7 @@ require("packer").startup(function()
           require('lspconfig')[server].setup(opt)
         end })
 
-        require('lsp_signature').setup()
+        -- require('lsp_signature').setup()
 
         vim.keymap.set('n', 'K',  '<cmd>lua vim.lsp.buf.hover()<CR>')
         -- vim.keymap.set('n', '<leader>f', '<cmd>lua vim.lsp.buf.format()<CR>')
