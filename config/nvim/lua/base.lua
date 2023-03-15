@@ -178,12 +178,12 @@ vim.cmd [[
   autocmd FileType qf set nonumber
 
   if $USER == 'mujin'
+    set colorcolumn=110
     autocmd FileType python noremap <localleader>b :!black --line-length 110 %<CR>
     autocmd FileType python noremap <localleader>i :!isort --force-single-line %<CR>
     autocmd FileType python xnoremap <localleader>b :!blacken 110<CR>
   else
+    set colorcolumn=80
     autocmd FileType python noremap <localleader>b :!black %<CR>
   endif
 ]]
-
-
