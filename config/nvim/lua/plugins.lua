@@ -546,7 +546,7 @@ require("packer").startup(function()
         {"hrsh7th/cmp-nvim-lsp"},
         {"ray-x/lsp_signature.nvim"},
         {'nvim-treesitter/nvim-treesitter', run=':TSUpdate'},
-        {'rmagatti/goto-preview'},
+        -- {'rmagatti/goto-preview'},
       },
       config = function()
         require('mason').setup()
@@ -588,8 +588,8 @@ require("packer").startup(function()
           ensure_installed = { "python", "comment" },
         }
 
-        require('goto-preview').setup()
-        vim.keymap.set('n', '<leader>d', require('goto-preview').goto_preview_definition)
+        -- require('goto-preview').setup()
+        -- vim.keymap.set('n', '<leader>d', require('goto-preview').goto_preview_definition)
 
         vim.cmd [[
           function! IsFloating(id) abort
