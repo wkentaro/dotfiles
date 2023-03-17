@@ -563,6 +563,15 @@ require("packer").startup(function()
               },
             }
           end
+          if (server == "pyright") then
+            opt.settings = {
+              python = {
+                analysis = {
+                  typeCheckingMode = "off",
+                },
+              },
+            }
+          end
           require('lspconfig')[server].setup(opt)
         end })
 
