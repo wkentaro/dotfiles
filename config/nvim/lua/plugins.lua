@@ -544,7 +544,7 @@ require("packer").startup(function()
         {"williamboman/mason-lspconfig.nvim"},
         {"neovim/nvim-lspconfig"},
         {"hrsh7th/cmp-nvim-lsp"},
-        {"ray-x/lsp_signature.nvim"},
+        -- {"ray-x/lsp_signature.nvim"},
         {'nvim-treesitter/nvim-treesitter', run=':TSUpdate'},
         -- {'rmagatti/goto-preview'},
       },
@@ -600,13 +600,13 @@ require("packer").startup(function()
         -- require('goto-preview').setup()
         -- vim.keymap.set('n', '<leader>d', require('goto-preview').goto_preview_definition)
 
-        vim.cmd [[
-          function! IsFloating(id) abort
-              let l:cfg = nvim_win_get_config(a:id)
-              return !empty(l:cfg.relative) || l:cfg.external
-          endfunction
-          nnoremap <expr> q IsFloating(win_getid()) ? ":q<CR>" : ""
-        ]]
+        -- vim.cmd [[
+        --   function! IsFloating(id) abort
+        --       let l:cfg = nvim_win_get_config(a:id)
+        --       return !empty(l:cfg.relative) || l:cfg.external
+        --   endfunction
+        --   nnoremap <expr> q IsFloating(win_getid()) ? ":q<CR>" : ""
+        -- ]]
       end,
     }
 
