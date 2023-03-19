@@ -236,9 +236,8 @@ require("packer").startup(function()
         autocmd FileType git nmap <buffer> q :q<CR>
         autocmd FileType git set nonumber
         autocmd FileType fugitive set nonumber
-        nnoremap <silent> <leader>gs :vertical Git<CR>
-        nnoremap <silent> <leader>gd :vertical G diff %<CR>
-        nnoremap <silent> <leader>ga :Gwrite<CR>
+        nnoremap <silent> <localleader>gs :vrtical Git<CR>
+        nnoremap <silent> <localleader>gd :vertical G diff %<CR>
       ]]
     end,
   }

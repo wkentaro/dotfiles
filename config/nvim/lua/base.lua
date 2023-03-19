@@ -51,10 +51,17 @@ vim.cmd [[
 
 vim.cmd [[
   set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
-  nnoremap <Leader>e :silent grep<Space>
+  nnoremap <leader>e :silent grep<Space>
+  nnoremap <expr> <localleader>e ':silent grep ' . expand('<cword>') . '<CR>'
   nnoremap <silent> [c :cprevious<CR>
   nnoremap <silent> ]c :cnext<CR>
-  au QuickfixCmdPost make,grep,grepadd,vimgrep copen
+  au QuickfixCmdPost make,grep,grepadd,vimgrep copen | wincmd L
+  autocmd! FileType qf setl nonumber norelativenumber
+
+  aug QFClose
+    au!
+    au WinEnter * if winnr('$') == 1 && &buftype == "quickfix"|q|endif
+  aug END
 ]]
 
 vim.cmd [[
