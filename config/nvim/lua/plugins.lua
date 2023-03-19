@@ -35,8 +35,8 @@ require("packer").startup(function()
 
         cabbrev <silent> bd <C-r>=(getcmdtype()==#':' && getcmdpos()==1 ? 'lclose\|bdelete' : 'bd')<CR>
 
-        nnoremap <silent> [c :lprevious<CR>
-        nnoremap <silent> ]c :lnext<CR>
+        nnoremap <silent> [l :lprevious<CR>
+        nnoremap <silent> ]l :lnext<CR>
       ]]
     end,
   }
