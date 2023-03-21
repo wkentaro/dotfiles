@@ -45,6 +45,10 @@ vim.cmd [[
 ]]
 
 vim.cmd [[
+  nnoremap <localleader>cd :lcd %:p:h<CR>:pwd<CR>
+]]
+
+vim.cmd [[
   nnoremap j gj
   nnoremap k gk
 ]]
