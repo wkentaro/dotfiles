@@ -234,8 +234,8 @@ require("packer").startup(function()
     config = function()
       vim.cmd [[
         autocmd FileType git nmap <buffer> q :q<CR>
-        autocmd FileType git set nonumber norelativenumber
-        autocmd FileType fugitive set nonumber norelativenumber
+        autocmd FileType git set nonumber
+        autocmd FileType fugitive set nonumber
         nnoremap <silent> <localleader>gs :vsp \| :terminal tig status<CR>
         nnoremap <silent> <localleader>gl :vsp \| :terminal tig<CR>
         nnoremap <silent> <localleader>gd :vertical G diff %<CR>

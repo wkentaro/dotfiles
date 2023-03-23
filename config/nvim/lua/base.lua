@@ -19,7 +19,7 @@ vim.cmd [[set nowrapscan]]
 vim.cmd [[set clipboard=unnamedplus]]
 
 -- appearence
-vim.cmd [[set number relativenumber]]
+vim.cmd [[set number]]
 vim.cmd [[set list]]
 vim.cmd [[set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲]]
 
@@ -60,7 +60,7 @@ vim.cmd [[
   nnoremap <silent> [c :cprevious<CR>
   nnoremap <silent> ]c :cnext<CR>
   au QuickfixCmdPost make,grep,grepadd,vimgrep copen | wincmd L
-  autocmd! FileType qf setl nonumber norelativenumber
+  autocmd! FileType qf setl nonumber
 
   aug QFClose
     au!
