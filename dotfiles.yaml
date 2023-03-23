@@ -24,6 +24,8 @@ private/ssh/config:
   .ssh/config
 private/zshrc:
   .zshrc.private
+tigrc:
+  .tigrc
 tmux:
   .tmux
 tmux.conf:
