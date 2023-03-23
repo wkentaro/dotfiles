@@ -237,7 +237,7 @@ require("packer").startup(function()
         autocmd FileType git set nonumber
         autocmd FileType fugitive set nonumber
         nnoremap <silent> <localleader>gs :vsp \| :terminal tig status<CR>
-        nnoremap <silent> <localleader>gl :vsp \| :terminal tig<CR>
+        nnoremap <silent> <localleader>gl :vsp \| :terminal tig -c %<CR>
         nnoremap <silent> <localleader>gd :vertical G diff %<CR>
       ]]
     end,
