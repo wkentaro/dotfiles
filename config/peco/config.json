@@ -4,6 +4,6 @@
     "C-j": "peco.SelectDown"
   },
   "Style": {
-    "Selected": ["underline", "on_cyan", "black"]
+    "Selected": ["bold", "on_black", "cyan"]
   }
 }

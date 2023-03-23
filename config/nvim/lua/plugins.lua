@@ -238,7 +238,7 @@ require("packer").startup(function()
         autocmd FileType fugitive set nonumber
         nnoremap <silent> <localleader>gs :vsp \| :terminal tig status<CR>
         nnoremap <silent> <localleader>gl :vsp \| :terminal tig -c %<CR>
-        nnoremap <silent> <expr> <localleader>gk ':terminal tig blame -c % +' . line(".") . '<CR>'
+        nnoremap <silent> <expr> <localleader>gb ':terminal tig blame -c % +' . line(".") . '<CR>'
         nnoremap <silent> <localleader>gd :vertical G diff %<CR>
       ]]
     end,

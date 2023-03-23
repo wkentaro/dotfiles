@@ -1,1 +1,2 @@
-color cursor			white	black	bold
+color cursor			cyan	black	bold
+color title-focus			blue black bold
