@@ -195,14 +195,25 @@ require("packer").startup(function()
     end,
   }
 
+  -- use {
+  --   "github/copilot.vim",
+  --   config = function()
+  --     vim.cmd [[
+  --       let g:copilot_filetypes = {
+  --         \ 'TelescopePrompt': v:false,
+  --         \ }
+  --     ]]
+  --   end,
+  -- }
+
   use {
-    "github/copilot.vim",
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
     config = function()
-      vim.cmd [[
-        let g:copilot_filetypes = {
-          \ 'TelescopePrompt': v:false,
-          \ }
-      ]]
+      require("copilot").setup({
+        suggestion = { auto_trigger = true },
+      })
     end,
   }
 
