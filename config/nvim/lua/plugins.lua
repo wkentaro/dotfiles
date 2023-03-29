@@ -195,27 +195,27 @@ require("packer").startup(function()
     end,
   }
 
-  -- use {
-  --   "github/copilot.vim",
-  --   config = function()
-  --     vim.cmd [[
-  --       let g:copilot_filetypes = {
-  --         \ 'TelescopePrompt': v:false,
-  --         \ }
-  --     ]]
-  --   end,
-  -- }
-
   use {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
+    "github/copilot.vim",
     config = function()
-      require("copilot").setup({
-        suggestion = { auto_trigger = true },
-      })
+      vim.cmd [[
+        let g:copilot_filetypes = {
+          \ 'TelescopePrompt': v:false,
+          \ }
+      ]]
     end,
   }
+
+  -- use {
+  --   "zbirenbaum/copilot.lua",
+  --   cmd = "Copilot",
+  --   event = "InsertEnter",
+  --   config = function()
+  --     require("copilot").setup({
+  --       suggestion = { auto_trigger = true },
+  --     })
+  --   end,
+  -- }
 
   -- use {
   --   "akinsho/toggleterm.nvim",
