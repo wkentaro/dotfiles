@@ -563,7 +563,12 @@ require("packer").startup(function()
       -- {'rmagatti/goto-preview'},
     },
     config = function()
-      require('mason').setup()
+      require('mason').setup({
+        ensure_installed = {
+          "jedi-language-server",
+          "rust-analyzer",
+        }
+      })
       require('mason-lspconfig').setup_handlers({ function(server)
         local opt = {
           capabilities = require('cmp_nvim_lsp').default_capabilities(
