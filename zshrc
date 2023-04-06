@@ -156,6 +156,8 @@ for plugin in $plugins; do
   source $plugin
 done
 
+autoload -U compinit && compinit
+
 # https://github.com/wkentaro/pycd
 type pycd.sh &>/dev/null && source `which pycd.sh`
 
