@@ -44,7 +44,8 @@ os.makedirs(osp.dirname(tmp_file2), exist_ok=True)
 run_command(f"scp -q {file1} {tmp_file1}", verbose=args.verbose)
 run_command(f"scp -q {file2} {tmp_file2}", verbose=args.verbose)
 
-run_command(f"git --no-pager diff {tmp_file1} {tmp_file2}", verbose=args.verbose)
+# tmp_file2 is modified to tmp_file1, so checking opposite diff
+run_command(f"git --no-pager diff {tmp_file2} {tmp_file1}", verbose=args.verbose)
 
 if args.execute:
     run_command(f"scp {file1} {file2}", verbose=args.verbose, ask=True)
