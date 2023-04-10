@@ -15,7 +15,7 @@ import rich.console
 parser = argparse.ArgumentParser(
     formatter_class=argparse.ArgumentDefaultsHelpFormatter,
 )
-parser.add_argument("--timezone", type=str, choices=pytz.all_timezones)
+parser.add_argument("--timezone", type=str, default="UTC", choices=pytz.all_timezones)
 args = parser.parse_args()
 
 try:
