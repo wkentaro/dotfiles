@@ -250,7 +250,8 @@ require("packer").startup(function()
         " nnoremap <silent> <localleader>gs :vsp \| :terminal tig status<CR>
         nnoremap <silent> <localleader>gs :vertical Git<CR>
         nnoremap <silent> <localleader>gd :vertical G diff %<CR>
-        nnoremap <silent> <localleader>gl :vsp \| :terminal tig -c %<CR>
+        nnoremap <silent> <localleader>gl :terminal tig -c %<CR>
+        nnoremap <silent> <localleader>gt :terminal tig<CR>
         nnoremap <silent> <expr> <localleader>gb ':terminal tig blame -c % +' . line(".") . '<CR>'
         nnoremap <silent> <localleader>gd :vertical G diff %<CR>
       ]]
