@@ -7,9 +7,13 @@ import os
 import re
 import sys
 
-import pytz
-import rich.text
-import rich.console
+try:
+    import pytz
+    import rich.text
+    import rich.console
+except ImportError:
+    print("pip install rich pytz")
+    sys.exit(1)
 
 
 parser = argparse.ArgumentParser(
