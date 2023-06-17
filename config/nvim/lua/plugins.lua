@@ -14,6 +14,17 @@ require("packer").startup(function()
   use {"vmchale/just-vim"}
 
   use {
+    "tyru/open-browser.vim",
+    config = function()
+      vim.cmd [[
+        let g:netrw_nogx = 1 " disable netrw's gx mapping.
+        nmap gx <Plug>(openbrowser-smart-search)
+        vmap gx <Plug>(openbrowser-smart-search)
+      ]]
+    end,
+  }
+
+  use {
     "vim-syntastic/syntastic",
     config = function()
       vim.cmd [[
