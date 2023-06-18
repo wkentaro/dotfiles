@@ -18,6 +18,8 @@ percol.d:
   .percol.d
 private/aws:
   .aws
+private/cargo/credentials.toml:
+  .cargo/credentials.toml
 private/pypirc:
   .pypirc
 private/ssh/config:
