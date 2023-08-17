@@ -2,14 +2,14 @@
   "from IPython.core.debugger import Pdb; ipdb = Pdb(); ...": {
       "prefix": ["ipdb"],
       "body": [
-          "import inspect, os; from IPython.core.debugger import Pdb; ipdb = Pdb(); frame = inspect.currentframe(); print('[%s:%s:%d] ipdb >>>' % (os.path.basename(frame.f_code.co_filename), frame.f_code.co_name, frame.f_lineno)); ipdb.set_trace()  # NOQA"
+          "import inspect; from IPython.core.debugger import Pdb; ipdb = Pdb(); frame = inspect.currentframe(); print('[%s:%s:%d] ipdb >>>' % (frame.f_code.co_filename.split('/')[-1], frame.f_code.co_name, frame.f_lineno)); ipdb.set_trace()  # NOQA"
 
       ]
   },
   "import IPython; print(\"[ipython] >>> \"); IPython.embed()": {
       "prefix": ["ipydb"],
       "body": [
-          "import inspect, os; import IPython; frame = inspect.currentframe(); print('[%s:%s:%d] ipython >>>' % (os.path.basename(frame.f_code.co_filename), frame.f_code.co_name, frame.f_lineno)); IPython.embed()  # NOQA"
+          "import inspect; import IPython; frame = inspect.currentframe(); print('[%s:%s:%d] ipython >>>' % (frame.f_code.co_filename.split('/')[-1], frame.f_code.co_name, frame.f_lineno)); IPython.embed()  # NOQA"
       ]
   },
   "parser = argparse.ArgumentParser(...) ...": {
