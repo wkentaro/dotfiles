@@ -1,9 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 import os.path as osp
-
-import PIL.Image
 
 import imgviz
 
@@ -15,8 +13,6 @@ def main():
     parser.add_argument("image_files", nargs="+")
     args = parser.parse_args()
 
-    images = [PIL.Image.open(image_file) for image_file in args.image_files]
-
     marked = set()
     if osp.exists("marked.txt"):
         print("==> Loading from: marked.txt")
@@ -25,7 +21,7 @@ def main():
                 marked.add(filename.strip())
 
     def mark(images, index):
-        filename = images[index].filename
+        filename = images[index]
         if filename in marked:
             return
 
@@ -38,7 +34,9 @@ def main():
         "m": mark,
     }
 
-    imgviz.io.pyglet_imshow(images, keymap=keymap)
+    imgviz.io.pyglet_imshow(
+        image=args.image_files, keymap=keymap, hook=imgviz.io.imread
+    )
     imgviz.io.pyglet_run()
 
 
