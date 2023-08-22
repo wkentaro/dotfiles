@@ -595,9 +595,16 @@ require("packer").startup(function()
           }
         end
         if (server == "pyright") then
+          opt.handlers = {
+            ["textDocument/publishDiagnostics"] = function() end,
+          }
           opt.settings = {
             python = {
               analysis = {
+                useLibraryCodeForTypes = true,
+                diagnosticSeverityOverrides = {
+                  reportUnusedVariable = "warning",
+                },
                 typeCheckingMode = "off",
               },
             },
