@@ -9,11 +9,18 @@ import sys
 
 try:
     import pytz
+except ImportError:
+    sys.stderr.write("[ERROR] pip install pytz\n")
+    sys.exit(1)
+
+try:
     import rich.text
     import rich.console
+
+    is_rich_installed = True
 except ImportError:
-    print("pip install rich pytz")
-    sys.exit(1)
+    sys.stderr.write("[WARNING] pip install rich\n")
+    is_rich_installed = False
 
 
 parser = argparse.ArgumentParser(
@@ -23,7 +30,8 @@ parser.add_argument("--timezone", type=str, default="UTC", choices=pytz.all_time
 args = parser.parse_args()
 
 try:
-    console = rich.console.Console(highlight=False, soft_wrap=True)
+    if is_rich_installed:
+        console = rich.console.Console(highlight=False, soft_wrap=True)
 
     line = sys.stdin.readline().rstrip()
     while line:
@@ -41,10 +49,16 @@ try:
             timestamp = when.isoformat()[:-3]
 
             line_original.append(line[next_start : m.start()])
-            line_original.append(f"[{color}]{cycleindex}[/]")
+            if is_rich_installed:
+                line_original.append(f"[{color}]{cycleindex}[/]")
+            else:
+                line_original.append(cycleindex)
 
             line_modified.append(line[next_start : m.start()])
-            line_modified.append(f"[u][{color}]{timestamp}[/][/]")
+            if is_rich_installed:
+                line_modified.append(f"[u][{color}]{timestamp}[/][/]")
+            else:
+                line_modified.append(timestamp)
 
             next_start = m.end()
         line_original.append(line[next_start:])
@@ -53,7 +67,10 @@ try:
         line_original = "".join(line_original)
         line_modified = "".join(line_modified)
 
-        console.print(f"{line_original}\t{line_modified}")
+        if is_rich_installed:
+            console.print(f"{line_original}\t{line_modified}")
+        else:
+            print(f"{line_original}\t{line_modified}")
 
         line = sys.stdin.readline().rstrip()
 except BrokenPipeError:
