@@ -19,7 +19,6 @@ try:
 
     is_rich_installed = True
 except ImportError:
-    sys.stderr.write("[WARNING] pip install rich\n")
     is_rich_installed = False
 
 
