@@ -69,7 +69,7 @@ try:
         if is_rich_installed:
             console.print(f"{line_original}\t{line_modified}")
         else:
-            print(f"{line_original}\t{line_modified}")
+            print(f"{line_original}{' ' * 6}{line_modified}")
 
         line = sys.stdin.readline().rstrip()
 except BrokenPipeError:
