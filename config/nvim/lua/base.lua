@@ -194,7 +194,7 @@ vim.cmd [[
     autocmd FileType python noremap <localleader>i :!isort --force-single-line %<CR>
     autocmd FileType python xnoremap <localleader>b :!blacken 110<CR>
   else
-    set colorcolumn=80
+    set colorcolumn=89
     autocmd FileType python noremap <localleader>b :!black %<CR>
   endif
 ]]
