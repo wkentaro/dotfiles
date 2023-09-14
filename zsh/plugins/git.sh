@@ -288,3 +288,10 @@ alias gl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgree
 alias glg="gl --graph"
 alias gls="gl --stat"
 alias glgs="glg --stat"
+
+githash2branch () {
+	local hash=$1 
+	local commit_message=$(git log -1 --format="%s" $hash) 
+	local branch_name=$(echo $commit_message | tr '[:upper:]' '[:lower:]' | sed 's/ /_/g') 
+	echo $branch_name
+}
