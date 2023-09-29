@@ -55,12 +55,15 @@ vim.cmd [[
 
 vim.cmd [[
   set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
   nnoremap <leader>e :silent grep<Space>
-  nnoremap <expr> <localleader>e ':silent grep! ' . expand('<cword>') . '<CR>'
+  nnoremap <expr> <leader>r ':silent grep! ' . expand('<cword>') . '<CR>' . ':Telescope quickfix<CR>'
+  nnoremap <expr> <leader>e ':silent grep! ' . expand('<cword>') . '<CR>' . ':cw \| wincmd L<CR>'
   nnoremap <silent> [c :cprevious<CR>
   nnoremap <silent> ]c :cnext<CR>
-  au QuickfixCmdPost make,grep,grepadd,vimgrep copen | wincmd L
-  autocmd! FileType qf setl nonumber
+  " au QuickfixCmdPost make,grep,grepadd,vimgrep Telescope quickfix
+  " au QuickfixCmdPost make,grep,grepadd,vimgrep copen | wincmd L
+  " autocmd! FileType qf setl nonumber
 
   aug QFClose
     au!
