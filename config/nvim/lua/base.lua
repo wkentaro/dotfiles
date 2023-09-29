@@ -56,7 +56,7 @@ vim.cmd [[
 vim.cmd [[
   set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
   nnoremap <leader>e :silent grep<Space>
-  nnoremap <expr> <localleader>e ':silent grep ' . expand('<cword>') . '<CR>'
+  nnoremap <expr> <localleader>e ':silent grep! ' . expand('<cword>') . '<CR>'
   nnoremap <silent> [c :cprevious<CR>
   nnoremap <silent> ]c :cnext<CR>
   au QuickfixCmdPost make,grep,grepadd,vimgrep copen | wincmd L
