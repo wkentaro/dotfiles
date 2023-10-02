@@ -31,6 +31,8 @@ else
   curl -s -L $URL -o miniconda3.sh
 fi
 
+unset PYTHONPATH
+
 bash ./miniconda3.sh -p $INSTALL_DIR/.miniconda3 -b
 cd -
 rm -rf $TMPDIR
