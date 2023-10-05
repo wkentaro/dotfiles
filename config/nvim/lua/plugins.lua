@@ -13,6 +13,8 @@ require("packer").startup(function()
 
   use {"vmchale/just-vim"}
 
+  use {"jremmen/vim-ripgrep"}
+
   use {
     "tyru/open-browser.vim",
     config = function()
@@ -407,7 +409,7 @@ require("packer").startup(function()
 
       vim.cmd [[
         autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
-        nnoremap <silent> <C-q> :Telescope quickfix<CR>
+        "nnoremap <silent> <C-q> :Telescope quickfix<CR>
         nnoremap <silent> <C-p> :Telescope find_files<CR>
         nnoremap <silent> <C-n> :Telescope buffers<CR>
         nnoremap <silent> <C-s> :Telescope git_status<CR>
