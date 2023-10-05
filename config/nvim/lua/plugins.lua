@@ -16,6 +16,14 @@ require("packer").startup(function()
   use {"jremmen/vim-ripgrep"}
 
   use {
+    "nvim-telescope/telescope-frecency.nvim",
+    config = function()
+      require("telescope").load_extension "frecency"
+    end,
+    requires = { "kkharji/sqlite.lua" },
+  }
+
+  use {
     "tyru/open-browser.vim",
     config = function()
       vim.cmd [[
