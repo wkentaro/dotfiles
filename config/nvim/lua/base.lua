@@ -62,7 +62,7 @@ vim.cmd [[
   nnoremap <silent> [c :cprevious<CR>
   nnoremap <silent> ]c :cnext<CR>
   " au QuickfixCmdPost make,grep,grepadd,vimgrep Telescope quickfix
-  au QuickfixCmdPost make,grep,grepadd,vimgrep copen | wincmd L
+  " au QuickfixCmdPost make,grep,grepadd,vimgrep copen | wincmd L
   " autocmd! FileType qf setl nonumber
 
   aug QFClose
