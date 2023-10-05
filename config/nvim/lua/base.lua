@@ -54,10 +54,10 @@ vim.cmd [[
 ]]
 
 vim.cmd [[
-  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
-  set grepformat=%f:%l:%c:%m,%f:%l:%m
-  nnoremap <leader>e :silent grep!<Space>
-  nnoremap <expr> <leader>r ':silent grep! ' . expand('<cword>') . '<CR>'
+  " set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+  " set grepformat=%f:%l:%c:%m,%f:%l:%m
+  " nnoremap <leader>e :silent grep!<Space>
+  " nnoremap <expr> <leader>r ':silent grep! ' . expand('<cword>') . '<CR>'
   " nnoremap <expr> <leader>q ':cw \| wincmd L<CR>'
   nnoremap <silent> [c :cprevious<CR>
   nnoremap <silent> ]c :cnext<CR>
