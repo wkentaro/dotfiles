@@ -206,15 +206,15 @@ require("packer").startup(function()
     end,
   }
 
-  use {
-    "RRethy/vim-illuminate",
-    config = function()
-      vim.cmd [[
-        autocmd TermOpen * setlocal ft=terminal
-        let g:Illuminate_ftblacklist = ["terminal"]
-      ]]
-    end,
-  }
+  -- use {
+  --   "RRethy/vim-illuminate",
+  --   config = function()
+  --     vim.cmd [[
+  --       autocmd TermOpen * setlocal ft=terminal
+  --       let g:Illuminate_ftblacklist = ["terminal"]
+  --     ]]
+  --   end,
+  -- }
 
   use {
     "github/copilot.vim",
@@ -420,7 +420,7 @@ require("packer").startup(function()
         "nnoremap <silent> <C-q> :Telescope quickfix<CR>
         nnoremap <silent> <C-p> :Telescope find_files<CR>
         nnoremap <silent> <C-n> :Telescope buffers<CR>
-        nnoremap <silent> <C-s> :Telescope git_status<CR>
+        nnoremap <silent> <C-s> :Telescope frecency<CR>
         nnoremap <silent> <leader>r :Telescope grep_string<CR>
         nnoremap <silent> <leader>l :Telescope lsp_references<CR>
         nnoremap <silent> <leader>f :Telescope live_grep<CR>
@@ -581,7 +581,7 @@ require("packer").startup(function()
       {"neovim/nvim-lspconfig"},
       {"hrsh7th/cmp-nvim-lsp"},
       -- {"ray-x/lsp_signature.nvim"},
-      {'nvim-treesitter/nvim-treesitter', run=':TSUpdate'},
+      -- {'nvim-treesitter/nvim-treesitter', run=':TSUpdate'},
       -- {'rmagatti/goto-preview'},
     },
     config = function()
@@ -641,9 +641,9 @@ require("packer").startup(function()
       -- vim.keymap.set('n', 'g]', '<cmd>lua vim.diagnostic.goto_next()<CR>')
       -- vim.keymap.set('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
 
-      require('nvim-treesitter.configs').setup {
-        ensure_installed = { "python", "comment" },
-      }
+      -- require('nvim-treesitter.configs').setup {
+      --   ensure_installed = { "python", "comment" },
+      -- }
 
       -- require('goto-preview').setup()
       -- vim.keymap.set('n', '<leader>d', require('goto-preview').goto_preview_definition)
