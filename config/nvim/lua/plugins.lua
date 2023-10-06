@@ -413,6 +413,15 @@ require("packer").startup(function()
             },
           },
         },
+        extensions = {
+          frecency = {
+            show_scores = false,
+            show_unindexed = true,
+            show_filter_column = false,
+            default_workspace = "CWD",
+            ignore_patterns = {"*.git/*", "*/tmp/*"},
+          },
+        },
       })
 
       require('telescope').load_extension('smart_history')
@@ -425,7 +434,7 @@ require("packer").startup(function()
         " nnoremap <silent> <C-p> :Telescope find_files<CR>
         " nnoremap <silent> <C-n> :Telescope buffers<CR>
         nnoremap <silent> <C-s> :Telescope git_status<CR>
-        nnoremap <silent> <C-n> :Telescope frecency workspace=CWD<CR>
+        nnoremap <silent> <C-p> :Telescope frecency workspace=CWD<CR>
         nnoremap <silent> <leader>r :Telescope grep_string<CR>
         nnoremap <silent> <leader>l :Telescope lsp_references<CR>
         nnoremap <silent> <leader>f :Telescope live_grep<CR>
