@@ -385,6 +385,14 @@ require("packer").startup(function()
       local actions = require("telescope.actions")
       require("telescope").setup({
         defaults = {
+          theme = "center",
+          sorting_strategy = "ascending",
+          layout_config = {
+            horizontal = {
+              prompt_position = "top",
+              preview_width = 0.3,
+            },
+          },
           history = {
             path = '~/.local/share/nvim/databases/telescope_history.sqlite3',
             limit = 100,
