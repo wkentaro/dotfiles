@@ -206,15 +206,15 @@ require("packer").startup(function()
     end,
   }
 
-  -- use {
-  --   "RRethy/vim-illuminate",
-  --   config = function()
-  --     vim.cmd [[
-  --       autocmd TermOpen * setlocal ft=terminal
-  --       let g:Illuminate_ftblacklist = ["terminal"]
-  --     ]]
-  --   end,
-  -- }
+  use {
+    "RRethy/vim-illuminate",
+    config = function()
+      vim.cmd [[
+        autocmd TermOpen * setlocal ft=terminal
+        let g:Illuminate_ftblacklist = ["terminal"]
+      ]]
+    end,
+  }
 
   use {
     "github/copilot.vim",
