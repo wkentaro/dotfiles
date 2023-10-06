@@ -16,14 +16,6 @@ require("packer").startup(function()
   use {"jremmen/vim-ripgrep"}
 
   use {
-    "nvim-telescope/telescope-frecency.nvim",
-    config = function()
-      require("telescope").load_extension "frecency"
-    end,
-    requires = { "kkharji/sqlite.lua" },
-  }
-
-  use {
     "tyru/open-browser.vim",
     config = function()
       vim.cmd [[
@@ -380,6 +372,8 @@ require("packer").startup(function()
     requires = {
       {"nvim-lua/plenary.nvim"},
       {"nvim-telescope/telescope-smart-history.nvim"},
+      {"nvim-telescope/telescope-frecency.nvim"},
+      { "kkharji/sqlite.lua" },
     },
     config = function()
       local actions = require("telescope.actions")
@@ -423,12 +417,15 @@ require("packer").startup(function()
 
       require('telescope').load_extension('smart_history')
 
+      require("telescope").load_extension("frecency")
+
       vim.cmd [[
         autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
         "nnoremap <silent> <C-q> :Telescope quickfix<CR>
-        nnoremap <silent> <C-p> :Telescope find_files<CR>
-        nnoremap <silent> <C-n> :Telescope buffers<CR>
-        nnoremap <silent> <C-s> :Telescope frecency<CR>
+        " nnoremap <silent> <C-p> :Telescope find_files<CR>
+        " nnoremap <silent> <C-n> :Telescope buffers<CR>
+        nnoremap <silent> <C-s> :Telescope git_status<CR>
+        nnoremap <silent> <C-n> :Telescope frecency workspace=CWD<CR>
         nnoremap <silent> <leader>r :Telescope grep_string<CR>
         nnoremap <silent> <leader>l :Telescope lsp_references<CR>
         nnoremap <silent> <leader>f :Telescope live_grep<CR>
