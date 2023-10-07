@@ -384,7 +384,7 @@ require("packer").startup(function()
           layout_config = {
             horizontal = {
               prompt_position = "top",
-              preview_width = 0.3,
+              -- preview_width = 0.3,
             },
           },
           history = {
