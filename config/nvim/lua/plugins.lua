@@ -393,7 +393,7 @@ require("packer").startup(function()
           },
           mappings = {
             i = {
-              -- ["<C-d>"] = false,  -- -> delete_buffer
+              ["<C-d>"] = false,
               ["<C-j>"] = actions.move_selection_next,
               ["<C-k>"] = actions.move_selection_previous,
               ["<C-u>"] = false,  -- -> clear the search field
@@ -408,7 +408,7 @@ require("packer").startup(function()
           buffers = {
             mappings = {
               i = {
-                -- ["<C-d>"] = actions.delete_buffer,
+                ["<C-d>"] = false,
               },
             },
           },
@@ -430,7 +430,7 @@ require("packer").startup(function()
 
       vim.cmd [[
         autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
-        "nnoremap <silent> <C-q> :Telescope quickfix<CR>
+        nnoremap <silent> <C-q> :lua require("telescope.builtin").quickfix({ fname_width=0.5, layout_config={preview_width=0.3}})<CR>
         " nnoremap <silent> <C-p> :Telescope find_files<CR>
         " nnoremap <silent> <C-n> :Telescope buffers<CR>
         nnoremap <silent> <C-s> :Telescope git_status<CR>
