@@ -16,6 +16,15 @@ require("packer").startup(function()
   use {"jremmen/vim-ripgrep"}
 
   use {
+    "justinmk/vim-sneak",
+    config = function()
+      vim.cmd [[
+        let g:sneak#label = 1
+      ]]
+    end,
+  }
+
+  use {
     "tyru/open-browser.vim",
     config = function()
       vim.cmd [[
