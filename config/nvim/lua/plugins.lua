@@ -20,6 +20,10 @@ require("packer").startup(function()
     config = function()
       vim.cmd [[
         let g:sneak#label = 1
+        map f <Plug>Sneak_f
+        map F <Plug>Sneak_F
+        map t <Plug>Sneak_s
+        map T <Plug>Sneak_S
       ]]
     end,
   }
