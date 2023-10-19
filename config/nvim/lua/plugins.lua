@@ -432,7 +432,7 @@ require("packer").startup(function()
             show_unindexed = true,
             show_filter_column = false,
             default_workspace = "CWD",
-            ignore_patterns = {"*.git/*", "*/tmp/*"},
+            ignore_patterns = {"*.git/*", "*/tmp/*", "*.pyc"},
           },
         },
       })
