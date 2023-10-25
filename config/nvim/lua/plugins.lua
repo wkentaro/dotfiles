@@ -13,7 +13,14 @@ require("packer").startup(function()
 
   use {"vmchale/just-vim"}
 
-  use {"jremmen/vim-ripgrep"}
+  use {
+    "jremmen/vim-ripgrep",
+    config = function()
+      vim.cmd [[
+        nnoremap <leader>e :Rg <C-r><C-w>
+      ]]
+    end,
+  }
 
   use {
     "justinmk/vim-sneak",
@@ -279,7 +286,6 @@ require("packer").startup(function()
         nnoremap <silent> <localleader>gl :terminal tig -c %<CR>
         nnoremap <silent> <localleader>gt :terminal tig<CR>
         nnoremap <silent> <expr> <localleader>gb ':terminal tig blame -c % +' . line(".") . '<CR>'
-        nnoremap <silent> <localleader>gd :vertical G diff %<CR>
       ]]
     end,
   }
@@ -451,7 +457,7 @@ require("packer").startup(function()
         nnoremap <silent> <leader>r :Telescope grep_string<CR>
         nnoremap <silent> <leader>l :Telescope lsp_references<CR>
         nnoremap <silent> <leader>f :Telescope live_grep<CR>
-        nnoremap <silent> <leader>e :Telescope current_buffer_fuzzy_find<CR>
+        " nnoremap <silent> <leader>e :Telescope current_buffer_fuzzy_find<CR>
         "nnoremap <silent> <leader>j :Telescope jumplist<CR>
         nnoremap <silent> <leader>c :Telescope neoclip<CR>
       ]]
