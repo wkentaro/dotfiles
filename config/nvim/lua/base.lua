@@ -61,6 +61,8 @@ vim.cmd [[
   " nnoremap <expr> <leader>q ':cw \| wincmd L<CR>'
   nnoremap <silent> [c :cprevious<CR>
   nnoremap <silent> ]c :cnext<CR>
+  nnoremap <silent> [l :lprevious<CR>
+  nnoremap <silent> ]l :lnext<CR>
   " au QuickfixCmdPost make,grep,grepadd,vimgrep Telescope quickfix
   " au QuickfixCmdPost make,grep,grepadd,vimgrep copen | wincmd L
   " autocmd! FileType qf setl nonumber
