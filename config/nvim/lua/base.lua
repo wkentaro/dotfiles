@@ -141,7 +141,7 @@ vim.cmd [[
 ]]
 
 vim.cmd [[
-  autocmd BufWinEnter * if bufname() == "" | setlocal buftype=nofile | startinsert | endif
+  autocmd BufWinEnter * if bufname() == "" | setlocal buftype=nofile | endif
 ]]
 
 vim.cmd [[
