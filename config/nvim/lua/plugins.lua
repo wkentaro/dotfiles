@@ -691,34 +691,34 @@ require("packer").startup(function()
     end,
   }
 
-  use {
-    "jose-elias-alvarez/null-ls.nvim",
-    requires = { "nvim-lua/plenary.nvim" },
-    config = function()
-      local mason = require("mason")
-      local mason_package = require("mason-core.package")
-      local mason_registry = require("mason-registry")
-      local null_ls = require("null-ls")
-
-      mason.setup({})
-
-      local null_sources = {}
-
-      for _, package in ipairs(mason_registry.get_installed_packages()) do
-        local package_category = package.spec.categories[1]
-        if package_category == mason_package.Cat.Formatter then
-          table.insert(null_sources, null_ls.builtins.formatting[package.name])
-        end
-        if package_category == mason_package.Cat.Linter then
-          table.insert(null_sources, null_ls.builtins.diagnostics[package.name])
-        end
-      end
-
-      null_ls.setup({
-        sources = null_sources,
-      })
-    end,
-  }
+  -- use {
+  --   "jose-elias-alvarez/null-ls.nvim",
+  --   requires = { "nvim-lua/plenary.nvim" },
+  --   config = function()
+  --     local mason = require("mason")
+  --     local mason_package = require("mason-core.package")
+  --     local mason_registry = require("mason-registry")
+  --     local null_ls = require("null-ls")
+  --
+  --     mason.setup({})
+  --
+  --     local null_sources = {}
+  --
+  --     for _, package in ipairs(mason_registry.get_installed_packages()) do
+  --       local package_category = package.spec.categories[1]
+  --       if package_category == mason_package.Cat.Formatter then
+  --         table.insert(null_sources, null_ls.builtins.formatting[package.name])
+  --       end
+  --       if package_category == mason_package.Cat.Linter then
+  --         table.insert(null_sources, null_ls.builtins.diagnostics[package.name])
+  --       end
+  --     end
+  --
+  --     null_ls.setup({
+  --       sources = null_sources,
+  --     })
+  --   end,
+  -- }
 
   -- use {
   --   "ycm-core/YouCompleteMe",
