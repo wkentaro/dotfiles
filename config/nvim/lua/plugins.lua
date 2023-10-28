@@ -452,7 +452,7 @@ require("packer").startup(function()
         nnoremap <silent> <C-q> :lua require("telescope.builtin").quickfix({ fname_width=0.5, layout_config={preview_width=0.3}})<CR>
         nnoremap <silent> <C-p> :Telescope find_files<CR>
         " nnoremap <silent> <C-n> :Telescope buffers<CR>
-        nnoremap <silent> <C-s> :Telescope git_status<CR>
+        nnoremap <silent> <C-s> :lua require("telescope.builtin").git_status({ cwd=vim.fn.expand('%:p:h') })<CR>
         nnoremap <silent> <C-n> :Telescope frecency workspace=CWD<CR>
         nnoremap <silent> <leader>r :Telescope grep_string<CR>
         nnoremap <silent> <leader>l :Telescope lsp_references<CR>
