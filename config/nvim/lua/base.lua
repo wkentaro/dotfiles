@@ -82,6 +82,7 @@ vim.cmd [[
 
 vim.cmd [[
   nnoremap <localleader>w :w<CR>
+  nnoremap <localleader>q :q<CR>
 ]]
 
 vim.cmd [[
