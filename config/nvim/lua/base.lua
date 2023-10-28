@@ -140,6 +140,10 @@ vim.cmd [[
 ]]
 
 vim.cmd [[
+  autocmd BufWinEnter * if bufname() == "" | setlocal buftype=nofile | startinsert | endif
+]]
+
+vim.cmd [[
   imap <C-c> <Esc>
   nmap <C-c> <Esc>
 
