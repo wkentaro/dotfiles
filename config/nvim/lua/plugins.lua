@@ -420,6 +420,7 @@ require("packer").startup(function()
               ["<C-n>"] = actions.cycle_history_next,
               ["<C-e>"] = actions.preview_scrolling_down,
               ["<C-y>"] = actions.preview_scrolling_up,
+              ["<C-r>"] = actions.select_tab,
             },
           },
         },
