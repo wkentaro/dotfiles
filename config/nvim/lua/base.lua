@@ -89,7 +89,8 @@ vim.cmd [[
   nnoremap gn :bn<CR>
   nnoremap gp :bp<CR>
   nnoremap gk :bp<bar>bd! #<CR>
-  nnoremap gr gT
+  nnoremap <silent> gt :if tabpagenr() != tabpagenr('$') \| tabnext \| endif<CR>
+  nnoremap <silent> gr :if tabpagenr() != 1 \| tabprevious \| endif<CR>
 ]]
 
 vim.cmd [[
