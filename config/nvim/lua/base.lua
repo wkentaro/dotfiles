@@ -142,7 +142,7 @@ vim.cmd [[
 ]]
 
 vim.cmd [[
-  autocmd BufWinEnter * if bufname() == "" | setlocal buftype=nofile | endif
+  autocmd BufWinEnter * if eval('@%') == '' && &buftype == '' | setlocal buftype=nofile | endif
 ]]
 
 vim.cmd [[
