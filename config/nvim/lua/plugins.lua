@@ -639,20 +639,20 @@ require("packer").startup(function()
           }
         end
         if (server == "pyright") then
-          -- opt.handlers = {
-          --   ["textDocument/publishDiagnostics"] = function() end,
-          -- }
+          opt.handlers = {
+            ["textDocument/publishDiagnostics"] = function() end,
+          }
           opt.settings = {
             python = {
               pythonPath = vim.fn.exepath('python'),
-              analysis = {
-                useLibraryCodeForTypes = true,
-                diagnosticSeverityOverrides = {
-                  reportUnusedVariable = "warning",
-                  reportGeneralTypeIssues = "none",
-                },
-                typeCheckingMode = "off",
-              },
+              -- analysis = {
+              --   useLibraryCodeForTypes = true,
+              --   diagnosticSeverityOverrides = {
+              --     reportUnusedVariable = "warning",
+              --     reportGeneralTypeIssues = "none",
+              --   },
+              --   typeCheckingMode = "off",
+              -- },
             },
           }
         end
