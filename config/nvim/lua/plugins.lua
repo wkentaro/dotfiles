@@ -46,33 +46,33 @@ require("packer").startup(function()
     end,
   }
 
-  -- use {
-  --   "vim-syntastic/syntastic",
-  --   config = function()
-  --     vim.cmd [[
-  --       set statusline+=%#warningmsg#
-  --       set statusline+=%{SyntasticStatuslineFlag()}
-  --       set statusline+=%*
-  --       let g:syntastic_always_populate_loc_list = 1
-  --       let g:syntastic_auto_loc_list = 1
-  --       let g:syntastic_check_on_open = 0
-  --       let g:syntastic_check_on_wq = 0
-  --       let g:syntastic_mode_map = {
-  --           \ "mode": "passive",
-  --           \ "active_filetypes": [],
-  --           \ "passive_filetypes": [] }
-  --       let g:syntastic_python_checkers = ['flake8']
-  --       nnoremap <silent> <localleader>f :SyntasticCheck<CR>
-  --       nnoremap <silent> <localleader>ff :SyntasticReset<CR>
-  --       let g:syntastic_loc_list_height = 5
-  --
-  --       cabbrev <silent> bd <C-r>=(getcmdtype()==#':' && getcmdpos()==1 ? 'lclose\|bdelete' : 'bd')<CR>
-  --
-  --       nnoremap <silent> [l :lprevious<CR>
-  --       nnoremap <silent> ]l :lnext<CR>
-  --     ]]
-  --   end,
-  -- }
+  use {
+    "vim-syntastic/syntastic",
+    config = function()
+      vim.cmd [[
+        set statusline+=%#warningmsg#
+        set statusline+=%{SyntasticStatuslineFlag()}
+        set statusline+=%*
+        let g:syntastic_always_populate_loc_list = 1
+        let g:syntastic_auto_loc_list = 1
+        let g:syntastic_check_on_open = 0
+        let g:syntastic_check_on_wq = 0
+        let g:syntastic_mode_map = {
+            \ "mode": "passive",
+            \ "active_filetypes": [],
+            \ "passive_filetypes": [] }
+        let g:syntastic_python_checkers = ['flake8']
+        nnoremap <silent> <localleader>f :SyntasticCheck<CR>
+        nnoremap <silent> <localleader>ff :SyntasticReset<CR>
+        let g:syntastic_loc_list_height = 5
+
+        cabbrev <silent> bd <C-r>=(getcmdtype()==#':' && getcmdpos()==1 ? 'lclose\|bdelete' : 'bd')<CR>
+
+        nnoremap <silent> [l :lprevious<CR>
+        nnoremap <silent> ]l :lnext<CR>
+      ]]
+    end,
+  }
 
   use {
     "mbbill/undotree",
