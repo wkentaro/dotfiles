@@ -171,92 +171,19 @@ export LESS='--tabs=4 --LONG-PROMPT --ignore-case --RAW-CONTROL-CHARS'
 # bindkey
 # --------------------------------
 
-if type percol &>/dev/null; then
-  # percol history search
-  # Ctrl-R
-  function percol-history() {
-    if [ "$(uname)" = "Linux" ]; then
-      BUFFER=$(history | tac | peco --query "$LBUFFER" | awk '{print substr($0, index($0, $4))}')
-    else
-      BUFFER=$(history | tail -r | peco --query "$LBUFFER" | awk '{print substr($0, index($0, $4))}')
-    fi
-    CURSOR=$#BUFFER         # move cursor
-    zle -R -c               # refresh
-  }
-  zle -N percol-history
-  bindkey '^R' percol-history
-
-  # Alt-T
-  if [ -d "/opt/ros" ]; then
-    # rostopic search
-    function search-rostopic-by-percol(){
-      LBUFFER=$LBUFFER$(rostopic list | percol)
-      zle -R -c
-    }
-    zle -N search-rostopic-by-percol
-    bindkey '^[p' search-rostopic-by-percol
-
-    function ros-bind () {
-      local cmd
-      local -a candidates
-      candidates=(rosmsg rosmsg-proto rospack rostopic rosservice)
-      if [ "$LBUFFER" = "" ]; then
-        cmd=commands
-      elif [[ "$LBUFFER" =~ "^(roscd|roslaunch) " ]]; then
-        cmd=rospack
-      elif [[ "$LBUFFER" =~ "^rostopic (echo|list|info)" ]]; then
-        cmd=rostopic
-      elif [[ "$LBUFFER" =~ "^rosmsg (show|list)" ]]; then
-        cmd=rosmsg
-      elif [[ "$LBUFFER" =~ "^rosservice (list|info)" ]]; then
-        cmd=rosservice
-      elif [[ "$LBUFFER" =~ "^rosnode (list|info)" ]]; then
-        cmd=rosnode
-      elif [[ "$LBUFFER" =~ "^rosbag record" ]]; then
-        cmd=rostopic
-      elif [ "$LBUFFER" = "image_view " ]; then
-        cmd=rostopic
-      else
-        cmd=$(echo $candidates | xargs -n1 | percol)
-      fi
-      case $cmd in
-        (commands)
-          local -a ros_commands
-          ros_commands=(rosrun roscd rostopic rosservice rosmsg rosmsg-proto rospack rosnode)
-          LBUFFER="$(echo $ros_commands | xargs -n1 | percol) "
-          ;;
-        (rosmsg)
-          LBUFFER=$LBUFFER$(rosmsg list | percol)
-          ;;
-        (rosmsg-proto)
-          msg=$(rosmsg list | percol)
-          if [ "$msg" != "" ]; then
-            LBUFFER=$LBUFFER$(rosmsg-proto msg $msg)
-          fi
-          ;;
-        (rospack)
-          LBUFFER=$LBUFFER$(rospack list | awk '{print $1}' | percol)
-          ;;
-        (rosservice)
-          LBUFFER=$LBUFFER$(rosservice list | percol)
-          ;;
-        (rosservice)
-          LBUFFER=$LBUFFER$(rosservice list | percol)
-          ;;
-        (rostopic)
-          LBUFFER=$LBUFFER$(rostopic list | percol)
-          ;;
-        (rosnode)
-          LBUFFER=$LBUFFER$(rosnode list | percol)
-          ;;
-        (*) ;;
-      esac
-      zle -R -c
-    }
-    zle -N ros-bind
-    bindkey '^[o' ros-bind
+# peco history search
+# Ctrl-R
+function peco-history() {
+  if [ "$(uname)" = "Linux" ]; then
+    BUFFER=$(history | tac | peco --query "$LBUFFER" | awk '{print substr($0, index($0, $4))}')
+  elif [ "$(uname)" = "Darwin" ]; then
+    BUFFER=$(history | tail -r | peco --query "$LBUFFER" | awk '{print substr($0, index($0, $4))}')
   fi
-fi
+  CURSOR=$#BUFFER         # move cursor
+  zle -R -c               # refresh
+}
+zle -N peco-history
+bindkey '^R' peco-history
 
 # History search
 zle -N history-beginning-search-backward-end history-search-end
