@@ -449,7 +449,7 @@ require("packer").startup(function()
       require("telescope").load_extension("frecency")
 
       vim.cmd [[
-        autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
+        "autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
         nnoremap <silent> <C-q> :lua require("telescope.builtin").quickfix({ fname_width=0.5, layout_config={preview_width=0.3}})<CR>
         nnoremap <silent> <C-p> :Telescope find_files<CR>
         " nnoremap <silent> <C-n> :Telescope buffers<CR>
