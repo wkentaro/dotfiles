@@ -173,7 +173,7 @@ export LESS='--tabs=4 --LONG-PROMPT --ignore-case --RAW-CONTROL-CHARS'
 
 # peco history search
 # Ctrl-R
-function peco-history() {
+function peco_history () {
   if [ "$(uname)" = "Linux" ]; then
     BUFFER=$(history | tac | peco --query "$LBUFFER" | awk '{print substr($0, index($0, $4))}')
   elif [ "$(uname)" = "Darwin" ]; then
@@ -182,8 +182,8 @@ function peco-history() {
   CURSOR=$#BUFFER         # move cursor
   zle -R -c               # refresh
 }
-zle -N peco-history
-bindkey '^R' peco-history
+zle -N peco_history
+bindkey '^R' peco_history
 
 # History search
 zle -N history-beginning-search-backward-end history-search-end
