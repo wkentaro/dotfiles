@@ -8,8 +8,8 @@ fi
 INSTALL_DIR=$1
 INSTALL_DIR=$(cd $INSTALL_DIR && pwd)
 
-if [ -e $INSTALL_DIR/.miniforge ]; then
-  echo "Miniforge is already installed: $INSTALL_DIR/.miniforge"
+if [ -e $INSTALL_DIR/.conda ]; then
+  echo "Miniforge is already installed: $INSTALL_DIR/.conda"
   exit 0
 fi
 
@@ -26,7 +26,7 @@ fi
 
 unset PYTHONPATH
 
-bash ./miniforge.sh -p $INSTALL_DIR/.miniforge -b
+bash ./miniforge.sh -p $INSTALL_DIR/.conda -b
 
 cd -
 rm -rf $TMPDIR
