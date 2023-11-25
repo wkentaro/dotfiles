@@ -2,7 +2,7 @@
 # vim: set ft=zsh
 
 setup() {
-  source $HERE/.miniconda3/bin/activate
+  source $HERE/.miniforge/bin/activate
 }
 
 HERE=${0:a:h}
