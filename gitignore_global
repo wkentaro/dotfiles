@@ -6,6 +6,7 @@ dist/
 *.egg-info/
 __pycache__/
 
+.conda/
 .miniforge/
 .miniconda3/
 .anaconda3/
