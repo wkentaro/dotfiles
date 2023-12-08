@@ -3,7 +3,20 @@ vim.cmd [[packadd packer.nvim]]
 require("packer").startup(function()
   use {"wbthomason/packer.nvim"}
 
-  use {"rhysd/committia.vim"}
+  use {
+    "rhysd/committia.vim",
+    config = function()
+      vim.cmd [[
+        let g:committia_hooks = {}
+        function! g:committia_hooks.edit_open(info)
+          execute "normal u"
+          execute "normal i# Copilot, refer the following diff to write commit message."
+          execute "normal o# Don't put a period at the end of the first line."
+          execute "normal o"
+        endfunction
+      ]]
+    end,
+  }
 
   use {"hotwatermorning/auto-git-diff"}
 
@@ -233,6 +246,7 @@ require("packer").startup(function()
     config = function()
       vim.cmd [[
         let g:copilot_filetypes = {
+          \ 'gitcommit': v:true,
           \ 'TelescopePrompt': v:false,
           \ }
       ]]
