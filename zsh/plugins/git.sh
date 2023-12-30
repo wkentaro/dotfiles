@@ -289,7 +289,7 @@ alias glg="gl --graph"
 alias gls="gl --stat"
 alias glgs="glg --stat"
 
-githash2branch () {
+commit2branch () {
 	local hash=$1 
 	local commit_message=$(git log -1 --format="%s" $hash) 
 	local branch_name=$(echo $commit_message | tr '[:upper:]' '[:lower:]' | sed 's/ /_/g') 
