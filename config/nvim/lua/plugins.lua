@@ -10,10 +10,10 @@ require("packer").startup(function()
         let g:committia_hooks = {}
         function! g:committia_hooks.edit_open(info)
           execute "normal u"
-          execute "normal ggO# Refer the following diff to write commit message."
-          execute "normal o# Don't put a period at the end of the first line, or"
-          execute "normal o# innocent people will die."
-          execute "normal j0i"
+          " execute "normal ggO# Refer the following diff to write commit message."
+          " execute "normal o# Don't put a period at the end of the first line, or"
+          " execute "normal o# innocent people will die."
+          " execute "normal j0i"
         endfunction
       ]]
     end,
