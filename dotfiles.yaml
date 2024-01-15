@@ -4,6 +4,8 @@ config/peco:
   .config/peco
 gitconfig:
   .gitconfig
+gitmessage.txt:
+  .gitmessage.txt
 gitignore_global:
   .gitignore_global
 flake8:

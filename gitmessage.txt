@@ -1,0 +1,6 @@
+# Write commit message with refering the below diff.
+# FOLLOW THESE RULES
+# 1. Start commit message with capital letter.
+# 2. Start commit message with verb.
+# 3. Don't put a period (.) at the end of commit message.
+# Now write the commit message below.
