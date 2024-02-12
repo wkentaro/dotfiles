@@ -3,4 +3,5 @@
 # 1. Start commit message with capital letter.
 # 2. Start commit message with verb.
 # 3. Don't put a period (.) at the end of commit message.
+# 4. Limit the commit message to 50 characters.
 # Now write the commit message below.
