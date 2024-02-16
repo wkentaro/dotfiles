@@ -250,6 +250,7 @@ require("packer").startup(function()
           \ 'gitcommit': v:true,
           \ 'TelescopePrompt': v:false,
           \ }
+        nnoremap <silent> <localleader>c :Copilot<CR>
       ]]
     end,
   }
