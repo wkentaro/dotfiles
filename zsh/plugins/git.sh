@@ -294,3 +294,29 @@ commit2branch () {
   local commit_message=$(git log -1 --format="%s" $hash) 
   echo "$commit_message" | sed -e 's/[^a-zA-Z0-9]/_/g' | tr '[:upper:]' '[:lower:]'
 }
+
+function select-git-branch() {
+  # check if it's a git repository
+  if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+    return 1
+  fi
+
+  local branches_without_remotes=$(git branch -a |
+      egrep -v '\(HEAD detached at .*\)' |
+      sed -r 's/ +?//g' |
+      sed -r 's/^\*?//g' |
+      sed -r 's/remotes\/origin\///g')
+  local branches_with_prefix=$(git branch -a |
+      egrep -v '\(HEAD detached at .*\)' |
+      egrep 'remotes/origin/' |
+      sed -r 's/ +?//g')
+
+  target_br=$(
+    echo -e "$branches_without_remotes\n$branches_with_prefix" |
+      peco
+  )
+  LBUFFER=$LBUFFER$target_br
+  zle -R -c
+}
+zle -N select-git-branch
+bindkey "^g" select-git-branch
