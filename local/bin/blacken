@@ -77,7 +77,7 @@ def black(source, line_length):
     """
     line_length = "--line-length={}".format(line_length)
     process = subprocess.run(
-        ["black", "-q", "-S", line_length, "-"],
+        ["black", "-q", line_length, "-"],
         input=source.encode("utf-8"),
         capture_output=True,
     )
