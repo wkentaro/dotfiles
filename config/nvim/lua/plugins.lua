@@ -1,5 +1,17 @@
 vim.cmd [[packadd packer.nvim]]
 
+function get_git_root_or_cwd()
+  local handle = io.popen("git rev-parse --show-toplevel", 'r')
+  if handle then
+    local git_root = handle:read("*a")
+    handle:close()
+    git_root = git_root:gsub("\n$", "") -- Remove the trailing newline character
+    return git_root
+  else
+    return vim.fn.getcwd()
+  end
+end
+
 require("packer").startup(function()
   use {"wbthomason/packer.nvim"}
 
@@ -454,8 +466,12 @@ require("packer").startup(function()
             show_scores = false,
             show_unindexed = true,
             show_filter_column = false,
-            default_workspace = "CWD",
+            default_workspace = "GIT",
             ignore_patterns = {"*.git/*", "*/tmp/*", "*.pyc"},
+            workspaces = {
+              ["GIT"] = get_git_root_or_cwd(),
+              ["CWD"] = vim.fn.getcwd(),
+            },
           },
         },
       })
@@ -468,9 +484,9 @@ require("packer").startup(function()
         "autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
         nnoremap <silent> <C-q> :lua require("telescope.builtin").quickfix({ fname_width=0.5, layout_config={preview_width=0.3}})<CR>
         nnoremap <silent> <C-p> :Telescope find_files<CR>
-        " nnoremap <silent> <C-n> :Telescope buffers<CR>
+        nnoremap <silent> <C-n> :Telescope buffers<CR>
         nnoremap <silent> <C-s> :lua require("telescope.builtin").git_status({ cwd=vim.fn.expand('%:p:h') })<CR>
-        nnoremap <silent> <C-n> :Telescope frecency workspace=CWD<CR>
+        nnoremap <silent> <C-]> :Telescope frecency<CR>
         nnoremap <silent> <leader>r :Telescope grep_string<CR>
         nnoremap <silent> <leader>l :Telescope lsp_references<CR>
         nnoremap <silent> <leader>f :Telescope live_grep<CR>
