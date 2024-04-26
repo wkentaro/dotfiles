@@ -1,7 +1,7 @@
 vim.cmd [[packadd packer.nvim]]
 
 function get_git_root_or_cwd()
-  local handle = io.popen("git rev-parse --show-toplevel", 'r')
+  local handle = io.popen("git rev-parse --show-toplevel 2>/dev/null", 'r')
   if handle then
     local git_root = handle:read("*a")
     handle:close()
