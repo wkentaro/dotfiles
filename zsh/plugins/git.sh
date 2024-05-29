@@ -292,7 +292,7 @@ alias glgs="glg --stat"
 commit2branch () {
   local hash=$1 
   local commit_message=$(git log -1 --format="%s" $hash) 
-  echo "$commit_message" | sed -e 's/[^a-zA-Z0-9]/_/g' | tr '[:upper:]' '[:lower:]'
+  echo "$commit_message" | sed -e 's/[^a-zA-Z0-9]//g' | tr '[:upper:]' '[:lower:]'
 }
 
 function select-git-branch() {
