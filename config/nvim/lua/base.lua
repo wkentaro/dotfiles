@@ -25,7 +25,7 @@ vim.cmd [[set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲]]
 
 -- edit
 vim.cmd [[set noswapfile]]
-vim.cmd [[set shiftwidth=2]]
+vim.cmd [[set shiftwidth=4]]
 vim.cmd [[
   set expandtab
   set autoindent
@@ -195,8 +195,6 @@ vim.cmd [[
   " ----------------------------------------------------------
   " Filetype
   " ----------------------------------------------------------
-  autocmd FileType python setl tabstop=4 shiftwidth=4 indentkeys-=:
-  autocmd FileType cpp setl tabstop=4 shiftwidth=4 indentkeys-=:
   autocmd FileType qf set nonumber
 
   if $USER == 'mujin'
