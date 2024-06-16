@@ -205,5 +205,6 @@ vim.cmd [[
   else
     set colorcolumn=88
     autocmd FileType python noremap <localleader>b :!black %<CR>
+    autocmd FileType python xnoremap <localleader>b :!blacken 88<CR>
   endif
 ]]
