@@ -401,18 +401,18 @@ require("packer").startup(function()
 
   use {'kshenoy/vim-signature'}
 
-  use({
-    "kwkarlwang/bufjump.nvim",
-    config = function()
-      require("bufjump").setup({
-        forward = "<M-i>",
-        backward = "<M-o>",
-        on_success = function()
-          vim.cmd([[execute "normal! g`\"zz"]])
-        end,
-      })
-    end,
-  })
+  -- use({
+  --   "kwkarlwang/bufjump.nvim",
+  --   config = function()
+  --     require("bufjump").setup({
+  --       forward = "<M-i>",
+  --       backward = "<M-o>",
+  --       on_success = function()
+  --         vim.cmd([[execute "normal! g`\"zz"]])
+  --       end,
+  --     })
+  --   end,
+  -- })
 
   use {
     "nvim-telescope/telescope.nvim",
