@@ -362,3 +362,5 @@ function k%% () {
     kill %${job_id}
   done
 }
+
+alias codeimg="vim -c 'set nonumber foldcolumn=9 listchars= ft=python'"
