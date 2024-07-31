@@ -143,9 +143,9 @@ require("packer").startup(function()
     "folke/which-key.nvim",
     config = function()
       require("which-key").setup()
-      require("which-key").register({
-        z = { "<Cmd>lua telescope_find_dirs()<CR>", "Telescope find_dirs" },
-      }, { prefix = "<leader>" })
+      -- require("which-key").register({
+      --   z = { "<Cmd>lua telescope_find_dirs()<CR>", "Telescope find_dirs" },
+      -- }, { prefix = "<leader>" })
     end,
   }
 
