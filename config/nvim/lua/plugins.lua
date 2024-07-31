@@ -549,40 +549,40 @@ require("packer").startup(function()
     end,
   }
 
-  use {
-    "AckslD/nvim-neoclip.lua",
-    requires = {
-      {"kkharji/sqlite.lua", module = "sqlite"},
-      {"nvim-telescope/telescope.nvim"},
-    },
-    config = function()
-      require("neoclip").setup({
-        enable_persistent_history = true,
-        default_register = "+",
-        keys = {
-          telescope = {
-            i = {
-              select = "<CR>",
-              paste = {},
-              paste_behind = {},
-              replay = {},
-              delete = "<C-d>",
-              custom = {},
-            },
-            n = {
-              select = "<CR>",
-              paste = {},
-              paste_behind = {},
-              replay = {},
-              delete = "d",
-              custom = {},
-            },
-          },
-        },
-      })
-      require("telescope").load_extension("neoclip")
-    end,
-  }
+  -- use {
+  --   "AckslD/nvim-neoclip.lua",
+  --   requires = {
+  --     {"kkharji/sqlite.lua", module = "sqlite"},
+  --     {"nvim-telescope/telescope.nvim"},
+  --   },
+  --   config = function()
+  --     require("neoclip").setup({
+  --       enable_persistent_history = true,
+  --       default_register = "+",
+  --       keys = {
+  --         telescope = {
+  --           i = {
+  --             select = "<CR>",
+  --             paste = {},
+  --             paste_behind = {},
+  --             replay = {},
+  --             delete = "<C-d>",
+  --             custom = {},
+  --           },
+  --           n = {
+  --             select = "<CR>",
+  --             paste = {},
+  --             paste_behind = {},
+  --             replay = {},
+  --             delete = "d",
+  --             custom = {},
+  --           },
+  --         },
+  --       },
+  --     })
+  --     require("telescope").load_extension("neoclip")
+  --   end,
+  -- }
 
   use {
     "hrsh7th/nvim-cmp",
