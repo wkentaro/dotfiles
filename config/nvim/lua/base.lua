@@ -198,6 +198,7 @@ vim.cmd [[
   autocmd FileType qf set nonumber
 
   autocmd FileType html set shiftwidth=2 tabstop=2
+  autocmd FileType htmldjango set shiftwidth=2 tabstop=2
   autocmd FileType markdown set shiftwidth=2 tabstop=2
   autocmd FileType toml set shiftwidth=2 tabstop=2
 
