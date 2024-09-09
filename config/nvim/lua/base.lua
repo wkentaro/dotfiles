@@ -202,6 +202,9 @@ vim.cmd [[
   autocmd FileType markdown set shiftwidth=2 tabstop=2
   autocmd FileType toml set shiftwidth=2 tabstop=2
 
+  au BufEnter,BufNew *.j2 set filetype=jinja.html
+  autocmd FileType jinja.html set shiftwidth=2 tabstop=2
+
   if $USER == 'mujin'
     set colorcolumn=120
     autocmd FileType python noremap <localleader>b :!black --line-length 120 %<CR>
