@@ -30,6 +30,8 @@ private/ssh/config:
   .ssh/config
 private/zshrc:
   .zshrc.private
+ruff.toml:
+  .ruff.toml
 tigrc:
   .tigrc
 tmux:
