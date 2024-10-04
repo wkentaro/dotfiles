@@ -1,6 +1,6 @@
 .DS_Store
 
-dist/
+venv/
 
 .ipynb_checkpoints/
 *.egg-info/
