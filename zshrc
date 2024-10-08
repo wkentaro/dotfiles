@@ -347,13 +347,13 @@ neovim_autocd() {
 }
 chpwd_functions+=( neovim_autocd )
 
-function nvim () {
-  if [[ $NVIM ]]; then
-    python3 -c "import os; import neovim; nvim = neovim.attach('socket', path=os.environ['NVIM']); nvim.command('edit $*')"
-  else
-    command nvim $*
-  fi
-}
+# function nvim () {
+#   if [[ $NVIM ]]; then
+#     python3 -c "import os; import neovim; nvim = neovim.attach('socket', path=os.environ['NVIM']); nvim.command('edit $*')"
+#   else
+#     command nvim $*
+#   fi
+# }
 
 alias feh='feh --keep-zoom-vp --auto-zoom'
 
