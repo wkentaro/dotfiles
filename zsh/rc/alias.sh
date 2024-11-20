@@ -444,3 +444,16 @@ function gcd () {
 alias gcd=gcd
 
 alias skim='open -a Skim'
+
+# unalias gco
+# gco () {
+#   if [ $# -eq 0 ]; then
+#     local branch=$(git branch | fzf | sed -e 's/^\*//' | awk '{print $1}')
+#     if [ -z $branch ]; then
+#       return 1
+#     fi
+#     git checkout $branch
+#   else
+#     git checkout $@
+#   fi
+# }

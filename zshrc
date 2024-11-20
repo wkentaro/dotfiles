@@ -364,3 +364,5 @@ function k%% () {
 }
 
 alias codeimg="vim -c 'set nonumber foldcolumn=9 listchars= ft=python'"
+
+alias tuna="tunahtml"
