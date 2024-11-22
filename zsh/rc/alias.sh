@@ -458,4 +458,4 @@ alias skim='open -a Skim'
 #   fi
 # }
 
-alias gb="git-better-branch.sh"
+alias gbb="git-better-branch.sh"
