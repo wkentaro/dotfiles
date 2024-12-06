@@ -25,7 +25,7 @@ count_commits() {
 }
 
 # Main script
-main_branch=$(git rev-parse HEAD)
+main_branch=$(git rev-parse origin/master)
 
 printf "${GREEN}%-${width1}s ${RED}%-${width2}s ${BLUE}%-${width3}s ${YELLOW}%-${width4}s ${NO_COLOR}%-${width5}s\n" "Ahead" "Behind" "Branch" "Last Commit"  " "
 
@@ -35,20 +35,19 @@ printf "${GREEN}%-${width1}s ${RED}%-${width2}s ${BLUE}%-${width3}s ${YELLOW}%-$
 format_string="%(objectname:short)@%(refname:short)@%(committerdate:relative)"
 IFS=$'\n'
 
-for branchdata in $(git for-each-ref --sort=-authordate --format="$format_string" refs/heads/ --no-merged); do
+for branchdata in $(git for-each-ref --sort=-authordate --format="$format_string" refs/heads/ --no-merged $main_branch); do
   sha=$(echo "$branchdata" | cut -d '@' -f1)
   branch=$(echo "$branchdata" | cut -d '@' -f2)
   time=$(echo "$branchdata" | cut -d '@' -f3)
-  if [ "$branch" != "$main_branch" ]; then
-    # Get branch description
-    description=$(git config branch."$branch".description)
 
-    # Count commits ahead and behind
-    ahead_behind=$(count_commits "$sha" "$main_branch")
-    ahead=$(echo "$ahead_behind" | cut -f2)
-    behind=$(echo "$ahead_behind" | cut -f1)
+  # Get branch description
+  description=$(git config branch."$branch".description)
 
-    # Display branch info
-    printf "${GREEN}%-${width1}s ${RED}%-${width2}s ${BLUE}%-${width3}s ${YELLOW}%-${width4}s ${NO_COLOR}%-${width5}s\n" $ahead $behind $branch "$time" "$description"
-  fi
+  # Count commits ahead and behind
+  ahead_behind=$(count_commits "$sha" "$main_branch")
+  ahead=$(echo "$ahead_behind" | cut -f2)
+  behind=$(echo "$ahead_behind" | cut -f1)
+
+  # Display branch info
+  printf "${GREEN}%-${width1}s ${RED}%-${width2}s ${BLUE}%-${width3}s ${YELLOW}%-${width4}s ${NO_COLOR}%-${width5}s\n" $ahead $behind $branch "$time" "$description"
 done
