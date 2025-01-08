@@ -174,9 +174,9 @@ export LESS='--tabs=4 --LONG-PROMPT --ignore-case --RAW-CONTROL-CHARS'
 # peco history search
 # Ctrl-R
 function peco_history () {
-  if [ "$(uname)" = "Linux" ]; then
+  if which tac >/dev/null; then
     BUFFER=$(history | tac | peco --query "$LBUFFER" | awk '{print substr($0, index($0, $4))}')
-  elif [ "$(uname)" = "Darwin" ]; then
+  else
     BUFFER=$(history | tail -r | peco --query "$LBUFFER" | awk '{print substr($0, index($0, $4))}')
   fi
   CURSOR=$#BUFFER         # move cursor
@@ -250,7 +250,7 @@ alias -g L='| less'
 function _z_cd ()
 {
   if [ "$1" = "" ]; then
-    if [ "$(uname)" = "Linux" ]; then
+    if which tac >/dev/null; then
       dir=$(_z 2>&1 | awk '{print $2}' | tac | peco)
     else
       dir=$(_z 2>&1 | awk '{print $2}' | tail -r | peco)
