@@ -25,7 +25,7 @@ vim.cmd [[set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲]]
 
 -- edit
 vim.cmd [[set noswapfile]]
-vim.cmd [[set shiftwidth=4]]
+vim.cmd [[set shiftwidth=2]]
 vim.cmd [[
   set expandtab
   set autoindent
@@ -197,13 +197,7 @@ vim.cmd [[
   " ----------------------------------------------------------
   autocmd FileType qf set nonumber
 
-  autocmd FileType html set shiftwidth=2 tabstop=2
-  autocmd FileType htmldjango set shiftwidth=2 tabstop=2
-  autocmd FileType markdown set shiftwidth=2 tabstop=2
-  autocmd FileType toml set shiftwidth=2 tabstop=2
-
-  au BufEnter,BufNew *.j2 set filetype=jinja.html
-  autocmd FileType jinja.html set shiftwidth=2 tabstop=2
+  autocmd FileType python set shiftwidth=4 tabstop=4
 
   if $USER == 'mujin'
     set colorcolumn=120
