@@ -201,11 +201,13 @@ vim.cmd [[
 
   if $USER == 'mujin'
     set colorcolumn=120
+    " set textwidth=120
     autocmd FileType python noremap <localleader>b :!black --line-length 120 %<CR>
     autocmd FileType python noremap <localleader>i :!isort --force-single-line %<CR>
     autocmd FileType python xnoremap <localleader>b :!blacken 120<CR>
   else
     set colorcolumn=88
+    " set textwidth=88
     autocmd FileType python noremap <localleader>b :!black %<CR>
     autocmd FileType python xnoremap <localleader>b :!blacken 88<CR>
   endif
