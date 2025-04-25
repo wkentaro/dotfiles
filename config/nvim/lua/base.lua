@@ -198,6 +198,7 @@ vim.cmd [[
   autocmd FileType qf set nonumber
 
   autocmd FileType python set shiftwidth=4 tabstop=4
+  autocmd FileType cpp set shiftwidth=4 tabstop=4
 
   if $USER == 'mujin'
     set colorcolumn=120
