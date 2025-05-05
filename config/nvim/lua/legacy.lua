@@ -47,7 +47,7 @@ set modifiable
 set history=50
 set commentstring=\ #\ %s
 set autoindent
-set browsedir=buffer
+"set browsedir=buffer
 
 " Make the command line two lines high and change the statusline display to
 " something that looks useful.
