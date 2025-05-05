@@ -647,7 +647,7 @@ require("packer").startup(function()
       {"neovim/nvim-lspconfig"},
       {"hrsh7th/cmp-nvim-lsp"},
       -- {"ray-x/lsp_signature.nvim"},
-      -- {'nvim-treesitter/nvim-treesitter', run=':TSUpdate'},
+      {'nvim-treesitter/nvim-treesitter', run=':TSUpdate'},
       -- {'rmagatti/goto-preview'},
     },
     config = function()
@@ -709,9 +709,12 @@ require("packer").startup(function()
       -- vim.keymap.set('n', 'g]', '<cmd>lua vim.diagnostic.goto_next()<CR>')
       -- vim.keymap.set('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
 
-      -- require('nvim-treesitter.configs').setup {
-      --   ensure_installed = { "python", "comment" },
-      -- }
+      require('nvim-treesitter.configs').setup {
+        ensure_installed = { "python", "comment" },
+        highlight = {
+          enable = true,
+        },
+      }
 
       -- require('goto-preview').setup()
       -- vim.keymap.set('n', '<leader>d', require('goto-preview').goto_preview_definition)
