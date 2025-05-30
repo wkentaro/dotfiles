@@ -35,8 +35,6 @@ require("packer").startup(function()
 
   use {"tomtom/tcomment_vim"}
 
-  use {"lambdalisue/suda.vim"}
-
   use {
     "jremmen/vim-ripgrep",
     config = function()
