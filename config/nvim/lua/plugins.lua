@@ -637,9 +637,9 @@ require("packer").startup(function()
   }
 
   use {
-    "williamboman/mason.nvim",
+    "williamboman/mason.nvim", tag = "v1.11.0",
     requires = {
-      {"williamboman/mason-lspconfig.nvim"},
+      {"williamboman/mason-lspconfig.nvim", tag = "v1.32.0"},
       {"neovim/nvim-lspconfig"},
       {"hrsh7th/cmp-nvim-lsp"},
       -- {"ray-x/lsp_signature.nvim"},
