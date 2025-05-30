@@ -37,8 +37,6 @@ require("packer").startup(function()
 
   use {"lambdalisue/suda.vim"}
 
-  use {"vmchale/just-vim"}
-
   use {
     "jremmen/vim-ripgrep",
     config = function()
