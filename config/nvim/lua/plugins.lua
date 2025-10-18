@@ -684,7 +684,8 @@ require("packer").startup(function()
             },
           }
         end
-        require('lspconfig')[server].setup(opt)
+        vim.lsp.config[server] = opt
+        vim.lsp.enable(server)
       end })
 
       -- require('lsp_signature').setup()
