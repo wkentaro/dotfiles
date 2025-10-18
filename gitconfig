@@ -52,3 +52,5 @@
 	process = git-lfs filter-process
 [commit]
 	template = ~/.gitmessage.txt
+[blame]
+	ignoreRevsFile = .git-blame-ignore-revs
