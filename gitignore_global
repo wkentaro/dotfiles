@@ -18,3 +18,5 @@ nohup.*.out
 .nvimlog
 
 logs.*/
+
+branches/branches.json
