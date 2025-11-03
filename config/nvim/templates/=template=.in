@@ -2,7 +2,7 @@
 # vim: set ft=zsh
 
 setup() {
-  source $HERE/.conda/bin/activate
+  source $HERE/.venv/bin/activate
 }
 
 HERE=${0:a:h}

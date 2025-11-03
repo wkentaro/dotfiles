@@ -2,7 +2,7 @@
 # vim: set ft=zsh
 
 cleanup() {
-  conda deactivate
+  deactivate
 }
 
 HERE=${0:a:h}
