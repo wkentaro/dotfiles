@@ -702,7 +702,7 @@ require("packer").startup(function()
       -- vim.keymap.set('n', '<leader>t', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
       vim.keymap.set('n', 'ge', '<cmd>lua vim.lsp.buf.rename()<CR>')
       -- vim.keymap.set('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-      -- vim.keymap.set('n', 'ge', '<cmd>lua vim.diagnostic.open_float()<CR>')
+      vim.keymap.set('n', 'gi', '<cmd>lua vim.diagnostic.open_float()<CR>')
       -- vim.keymap.set('n', 'g]', '<cmd>lua vim.diagnostic.goto_next()<CR>')
       -- vim.keymap.set('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
 
