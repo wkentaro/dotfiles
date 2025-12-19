@@ -99,7 +99,7 @@ _is_option () {
   return 1
 }
 
-grbu () {
+grbb () {
   local branch arg
   local -a opts args
   for arg in $@; do
@@ -118,7 +118,7 @@ grbu () {
   else
     branch=${args[1]}
   fi
-  git rebase upstream/$branch $opts
+  git rebase $(git merge-base HEAD origin/$branch) $opts
 }
 grbg () {
   local branch arg
@@ -143,13 +143,13 @@ grbg () {
 }
 if which compdef &>/dev/null; then
   compdef _git grbg=git-checkout 2>/dev/null
-  compdef _git grbu=git-checkout 2>/dev/null
+  compdef _git grbb=git-checkout 2>/dev/null
 fi
 alias grbgi='grbg --interactive'
-alias grbui='grbu --interactive'
+alias grbbi='grbb --interactive'
 if which compdef &>/dev/null; then
   compdef _git grbgi=git-checkout 2>/dev/null
-  compdef _git grbui=git-checkout 2>/dev/null
+  compdef _git grbbi=git-checkout 2>/dev/null
 fi
 
 git_commit_m () {
