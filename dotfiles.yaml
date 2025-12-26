@@ -4,6 +4,8 @@ config/nvim:
   .config/nvim
 config/peco:
   .config/peco
+config/rofi:
+  .config/rofi
 gitconfig:
   .gitconfig
 gitmessage.txt:
