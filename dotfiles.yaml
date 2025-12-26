@@ -1,3 +1,5 @@
+config/ghostty:
+  .config/ghostty
 config/nvim:
   .config/nvim
 config/peco:
