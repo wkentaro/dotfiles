@@ -50,3 +50,4 @@
 
 theme = catppuccin-mocha.conf
 font-family = Source Code Pro
+resize-overlay = never
