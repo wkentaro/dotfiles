@@ -363,6 +363,8 @@ function k%% () {
   done
 }
 
-alias codeimg="vim -c 'set nonumber foldcolumn=9 listchars= ft=python'"
+codeimg() {
+  vim -c ':set nonumber foldcolumn=9 listchars= ft=python' -c ':lua require("gitsigns").toggle_signs(false)'
+}
 
 alias tuna="tunahtml"
