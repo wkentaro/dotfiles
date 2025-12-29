@@ -50,7 +50,7 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
-[commit]
-	template = ~/.gitmessage.txt
+# [commit]
+# 	template = ~/.gitmessage.txt
 [blame]
 	ignoreRevsFile = .git-blame-ignore-revs
