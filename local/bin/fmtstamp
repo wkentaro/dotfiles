@@ -37,7 +37,7 @@ try:
         line_original = []
         line_modified = []
         next_start = 0
-        for i, m in enumerate(re.finditer("(1\d{12})", line)):
+        for i, m in enumerate(re.finditer(r"(1\d{12})", line)):
             color = ["red", "green", "blue", "yellow", "magenta", "cyan"][i % 6]
             cycleindex = m.groups()[0]
 
