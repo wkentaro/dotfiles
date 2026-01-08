@@ -20,6 +20,8 @@ nohup.*.out
 logs.*/
 
 CLAUDE.md
+.claude
+
 GEMINI.md
 
 branches/branches.json
