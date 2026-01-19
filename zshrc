@@ -368,3 +368,5 @@ codeimg() {
 }
 
 alias tuna="tunahtml"
+
+alias uvr="uv run"
