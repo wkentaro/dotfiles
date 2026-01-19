@@ -50,9 +50,10 @@
 
 app-notifications = no-clipboard-copy
 font-family = Source Code Pro
-font-size = 9
 keybind = ctrl+enter=text:\r
 resize-overlay = never
 theme = Catppuccin Mocha
 window-height = 25
 window-width = 80
+
+font-size = 13
