@@ -1,5 +1,11 @@
-config/ghostty:
-  .config/ghostty
+config/ghostty/config:
+  .config/ghostty/config
+config/ghostty/config.macos:
+  name: .config/ghostty/config.macos
+  uname: macOS
+config/ghostty/config.linux:
+  name: .config/ghostty/config.linux
+  uname: Linux
 config/nvim:
   .config/nvim
 config/peco:

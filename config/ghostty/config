@@ -56,4 +56,5 @@ theme = Catppuccin Mocha
 window-height = 25
 window-width = 80
 
-font-size = 13
+config-file = ?config.macos
+config-file = ?config.linux
