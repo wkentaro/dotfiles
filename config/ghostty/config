@@ -51,6 +51,7 @@
 app-notifications = no-clipboard-copy
 font-family = Source Code Pro
 keybind = ctrl+enter=text:\r
+keybind = ctrl+[=text:\x1b
 resize-overlay = never
 theme = Catppuccin Mocha
 window-height = 25
