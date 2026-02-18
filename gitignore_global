@@ -21,6 +21,7 @@ logs.*/
 
 # CLAUDE.md
 # .claude
+.claude/settings.local.json
 
 GEMINI.md
 
