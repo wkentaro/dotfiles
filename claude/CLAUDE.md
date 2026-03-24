@@ -4,6 +4,7 @@
 
 - Avoid unnecessary comments. Code should be self-explanatory. Only add comments when the logic is truly non-obvious.
 - When you commit, don't put Co-authored-by Claude.
+- When you switch branches, use `git switch` instead of `git checkout`.
 
 ## Workflow Orchestration
 
