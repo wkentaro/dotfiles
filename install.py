@@ -99,7 +99,7 @@ def install_commands(dry_run=False):
     this_dir = osp.dirname(osp.abspath(__file__))
     scripts_dir = osp.join(this_dir, "scripts")
     for script in os.listdir(scripts_dir):
-        if not script.startswith("install_*"):
+        if not script.startswith("install_"):
             continue
         script = osp.join(scripts_dir, script)
         if os.access(script, os.X_OK):
