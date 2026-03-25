@@ -1,5 +1,7 @@
 claude/CLAUDE.md:
   .claude/CLAUDE.md
+claude/skills:
+  .claude/skills
 config/ghostty/config:
   .config/ghostty/config
 config/ghostty/config.macos:
