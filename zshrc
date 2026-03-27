@@ -370,3 +370,5 @@ codeimg() {
 alias tuna="tunahtml"
 
 alias uvr="uv run"
+
+alias cc="claude --dangerously-skip-permissions"
