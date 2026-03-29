@@ -381,7 +381,7 @@ cc-review() {
   local pr_url=$1
   local branch_name=$(gh pr view $pr_url --json headRefName | jq .headRefName -r)
   git wt $branch_name
-  git pull origin $branch_name
+  gh pr checkout $pr_url
   cc
 }
 
