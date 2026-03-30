@@ -5,6 +5,8 @@
 - Avoid unnecessary comments. Code should be self-explanatory. Only add comments when the logic is truly non-obvious.
 - When you commit, don't put Co-authored-by Claude.
 - When you switch branches, use `git switch` instead of `git checkout`.
+- When you use python, use `uv`.
+- When you merge a pull request, merge with merge commit.
 
 ## Workflow Orchestration
 

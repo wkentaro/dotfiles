@@ -21,7 +21,8 @@ logs.*/
 
 # CLAUDE.md
 # .claude
-.claude/settings.local.json
+.claude/*.local.*
+.claude/worktrees/
 
 GEMINI.md
 
