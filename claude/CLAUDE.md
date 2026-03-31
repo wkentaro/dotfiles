@@ -6,7 +6,7 @@
 - When you commit, don't put Co-authored-by Claude.
 - When you switch branches, use `git switch` instead of `git checkout`.
 - When you use python, use `uv`.
-- When you merge a pull request, merge with merge commit.
+- When you merge a pull request, ensure the branch is up-to-date with main (rebase if needed), and then merge with merge commit.
 
 ## Workflow Orchestration
 
