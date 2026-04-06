@@ -22,6 +22,7 @@ logs.*/
 # CLAUDE.md
 # .claude
 .claude/*.local.*
+.claude/artifacts/
 .claude/worktrees/
 
 GEMINI.md
