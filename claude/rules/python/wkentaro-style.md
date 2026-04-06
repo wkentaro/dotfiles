@@ -14,7 +14,11 @@ paths:
 ## Functions & Entry Points
 
 - **Thin entry points** — `main()` parses args and delegates. Config data (like lookup tables) lives in `main`, not at module scope.
-- **Functions define scope, not just reuse** — Extract functions to limit variable lifetimes and flatten nesting, even if called only once.
+- **Functions define scope, not just reuse** — Extract functions to limit variable lifetimes and flatten nesting, even if called only once. Prefix with `_` unless the function is an intentional public API.
+
+## Imports
+
+- **No inline imports** — keep all imports at the top of the file. Inline/deferred imports are only justified for breaking circular dependencies, which should be rare.
 
 ## Naming & Comments
 
@@ -24,3 +28,22 @@ paths:
 ## Call Sites
 
 - **Use kwargs** — Unless trivially obvious (`len(x)`, `max(items)`, `shape(aoi)`), spell out keyword arguments.
+
+## Type Annotations
+
+- **Annotate all function signatures** — params + return type, including `-> None` on tests. One rule everywhere.
+- **Don't annotate locals** unless the type checker can't infer the full type (e.g., `results: list[Hunk] = []`, `exclude: bool | None = None`).
+- **Migration exception** — Annotate locals when upstream functions lack annotations. Remove once upstream is fixed.
+
+## Testing
+
+- **No test classes** — use plain `test_` functions with fixtures.
+- **Mirror source layout** — test directories mirror source modules. When a module has multiple test files, use a subdirectory named after the module (e.g., `tests/unit/hunk/` for `hunk.py`). File names describe the aspect, not the module (`id_test.py`, not `hunk_id_test.py`).
+- **Split files over grouping comments** — if you need a comment to separate test groups, split into separate files.
+- **Deduplicate setup into fixtures** — shared arrange logic belongs in a `@pytest.fixture`, not copy-pasted across tests.
+
+## Linting & Formatting
+
+- **Ruff rules**: `E` (pycodestyle), `F` (pyflakes), `I` (isort), `UP` (pyupgrade), `ANN` (flake8-annotations).
+- **Force single-line imports** — one `import` per line, enforced via `force-single-line = true` in isort config.
+- **ty with all warnings as errors** — `[tool.ty.rules] all = "error"`.
