@@ -1,5 +1,8 @@
 # Global Claude Code Preferences
 
+## Guardrails
+- When you change a code, make sure you've read that code. Change shouldn't be made without reading and understanding.
+
 ## Code Style
 
 - Avoid unnecessary comments. Code should be self-explanatory. Only add comments when the logic is truly non-obvious.
