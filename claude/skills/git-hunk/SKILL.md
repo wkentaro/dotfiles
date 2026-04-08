@@ -21,14 +21,15 @@ Requires: `uv tool install git-hunk` (or `pip install git-hunk`)
 1. `git-hunk list` - see all hunks (file, id, +/- stats). No diffs.
 2. `git-hunk show <id> [<id>...]` or `git-hunk show --all` when headers aren't clear enough.
 3. Group hunks into logical commits. Ask the user if grouping is ambiguous.
+   - Check each hunk: if a single hunk contains lines for different logical changes, plan partial staging with `-l`.
 4. Stage and commit each group:
    ```bash
-   git-hunk stage <id1> <id2> ...
+   git-hunk stage <id1> <id2> ...          # full hunks
+   git-hunk stage <id> -l 3,5-7            # partial: include only these lines
+   git-hunk stage <id> -l ^3,^5-7          # partial: exclude these lines
    git commit -m "<type>: <description>"
    ```
 5. `git-hunk list` again to check nothing got left behind.
-
-For partial hunks: `git-hunk stage <id> -l 3,5-7` (include) or `-l ^3,^5-7` (exclude).
 
 ## Example `git-hunk list` output
 
