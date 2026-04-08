@@ -19,3 +19,5 @@ for repo in "${REPOS[@]}"; do
   echo "install: $name"
   git clone "$repo" "$dest"
 done
+
+npx skills add wkentaro/git-hunk -a claude-code -g -y
