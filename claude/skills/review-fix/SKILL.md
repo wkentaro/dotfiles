@@ -66,9 +66,18 @@ git diff HEAD && git ls-files --others --exclude-standard
 ```bash
 cd <repo-path> && git diff HEAD | claude --permission-mode bypassPermissions --print \
   "You are a code reviewer. Review the following git diff carefully.
+
+IMPORTANT: You MUST check against these project rules (read them before reviewing):
+- ~/.claude/rules/python/wkentaro-style.md (Python style: kwargs, type annotations,
+  thin entry points, no inline imports, no test classes, naming over comments, etc.)
+- ~/.dotfiles/claude/rules/common/kent-beck-style.md (30 Kent Beck principles:
+  composed method, intention-revealing names, guard clauses, single responsibility,
+  say things once, query/command separation, etc.)
+
 List every concrete issue you find: bugs, style violations, leftover debug code,
-missing error handling, inconsistencies with the surrounding codebase, etc.
-Be specific: file name, line range, what's wrong, what to do instead.
+missing error handling, inconsistencies with the surrounding codebase,
+violations of the wkentaro-style and Kent Beck rules above, etc.
+Be specific: file name, line range, what's wrong, which rule is violated, what to do instead.
 If the diff looks clean and you have nothing to flag, respond with exactly: LGTM"
 ```
 
