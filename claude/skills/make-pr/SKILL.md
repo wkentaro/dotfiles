@@ -4,6 +4,14 @@ Push the current branch and create (or update) a GitHub PR with title, descripti
 
 ## Workflow
 
+### 0. Check branch
+
+```bash
+git branch --show-current
+```
+
+**If on `main` (or `master`)**: run `/make-branch` skill first to move their changes to a feature branch. Do NOT proceed with PR creation from the main branch.
+
 ### 1. Gather context
 
 Run these in parallel:
