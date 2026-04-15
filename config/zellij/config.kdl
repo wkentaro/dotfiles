@@ -6,11 +6,9 @@ keybinds clear-defaults=true {
     // ──────────────────────────────────────────────
     // Locked mode (default) — passthrough to terminal
     // Ctrl-t enters tmux mode (like tmux prefix)
-    // Ctrl-g enters normal mode (zellij native)
     // ──────────────────────────────────────────────
     locked {
         bind "Ctrl t" { SwitchToMode "tmux"; }
-        bind "Ctrl g" { SwitchToMode "normal"; }
     }
 
     // ──────────────────────────────────────────────
@@ -232,7 +230,6 @@ keybinds clear-defaults=true {
     // Shared bindings for mode switching
     // ──────────────────────────────────────────────
     shared_except "locked" "renametab" "renamepane" {
-        bind "Ctrl g" { SwitchToMode "locked"; }
         bind "Ctrl q" { Quit; }
     }
     shared_except "locked" "entersearch" {
