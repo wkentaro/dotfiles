@@ -14,6 +14,8 @@ config/ghostty/config.macos:
 config/ghostty/config.linux:
   name: .config/ghostty/config.linux
   uname: Linux
+config/zellij:
+  .config/zellij
 config/nvim:
   .config/nvim
 config/peco:
