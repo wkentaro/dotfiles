@@ -60,48 +60,28 @@ alias ipp='ptipython'
 alias fl='PYTHONWARNINGS=ignore flake8'
 alias bl='black'
 
-# tmux
-# alias t='tmux'
-# alias tls='tmux ls'
-tls () {
-  local user_id=$(id -u)
-  if [ ! -d /tmp/tmux-$user_id ]; then
-    return 1
-  fi
-  IFS=$'\n'
-  for s in $(command ls /tmp/tmux-$user_id); do
-    for t in $(tmux -S /tmp/tmux-$user_id/$s ls 2>/dev/null); do
-      echo "[/tmp/tmux-$user_id/$s] $t"
-    done
-  done
-}
-tmux_fzf_attach() {
-    if [[ $1 == "" ]]; then
-        PERCOL="fzf --layout reverse"
-    else
-        PERCOL="fzf --layout reverse --query $1"
-    fi
+# zellij
+alias tls='zellij list-sessions'
+zellij_fzf_attach() {
+    local sessions
+    sessions=$(zellij list-sessions -s 2>/dev/null)
+    [ $? -ne 0 -o -z "$sessions" ] && return
 
-    sessions=$(tls)
-    [ $? -ne 0 -o "$sessions" = "" ] && return
-
-    if [ $(echo "${sessions[*]}" | wc -l) -eq 1 ]; then
-      # tmux attach && return
-      socket=$(echo "${sessions[*]}" | awk '{print $1}' | sed -e 's/^\[\(.*\)\]$/\1/')
-      session=$(echo "${sessions[*]}" | awk '{print $2}' | sed -e 's/^\(.*\):$/\1/')
-      tmux -S $socket $TMUX_OPTIONS attach -t $session
+    if [ $(echo "$sessions" | wc -l) -eq 1 ]; then
+      zellij attach "$(echo "$sessions" | head -1)"
       return 0
     fi
 
-    session=$(echo "${sessions[*]}" | eval $PERCOL)
+    local query_flag=""
+    [[ -n "$1" ]] && query_flag="--query $1"
+
+    local session
+    session=$(echo "$sessions" | fzf --layout reverse $query_flag)
     if [[ -n "$session" ]]; then
-      socket=$(echo $session | awk '{print $1}' | sed -e 's/^\[\(.*\)\]$/\1/')
-      session=$(echo $session | awk '{print $2}' | sed -e 's/^\(.*\):$/\1/')
-      tmux -S $socket $TMUX_OPTIONS attach -t $session
-      return 0
+      zellij attach "$session"
     fi
 }
-alias ta='tmux_fzf_attach'
+alias ta='zellij_fzf_attach'
 alias tca="TMUX_OPTIONS='-CC' tmux_fzy_attach"
 alias tcns="TMUX_OPTIONS='-CC' tns"
 alias tn='tmux new'
