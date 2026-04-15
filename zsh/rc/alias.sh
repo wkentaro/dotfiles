@@ -88,9 +88,9 @@ alias tn='tmux new'
 tns () {
   if [ $# -eq 0 ]; then
     echo 'Please specify session name.'
+    return 1
   fi
-  # tmux -L $1 $TMUX_OPTIONS new -s $1
-  tmux new -s $1
+  zellij -s $1
 }
 
 # brew
