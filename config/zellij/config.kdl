@@ -375,6 +375,8 @@ default_mode "locked"
 // Default: "default"
 // 
 default_layout "compact"
+
+copy_cwd_to_new_panes true
  
 // The folder in which Zellij will look for layouts
 // (Requires restart)
