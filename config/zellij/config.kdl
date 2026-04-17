@@ -310,21 +310,22 @@ plugins {
     }
 }
 
-// catppuccin-mocha with orange set to green so frame color
-// doesn't flash on mode switch (locked/tmux both use green)
+// catppuccin-mocha, dimmed: fg/white/magenta/orange unified to a muted gray
+// so inactive tab bg, session text, and LOCKED/TMUX indicators all recede
+// while green stays as the active-tab highlight
 themes {
     catppuccin-mocha-steady {
-        fg "#cdd6f4"
+        fg "#7f849c"
         bg "#585b70"
         red "#f38ba8"
         green "#89a894"
         blue "#89b4fa"
         yellow "#f9e2af"
-        magenta "#f5c2e7"
-        orange "#89a894"
+        magenta "#7f849c"
+        orange "#7f849c"
         cyan "#89dceb"
         black "#181825"
-        white "#cdd6f4"
+        white "#7f849c"
     }
 }
 
