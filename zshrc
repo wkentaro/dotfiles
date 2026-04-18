@@ -371,20 +371,7 @@ alias tuna="tunahtml"
 
 alias uvr="uv run"
 
-alias cc="claude --dangerously-skip-permissions"
-
-cc-review() {
-  if [ $# -ne 1 ]; then
-    echo "Usage: $0 [PR_URL]"
-    return 1
-  fi
-  local pr_url=$1
-  local pr_number=$(gh pr view $pr_url --json number | jq .number)
-  local branch_name=$(gh pr view $pr_url --json headRefName | jq .headRefName -r)
-  git fetch origin pull/$pr_number/head:$branch_name
-  git wt $branch_name
-  cc
-}
-
 alias gwt="git wt"
-alias petname="uvx petname"
+
+alias cc="claude --dangerously-skip-permissions"
+alias ccw="git wt $(petname); cc"
