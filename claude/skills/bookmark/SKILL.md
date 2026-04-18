@@ -34,9 +34,14 @@ If the user passed an argument, use it (lowercase, spaces → hyphens, strip
 non-`[a-z0-9-]`). Otherwise generate one from the recent conversation topic.
 Examples: `add-bookmark-skill`, `debug-cron-retry`, `refactor-auth-flow`.
 
-If the name already exists in the file, append `-2`, `-3`, etc.
+If the name already exists in the file (on a *different* session), append
+`-2`, `-3`, etc. Do not dedupe names across different sessions silently.
 
-### 3. Append to the bookmarks file
+### 3. Upsert into the bookmarks file
+
+One session (same `session_id` + `cwd`) should have at most one bookmark. If
+the current session is already bookmarked, update its name and date in place
+instead of appending a duplicate row. Otherwise append a new entry.
 
 ```bash
 file=~/.claude/bookmarks.json
@@ -48,7 +53,11 @@ jq --arg name "$name" \
    --arg date "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
    --arg id "$session_id" \
    --arg cwd "$(pwd)" \
-   '.bookmarks += [{name:$name, date:$date, session_id:$id, cwd:$cwd}]' \
+   '(.bookmarks | map(.session_id == $id and .cwd == $cwd) | index(true)) as $i
+    | if $i == null
+      then .bookmarks += [{name:$name, date:$date, session_id:$id, cwd:$cwd}]
+      else .bookmarks[$i].name = $name | .bookmarks[$i].date = $date
+      end' \
    "$file" > "$tmp" && cat "$tmp" > "$file"
 command rm -f "$tmp"
 ```
@@ -56,12 +65,25 @@ command rm -f "$tmp"
 Don't use `mv tmp file` — `mv` is often aliased to `mv -i` and will prompt.
 The `cat "$tmp" > "$file"` pattern avoids that.
 
+Before running the jq upsert, check whether an entry for this session already
+exists so the confirmation message can say "Updated" vs "Bookmarked":
+
+```bash
+existing_name=$(jq -r --arg id "$session_id" --arg cwd "$(pwd)" \
+  '.bookmarks[] | select(.session_id == $id and .cwd == $cwd) | .name' "$file" \
+  | head -1)
+```
+
 ### 4. Confirm
 
-Print one line:
+Print one line. Use `Updated` when `$existing_name` was non-empty and
+different from the new name, `Already bookmarked` when unchanged, otherwise
+`Bookmarked`:
 
 ```
 Bookmarked: <name>  (<YYYY-MM-DD> • <8-char session id> • <cwd>)
+Updated: <old-name> → <name>  (<YYYY-MM-DD> • <8-char session id> • <cwd>)
+Already bookmarked: <name>  (<YYYY-MM-DD> • <8-char session id> • <cwd>)
 ```
 
 ## Notes
