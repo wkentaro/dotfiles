@@ -25,6 +25,12 @@ keybinds clear-defaults=true {
         // New tab (tmux: prefix + c = new window)
         bind "c" { NewTab; SwitchToMode "locked"; }
 
+        // Break pane into new tab (tmux: prefix + ! = move pane to new window)
+        bind "!" { BreakPane; SwitchToMode "locked"; }
+
+        // Swap/cycle pane position (tmux: prefix + o)
+        bind "o" { MovePane; SwitchToMode "locked"; }
+
         // Navigate panes (tmux: prefix + h/j/k/l)
         bind "h" { MoveFocus "left"; SwitchToMode "locked"; }
         bind "j" { MoveFocus "down"; SwitchToMode "locked"; }
