@@ -44,15 +44,25 @@ Wait for the user's next message and interpret it.
 
 #### `resume N`
 
-Print the exact command for the user to run:
+Look up the full `session_id` and `cwd` for entry N, then print a single
+copy-pasteable command that `cd`s into the bookmarked directory and resumes
+the session:
+
+```bash
+jq -r --argjson i $((N-1)) \
+   '.bookmarks[$i] | "cd \(.cwd) && claude --resume \(.session_id)"' "$file"
+```
+
+Render it in the reply as a fenced code block, e.g.:
 
 ```
-claude --resume <session-id>
+cd /path/to/project && claude --resume dad8269d-2d50-4234-a9f0-a6180fa1c205
 ```
 
 Explain: this must be run in a fresh terminal (or after exiting this session).
-From inside Claude Code, `/resume` opens the picker — pass the session id
-shown above.
+The `cd` is required because Claude Code's `/resume` picker filters sessions
+by current working directory — without it the session won't appear. Use the
+full session id (not the 8-char prefix).
 
 Don't try to run `claude --resume` from inside this session — it would nest.
 
