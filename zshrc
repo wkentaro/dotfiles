@@ -221,7 +221,6 @@ alias -g GV="| grep -v"
 alias -g H="| head"
 alias -g L="| $PAGER"
 alias -g P=' --help | less'
-alias -g R="| ruby -e"
 alias -g S="| sed"
 alias -g T="| tail"
 alias -g V="| vim -R -"
