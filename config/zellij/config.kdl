@@ -206,10 +206,10 @@ keybinds clear-defaults=true {
     // ──────────────────────────────────────────────
     shared_except {
         // Navigate panes (tmux: Alt + h/j/k/l)
-        bind "Alt h" { MoveFocusOrTab "left"; }
+        bind "Alt h" { MoveFocus "left"; }
         bind "Alt j" { MoveFocus "down"; }
         bind "Alt k" { MoveFocus "up"; }
-        bind "Alt l" { MoveFocusOrTab "right"; }
+        bind "Alt l" { MoveFocus "right"; }
 
         // Navigate tabs (tmux: Alt + n/p)
         bind "Alt n" { GoToNextTab; }
