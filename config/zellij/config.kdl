@@ -204,7 +204,7 @@ keybinds clear-defaults=true {
     // ──────────────────────────────────────────────
     // Global Alt bindings (no prefix, like your tmux -n bindings)
     // ──────────────────────────────────────────────
-    shared_among "normal" "locked" {
+    shared_except {
         // Navigate panes (tmux: Alt + h/j/k/l)
         bind "Alt h" { MoveFocusOrTab "left"; }
         bind "Alt j" { MoveFocus "down"; }
