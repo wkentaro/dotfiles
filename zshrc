@@ -374,4 +374,7 @@ alias uvr="uv run"
 alias gwt="git wt"
 
 alias cc="claude --dangerously-skip-permissions"
-alias ccw="git wt $(petname); cc"
+ccw() {
+  git wt $(petname)
+  cc $*
+}
