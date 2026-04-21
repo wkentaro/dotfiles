@@ -1,7 +1,6 @@
 # /make-branch — Move changes from main to a new branch
 
-When you've been working on `main` and want to PR, this skill creates a well-named
-feature branch and moves your commits and uncommitted changes onto it.
+When you've been working on `main` (or a random placeholder branch like a petname) and want to PR, this skill creates a well-named feature branch and moves your commits and uncommitted changes onto it.
 
 ## Workflow
 
@@ -16,9 +15,17 @@ git diff --stat
 git diff --cached --stat
 ```
 
-**Abort if not on `main`** — tell the user they're already on a branch and can use `/make-pr` directly.
+Classify the current branch:
 
-**Abort if there's nothing to move** — no commits ahead of `origin/main` and no uncommitted changes.
+- **`main` / `master`** — proceed with the branch-out flow (Cases A/B/C below).
+- **Placeholder / petname branch** — proceed with the in-place rename flow (Case D). A branch is a placeholder if any of these match:
+  - Petname pattern: `^[a-z]+-[a-z]+$` (two lowercase words joined by a single hyphen, no slash, no digits — e.g. `useful-pony`, `sound-midge`, `novel-aphid`). Claude Code and similar tools auto-generate these.
+  - Generic placeholder name: `wip`, `tmp`, `temp`, `test`, `scratch`, `work`, or similar.
+  - The user passes an argument asking to rename (e.g. "because this branch is petname", "rename this branch").
+- **Already-conventional branch** — a branch matching `^(feat|fix|refactor|docs|test|chore|perf|ci)/.+` is well-named. Abort and tell the user to use `/make-pr` directly.
+- **Protected branches** (`develop`, `dev`, `staging`, `production`, `release/*`) — abort; don't touch these.
+
+**Abort if there's nothing to move** — no commits ahead of `origin/main` and no uncommitted changes (only applies to the branch-out flow; the rename flow can proceed with only committed work).
 
 ### 2. Generate a branch name
 
@@ -54,6 +61,21 @@ git switch <branch-name>
 
 ```bash
 git switch -c <branch-name>
+```
+
+**Case D: Already on a placeholder / petname branch — rename in place**
+
+Safe, non-destructive. Preserves all commits and working-tree state; no stash needed.
+
+```bash
+git branch -m <old-placeholder> <branch-name>
+```
+
+If the placeholder branch was already pushed to origin, also update the remote:
+
+```bash
+git push origin :<old-placeholder> <branch-name>
+git push -u origin <branch-name>
 ```
 
 ### 4. Verify and report

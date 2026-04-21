@@ -12,6 +12,13 @@ git branch --show-current
 
 **If on `main` (or `master`)**: run `/make-branch` skill first to move their changes to a feature branch. Do NOT proceed with PR creation from the main branch.
 
+**If on a placeholder / petname branch**: run `/make-branch` to rename it before opening the PR. Petname branches are auto-generated names and should not become the public branch name of a PR. A branch is a placeholder if any of these match:
+
+- Petname pattern: `^[a-z]+-[a-z]+$` (two lowercase words joined by a single hyphen, no slash, no digits — e.g. `useful-pony`, `sound-midge`, `novel-aphid`). Claude Code and similar tools auto-generate these.
+- Generic placeholder name: `wip`, `tmp`, `temp`, `test`, `scratch`, `work`, or similar.
+
+A branch matching `^(feat|fix|refactor|docs|test|chore|perf|ci)/.+` is conventional — proceed with PR creation.
+
 ### 1. Gather context
 
 Run these in parallel:

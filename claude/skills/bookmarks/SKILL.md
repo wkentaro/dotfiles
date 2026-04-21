@@ -44,19 +44,28 @@ Wait for the user's next message and interpret it.
 
 #### `resume N`
 
-No Bash call needed — the full session ID and cwd are already in the pre-loaded
-data above. Render a fenced code block:
+The full session ID and cwd are already in the pre-loaded data above. Claude
+Code can't launch a new session from inside this one, so copy the command to
+the clipboard for the user to paste into a fresh terminal.
 
-```
-cd <cwd> && claude --resume <full-session-id>
+Run this Bash call (substitute `<cwd>` and `<full-session-id>` from the
+pre-loaded data):
+
+```bash
+printf '%s' 'cd <cwd> && claude --resume <full-session-id>' | pbcopy
 ```
 
-Explain: this must be run in a fresh terminal (or after exiting this session).
-The `cd` is required because Claude Code's `/resume` picker filters sessions
-by current working directory — without it the session won't appear. Use the
-full session id (not the 8-char prefix).
+Then render the command in a fenced code block so the user can see what was
+copied, and tell them:
+
+- The command is now on your clipboard — paste it into a fresh terminal.
+- The `cd` is required because Claude Code's `/resume` picker filters sessions
+  by current working directory.
 
 Don't try to run `claude --resume` from inside this session — it would nest.
+
+On non-macOS platforms `pbcopy` won't exist; fall back to `xclip -selection
+clipboard` (Linux) or `clip.exe` (WSL) and note the fallback to the user.
 
 #### `delete N`
 
