@@ -25,7 +25,6 @@ logs.*/
 .claude/artifacts/
 .claude/worktrees/
 .claude/skills/
-tasks/
 
 GEMINI.md
 
