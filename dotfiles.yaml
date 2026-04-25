@@ -22,6 +22,8 @@ config/peco:
   .config/peco
 config/rofi:
   .config/rofi
+config/uv/uv.toml:
+  .config/uv/uv.toml
 gitconfig:
   .gitconfig
 gitmessage.txt:
