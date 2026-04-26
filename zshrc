@@ -368,7 +368,7 @@ alias uvr="uv run"
 
 alias gwt="git wt"
 
-alias cc="claude --dangerously-skip-permissions"
+alias cc="claude"
 ccw() {
   git wt $(petname)
   cc $*
