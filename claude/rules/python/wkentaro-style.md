@@ -7,7 +7,7 @@ paths:
 
 ## Scoping & Constants
 
-- **Scope variables to their usage site** — Don't define globals when a value is only used in one function. Hardcode it locally until reuse demands otherwise.
+- **Scope variables to their usage site** — Don't define globals when a value is only used in one function. Hardcode it locally until reuse demands otherwise. Module-level constants are justified only when shared across modules or across multiple functions; a constant used in a single function belongs inside that function.
 - **Don't prematurely parameterize** — A value used in one place should be a local constant, not a function argument with a default. Promote to a parameter only when a caller actually needs to vary it.
 - **Constants are `Final` + `UPPER_CASE`** — If a local value is fixed, annotate with `Final` and use caps.
 
