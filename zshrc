@@ -174,11 +174,7 @@ export LESS='--tabs=4 --LONG-PROMPT --ignore-case --RAW-CONTROL-CHARS'
 # peco history search
 # Ctrl-R
 function peco_history () {
-  if which tac >/dev/null; then
-    BUFFER=$(history | tac | peco --query "$LBUFFER" | awk '{print substr($0, index($0, $4))}')
-  else
-    BUFFER=$(history | tail -r | peco --query "$LBUFFER" | awk '{print substr($0, index($0, $4))}')
-  fi
+  BUFFER=$(print -rl -- "${(@v)history}" | peco --query "$LBUFFER")
   CURSOR=$#BUFFER         # move cursor
   zle -R -c               # refresh
 }
