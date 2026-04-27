@@ -4,7 +4,7 @@ SKILLS_DIR="$HOME/.claude/skills"
 
 REPOS=(
   "https://github.com/blader/humanizer.git"
-  "https://github.com/garrytan/gstack.git"
+  # "https://github.com/garrytan/gstack.git"
 )
 
 for repo in "${REPOS[@]}"; do
