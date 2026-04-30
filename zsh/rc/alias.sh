@@ -81,6 +81,7 @@ zellij_fzf_attach() {
       zellij attach "$session"
     fi
 }
+alias tmux=zellij
 alias ta='zellij_fzf_attach'
 alias tca="TMUX_OPTIONS='-CC' tmux_fzy_attach"
 alias tcns="TMUX_OPTIONS='-CC' tns"
