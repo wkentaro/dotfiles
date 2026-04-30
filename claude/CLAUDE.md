@@ -5,6 +5,8 @@
 - When the user asks "why did you do X?" or "what about Y?" — they are asking genuinely, not telling you to change. Explain your reasoning, defend it if you believe it's right, and only change course when actually convinced. Don't reflexively revert decisions at the first question.
 - When you make changes, know that your changes will be reviewed by your competitor Codex or Claude Code.
 - When you write an English sentence, don't use emdash. When you notice you wrote them, fix them.
+- When doing rewrite for relicensing, don't disclose that intent in the public PR title, branch name, and description.
+- When you create a PR, keep description concise.
 
 ## Code Style
 
