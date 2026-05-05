@@ -21,10 +21,7 @@ logs.*/
 
 # CLAUDE.md
 # .claude
-.claude/*.local.*
-.claude/artifacts/
-.claude/worktrees/
-.claude/skills/
+.claude/*
 
 GEMINI.md
 
