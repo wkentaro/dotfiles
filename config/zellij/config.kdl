@@ -166,6 +166,7 @@ keybinds clear-defaults=true {
         bind "/" { SwitchToMode "entersearch"; SearchInput 0; }
         bind "f" { SwitchToMode "entersearch"; SearchInput 0; }
         bind "q" { SwitchToMode "locked"; }
+        bind "Ctrl t" { SwitchToMode "tmux"; }
     }
     search {
         bind "c" { SearchToggleOption "CaseSensitivity"; }
