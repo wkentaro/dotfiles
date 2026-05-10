@@ -16,6 +16,14 @@ paths:
 - **Thin entry points** — `main()` parses args and delegates. Config data (like lookup tables) lives in `main`, not at module scope.
 - **Functions define scope, not just reuse** — Extract functions to limit variable lifetimes and flatten nesting, even if called only once. Prefix with `_` unless the function is an intentional public API.
 
+## Control Flow
+
+- **Early continue / early return** — In loops, invert the condition and `continue` so the main body lives at the outer indent. Same for functions: handle the negative cases as guard clauses up top, then write the happy path unindented. `if cond: do_a_lot; return` becomes `if not cond: continue` (or `return`); the work after no longer hides behind extra indentation.
+
+## Class Design
+
+- **Data-class-like classes over container-mimicking ones** — Prefer classes that expose their state through named attributes and explicit edit methods, not classes that overload `__getitem__` / `__setitem__` / `__len__` / `__iter__` to pretend to be a list or dict. `shape.points[i]` and `shape.move_vertex(i, pos)` make the data shape and the mutation surface obvious; `shape[i] = pos` hides what's being indexed and conflates the object with its inner collection. Reserve container dunders for types whose entire purpose is to be a container (custom collection classes), not for domain entities that happen to hold a list.
+
 ## Imports
 
 - **No inline imports** — keep all imports at the top of the file. Inline/deferred imports are only justified for breaking circular dependencies, which should be rare.
