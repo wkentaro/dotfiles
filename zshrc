@@ -370,6 +370,6 @@ alias gwt="git wt"
 
 alias cc="claude --dangerously-skip-permissions"
 ccw() {
-  git wt $(petname)
+  git wt $(petname -l 10)
   cc $*
 }
