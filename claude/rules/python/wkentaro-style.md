@@ -15,6 +15,7 @@ paths:
 
 - **Thin entry points** — `main()` parses args and delegates. Config data (like lookup tables) lives in `main`, not at module scope.
 - **Functions define scope, not just reuse** — Extract functions to limit variable lifetimes and flatten nesting, even if called only once. Prefix with `_` unless the function is an intentional public API.
+- **Don't extract trivial single-use helpers** — A 1-2 line helper with one caller usually adds indirection without scope or naming benefit. Inline it. Extract only when (a) the function name carries meaning the inlined expression lacks, (b) extraction meaningfully limits variable scope, or (c) it flattens nesting. When a refactor reduces a helper to a single caller, reconsider whether it still earns its name.
 
 ## Control Flow
 
