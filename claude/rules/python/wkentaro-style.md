@@ -32,6 +32,7 @@ paths:
 
 - **Names replace comments** — If removing a docstring makes the function unclear, rename the function. Invest in naming over commenting.
 - **Comments explain why, not what** — Only keep comments for non-obvious reasoning. Delete docstrings that restate what the code does.
+- **Verb-prefixed function names** — Default to a leading verb that names what the function does (`make_local_mask`, `compute_mask_iou`, `place_mask`, `round_bbox_to_int`). Use a non-verb form only when it reads strictly better for the specific case: predicates (`is_*`, `has_*`, `can_*`, `should_*`), classmethod constructors (`from_*`), and conversion idioms (`to_dict`). Prefer singular `is_*` over `are_*` even for binary relations — name the subject (`is_redundant_pair(new, peer)`, not `are_redundant(new, peer)`). Avoid noun-only names like `mask_iou` or adjective-noun names like `filled_mask_for_bbox` — they read as values, not actions.
 
 ## Call Sites
 
