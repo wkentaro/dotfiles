@@ -51,6 +51,7 @@ paths:
 - **Mirror source layout** — test directories mirror source modules. When a module has multiple test files, use a subdirectory named after the module (e.g., `tests/unit/hunk/` for `hunk.py`). File names describe the aspect, not the module (`id_test.py`, not `hunk_id_test.py`).
 - **Split files over grouping comments** — if you need a comment to separate test groups, split into separate files.
 - **Deduplicate setup into fixtures** — shared arrange logic belongs in a `@pytest.fixture`, not copy-pasted across tests.
+- **Prefer integration over mocks when speed and cost allow** — Mocking a downstream system only verifies your interpretation of its API; the test passes even when the real API changes shape. If a real instance is cheap to bring up in test (existing conftest fixture, ephemeral subprocess, dockerized service, in-memory engine), drive the test through it. Reserve mocks for genuinely impractical dependencies: paid third-party APIs, irreversible side effects (payments, emails to humans), or services with no offline mode. When unsure, measure: a sub-second real-dependency test is almost always better than the equivalent MagicMock, because it catches version drift in the dependency that a mock will silently absorb.
 
 ## Linting & Formatting
 
