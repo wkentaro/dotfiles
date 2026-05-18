@@ -2,6 +2,8 @@ claude/CLAUDE.md:
   .claude/CLAUDE.md
 claude/rules/common/kent-beck-style.md:
   .claude/rules/common/kent-beck-style.md
+claude/rules/common/wkentaro.md:
+  .claude/rules/common/wkentaro.md
 claude/rules/python/wkentaro-style.md:
   .claude/rules/python/wkentaro-style.md
 claude/skills/*:
