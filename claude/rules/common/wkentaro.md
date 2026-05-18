@@ -16,6 +16,11 @@
 - When you use python, use `uv`.
 - When you merge a pull request, ensure the branch is up-to-date with main (rebase if needed), and then merge with merge commit.
 
+## Skill choice
+- When you commit code, use /git-hunk skill to split into logical commits.
+- When you access a website, use /agent-browser skill to navigate and extract information.
+- When you make a pr, use /make-pr.
+
 ## Workflow Orchestration
 
 ### 1. Plan Mode Default
