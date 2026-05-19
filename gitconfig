@@ -15,11 +15,7 @@
 	ci = commit
 	st = status
 	br = branch
-	bw = browse
-	pr = pull-request
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset' --abbrev-commit --date=iso
-	pl = !hub browse -- pulls
-	is = !hub browse -- issues
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f

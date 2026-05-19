@@ -13,21 +13,6 @@ alias grh~2='git reset HEAD~2'
 alias grh~3='git reset HEAD~3'
 alias g1msg='git log -1 --format="%s" | cat'
 alias g1hash='git log -1 --format="%h" | cat'
-grahttp () {
-  if [ "$#" != 1 ]; then
-    echo "Usage: $0 GITHUB_USER"
-  fi
-  HUB_PROTOCOL=https hub remote add $1 && git fetch $1
-}
-grassh () {
-  if [ "$#" != 1 ]; then
-    echo "Usage: $0 GITHUB_USER"
-  fi
-  HUB_PROTOCOL=ssh hub remote add $1 && git fetch $1
-}
-alias grahttpm='grahttp ${GITHUB_USER}'
-alias grasshm='grassh ${GITHUB_USER}'
-
 gcauto () {
   files=$(git status --porcelain | grep -e '^M' | awk '{print $2}')
   tmpfile=$(mktemp)
@@ -36,9 +21,6 @@ gcauto () {
   rm -f $tmpfile
 }
 alias gsti='git status --ignored'
-
-# Use hub as git client
-type hub &>/dev/null && eval "$(hub alias -s)"
 
 alias ga.='git add .'
 alias co='git checkout'
@@ -157,26 +139,6 @@ git_commit_m () {
 }
 alias gcmsg='git_commit_m'
 alias gcsmg='gcmsg'
-
-# for hub command
-alias gpr='hub pull-request'
-alias gfork='hub fork'
-gpl () {
-  if [ "$1" = "" ]; then
-    hub browse -- pulls/$2 >/dev/null 2>&1
-  else
-    hub browse $1 pulls/$2 >/dev/null 2>&1
-  fi
-}
-gis () {
-  if [ "$1" = "" ]; then
-    hub browse -- issues/$2 >/dev/null 2>&1
-  else
-    hub browse $1 issues/$2 >/dev/null 2>&1
-  fi
-}
-alias gbw='hub browse $@ 2>/dev/null'
-#}}}
 
 # alias gbd='git branch --merged | grep -v "\*" | xargs -n 1 git branch -d'
 gbdg () {
