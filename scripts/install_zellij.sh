@@ -4,6 +4,11 @@ if hash zellij &>/dev/null; then
   exit 0
 fi
 
+if [ "$(uname -s)" = "Darwin" ]; then
+  echo "On macOS, install zellij via 'brew install zellij'." >&2
+  exit 0
+fi
+
 set -e
 
 tmp_path=$(mktemp -d)
