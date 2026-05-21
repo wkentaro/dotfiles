@@ -1,15 +1,3 @@
-claude/settings.json:
-  .claude/settings.json
-claude/statusline-command.sh:
-  .claude/statusline-command.sh
-claude/rules/common/kent-beck-style.md:
-  .claude/rules/common/kent-beck-style.md
-claude/rules/common/wkentaro.md:
-  .claude/rules/common/wkentaro.md
-claude/rules/python/wkentaro-style.md:
-  .claude/rules/python/wkentaro-style.md
-claude/skills/*:
-  .claude/skills/
 config/ghostty/config:
   .config/ghostty/config
 config/ghostty/config.macos:
