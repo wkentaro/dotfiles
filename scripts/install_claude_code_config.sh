@@ -12,12 +12,11 @@ readonly ECC_CACHE="${HOME}/.local/share/claude-ecc"
 readonly ECC_CACHE_LEGACY="${HOME}/.cache/claude-ecc"
 
 # Personal dotfile -> ~/.claude target. Format: "<src>:<dest>".
+# Rules and skills are linked at the directory level below; add new files
+# under claude/rules/ or claude/skills/ and they appear automatically.
 PERSONAL_LINKS=(
   "${DOTFILES_CLAUDE}/settings.json:${CLAUDE_DIR}/settings.json"
   "${DOTFILES_CLAUDE}/statusline-command.sh:${CLAUDE_DIR}/statusline-command.sh"
-  "${DOTFILES_CLAUDE}/rules/common/kent-beck-style.md:${CLAUDE_DIR}/rules/common/kent-beck-style.md"
-  "${DOTFILES_CLAUDE}/rules/common/wkentaro.md:${CLAUDE_DIR}/rules/common/wkentaro.md"
-  "${DOTFILES_CLAUDE}/rules/python/wkentaro-style.md:${CLAUDE_DIR}/rules/python/wkentaro-style.md"
 )
 
 ECC_COMMANDS=(
@@ -80,6 +79,20 @@ link_personal_files() {
   done
 }
 
+# Mirror each top-level entry under claude/rules/ to ~/.claude/rules/.
+# Files and subdirectories alike — add a new file or folder under
+# claude/rules/ and it appears with no script change required.
+# (~/.claude/rules/ also hosts the `ecc` symlink, so we link per-entry
+# rather than symlinking the whole directory.)
+link_personal_rules() {
+  local entry name
+  for entry in "${DOTFILES_CLAUDE}"/rules/*; do
+    [[ -e "${entry}" ]] || continue
+    name=$(basename "${entry}")
+    ensure_symlink "${entry}" "${CLAUDE_DIR}/rules/${name}"
+  done
+}
+
 link_personal_skills() {
   local skill_dir name
   for skill_dir in "${DOTFILES_CLAUDE}"/skills/*/; do
@@ -87,6 +100,28 @@ link_personal_skills() {
     name=$(basename "${skill_dir}")
     link_if_missing "${skill_dir%/}" "${CLAUDE_DIR}/skills/${name}"
   done
+}
+
+# Sweep broken symlinks under ~/.claude/rules left over from older layouts
+# (e.g. ~/.claude/rules/common/wkentaro.md after the source moved). Only
+# touches links whose target used to point into the dotfiles tree.
+prune_stale_rule_links() {
+  [[ -d "${CLAUDE_DIR}/rules" ]] || return 0
+
+  local link target
+  while IFS= read -r link; do
+    target=$(readlink "${link}")
+    case "${target}" in
+      "${DOTFILES_CLAUDE}/"*)
+        if [[ ! -e "${target}" ]]; then
+          log "prune: ${link} (dangling -> ${target})"
+          rm -f "${link}"
+        fi
+        ;;
+    esac
+  done < <(find "${CLAUDE_DIR}/rules" -type l)
+
+  find "${CLAUDE_DIR}/rules" -mindepth 1 -type d -empty -delete 2>/dev/null || true
 }
 
 ensure_ecc_clone() {
@@ -184,12 +219,13 @@ main() {
   done
 
   mkdir -p \
-    "${CLAUDE_DIR}/rules/common" \
-    "${CLAUDE_DIR}/rules/python" \
+    "${CLAUDE_DIR}/rules" \
     "${CLAUDE_DIR}/skills" \
     "${CLAUDE_DIR}/commands"
 
+  prune_stale_rule_links
   link_personal_files
+  link_personal_rules
   link_personal_skills
   ensure_ecc_clone "${update}"
   link_ecc_content
