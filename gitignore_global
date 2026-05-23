@@ -30,3 +30,5 @@ branches/branches.json
 .gstack/
 GEO-AUDIT-REPORT.md
 TODOS.md
+
+tmp/
