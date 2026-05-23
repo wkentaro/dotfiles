@@ -1,25 +1,4 @@
-# Global Claude Code Preferences
-
-## Guardrails
-- When you change a code, make sure you've read that code. Change shouldn't be made without reading and understanding.
-- When the user asks "why did you do X?" or "what about Y?" — they are asking genuinely, not telling you to change. Explain your reasoning, defend it if you believe it's right, and only change course when actually convinced. Don't reflexively revert decisions at the first question.
-- When you make changes, know that your changes will be reviewed by your competitor Codex or Claude Code.
-- When you write an English sentence, don't use emdash. When you notice you wrote them, fix them.
-- When doing rewrite for relicensing, don't disclose that intent in the public PR title, branch name, and description.
-- When you create a PR, keep description concise.
-
-## Code Style
-
-- Avoid unnecessary comments. Code should be self-explanatory. Only add comments when the logic is truly non-obvious.
-- When you commit, don't put Co-authored-by Claude.
-- When you switch branches, use `git switch` instead of `git checkout`.
-- When you use python, use `uv`.
-- When you merge a pull request, ensure the branch is up-to-date with main (rebase if needed), and then merge with merge commit.
-
-## Skill choice
-- When you commit code, use /git-hunk skill to split into logical commits.
-- When you access a website, use /agent-browser skill to navigate and extract information.
-- When you make a pr, use /make-pr.
+# boris-cherny.md
 
 ## Workflow Orchestration
 
