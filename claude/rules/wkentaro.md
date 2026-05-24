@@ -8,6 +8,7 @@
 - When you write an English sentence, don't use emdash. When you notice you wrote them, fix them.
 - When doing rewrite for relicensing, don't disclose that intent in the public PR title, branch name, and description.
 - When you create a PR, keep description concise.
+- When you create a temporary file, create it in tmp/ directory in the repo.
 
 ## Code Style
 
