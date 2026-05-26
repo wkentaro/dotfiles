@@ -128,8 +128,10 @@ fi
 # ls aliases
 # ----------------------------------------------------
 if command gls &>/dev/null; then
+  command gdircolors &>/dev/null && eval "$(command gdircolors -b)"
   alias ls='command gls --color=auto'
 else
+  command dircolors &>/dev/null && eval "$(command dircolors -b)"
   alias ls='ls --color=auto'
 fi
 alias sl='ls'
