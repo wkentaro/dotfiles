@@ -44,7 +44,7 @@ gh pr view --json number,url 2>/dev/null
 
 **Assignee**: default to the git user (`gh api user --jq '.login'`).
 
-**Body**: pick the smallest structure that carries the signal. Do NOT mechanically apply a fixed template — calibrate to the scope of the change.
+**Body**: read [DESCRIPTION-QUALITY.md](DESCRIPTION-QUALITY.md) before writing. Pick the smallest structure that carries the signal. Do NOT mechanically apply a fixed template; calibrate to the scope of the change.
 
 #### Body by scope
 
