@@ -3,6 +3,7 @@ input=$(cat)
 cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd')
 model=$(echo "$input" | jq -r '.model.display_name // empty')
 used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
+used_tokens=$(echo "$input" | jq -r '.context_window.total_input_tokens // empty')
 
 user=$(whoami)
 host=$(hostname -s)
@@ -47,7 +48,16 @@ fi
 
 if [ -n "$used_pct" ]; then
   used_int=$(printf '%.0f' "$used_pct")
-  line="$line \033[38;5;244m[ctx:${used_int}%]\033[0m"
+  ctx="ctx:${used_int}%"
+  if [ -n "$used_tokens" ]; then
+    if [ "$used_tokens" -ge 1000 ]; then
+      tok="$((used_tokens / 1000))k"
+    else
+      tok="$used_tokens"
+    fi
+    ctx="ctx:${tok} ${used_int}%"
+  fi
+  line="$line \033[38;5;244m[${ctx}]\033[0m"
 fi
 
 printf '%b\n' "$line"
