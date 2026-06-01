@@ -42,10 +42,6 @@ fi
 
 line="$line tm \033[38;5;147m$time_str\033[0m"
 
-if [ -n "$model" ]; then
-  line="$line  \033[38;5;244m$model\033[0m"
-fi
-
 if [ -n "$used_pct" ]; then
   used_int=$(printf '%.0f' "$used_pct")
   ctx="ctx:${used_int}%"
@@ -57,7 +53,11 @@ if [ -n "$used_pct" ]; then
     fi
     ctx="ctx:${tok} ${used_int}%"
   fi
-  line="$line \033[38;5;244m[${ctx}]\033[0m"
+  line="$line  \033[38;5;244m[${ctx}]\033[0m"
+fi
+
+if [ -n "$model" ]; then
+  line="$line \033[38;5;244m$model\033[0m"
 fi
 
 printf '%b\n' "$line"
