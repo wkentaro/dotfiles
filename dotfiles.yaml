@@ -6,6 +6,8 @@ config/ghostty/config.macos:
 config/ghostty/config.linux:
   name: .config/ghostty/config.linux
   uname: Linux
+config/herdr/config.toml:
+  .config/herdr/config.toml
 config/zellij:
   .config/zellij
 config/nvim:
