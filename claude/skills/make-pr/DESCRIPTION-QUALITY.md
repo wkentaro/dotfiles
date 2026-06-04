@@ -17,6 +17,10 @@ Keep, because the reviewer can't get this from a diff scan:
 - "`timestamp = None` is the sentinel; the existing fallback path was already designed for it, so semantics unchanged."
 - "Safe because the indexer only reads `Base` fields."
 
+## Match length to change weight
+
+A mechanical or conventional change (rename sweep, formatting, dependency bump, dead-code removal) needs only a few sentences: the rationale, the "no logic change" claim, and any exceptions summarized as a category, not enumerated per file. If the reviewer can verify the whole diff by pattern-matching one hunk, the description should be readable in one breath. Reserve multi-paragraph descriptions and itemized non-obvious-bits lists for changes whose hunks genuinely differ from each other.
+
 ## Lead with the punchline
 
 The first sentence answers *why does this exist?*, not *what does this do?*. The "what" is the diff.
