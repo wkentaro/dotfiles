@@ -21,7 +21,7 @@
 	smudge = git-media-smudge %f
 [core]
 	excludesfile = ~/.gitignore_global
-	pager = delta
+	pager = delta | less
 [merge]
 	conflictStyle = zdiff3
 [http]
