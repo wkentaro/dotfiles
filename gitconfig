@@ -21,9 +21,9 @@
 	smudge = git-media-smudge %f
 [core]
 	excludesfile = ~/.gitignore_global
-	pager = diff-so-fancy | less
+	pager = delta
 [merge]
-	conflictstyle = diff3
+	conflictStyle = zdiff3
 [http]
 	sslVerify = false
 [rerere]
@@ -53,3 +53,8 @@
 [wt]
 	copyignored = true
 	nocopy = .venv/
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	dark = true
