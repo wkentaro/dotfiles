@@ -8,6 +8,7 @@
 - When you write an English sentence, don't use emdash. When you notice you wrote them, fix them.
 - When doing rewrite for relicensing, don't disclose that intent in the public PR title, branch name, and description.
 - When you create a PR/MR, use /make-pr or /make-mr skill.
+- Before any unrevertable (or hard-to-unrevert) action, ask for explicit final permission immediately before doing it. Earlier approval of an approach, plan, or "fix X" is not that permission. This covers merging a PR/MR, tagging a release, publishing to a registry (PyPI, npm), deleting/force-pushing, sending outward-facing messages, and anything else you can't cleanly undo.
 - When you create a temporary file, create it in tmp/ directory in the repo.
 
 ## Code Style
