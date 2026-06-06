@@ -20,7 +20,6 @@ PERSONAL_LINKS=(
 )
 
 ECC_COMMANDS=(
-  python-review.md
   refactor-clean.md
 )
 
