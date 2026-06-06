@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
-# Install or update Claude Code config: personal dotfile symlinks, ECC rules
-# and slash commands, and external skills (vercel-labs/skills CLI).
+# Install or update Claude Code config: personal dotfile symlinks, ECC slash
+# commands, and external skills (vercel-labs/skills CLI).
 
 set -euo pipefail
 
@@ -82,8 +82,8 @@ link_personal_files() {
 # Mirror each top-level entry under claude/rules/ to ~/.claude/rules/.
 # Files and subdirectories alike — add a new file or folder under
 # claude/rules/ and it appears with no script change required.
-# (~/.claude/rules/ also hosts the `ecc` symlink, so we link per-entry
-# rather than symlinking the whole directory.)
+# (We link per-entry rather than symlinking the whole directory so other
+# tools can drop their own entries into ~/.claude/rules/ alongside ours.)
 link_personal_rules() {
   local entry name
   for entry in "${DOTFILES_CLAUDE}"/rules/*; do
@@ -146,7 +146,13 @@ ensure_ecc_clone() {
 }
 
 link_ecc_content() {
-  ensure_symlink "${ECC_CACHE}/rules" "${CLAUDE_DIR}/rules/ecc"
+  # ECC rules are intentionally not linked into ~/.claude/rules: they load
+  # globally on every turn (~13k tokens) and overlap with our personal rules.
+  # Only the commands below are installed; use ECC rules per-project if needed.
+  if [[ -L "${CLAUDE_DIR}/rules/ecc" ]]; then
+    log "unlink: ${CLAUDE_DIR}/rules/ecc (ECC rules no longer global)"
+    rm -f "${CLAUDE_DIR}/rules/ecc"
+  fi
 
   local cmd src
   for cmd in "${ECC_COMMANDS[@]}"; do
