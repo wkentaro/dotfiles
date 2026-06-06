@@ -117,4 +117,12 @@ config.window_decorations = 'INTEGRATED_BUTTONS|RESIZE'
 -- alt+shift+k/j reach TUIs (herdr workspace navigation) unambiguously.
 config.enable_kitty_keyboard = true
 
+-- The Kitty protocol otherwise encodes these chords as CSI-u escape
+-- sequences (e.g. ctrl+enter -> \x1b[13;5u); send the raw bytes instead,
+-- mirroring the ghostty keybinds (ctrl+enter=\r, shift+enter=\n, ctrl+[=\x1b).
+config.keys = config.keys or {}
+table.insert(config.keys, { key = 'Enter', mods = 'CTRL', action = wezterm.action.SendString('\r') })
+table.insert(config.keys, { key = 'Enter', mods = 'SHIFT', action = wezterm.action.SendString('\n') })
+table.insert(config.keys, { key = '[', mods = 'CTRL', action = wezterm.action.SendString('\x1b') })
+
 return config
