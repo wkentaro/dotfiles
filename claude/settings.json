@@ -1,4 +1,5 @@
 {
+  "enabledPlugins": {},
   "env": {
     "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "1",
     "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "1",
@@ -9,94 +10,103 @@
     "_CLAUDE_CODE_DISABLE_1M_CONTEXT": "1",
     "_CLAUDE_CODE_NO_FLICKER": "1"
   },
-  "permissions": {
-    "allow": [],
-    "defaultMode": "auto"
-  },
   "hooks": {
     "PermissionRequest": [
       {
-        "matcher": "*",
         "hooks": [
           {
-            "type": "command",
             "command": "bash ~/.claude/hooks/herdr-agent-state.sh blocked",
-            "timeout": 10
+            "timeout": 10,
+            "type": "command"
           }
-        ]
+        ],
+        "matcher": "*"
       }
     ],
     "PreToolUse": [
       {
-        "matcher": "*",
         "hooks": [
           {
-            "type": "command",
             "command": "bash ~/.claude/hooks/herdr-agent-state.sh working",
-            "timeout": 10
+            "timeout": 10,
+            "type": "command"
           }
-        ]
+        ],
+        "matcher": "*"
       }
     ],
     "SessionEnd": [
       {
-        "matcher": "*",
         "hooks": [
           {
-            "type": "command",
             "command": "bash ~/.claude/hooks/herdr-agent-state.sh release",
-            "timeout": 10
+            "timeout": 10,
+            "type": "command"
           }
-        ]
+        ],
+        "matcher": "*"
       }
     ],
     "SessionStart": [
       {
-        "matcher": "*",
         "hooks": [
           {
-            "type": "command",
             "command": "bash ~/.claude/hooks/herdr-agent-state.sh idle",
-            "timeout": 10
+            "timeout": 10,
+            "type": "command"
           }
-        ]
+        ],
+        "matcher": "*"
+      },
+      {
+        "hooks": [
+          {
+            "command": "bash '/Users/wkentaro/.claude/hooks/herdr-agent-state.sh' session",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
       }
     ],
     "Stop": [
       {
-        "matcher": "*",
         "hooks": [
           {
-            "type": "command",
             "command": "bash ~/.claude/hooks/herdr-agent-state.sh idle",
-            "timeout": 10
+            "timeout": 10,
+            "type": "command"
           }
-        ]
+        ],
+        "matcher": "*"
       }
     ],
     "UserPromptSubmit": [
       {
-        "matcher": "*",
         "hooks": [
           {
-            "type": "command",
             "command": "bash ~/.claude/hooks/herdr-agent-state.sh working",
-            "timeout": 10
+            "timeout": 10,
+            "type": "command"
           }
-        ]
+        ],
+        "matcher": "*"
       }
     ]
   },
-  "statusLine": {
-    "type": "command",
-    "command": "bash ~/.claude/statusline-command.sh"
+  "permissions": {
+    "allow": [],
+    "defaultMode": "auto"
   },
-  "enabledPlugins": {},
-  "viewMode": "default",
   "showThinkingSummaries": true,
-  "skipDangerousModePermissionPrompt": true,
   "showTurnDuration": true,
   "skipAutoPermissionPrompt": true,
-  "voiceEnabled": true,
-  "tui": "fullscreen"
+  "skipDangerousModePermissionPrompt": true,
+  "statusLine": {
+    "command": "bash ~/.claude/statusline-command.sh",
+    "type": "command"
+  },
+  "tui": "fullscreen",
+  "viewMode": "default",
+  "voiceEnabled": true
 }
