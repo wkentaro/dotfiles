@@ -179,6 +179,7 @@ focus_pane_right = ["alt+l", "prefix+l"]
 # [ui.sound.agents]
 # droid = "off"
 
+enabled = false
 [session]
 # Resume supported AI-agent panes into their native conversation sessions after
 # a Herdr server restart. Requires official integrations that report session refs.
