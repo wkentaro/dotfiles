@@ -357,7 +357,7 @@ alias k9='kill -9'
 # fi
 
 function diff () {
-  command diff -u "$@" | diff-so-fancy
+  command diff -u "$@" | delta
 }
 
 # alias lt="logtable"
