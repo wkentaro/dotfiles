@@ -481,7 +481,7 @@ require("packer").startup(function()
         nnoremap <silent> <C-q> :lua require("telescope.builtin").quickfix({ fname_width=0.5, layout_config={preview_width=0.3}})<CR>
         nnoremap <silent> <C-p> :Telescope find_files<CR>
         nnoremap <silent> <C-n> :Telescope buffers<CR>
-        nnoremap <silent> <C-s> :lua require("telescope.builtin").git_status({ cwd=vim.fn.expand('%:p:h') })<CR>
+        nnoremap <silent> <C-s> :lua git_status_delta()<CR>
         nnoremap <silent> <C-]> :Telescope frecency<CR>
         nnoremap <silent> <leader>r :Telescope grep_string<CR>
         nnoremap <silent> <leader>l :Telescope lsp_references<CR>
@@ -508,6 +508,22 @@ require("packer").startup(function()
       else
         fd_command = "fdfind"
         search_dir = "~/workspaces"
+      end
+
+      local delta_status_previewer = require("telescope.previewers").new_termopen_previewer({
+        get_command = function(entry)
+          if entry.status == "??" then
+            return { "git", "-c", "core.pager=delta --paging=never", "diff", "--no-index", "/dev/null", entry.value }
+          end
+          return { "git", "-c", "core.pager=delta --paging=never", "diff", "HEAD", "--", entry.value }
+        end,
+      })
+
+      function git_status_delta()
+        require("telescope.builtin").git_status({
+          cwd = vim.fn.expand("%:p:h"),
+          previewer = delta_status_previewer,
+        })
       end
 
       function telescope_find_dirs(opts)
