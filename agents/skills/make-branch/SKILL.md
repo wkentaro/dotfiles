@@ -1,3 +1,8 @@
+---
+name: make-branch
+description: Move changes from main or a placeholder branch to a well-named feature branch, preserving commits and working tree state. Use before opening a PR when work started on main or an auto-generated branch name.
+---
+
 # /make-branch — Move changes from main to a new branch
 
 When you've been working on `main` (or a random placeholder branch like a petname) and want to PR, this skill creates a well-named feature branch and moves your commits and uncommitted changes onto it.

@@ -5,15 +5,17 @@
 
 set -euo pipefail
 
+readonly DOTFILES_AGENTS="${HOME}/.dotfiles/agents"
 readonly DOTFILES_CLAUDE="${HOME}/.dotfiles/claude"
+readonly AGENTS_DIR="${HOME}/.agents"
 readonly CLAUDE_DIR="${HOME}/.claude"
 readonly ECC_REPO="https://github.com/affaan-m/ECC.git"
 readonly ECC_CACHE="${HOME}/.local/share/claude-ecc"
 readonly ECC_CACHE_LEGACY="${HOME}/.cache/claude-ecc"
 
 # Personal dotfile -> ~/.claude target. Format: "<src>:<dest>".
-# Rules and skills are linked at the directory level below; add new files
-# under claude/rules/ or claude/skills/ and they appear automatically.
+# Rules are linked at the directory level below; add new files under
+# claude/rules/ and they appear automatically.
 PERSONAL_LINKS=(
   "${DOTFILES_CLAUDE}/settings.json:${CLAUDE_DIR}/settings.json"
   "${DOTFILES_CLAUDE}/statusline-command.sh:${CLAUDE_DIR}/statusline-command.sh"
@@ -94,11 +96,42 @@ link_personal_rules() {
 
 link_personal_skills() {
   local skill_dir name
-  for skill_dir in "${DOTFILES_CLAUDE}"/skills/*/; do
+  for skill_dir in "${DOTFILES_AGENTS}"/skills/*/; do
     [[ -d "${skill_dir}" ]] || continue
     name=$(basename "${skill_dir}")
-    link_if_missing "${skill_dir%/}" "${CLAUDE_DIR}/skills/${name}"
+    ensure_symlink "${skill_dir%/}" "${AGENTS_DIR}/skills/${name}"
   done
+}
+
+ensure_skills_bridge() {
+  local entry name
+
+  mkdir -p "${AGENTS_DIR}/skills"
+
+  if [[ -L "${CLAUDE_DIR}/skills" ]]; then
+    local current
+    current=$(readlink "${CLAUDE_DIR}/skills")
+    if [[ "${current}" == "${AGENTS_DIR}/skills" ]]; then
+      log "skip: ${CLAUDE_DIR}/skills (symlink ok)"
+      return
+    fi
+  elif [[ -d "${CLAUDE_DIR}/skills" ]]; then
+    shopt -s dotglob nullglob
+    for entry in "${CLAUDE_DIR}/skills"/*; do
+      name=$(basename "${entry}")
+      if [[ -e "${AGENTS_DIR}/skills/${name}" || -L "${AGENTS_DIR}/skills/${name}" ]]; then
+        die "conflicting skill entry exists in both ${CLAUDE_DIR}/skills and ${AGENTS_DIR}/skills: ${name}"
+      fi
+      log "migrate: ${entry} -> ${AGENTS_DIR}/skills/${name}"
+      mv "${entry}" "${AGENTS_DIR}/skills/${name}"
+    done
+    shopt -u dotglob nullglob
+    rmdir "${CLAUDE_DIR}/skills"
+  elif [[ -e "${CLAUDE_DIR}/skills" ]]; then
+    die "${CLAUDE_DIR}/skills exists but is not a directory or symlink"
+  fi
+
+  ensure_symlink "${AGENTS_DIR}/skills" "${CLAUDE_DIR}/skills"
 }
 
 # Sweep broken symlinks under ~/.claude/rules left over from older layouts
@@ -224,10 +257,11 @@ main() {
   done
 
   mkdir -p \
+    "${AGENTS_DIR}/skills" \
     "${CLAUDE_DIR}/rules" \
-    "${CLAUDE_DIR}/skills" \
     "${CLAUDE_DIR}/commands"
 
+  ensure_skills_bridge
   prune_stale_rule_links
   link_personal_files
   link_personal_rules

@@ -1,3 +1,8 @@
+---
+name: make-pr
+description: Push the current branch and create or update a GitHub pull request with a good title, description, labels, and assignee. Use after the branch name is already conventional.
+---
+
 # /make-pr — Create or Update a Pull Request
 
 Push the current branch and create (or update) a GitHub PR with title, description, labels, and assignee.
