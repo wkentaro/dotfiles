@@ -125,4 +125,9 @@ table.insert(config.keys, { key = 'Enter', mods = 'CTRL', action = wezterm.actio
 table.insert(config.keys, { key = 'Enter', mods = 'SHIFT', action = wezterm.action.SendString('\n') })
 table.insert(config.keys, { key = '[', mods = 'CTRL', action = wezterm.action.SendString('\x1b') })
 
+-- macOS treats Option+N as the tilde dead key, so the chord never reaches
+-- herdr (next_tab). Send legacy meta-n directly, matching the ^[p that
+-- alt+p (previous_tab) already produces.
+table.insert(config.keys, { key = 'n', mods = 'ALT', action = wezterm.action.SendString('\x1bn') })
+
 return config
