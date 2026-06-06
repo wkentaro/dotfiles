@@ -25,6 +25,13 @@
 - When you access a website, use /agent-browser skill to navigate and extract information.
 - When you make a pr, use /make-pr.
 
+## Workflow
+
+- For non-trivial tasks (3+ steps or architectural decisions), plan before coding. If it goes sideways, stop and re-plan rather than pushing on.
+- Use subagents liberally to keep the main context clean: offload research, exploration, and parallel analysis. One focused task per subagent.
+- Don't mark work done until you've proven it: run the tests/app, and diff behavior against main when relevant.
+- After a correction, record it in the project's CLAUDE.local.md (gitignored, auto-loaded, so it applies next session in that project). When a lesson generalizes across projects, promote it into ~/.claude/rules/wkentaro.md and delete it from CLAUDE.local.md so the buffer stays small. Discard one-offs.
+
 ## Coding style
 
 ### Scoping & Constants
