@@ -414,6 +414,8 @@ restore_env_for_ros () {
   export CMAKE_PREFIX_PATH=$_CMAKE_PREFIX_PATH
 }
 
+alias gs="git status"
+
 users_by_ps () {
   ps auxwww | awk '{print $1}' | egrep "$(command ls /home)" | sort | uniq -c | sort -nr | xargs
 }
