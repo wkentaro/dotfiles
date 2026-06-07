@@ -510,19 +510,23 @@ require("packer").startup(function()
         search_dir = "~/workspaces"
       end
 
-      local delta_status_previewer = require("telescope.previewers").new_termopen_previewer({
-        get_command = function(entry)
-          if entry.status == "??" then
-            return { "git", "-c", "core.pager=delta --paging=never", "diff", "--no-index", "/dev/null", entry.value }
-          end
-          return { "git", "-c", "core.pager=delta --paging=never", "diff", "HEAD", "--", entry.value }
-        end,
-      })
+      local function delta_status_previewer(cwd)
+        return require("telescope.previewers").new_termopen_previewer({
+          cwd = cwd,
+          get_command = function(entry)
+            if entry.status == "??" then
+              return { "git", "-c", "core.pager=delta --paging=never", "diff", "--no-index", "/dev/null", entry.value }
+            end
+            return { "git", "-c", "core.pager=delta --paging=never", "diff", "HEAD", "--", entry.value }
+          end,
+        })
+      end
 
       function git_status_delta()
+        local root = vim.fn.systemlist({ "git", "-C", vim.fn.expand("%:p:h"), "rev-parse", "--show-toplevel" })[1]
         require("telescope.builtin").git_status({
-          cwd = vim.fn.expand("%:p:h"),
-          previewer = delta_status_previewer,
+          cwd = root,
+          previewer = delta_status_previewer(root),
         })
       end
 
