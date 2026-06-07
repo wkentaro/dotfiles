@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 #
 # Install or update Claude Code config: personal dotfile symlinks, ECC slash
-# commands, and external skills (vercel-labs/skills CLI).
+# commands, brooks-lint commands/skills, and external skills (vercel-labs/skills
+# CLI).
 
 set -euo pipefail
 
@@ -12,6 +13,8 @@ readonly CLAUDE_DIR="${HOME}/.claude"
 readonly ECC_REPO="https://github.com/affaan-m/ECC.git"
 readonly ECC_CACHE="${HOME}/.local/share/claude-ecc"
 readonly ECC_CACHE_LEGACY="${HOME}/.cache/claude-ecc"
+readonly BROOKS_REPO="https://github.com/hyhmrright/brooks-lint.git"
+readonly BROOKS_CACHE="${HOME}/.local/share/claude-brooks-lint"
 
 # Personal dotfile -> ~/.claude target. Format: "<src>:<dest>".
 # Rules are linked at the directory level below; add new files under
@@ -197,6 +200,35 @@ link_ecc_content() {
   done
 }
 
+ensure_brooks_clone() {
+  local pull="$1"
+
+  if [[ ! -d "${BROOKS_CACHE}/.git" ]]; then
+    log "clone: brooks-lint -> ${BROOKS_CACHE}"
+    mkdir -p "$(dirname "${BROOKS_CACHE}")"
+    git clone "${BROOKS_REPO}" "${BROOKS_CACHE}"
+    return
+  fi
+
+  (( pull )) || return 0
+  log "update: brooks-lint"
+  git -C "${BROOKS_CACHE}" pull --ff-only
+}
+
+# Mirror the upstream manual install (mkdir ~/.claude/skills/brooks-lint &&
+# cp -r skills/* into it) as a single symlink, keeping the brooks-* skills and
+# their shared _shared/ siblings together so relative references resolve. The
+# /brooks-* command wrappers are linked alongside the ECC commands.
+link_brooks_content() {
+  ensure_symlink "${BROOKS_CACHE}/skills" "${AGENTS_DIR}/skills/brooks-lint"
+
+  local cmd
+  for cmd in "${BROOKS_CACHE}"/commands/*.md; do
+    [[ -e "${cmd}" ]] || continue
+    ensure_symlink "${cmd}" "${CLAUDE_DIR}/commands/$(basename "${cmd}")"
+  done
+}
+
 install_skills_from_repo() {
   local repo="$1" csv="$2"
   local skill
@@ -242,7 +274,7 @@ usage() {
   cat <<EOF
 usage: $(basename "$0") [-u|--update]
   default:  install missing pieces, skip what already exists
-  --update: also git-pull the ECC clone and refresh managed skills
+  --update: also git-pull the ECC and brooks-lint clones and refresh managed skills
 EOF
 }
 
@@ -268,6 +300,8 @@ main() {
   link_personal_skills
   ensure_ecc_clone "${update}"
   link_ecc_content
+  ensure_brooks_clone "${update}"
+  link_brooks_content
   install_external_skills
 
   if (( update )); then
