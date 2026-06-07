@@ -121,13 +121,23 @@
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"
   },
-  "enabledPlugins": {},
+  "enabledPlugins": {
+    "brooks-lint@brooks-lint-marketplace": true
+  },
+  "extraKnownMarketplaces": {
+    "brooks-lint-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "hyhmrright/brooks-lint"
+      }
+    }
+  },
   "viewMode": "default",
   "tui": "fullscreen",
   "showThinkingSummaries": true,
   "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
   "showTurnDuration": true,
   "skipAutoPermissionPrompt": true,
-  "voiceEnabled": true,
-  "skipWorkflowUsageWarning": true
+  "voiceEnabled": true
 }
