@@ -121,17 +121,8 @@
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"
   },
-  "enabledPlugins": {
-    "brooks-lint@brooks-lint-marketplace": true
-  },
-  "extraKnownMarketplaces": {
-    "brooks-lint-marketplace": {
-      "source": {
-        "source": "github",
-        "repo": "hyhmrright/brooks-lint"
-      }
-    }
-  },
+  "enabledPlugins": {},
+  "extraKnownMarketplaces": {},
   "viewMode": "default",
   "tui": "fullscreen",
   "showThinkingSummaries": true,

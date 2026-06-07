@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 #
 # Install or update Claude Code config: personal dotfile symlinks, ECC slash
-# commands, and external skills (vercel-labs/skills CLI).
+# commands, brooks-lint commands/skills, and external skills (vercel-labs/skills
+# CLI).
 
 set -euo pipefail
 
@@ -12,6 +13,8 @@ readonly CLAUDE_DIR="${HOME}/.claude"
 readonly ECC_REPO="https://github.com/affaan-m/ECC.git"
 readonly ECC_CACHE="${HOME}/.local/share/claude-ecc"
 readonly ECC_CACHE_LEGACY="${HOME}/.cache/claude-ecc"
+readonly BROOKS_REPO="https://github.com/hyhmrright/brooks-lint.git"
+readonly BROOKS_CACHE="${HOME}/.local/share/claude-brooks-lint"
 
 # Personal dotfile -> ~/.claude target. Format: "<src>:<dest>".
 # Rules are linked at the directory level below; add new files under
@@ -197,6 +200,36 @@ link_ecc_content() {
   done
 }
 
+ensure_brooks_clone() {
+  local pull="$1"
+
+  if [[ ! -d "${BROOKS_CACHE}/.git" ]]; then
+    log "clone: brooks-lint -> ${BROOKS_CACHE}"
+    mkdir -p "$(dirname "${BROOKS_CACHE}")"
+    git clone "${BROOKS_REPO}" "${BROOKS_CACHE}"
+    return
+  fi
+
+  (( pull )) || return 0
+  log "update: brooks-lint"
+  git -C "${BROOKS_CACHE}" pull --ff-only
+}
+
+# Link brooks-lint's six skills plus the _shared/ resource dir they reference flat into
+# the ~/.agents/skills hub. vercel-labs/skills can't install these (each skill reads
+# ../_shared/ as a sibling, which a per-skill install drops), but linking _shared/ as its
+# own hub entry keeps that relative reference resolving. Flat (vs. nesting under one
+# brooks-lint/ dir) is also what gives each skill its bare /brooks-* slash command; the
+# colon-namespaced form only exists for plugin installs. We deliberately skip brooks-lint's
+# commands/ wrappers: they invoke the plugin namespace (brooks-lint:brooks-review) and fail
+# against a skills-dir install.
+link_brooks_content() {
+  local entry
+  for entry in "${BROOKS_CACHE}"/skills/*/; do
+    ensure_symlink "${entry%/}" "${AGENTS_DIR}/skills/$(basename "${entry}")"
+  done
+}
+
 install_skills_from_repo() {
   local repo="$1" csv="$2"
   local skill
@@ -242,7 +275,7 @@ usage() {
   cat <<EOF
 usage: $(basename "$0") [-u|--update]
   default:  install missing pieces, skip what already exists
-  --update: also git-pull the ECC clone and refresh managed skills
+  --update: also git-pull the ECC and brooks-lint clones and refresh managed skills
 EOF
 }
 
@@ -268,6 +301,8 @@ main() {
   link_personal_skills
   ensure_ecc_clone "${update}"
   link_ecc_content
+  ensure_brooks_clone "${update}"
+  link_brooks_content
   install_external_skills
 
   if (( update )); then
