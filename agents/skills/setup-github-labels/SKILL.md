@@ -60,6 +60,15 @@ issue-triage `needs-info`.
 - `area:*` labels are per-repo (add them locally, ideally via path-based
   `actions/labeler`), so they do not belong in a shared cross-repo set.
 
+The "not ready yet" state is owned by GitHub's native **draft** flag, not a
+label. A PR being iterated on (including agent- or self-authored PRs, where the
+author *is* the maintainer so review-request doesn't apply) is opened as a
+draft; the maintainer's "needs my attention" filter is `is:pr is:open
+draft:false`. So there is deliberately no `ready-for-maintainer` /
+`ready-for-review` label: it would be a hand-maintained shadow of the draft flag
+and the boolean inverse of `needs-author-action`, and the two would drift.
+`/make-pr` opens autonomous PRs as draft for exactly this reason.
+
 PR *type* and *area* stay absent: PR type comes from the conventional-commit
 title, and area is per-repo. Only PR *status* is shared here, because "whose
 turn is it" generalizes across every repo with PRs. Each `type:` description

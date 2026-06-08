@@ -109,11 +109,22 @@ Each item should describe a check that actually gated the change. Boilerplate di
 
 ### 3. Push and create/update
 
+**Draft vs ready** — a draft PR is the native "not ready yet" signal, so the
+maintainer's "needs my attention" filter is `is:pr is:open draft:false` (no
+label needed). Pick the default from who is running this skill:
+
+- **User invoked it directly** → open **ready**. They are vouching the branch is
+  finished; do not add a `--draft` step they have to undo.
+- **Running autonomously / unsupervised** (AFK, `/loop`, an agent opening its own
+  PR) → open **draft** (`gh pr create --draft`). The work is unvetted; the user
+  flips it to ready (`gh pr ready <number>`) or merges after a look.
+- An explicit "draft" / "ready" request in the prompt overrides this.
+
 ```bash
 # Push with tracking
 git push -u origin <branch> --force-with-lease
 
-# Create or update
+# Create or update ( add --draft per the rule above )
 gh pr create --title "..." --body "..." --label "..." --assignee "..."
 # If PR already exists:
 gh pr edit <number> --title "..." --body "..." --add-label "..." --add-assignee "..."
