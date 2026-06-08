@@ -31,7 +31,7 @@ Run these in parallel:
 ```bash
 git log main..HEAD --oneline
 git diff main...HEAD --stat
-gh label list --limit 50 --json name --jq '.[].name'
+gh label list --limit 50 --json name,description
 git config user.name
 ```
 
@@ -45,7 +45,7 @@ gh pr view --json number,url 2>/dev/null
 
 **Title**: `<type>: <short description>` (under 70 chars). Conventional types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `perf`, `ci`. Match the PR theme, not just the last commit.
 
-**Labels**: pick from `gh label list` output.
+**Labels**: pick from `gh label list --json name,description` output. Apply only labels scoped to PRs — read each description and skip issue-scoped ones (e.g. descriptions starting with "Issue ..."). Workflow labels like `needs-decision` / `do-not-merge` are applied during review, not at creation. If no label clearly applies, add none.
 
 **Assignee**: default to the git user (`gh api user --jq '.login'`).
 
