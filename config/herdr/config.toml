@@ -20,6 +20,7 @@ onboarding = false
 # red = "#ff6188"
 # green = "#a6e3a1"
 
+name = "catppuccin"
 [terminal]
 # Executable used for new interactive panes.
 # Empty means $SHELL, then /bin/sh.
