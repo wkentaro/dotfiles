@@ -32,7 +32,6 @@ ECC_COMMANDS=(
 # Format: "<owner>/<repo>:<skill>[,<skill>...]".
 SKILLS_BY_REPO=(
   "wkentaro/git-hunk:git-hunk"
-  "vercel-labs/agent-browser:agent-browser"
   "pbakaus/impeccable:impeccable"
   "remotion-dev/skills:remotion-best-practices"
   "coreyhaines31/marketingskills:copywriting,cro,customer-research"
@@ -230,6 +229,25 @@ link_brooks_content() {
   done
 }
 
+# The agent-browser CLI ships its own skills (agent-browser skills get core),
+# so it is installed as a command rather than via the skills CLI.
+ensure_agent_browser_cli() {
+  local update="$1"
+
+  if [[ -e "${AGENTS_DIR}/skills/agent-browser" || -L "${AGENTS_DIR}/skills/agent-browser" ]]; then
+    log "remove: ${AGENTS_DIR}/skills/agent-browser (skill ships with the CLI now)"
+    rm -rf "${AGENTS_DIR}/skills/agent-browser"
+  fi
+
+  if command -v agent-browser >/dev/null 2>&1; then
+    (( update )) || return 0
+    log "update: agent-browser CLI"
+  else
+    log "install: agent-browser CLI"
+  fi
+  npm install -g agent-browser
+}
+
 install_skills_from_repo() {
   local repo="$1" csv="$2"
   local skill
@@ -275,7 +293,8 @@ usage() {
   cat <<EOF
 usage: $(basename "$0") [-u|--update]
   default:  install missing pieces, skip what already exists
-  --update: also git-pull the ECC and brooks-lint clones and refresh managed skills
+  --update: also git-pull the ECC and brooks-lint clones, refresh managed skills,
+            and upgrade the agent-browser CLI
 EOF
 }
 
@@ -303,6 +322,7 @@ main() {
   link_ecc_content
   ensure_brooks_clone "${update}"
   link_brooks_content
+  ensure_agent_browser_cli "${update}"
   install_external_skills
 
   if (( update )); then
