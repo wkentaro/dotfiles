@@ -1,11 +1,11 @@
 ---
 name: review-fix
-description: Run /code-review, /simplify, and /brooks-review on a change via parallel subagents, address the meaningful findings, fold the fixes into clean commits, and force-push with lease. Use when the user wants to review-and-fix a change before merge — on uncommitted work, the current feature branch, or a GitHub PR / GitLab MR. Triggers include "review-fix", "review and fix this PR/MR", "polish this branch", or "run the reviews, address the suggestions, then force-push".
+description: Run /code-review, /simplify, /brooks-review, and /review on a change via parallel subagents, address the meaningful findings, fold the fixes into clean commits, and force-push with lease. Use when the user wants to review-and-fix a change before merge — on uncommitted work, the current feature branch, or a GitHub PR / GitLab MR. Triggers include "review-fix", "review and fix this PR/MR", "polish this branch", or "run the reviews, address the suggestions, then force-push".
 ---
 
 # /review-fix — Review a change, address findings, commit clean, force-push
 
-Run three reviewers over a change, apply the meaningful suggestions, fold the fixes
+Run four reviewers over a change, apply the meaningful suggestions, fold the fixes
 into clean commits, and force-push with lease. Works on four kinds of target:
 
 - **Uncommitted changes** (no arg, dirty working tree) — apply fixes, commit. No push.
@@ -44,7 +44,7 @@ meaningful findings. Do not stop after the first pass, and do not ask the user t
 
 Each round:
 
-**1a. Run the three reviews in parallel (report-only subagents).** Spawn **three**
+**1a. Run the four reviews in parallel (report-only subagents).** Spawn **four**
 subagents in a single message so they run concurrently. They are **read-only**: each one
 only *reports* findings — none of them writes files, commits, or pushes. You are the
 single writer (1c); concurrent `/simplify` + `/code-review --fix` in one working tree
@@ -55,10 +55,11 @@ would race on edits.
 | code-review | "Invoke the `/code-review` skill (high effort, no `--fix`, no `--comment`) on the current branch diff vs `<base>`. Do not modify, commit, or push anything. Return the meaningful findings as a numbered list: file:line, the issue, and the suggested change." |
 | simplify | "Run the `/simplify` skill's analysis on the current branch diff vs `<base>`, but DO NOT write any files. Instead return the simplifications it would make as a numbered list: file:line, what to simplify, and the proposed edit." |
 | brooks-review | "Invoke the `/brooks-review` skill on the current branch diff vs `<base>`. Do not modify any files. Return the findings as Symptom → Source → Consequence → Remedy." |
+| review | "Invoke the `/review` skill on the current branch diff vs `<base>` (review the diff directly — do not assume a PR exists). Do not modify, comment, commit, or push anything. Return the meaningful findings as a numbered list: file:line, the issue, and the suggested change." |
 
-Wait for all three to return.
+Wait for all four to return.
 
-**1b. Triage findings → the meaningful set.** Merge and dedupe the three reports. Keep
+**1b. Triage findings → the meaningful set.** Merge and dedupe the four reports. Keep
 only what is worth a code change:
 
 - **Keep**: real correctness bugs, genuine simplifications/reuse, true design or
@@ -83,7 +84,7 @@ fails, fix it before the next round. Do not commit while checks are red.
 
 - If this round kept **one or more** findings → go back to **1a**. The new round reviews
   the now-fixed code and catches issues the fixes introduced or exposed.
-- If this round kept **zero** findings (all three reviewers came back clean or
+- If this round kept **zero** findings (all four reviewers came back clean or
   drop-only) → the change is settled. Exit the loop and go to step 2.
 
 **Stop conditions to avoid spinning.** Cap at **5 rounds**. Also bail out early if you
@@ -133,7 +134,7 @@ say so.
 
 ## Notes
 
-- The three reviewers must stay report-only. If you ever let `/simplify` or
+- The four reviewers must stay report-only. If you ever let `/simplify` or
   `/code-review --fix` write in a subagent, parallel runs corrupt each other's edits.
 - "Meaningful" is a judgment call, not a checklist. Defend the drops if asked.
 - If prior work was stashed to check out a PR/MR in step 0, remind the user it is stashed
