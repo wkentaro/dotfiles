@@ -358,18 +358,4 @@ function k%% () {
   done
 }
 
-codeimg() {
-  vim -c ':set nonumber foldcolumn=9 listchars= ft=python' -c ':lua require("gitsigns").toggle_signs(false)'
-}
-
-alias tuna="tunahtml"
-
-alias uvr="uv run"
-
 alias gwt="git wt"
-
-alias cc="claude --dangerously-skip-permissions"
-ccw() {
-  git wt $(petname -l 10)
-  cc $*
-}
