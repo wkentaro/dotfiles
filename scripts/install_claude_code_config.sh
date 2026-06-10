@@ -6,6 +6,7 @@
 
 set -euo pipefail
 
+readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly DOTFILES_AGENTS="${HOME}/.dotfiles/agents"
 readonly DOTFILES_CLAUDE="${HOME}/.dotfiles/claude"
 readonly AGENTS_DIR="${HOME}/.agents"
@@ -31,7 +32,6 @@ ECC_COMMANDS=(
 # External skills installed via vercel-labs/skills CLI.
 # Format: "<owner>/<repo>:<skill>[,<skill>...]".
 SKILLS_BY_REPO=(
-  "wkentaro/git-hunk:git-hunk"
   "pbakaus/impeccable:impeccable"
   "remotion-dev/skills:remotion-best-practices"
   "coreyhaines31/marketingskills:copywriting,cro,customer-research"
@@ -324,6 +324,31 @@ ensure_agent_browser_cli() {
   npm install -g agent-browser
 }
 
+# The git-hunk CLI ships its own skill (git-hunk skills get core), so it is
+# installed as a uv tool rather than via the skills CLI. install.py runs the
+# install_* scripts in an arbitrary order, so uv may not be installed yet; pull
+# in install_uv.sh ourselves and put its target dir on PATH.
+ensure_git_hunk_cli() {
+  local update="$1"
+
+  if [[ -e "${AGENTS_DIR}/skills/git-hunk" || -L "${AGENTS_DIR}/skills/git-hunk" ]]; then
+    log "remove: ${AGENTS_DIR}/skills/git-hunk (skill ships with the CLI now)"
+    rm -rf "${AGENTS_DIR}/skills/git-hunk"
+  fi
+
+  export PATH="${HOME}/.local/bin:${PATH}"
+  command -v uv >/dev/null 2>&1 || "${SCRIPT_DIR}/install_uv.sh"
+
+  if command -v git-hunk >/dev/null 2>&1; then
+    (( update )) || return 0
+    log "update: git-hunk CLI"
+    uv tool upgrade git-hunk
+  else
+    log "install: git-hunk CLI"
+    uv tool install git-hunk
+  fi
+}
+
 install_skills_from_repo() {
   local repo="$1" csv="$2"
   local skill
@@ -370,7 +395,7 @@ usage() {
 usage: $(basename "$0") [-u|--update]
   default:  install missing pieces, skip what already exists
   --update: also git-pull the ECC and brooks-lint clones, refresh managed skills,
-            and upgrade the agent-browser CLI
+            and upgrade the agent-browser and git-hunk CLIs
 EOF
 }
 
@@ -399,6 +424,7 @@ main() {
   link_brooks_content
   generate_skills_gitignore
   ensure_agent_browser_cli "${update}"
+  ensure_git_hunk_cli "${update}"
   install_external_skills
 
   if (( update )); then
