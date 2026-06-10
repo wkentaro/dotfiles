@@ -96,8 +96,8 @@ instead of looping further.
 
 ### 2. Commit clean
 
-- **Uncommitted target** (nothing ahead of base) — commit the fixes. Use the `/git-hunk`
-  skill to split into logical commits. Stop here: there is nothing to force-push.
+- **Uncommitted target** (nothing ahead of base) — commit the fixes. Use the `git-hunk`
+  CLI to split into logical commits. Stop here: there is nothing to force-push.
 - **Branch / PR / MR target** (commits ahead of base) — fold each fix into the commit it
   belongs to. `git commit --fixup` only captures *staged* changes, so stage each logical
   group before committing it:
@@ -108,13 +108,13 @@ instead of looping further.
   GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash --autostash <base>
   ```
 
-  (To split different hunks of one file across separate fixups, use `/git-hunk` to stage
+  (To split different hunks of one file across separate fixups, use `git-hunk` to stage
   at hunk granularity rather than whole files.) Interactive rebase is unavailable in this
   environment; `GIT_SEQUENCE_EDITOR=true` runs the autosquash non-interactively. If the
   autosquash stops on a merge conflict, resolve it and `git rebase --continue`; if that is
   not clean, `git rebase --abort` and commit the fix as its own commit rather than leaving
   the tree mid-rebase. If a fix is genuinely new behavior rather than a correction to an
-  existing commit, make it its own commit via `/git-hunk` instead.
+  existing commit, make it its own commit via `git-hunk` instead.
 
 Never add a `Co-authored-by` trailer.
 
