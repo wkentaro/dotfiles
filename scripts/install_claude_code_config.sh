@@ -339,13 +339,15 @@ ensure_git_hunk_cli() {
   export PATH="${HOME}/.local/bin:${PATH}"
   command -v uv >/dev/null 2>&1 || "${SCRIPT_DIR}/install_uv.sh"
 
+  local source="git+https://github.com/wkentaro/git-hunk"
+
   if command -v git-hunk >/dev/null 2>&1; then
     (( update )) || return 0
-    log "update: git-hunk CLI"
-    uv tool upgrade git-hunk
+    log "update: git-hunk CLI (from source)"
+    uv tool install --force "${source}"
   else
-    log "install: git-hunk CLI"
-    uv tool install git-hunk
+    log "install: git-hunk CLI (from source)"
+    uv tool install "${source}"
   fi
 }
 
