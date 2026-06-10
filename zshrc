@@ -259,6 +259,12 @@ function _z_cd ()
 }
 alias z=_z_cd
 
+# ghq repo jump
+function j () {
+  local dir=$(ghq list --full-path | peco --query "$1")
+  [ -n "$dir" ] && cd "$dir"
+}
+
 # --------------------------------
 # command line stack
 # --------------------------------
