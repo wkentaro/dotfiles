@@ -8,6 +8,8 @@ config/ghostty/config.linux:
   uname: Linux
 config/kaku/kaku.lua:
   .config/kaku/kaku.lua
+config/wezterm/wezterm.lua:
+  .config/wezterm/wezterm.lua
 config/herdr/config.toml:
   .config/herdr/config.toml
 config/zellij:
