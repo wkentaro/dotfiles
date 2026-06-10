@@ -1,34 +1,19 @@
 .DS_Store
 
-venv/
-
-.ipynb_checkpoints/
 *.egg-info/
 __pycache__/
 
-.conda/
-.miniforge/
-.miniconda3/
-.anaconda3/
 .in
 .out
 ,*
-nohup.*.out
-
-.nvimlog
 
 logs.*/
 
-# CLAUDE.md
-# .claude
 .claude
-
-GEMINI.md
 
 branches/branches.json
 
-.gstack/
-GEO-AUDIT-REPORT.md
-TODOS.md
-
 tmp/
+
+agents/skills/boxdetection-debugging
+agents/skills/make-mr
