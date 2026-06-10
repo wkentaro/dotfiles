@@ -21,6 +21,7 @@
 
 ## Skill choice
 
+- When you need a worktree (e.g. we're talking on main but the task needs implementation on a branch), use the `git-wt` CLI: `git wt <branch>` switches to the worktree, creating the worktree and branch if needed. Run `git wt --help` first if unsure of usage.
 - When you commit code, use the git-hunk CLI to split into logical commits. Run `git-hunk skills get core` first to learn its usage.
 - When you access a website, use the agent-browser CLI to navigate and extract information. Run `agent-browser skills get core --full` first to learn its usage.
 - When you make a pr, use /make-pr.
