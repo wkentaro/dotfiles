@@ -238,7 +238,8 @@ macclean () {
 
 compress-pdf () {
   if [ ! $# -eq 2 ]; then
-    echo "Usage: compress_pdf INPUT_FILE OUTPUT_FILE"
+    echo "Usage: compress-pdf INPUT_FILE OUTPUT_FILE" >&2
+    return 1
   fi
   local input
   local output
