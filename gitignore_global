@@ -10,6 +10,7 @@ __pycache__/
 logs.*/
 
 .claude
+CLAUDE.local.md
 
 branches/branches.json
 
