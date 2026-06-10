@@ -47,10 +47,11 @@ Read [FORMAT.md](FORMAT.md) and follow it. The short version:
 
 ### 4. Self-check, then stop
 
-Before handing over, confirm: the file is self-contained (no external resources
-beyond the Tailwind CDN and the Mermaid import), every section carries a visual
-(diagram, comparison, or before/after), and no prose paragraph stands alone
-without a visual or bullets beside it. Fix whatever fails.
+Before handing over, confirm: the file is self-contained (no external scripts or
+assets beyond the Tailwind CDN and the Mermaid import), every section carries a
+visual (diagram, comparison, or before/after), no prose paragraph stands alone
+without a visual or bullets beside it, and it links to its sources and any
+sibling or index docs that exist. Fix whatever fails.
 
 This skill produces the artifact, it does not iterate to perfection on its own.
 If the user wants it polished further, that is a separate pass (e.g. /impeccable).
