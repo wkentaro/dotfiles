@@ -35,7 +35,7 @@ SKILLS_BY_REPO=(
   "pbakaus/impeccable:impeccable"
   "remotion-dev/skills:remotion-best-practices"
   "coreyhaines31/marketingskills:copywriting,cro,customer-research"
-  "mattpocock/skills:diagnose,grill-me,grill-with-docs,handoff,improve-codebase-architecture,prototype,setup-matt-pocock-skills,tdd,to-issues,to-prd,triage,write-a-skill,zoom-out"
+  "mattpocock/skills:diagnose,grill-me,grill-with-docs,handoff,improve-codebase-architecture,prototype,setup-matt-pocock-skills,tdd,teach,to-issues,to-prd,triage,write-a-skill,zoom-out"
   "steipete/agent-scripts:skill-cleaner"
 )
 
