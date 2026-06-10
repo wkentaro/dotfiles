@@ -95,7 +95,7 @@ whole-commit rebases can't do):
 4. Restore the saved final files (`cp tmp/<name> <path>`), `git add -A`, and commit the
    remainder.
 
-For hunk-granular staging inside a file, prefer the **/git-hunk** skill over
+For hunk-granular staging inside a file, prefer the **git-hunk** CLI over
 hand-rebuilding intermediate files.
 
 ### 3. Verify (non-negotiable)

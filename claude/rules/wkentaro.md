@@ -21,7 +21,7 @@
 
 ## Skill choice
 
-- When you commit code, use /git-hunk skill to split into logical commits.
+- When you commit code, use the git-hunk CLI to split into logical commits. Run `git-hunk skills get core --full` first to learn its usage.
 - When you access a website, use the agent-browser CLI to navigate and extract information. Run `agent-browser skills get core --full` first to learn its usage.
 - When you make a pr, use /make-pr.
 
