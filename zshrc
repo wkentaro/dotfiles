@@ -365,3 +365,34 @@ function k%% () {
 }
 
 alias gwt="git wt"
+
+if (( $+commands[git-wt] )); then
+  eval "$(git-wt --init zsh)"
+
+  # git wt @ -> root worktree (any branch); git wt - -> previous worktree
+  autoload -Uz add-zsh-hook
+  typeset -g GIT_WT_PREV="" _GIT_WT_CUR=""
+  _gitwt_track() {
+    local root; root=$(command git rev-parse --show-toplevel 2>/dev/null) || return
+    [[ "$root" == "$_GIT_WT_CUR" ]] && return
+    GIT_WT_PREV="$_GIT_WT_CUR"; _GIT_WT_CUR="$root"
+  }
+  add-zsh-hook chpwd _gitwt_track
+  _gitwt_track
+  functions[_gitwt_orig_git]=$functions[git]
+  git() {
+    if [[ "$1" == wt ]]; then
+      case "$2" in
+        -) set -- wt "${GIT_WT_PREV:?git wt: no previous worktree yet}" "${@:3}" ;;
+        @) set -- wt "$(command git worktree list --porcelain | head -1 | cut -d' ' -f2-)" "${@:3}" ;;
+      esac
+    fi
+    # _gitwt_orig_git can be lost when functions are serialized into a subshell
+    # (e.g. Claude Code shell snapshots); fall back so git never breaks.
+    if (( $+functions[_gitwt_orig_git] )); then
+      _gitwt_orig_git "$@"
+    else
+      command git "$@"
+    fi
+  }
+fi
