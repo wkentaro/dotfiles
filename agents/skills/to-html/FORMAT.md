@@ -59,6 +59,23 @@ section, a typical unit is one `<article>`:
 No paragraphs of explanation. If a diagram needs a paragraph to be understood,
 redraw the diagram.
 
+## Linking out
+
+Self-contained means no build step and no bundled assets - it does **not** mean
+no hyperlinks. Default to linking; only skip it when there is genuinely nothing
+to point at.
+
+- **Sources / provenance.** When the content derives from something with an
+  address - a PR or commit, a ticket, a spec - link it so a reader can trace the
+  claim and reproduce the work. A short "Sources" section or footer is the usual
+  home.
+- **Related documents.** If the file lands next to sibling docs (a `tmp/`
+  collection, a published pages dir, a docs folder), link the ones a reader
+  would naturally reach for next, and add a back-link to any index. Glance at the
+  destination directory before assuming there is nothing to link.
+
+Keep this general - plain `<a href>`, not a domain-specific convention.
+
 ## Diagram patterns
 
 Pick what fits. Mix them. Do not make every diagram look the same, variety is
