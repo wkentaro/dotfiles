@@ -38,7 +38,9 @@ end
 
 config.font = wezterm.font_with_fallback(font_fallback)
 config.font_size = is_macos and 13.0 or 9.0
-config.line_height = 1.28
+-- line_height >= ~1.28 trips a WezTerm glyph-rendering bug on Linux (renders a
+-- serif fallback instead of JetBrains Mono); 1.25 stays just below that cliff.
+config.line_height = 1.25
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 config.bold_brightens_ansi_colors = false
 config.use_cap_height_to_scale_fallback_fonts = false
