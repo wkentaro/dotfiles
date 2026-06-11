@@ -1,6 +1,6 @@
 ---
 name: setup-github-labels
-description: "Applies one small canonical GitHub label set to the current repo, so every repo you run it in speaks the same label vocabulary. Two axes: the issue `type:` axis (bug/feature/task, mirroring GitHub Issue Types) and a PR-flow status axis (needs-author-action/needs-decision/do-not-merge). Use when setting up labels on a repo, or after editing this skill's canonical table. Invoke explicitly; it is not auto-triggered."
+description: "Applies one small canonical GitHub label set to the current repo, so every repo you run it in speaks the same label vocabulary. Two axes: the issue `type:` axis (bug/feature/task, mirroring GitHub Issue Types) and a PR-verdict axis (ready-to-merge/recommend-close, plus a do-not-merge flag). Use when setting up labels on a repo, or after editing this skill's canonical table. Invoke explicitly; it is not auto-triggered."
 disable-model-invocation: true
 ---
 
@@ -29,30 +29,52 @@ Two axes, kept small on purpose: anything another tool or skill already owns is
 work. If a repo ever moves under a GitHub org, these map 1:1 onto native Issue
 Types and the labels can be retired.
 
-### PR-flow status axis
+### PR-verdict axis
 
-These encode only what GitHub's native PR state (checks + review state) can't,
-so a maintainer can tell at a glance whose court the ball is in. Anything
-machine-detectable (CLA, lint, conflicts, "ready for review") is already a
-failing check or review state and gets **no** label.
+Whose-turn routing on a PR needs almost no labels: a non-draft PR with no
+verdict is, by definition, the agent's to finalize, and a PR parked on an
+outside human reuses the `needs-info` label (created by
+`setup-matt-pocock-skills` for issue triage) rather than minting a PR-scoped
+twin. This skill does not recreate that label. What this skill owns is the agent's
+**terminal verdict** once it has finished finalizing a PR: the single
+emerald/red signal that tells the maintainer, at a glance, which open PRs are
+theirs to ship.
 
-| Label                 | Color    | Description (PR-scoped)                                        |
-| --------------------- | -------- | ------------------------------------------------------------- |
-| `needs-author-action` | `d3dddd` | PR is awaiting action from the contributor: code changes or more info |
-| `needs-decision`      | `D810FB` | PR is awaiting a maintainer decision before it can proceed     |
-| `do-not-merge`        | `B60205` | Do not merge this pull request                                 |
+| Label             | Color    | Description (PR-scoped)                                       |
+| ----------------- | -------- | ------------------------------------------------------------ |
+| `ready-to-merge`  | `0E8A16` | PR finalized and endorsed by the agent: review and merge     |
+| `recommend-close` | `D93F0B` | PR the agent recommends closing: your call to review or close|
+| `do-not-merge`    | `B60205` | Do not merge this pull request                               |
 
-`needs-author-action` is one bucket on purpose: do not split it into
-`needs-cla` / `needs-rebase` / `needs-info`, since the contributor only needs a
-single signal that the ball is in their court. It is the PR analog of the
-issue-triage `needs-info`.
+The verdict is **binary by design**: the agent finalizes a PR (rebase, green CI,
+polish) and then emits exactly one of the two. `recommend-close` is the single
+"not confidently mergeable" bucket — it covers both an active reject and a
+low-confidence "couldn't tell, your call", with the nuance carried in the
+agent's review comment, not a third label. Keeping it one bucket means the
+maintainer's world stays two-pile: an emerald ship queue
+(`is:pr is:open label:ready-to-merge`) and a red triage pile.
+
+The agent **never merges and never closes** — both stay the maintainer's hand;
+the verdict is a recommendation, not an action.
+
+A verdict endorses one specific diff, so it goes **stale** the moment the PR
+changes: a new commit after a verdict means the agent must clear that label and
+re-review before the emerald queue can be trusted again. Pushes after a verdict
+are rare, so this stays a manual step rather than something worth a CI workflow.
 
 **Single owner per label, so several common labels are deliberately excluded:**
 
-- Issue-triage roles (`needs-triage`, `needs-info`, `ready-for-agent`,
+- Whose-turn triage roles (`needs-triage`, `needs-info`, `ready-for-agent`,
   `ready-for-human`, `wontfix`) are owned by `setup-matt-pocock-skills`; run
-  that skill for the issue-triage vocabulary. The PR-flow labels above are this
-  skill's own axis and do not overlap them.
+  that skill for them. `needs-info` is created there as an issue state, but a PR
+  parked on an outside human reuses that same label rather than minting a
+  PR-scoped twin, so "waiting on a human" reads identically on both. The agent's
+  turn on a PR, by contrast, is just the no-verdict default, so no
+  `ready-for-agent` label is applied there. This skill adds only the PR-terminal
+  verdicts (`ready-to-merge` / `recommend-close`) and
+  the `do-not-merge` flag on top, so the two skills together cover the whole
+  flow without overlap. `ready-for-human` stays issue-only: on a PR the human
+  reviews and merges (or closes), it does not implement.
 - Tool-managed labels (`dependencies` from Dependabot, and other labels created
   by labeler actions or bots) are owned by that tooling. Leave their color and
   description alone; do not add them here or you will fight the tool that
@@ -60,20 +82,20 @@ issue-triage `needs-info`.
 - `area:*` labels are per-repo (add them locally, ideally via path-based
   `actions/labeler`), so they do not belong in a shared cross-repo set.
 
-The "not ready yet" state is owned by GitHub's native **draft** flag, not a
-label. A PR being iterated on (including agent- or self-authored PRs, where the
-author *is* the maintainer so review-request doesn't apply) is opened as a
-draft; the maintainer's "needs my attention" filter is `is:pr is:open
-draft:false`. So there is deliberately no `ready-for-maintainer` /
-`ready-for-review` label: it would be a hand-maintained shadow of the draft flag
-and the boolean inverse of `needs-author-action`, and the two would drift.
-`/make-pr` opens autonomous PRs as draft for exactly this reason.
+The "still being worked" state is owned by GitHub's native **draft** flag, not a
+label. A PR mid-iteration (including agent- or self-authored PRs, where the
+author *is* the maintainer so review-request doesn't apply) stays a draft until
+the agent has a verdict. So there is deliberately no `ready-for-maintainer` /
+`ready-for-review` label: `ready-to-merge` already *is* the "your turn to ship"
+signal, and the draft flag already owns "not yet". The maintainer's "needs my
+attention" filter is `is:pr is:open label:ready-to-merge`. `/make-pr` opens
+autonomous PRs as draft for exactly this reason.
 
 PR *type* and *area* stay absent: PR type comes from the conventional-commit
-title, and area is per-repo. Only PR *status* is shared here, because "whose
-turn is it" generalizes across every repo with PRs. Each `type:` description
-leads with "Issue" and each status description with "PR" to advertise scope, so
-tools and people don't cross-apply.
+title, and area is per-repo. Only the PR *verdict* is shared here, because "is
+this one mine to ship" generalizes across every repo with PRs. Each `type:`
+description leads with "Issue" and each verdict description with "PR" to
+advertise scope, so tools and people don't cross-apply.
 
 ## Process
 
@@ -109,9 +131,9 @@ adds it if missing and updates color/description if it already exists:
 gh label create "type: bug"     --color d73a4a --description "Issue reporting a defect to fix"                   --force --repo "$REPO"
 gh label create "type: feature" --color a2eeef --description "Issue requesting a new capability or improvement"  --force --repo "$REPO"
 gh label create "type: task"    --color cfd3d7 --description "Issue for other work: maintenance, refactor, docs" --force --repo "$REPO"
-gh label create "needs-author-action" --color d3dddd --description "PR is awaiting action from the contributor: code changes or more info" --force --repo "$REPO"
-gh label create "needs-decision"      --color D810FB --description "PR is awaiting a maintainer decision before it can proceed"            --force --repo "$REPO"
-gh label create "do-not-merge"        --color B60205 --description "Do not merge this pull request"                                        --force --repo "$REPO"
+gh label create "ready-to-merge"  --color 0E8A16 --description "PR finalized and endorsed by the agent: review and merge"       --force --repo "$REPO"
+gh label create "recommend-close" --color D93F0B --description "PR the agent recommends closing: your call to review or close"  --force --repo "$REPO"
+gh label create "do-not-merge"    --color B60205 --description "Do not merge this pull request"                                 --force --repo "$REPO"
 ```
 
 To set up several repos, repeat with each `--repo`.
