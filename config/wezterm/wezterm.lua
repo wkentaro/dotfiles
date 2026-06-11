@@ -59,22 +59,13 @@ config.custom_block_glyphs = true
 config.unicode_version = 14
 
 -- ===== Window =====
-config.window_decorations = 'INTEGRATED_BUTTONS|RESIZE'
+config.window_decorations = 'NONE'
 config.window_padding = { left = '8px', right = '8px', top = '8px', bottom = '0px' }
 config.initial_cols = 110
 config.initial_rows = 22
 config.use_resize_increments = false
 config.adjust_window_size_when_changing_font_size = false
 config.window_close_confirmation = 'NeverPrompt'
-
-config.window_frame = {
-  font = wezterm.font { family = FONT_FAMILY, weight = 'Regular' },
-  font_size = is_macos and 14.0 or 11.0,
-  active_titlebar_bg = BASE,
-  inactive_titlebar_bg = BASE,
-  active_titlebar_fg = TEXT,
-  inactive_titlebar_fg = OVERLAY,
-}
 
 -- ===== Tab bar =====
 -- Retro (non-fancy) tab bar, hidden entirely with a single tab; this is why
