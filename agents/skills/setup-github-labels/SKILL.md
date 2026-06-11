@@ -121,6 +121,11 @@ gh label list --repo "$REPO" --limit 200 --json name -q '.[].name'
 Labels in the table but not in that list will be **created**; labels already
 present will have their color/description **updated**.
 
+While you have that list, also note whether `needs-info` is present. This skill's
+PR-verdict flow reuses that label (created by `setup-matt-pocock-skills`) for a
+PR parked on an outside human, but deliberately does not create it. Its presence
+or absence feeds the recommendation in step 4.
+
 ### 3. Confirm, then apply
 
 Creating labels on a (often public) repo is an outward-facing action, so confirm
@@ -145,6 +150,15 @@ on the repo are **left untouched** (this skill only adds/updates the canonical
 set). If they want to retire a stray label, that is a manual, deliberate step:
 `gh label delete "<name>" --repo "$REPO" --yes`. Deleting strips it off every
 issue/PR currently wearing it, so never do it without explicit confirmation.
+
+If the step 2 preview showed `needs-info` is **absent**, recommend running
+`setup-matt-pocock-skills` to complete the vocabulary: it owns the issue-triage
+roles (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`,
+`wontfix`), and this skill's "PR parked on a human" state reuses its `needs-info`
+label. This is a recommendation, not a requirement: the canonical set applied
+here (the `type:` axis plus the PR verdicts) stands on its own; the matt-pocock
+set is what rounds out the shared issue+PR triage flow. Skip the recommendation
+when `needs-info` is already present.
 
 ## Changing the set
 
