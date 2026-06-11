@@ -7,8 +7,9 @@
 set -euo pipefail
 
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly DOTFILES_AGENTS="${HOME}/.dotfiles/agents"
-readonly DOTFILES_CLAUDE="${HOME}/.dotfiles/claude"
+readonly DOTFILES_ROOT="$(dirname "${SCRIPT_DIR}")"
+readonly DOTFILES_AGENTS="${DOTFILES_ROOT}/agents"
+readonly DOTFILES_CLAUDE="${DOTFILES_ROOT}/claude"
 readonly AGENTS_DIR="${HOME}/.agents"
 readonly CLAUDE_DIR="${HOME}/.claude"
 readonly ECC_REPO="https://github.com/affaan-m/ECC.git"

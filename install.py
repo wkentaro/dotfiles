@@ -53,7 +53,8 @@ def copy_file(from_, to, dry_run=False):
 
 
 def install_private(dry_run=False):
-    path = osp.expanduser("~/.dotfiles/private")
+    this_dir = osp.dirname(osp.abspath(__file__))
+    path = osp.join(this_dir, "private")
     if osp.exists(path):
         run_command("git pull origin main", cwd=path, dry_run=dry_run)
     else:
