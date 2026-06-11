@@ -167,6 +167,10 @@ focus_pane_right = ["alt+l", "prefix+l"]
 # system = ask the OS notification service directly
 # delivery = "off"
 
+# Feedback toast shown after copying to the clipboard.
+[ui.toast.clipboard]
+enabled = false
+
 # Play sounds when agents change state in background workspaces
 [ui.sound]
 # enabled = true
