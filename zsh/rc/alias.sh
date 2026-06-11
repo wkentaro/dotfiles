@@ -236,29 +236,6 @@ macclean () {
   find . -type f -name '.DS_Store' -delete
 }
 
-compress-pdf () {
-  if [ ! $# -eq 2 ]; then
-    echo "Usage: compress_pdf INPUT_FILE OUTPUT_FILE"
-  fi
-  local input
-  local output
-  input=$1
-  output=$2
-    # -dPDFSETTINGS=/default \
-  gs \
-    -sDEVICE=pdfwrite \
-    -dCompatibilityLevel=1.4 \
-    -dPDFSETTINGS=/prepress \
-    -dNOPAUSE \
-    -dQUIET \
-    -dBATCH \
-    -dDetectDuplicateImages \
-    -dCompressFonts=true \
-    -r300 \
-    -sOutputFile=${output} \
-    ${input}
-}
-
 cmake-prefix.. () {
   if [ $# != 1 ]; then
     return 1
