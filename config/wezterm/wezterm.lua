@@ -49,7 +49,7 @@ config.unicode_version = 14
 
 -- ===== Window =====
 config.window_decorations = 'INTEGRATED_BUTTONS|RESIZE'
-config.window_padding = { left = '40px', right = '40px', top = '40px', bottom = '0px' }
+config.window_padding = { left = '8px', right = '8px', top = '8px', bottom = '0px' }
 config.initial_cols = 110
 config.initial_rows = 22
 config.use_resize_increments = false
