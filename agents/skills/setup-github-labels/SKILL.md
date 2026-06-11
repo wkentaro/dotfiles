@@ -1,7 +1,6 @@
 ---
 name: setup-github-labels
 description: "Applies one small canonical GitHub label set to the current repo, so every repo you run it in speaks the same label vocabulary. Two axes: the issue `type:` axis (bug/feature/task, mirroring GitHub Issue Types) and a PR-verdict axis (ready-to-merge/recommend-close, plus a do-not-merge flag). Use when setting up labels on a repo, or after editing this skill's canonical table. Invoke explicitly; it is not auto-triggered."
-disable-model-invocation: true
 ---
 
 # Setup GitHub Labels
