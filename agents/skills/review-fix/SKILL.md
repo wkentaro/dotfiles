@@ -81,9 +81,17 @@ it. Apply the kept findings as tight, surgical edits. Every changed line should 
 a kept finding — do not "improve" adjacent code. Leave the edits in the working tree;
 defer committing until step 2.
 
-**1d. Verify.** Run the project's fast checks (tests / lint / type-check) for the files
-you touched. For this repo that is `ruff`, `ty`, and the relevant `pytest`. If a check
-fails, fix it before the next round. Do not commit while checks are red.
+**1d. Verify — fast checks *and* behavior.** Run the project's fast checks (tests / lint /
+type-check) for the files you touched (`ruff`, `ty`, and the relevant `pytest` here).
+Treat green as necessary, not sufficient: a passing suite says nothing about output no
+test asserts on. So when the diff touches an **output path** — help/usage text, rendered
+or formatted output, ANSI/rich markup, templates, serializers, log formatting — also *run*
+the affected surface and read the result, diffing against the base version's output where
+feasible. Deleting an escape/quote/encode/sanitize/validate call is the sharpest case: it
+reads as a clean simplification but is often a load-bearing guard, and only rendering shows
+the breakage. When you find such a bug, lock it with an assertion on the rendered output
+so these cheap checks catch a recurrence. Fix any red check or wrong render before the
+next round; do not commit while checks are red.
 
 **1e. Decide whether to loop again.**
 
@@ -142,5 +150,7 @@ say so.
 - The five reviewers must stay report-only. If you ever let `/simplify` or
   `/code-review --fix` write in a subagent, parallel runs corrupt each other's edits.
 - "Meaningful" is a judgment call, not a checklist. Defend the drops if asked.
+- The five reviewers (1a) are static — they cannot see bugs that only surface at runtime;
+  that is what the behavioral half of 1d exists to catch, not them.
 - If prior work was stashed to check out a PR/MR in step 0, remind the user it is stashed
   when you finish.
