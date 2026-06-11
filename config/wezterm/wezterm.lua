@@ -63,7 +63,11 @@ config.unicode_version = 14
 -- fullscreen there (no titlebar to host the green button). Linux has no such
 -- coupling, so it goes fully borderless.
 config.window_decorations = is_macos and 'INTEGRATED_BUTTONS|RESIZE' or 'NONE'
-config.window_padding = { left = '8px', right = '8px', top = '8px', bottom = '0px' }
+if is_macos then
+  config.window_padding = { left = '40px', right = '40px', top = '40px', bottom = '0px' }
+else
+  config.window_padding = { left = '8px', right = '8px', top = '8px', bottom = '0px' }
+end
 config.initial_cols = 110
 config.initial_rows = 22
 config.use_resize_increments = false
