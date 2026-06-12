@@ -180,11 +180,15 @@ export LESS='--tabs=4 --LONG-PROMPT --ignore-case --RAW-CONTROL-CHARS'
 # fzf history search
 # Ctrl-R
 function fzf_history () {
-  BUFFER=$(print -rl -- "${(@v)history}" | fzf --query="$LBUFFER" \
+  local selected
+  selected=$(fc -rlnt '%m/%d %H:%M' 1 | fzf --query="$LBUFFER" --nth=3.. \
     --exact --no-sort --cycle --keep-right --tabstop=1 \
     --bind=ctrl-z:ignore,btab:up,tab:down \
     --border=sharp --height=45% --info=inline --layout=reverse)
-  CURSOR=$#BUFFER         # move cursor
+  if [ -n "$selected" ]; then
+    BUFFER=${selected##[0-9][0-9]/[0-9][0-9] [0-9][0-9]:[0-9][0-9]  }
+    CURSOR=$#BUFFER
+  fi
   zle -R -c               # refresh
 }
 zle -N fzf_history
