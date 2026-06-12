@@ -177,15 +177,18 @@ export LESS='--tabs=4 --LONG-PROMPT --ignore-case --RAW-CONTROL-CHARS'
 # bindkey
 # --------------------------------
 
-# peco history search
+# fzf history search
 # Ctrl-R
-function peco_history () {
-  BUFFER=$(print -rl -- "${(@v)history}" | peco --query "$LBUFFER")
+function fzf_history () {
+  BUFFER=$(print -rl -- "${(@v)history}" | fzf --query="$LBUFFER" \
+    --exact --no-sort --cycle --keep-right --tabstop=1 \
+    --bind=ctrl-z:ignore,btab:up,tab:down \
+    --border=sharp --height=45% --info=inline --layout=reverse)
   CURSOR=$#BUFFER         # move cursor
   zle -R -c               # refresh
 }
-zle -N peco_history
-bindkey '^R' peco_history
+zle -N fzf_history
+bindkey '^R' fzf_history
 
 # History search
 zle -N history-beginning-search-backward-end history-search-end
@@ -249,7 +252,11 @@ alias -g L='| less'
 
 # ghq repo jump
 function j () {
-  local dir=$(ghq list --full-path | peco --query "$1")
+  local dir=$(ghq list --full-path | fzf --query="$1" \
+    --exact --no-sort --cycle --keep-right --tabstop=1 \
+    --bind=ctrl-z:ignore,btab:up,tab:down \
+    --border=sharp --height=45% --info=inline --layout=reverse \
+    --preview='command -p ls -Cp {}' --preview-window=down,30%,sharp)
   [ -n "$dir" ] && cd "$dir"
 }
 
