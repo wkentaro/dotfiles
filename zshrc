@@ -115,7 +115,6 @@ if [ -e ~/.zplug/init.zsh ]; then
   source ~/.zplug/init.zsh
 
   zplug "zpm-zsh/autoenv"
-  zplug "rupa/z", use:z.sh
   zplug "zsh-users/zsh-completions"
   zplug "zsh-users/zsh-syntax-highlighting"
   zplug "wkentaro/wkentaro.zsh-theme", as:theme
@@ -157,6 +156,13 @@ for plugin in $plugins; do
 done
 
 autoload -U compinit && compinit
+
+# z command (https://github.com/ajeetdsouza/zoxide)
+if (( $+commands[zoxide] )); then
+  eval "$(zoxide init zsh --no-cmd)"
+  # bare `z` opens the interactive picker; `z foo` jumps directly
+  function z () { (( $# )) && __zoxide_z "$@" || __zoxide_zi }
+fi
 
 # https://github.com/wkentaro/pycd
 type pycd.sh &>/dev/null && source `which pycd.sh`
@@ -240,24 +246,6 @@ alias which='where'
 
 # view
 alias -g L='| less'
-
-# z command
-function _z_cd ()
-{
-  if [ "$1" = "" ]; then
-    if which tac >/dev/null; then
-      dir=$(_z 2>&1 | awk '{print $2}' | tac | peco)
-    else
-      dir=$(_z 2>&1 | awk '{print $2}' | tail -r | peco)
-    fi
-  else
-    dir=$1
-  fi
-  if [ "$dir" != "" ]; then
-    _z $dir
-  fi
-}
-alias z=_z_cd
 
 # ghq repo jump
 function j () {
