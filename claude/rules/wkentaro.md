@@ -11,6 +11,10 @@
 - Before any unrevertable (or hard-to-unrevert) action, ask for explicit final permission immediately before doing it. Earlier approval of an approach, plan, or "fix X" is not that permission. This covers merging a PR/MR, tagging a release, publishing to a registry (PyPI, npm), deleting/force-pushing, sending outward-facing messages, and anything else you can't cleanly undo.
 - When you create a temporary file, create it in tmp/ directory in the repo.
 
+## Repo references
+
+- When the user refers to another repo by a casual, partial, or speech-to-text-mangled name (e.g. "the other repo", "check the label me", "look in hank"), resolve it against local repos rather than asking which repo or assuming it isn't checked out. Search `ghq list` first, and if nothing matches, fall back to scanning `~/ghq` directly for repos `ghq list` misses (worktrees, hand-cloned dirs, non-default hosts) — e.g. `find "$(ghq root)" -maxdepth 4 -type d -iname '*<name>*'`. Match fuzzily and phonetically ("label me" → `labelme`, "jay q keys" → `jqkeys`); prefer the user's own namespace (`wkentaro`) and the shortest/exact match when several share a prefix (`labelme` over `labelme-io`). Inspect via `$(ghq root)/<match>`. Only ask when two matches are genuinely equally likely.
+
 ## Code Style
 
 - Avoid unnecessary comments. Code should be self-explanatory. Only add comments when the logic is truly non-obvious.
