@@ -368,7 +368,7 @@ alias gwt="git wt"
 if (( $+commands[git-wt] )); then
   eval "$(git-wt --init zsh)"
 
-  # git wt @ -> root worktree (any branch); git wt - -> previous worktree
+  # git wt ^ -> root worktree (any branch); git wt - -> previous worktree
   autoload -Uz add-zsh-hook
   typeset -g GIT_WT_PREV="" _GIT_WT_CUR=""
   _gitwt_track() {
@@ -383,7 +383,7 @@ if (( $+commands[git-wt] )); then
     if [[ "$1" == wt ]]; then
       case "$2" in
         -) set -- wt "${GIT_WT_PREV:?git wt: no previous worktree yet}" "${@:3}" ;;
-        @) set -- wt "$(command git worktree list --porcelain | head -1 | cut -d' ' -f2-)" "${@:3}" ;;
+        ^) set -- wt "$(command git worktree list --porcelain | head -1 | cut -d' ' -f2-)" "${@:3}" ;;
       esac
     fi
     # _gitwt_orig_git can be lost when functions are serialized into a subshell
