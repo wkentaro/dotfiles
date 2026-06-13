@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 #
-# Install or update Claude Code config: personal dotfile symlinks, ECC slash
-# commands, brooks-lint commands/skills, and external skills (vercel-labs/skills
-# CLI).
+# Install or update Claude Code config: personal dotfile symlinks, brooks-lint
+# commands/skills, and external skills (vercel-labs/skills CLI).
 
 set -euo pipefail
 
@@ -12,9 +11,6 @@ readonly DOTFILES_AGENTS="${DOTFILES_ROOT}/agents"
 readonly DOTFILES_CLAUDE="${DOTFILES_ROOT}/claude"
 readonly AGENTS_DIR="${HOME}/.agents"
 readonly CLAUDE_DIR="${HOME}/.claude"
-readonly ECC_REPO="https://github.com/affaan-m/ECC.git"
-readonly ECC_CACHE="${HOME}/.local/share/claude-ecc"
-readonly ECC_CACHE_LEGACY="${HOME}/.cache/claude-ecc"
 readonly BROOKS_REPO="https://github.com/hyhmrright/brooks-lint.git"
 readonly BROOKS_CACHE="${HOME}/.local/share/claude-brooks-lint"
 
@@ -24,10 +20,6 @@ readonly BROOKS_CACHE="${HOME}/.local/share/claude-brooks-lint"
 PERSONAL_LINKS=(
   "${DOTFILES_CLAUDE}/settings.json:${CLAUDE_DIR}/settings.json"
   "${DOTFILES_CLAUDE}/statusline-command.sh:${CLAUDE_DIR}/statusline-command.sh"
-)
-
-ECC_COMMANDS=(
-  refactor-clean.md
 )
 
 # External skills installed via vercel-labs/skills CLI.
@@ -233,44 +225,20 @@ prune_stale_rule_links() {
   find "${CLAUDE_DIR}/rules" -mindepth 1 -type d -empty -delete 2>/dev/null || true
 }
 
-ensure_ecc_clone() {
-  local pull="$1"
-
-  if [[ -d "${ECC_CACHE_LEGACY}" && ! -d "${ECC_CACHE}" ]]; then
-    log "migrate: ${ECC_CACHE_LEGACY} -> ${ECC_CACHE}"
-    mkdir -p "$(dirname "${ECC_CACHE}")"
-    mv "${ECC_CACHE_LEGACY}" "${ECC_CACHE}"
-  fi
-
-  if [[ ! -d "${ECC_CACHE}/.git" ]]; then
-    log "clone: ECC -> ${ECC_CACHE}"
-    mkdir -p "$(dirname "${ECC_CACHE}")"
-    git clone "${ECC_REPO}" "${ECC_CACHE}"
-    return
-  fi
-
-  (( pull )) || return 0
-  log "update: ECC"
-  git -C "${ECC_CACHE}" pull --ff-only
-}
-
-link_ecc_content() {
-  # ECC rules are intentionally not linked into ~/.claude/rules: they load
-  # globally on every turn (~13k tokens) and overlap with our personal rules.
-  # Only the commands below are installed; use ECC rules per-project if needed.
-  if [[ -L "${CLAUDE_DIR}/rules/ecc" ]]; then
-    log "unlink: ${CLAUDE_DIR}/rules/ecc (ECC rules no longer global)"
-    rm -f "${CLAUDE_DIR}/rules/ecc"
-  fi
-
-  local cmd src
-  for cmd in "${ECC_COMMANDS[@]}"; do
-    src="${ECC_CACHE}/commands/${cmd}"
-    if [[ ! -e "${src}" ]]; then
-      warn "command ${cmd} not found in ECC repo"
-      continue
+# ECC is no longer used. Remove the artifacts older runs installed: the
+# refactor-clean command symlink, the rules link, and the cache clones.
+remove_ecc_artifacts() {
+  local path
+  for path in \
+    "${CLAUDE_DIR}/commands/refactor-clean.md" \
+    "${CLAUDE_DIR}/commands/python-review.md" \
+    "${CLAUDE_DIR}/rules/ecc" \
+    "${HOME}/.local/share/claude-ecc" \
+    "${HOME}/.cache/claude-ecc"; do
+    if [[ -e "${path}" || -L "${path}" ]]; then
+      log "remove: ${path} (ECC no longer used)"
+      rm -rf "${path}"
     fi
-    ensure_symlink "${src}" "${CLAUDE_DIR}/commands/${cmd}"
   done
 }
 
@@ -395,7 +363,7 @@ usage() {
   cat <<EOF
 usage: $(basename "$0") [-u|--update]
   default:  install missing pieces, skip what already exists
-  --update: also git-pull the ECC and brooks-lint clones, refresh managed skills,
+  --update: also git-pull the brooks-lint clone, refresh managed skills,
             and upgrade the agent-browser and git-hunk CLIs
 EOF
 }
@@ -419,8 +387,7 @@ main() {
   prune_stale_rule_links
   link_personal_files
   link_personal_rules
-  ensure_ecc_clone "${update}"
-  link_ecc_content
+  remove_ecc_artifacts
   ensure_brooks_clone "${update}"
   link_brooks_content
   generate_skills_gitignore
