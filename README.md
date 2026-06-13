@@ -22,7 +22,7 @@
 ```bash
 INSTALL_DIR=$HOME/.dotfiles  # you can change this location
 git clone --recursive https://github.com/wkentaro/dotfiles.git $INSTALL_DIR && cd $INSTALL_DIR
-./install.py
+make install
 ```
 
 
