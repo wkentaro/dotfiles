@@ -45,7 +45,7 @@ gh pr view --json number,url 2>/dev/null
 
 **Title**: `<type>: <short description>` (under 70 chars). Conventional types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `perf`, `ci`. Match the PR theme, not just the last commit.
 
-**Labels**: pick from `gh label list --json name,description` output. Apply only labels scoped to PRs — read each description and skip issue-scoped ones (e.g. descriptions starting with "Issue ..."). Verdict labels like `ready-to-merge` / `recommend-close` / `do-not-merge` are applied during review, not at creation. If no label clearly applies, add none.
+**Labels**: pick from `gh label list --json name,description` output. Apply only labels scoped to PRs — read each description and skip issue-scoped ones (e.g. descriptions starting with "Issue ..."). Verdict labels like `recommend-merge` / `recommend-close` are applied during review, not at creation. If no label clearly applies, add none.
 
 **Assignee**: default to the git user (`gh api user --jq '.login'`).
 
