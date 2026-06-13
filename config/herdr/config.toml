@@ -56,7 +56,7 @@ open_notification_target = ""
 goto = "prefix+o"
 new_workspace = ["prefix+shift+n", "alt+shift+n"]
 new_worktree = ["prefix+shift+g", "alt+shift+g"]
-open_worktree = "prefix+g"    # optional, unset by default
+open_worktree = ["prefix+g", "alt+g"]    # optional, unset by default
 # remove_worktree = ""  # optional, unset by default; opens confirmation
 # rename_workspace = "prefix+shift+w"
 # close_workspace = "prefix+shift+d"
@@ -160,6 +160,7 @@ show_agent_labels_on_pane_borders = true
 # accent = "cyan"
 
 # Background notification popup delivery
+agent_panel_scope = "all"
 [ui.toast]
 # off = disable pop-up notifications
 # herdr = show top-right in-app toasts
