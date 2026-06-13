@@ -244,7 +244,6 @@ alias gsuir='gsui --recursive'
 #   compdef _git git_checkout_by_fzy=git-checkout 2>/dev/null
 # fi
 #
-gap='git add -p'
 
 alias gl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset' --abbrev-commit --date=iso"
 alias glg="gl --graph"
