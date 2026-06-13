@@ -14,10 +14,6 @@ jobs:
       run: |
         git submodule update --init --recursive
 
-    - name: Install system requirements
-      run: |
-        sudo apt-get install -qq -y python3-setuptools python3-pip python3-yaml
-
     - name: Install this project
       run: |
-        python3 install.py
+        make install

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-
-from __future__ import print_function
+# /// script
+# requires-python = ">=3.8"
+# dependencies = ["pyyaml"]
+# ///
 
 import argparse
 import glob
@@ -8,13 +10,8 @@ import os
 import os.path as osp
 import platform
 import subprocess
-import sys
 
-try:
-    import yaml
-except ImportError:
-    print("Please install PyYAML: pip install --user PyYAML", file=sys.stderr)
-    quit(1)
+import yaml
 
 
 UNAME = platform.platform().split("-")[0]
