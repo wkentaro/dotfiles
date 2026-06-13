@@ -1,48 +1,72 @@
 ---
 name: setup-github-labels
-description: "Applies one small canonical GitHub label set to the current repo, so every repo you run it in speaks the same label vocabulary. Two axes: the issue `type:` axis (bug/feature/task, mirroring GitHub Issue Types) and a PR-verdict axis (recommend-merge/recommend-close). Use when setting up labels on a repo, or after editing this skill's canonical table. Invoke explicitly; it is not auto-triggered."
+description: "Applies one small canonical GitHub label set to the current repo, so every repo you run it in speaks the same label vocabulary: an issue `type:` axis (bug/feature/task, mirroring GitHub Issue Types), the five whose-turn triage roles (needs-triage/needs-info/ready-for-agent/ready-for-human/wontfix), and a PR-verdict axis (recommend-merge/recommend-close). This skill owns the GitHub label objects (name, color, description); `setup-matt-pocock-skills` owns the triage roles' agent wiring. Use when setting up labels on a repo, or after editing this skill's canonical tables. Invoke explicitly; it is not auto-triggered."
 ---
 
 # Setup GitHub Labels
 
 Apply one intentional label vocabulary to whatever repo you run this in. The
-table below is the source of truth, not the GitHub UI. This is a prompt-driven
+tables below are the source of truth, not the GitHub UI. This is a prompt-driven
 skill, not a deterministic script: read the set, explore the repo, confirm with
 the user, then create the labels with `gh`.
 
 ## The canonical set
 
-Two axes, kept small on purpose: anything another tool or skill already owns is
-**not** in it.
+Three groups, kept small on purpose. This skill owns the GitHub label *objects*
+(name, color, description) for all of them. `setup-matt-pocock-skills` owns the
+*agent wiring* for the triage roles — the role→string mapping in
+`docs/agents/triage-labels.md` that tells the `triage` skill which string to
+apply — and never touches a label's color or description. So the two skills
+split by concern, not by which labels: one owns the labels on GitHub, the other
+owns how the agent refers to them. Anything a *tool* already owns (Dependabot,
+labeler actions) is **not** here.
 
 ### Issue `type:` axis
 
-| Label           | Color    | Description (issue-scoped)                       |
-| --------------- | -------- | ----------------------------------------------- |
-| `type: bug`     | `d73a4a` | Issue reporting a defect to fix                 |
-| `type: feature` | `a2eeef` | Issue requesting a new capability or improvement|
-| `type: task`    | `cfd3d7` | Issue for other work: maintenance, refactor, docs |
+| Label           | Color    | Description (issue-scoped)                          |
+| --------------- | -------- | -------------------------------------------------- |
+| `type: bug`     | `d73a4a` | issue: Reporting a defect to fix                   |
+| `type: feature` | `a2eeef` | issue: Requesting a new capability or improvement  |
+| `type: task`    | `cfd3d7` | issue: For other work: maintenance, refactor, docs |
 
 `type: bug` / `type: feature` / `type: task` mirror GitHub's Issue Types
 (Bug / Feature / Task). `task` is the catch-all for refactor/docs/chore/test
 work. If a repo ever moves under a GitHub org, these map 1:1 onto native Issue
 Types and the labels can be retired.
 
+### Issue triage axis
+
+The five whose-turn triage roles the `triage` skill moves an issue through.
+`setup-matt-pocock-skills` decides *which string* each role maps to (and records
+it in `docs/agents/triage-labels.md`); this skill creates the actual GitHub
+labels with a consistent scope prefix, so it reads at a glance whether a state
+applies to issues, PRs, or both.
+
+| Label             | Color    | Description                                        |
+| ----------------- | -------- | -------------------------------------------------- |
+| `needs-triage`    | `fbca04` | issue: Maintainer needs to evaluate this issue     |
+| `needs-info`      | `d876e3` | issue/pr: Waiting on reporter for more information |
+| `ready-for-agent` | `0e8a16` | issue: Fully specified, ready for an AFK agent     |
+| `ready-for-human` | `1d76db` | issue: Requires human implementation               |
+| `wontfix`         | `ffffff` | issue: Will not be actioned                        |
+
+`needs-info` is the one `issue/pr:` label: a PR parked on an outside human reuses
+it rather than minting a PR-scoped twin, so "waiting on a human" reads
+identically on both. Every other triage role is issue-only.
+
 ### PR-verdict axis
 
 Whose-turn routing on a PR needs almost no labels: a non-draft PR with no
 verdict is, by definition, the agent's to finalize, and a PR parked on an
-outside human reuses the `needs-info` label (created by
-`setup-matt-pocock-skills` for issue triage) rather than minting a PR-scoped
-twin. This skill does not recreate that label. What this skill owns is the agent's
-**terminal verdict** once it has finished finalizing a PR: the single
-emerald/red signal that tells the maintainer, at a glance, which open PRs are
-theirs to ship.
+outside human reuses the `needs-info` triage label above rather than minting a
+PR-scoped twin. What this axis adds is the agent's **terminal verdict** once it
+has finished finalizing a PR: the single emerald/red signal that tells the
+maintainer, at a glance, which open PRs are theirs to ship.
 
-| Label             | Color    | Description (PR-scoped)                                       |
-| ----------------- | -------- | ------------------------------------------------------------ |
-| `recommend-merge` | `0E8A16` | PR finalized and endorsed by the agent: review and merge     |
-| `recommend-close` | `D93F0B` | PR the agent recommends closing: your call to review or close|
+| Label             | Color    | Description (PR-scoped)                              |
+| ----------------- | -------- | --------------------------------------------------- |
+| `recommend-merge` | `0E8A16` | pr: Agent finalized and endorses it: review and merge |
+| `recommend-close` | `D93F0B` | pr: Agent recommends closing: your call to review or close |
 
 The verdict is **binary by design**: the agent finalizes a PR (rebase, green CI,
 polish) and then emits exactly one of the two. `recommend-close` is the single
@@ -66,19 +90,9 @@ changes: a new commit after a verdict means the agent must clear that label and
 re-review before the emerald queue can be trusted again. Pushes after a verdict
 are rare, so this stays a manual step rather than something worth a CI workflow.
 
-**Single owner per label, so several common labels are deliberately excluded:**
+**A couple of label families are deliberately left out, because a *tool* already
+owns them:**
 
-- Whose-turn triage roles (`needs-triage`, `needs-info`, `ready-for-agent`,
-  `ready-for-human`, `wontfix`) are owned by `setup-matt-pocock-skills`; run
-  that skill for them. `needs-info` is created there as an issue state, but a PR
-  parked on an outside human reuses that same label rather than minting a
-  PR-scoped twin, so "waiting on a human" reads identically on both. The agent's
-  turn on a PR, by contrast, is just the no-verdict default, so no
-  `ready-for-agent` label is applied there. This skill adds only the PR-terminal
-  verdicts (`recommend-merge` / `recommend-close`) on top, so the two skills
-  together cover the whole flow without overlap. `ready-for-human` stays
-  issue-only: on a PR the human reviews and merges (or closes), it does not
-  implement.
 - Tool-managed labels (`dependencies` from Dependabot, and other labels created
   by labeler actions or bots) are owned by that tooling. Leave their color and
   description alone; do not add them here or you will fight the tool that
@@ -103,19 +117,20 @@ for "not yet".
 
 PR *type* and *area* stay absent: PR type comes from the conventional-commit
 title, and area is per-repo. Only the PR *verdict* is shared here, because "is
-this one mine to ship" generalizes across every repo with PRs. Each `type:`
-description leads with "Issue" and each verdict description with "PR" to
-advertise scope, so tools and people don't cross-apply.
+this one mine to ship" generalizes across every repo with PRs. Each description
+leads with a scope prefix — `issue:`, `pr:`, or `issue/pr:` — to advertise where
+it applies, so tools and people don't cross-apply.
 
 ### Issue ↔ PR equivalents
 
 Issues and PRs run the same underlying state machine — *whose turn is it, and
-what must they do* — but express it with different signals. The issue side is
-owned by `setup-matt-pocock-skills` (the five triage roles); the PR side is what
-this skill owns, plus GitHub's native draft flag. This table lines them up so a
-state reads the same whether you're looking at an issue or a PR:
+what must they do* — but express it with different signals. This skill creates
+both sides' labels; `setup-matt-pocock-skills` owns the issue side's *vocabulary*
+(which string each triage role maps to). The PR side also leans on GitHub's
+native draft flag. This table lines them up so a state reads the same whether
+you're looking at an issue or a PR:
 
-| State (whose turn / what's needed)     | Issue (`setup-matt-pocock-skills`)        | PR (this skill + draft flag)              |
+| State (whose turn / what's needed)     | Issue (triage role)                       | PR (verdict + draft flag)                 |
 | -------------------------------------- | ----------------------------------------- | ----------------------------------------- |
 | Unprocessed — someone must look        | `needs-triage`                            | no verdict label, non-draft               |
 | Blocked on an outside human            | `needs-info`                              | `needs-info` (same label, reused)         |
@@ -154,32 +169,32 @@ If that fails (no GitHub remote), ask the user which repo to target.
 ### 2. Preview (read-only)
 
 Show the user which canonical labels are new vs already present on the repo, by
-comparing the table's labels against the repo's existing ones:
+comparing the tables' labels against the repo's existing ones:
 
 ```bash
 gh label list --repo "$REPO" --limit 200 --json name -q '.[].name'
 ```
 
-Labels in the table but not in that list will be **created**; labels already
+Labels in the tables but not in that list will be **created**; labels already
 present will have their color/description **updated**.
-
-While you have that list, also note whether `needs-info` is present. This skill's
-PR-verdict flow reuses that label (created by `setup-matt-pocock-skills`) for a
-PR parked on an outside human, but deliberately does not create it. Its presence
-or absence feeds the recommendation in step 4.
 
 ### 3. Confirm, then apply
 
 Creating labels on a (often public) repo is an outward-facing action, so confirm
-with the user first. Then create each label from the table with `--force`, which
+with the user first. Then create each label from the tables with `--force`, which
 adds it if missing and updates color/description if it already exists:
 
 ```bash
-gh label create "type: bug"     --color d73a4a --description "Issue reporting a defect to fix"                   --force --repo "$REPO"
-gh label create "type: feature" --color a2eeef --description "Issue requesting a new capability or improvement"  --force --repo "$REPO"
-gh label create "type: task"    --color cfd3d7 --description "Issue for other work: maintenance, refactor, docs" --force --repo "$REPO"
-gh label create "recommend-merge" --color 0E8A16 --description "PR finalized and endorsed by the agent: review and merge"       --force --repo "$REPO"
-gh label create "recommend-close" --color D93F0B --description "PR the agent recommends closing: your call to review or close"  --force --repo "$REPO"
+gh label create "type: bug"     --color d73a4a --description "issue: Reporting a defect to fix"                   --force --repo "$REPO"
+gh label create "type: feature" --color a2eeef --description "issue: Requesting a new capability or improvement"  --force --repo "$REPO"
+gh label create "type: task"    --color cfd3d7 --description "issue: For other work: maintenance, refactor, docs" --force --repo "$REPO"
+gh label create "needs-triage"    --color fbca04 --description "issue: Maintainer needs to evaluate this issue"     --force --repo "$REPO"
+gh label create "needs-info"      --color d876e3 --description "issue/pr: Waiting on reporter for more information" --force --repo "$REPO"
+gh label create "ready-for-agent" --color 0e8a16 --description "issue: Fully specified, ready for an AFK agent"     --force --repo "$REPO"
+gh label create "ready-for-human" --color 1d76db --description "issue: Requires human implementation"              --force --repo "$REPO"
+gh label create "wontfix"         --color ffffff --description "issue: Will not be actioned"                       --force --repo "$REPO"
+gh label create "recommend-merge" --color 0E8A16 --description "pr: Agent finalized and endorses it: review and merge"   --force --repo "$REPO"
+gh label create "recommend-close" --color D93F0B --description "pr: Agent recommends closing: your call to review or close" --force --repo "$REPO"
 ```
 
 To set up several repos, repeat with each `--repo`.
@@ -192,18 +207,20 @@ set). If they want to retire a stray label, that is a manual, deliberate step:
 `gh label delete "<name>" --repo "$REPO" --yes`. Deleting strips it off every
 issue/PR currently wearing it, so never do it without explicit confirmation.
 
-If the step 2 preview showed `needs-info` is **absent**, recommend running
-`setup-matt-pocock-skills` to complete the vocabulary: it owns the issue-triage
-roles (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`,
-`wontfix`), and this skill's "PR parked on a human" state reuses its `needs-info`
-label. This is a recommendation, not a requirement: the canonical set applied
-here (the `type:` axis plus the PR verdicts) stands on its own; the matt-pocock
-set is what rounds out the shared issue+PR triage flow. Skip the recommendation
-when `needs-info` is already present.
+This skill creates the triage labels, but the engineering skills only *apply*
+them if the repo also has the agent wiring — the role→string mapping in
+`docs/agents/triage-labels.md`. If that file is absent
+(`test -f docs/agents/triage-labels.md`), recommend running
+`setup-matt-pocock-skills` to write it. That's a one-line pointer, not a
+requirement: the labels stand on their own; the wiring is what lets the `triage`
+skill reach for them. Skip the recommendation when the file is already present.
 
 ## Changing the set
 
-Edit the table above: add or remove a row, and keep the `gh label create` lines
-in step 3 in sync with it. Keep the set small: before adding a label, check it
-carries information the commit title, diff, or an existing label (or another
-skill's labels) doesn't.
+Edit the tables above: add or remove a row, and keep the `gh label create` lines
+in step 3 in sync with them. For a triage role, also keep it consistent with the
+role→string mapping `setup-matt-pocock-skills` records in
+`docs/agents/triage-labels.md` — this skill owns the label's color and
+description, that skill owns which string the role maps to. Keep the set small:
+before adding a label, check it carries information the commit title, diff, or an
+existing label (or another skill's labels) doesn't.
