@@ -74,6 +74,7 @@
 ### Call Sites
 
 - **Use kwargs** — Unless trivially obvious (`len(x)`, `max(items)`, `shape(aoi)`), spell out keyword arguments.
+- **Copy a list with `[:]`, not `list(...)`** — When the source is statically a `list`, use `xs[:]` to copy it; `[:]` reads as "copy this list", while `list(...)` reads as "convert an iterable to a list". Reserve `list(...)` for the conversion case (an iterator, `dict.fromkeys(...)`, or a `T | None` where `list(xs or [])` is cleaner than `(xs or [])[:]`).
 
 ### Type Annotations
 
