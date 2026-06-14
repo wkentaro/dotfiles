@@ -11,6 +11,9 @@ __pycache__/
 # git-wt
 .wt/
 
+# Agent artifacts
+log/agents/
+
 # mujin
 branches/branches.json
 agents/skills/boxdetection-debugging
