@@ -9,25 +9,6 @@
     "allow": [],
     "defaultMode": "auto"
   },
-  "skillOverrides": {
-    "copywriting": "user-invocable-only",
-    "cro": "user-invocable-only",
-    "customer-research": "user-invocable-only",
-    "illustrate": "user-invocable-only",
-    "to-issues": "user-invocable-only",
-    "setup-matt-pocock-skills": "user-invocable-only",
-    "impeccable": "user-invocable-only",
-    "diagnose": "user-invocable-only",
-    "improve-codebase-architecture": "user-invocable-only",
-    "grill-me": "user-invocable-only",
-    "grill-with-docs": "user-invocable-only",
-    "triage": "user-invocable-only",
-    "write-a-skill": "user-invocable-only",
-    "handoff": "user-invocable-only",
-    "deep-research": "user-invocable-only",
-    "update-config": "user-invocable-only",
-    "keybindings-help": "user-invocable-only"
-  },
   "hooks": {
     "SessionStart": [
       {
