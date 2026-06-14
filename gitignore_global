@@ -1,22 +1,17 @@
+# macOS
 .DS_Store
 
+# Python
 *.egg-info/
 __pycache__/
 
-.in
-.out
-,*
-
-logs.*/
-
+# Claude
 .claude/
-CLAUDE.local.md
 
+# git-wt
 .wt/
 
+# mujin
 branches/branches.json
-
-tmp/
-
 agents/skills/boxdetection-debugging
 agents/skills/make-mr
