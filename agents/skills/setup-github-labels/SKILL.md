@@ -1,6 +1,6 @@
 ---
 name: setup-github-labels
-description: "Applies one small canonical GitHub label set to the current repo, so every repo you run it in speaks the same label vocabulary: an issue `type:` axis (bug/feature/task, mirroring GitHub Issue Types), the five whose-turn triage roles (needs-triage/needs-info/ready-for-agent/ready-for-human/wontfix), and a PR-verdict axis (recommend-merge/recommend-close). This skill owns the GitHub label objects (name, color, description); `setup-matt-pocock-skills` owns the triage roles' agent wiring. Use when setting up labels on a repo, or after editing this skill's canonical tables. Invoke explicitly; it is not auto-triggered."
+description: "Applies one small canonical GitHub label set to the current repo, so every repo you run it in speaks the same label vocabulary: an issue `type:` axis (bug/feature/task, mirroring GitHub Issue Types), the five whose-turn triage roles (needs-triage/needs-info/ready-for-agent/ready-for-human/wontfix), and a PR-verdict axis (recommend-merge/recommend-close/recommend-triage). This skill owns the GitHub label objects (name, color, description); `setup-matt-pocock-skills` owns the triage roles' agent wiring. Use when setting up labels on a repo, or after editing this skill's canonical tables. Invoke explicitly; it is not auto-triggered."
 ---
 
 # Setup GitHub Labels
@@ -60,27 +60,45 @@ Whose-turn routing on a PR needs almost no labels: a non-draft PR with no
 verdict is, by definition, the agent's to finalize, and a PR parked on an
 outside human reuses the `needs-info` triage label above rather than minting a
 PR-scoped twin. What this axis adds is the agent's **terminal verdict** once it
-has finished finalizing a PR: the single emerald/red signal that tells the
-maintainer, at a glance, which open PRs are theirs to ship.
+has finished finalizing a PR: the signal that tells the maintainer, at a glance,
+what each open PR needs from them.
 
-| Label             | Color    | Description (PR-scoped)                              |
-| ----------------- | -------- | --------------------------------------------------- |
-| `recommend-merge` | `0E8A16` | pr: Agent finalized and endorses it: review and merge |
-| `recommend-close` | `D93F0B` | pr: Agent recommends closing: your call to review or close |
+| Label              | Color    | Description (PR-scoped)                              |
+| ------------------ | -------- | --------------------------------------------------- |
+| `recommend-merge`  | `0E8A16` | pr: Agent finalized and endorses it: review and merge |
+| `recommend-close`  | `D93F0B` | pr: Agent recommends closing: your call to review or close |
+| `recommend-triage` | `FBCA04` | pr: Agent finalized it but the merge/close call is yours |
 
-The verdict is **binary by design**: the agent finalizes a PR (rebase, green CI,
-polish) and then emits exactly one of the two. `recommend-close` is the single
-"not confidently mergeable" bucket — it covers both an active reject and a
-low-confidence "couldn't tell, your call", with the nuance carried in the
-agent's review comment, not a third label. Keeping it one bucket means the
-maintainer's world stays two-pile: an emerald ship queue
-(`is:pr is:open label:recommend-merge`) and a red triage pile.
+The verdict is **three-way by design**: the agent finalizes a PR (rebase, green
+CI, polish) and then emits exactly one of the three. The split exists because
+"not mergeable as-is" hides two states with very different maintainer effort:
+
+- `recommend-close` is the agent's **active reject** — broken, abandoned,
+  superseded, or clearly out of scope. The maintainer glances and closes.
+- `recommend-triage` is for a PR whose **code is sound but whose merge/close call
+  is a product or scope judgment the agent can't make** — a clean, working feature
+  where the only open question is "does this project want it". The maintainer must
+  stop and decide; that decision is theirs, not the agent's.
+
+Folding the second into `recommend-close` would be dishonest — the agent does not
+recommend closing a sound feature — and would bury the most expensive pile (the
+product calls only the maintainer can make) inside the cheap one (rubber-stamp
+closes). So the maintainer's world is three filters: an emerald ship queue
+(`is:pr is:open label:recommend-merge`), an amber decision queue
+(`label:recommend-triage`), and a red close pile (`label:recommend-close`).
+
+`recommend-triage` is **not a cop-out hatch**. It is only for "code is sound, the
+call is product/scope". If the agent has a *technical* reason the PR shouldn't
+merge, it still owes a `recommend-close` with that reason in the review comment —
+otherwise the decision queue swells with PRs the agent could have resolved and the
+label loses its meaning.
 
 The agent **never merges and never closes** — both stay the maintainer's hand;
-the verdict is a recommendation, not an action. That is why both labels lead with
-`recommend-` rather than the ecosystem-conventional `ready-to-merge`: the matched
-`recommend-merge` / `recommend-close` pair names them honestly as recommendations,
-and — deliberately — steers clear of the label strings merge bots watch (Kodiak,
+the verdict is a recommendation, not an action. That is why all three labels lead
+with `recommend-` rather than the ecosystem-conventional `ready-to-merge`: the
+matched `recommend-merge` / `recommend-close` / `recommend-triage` set names them
+honestly as recommendations, and — deliberately — steers clear of the label
+strings merge bots watch (Kodiak,
 Mergify, bors, GitHub auto-merge). A bot wired to merge on `ready-to-merge` would
 turn the agent's recommendation into an actual merge and break this invariant, so
 do **not** rename it back to that conventional string.
@@ -137,9 +155,10 @@ you're looking at an issue or a PR:
 | Still being built / iterated           | *(open issue, no extra label)*            | **draft** flag                            |
 | Agent's turn to act                    | `ready-for-agent`                         | no verdict label, non-draft               |
 | Maintainer's turn — endorsed           | `ready-for-human` (human implements)      | `recommend-merge` (human reviews/merges)  |
+| Maintainer's turn — must decide        | `needs-triage` (maintainer evaluates)     | `recommend-triage` (product/scope call)   |
 | Won't proceed                          | `wontfix`                                 | `recommend-close`                         |
 
-Two asymmetries are intentional, not gaps:
+Three asymmetries are intentional, not gaps:
 
 - **`needs-triage` and `ready-for-agent` collapse into one PR state.** A non-draft
   PR with no verdict already means "agent, finalize this", so the PR side never
@@ -150,6 +169,12 @@ Two asymmetries are intentional, not gaps:
   *implement it*; `recommend-merge` on a PR means *review and merge it*. Same "your
   turn, human" role, different verb — which is why `ready-for-human` stays
   issue-only and `recommend-merge` is its PR counterpart rather than a shared label.
+- **`needs-triage` spans two PR states.** On issues, "maintainer must evaluate" is
+  one state. On PRs it splits by *when*: a fresh PR is the agent's to finalize
+  (no verdict, non-draft), and only *after* the agent finalizes does a leftover
+  product/scope call earn its own verdict, `recommend-triage`. That is why
+  `recommend-triage` is a distinct PR label and the agent never puts `needs-triage`
+  on a PR (that would invert it to "agent hasn't looked yet").
 
 `do-not-merge` is absent on purpose: a "don't merge yet" PR is the **draft** row
 above, so it needs no label of its own.
@@ -193,8 +218,9 @@ gh label create "needs-info"      --color d876e3 --description "issue/pr: Waitin
 gh label create "ready-for-agent" --color 0e8a16 --description "issue: Fully specified, ready for an AFK agent"     --force --repo "$REPO"
 gh label create "ready-for-human" --color 1d76db --description "issue: Requires human implementation"              --force --repo "$REPO"
 gh label create "wontfix"         --color ffffff --description "issue: Will not be actioned"                       --force --repo "$REPO"
-gh label create "recommend-merge" --color 0E8A16 --description "pr: Agent finalized and endorses it: review and merge"   --force --repo "$REPO"
-gh label create "recommend-close" --color D93F0B --description "pr: Agent recommends closing: your call to review or close" --force --repo "$REPO"
+gh label create "recommend-merge"  --color 0E8A16 --description "pr: Agent finalized and endorses it: review and merge"   --force --repo "$REPO"
+gh label create "recommend-close"  --color D93F0B --description "pr: Agent recommends closing: your call to review or close" --force --repo "$REPO"
+gh label create "recommend-triage" --color FBCA04 --description "pr: Agent finalized it but the merge/close call is yours" --force --repo "$REPO"
 ```
 
 To set up several repos, repeat with each `--repo`.
