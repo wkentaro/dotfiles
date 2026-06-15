@@ -17,4 +17,5 @@ log/agents/
 # mujin
 branches/branches.json
 agents/skills/boxdetection-debugging
+agents/skills/draft-bc-timesheet
 agents/skills/make-mr
