@@ -395,3 +395,5 @@ if (( $+commands[git-wt] )); then
     fi
   }
 fi
+
+alias cc="claude"
