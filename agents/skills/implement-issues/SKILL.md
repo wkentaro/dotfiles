@@ -27,6 +27,14 @@ exits.
   hand (and `/process-prs`'s verdict is a recommendation, not an action).
 - **Never ship a guess.** If the brief is underspecified or the work can't reach
   green, abort and demote (see below), never open a speculative PR.
+- **The finalize gates are mandatory, not optional.** `/review-fix` and
+  `/recommit` run on **every** change before the PR opens, whatever its size, and
+  `/verify` runs whenever the change is behavioral and a smoke is practical. "It's
+  a one-line / test-only / obviously-correct change" is **not** grounds to skip
+  `/review-fix` or `/recommit`, and a manual diff read is **not** a substitute for
+  `/review-fix`. That rationalization is exactly how unreviewed AI-slop lands in a
+  PR. Skipping a gate that applies is a process violation; if one genuinely cannot
+  run, say so explicitly in the report rather than silently dropping it.
 - **Never take an issue owned by another loop.** Only unassigned issues are
   grabbable; assignment is the ownership signal.
 - **Never touch clean-room / relicensing issues.** Those are owned by their own
@@ -72,17 +80,20 @@ Take the **oldest** grabbable issue. If none, report and exit.
 ## 2. Implement and finalize
 
 Work entirely in the worktree, treating the agent brief as the contract (the
-issue body is context):
+issue body is context); run the steps below in order:
 
 1. Implement the brief. Read code before changing it; touch only what the brief
    requires; respect any ADRs / `CONTEXT.md`.
 2. Get the **full test suite and lint/typecheck green**.
 3. Confirm **every acceptance criterion** in the brief is satisfied.
 4. `/review-fix` to a clean round (reviewers -> fixes -> re-verify; stop on a
-   clean round or on oscillation).
+   clean round or on oscillation). Invoke the skill; a hand review of the diff
+   does not count.
 5. `/recommit` into a clean, logical commit sequence.
-6. `/verify` only if the change is behavioral and a smoke is practical (the
-   skill picks the method per project type).
+6. `/verify` whenever the change is behavioral and a smoke is practical (the
+   skill picks the method per project type). This is the one conditional gate:
+   skip it only when the change is non-behavioral (e.g. test-only or docs) or no
+   smoke is practical, and note the reason in the report.
 
 ## 3. Open the PR
 
@@ -114,7 +125,9 @@ No PR. The demoted issue re-enters the pipeline rather than dying silently.
 ## Report
 
 End with one line for `/loop`: the issue implemented and the PR url, the
-abort + demotion, or "no unassigned ready-for-agent issue this tick."
+abort + demotion, or "no unassigned ready-for-agent issue this tick." If a
+finalize gate was skipped or could not run, note which and why alongside that
+line.
 
 ## Composition
 
