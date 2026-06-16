@@ -73,9 +73,6 @@ if [ "$(uname)" = "Darwin" ]; then
     export PATH="/usr/local/opt/ruby/bin:$PATH"
 fi
 
-# bookmark
-# hash -d dotfiles=$HOME/.dotfiles
-
 # Python
 export VIRTUALENV_USE_DISTRIBUTE=1
 
