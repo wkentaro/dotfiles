@@ -394,3 +394,4 @@ if (( $+commands[git-wt] )); then
 fi
 
 alias cc="claude"
+alias ca="claude agents"
