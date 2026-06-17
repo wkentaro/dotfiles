@@ -123,7 +123,7 @@ from `triage-labels.md`). Every triaged issue also carries one category role
 
 Spin-off issues from `/process-prs` land unlabeled, so this pass picks them up
 and triages them on its next tick (escalations from `/kaizen-codebase` arrive
-already labeled `ready-for-human` and are left for the maintainer, not
-re-triaged here). An issue this pass marks `ready-for-agent` is the handoff to
+already labeled `needs-triage` and are left for the maintainer, not re-picked
+here). An issue this pass marks `ready-for-agent` is the handoff to
 `/implement-issues` (this pass does not write code or open PRs itself); the
 resulting PR is then handled by `/process-prs`.
