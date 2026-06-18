@@ -1,6 +1,6 @@
 ---
 name: process-prs
-description: Run one PR-processing tick on the current repo's open pull requests, then stop. Finalize your own / agent-authored PRs (rebase, /review-fix, /recommit, green CI), review community and bot PRs, and emit exactly one canonical recommend-* verdict label per PR. File follow-up and idea issues without blocking any merge. Does one tick then stops, so it composes with /loop for a recurring PR loop (e.g. `/loop /process-prs`, `/loop 1h /process-prs`). Never merges, never closes; the verdict is a recommendation, not an action. GitHub-only (uses `gh`). Use when the user wants to process, finalize, triage, or review open pull requests, set up a recurring PR-handling agent, or run one PR-processing pass.
+description: "Run one PR-processing tick on the current repo's open pull requests, then stop. Finalize your own / agent-authored PRs (rebase-if-needed, /review-fix, /recommit, green CI), review community and bot PRs, and emit exactly one canonical recommend-* verdict label per PR. File follow-up and idea issues without blocking any merge. Does one tick then stops, so it composes with /loop for a recurring PR loop (e.g. `/loop /process-prs`, `/loop 1h /process-prs`). Never merges, never closes; the verdict is a recommendation, not an action. GitHub-only (uses `gh`). Use when the user wants to process, finalize, triage, or review open pull requests, set up a recurring PR-handling agent, or run one PR-processing pass."
 ---
 
 # Process PRs (one tick)
@@ -101,15 +101,52 @@ being iterated stays a **draft** (no verdict label).
 Skip the PR this tick if it is already awaiting CI from a prior tick (step 5) —
 do not re-finalize while checks are pending. Otherwise:
 
-1. Rebase on the default branch.
+1. **Rebase only if a fresh CI run against current `main` is actually needed.**
+   A rebase forces a push, which re-triggers CI and costs a whole extra tick of
+   waiting, so don't pay it reflexively. When CI runs on `pull_request` with a
+   bare `actions/checkout` (the common case; confirm in the workflow), a green
+   check already tested the PR *merged into `main`*, but only as `main` stood
+   when CI last ran, since GitHub does not re-run CI when `main` advances. So the
+   real question is whether that green has gone stale **in a way that matters**.
+   Compute the divergence (use the default branch and the PR's head ref, not
+   literal `main`):
+
+   ```bash
+   gh pr view <N> --json mergeStateStatus,files \
+     -q '{state: .mergeStateStatus, files: [.files[].path]}'
+   base=$(git merge-base origin/<defaultBranch> origin/<headRef>)
+   git diff --name-only "$base"..origin/<defaultBranch>   # files main changed since base
+   git rev-list --count "$base"..origin/<defaultBranch>   # commits main gained since base
+   ```
+
+   **Rebase** (then let the pipeline force-push, re-triggering CI) **iff any holds:**
+   - merge state is `DIRTY`/conflicting (a textual conflict to resolve), or
+     `BEHIND` (branch protection requires up-to-date before merge);
+   - `main`'s post-base files intersect the PR's changed files, a direct overlap,
+     so the merged result the PR's tests cover may actually differ;
+   - `main` gained **more than 20 commits** since the merge-base, a catch-all:
+     a large disjoint advance can still carry a transitive/semantic break (a
+     renamed or deleted symbol the PR calls from another file) that the stale
+     green never exercised.
+
+   **Otherwise skip the rebase entirely.** `main` moved only in files disjoint
+   from the PR and within the cap, so the existing green still reflects the
+   merged result; leave the branch untouched and let the PR be verdicted this
+   same tick (step 5). (If merge state is `UNKNOWN`, GitHub is still computing
+   mergeability; re-check next tick rather than guessing.)
 2. `/review-fix`: runs the bundled reviewers, applies the meaningful fixes,
    folds them into clean commits, force-pushes with lease.
 3. `/recommit`: reshape into a clean, logical commit sequence.
 4. `/verify`: only if the PR changes runtime behavior and a smoke is practical.
    `/verify` picks the method per project type (CLI invocation, server boot,
    library import, GUI launch); skip for docs/refactor/test-only PRs.
-5. Wait for CI **non-blocking**: if checks are pending, leave the PR awaiting CI
-   and move on; a later tick re-checks. On that later tick:
+5. Resolve CI **non-blocking**. If no push happened this tick (no rebase per
+   step 1, and `/review-fix` and `/recommit` each left the branch untouched), the
+   existing checks are authoritative: read them directly and verdict now without
+   waiting, applying the outcome rules below. Only a push made this tick puts the
+   PR into the awaiting-CI state; when its checks are pending, leave the PR
+   awaiting CI and move on, and a later tick applies the same rules. The outcome
+   rules:
    - green → `recommend-merge`.
    - red, no prior agent fix-attempt on the PR → one fix-and-repush attempt, then
      leave it awaiting CI again.
