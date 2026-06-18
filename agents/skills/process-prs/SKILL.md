@@ -1,6 +1,6 @@
 ---
 name: process-prs
-description: "Run one PR-processing tick on the current repo's open pull requests, then stop. Finalize your own / agent-authored PRs (rebase-if-needed, /review-fix, /recommit, green CI), review community and bot PRs, and emit exactly one canonical recommend-* verdict label per PR. File follow-up and idea issues without blocking any merge. Does one tick then stops, so it composes with /loop for a recurring PR loop (e.g. `/loop /process-prs`, `/loop 1h /process-prs`). Never merges, never closes; the verdict is a recommendation, not an action. GitHub-only (uses `gh`). Use when the user wants to process, finalize, triage, or review open pull requests, set up a recurring PR-handling agent, or run one PR-processing pass."
+description: "Run one PR-processing tick on the current repo's open pull requests, then stop. Finalize your own / agent-authored PRs (rebase-if-needed, /code-review then /review-fix if needed, /recommit, green CI), review community and bot PRs, and emit exactly one canonical recommend-* verdict label per PR. File follow-up and idea issues without blocking any merge. Does one tick then stops, so it composes with /loop for a recurring PR loop (e.g. `/loop /process-prs`, `/loop 1h /process-prs`). Never merges, never closes; the verdict is a recommendation, not an action. GitHub-only (uses `gh`). Use when the user wants to process, finalize, triage, or review open pull requests, set up a recurring PR-handling agent, or run one PR-processing pass."
 ---
 
 # Process PRs (one tick)
@@ -134,8 +134,21 @@ do not re-finalize while checks are pending. Otherwise:
    merged result; leave the branch untouched and let the PR be verdicted this
    same tick (step 5). (If merge state is `UNKNOWN`, GitHub is still computing
    mergeability; re-check next tick rather than guessing.)
-2. `/review-fix`: runs the bundled reviewers, applies the meaningful fixes,
-   folds them into clean commits, force-pushes with lease.
+2. **Gate `/review-fix` behind a cheap `/code-review` pass. Don't pay the full
+   loop reflexively.** An own PR that is already non-draft has, by convention,
+   been through `/review-fix` before it was un-drafted, so re-running the full
+   loop (five reviewers, up to five rounds, plus a force-push that re-triggers CI
+   and costs another whole tick) is usually wasted motion. So first run a single
+   report-only `/code-review` at medium effort (no `--fix`) over the diff as a
+   safety net (the same cheap gate the community tier uses, and one of the five
+   reviewers `/review-fix` would run), then branch on what it finds:
+   - **No meaningful findings** (clean, or only nits already matching repo
+     conventions) → skip `/review-fix` entirely; the PR is already settled. Go to
+     step 3.
+   - **Meaningful findings** (a real correctness or design fix, or several
+     concerns at once) → escalate to `/review-fix`, which runs the bundled
+     reviewers, applies the meaningful fixes, folds them into clean commits, and
+     force-pushes with lease.
 3. `/recommit`: reshape into a clean, logical commit sequence.
 4. `/verify`: only if the PR changes runtime behavior and a smoke is practical.
    `/verify` picks the method per project type (CLI invocation, server boot,
