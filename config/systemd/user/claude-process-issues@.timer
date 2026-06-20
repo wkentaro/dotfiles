@@ -1,0 +1,11 @@
+[Unit]
+Description=process-issues for %i
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=20min
+RandomizedDelaySec=2min
+Unit=claude-skill@process-issues:%i.service
+
+[Install]
+WantedBy=timers.target

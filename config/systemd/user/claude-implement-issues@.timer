@@ -1,0 +1,11 @@
+[Unit]
+Description=implement-issues for %i
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=30min
+RandomizedDelaySec=2min
+Unit=claude-skill@implement-issues:%i.service
+
+[Install]
+WantedBy=timers.target

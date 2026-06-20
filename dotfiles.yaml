@@ -20,6 +20,10 @@ config/peco:
   .config/peco
 config/rofi:
   .config/rofi
+config/systemd/user/*:
+  .config/systemd/user
+config/claude-skill/repos:
+  .config/claude-skill/repos
 gitconfig:
   .gitconfig
 gitmessage.txt:

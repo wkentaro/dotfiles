@@ -1,0 +1,167 @@
+#!/usr/bin/env bash
+# claude-skill — run recurring Claude Code skills across many repos, headless.
+#
+# Subcommands:
+#   run <skill>:<repo>     one tick, headless (called by the systemd timers)
+#   debug <skill>:<repo>   one tick in your terminal, streaming, no systemd
+#   apply                  reconcile systemd timers to the manifest
+#   pause                  stop all timers (in-flight runs finish; manifest kept)
+#   resume                 start all timers again
+#   list                   show managed timers and next fire times
+#
+# The manifest (~/.config/claude-skill/repos) is the source of truth for which
+# (repo, skill) pairs are automated and each repo's permission mode.
+set -euo pipefail
+
+export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin"
+
+MANIFEST="$HOME/.config/claude-skill/repos"
+DEFAULT_OWNER="wkentaro"
+
+die() { echo "claude-skill: $*" >&2; exit 1; }
+
+_repo_path() {
+  local path
+  path=$(ghq list -p -e "$1" | head -n1)
+  [ -n "$path" ] || return 1
+  printf '%s\n' "$path"
+}
+
+_repo_mode() {
+  local mode=""
+  [ -f "$MANIFEST" ] && mode=$(awk -v r="$1" '!/^[[:space:]]*#/ && $1==r {print $2; exit}' "$MANIFEST")
+  printf '%s\n' "${mode:-bypass}"
+}
+
+_perm_flags() {
+  # Echo the claude permission flag for repo $1, or die for unwired modes.
+  local mode; mode=$(_repo_mode "$1")
+  case "$mode" in
+    bypass)    printf '%s\n' --dangerously-skip-permissions ;;
+    allowlist) die "mode 'allowlist' is not wired yet (repo $1); use bypass or build the allowlist settings.json first" ;;
+    *)         die "unknown mode '$mode' for repo $1 (expected bypass|allowlist)" ;;
+  esac
+}
+
+_gate_says_proceed() {
+  # 0 = something to do, 1 = nothing to do (skip without spinning a session).
+  case "$1" in
+    process-prs)      [ "$(gh pr list    -s open                    --json number -q length)" -gt 0 ] ;;
+    process-issues)   [ "$(gh issue list -s open                    --json number -q length)" -gt 0 ] ;;
+    implement-issues) [ "$(gh issue list -s open -l ready-for-agent --json number -q length)" -gt 0 ] ;;
+    kaizen-codebase)  return 0 ;;
+    *) die "unknown skill: $1" ;;
+  esac
+}
+
+cmd_run() {
+  local target=${1:?usage: claude-skill run <skill>:<repo>}
+  local skill=${target%%:*} repo=${target##*:}
+  local path
+  path=$(_repo_path "$repo") || { echo "claude-skill: repo '$repo' not found via ghq; skipping" >&2; exit 0; }
+  cd "$path"
+
+  exec 9>"${XDG_RUNTIME_DIR:-/tmp}/claude-skill-$repo.lock"
+  flock -n 9 || { echo "claude-skill: another skill holds the $repo lock; skipping $skill" >&2; exit 0; }
+
+  local flags; flags=$(_perm_flags "$repo")
+  _gate_says_proceed "$skill" || { echo "claude-skill: gate skipped $skill on $repo (nothing to do)" >&2; exit 0; }
+
+  echo "claude-skill: running /$skill in $path" >&2
+  exec claude -p "/$skill" $flags --output-format json
+}
+
+cmd_debug() {
+  local target=${1:?usage: claude-skill debug <skill>:<repo>}
+  local skill=${target%%:*} repo=${target##*:}
+  local path
+  path=$(_repo_path "$repo") || die "repo '$repo' not found via ghq (clone it first)"
+  cd "$path"
+  echo "[debug] repo:  $path" >&2
+  echo "[debug] skill: /$skill   mode: $(_repo_mode "$repo")" >&2
+
+  exec 9>"${XDG_RUNTIME_DIR:-/tmp}/claude-skill-$repo.lock"
+  flock -n 9 || die "another skill holds the $repo lock; pause the timers or wait"
+
+  local flags; flags=$(_perm_flags "$repo")
+  if _gate_says_proceed "$skill"; then
+    echo "[debug] gate: PROCEED" >&2
+  else
+    echo "[debug] gate: would SKIP (nothing to do) — running anyway for debugging" >&2
+  fi
+  exec claude -p "/$skill" $flags --verbose
+}
+
+cmd_apply() {
+  [ -f "$MANIFEST" ] || die "no manifest at $MANIFEST"
+
+  # Timers must survive logout.
+  if [ "$(loginctl show-user "$USER" -p Linger --value 2>/dev/null)" != "yes" ]; then
+    loginctl enable-linger "$USER" 2>/dev/null \
+      || echo "claude-skill: could not enable linger; run: sudo loginctl enable-linger $USER" >&2
+  fi
+
+  # Preflight: subscription creds + headless gh auth.
+  [ -f "$HOME/.claude/.credentials.json" ] \
+    || echo "claude-skill: WARNING ~/.claude/.credentials.json missing; run 'claude' once to log in" >&2
+  if [ ! -f "$HOME/.config/gh/hosts.yml" ]; then
+    echo "claude-skill: WARNING gh has no stored creds; headless ticks will fail GitHub calls." >&2
+    echo "             persist once:  unset GITHUB_TOKEN && gh auth login" >&2
+  fi
+
+  # Desired (skill,repo) timer set from the manifest.
+  local desired=() repo mode skills skill
+  while read -r repo mode skills; do
+    [ -n "$repo" ] || continue
+    case "$repo" in \#*) continue ;; esac
+    if ! _repo_path "$repo" >/dev/null; then
+      echo "claude-skill: cloning missing repo github.com/$DEFAULT_OWNER/$repo" >&2
+      ghq get "github.com/$DEFAULT_OWNER/$repo" \
+        || { echo "claude-skill: clone failed for $repo; clone it manually, skipping" >&2; continue; }
+    fi
+    for skill in ${skills//,/ }; do
+      desired+=("claude-$skill@$repo.timer")
+    done
+  done < "$MANIFEST"
+
+  systemctl --user daemon-reload
+
+  # Disable enabled-but-unwanted timers.
+  local wants="$HOME/.config/systemd/user/timers.target.wants" unit
+  if [ -d "$wants" ]; then
+    while IFS= read -r unit; do
+      if [ "${#desired[@]}" -eq 0 ] || ! printf '%s\n' "${desired[@]}" | grep -qxF "$unit"; then
+        echo "claude-skill: disabling $unit" >&2
+        systemctl --user disable --now "$unit" || true
+      fi
+    done < <(find "$wants" -maxdepth 1 -name 'claude-*@*.timer' -printf '%f\n' 2>/dev/null)
+  fi
+
+  # Enable wanted timers.
+  for unit in "${desired[@]}"; do
+    echo "claude-skill: enabling $unit" >&2
+    systemctl --user enable --now "$unit"
+  done
+
+  echo "claude-skill: apply complete" >&2
+  cmd_list
+}
+
+cmd_pause()  { systemctl --user stop  'claude-*@*.timer'; echo "claude-skill: timers stopped; 'claude-skill resume' (or 'apply') to restart" >&2; }
+cmd_resume() { systemctl --user start 'claude-*@*.timer'; cmd_list; }
+cmd_list()   { systemctl --user list-timers --all 'claude-*@*.timer'; }
+
+usage() {
+  sed -n '2,20p' "$0" | sed 's/^# \{0,1\}//'
+}
+
+case "${1:-help}" in
+  run)           shift; cmd_run "$@" ;;
+  debug)         shift; cmd_debug "$@" ;;
+  apply)         shift; cmd_apply "$@" ;;
+  pause)         shift; cmd_pause "$@" ;;
+  resume)        shift; cmd_resume "$@" ;;
+  list)          shift; cmd_list "$@" ;;
+  help|-h|--help) usage ;;
+  *)             usage; exit 1 ;;
+esac

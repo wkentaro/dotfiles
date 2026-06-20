@@ -1,0 +1,9 @@
+[Unit]
+Description=claude-skill %i
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/claude-skill run %i
+# A tick runs Claude to completion (no --max-turns ceiling), so disable the
+# oneshot start timeout that would otherwise kill it after ~90s.
+TimeoutStartSec=infinity

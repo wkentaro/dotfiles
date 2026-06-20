@@ -1,0 +1,11 @@
+[Unit]
+Description=kaizen-codebase for %i
+
+[Timer]
+OnBootSec=10min
+OnUnitActiveSec=1d
+RandomizedDelaySec=10min
+Unit=claude-skill@kaizen-codebase:%i.service
+
+[Install]
+WantedBy=timers.target

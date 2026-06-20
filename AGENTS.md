@@ -13,3 +13,7 @@ Default five-role vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `
 ### Domain docs
 
 Single-context: one `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+
+### Recurring automation
+
+Run the four repo-management skills on systemd user timers across many repos, billed to the claude.ai subscription. Managed by `~/.local/bin/claude-skill` + a manifest. See `docs/agents/claude-automation.md`.

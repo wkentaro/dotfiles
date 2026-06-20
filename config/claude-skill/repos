@@ -1,0 +1,14 @@
+# claude-skill manifest — repos managed by recurring Claude Code skills.
+#
+# One repo per line:   <repo>  <mode>  <skills>
+#   repo   = ghq short name (exact last path component). Cloned from
+#            github.com/wkentaro/<repo> automatically if missing; clone
+#            non-wkentaro repos yourself before adding them here.
+#   mode   = bypass    -> --dangerously-skip-permissions (use for your own repos)
+#            allowlist -> curated settings.json (NOT WIRED YET; will error)
+#   skills = comma-separated subset of:
+#            process-issues, implement-issues, process-prs, kaizen-codebase
+#
+# Edit this file, then run:  claude-skill apply
+# Pause everything without editing:  claude-skill pause  /  claude-skill resume
+octomap-python  bypass  process-issues,implement-issues,process-prs,kaizen-codebase
