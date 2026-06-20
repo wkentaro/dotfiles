@@ -30,6 +30,8 @@ flake8:
   .flake8
 latexmkrc:
   .latexmkrc
+npmrc:
+  .npmrc
 local/bin/*:
   .local/bin
 pdbrc:
