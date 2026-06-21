@@ -12,6 +12,8 @@ config/wezterm/wezterm.lua:
   .config/wezterm/wezterm.lua
 config/herdr/config.toml:
   .config/herdr/config.toml
+config/nix:
+  .config/nix
 config/zellij:
   .config/zellij
 config/nvim:
