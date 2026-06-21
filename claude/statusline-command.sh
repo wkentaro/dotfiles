@@ -8,6 +8,13 @@ used_tokens=$(echo "$input" | jq -r '.context_window.total_input_tokens // empty
 user=$(whoami)
 host=$(hostname -s)
 
+# Host color matches wkentaro.zsh-theme: 215 (orange) local, 171 (pink) over ssh
+if [ -n "$SSH_CONNECTION" ]; then
+  host_color=171
+else
+  host_color=215
+fi
+
 home="$HOME"
 short_cwd=$(echo "$cwd" | sed "s|^$home|~|")
 
@@ -32,9 +39,9 @@ if cd "$cwd" 2>/dev/null && git rev-parse --is-inside-work-tree >/dev/null 2>&1;
 fi
 
 # Build the status line with ANSI colors matching wkentaro.zsh-theme
-# user: 005 (magenta), host: 215 (orange), cwd: 156 (light green), branch: 206 (pink), time: 147 (lavender)
-line=$(printf '\033[38;5;5m%s\033[0m at \033[38;5;215m%s\033[0m in \033[38;5;156m%s\033[0m' \
-  "$user" "$host" "$short_cwd")
+# user: 005 (magenta), host: ssh-dependent, cwd: 156 (light green), branch: 206 (pink), time: 147 (lavender)
+line=$(printf '\033[38;5;5m%s\033[0m at \033[38;5;%sm%s\033[0m in \033[38;5;156m%s\033[0m' \
+  "$user" "$host_color" "$host" "$short_cwd")
 
 if [ -n "$branch" ]; then
   line="$line on \033[38;5;206m${branch}${git_markers}\033[0m"
