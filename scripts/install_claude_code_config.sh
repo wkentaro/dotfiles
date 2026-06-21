@@ -27,7 +27,7 @@ PERSONAL_LINKS=(
 SKILLS_BY_REPO=(
   "pbakaus/impeccable:impeccable"
   "coreyhaines31/marketingskills:copywriting,cro,customer-research"
-  "mattpocock/skills:codebase-design,diagnose,domain-modeling,grill-me,grill-with-docs,grilling,handoff,improve-codebase-architecture,prototype,setup-matt-pocock-skills,tdd,teach,to-issues,to-prd,triage,writing-great-skills"
+  "mattpocock/skills:ask-matt,codebase-design,diagnose,domain-modeling,grill-me,grill-with-docs,grilling,handoff,improve-codebase-architecture,prototype,setup-matt-pocock-skills,tdd,teach,to-issues,to-prd,triage,writing-great-skills"
 )
 
 log()  { printf '%s\n' "$*"; }
