@@ -64,7 +64,7 @@ config.unicode_version = 14
 -- coupling, so it goes fully borderless.
 config.window_decorations = is_macos and 'INTEGRATED_BUTTONS|RESIZE' or 'NONE'
 if is_macos then
-  config.window_padding = { left = '40px', right = '40px', top = '40px', bottom = '0px' }
+  config.window_padding = { left = '16px', right = '16px', top = '40px', bottom = '0px' }
 else
   config.window_padding = { left = '8px', right = '8px', top = '8px', bottom = '0px' }
 end
