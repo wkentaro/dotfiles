@@ -1,0 +1,4 @@
+#!/bin/bash
+# Copy fpp-selected paths to the X11 clipboard.
+# fpp invokes $FPP_EDITOR as: fpp-copy 'path1' 'path2' ...
+printf '%s' "$*" | xclip -selection clipboard -in
