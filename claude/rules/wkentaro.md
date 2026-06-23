@@ -30,6 +30,7 @@
 - When you commit code, use the git-hunk CLI to split into logical commits. Run `git-hunk skills get core` first to learn its usage.
 - When you access a website, use the agent-browser CLI to navigate and extract information. Run `agent-browser skills get core --full` first to learn its usage.
 - When you make a pr, use /make-pr.
+- When you draft a tweet/aphorism (or any short, voice-driven line), run /exemplar-review against the relevant exemplar (Naval-style for aphorisms) after generating candidates. It scores each line against a rubric of observable criteria (first-read parse, compression, clean antithesis, universal-not-paraphrase) and reliably reorders your confidence ranking. Worked well for selecting the strongest of 10 drafts.
 
 ## Workflow
 
