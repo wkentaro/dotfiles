@@ -1,0 +1,46 @@
+# acron jobs: the autonomous issue/PR pipeline for wkentaro/acron.
+#
+#   process-issues  ->  implement-issues  ->  process-prs
+#   (triage)            (one PR per tick)      (review + verdict)
+#   kaizen-codebase: self-directed improvement, parallel to the pipeline.
+#
+# acron is the recurrence mechanism, so each job runs ONE tick (no /loop).
+# Every job is condition-gated: the cheap `gh` check below decides whether to
+# spend a Claude run, so jobs can poll often yet only fire when work exists.
+#
+# Env: acron snapshots PATH/HOME/USER from the shell that runs `acron apply`
+# (see ADR-0006). Run apply from a login shell so the units inherit a PATH with
+# nix (~/.nix-profile/bin), claude + git-wt (~/.local/bin), and gh (/usr/bin).
+# nix is required: the acron lint gate (golangci-lint, gofumpt, dprint, yamlfmt,
+# yamllint) lives only in the devshell, so implement/kaizen run it as
+# `nix develop -c make lint`. gh and claude auth resolve via HOME.
+
+[[job]]
+name = "acron-process-issues"
+schedule = "0,20,40 * * * *"
+agent = ["claude", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/process-issues"
+cwd = "~/ghq/github.com/wkentaro/acron"
+# Run when an open issue carries no triage-state label (the untriaged bucket).
+# Note: this does not wake on a needs-info reply alone; that re-eval rides the
+# next untriaged-triggered tick.
+condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --jq "[.[] | select(([.labels[].name] - [\"needs-triage\",\"needs-info\",\"ready-for-agent\",\"ready-for-human\",\"wontfix\"]) == [.labels[].name])] | length")" -gt 0']
+
+[[job]]
+name = "acron-implement-issues"
+schedule = "5,25,45 * * * *"
+agent = ["claude", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/implement-issues"
+cwd = "~/ghq/github.com/wkentaro/acron"
+timeout = "2h"
+# Run when an unassigned ready-for-agent issue is grabbable.
+condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for-agent --json assignees --jq "[.[] | select((.assignees | length) == 0)] | length")" -gt 0']
+
+[[job]]
+name = "acron-process-prs"
+schedule = "*/5 * * * *"
+agent = ["claude", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/process-prs"
+cwd = "~/ghq/github.com/wkentaro/acron"
+# Run when an open, non-draft PR has no recommend-* verdict yet.
+condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not)] | length")" -gt 0']
