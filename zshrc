@@ -54,6 +54,8 @@ setopt auto_cd
 zstyle ':completion:*:cd:*' tag-order local-directories path-directories
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
+typeset -U path PATH
+
 # ccache
 export PATH="/usr/lib/ccache:$PATH"
 
