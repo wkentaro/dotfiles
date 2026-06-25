@@ -18,7 +18,7 @@
 [[job]]
 name = "acron-process-issues"
 schedule = "0,20,40 * * * *"
-agent = ["claude", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-issues"
 cwd = "~/ghq/github.com/wkentaro/acron"
 # Run when an open issue carries no triage-state label (the untriaged bucket).
@@ -29,7 +29,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --j
 [[job]]
 name = "acron-implement-issues"
 schedule = "5,25,45 * * * *"
-agent = ["claude", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/implement-issues"
 cwd = "~/ghq/github.com/wkentaro/acron"
 timeout = "2h"
@@ -39,7 +39,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for
 [[job]]
 name = "acron-process-prs"
 schedule = "*/5 * * * *"
-agent = ["claude", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-prs"
 cwd = "~/ghq/github.com/wkentaro/acron"
 # Run when an open, non-draft PR has no recommend-* verdict yet.
