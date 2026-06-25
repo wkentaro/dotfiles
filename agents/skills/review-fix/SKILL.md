@@ -46,9 +46,9 @@ Each round:
 
 **1a. Run the five reviews in parallel (report-only subagents).** Spawn **five**
 subagents in a single message so they run concurrently. Pin each reviewer's model per the
-**Model** column below: correctness-focused reviewers run on Opus (a missed bug costs more
-than the tokens), taste/structure reviewers on Sonnet (holds up fine, saves the bulk of
-the spend across up to 5 rounds). You (the orchestrator) stay on the session model to
+**Model** column below: one correctness reviewer (`code-review`) runs on Opus as the bug
+anchor (a missed bug costs more than the tokens); the rest run on Sonnet (holds up fine,
+saves the bulk of the spend across up to 5 rounds). You (the orchestrator) stay on the session model to
 triage and apply fixes. They are **read-only**:
 each one only *reports* findings — none of them writes files, commits, or pushes. You are
 the single writer (1c); concurrent `/simplify` + `/code-review --fix` in one working tree
@@ -59,7 +59,7 @@ would race on edits.
 | code-review | opus | "Invoke the `/code-review` skill (high effort, no `--fix`, no `--comment`) on the current branch diff vs `<base>`. Do not modify, commit, or push anything. Return the meaningful findings as a numbered list: file:line, the issue, and the suggested change." |
 | simplify | sonnet | "Run the `/simplify` skill's analysis on the current branch diff vs `<base>`, but DO NOT write any files. Instead return the simplifications it would make as a numbered list: file:line, what to simplify, and the proposed edit." |
 | brooks-review | sonnet | "Invoke the `/brooks-review` skill on the current branch diff vs `<base>`. Do not modify any files. Return the findings as Symptom → Source → Consequence → Remedy." |
-| review | opus | "Invoke the `/review` skill on the current branch diff vs `<base>` (review the diff directly — do not assume a PR exists). Do not modify, comment, commit, or push anything. Return the meaningful findings as a numbered list: file:line, the issue, and the suggested change." |
+| review | sonnet | "Invoke the `/review` skill on the current branch diff vs `<base>` (review the diff directly — do not assume a PR exists). Do not modify, comment, commit, or push anything. Return the meaningful findings as a numbered list: file:line, the issue, and the suggested change." |
 | exemplar-review | sonnet | "Invoke the `/exemplar-review` skill on the current branch diff vs `<base>`. Do not modify, commit, or push anything. Return the **Top fixes** as a numbered list: the finding, the fix, and your confidence." |
 
 Wait for all five to return.
