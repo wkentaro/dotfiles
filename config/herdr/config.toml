@@ -116,7 +116,9 @@ toggle_sidebar = ["prefix+b", "alt+b"]
 # directory = "~/.herdr/worktrees"
 
 [ui]
-pane_borders = "minimal"
+pane_borders = false
+pane_gaps = false
+pane_dim = true
 # Sidebar width (auto-scaled based on workspace names, this sets the default)
 # sidebar_width = 26
 
