@@ -362,7 +362,7 @@ function k%% () {
   done
 }
 
-alias gwt="git wt"
+alias gw="git wt"
 
 if (( $+commands[git-wt] )); then
   eval "$(git-wt --init zsh)"
