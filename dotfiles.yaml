@@ -32,8 +32,6 @@ gitignore_global:
   .gitignore_global
 latexmkrc:
   .latexmkrc
-npmrc:
-  .npmrc
 local/bin/*:
   .local/bin
 pdbrc:
