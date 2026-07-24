@@ -118,7 +118,6 @@ toggle_sidebar = ["prefix+b", "alt+b"]
 [ui]
 pane_borders = false
 pane_gaps = false
-pane_dim = true
 # Sidebar width (auto-scaled based on workspace names, this sets the default)
 # sidebar_width = 26
 
@@ -163,7 +162,6 @@ prompt_new_tab_name = false
 # accent = "cyan"
 
 # Background notification popup delivery
-agent_panel_scope = "all"
 [ui.toast]
 # off = disable pop-up notifications
 # herdr = show top-right in-app toasts
