@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
-# Install or update Claude Code config: personal dotfile symlinks, brooks-lint
-# commands/skills, and external skills (vercel-labs/skills CLI).
+# Install or update shared Claude Code and Codex config: personal instruction
+# symlinks, skills, and external skills (vercel-labs/skills CLI).
 
 set -euo pipefail
 
@@ -9,8 +9,10 @@ readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly DOTFILES_ROOT="$(dirname "${SCRIPT_DIR}")"
 readonly DOTFILES_AGENTS="${DOTFILES_ROOT}/agents"
 readonly DOTFILES_CLAUDE="${DOTFILES_ROOT}/claude"
+readonly DOTFILES_CODEX="${DOTFILES_ROOT}/codex"
 readonly AGENTS_DIR="${HOME}/.agents"
 readonly CLAUDE_DIR="${HOME}/.claude"
+readonly CODEX_DIR="${HOME}/.codex"
 readonly BROOKS_REPO="https://github.com/hyhmrright/brooks-lint.git"
 readonly BROOKS_CACHE="${HOME}/.local/share/claude-brooks-lint"
 
@@ -37,18 +39,49 @@ die()  { printf 'error: %s\n' "$*" >&2; exit 1; }
 
 # Skip if anything already lives at $dest (preserves user customizations).
 link_if_missing() {
-  local src="$1" dest="$2"
-  if [[ -e "${dest}" || -L "${dest}" ]]; then
+  local src="$1" dest="$2" conflict="${3:-skip}" current
+  [[ -e "${src}" ]] || die "managed link source does not exist: ${src}"
+  if [[ -L "${dest}" ]]; then
+    current=$(readlink "${dest}")
+    if [[ "${current}" == "${src}" ]]; then
+      [[ -e "${dest}" ]] || die "managed link is broken: ${dest}"
+      log "skip: ${dest} (symlink ok)"
+      return
+    fi
+    if [[ "${conflict}" == "fail" ]]; then
+      die "${dest} points to ${current}; remove or move it before retrying"
+    fi
+    log "skip: ${dest} (exists)"
+    return
+  fi
+  if [[ -e "${dest}" ]]; then
+    if [[ "${conflict}" == "fail" ]]; then
+      die "${dest} already exists; remove or move it before retrying"
+    fi
     log "skip: ${dest} (exists)"
     return
   fi
   log "link: ${src} -> ${dest}"
   ln -s "${src}" "${dest}"
+  [[ -e "${dest}" ]] || die "managed link is broken: ${dest}"
+}
+
+link_instruction_files() {
+  local entry
+  local -a links=(
+    "${DOTFILES_CLAUDE}/CLAUDE.md:${CLAUDE_DIR}/CLAUDE.md"
+    "${DOTFILES_CODEX}/AGENTS.md:${CODEX_DIR}/AGENTS.md"
+  )
+
+  for entry in "${links[@]}"; do
+    link_if_missing "${entry%%:*}" "${entry#*:}" fail
+  done
 }
 
 # Force $dest to be a symlink to $src, replacing wrong symlinks or stale copies.
 ensure_symlink() {
   local src="$1" dest="$2"
+  [[ -e "${src}" ]] || die "managed link source does not exist: ${src}"
   if [[ -L "${dest}" ]]; then
     local current
     current=$(readlink "${dest}")
@@ -56,15 +89,41 @@ ensure_symlink() {
       log "skip: ${dest} (symlink ok)"
       return
     fi
-    log "relink: ${dest} -> ${src} (was -> ${current})"
-    rm -f "${dest}"
+    backup_path "${dest}"
   elif [[ -e "${dest}" ]]; then
-    log "replace copy: ${dest} -> ${src}"
-    rm -rf "${dest}"
+    backup_path "${dest}"
   else
     log "link: ${dest} -> ${src}"
   fi
   ln -s "${src}" "${dest}"
+  [[ -e "${dest}" ]] || die "managed link is broken: ${dest}"
+}
+
+backup_path() {
+  local path="$1"
+  local backup="${path}.backup"
+  [[ ! -e "${backup}" && ! -L "${backup}" ]] ||
+    die "${backup} already exists; move it before retrying"
+  log "backup: ${path} -> ${backup}"
+  mv "${path}" "${backup}"
+}
+
+validate_symlink() {
+  local src="$1" dest="$2" current
+  [[ -e "${src}" ]] || die "managed link source does not exist: ${src}"
+  [[ -L "${dest}" ]] || die "managed link is missing: ${dest}"
+  current=$(readlink "${dest}")
+  [[ "${current}" == "${src}" ]] ||
+    die "${dest} points to ${current}, expected ${src}"
+  [[ -e "${dest}" ]] || die "managed link is broken: ${dest}"
+}
+
+validate_managed_links() {
+  validate_symlink "${DOTFILES_CLAUDE}/CLAUDE.md" "${CLAUDE_DIR}/CLAUDE.md"
+  validate_symlink "${DOTFILES_CODEX}/AGENTS.md" "${CODEX_DIR}/AGENTS.md"
+  validate_symlink "${DOTFILES_AGENTS}/skills" "${AGENTS_DIR}/skills"
+  validate_symlink "${AGENTS_DIR}/skills" "${CLAUDE_DIR}/skills"
+  log "validate: managed agent links ok"
 }
 
 link_personal_files() {
@@ -137,7 +196,7 @@ ensure_skills_hub() {
       return
     fi
     log "relink hub: ${hub} -> ${repo} (was -> ${current})"
-    rm -f "${hub}"
+    backup_path "${hub}"
   elif [[ -d "${hub}" ]]; then
     log "migrate hub: ${hub} -> ${repo}"
     _migrate_skills_hub "${hub}" "${repo}"
@@ -381,11 +440,13 @@ main() {
 
   mkdir -p \
     "${CLAUDE_DIR}/rules" \
-    "${CLAUDE_DIR}/commands"
+    "${CLAUDE_DIR}/commands" \
+    "${CODEX_DIR}"
 
   ensure_skills_hub
   ensure_skills_bridge
   prune_stale_rule_links
+  link_instruction_files
   link_personal_files
   link_personal_rules
   remove_ecc_artifacts
@@ -399,6 +460,10 @@ main() {
   if (( update )); then
     update_external_skills
   fi
+
+  validate_managed_links
 }
 
-main "$@"
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+  main "$@"
+fi

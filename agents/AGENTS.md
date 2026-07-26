@@ -1,4 +1,4 @@
-# wkentaro.md
+# Personal agent instructions
 
 ## Guardrails
 
@@ -36,7 +36,7 @@
 - For non-trivial tasks (3+ steps or architectural decisions), plan before coding. If it goes sideways, stop and re-plan rather than pushing on.
 - Use subagents liberally to keep the main context clean: offload research, exploration, and parallel analysis. One focused task per subagent.
 - Don't mark work done until you've proven it: run the tests/app, and diff behavior against main when relevant.
-- After a correction, record it in the project's CLAUDE.local.md (gitignored, auto-loaded, so it applies next session in that project). When a lesson generalizes across projects, promote it into ~/.claude/rules/wkentaro.md and delete it from CLAUDE.local.md so the buffer stays small. Discard one-offs.
+- After a correction, record repeated project-wide lessons in the project's `AGENTS.md`. Use `CLAUDE.local.md` only for private Claude-specific guidance. When a lesson generalizes across projects, promote it into the shared personal instructions exposed at `~/.claude/CLAUDE.md` and `~/.codex/AGENTS.md`. Discard one-offs.
 
 ## Coding style
 
@@ -95,3 +95,55 @@
 - **Ruff rules**: `E` (pycodestyle), `F` (pyflakes), `I` (isort), `UP` (pyupgrade), `ANN` (flake8-annotations).
 - **Force single-line imports** — one `import` per line, enforced via `force-single-line = true` in isort config.
 - **ty with all warnings as errors** — `[tool.ty.rules] all = "error"`.
+
+## General implementation discipline
+
+These guidelines bias toward caution over speed. Use judgment for trivial tasks.
+
+### Think before coding
+
+- State assumptions explicitly. If uncertain, ask.
+- Present materially different interpretations instead of choosing silently.
+- Point out simpler approaches and relevant tradeoffs.
+- Stop and name unresolved ambiguity before implementing.
+
+### Prefer simplicity
+
+- Implement only what was requested.
+- Do not add abstractions, flexibility, or error handling without a concrete need.
+- If the solution is substantially larger than necessary, simplify it.
+
+### Make surgical changes
+
+- Touch only what the task requires.
+- Do not refactor or reformat unrelated code.
+- Match the existing style.
+- Remove only artifacts made obsolete by the current change.
+- Every changed line should trace to the request.
+
+### Work toward verifiable goals
+
+- Translate work into observable success criteria.
+- For multi-step work, state each step and how it will be verified.
+- Do not report completion until the result has been tested.
+
+## Code quality principles
+
+- Keep operations in a function at one level of abstraction.
+- Use intention-revealing names for functions, variables, and roles.
+- Prefer clear code over comments that restate the implementation.
+- Pass required data during construction so objects are not half-initialized.
+- Give each method one reason to change.
+- Keep each piece of logic in one place.
+- Design behavior-first interfaces and hide internal representation.
+- Prefer guard clauses to deep nesting.
+- Separate queries that return information from commands that mutate state.
+- Assign complex expressions to well-named explaining variables.
+- Prefer composition over inheritance.
+- Use polymorphism when the same type switch repeats.
+- Bracket paired resource operations behind one safe interface.
+- Initialize state explicitly and defer expensive work only when useful.
+- Replace unexplained literals with named constants.
+- Keep equality and hashing based on the same fields.
+- Return values only when callers need them.
+- Add patterns incrementally in response to observed friction.
