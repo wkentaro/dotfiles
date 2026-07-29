@@ -115,11 +115,24 @@ config.scrollback_lines = 10000
 config.selection_word_boundary = ' \t\n{}[]()"\'-'
 
 -- ===== Keyboard =====
--- Negotiate the Kitty keyboard protocol so modified chords (alt+shift+k/j for
--- herdr workspace nav) arrive unambiguously, then send raw bytes for the chords
--- herdr expects instead of the protocol's CSI-u encodings. Mirrors kaku.lua.
-config.enable_kitty_keyboard = true
+local function send_herdr_key(sequence, fallback_key, fallback_mods)
+  return wezterm.action_callback(function(window, pane)
+    local process = pane:get_foreground_process_name() or ''
+    if process:match '/herdr$' then
+      pane:send_text(sequence)
+      return
+    end
+    window:perform_action(
+      wezterm.action.SendKey { key = fallback_key, mods = fallback_mods },
+      pane
+    )
+  end)
+end
+
 config.keys = {
+  { key = 'Escape', mods = 'NONE', action = send_herdr_key('\x1b[27;1u', 'Escape', 'NONE') },
+  { key = 'k', mods = 'ALT|SHIFT', action = send_herdr_key('\x1b[107;4u', 'k', 'ALT|SHIFT') },
+  { key = 'j', mods = 'ALT|SHIFT', action = send_herdr_key('\x1b[106;4u', 'j', 'ALT|SHIFT') },
   { key = 'Enter', mods = 'CTRL', action = wezterm.action.SendString '\r' },
   { key = 'Enter', mods = 'SHIFT', action = wezterm.action.SendString '\n' },
   { key = '[', mods = 'CTRL', action = wezterm.action.SendString '\x1b' },
