@@ -1,7 +1,6 @@
 ---
 name: ste
 description: Write or rewrite technical documentation to adhere to ASD-STE100 Simplified Technical English, which strips AI-slop tells (hedging, synonym variation, sprawling clauses) as a side effect. Use when the user prefixes a doc-writing request with /ste.
-disable-model-invocation: true
 argument-hint: "<what to write, or paste text to rewrite>"
 ---
 
