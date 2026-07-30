@@ -395,7 +395,7 @@ if (( $+commands[git-wt] )); then
   }
 fi
 
-alias cc="claude"
+alias cc="claude --allow-dangerously-skip-permissions"
 alias ca="claude agents"
 alias cx="codex --yolo"
 
