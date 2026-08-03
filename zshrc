@@ -400,3 +400,5 @@ alias ca="claude agents"
 alias cx="codex --yolo"
 
 alias fpp='FPP_EDITOR=~/.local/bin/fpp-copy command fpp -ni'
+
+alias gbw="gh browse"
