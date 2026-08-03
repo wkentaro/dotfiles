@@ -27,6 +27,7 @@ PERSONAL_LINKS=(
 # External skills installed via vercel-labs/skills CLI.
 # Format: "<owner>/<repo>:<skill>[,<skill>...]".
 SKILLS_BY_REPO=(
+  "pbakaus/impeccable:impeccable"
   "coreyhaines31/marketingskills:copywriting,cro,customer-research"
   "mattpocock/skills:ask-matt,code-review,diagnosing-bugs,implement,research,to-spec,to-tickets,wayfinder,codebase-design,domain-modeling,grill-me,grill-with-docs,grilling,handoff,improve-codebase-architecture,prototype,setup-matt-pocock-skills,tdd,teach,triage,writing-great-skills"
   "ayghri/i-have-adhd:i-have-adhd"
