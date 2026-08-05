@@ -34,6 +34,8 @@
 	rebase = true
 [push]
 	default = current
+[remote "origin"]
+	fetch = +refs/pull/*/head:refs/remotes/pr/*
 [pager]
 	status = false
 	branch = false
