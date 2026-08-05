@@ -162,6 +162,7 @@ prompt_new_tab_name = false
 # accent = "cyan"
 
 # Background notification popup delivery
+agent_panel_sort = "spaces"
 [ui.toast]
 # off = disable pop-up notifications
 # herdr = show top-right in-app toasts
