@@ -137,10 +137,10 @@ do not re-finalize while checks are pending. Otherwise:
 2. **Gate `/review-fix` behind a cheap `/code-review` pass. Don't pay the full
    loop reflexively.** An own PR that is already non-draft has, by convention,
    been through `/review-fix` before it was un-drafted, so re-running the full
-   loop (five reviewers, up to five rounds, plus a force-push that re-triggers CI
+   loop (six reviewers, up to five rounds, plus a force-push that re-triggers CI
    and costs another whole tick) is usually wasted motion. So first run a single
    report-only `/code-review` at medium effort (no `--fix`) over the diff as a
-   safety net (the same cheap gate the community tier uses, and one of the five
+   safety net (the same cheap gate the community tier uses, and one of the six
    reviewers `/review-fix` would run), then branch on what it finds:
    - **No meaningful findings** (clean, or only nits already matching repo
      conventions) → skip `/review-fix` entirely; the PR is already settled. Go to
