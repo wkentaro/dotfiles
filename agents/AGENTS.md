@@ -32,6 +32,7 @@
 
 ## Workflow
 
+- Always talk in ASD-STE100 Simplified Technical English. Always read CONTEXT.md files, and use their ubiquitous language.
 - For non-trivial tasks (3+ steps or architectural decisions), plan before coding. If it goes sideways, stop and re-plan rather than pushing on.
 - Use subagents liberally to keep the main context clean: offload research, exploration, and parallel analysis. One focused task per subagent.
 - Don't mark work done until you've proven it: run the tests/app, and diff behavior against main when relevant.
