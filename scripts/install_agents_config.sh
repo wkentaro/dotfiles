@@ -3,6 +3,8 @@
 set -euo pipefail
 
 main() {
+  npx skills add "wkentaro/skills" -s "*" -g -a claude-code codex -y
+
   npx skills add "ayghri/i-have-adhd" -s "i-have-adhd" -g -a claude-code codex -y
   npx skills add "https://github.com/mattpocock/skills/tree/v1.2.2/skills/engineering" -s "*" -g -a claude-code codex -y
   npx skills add "https://github.com/mattpocock/skills/tree/v1.2.2/skills/productivity" -s "*" -g -a claude-code codex -y
