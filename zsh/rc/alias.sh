@@ -1,16 +1,7 @@
 # vim: set ft=sh:
 
-# basic
-alias sudo='sudo '
 alias cl='clear'
 alias lv='less'
-# if which pygmentize &>/dev/null; then
-#   export LESSOPEN="|$HOME/.lessfilter %s"
-# fi
-
-# date
-alias datetime="date +%Y%m%dT%H%M"
-alias stamp="date +%s%3N"
 
 # open
 if [ "$(uname)" = "Linux" ]; then
@@ -23,24 +14,9 @@ fi
 alias o='open'
 alias o.='open .'
 
-# vim
-# type vim &>/dev/null && {
-#   alias vi='vim'
-#   alias vii='vim --noplugin'
-#   alias viii='vim -u NONE'
-# }
-# alias vim-euc='vim -c ":e ++enc=euc-jp"'
-# alias vim-iso='vim -c ":e ++enc=iso-2022-jp"'
-
-# emacs
-alias emacs='emacs -nw'
-
 # python
 alias py='python'
 alias ipy='ipython'
-alias ipp='ptipython'
-alias fl='PYTHONWARNINGS=ignore flake8'
-alias bl='black'
 
 # zellij
 alias tls='zellij list-sessions'
