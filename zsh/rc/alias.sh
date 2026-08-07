@@ -8,21 +8,9 @@ alias lv='less'
 #   export LESSOPEN="|$HOME/.lessfilter %s"
 # fi
 
-alias rm='rm -i'
-alias rmr='rm -r'
-alias mv='mv -i'
-alias cp='cp -i'
-
 # date
 alias datetime="date +%Y%m%dT%H%M"
 alias stamp="date +%s%3N"
-
-# mv
-alias mvi='mv -i'
-
-# rm
-alias rmi='rm -i'
-alias rmr='rm -r'
 
 # open
 if [ "$(uname)" = "Linux" ]; then
