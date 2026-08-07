@@ -2,9 +2,20 @@
 
 set -euo pipefail
 
+_install_brooks_lint() (
+  local install_dir
+  install_dir="$(mktemp -d)"
+  trap 'rm -rf "${install_dir}"' EXIT
+
+  git clone --branch "v1.4.3" --depth 1 "https://github.com/hyhmrright/brooks-lint.git" "${install_dir}/brooks-lint"
+  bash "${install_dir}/brooks-lint/scripts/install.sh" claude
+  bash "${install_dir}/brooks-lint/scripts/install.sh" codex
+)
+
 main() {
   npx skills add "wkentaro/skills" -s "*" -g -a claude-code codex -y
 
+  _install_brooks_lint
   npx skills add "ayghri/i-have-adhd" -s "i-have-adhd" -g -a claude-code codex -y
   npx skills add "https://github.com/mattpocock/skills/tree/v1.2.2/skills/engineering" -s "*" -g -a claude-code codex -y
   npx skills add "https://github.com/mattpocock/skills/tree/v1.2.2/skills/productivity" -s "*" -g -a claude-code codex -y
