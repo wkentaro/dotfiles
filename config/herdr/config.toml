@@ -118,6 +118,7 @@ toggle_sidebar = ["prefix+b", "alt+b"]
 [ui]
 pane_borders = false
 pane_gaps = false
+dim_unfocused_panes = true
 # Sidebar width (auto-scaled based on workspace names, this sets the default)
 # sidebar_width = 26
 
