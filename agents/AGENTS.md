@@ -2,7 +2,8 @@
 
 ## Git commits
 
-Use only the configured Git author for agent-created commits. Never add `Co-authored-by` trailers.
+- Use only the configured Git author for agent-created commits. Never add `Co-authored-by` trailers.
+- When committing working-tree changes, load and follow both `git-hunk skills get core` and `git-hunk skills get logical-commits`.
 
 ## Git worktrees
 
