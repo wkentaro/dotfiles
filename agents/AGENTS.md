@@ -1,18 +1,15 @@
-# Agent instructions
+# Git
 
-## Git commits
+- Commit with the configured Git author; omit `Co-authored-by` trailers.
+- Use Conventional Commits (`feat:`, `fix:`, `chore:`, etc.).
+- Before committing working-tree changes, run and follow `git-hunk skills get core` and `git-hunk skills get logical-commits`.
+- Manage worktrees with `git-wt`.
+- Inspect repository source locally with `ghq get <repository>`.
 
-- Use only the configured Git author for agent-created commits. Never add `Co-authored-by` trailers.
-- When committing working-tree changes, load and follow both `git-hunk skills get core` and `git-hunk skills get logical-commits`.
+# Pull and merge requests
 
-## Git worktrees
+- Prepare pull or merge requests for human review, then stop; the user handles approval and all merge actions.
 
-- Use `git-wt` to create and manage Git worktrees.
+# User questions
 
-## Pull and merge requests
-
-- Prepare pull or merge requests for human review, then stop. Leave approval and every merge-triggering action—including direct merge, auto-merge, and merge-queue enrollment—to the user.
-
-## User questions
-
-- Use native structured input when available: `AskUserQuestion` in Claude Code or `request_user_input` in Codex. Batch independent questions in one call, up to the tool's limit, while preserving order and dependencies. Put the recommended choice first and explain its tradeoff. Structured input takes precedence over skill-specific prose formats; without it, ask one concise plain-text question at a time.
+- Ask every question through native structured input (`AskUserQuestion` in Claude Code, `request_user_input` in Codex), including questions a skill spelled out as prose — convert them into the tool's options, keeping the skill's order and recommended answers. Batch independent questions into one call, recommended option first with its tradeoff. Only when the tool is unavailable, ask one plain-text question at a time.
