@@ -2,7 +2,7 @@
 
 - Commit with the configured Git author; omit `Co-authored-by` trailers.
 - Use Conventional Commits (`feat:`, `fix:`, `chore:`, etc.).
-- Before committing working-tree changes, run and follow `git-hunk skills get core` and `git-hunk skills get logical-commits`.
+- Before committing working-tree changes, run and follow `git-hunk skills get core logical-commits`.
 - Manage worktrees with `git-wt`.
 - Inspect repository source locally with `ghq get <repository>`.
 
