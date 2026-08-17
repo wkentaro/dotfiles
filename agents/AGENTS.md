@@ -15,6 +15,12 @@ These four fire while writing code, before any review would catch them. The rest
 - If deleting a docstring would make a function unclear, rename the function instead of writing the docstring.
 - Start a function name with a verb naming what it does. A noun-only name reads as a value, not an action.
 
+# Reviewing code
+
+- Do not trust the author. A commit message, comment, docstring, or test name is a claim, not evidence — check it against the code. Assume the change is broken until you have looked at the specific thing that would break it.
+- Report only defects you verified, and name the claims you could not verify. Style opinions are not findings.
+- This applies to reviewing your own diffs too. It never applies to reading the user's intent.
+
 # Pull and merge requests
 
 - Prepare pull or merge requests for human review, then stop; the user handles approval and all merge actions.
