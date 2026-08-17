@@ -59,6 +59,49 @@ timeout = "1h"
 enabled = false
 
 # -------------------------------------------------------------------------------------
+# gdown
+# -------------------------------------------------------------------------------------
+
+[[job]]
+name = "gdown-process-issues"
+schedule = "*/5 * * * *"
+agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/process-issues"
+cwd = "~/ghq/github.com/wkentaro/gdown"
+# Run when an open issue carries no triage-state label (the untriaged bucket).
+# Note: this does not wake on a needs-info reply alone; that re-eval rides the
+# next untriaged-triggered tick.
+condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --jq "[.[] | select(([.labels[].name] - [\"needs-triage\",\"needs-info\",\"ready-for-agent\",\"ready-for-human\",\"wontfix\"]) == [.labels[].name])] | length")" -gt 0']
+
+[[job]]
+name = "gdown-implement-issues"
+schedule = "5,25,45 * * * *"
+agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/implement-issues"
+cwd = "~/ghq/github.com/wkentaro/gdown"
+timeout = "2h"
+# Run when an unassigned ready-for-agent issue is grabbable.
+condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for-agent --json assignees --jq "[.[] | select((.assignees | length) == 0)] | length")" -gt 0']
+
+[[job]]
+name = "gdown-process-prs"
+schedule = "*/5 * * * *"
+agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/process-prs"
+cwd = "~/ghq/github.com/wkentaro/gdown"
+# Run when an open, non-draft PR has no recommend-* verdict yet.
+condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not)] | length")" -gt 0']
+
+[[job]]
+name = "gdown-kaizen-codebase"
+schedule = "0 */4 * * *"
+agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/kaizen-codebase"
+cwd = "~/ghq/github.com/wkentaro/gdown"
+timeout = "1h"
+enabled = false
+
+# -------------------------------------------------------------------------------------
 # git-hunk
 # -------------------------------------------------------------------------------------
 
