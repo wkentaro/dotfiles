@@ -11,6 +11,10 @@
 - Prepare pull or merge requests for human review, then stop; the user handles approval and all merge actions.
 - In comment-style forge Markdown (PR/MR and issue bodies, comments, release notes — including changelog entries pasted into them), write each paragraph or list item as one unwrapped line with blank lines between blocks; a single newline there renders as `<br>`. Repo Markdown files render normally; commit messages stay wrapped at 72 columns.
 
+# Reading X posts
+
+- Read an X/Twitter post with `curl -s "https://cdn.syndication.twimg.com/tweet-result?id=<POST_ID>&token=a"`, taking `<POST_ID>` from the status URL; WebFetch on `x.com` or `xcancel.com` hits a login or captcha wall. Single posts only, so a thread needs every link.
+
 # User questions
 
 - Ask every question through native structured input (`AskUserQuestion` in Claude Code, `request_user_input` in Codex), including questions a skill spelled out as prose — convert them into the tool's options, keeping the skill's order and recommended answers. Batch independent questions into one call, recommended option first with its tradeoff. Only when the tool is unavailable, ask one plain-text question at a time.
