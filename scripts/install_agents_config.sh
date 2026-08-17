@@ -12,10 +12,20 @@ _install_brooks_lint() (
   bash "${install_dir}/brooks-lint/scripts/install.sh" codex
 )
 
+_install_attention_span() (
+  # Output style for Claude Code; enabled via "outputStyle" in claude/settings.json.
+  local version="0.6"
+
+  mkdir -p "${HOME}/.claude/output-styles"
+  curl -fsSL -o "${HOME}/.claude/output-styles/attention-kind.md" \
+    "https://raw.githubusercontent.com/alexgreensh/attention-span/${version}/output-styles/attention-kind.md"
+)
+
 main() {
   npx skills add "wkentaro/skills" -s "*" -g -a claude-code codex -y
 
   _install_brooks_lint
+  _install_attention_span
   npx skills add "ayghri/i-have-adhd" -s "i-have-adhd" -g -a claude-code codex -y
   npx skills add "https://github.com/mattpocock/skills/tree/v1.2.3/skills/engineering" -s "*" -g -a claude-code codex -y
   npx skills add "https://github.com/mattpocock/skills/tree/v1.2.3/skills/productivity" -s "*" -g -a claude-code codex -y

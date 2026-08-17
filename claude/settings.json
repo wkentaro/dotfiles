@@ -29,6 +29,7 @@
   },
   "enabledPlugins": {},
   "extraKnownMarketplaces": {},
+  "outputStyle": "Attention-kind",
   "viewMode": "default",
   "tui": "fullscreen",
   "showThinkingSummaries": true,
