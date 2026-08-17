@@ -1,4 +1,4 @@
-# acron jobs: the autonomous issue/PR pipeline for wkentaro/acron.
+# acron jobs: the autonomous issue/PR pipeline, one section per repo.
 #
 #   process-issues  ->  implement-issues  ->  process-prs
 #   (triage)            (one PR per tick)      (review + verdict)
@@ -11,13 +11,17 @@
 # Env: acron snapshots PATH/HOME/USER from the shell that runs `acron apply`
 # (see ADR-0006). Run apply from a login shell so the units inherit a PATH with
 # nix (~/.nix-profile/bin), claude + git-wt (~/.local/bin), and gh (/usr/bin).
-# nix is required: the acron lint gate (golangci-lint, gofumpt, dprint, yamlfmt,
-# yamllint) lives only in the devshell, so implement/kaizen run it as
-# `nix develop -c make lint`. gh and claude auth resolve via HOME.
+# nix is required by the acron repo: its lint gate (golangci-lint, gofumpt,
+# dprint, yamlfmt, yamllint) lives only in the devshell, so implement/kaizen run
+# it as `nix develop -c make lint`. gh and claude auth resolve via HOME.
+
+# -------------------------------------------------------------------------------------
+# acron
+# -------------------------------------------------------------------------------------
 
 [[job]]
 name = "acron-process-issues"
-schedule = "0,20,40 * * * *"
+schedule = "*/5 * * * *"
 agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-issues"
 cwd = "~/ghq/github.com/wkentaro/acron"
@@ -44,3 +48,144 @@ prompt = "/process-prs"
 cwd = "~/ghq/github.com/wkentaro/acron"
 # Run when an open, non-draft PR has no recommend-* verdict yet.
 condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not)] | length")" -gt 0']
+
+[[job]]
+name = "acron-kaizen-codebase"
+schedule = "0 */4 * * *"
+agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/kaizen-codebase"
+cwd = "~/ghq/github.com/wkentaro/acron"
+timeout = "1h"
+enabled = false
+
+# -------------------------------------------------------------------------------------
+# git-hunk
+# -------------------------------------------------------------------------------------
+
+[[job]]
+name = "git-hunk-process-issues"
+schedule = "0,20,40 * * * *"
+agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/process-issues"
+cwd = "~/ghq/github.com/wkentaro/git-hunk"
+# Run when an open issue carries no triage-state label (the untriaged bucket).
+# Note: this does not wake on a needs-info reply alone; that re-eval rides the
+# next untriaged-triggered tick.
+condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --jq "[.[] | select(([.labels[].name] - [\"needs-triage\",\"needs-info\",\"ready-for-agent\",\"ready-for-human\",\"wontfix\"]) == [.labels[].name])] | length")" -gt 0']
+
+[[job]]
+name = "git-hunk-implement-issues"
+schedule = "5,25,45 * * * *"
+agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/implement-issues"
+cwd = "~/ghq/github.com/wkentaro/git-hunk"
+timeout = "2h"
+# Run when an unassigned ready-for-agent issue is grabbable.
+condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for-agent --json assignees --jq "[.[] | select((.assignees | length) == 0)] | length")" -gt 0']
+
+[[job]]
+name = "git-hunk-process-prs"
+schedule = "*/5 * * * *"
+agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/process-prs"
+cwd = "~/ghq/github.com/wkentaro/git-hunk"
+# Run when an open, non-draft PR has no recommend-* verdict yet.
+condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not)] | length")" -gt 0']
+
+[[job]]
+name = "git-hunk-kaizen-codebase"
+schedule = "0 */4 * * *"
+agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/kaizen-codebase"
+cwd = "~/ghq/github.com/wkentaro/git-hunk"
+timeout = "1h"
+enabled = false
+# No condition: self-directed, so it discovers its own work and an empty pass is
+# a success. Daily cadence (one bounded improvement per day) keeps cost bounded;
+# its output (a non-draft PR or a needs-triage issue) feeds the pipeline above.
+
+# -------------------------------------------------------------------------------------
+# imgviz
+# -------------------------------------------------------------------------------------
+
+[[job]]
+name = "imgviz-process-issues"
+schedule = "*/5 * * * *"
+agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/process-issues"
+cwd = "~/ghq/github.com/wkentaro/imgviz"
+# Run when an open issue carries no triage-state label (the untriaged bucket).
+# Note: this does not wake on a needs-info reply alone; that re-eval rides the
+# next untriaged-triggered tick.
+condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --jq "[.[] | select(([.labels[].name] - [\"needs-triage\",\"needs-info\",\"ready-for-agent\",\"ready-for-human\",\"wontfix\"]) == [.labels[].name])] | length")" -gt 0']
+
+[[job]]
+name = "imgviz-implement-issues"
+schedule = "5,25,45 * * * *"
+agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/implement-issues for issues with milestone v7.0.0"
+cwd = "~/ghq/github.com/wkentaro/imgviz"
+timeout = "2h"
+# Run when an unassigned ready-for-agent issue is grabbable.
+condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for-agent --json assignees --jq "[.[] | select((.assignees | length) == 0)] | length")" -gt 0']
+
+[[job]]
+name = "imgviz-process-prs"
+schedule = "*/5 * * * *"
+agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/process-prs"
+cwd = "~/ghq/github.com/wkentaro/imgviz"
+# Run when an open, non-draft PR has no recommend-* verdict yet.
+condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not)] | length")" -gt 0']
+
+[[job]]
+name = "imgviz-kaizen-codebase"
+schedule = "0 */4 * * *"
+agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/kaizen-codebase"
+cwd = "~/ghq/github.com/wkentaro/imgviz"
+timeout = "1h"
+enabled = false
+
+# -------------------------------------------------------------------------------------
+# labelme
+# -------------------------------------------------------------------------------------
+
+[[job]]
+name = "labelme-process-issues"
+schedule = "*/5 * * * *"
+agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/process-issues"
+cwd = "~/ghq/github.com/wkentaro/labelme"
+# Run when an open issue carries no triage-state label (the untriaged bucket).
+# Note: this does not wake on a needs-info reply alone; that re-eval rides the
+# next untriaged-triggered tick.
+condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --jq "[.[] | select(([.labels[].name] - [\"needs-triage\",\"needs-info\",\"ready-for-agent\",\"ready-for-human\",\"wontfix\"]) == [.labels[].name])] | length")" -gt 0']
+
+[[job]]
+name = "labelme-implement-issues"
+schedule = "5,25,45 * * * *"
+agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/implement-issues for issues with milestone v7.0.0"
+cwd = "~/ghq/github.com/wkentaro/labelme"
+timeout = "2h"
+# Run when an unassigned ready-for-agent issue is grabbable.
+condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for-agent --json assignees --jq "[.[] | select((.assignees | length) == 0)] | length")" -gt 0']
+
+[[job]]
+name = "labelme-process-prs"
+schedule = "*/5 * * * *"
+agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/process-prs"
+cwd = "~/ghq/github.com/wkentaro/labelme"
+# Run when an open, non-draft PR has no recommend-* verdict yet.
+condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not)] | length")" -gt 0']
+
+[[job]]
+name = "labelme-kaizen-codebase"
+schedule = "0 */4 * * *"
+agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/kaizen-codebase"
+cwd = "~/ghq/github.com/wkentaro/labelme"
+timeout = "1h"
+enabled = false
