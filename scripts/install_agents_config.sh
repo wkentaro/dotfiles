@@ -17,8 +17,8 @@ _install_attention_span() (
   local version="0.6"
 
   mkdir -p "${HOME}/.claude/output-styles"
-  curl -fsSL -o "${HOME}/.claude/output-styles/attention-kind.md" \
-    "https://raw.githubusercontent.com/alexgreensh/attention-span/${version}/output-styles/attention-kind.md"
+  curl -fsSL -o "${HOME}/.claude/output-styles/spartan.md" \
+    "https://raw.githubusercontent.com/alexgreensh/attention-span/${version}/output-styles/spartan.md"
 )
 
 main() {
