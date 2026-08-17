@@ -23,6 +23,7 @@ _install_attention_span() (
 
 main() {
   npx skills add "wkentaro/skills" -s "*" -g -a claude-code codex -y
+  npx skills add "https://github.com/coreyhaines31/makerskills" -s "*" -g -a claude-code codex -y
 
   _install_brooks_lint
   _install_attention_span
