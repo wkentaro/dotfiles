@@ -28,7 +28,7 @@ These four fire while writing code, before any review would catch them. The rest
 
 # Reading X posts
 
-- Read an X/Twitter post with `curl -s "https://cdn.syndication.twimg.com/tweet-result?id=<POST_ID>&token=a"`, taking `<POST_ID>` from the status URL; WebFetch on `x.com` or `xcancel.com` hits a login or captcha wall. Single posts only, so a thread needs every link.
+- Read an X/Twitter post with `curl -s "https://api.fxtwitter.com/<HANDLE>/status/<POST_ID>"`, taking both fields from the status URL; `.tweet.text` holds the full body even for long posts. Fall back to `curl -s "https://cdn.syndication.twimg.com/tweet-result?id=<POST_ID>&token=a"`, which truncates anything over 280 characters (`"is_note_tweet": true` marks those) but does return the parent post inline. WebFetch on `x.com` or `xcancel.com` hits a login or captcha wall. Single posts only, so a thread needs every link.
 
 # User questions
 
