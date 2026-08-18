@@ -32,7 +32,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --j
 
 [[job]]
 name = "acron-implement-issues"
-schedule = "5,25,45 * * * *"
+schedule = "5 1,3,5,7,9,11,13,15,17,19,21,23 * * *"
 agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/implement-issues"
 cwd = "~/ghq/github.com/wkentaro/acron"
@@ -42,7 +42,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for
 
 [[job]]
 name = "acron-process-prs"
-schedule = "*/5 * * * *"
+schedule = "0,30 * * * *"
 agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-prs"
 cwd = "~/ghq/github.com/wkentaro/acron"
@@ -75,7 +75,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --j
 
 [[job]]
 name = "gdown-implement-issues"
-schedule = "5,25,45 * * * *"
+schedule = "17 0,2,4,6,8,10,12,14,16,18,20,22 * * *"
 agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/implement-issues"
 cwd = "~/ghq/github.com/wkentaro/gdown"
@@ -85,7 +85,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for
 
 [[job]]
 name = "gdown-process-prs"
-schedule = "*/5 * * * *"
+schedule = "6,36 * * * *"
 agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-prs"
 cwd = "~/ghq/github.com/wkentaro/gdown"
@@ -118,7 +118,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --j
 
 [[job]]
 name = "git-hunk-implement-issues"
-schedule = "5,25,45 * * * *"
+schedule = "29 1,3,5,7,9,11,13,15,17,19,21,23 * * *"
 agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/implement-issues"
 cwd = "~/ghq/github.com/wkentaro/git-hunk"
@@ -128,7 +128,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for
 
 [[job]]
 name = "git-hunk-process-prs"
-schedule = "*/5 * * * *"
+schedule = "12,42 * * * *"
 agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-prs"
 cwd = "~/ghq/github.com/wkentaro/git-hunk"
@@ -164,7 +164,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --j
 
 [[job]]
 name = "imgviz-implement-issues"
-schedule = "5,25,45 * * * *"
+schedule = "41 0,2,4,6,8,10,12,14,16,18,20,22 * * *"
 agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/implement-issues for issues with milestone v7.0.0"
 cwd = "~/ghq/github.com/wkentaro/imgviz"
@@ -174,7 +174,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for
 
 [[job]]
 name = "imgviz-process-prs"
-schedule = "*/5 * * * *"
+schedule = "18,48 * * * *"
 agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-prs"
 cwd = "~/ghq/github.com/wkentaro/imgviz"
@@ -207,7 +207,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --j
 
 [[job]]
 name = "labelme-implement-issues"
-schedule = "5,25,45 * * * *"
+schedule = "53 1,3,5,7,9,11,13,15,17,19,21,23 * * *"
 agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/implement-issues for issues with milestone v7.0.0"
 cwd = "~/ghq/github.com/wkentaro/labelme"
@@ -217,7 +217,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for
 
 [[job]]
 name = "labelme-process-prs"
-schedule = "*/5 * * * *"
+schedule = "24,54 * * * *"
 agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-prs"
 cwd = "~/ghq/github.com/wkentaro/labelme"
