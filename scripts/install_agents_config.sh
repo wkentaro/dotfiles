@@ -43,6 +43,8 @@ main() {
   npx skills add "https://github.com/blader/humanizer/tree/v2.9.1" -s "humanizer" -g -a claude-code codex -y
 
   npx skills add "pbakaus/impeccable" -s "impeccable" -g -a claude-code codex -y
+
+  npx skills add "OutThisLife/brooklyn-skills" -s "list-open-work" -g -a claude-code codex -y
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
