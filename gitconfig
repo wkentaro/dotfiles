@@ -51,6 +51,9 @@
 # 	template = ~/.gitmessage.txt
 [blame]
 	ignoreRevsFile = .git-blame-ignore-revs
+[wt]
+	copyignored = true
+	nocopy = .venv/
 [interactive]
 	diffFilter = delta --color-only
 [delta]
