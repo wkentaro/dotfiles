@@ -32,7 +32,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --j
 
 [[job]]
 name = "acron-implement-issues"
-schedule = "0-59/5 * * * *"
+schedule = "0-59/6 * * * *"
 agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/implement-issues"
 cwd = "~/ghq/github.com/wkentaro/acron"
@@ -78,7 +78,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --j
 
 [[job]]
 name = "gdown-implement-issues"
-schedule = "1-59/5 * * * *"
+schedule = "1-59/6 * * * *"
 agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/implement-issues"
 cwd = "~/ghq/github.com/wkentaro/gdown"
@@ -88,7 +88,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for
 
 [[job]]
 name = "gdown-process-prs"
-schedule = "6,36 * * * *"
+schedule = "5,35 * * * *"
 agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-prs"
 cwd = "~/ghq/github.com/wkentaro/gdown"
@@ -124,7 +124,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --j
 
 [[job]]
 name = "git-hunk-implement-issues"
-schedule = "2-59/5 * * * *"
+schedule = "2-59/6 * * * *"
 agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/implement-issues"
 cwd = "~/ghq/github.com/wkentaro/git-hunk"
@@ -134,7 +134,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for
 
 [[job]]
 name = "git-hunk-process-prs"
-schedule = "12,42 * * * *"
+schedule = "10,40 * * * *"
 agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-prs"
 cwd = "~/ghq/github.com/wkentaro/git-hunk"
@@ -173,7 +173,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --j
 
 [[job]]
 name = "imgviz-implement-issues"
-schedule = "3-59/5 * * * *"
+schedule = "3-59/6 * * * *"
 agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/implement-issues for issues with milestone next"
 cwd = "~/ghq/github.com/wkentaro/imgviz"
@@ -185,7 +185,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for
 
 [[job]]
 name = "imgviz-process-prs"
-schedule = "18,48 * * * *"
+schedule = "15,45 * * * *"
 agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-prs"
 cwd = "~/ghq/github.com/wkentaro/imgviz"
@@ -224,7 +224,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --j
 
 [[job]]
 name = "labelme-implement-issues"
-schedule = "4-59/5 * * * *"
+schedule = "4-59/6 * * * *"
 agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/implement-issues"
 cwd = "~/ghq/github.com/wkentaro/labelme"
@@ -234,7 +234,7 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for
 
 [[job]]
 name = "labelme-process-prs"
-schedule = "24,54 * * * *"
+schedule = "20,50 * * * *"
 agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-prs"
 cwd = "~/ghq/github.com/wkentaro/labelme"
@@ -250,5 +250,51 @@ schedule = "0 */4 * * *"
 agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/kaizen-codebase"
 cwd = "~/ghq/github.com/wkentaro/labelme"
+timeout = "1h"
+enabled = false
+
+# -------------------------------------------------------------------------------------
+# labelme-io
+# -------------------------------------------------------------------------------------
+
+[[job]]
+name = "labelme-io-process-issues"
+schedule = "*/5 * * * *"
+agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/process-issues"
+cwd = "~/ghq/github.com/wkentaro/labelme-io"
+# Run when an open issue carries no triage-state label (the untriaged bucket).
+# Note: this does not wake on a needs-info reply alone; that re-eval rides the
+# next untriaged-triggered tick.
+condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --jq "[.[] | select(([.labels[].name] - [\"needs-triage\",\"needs-info\",\"ready-for-agent\",\"ready-for-human\",\"wontfix\"]) == [.labels[].name])] | length")" -gt 0']
+
+[[job]]
+name = "labelme-io-implement-issues"
+schedule = "5-59/6 * * * *"
+agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/implement-issues"
+cwd = "~/ghq/github.com/wkentaro/labelme-io"
+timeout = "2h"
+# Run when an unassigned ready-for-agent issue is grabbable.
+condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for-agent --json assignees --jq "[.[] | select((.assignees | length) == 0)] | length")" -gt 0']
+
+[[job]]
+name = "labelme-io-process-prs"
+schedule = "25,55 * * * *"
+agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/process-prs"
+cwd = "~/ghq/github.com/wkentaro/labelme-io"
+# Run when an open, non-draft PR has no recommend-* verdict yet. PRs parked on
+# the contributor are excluded: the skill cannot reach a verdict until they
+# reply, so without this the PR keeps the condition true and buys a re-review
+# every tick, forever.
+condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not) | select([.labels[].name] | any(. == \"needs-info\" or . == \"needs-author-action\") | not)] | length")" -gt 0']
+
+[[job]]
+name = "labelme-io-kaizen-codebase"
+schedule = "0 */4 * * *"
+agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
+prompt = "/kaizen-codebase"
+cwd = "~/ghq/github.com/wkentaro/labelme-io"
 timeout = "1h"
 enabled = false
