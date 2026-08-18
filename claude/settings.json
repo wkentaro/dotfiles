@@ -38,5 +38,6 @@
   "showTurnDuration": true,
   "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
-  "voiceEnabled": true
+  "voiceEnabled": true,
+  "model": "fable"
 }
