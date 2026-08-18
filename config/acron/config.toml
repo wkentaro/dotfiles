@@ -46,8 +46,11 @@ schedule = "0,30 * * * *"
 agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-prs"
 cwd = "~/ghq/github.com/wkentaro/acron"
-# Run when an open, non-draft PR has no recommend-* verdict yet.
-condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not)] | length")" -gt 0']
+# Run when an open, non-draft PR has no recommend-* verdict yet. PRs parked on
+# the contributor are excluded: the skill cannot reach a verdict until they
+# reply, so without this the PR keeps the condition true and buys a re-review
+# every tick, forever.
+condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not) | select([.labels[].name] | any(. == \"needs-info\" or . == \"needs-author-action\") | not)] | length")" -gt 0']
 
 [[job]]
 name = "acron-kaizen-codebase"
@@ -89,8 +92,11 @@ schedule = "6,36 * * * *"
 agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-prs"
 cwd = "~/ghq/github.com/wkentaro/gdown"
-# Run when an open, non-draft PR has no recommend-* verdict yet.
-condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not)] | length")" -gt 0']
+# Run when an open, non-draft PR has no recommend-* verdict yet. PRs parked on
+# the contributor are excluded: the skill cannot reach a verdict until they
+# reply, so without this the PR keeps the condition true and buys a re-review
+# every tick, forever.
+condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not) | select([.labels[].name] | any(. == \"needs-info\" or . == \"needs-author-action\") | not)] | length")" -gt 0']
 
 [[job]]
 name = "gdown-kaizen-codebase"
@@ -132,8 +138,11 @@ schedule = "12,42 * * * *"
 agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-prs"
 cwd = "~/ghq/github.com/wkentaro/git-hunk"
-# Run when an open, non-draft PR has no recommend-* verdict yet.
-condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not)] | length")" -gt 0']
+# Run when an open, non-draft PR has no recommend-* verdict yet. PRs parked on
+# the contributor are excluded: the skill cannot reach a verdict until they
+# reply, so without this the PR keeps the condition true and buys a re-review
+# every tick, forever.
+condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not) | select([.labels[].name] | any(. == \"needs-info\" or . == \"needs-author-action\") | not)] | length")" -gt 0']
 
 [[job]]
 name = "git-hunk-kaizen-codebase"
@@ -166,11 +175,13 @@ condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --j
 name = "imgviz-implement-issues"
 schedule = "41 0,2,4,6,8,10,12,14,16,18,20,22 * * *"
 agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
-prompt = "/implement-issues for issues with milestone v7.0.0"
+prompt = "/implement-issues for issues with milestone next"
 cwd = "~/ghq/github.com/wkentaro/imgviz"
 timeout = "2h"
-# Run when an unassigned ready-for-agent issue is grabbable.
-condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for-agent --json assignees --jq "[.[] | select((.assignees | length) == 0)] | length")" -gt 0']
+# Run when an unassigned ready-for-agent issue is grabbable. The milestone here
+# must track the prompt: gating on the wider ready-for-agent set fires runs that
+# boot, find nothing in the milestone, and exit.
+condition = ['bash', '-c', 'test "$(gh issue list --state open --label ready-for-agent --milestone next --json assignees --jq "[.[] | select((.assignees | length) == 0)] | length")" -gt 0']
 
 [[job]]
 name = "imgviz-process-prs"
@@ -178,8 +189,11 @@ schedule = "18,48 * * * *"
 agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-prs"
 cwd = "~/ghq/github.com/wkentaro/imgviz"
-# Run when an open, non-draft PR has no recommend-* verdict yet.
-condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not)] | length")" -gt 0']
+# Run when an open, non-draft PR has no recommend-* verdict yet. PRs parked on
+# the contributor are excluded: the skill cannot reach a verdict until they
+# reply, so without this the PR keeps the condition true and buys a re-review
+# every tick, forever.
+condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not) | select([.labels[].name] | any(. == \"needs-info\" or . == \"needs-author-action\") | not)] | length")" -gt 0']
 
 [[job]]
 name = "imgviz-kaizen-codebase"
@@ -203,13 +217,16 @@ cwd = "~/ghq/github.com/wkentaro/labelme"
 # Run when an open issue carries no triage-state label (the untriaged bucket).
 # Note: this does not wake on a needs-info reply alone; that re-eval rides the
 # next untriaged-triggered tick.
-condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --jq "[.[] | select(([.labels[].name] - [\"needs-triage\",\"needs-info\",\"ready-for-agent\",\"ready-for-human\",\"wontfix\"]) == [.labels[].name])] | length")" -gt 0']
+# wayfinder: issues are excluded because a separate design loop owns them and
+# this pass refuses to triage them, so they would sit in the bucket forever and
+# buy an empty run every tick.
+condition = ['bash', '-c', 'test "$(gh issue list --state open --json labels --jq "[.[] | select(([.labels[].name] - [\"needs-triage\",\"needs-info\",\"ready-for-agent\",\"ready-for-human\",\"wontfix\"]) == [.labels[].name]) | select([.labels[].name] | any(startswith(\"wayfinder:\")) | not)] | length")" -gt 0']
 
 [[job]]
 name = "labelme-implement-issues"
 schedule = "53 1,3,5,7,9,11,13,15,17,19,21,23 * * *"
 agent = ["claude", "--model", "opus", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
-prompt = "/implement-issues for issues with milestone v7.0.0"
+prompt = "/implement-issues"
 cwd = "~/ghq/github.com/wkentaro/labelme"
 timeout = "2h"
 # Run when an unassigned ready-for-agent issue is grabbable.
@@ -221,8 +238,11 @@ schedule = "24,54 * * * *"
 agent = ["claude", "--model", "sonnet", "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--dangerously-skip-permissions"]
 prompt = "/process-prs"
 cwd = "~/ghq/github.com/wkentaro/labelme"
-# Run when an open, non-draft PR has no recommend-* verdict yet.
-condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not)] | length")" -gt 0']
+# Run when an open, non-draft PR has no recommend-* verdict yet. PRs parked on
+# the contributor are excluded: the skill cannot reach a verdict until they
+# reply, so without this the PR keeps the condition true and buys a re-review
+# every tick, forever.
+condition = ['bash', '-c', 'test "$(gh pr list --state open --json isDraft,labels --jq "[.[] | select(.isDraft | not) | select([.labels[].name] | any(startswith(\"recommend-\")) | not) | select([.labels[].name] | any(. == \"needs-info\" or . == \"needs-author-action\") | not)] | length")" -gt 0']
 
 [[job]]
 name = "labelme-kaizen-codebase"
