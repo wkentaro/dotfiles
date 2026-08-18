@@ -9,7 +9,7 @@ _install_brooks_lint() (
 
   git clone --branch "v1.4.3" --depth 1 "https://github.com/hyhmrright/brooks-lint.git" "${install_dir}/brooks-lint"
   bash "${install_dir}/brooks-lint/scripts/install.sh" claude
-  bash "${install_dir}/brooks-lint/scripts/install.sh" codex
+  bash "${install_dir}/brooks-lint/scripts/install.sh" agents
 )
 
 _install_attention_span() (
