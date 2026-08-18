@@ -24,7 +24,7 @@ _install_attention_span() (
 main() {
   npx skills add "wkentaro/skills" -s "*" -g -a claude-code codex -y
 
-  npx skills add "coreyhaines31/makerskills" -s decide maker-council social-fetch -g -a claude-code codex -y
+  npx skills add "coreyhaines31/makerskills" -s decide maker-council social-fetch watch-video -g -a claude-code codex -y
 
   npx skills add "kunchenguid/vision" -s "vision" -g -a claude-code codex -y
 
