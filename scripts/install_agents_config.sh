@@ -25,6 +25,7 @@ main() {
   npx skills add "wkentaro/skills" -s "*" -g -a claude-code codex -y
   npx skills add "https://github.com/coreyhaines31/makerskills" -s "*" -g -a claude-code codex -y
   npx skills add "kunchenguid/vision" -s "vision" -g -a claude-code codex -y
+  npx skills add "dmmulroy/skills" -s "bro" -g -a claude-code codex -y
 
   _install_brooks_lint
   _install_attention_span
