@@ -26,6 +26,12 @@ These four fire while writing code, before any review would catch them. The rest
 - Prepare pull or merge requests for human review, then stop; the user handles approval and all merge actions.
 - In comment-style forge Markdown (PR/MR and issue bodies, comments, release notes — including changelog entries pasted into them), write each paragraph or list item as one unwrapped line with blank lines between blocks; a single newline there renders as `<br>`. Repo Markdown files render normally; commit messages stay wrapped at 72 columns.
 
+# Issue tickets
+
+- When asked to save a report, plan, handoff, or follow-up as an issue, choose the destination by audience and sensitivity: use the relevant public source repository for public project work; use private `wkentaro/secondbrain` for personal, cross-project, or non-public material. When the destination remains unclear, default to `wkentaro/secondbrain`.
+- Before creating the issue, confirm the target repository's visibility and search for a matching open issue. Redact credentials and unnecessary personally identifiable information.
+- Create the issue without asking which repository to use when these rules resolve the destination, then return its URL.
+
 # User questions
 
 - Ask every question through native structured input (`AskUserQuestion` in Claude Code, `request_user_input` in Codex), including questions a skill spelled out as prose — convert them into the tool's options, keeping the skill's order and recommended answers. Batch independent questions into one call, recommended option first with its tradeoff. Only when the tool is unavailable, ask one plain-text question at a time.
