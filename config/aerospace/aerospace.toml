@@ -1,0 +1,103 @@
+# Omarchy Quattro-style window management for macOS.
+# Use Command where it is safe, and add Control where plain Command belongs to macOS.
+
+config-version = 2
+start-at-login = true
+auto-reload-config = true
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+persistent-workspaces = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'scratchpad']
+
+# Match Quattro's behavior of centering the pointer after keyboard focus changes.
+on-focus-changed = ['move-mouse window-lazy-center']
+
+# Match Omarchy's spacing between tiled windows without adding outer margins.
+gaps.inner.horizontal = 8
+gaps.inner.vertical = 8
+
+[mode.main.binding]
+# Window layout and state.
+cmd-ctrl-j = 'layout tiles horizontal vertical'
+cmd-ctrl-l = 'layout tiles accordion'
+cmd-ctrl-t = 'layout floating tiling'
+cmd-ctrl-f = 'fullscreen --no-outer-gaps'
+
+# Directional focus.
+cmd-left = 'focus --boundaries all-monitors-outer-frame left'
+cmd-right = 'focus --boundaries all-monitors-outer-frame right'
+cmd-up = 'focus --boundaries all-monitors-outer-frame up'
+cmd-down = 'focus --boundaries all-monitors-outer-frame down'
+
+# Directional window swaps.
+cmd-shift-left = 'swap left'
+cmd-shift-right = 'swap right'
+cmd-shift-up = 'swap up'
+cmd-shift-down = 'swap down'
+
+# Numbered workspaces. The 0 key represents workspace 10, as in Quattro.
+cmd-ctrl-1 = 'workspace 1'
+cmd-ctrl-2 = 'workspace 2'
+cmd-ctrl-3 = 'workspace 3'
+cmd-ctrl-4 = 'workspace 4'
+cmd-ctrl-5 = 'workspace 5'
+cmd-ctrl-6 = 'workspace 6'
+cmd-ctrl-7 = 'workspace 7'
+cmd-ctrl-8 = 'workspace 8'
+cmd-ctrl-9 = 'workspace 9'
+cmd-ctrl-0 = 'workspace 10'
+
+# Move the focused window and follow it to the destination workspace.
+cmd-ctrl-shift-1 = 'move-node-to-workspace --focus-follows-window 1'
+cmd-ctrl-shift-2 = 'move-node-to-workspace --focus-follows-window 2'
+cmd-ctrl-shift-3 = 'move-node-to-workspace --focus-follows-window 3'
+cmd-ctrl-shift-4 = 'move-node-to-workspace --focus-follows-window 4'
+cmd-ctrl-shift-5 = 'move-node-to-workspace --focus-follows-window 5'
+cmd-ctrl-shift-6 = 'move-node-to-workspace --focus-follows-window 6'
+cmd-ctrl-shift-7 = 'move-node-to-workspace --focus-follows-window 7'
+cmd-ctrl-shift-8 = 'move-node-to-workspace --focus-follows-window 8'
+cmd-ctrl-shift-9 = 'move-node-to-workspace --focus-follows-window 9'
+cmd-ctrl-shift-0 = 'move-node-to-workspace --focus-follows-window 10'
+
+# Move the focused window without changing workspace.
+# cmd-alt-shift-1 = 'move-node-to-workspace 1'
+# cmd-alt-shift-2 = 'move-node-to-workspace 2'
+# cmd-alt-shift-3 = 'move-node-to-workspace 3'
+# cmd-alt-shift-4 = 'move-node-to-workspace 4'
+# cmd-alt-shift-5 = 'move-node-to-workspace 5'
+# cmd-alt-shift-6 = 'move-node-to-workspace 6'
+# cmd-alt-shift-7 = 'move-node-to-workspace 7'
+# cmd-alt-shift-8 = 'move-node-to-workspace 8'
+# cmd-alt-shift-9 = 'move-node-to-workspace 9'
+# cmd-alt-shift-0 = 'move-node-to-workspace 10'
+
+# Workspace history and sequential navigation.
+# ctrl-alt-tab = 'workspace --wrap-around next'
+# ctrl-alt-shift-tab = 'workspace --wrap-around prev'
+cmd-ctrl-tab = 'workspace-back-and-forth'
+
+# Focus the other monitor, including when its workspace has no windows.
+cmd-ctrl-backtick = 'focus-monitor --wrap-around next'
+
+# Scratchpad aliases used by Quattro.
+cmd-ctrl-s = 'workspace --auto-back-and-forth scratchpad'
+# cmd-ctrl-alt-s = 'move-node-to-workspace scratchpad'
+
+# Move the current workspace between monitors.
+cmd-ctrl-shift-left = 'move-workspace-to-monitor left'
+cmd-ctrl-shift-right = 'move-workspace-to-monitor right'
+cmd-ctrl-shift-up = 'move-workspace-to-monitor up'
+cmd-ctrl-shift-down = 'move-workspace-to-monitor down'
+
+# Quattro-style coarse and fine resize steps.
+cmd-ctrl-minus = 'resize width +100'
+cmd-ctrl-equal = 'resize width -100'
+cmd-ctrl-shift-minus = 'resize height -100'
+cmd-ctrl-shift-equal = 'resize height +100'
+# cmd-ctrl-alt-minus = 'resize width +25'
+# cmd-ctrl-alt-equal = 'resize width -25'
+# cmd-ctrl-alt-shift-minus = 'resize height -25'
+# cmd-ctrl-alt-shift-equal = 'resize height +25'
