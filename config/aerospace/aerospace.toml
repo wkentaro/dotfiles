@@ -95,11 +95,17 @@ cmd-ctrl-backtick = 'focus-monitor --wrap-around next'
 cmd-ctrl-s = 'workspace --auto-back-and-forth scratchpad'
 # cmd-ctrl-alt-s = 'move-node-to-workspace scratchpad'
 
-# Move the current workspace between monitors.
-cmd-ctrl-shift-left = 'move-workspace-to-monitor left'
-cmd-ctrl-shift-right = 'move-workspace-to-monitor right'
-cmd-ctrl-shift-up = 'move-workspace-to-monitor up'
-cmd-ctrl-shift-down = 'move-workspace-to-monitor down'
+# Move the focused window between monitors, following it across.
+cmd-ctrl-shift-left = 'move-node-to-monitor --focus-follows-window left'
+cmd-ctrl-shift-right = 'move-node-to-monitor --focus-follows-window right'
+cmd-ctrl-shift-up = 'move-node-to-monitor --focus-follows-window up'
+cmd-ctrl-shift-down = 'move-node-to-monitor --focus-follows-window down'
+
+# Move the whole workspace between monitors.
+cmd-ctrl-alt-left = 'move-workspace-to-monitor left'
+cmd-ctrl-alt-right = 'move-workspace-to-monitor right'
+cmd-ctrl-alt-up = 'move-workspace-to-monitor up'
+cmd-ctrl-alt-down = 'move-workspace-to-monitor down'
 
 # Quattro-style coarse and fine resize steps.
 cmd-ctrl-minus = 'resize width +100'
