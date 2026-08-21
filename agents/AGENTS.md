@@ -26,11 +26,15 @@ These four fire while writing code, before any review would catch them. The rest
 - Prepare pull or merge requests for human review, then stop; the user handles approval and all merge actions.
 - In comment-style forge Markdown (PR/MR and issue bodies, comments, release notes — including changelog entries pasted into them), write each paragraph or list item as one unwrapped line with blank lines between blocks; a single newline there renders as `<br>`. Repo Markdown files render normally; commit messages stay wrapped at 72 columns.
 
-# Issue tickets
+# Work artifacts
 
-- When asked to save a report, plan, handoff, or follow-up as an issue, choose the destination by audience and sensitivity: use the relevant public source repository for public project work; use private `wkentaro/secondbrain` for personal, cross-project, or non-public material. When the destination remains unclear, default to `wkentaro/secondbrain`.
-- Before creating the issue, confirm the target repository's visibility and search for a matching open issue. Redact credentials and unnecessary personally identifiable information.
-- Create the issue without asking which repository to use when these rules resolve the destination, then return its URL.
+- Route work by lifecycle and audience, not by file extension.
+  - Active work (plans, specs, TODOs, release checklists, reports, and follow-ups) lives in an issue tracker. Use the relevant public source repository for public project work and private `wkentaro/secondbrain` for personal, cross-project, or non-public work.
+  - Durable project truth (maintained documentation, context, and architectural decisions) lives in the source repository.
+  - Private knowledge, cross-project research, and frozen historical material live as curated files in `wkentaro/secondbrain`.
+  - Short-lived handoffs live in the OS temporary directory and are deleted or archived after use.
+- When a repository has an issue tracker, update a matching open issue instead of creating a root `TODO*.md`, `plan.md`, or duplicate issue. Before creating or updating an issue, confirm the target repository's visibility, search for a match, and redact credentials and unnecessary personally identifiable information.
+- When these rules resolve the destination, act without asking which repository to use and return the issue or file URL.
 
 # User questions
 
