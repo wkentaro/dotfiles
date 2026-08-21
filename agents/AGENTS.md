@@ -17,7 +17,7 @@ These four fire while writing code, before any review would catch them. The rest
 
 # Reviewing code
 
-- Do not trust the author. A commit message, comment, docstring, or test name is a claim, not evidence — check it against the code. Assume the change is broken until you have looked at the specific thing that would break it.
+- Do not trust the author. A commit message, PR or MR description, comment, docstring, or test name is a claim, not evidence — check it against the code at the ref that shipped, since a description written mid-review often describes an earlier revision. Assume the change is broken until you have looked at the specific thing that would break it.
 - Report only defects you verified, and name the claims you could not verify. Style opinions are not findings.
 - This applies to reviewing your own diffs too. It never applies to reading the user's intent.
 
