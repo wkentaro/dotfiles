@@ -396,6 +396,7 @@ if (( $+commands[git-wt] )); then
 fi
 
 alias cc="claude --allow-dangerously-skip-permissions"
+alias fable="claude --allow-dangerously-skip-permissions --model fable"
 alias ca="claude agents"
 alias cx="codex --yolo"
 
