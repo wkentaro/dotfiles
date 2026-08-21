@@ -18,8 +18,6 @@ config/aerospace/aerospace.toml:
   .config/aerospace/aerospace.toml
 config/nix:
   .config/nix
-config/zellij:
-  .config/zellij
 config/nvim:
   .config/nvim
 config/peco:
