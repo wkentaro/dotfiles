@@ -73,6 +73,7 @@ config.initial_rows = 22
 config.use_resize_increments = false
 config.adjust_window_size_when_changing_font_size = false
 config.window_close_confirmation = 'NeverPrompt'
+config.audible_bell = 'Disabled'
 
 config.window_frame = {
   font = wezterm.font { family = FONT_FAMILY, weight = 'Regular' },
