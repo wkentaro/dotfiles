@@ -10,7 +10,7 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 
 default-root-container-layout = 'tiles'
 default-root-container-orientation = 'auto'
-persistent-workspaces = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'scratchpad']
+persistent-workspaces = ['1', 'scratchpad']
 
 # Match Quattro's behavior of centering the pointer after keyboard focus changes.
 on-focus-changed = ['move-mouse window-lazy-center']
@@ -33,10 +33,10 @@ cmd-up = 'focus --boundaries all-monitors-outer-frame up'
 cmd-down = 'focus --boundaries all-monitors-outer-frame down'
 
 # Directional window swaps.
-cmd-shift-left = 'swap left'
-cmd-shift-right = 'swap right'
-cmd-shift-up = 'swap up'
-cmd-shift-down = 'swap down'
+cmd-ctrl-left = 'swap left'
+cmd-ctrl-right = 'swap right'
+cmd-ctrl-up = 'swap up'
+cmd-ctrl-down = 'swap down'
 
 # Numbered workspaces. The 0 key represents workspace 10, as in Quattro.
 cmd-ctrl-1 = 'workspace 1'
