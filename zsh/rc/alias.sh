@@ -23,10 +23,9 @@ select_herdr_session() {
   local jq_filter="$1"
   local query="${2:-}"
   local sessions
-  sessions=$(herdr session list --json 2>/dev/null | jq -r "$jq_filter | [.name, (if .running then \"running\" else \"stopped\" end), .session_dir, .socket_path] | @tsv") || return
+  sessions=$(herdr session list --json 2>/dev/null | jq -r "$jq_filter | [.name, (if .running then \"running\" else \"stopped\" end), .session_dir, .socket_path] | @tsv") || sessions=
   if [[ -z "$sessions" ]]; then
-    print -u2 'No matching Herdr sessions.'
-    return 1
+    return 3
   fi
 
   local selected
@@ -36,15 +35,27 @@ select_herdr_session() {
     --border=sharp --height=45% --info=inline --layout=reverse \
     --delimiter=$'\t' --header=$'NAME\tSTATUS\tDIRECTORY\tSOCKET' \
     --preview='printf "Name: %s\nStatus: %s\nDirectory: %s\nSocket: %s\n" {1} {2} {3} {4}' \
-    --preview-window=down,30%,sharp) || return
+    --preview-window=down,30%,sharp)
+  local selection_status=$?
+  if (( selection_status == 1 )); then
+    print -u2 'No matching Herdr sessions.'
+    return 1
+  fi
+  (( selection_status == 0 )) || return "$selection_status"
   print -r -- "${selected%%$'\t'*}"
 }
-attach_herdr_session() {
+open_herdr_session() {
   local session
-  session=$(select_herdr_session '.sessions[]' "${1:-}") || return
+  session=$(select_herdr_session '.sessions[]' "${1:-}")
+  local selection_status=$?
+  if (( selection_status == 3 )); then
+    start_herdr_session default
+    return
+  fi
+  (( selection_status == 0 )) || return "$selection_status"
   [[ -n "$session" ]] && herdr session attach "$session"
 }
-alias h='attach_herdr_session'
+alias h='open_herdr_session'
 start_herdr_session() {
   if (( $# == 0 )); then
     print -u2 'Please specify session name.'
@@ -53,9 +64,15 @@ start_herdr_session() {
   herdr --session "$1"
 }
 alias hn='start_herdr_session'
-kill_and_delete_session() {
+kill_herdr_session() {
   local session
-  session=$(select_herdr_session '.sessions[]' "${1:-}") || return
+  session=$(select_herdr_session '.sessions[]' "${1:-}")
+  local selection_status=$?
+  if (( selection_status == 3 )); then
+    print -u2 'No Herdr sessions.'
+    return 1
+  fi
+  (( selection_status == 0 )) || return "$selection_status"
 
   local is_running
   is_running=$(herdr session list --json 2>/dev/null | jq -r --arg name "$session" '.sessions[] | select(.name == $name) | .running') || return
@@ -65,7 +82,91 @@ kill_and_delete_session() {
   [[ "$session" == default ]] && return
   herdr session delete "$session"
 }
-alias hk='kill_and_delete_session'
+alias hk='kill_herdr_session'
+
+# tmux
+ensure_tmux_can_start() {
+  if [[ "${HERDR_ENV:-}" != 1 ]]; then
+    return
+  fi
+
+  print -u2 'tmux sessions should not be nested inside Herdr; unset HERDR_ENV to force'
+  return 1
+}
+select_tmux_session() {
+  local query="${1:-}"
+  local sessions
+  sessions=$(tmux list-sessions -F $'#{session_name}\t#{?session_attached,attached,detached}\t#{session_windows}\t#{session_path}' 2>/dev/null) || sessions=
+  if [[ -z "$sessions" ]]; then
+    return 3
+  fi
+
+  local selected
+  selected=$(print -r -- "$sessions" | fzf --query="$query" \
+    --exact --no-sort --cycle --keep-right --tabstop=1 \
+    --bind=ctrl-z:ignore,btab:up,tab:down \
+    --border=sharp --height=45% --info=inline --layout=reverse \
+    --delimiter=$'\t' --header=$'NAME\tSTATUS\tWINDOWS\tDIRECTORY' \
+    --preview='printf "Name: %s\nStatus: %s\nWindows: %s\nDirectory: %s\n" {1} {2} {3} {4}' \
+    --preview-window=down,30%,sharp)
+  local selection_status=$?
+  if (( selection_status == 1 )); then
+    print -u2 'No matching tmux sessions.'
+    return 1
+  fi
+  (( selection_status == 0 )) || return "$selection_status"
+  print -r -- "${selected%%$'\t'*}"
+}
+open_tmux_session() {
+  local session
+  session=$(select_tmux_session "${1:-}")
+  local selection_status=$?
+  if (( selection_status == 3 )); then
+    start_tmux_session default
+    return
+  fi
+  (( selection_status == 0 )) || return "$selection_status"
+  [[ -n "$session" ]] || return
+  ensure_tmux_can_start || return
+
+  if [[ -n "${TMUX:-}" ]]; then
+    tmux switch-client -t "=$session"
+  else
+    tmux attach-session -t "=$session"
+  fi
+}
+alias t='open_tmux_session'
+start_tmux_session() {
+  ensure_tmux_can_start || return
+
+  if (( $# == 0 )); then
+    print -u2 'Please specify session name.'
+    return 1
+  fi
+
+  if [[ -z "${TMUX:-}" ]]; then
+    tmux new-session -A -s "$1" -c "$PWD"
+    return
+  fi
+
+  if ! tmux has-session -t "=$1" 2>/dev/null; then
+    tmux new-session -d -s "$1" -c "$PWD" || return
+  fi
+  tmux switch-client -t "=$1"
+}
+alias tn='start_tmux_session'
+kill_tmux_session() {
+  local session
+  session=$(select_tmux_session "${1:-}")
+  local selection_status=$?
+  if (( selection_status == 3 )); then
+    print -u2 'No tmux sessions.'
+    return 1
+  fi
+  (( selection_status == 0 )) || return "$selection_status"
+  [[ -n "$session" ]] && tmux kill-session -t "=$session"
+}
+alias tk='kill_tmux_session'
 
 # brew
 if type brew &>/dev/null; then
