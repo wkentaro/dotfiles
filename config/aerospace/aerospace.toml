@@ -9,7 +9,9 @@ enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 
 default-root-container-layout = 'tiles'
-default-root-container-orientation = 'auto'
+# Horizontal keeps the master pane on the left; nested containers then normalize
+# to vertical, which is what makes the right-hand stack work.
+default-root-container-orientation = 'horizontal'
 persistent-workspaces = ['1', 'scratchpad']
 
 # Match Quattro's behavior of centering the pointer after keyboard focus changes.
@@ -25,6 +27,13 @@ cmd-ctrl-j = 'layout tiles horizontal vertical'
 cmd-ctrl-l = 'layout tiles accordion'
 cmd-ctrl-t = 'layout floating tiling'
 cmd-ctrl-f = 'fullscreen --no-outer-gaps'
+
+# Master-and-stack shaping. join-with names where the existing neighbor is, not
+# where the window should land, so a flat row only ever has left/right to join.
+# The resulting container normalizes to vertical, which is the stacking.
+cmd-ctrl-v = 'join-with left'
+cmd-ctrl-shift-v = 'flatten-workspace-tree'
+cmd-ctrl-b = 'balance-sizes'
 
 # Directional focus.
 cmd-left = 'focus --boundaries all-monitors-outer-frame left'
