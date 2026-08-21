@@ -35,6 +35,8 @@ These four fire while writing code, before any review would catch them. The rest
   - Short-lived handoffs live in the OS temporary directory and are deleted or archived after use.
 - When a repository has an issue tracker, update a matching open issue instead of creating a root `TODO*.md`, `plan.md`, or duplicate issue. Before creating or updating an issue, confirm the target repository's visibility, search for a match, and redact credentials and unnecessary personally identifiable information.
 - When these rules resolve the destination, act without asking which repository to use and return the issue or file URL.
+- Capture durable knowledge the moment it lands, without waiting to be asked. A resolved root cause, a decision and what it beat, a measured number, third-party behavior that contradicts its own documentation, a workaround and the constraint forcing it — route each per the rules above at the point you learn it, not at the end of the session. Name the destination, offer two lines of draft, and write on agreement.
+- Capture what the diff cannot reconstruct. What the code does, what you just changed, and transient session state are already recorded elsewhere.
 
 # User questions
 
