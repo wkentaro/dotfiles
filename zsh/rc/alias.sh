@@ -18,39 +18,54 @@ alias o.='open .'
 alias py='python'
 alias ipy='ipython'
 
-# zellij
-alias tls='zellij list-sessions'
-zellij_fzf_attach() {
-    local sessions
-    sessions=$(zellij list-sessions -s 2>/dev/null)
-    [ $? -ne 0 -o -z "$sessions" ] && return
-
-    if [ $(echo "$sessions" | wc -l) -eq 1 ]; then
-      zellij attach "$(echo "$sessions" | head -1)"
-      return 0
-    fi
-
-    local query_flag=""
-    [[ -n "$1" ]] && query_flag="--query $1"
-
-    local session
-    session=$(echo "$sessions" | fzf --layout reverse $query_flag)
-    if [[ -n "$session" ]]; then
-      zellij attach "$session"
-    fi
-}
-alias tmux=zellij
-alias ta='zellij_fzf_attach'
-alias tca="TMUX_OPTIONS='-CC' tmux_fzy_attach"
-alias tcns="TMUX_OPTIONS='-CC' tns"
-alias tn='tmux new'
-tns () {
-  if [ $# -eq 0 ]; then
-    echo 'Please specify session name.'
+# herdr
+select_herdr_session() {
+  local jq_filter="$1"
+  local query="${2:-}"
+  local sessions
+  sessions=$(herdr session list --json 2>/dev/null | jq -r "$jq_filter | [.name, (if .running then \"running\" else \"stopped\" end), .session_dir, .socket_path] | @tsv") || return
+  if [[ -z "$sessions" ]]; then
+    print -u2 'No matching Herdr sessions.'
     return 1
   fi
-  zellij -s $1
+
+  local selected
+  selected=$(print -r -- "$sessions" | fzf --query="$query" \
+    --exact --no-sort --cycle --keep-right --tabstop=1 \
+    --bind=ctrl-z:ignore,btab:up,tab:down \
+    --border=sharp --height=45% --info=inline --layout=reverse \
+    --delimiter=$'\t' --header=$'NAME\tSTATUS\tDIRECTORY\tSOCKET' \
+    --preview='printf "Name: %s\nStatus: %s\nDirectory: %s\nSocket: %s\n" {1} {2} {3} {4}' \
+    --preview-window=down,30%,sharp) || return
+  print -r -- "${selected%%$'\t'*}"
 }
+attach_herdr_session() {
+  local session
+  session=$(select_herdr_session '.sessions[]' "${1:-}") || return
+  [[ -n "$session" ]] && herdr session attach "$session"
+}
+alias h='attach_herdr_session'
+start_herdr_session() {
+  if (( $# == 0 )); then
+    print -u2 'Please specify session name.'
+    return 1
+  fi
+  herdr --session "$1"
+}
+alias hn='start_herdr_session'
+kill_and_delete_session() {
+  local session
+  session=$(select_herdr_session '.sessions[]' "${1:-}") || return
+
+  local is_running
+  is_running=$(herdr session list --json 2>/dev/null | jq -r --arg name "$session" '.sessions[] | select(.name == $name) | .running') || return
+  if [[ "$is_running" == true ]]; then
+    herdr session stop "$session" || return
+  fi
+  [[ "$session" == default ]] && return
+  herdr session delete "$session"
+}
+alias hk='kill_and_delete_session'
 
 # brew
 if type brew &>/dev/null; then
