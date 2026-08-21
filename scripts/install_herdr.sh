@@ -2,8 +2,8 @@
 
 set -e
 
-VERSION=v0.8.0-fork.3
-EXPECTED_VERSION="herdr 0.8.0-fork.3"
+VERSION=v0.8.0-fork.4
+EXPECTED_VERSION="herdr 0.8.0-fork.4"
 
 if command -v herdr >/dev/null 2>&1 && [ "$(herdr --version 2>/dev/null)" = "$EXPECTED_VERSION" ]; then
   exit 0
@@ -24,10 +24,10 @@ esac
 asset="herdr-${os}-${arch}"
 
 case "${os}-${arch}" in
-  linux-aarch64) checksum=25b8aac3e0db1785f340e57a083bf32ca2733caee26db707557dbd9091933a39 ;;
-  linux-x86_64)  checksum=485a5d2674d29b34560ab0b1c0bc7e33050b1e8c363252c2e96648d747c6cfa3 ;;
-  macos-aarch64) checksum=fb6f6c19ae23ed3df7d0c6d218b380d86e322933c43e6eebb261c08eb79ebe18 ;;
-  macos-x86_64)  checksum=c0e626cf5ecb218ad53566cfd40aba5ec14124072e620489ec555a9f134d3d30 ;;
+  linux-aarch64) checksum=031f8eff4a0a3b2d67a37eb2fd6547094c945bc88df8464c83ae8f9a0e60d0b5 ;;
+  linux-x86_64)  checksum=7ba8d175bdf3cae9aafb6f81edf2942404365088da6bb9bcb301d2023cf4509f ;;
+  macos-aarch64) checksum=fb08baa1a0cbfc337869a24e0325df486a8a0ed03607c06dd805b0caf75577d4 ;;
+  macos-x86_64)  checksum=00ff36c565c5f8488d6d4a0ebb605d1bf9ce2ef49a112c2c5606165637486f5b ;;
 esac
 
 tmp_path=$(mktemp -d)
