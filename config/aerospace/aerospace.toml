@@ -74,18 +74,6 @@ cmd-shift-8 = 'move-node-to-workspace --focus-follows-window 8'
 cmd-shift-9 = 'move-node-to-workspace --focus-follows-window 9'
 cmd-shift-0 = 'move-node-to-workspace --focus-follows-window 10'
 
-# Move the focused window without changing workspace.
-# cmd-alt-shift-1 = 'move-node-to-workspace 1'
-# cmd-alt-shift-2 = 'move-node-to-workspace 2'
-# cmd-alt-shift-3 = 'move-node-to-workspace 3'
-# cmd-alt-shift-4 = 'move-node-to-workspace 4'
-# cmd-alt-shift-5 = 'move-node-to-workspace 5'
-# cmd-alt-shift-6 = 'move-node-to-workspace 6'
-# cmd-alt-shift-7 = 'move-node-to-workspace 7'
-# cmd-alt-shift-8 = 'move-node-to-workspace 8'
-# cmd-alt-shift-9 = 'move-node-to-workspace 9'
-# cmd-alt-shift-0 = 'move-node-to-workspace 10'
-
 # Workspace history and sequential navigation.
 # ctrl-alt-tab = 'workspace --wrap-around next'
 # ctrl-alt-shift-tab = 'workspace --wrap-around prev'
@@ -96,26 +84,9 @@ cmd-ctrl-backtick = 'focus-monitor --wrap-around next'
 
 # Scratchpad aliases used by Quattro.
 cmd-ctrl-s = 'workspace --auto-back-and-forth scratchpad'
-# cmd-ctrl-alt-s = 'move-node-to-workspace scratchpad'
-
-# Move the focused window between monitors, following it across.
-cmd-ctrl-shift-left = 'move-node-to-monitor --focus-follows-window left'
-cmd-ctrl-shift-right = 'move-node-to-monitor --focus-follows-window right'
-cmd-ctrl-shift-up = 'move-node-to-monitor --focus-follows-window up'
-cmd-ctrl-shift-down = 'move-node-to-monitor --focus-follows-window down'
-
-# Move the whole workspace between monitors.
-cmd-ctrl-alt-left = 'move-workspace-to-monitor left'
-cmd-ctrl-alt-right = 'move-workspace-to-monitor right'
-cmd-ctrl-alt-up = 'move-workspace-to-monitor up'
-cmd-ctrl-alt-down = 'move-workspace-to-monitor down'
 
 # Quattro-style coarse and fine resize steps.
 cmd-ctrl-minus = 'resize width +100'
 cmd-ctrl-equal = 'resize width -100'
 cmd-ctrl-shift-minus = 'resize height -100'
 cmd-ctrl-shift-equal = 'resize height +100'
-# cmd-ctrl-alt-minus = 'resize width +25'
-# cmd-ctrl-alt-equal = 'resize width -25'
-# cmd-ctrl-alt-shift-minus = 'resize height -25'
-# cmd-ctrl-alt-shift-equal = 'resize height +25'
