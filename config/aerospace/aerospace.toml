@@ -39,43 +39,43 @@ cmd-ctrl-shift-h = 'flatten-workspace-tree'
 cmd-ctrl-b = 'balance-sizes'
 
 # Ignore the non-TTY subprocess stdin when changing workspace at a horizontal edge.
-cmd-left = 'exec-and-forget aerospace focus --boundaries-action fail left || aerospace workspace --no-stdin prev'
-cmd-right = 'exec-and-forget aerospace focus --boundaries-action fail right || aerospace workspace --no-stdin next'
-cmd-up = 'focus --boundaries all-monitors-outer-frame up'
-cmd-down = 'focus --boundaries all-monitors-outer-frame down'
+cmd-ctrl-left = 'exec-and-forget aerospace focus --boundaries-action fail left || aerospace workspace --no-stdin prev'
+cmd-ctrl-right = 'exec-and-forget aerospace focus --boundaries-action fail right || aerospace workspace --no-stdin next'
+cmd-ctrl-up = 'focus --boundaries all-monitors-outer-frame up'
+cmd-ctrl-down = 'focus --boundaries all-monitors-outer-frame down'
 
 # Swap with a neighboring window, or cross the workspace boundary and follow it.
-cmd-shift-left = 'swap left || move-node-to-workspace --focus-follows-window prev'
-# A rightward crossing is appended at the far edge, so walk it back to the entry edge.
-cmd-shift-right = 'exec-and-forget aerospace swap right || { aerospace move-node-to-workspace --focus-follows-window --no-stdin next && while aerospace move --boundaries-action fail left; do :; done; }'
+cmd-ctrl-shift-left = 'swap left || move-node-to-workspace --focus-follows-window prev'
+# A ctrl-rightward crossing is appended at the far edge, so walk it back to the entry edge.
+cmd-ctrl-shift-right = 'exec-and-forget aerospace swap right || { aerospace move-node-to-workspace --focus-follows-window --no-stdin next && while aerospace move --boundaries-action fail left; do :; done; }'
 
 # Directional window swaps within the current workspace.
-cmd-shift-up = 'swap up'
-cmd-shift-down = 'swap down'
+cmd-ctrl-shift-up = 'swap up'
+cmd-ctrl-shift-down = 'swap down'
 
 # Numbered workspaces. The 0 key represents workspace 10, as in Quattro.
-cmd-1 = 'workspace 1'
-cmd-2 = 'workspace 2'
-cmd-3 = 'workspace 3'
-cmd-4 = 'workspace 4'
-cmd-5 = 'workspace 5'
-cmd-6 = 'workspace 6'
-cmd-7 = 'workspace 7'
-cmd-8 = 'workspace 8'
-cmd-9 = 'workspace 9'
+cmd-ctrl-1 = 'workspace 1'
+cmd-ctrl-2 = 'workspace 2'
+cmd-ctrl-3 = 'workspace 3'
+cmd-ctrl-4 = 'workspace 4'
+cmd-ctrl-5 = 'workspace 5'
+cmd-ctrl-6 = 'workspace 6'
+cmd-ctrl-7 = 'workspace 7'
+cmd-ctrl-8 = 'workspace 8'
+cmd-ctrl-9 = 'workspace 9'
 # cmd-0 = 'workspace 10'
 
 # Move the focused window and follow it to the destination workspace.
-cmd-shift-1 = 'move-node-to-workspace --focus-follows-window 1'
-cmd-shift-2 = 'move-node-to-workspace --focus-follows-window 2'
-cmd-shift-3 = 'move-node-to-workspace --focus-follows-window 3'
-cmd-shift-4 = 'move-node-to-workspace --focus-follows-window 4'
-cmd-shift-5 = 'move-node-to-workspace --focus-follows-window 5'
-cmd-shift-6 = 'move-node-to-workspace --focus-follows-window 6'
-cmd-shift-7 = 'move-node-to-workspace --focus-follows-window 7'
-cmd-shift-8 = 'move-node-to-workspace --focus-follows-window 8'
-cmd-shift-9 = 'move-node-to-workspace --focus-follows-window 9'
-cmd-shift-0 = 'move-node-to-workspace --focus-follows-window 10'
+cmd-ctrl-shift-1 = 'move-node-to-workspace --focus-follows-window 1'
+cmd-ctrl-shift-2 = 'move-node-to-workspace --focus-follows-window 2'
+cmd-ctrl-shift-3 = 'move-node-to-workspace --focus-follows-window 3'
+cmd-ctrl-shift-4 = 'move-node-to-workspace --focus-follows-window 4'
+cmd-ctrl-shift-5 = 'move-node-to-workspace --focus-follows-window 5'
+cmd-ctrl-shift-6 = 'move-node-to-workspace --focus-follows-window 6'
+cmd-ctrl-shift-7 = 'move-node-to-workspace --focus-follows-window 7'
+cmd-ctrl-shift-8 = 'move-node-to-workspace --focus-follows-window 8'
+cmd-ctrl-shift-9 = 'move-node-to-workspace --focus-follows-window 9'
+# cmd-shift-0 = 'move-node-to-workspace --focus-follows-window 10'
 
 # Workspace history and sequential navigation.
 # ctrl-alt-tab = 'workspace --wrap-around next'
