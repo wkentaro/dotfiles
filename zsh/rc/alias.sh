@@ -49,8 +49,8 @@ open_herdr_session() {
   session=$(select_herdr_session '.sessions[]' "${1:-}")
   local selection_status=$?
   if (( selection_status == 3 )); then
-    start_herdr_session default
-    return
+    print -u2 'No Herdr sessions. Start one with hn <name>.'
+    return 1
   fi
   (( selection_status == 0 )) || return "$selection_status"
   [[ -n "$session" ]] && herdr session attach "$session"
@@ -122,8 +122,8 @@ open_tmux_session() {
   session=$(select_tmux_session "${1:-}")
   local selection_status=$?
   if (( selection_status == 3 )); then
-    start_tmux_session default
-    return
+    print -u2 'No tmux sessions. Start one with tn <name>.'
+    return 1
   fi
   (( selection_status == 0 )) || return "$selection_status"
   [[ -n "$session" ]] || return
