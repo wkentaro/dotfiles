@@ -71,6 +71,44 @@ start_herdr_session() {
   herdr --session "$1"
 }
 alias hn='start_herdr_session'
+rename_herdr_session() {
+  if (( $# != 2 )); then
+    print -u2 'Usage: hr <current-name> <new-name>'
+    return 1
+  fi
+
+  local source="$1"
+  local target="$2"
+  local sessions
+  sessions=$(herdr session list --json) || return
+  if ! jq -e --arg name "$source" '.sessions[] | select(.name == $name and .running)' <<<"$sessions" >/dev/null; then
+    print -u2 "Herdr session is not running: $source"
+    return 1
+  fi
+  if jq -e --arg name "$target" '.sessions[] | select(.name == $name)' <<<"$sessions" >/dev/null; then
+    print -u2 "Herdr session already exists: $target"
+    return 1
+  fi
+  herdr --session "$target" --version >/dev/null || return
+
+  local temp_dir
+  temp_dir=$(mktemp -d "${TMPDIR:-/tmp}/herdr-rename.XXXXXX") || return
+  local wrapper="$temp_dir/$target"
+  if ! print -rl -- '#!/bin/sh' 'export HERDR_SESSION="${0##*/}"' 'exec "$HOME/.local/bin/herdr" "$@"' >"$wrapper" || ! chmod 700 "$wrapper"; then
+    rm -f -- "$wrapper"
+    rmdir -- "$temp_dir"
+    return 1
+  fi
+
+  herdr --session "$source" server live-handoff --import-exe "$wrapper"
+  local handoff_status=$?
+  rm -f -- "$wrapper"
+  rmdir -- "$temp_dir"
+  (( handoff_status == 0 )) || return "$handoff_status"
+  [[ "$source" == default ]] || herdr session delete "$source" || return
+  print "Reattach with: herdr session attach $target"
+}
+alias hr='rename_herdr_session'
 kill_herdr_session() {
   local session
   session=$(select_herdr_session '.sessions[]' "${1:-}")
