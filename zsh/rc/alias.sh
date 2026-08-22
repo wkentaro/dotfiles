@@ -19,6 +19,12 @@ alias py='python'
 alias ipy='ipython'
 
 # herdr
+list_herdr_sessions() {
+  local sessions
+  sessions=$(herdr session list --json | jq -r '.sessions[] | [.name, (if .running then "running" else "stopped" end), .session_dir, .socket_path] | @tsv') || return
+  print -r -- $'NAME\tSTATUS\tDIRECTORY\tSOCKET\n'"$sessions" | column -t -s $'\t'
+}
+alias hl='list_herdr_sessions'
 select_herdr_session() {
   local jq_filter="$1"
   local query="${2:-}"
@@ -28,12 +34,13 @@ select_herdr_session() {
     return 3
   fi
 
+  local rows=$'NAME\tSTATUS\tDIRECTORY\tSOCKET\n'"$sessions"
   local selected
-  selected=$(print -r -- "$sessions" | fzf --query="$query" \
-    --exact --no-sort --cycle --keep-right --tabstop=1 \
+  selected=$(paste <(print -r -- "$rows") <(print -r -- "$rows" | column -t -s $'\t') | fzf --query="$query" \
+    --exact --no-sort --cycle --keep-right \
     --bind=ctrl-z:ignore,btab:up,tab:down \
     --border=sharp --height=45% --info=inline --layout=reverse \
-    --delimiter=$'\t' --header=$'NAME\tSTATUS\tDIRECTORY\tSOCKET' \
+    --delimiter=$'\t' --with-nth=5 --accept-nth=1 --header-lines=1 \
     --preview='printf "Name: %s\nStatus: %s\nDirectory: %s\nSocket: %s\n" {1} {2} {3} {4}' \
     --preview-window=down,30%,sharp)
   local selection_status=$?
@@ -42,7 +49,7 @@ select_herdr_session() {
     return 1
   fi
   (( selection_status == 0 )) || return "$selection_status"
-  print -r -- "${selected%%$'\t'*}"
+  print -r -- "$selected"
 }
 open_herdr_session() {
   local session
@@ -85,6 +92,12 @@ kill_herdr_session() {
 alias hk='kill_herdr_session'
 
 # tmux
+list_tmux_sessions() {
+  local sessions
+  sessions=$(tmux list-sessions -F $'#{session_name}\t#{?session_attached,attached,detached}\t#{session_windows}\t#{session_path}' 2>/dev/null) || sessions=
+  print -r -- $'NAME\tSTATUS\tWINDOWS\tDIRECTORY\n'"$sessions" | column -t -s $'\t'
+}
+alias tl='list_tmux_sessions'
 ensure_tmux_can_start() {
   if [[ "${HERDR_ENV:-}" != 1 ]]; then
     return
@@ -101,12 +114,13 @@ select_tmux_session() {
     return 3
   fi
 
+  local rows=$'NAME\tSTATUS\tWINDOWS\tDIRECTORY\n'"$sessions"
   local selected
-  selected=$(print -r -- "$sessions" | fzf --query="$query" \
-    --exact --no-sort --cycle --keep-right --tabstop=1 \
+  selected=$(paste <(print -r -- "$rows") <(print -r -- "$rows" | column -t -s $'\t') | fzf --query="$query" \
+    --exact --no-sort --cycle --keep-right \
     --bind=ctrl-z:ignore,btab:up,tab:down \
     --border=sharp --height=45% --info=inline --layout=reverse \
-    --delimiter=$'\t' --header=$'NAME\tSTATUS\tWINDOWS\tDIRECTORY' \
+    --delimiter=$'\t' --with-nth=5 --accept-nth=1 --header-lines=1 \
     --preview='printf "Name: %s\nStatus: %s\nWindows: %s\nDirectory: %s\n" {1} {2} {3} {4}' \
     --preview-window=down,30%,sharp)
   local selection_status=$?
@@ -115,7 +129,7 @@ select_tmux_session() {
     return 1
   fi
   (( selection_status == 0 )) || return "$selection_status"
-  print -r -- "${selected%%$'\t'*}"
+  print -r -- "$selected"
 }
 open_tmux_session() {
   local session
