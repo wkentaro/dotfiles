@@ -21,6 +21,14 @@ _install_attention_span() (
     "https://raw.githubusercontent.com/alexgreensh/attention-span/${version}/output-styles/spartan.md"
 )
 
+_install_ponytail() {
+  claude plugin marketplace add "DietrichGebert/ponytail"
+  claude plugin install "ponytail@ponytail" --scope user --yes
+
+  codex plugin marketplace add "DietrichGebert/ponytail"
+  codex plugin add "ponytail@ponytail"
+}
+
 main() {
   npx skills add "wkentaro/skills" -s "*" -g -a claude-code codex -y
   npx skills remove to-html -g -y
@@ -46,6 +54,8 @@ main() {
   npx skills add "pbakaus/impeccable" -s "impeccable" -g -a claude-code codex -y
 
   npx skills add "OutThisLife/brooklyn-skills" -s "list-open-work" -g -a claude-code codex -y
+
+  _install_ponytail
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
