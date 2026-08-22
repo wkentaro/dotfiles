@@ -36,16 +36,19 @@ cmd-ctrl-f = 'fullscreen --no-outer-gaps'
 cmd-ctrl-b = 'balance-sizes'
 
 # Ignore the non-TTY subprocess stdin when changing workspace at a horizontal edge.
-cmd-h = 'exec-and-forget aerospace focus --boundaries-action fail left || aerospace workspace --no-stdin prev'
-cmd-l = 'exec-and-forget aerospace focus --boundaries-action fail right || aerospace workspace --no-stdin next'
-cmd-k = 'focus --boundaries all-monitors-outer-frame up'
-cmd-j = 'focus --boundaries all-monitors-outer-frame down'
+cmd-left = 'exec-and-forget aerospace focus --boundaries-action fail left || aerospace workspace --no-stdin prev'
+cmd-right = 'exec-and-forget aerospace focus --boundaries-action fail right || aerospace workspace --no-stdin next'
+cmd-up = 'focus --boundaries all-monitors-outer-frame up'
+cmd-down = 'focus --boundaries all-monitors-outer-frame down'
 
-# Directional window swaps.
-cmd-shift-h = 'swap left'
-cmd-shift-l = 'swap right'
-cmd-shift-k = 'swap up'
-cmd-shift-j = 'swap down'
+# Swap with a neighboring window, or cross the workspace boundary and follow it.
+cmd-shift-left = 'swap left || move-node-to-workspace --focus-follows-window prev'
+# A rightward crossing is appended at the far edge, so walk it back to the entry edge.
+cmd-shift-right = 'exec-and-forget aerospace swap right || { aerospace move-node-to-workspace --focus-follows-window --no-stdin next && while aerospace move --boundaries-action fail left; do :; done; }'
+
+# Directional window swaps within the current workspace.
+cmd-shift-up = 'swap up'
+cmd-shift-down = 'swap down'
 
 # Numbered workspaces. The 0 key represents workspace 10, as in Quattro.
 cmd-1 = 'workspace 1'
