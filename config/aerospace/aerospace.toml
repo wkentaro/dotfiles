@@ -34,8 +34,8 @@ cmd-ctrl-f = 'fullscreen --no-outer-gaps'
 # Master-and-stack shaping. join-with names where the existing neighbor is, not
 # where the window should land, so a flat row only ever has left/right to join.
 # The resulting container normalizes to vertical, which is the stacking.
-# cmd-ctrl-v = 'join-with left'
-# cmd-ctrl-shift-v = 'flatten-workspace-tree'
+cmd-ctrl-h = 'join-with left'
+cmd-ctrl-shift-h = 'flatten-workspace-tree'
 cmd-ctrl-b = 'balance-sizes'
 
 # Ignore the non-TTY subprocess stdin when changing workspace at a horizontal edge.
