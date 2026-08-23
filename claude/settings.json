@@ -48,7 +48,7 @@
       }
     }
   },
-  "outputStyle": "Spartan",
+  "outputStyle": "Concise",
   "viewMode": "default",
   "tui": "fullscreen",
   "showThinkingSummaries": true,
