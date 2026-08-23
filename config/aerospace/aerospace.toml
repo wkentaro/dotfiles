@@ -4,6 +4,9 @@
 config-version = 2
 start-at-login = true
 auto-reload-config = true
+after-startup-command = [
+    'exec-and-forget borders active_color=0xff737373 inactive_color=0x00000000 width=8.0',
+]
 
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
@@ -14,12 +17,13 @@ default-root-container-layout = 'tiles'
 default-root-container-orientation = 'horizontal'
 persistent-workspaces = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'scratchpad']
 
-# Match Quattro's behavior of centering the pointer after keyboard focus changes.
-on-focus-changed = ['move-mouse window-lazy-center']
-
-# Match Omarchy's spacing between tiled windows without adding outer margins.
-gaps.inner.horizontal = 8
-gaps.inner.vertical = 8
+# Leave outer space because macOS clips window outlines at the display edge.
+gaps.inner.horizontal = 10
+gaps.inner.vertical = 10
+gaps.outer.left = 10
+gaps.outer.right = 10
+gaps.outer.top = 10
+gaps.outer.bottom = 10
 
 [mode.main.binding]
 cmd-shift-enter = 'exec-and-forget open -na WezTerm'
