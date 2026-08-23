@@ -22,7 +22,7 @@ gaps.inner.horizontal = 8
 gaps.inner.vertical = 8
 
 [mode.main.binding]
-cmd-enter = 'exec-and-forget open -na WezTerm'
+cmd-shift-enter = 'exec-and-forget open -na WezTerm'
 cmd-shift-b = 'exec-and-forget open -na "Brave Browser" --args --new-window'
 
 # Window layout and state.
