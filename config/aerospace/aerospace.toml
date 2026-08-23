@@ -12,7 +12,7 @@ default-root-container-layout = 'tiles'
 # Horizontal keeps the master pane on the left; nested containers then normalize
 # to vertical, which is what makes the right-hand stack work.
 default-root-container-orientation = 'horizontal'
-persistent-workspaces = ['1', 'scratchpad']
+persistent-workspaces = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'scratchpad']
 
 # Match Quattro's behavior of centering the pointer after keyboard focus changes.
 on-focus-changed = ['move-mouse window-lazy-center']
