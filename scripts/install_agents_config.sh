@@ -55,6 +55,8 @@ main() {
 
   npx skills add "OutThisLife/brooklyn-skills" -s "list-open-work" -g -a claude-code codex -y
 
+  npx skills add "humanlayer/skills" -s "show-me" -g -a claude-code codex -y
+
   _install_ponytail
 }
 
