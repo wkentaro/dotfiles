@@ -5,6 +5,7 @@
 local wezterm = require 'wezterm'
 
 local config = wezterm.config_builder and wezterm.config_builder() or {}
+config.enable_kitty_keyboard = true
 
 local is_macos = wezterm.target_triple:find 'darwin' ~= nil
 
