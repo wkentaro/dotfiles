@@ -16,6 +16,8 @@ config/acron/config.toml:
   .config/acron/config.toml
 config/aerospace/aerospace.toml:
   .config/aerospace/aerospace.toml
+config/karabiner:
+  .config/karabiner
 config/nix:
   .config/nix
 config/nvim:
