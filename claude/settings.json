@@ -8,6 +8,7 @@
     "allow": [],
     "defaultMode": "auto"
   },
+  "model": "opus",
   "hooks": {
     "SessionStart": [
       {
@@ -32,6 +33,7 @@
       }
     ]
   },
+  "disableArtifact": true,
   "statusLine": {
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"
@@ -54,7 +56,5 @@
   "skipWorkflowUsageWarning": true,
   "showTurnDuration": true,
   "agentPushNotifEnabled": true,
-  "skipAutoPermissionPrompt": true,
-  "model": "opus",
-  "disableArtifact": true
+  "skipAutoPermissionPrompt": true
 }
