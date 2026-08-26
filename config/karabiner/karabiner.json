@@ -5,14 +5,18 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Toggle AeroSpace window management",
+                        "description": "Toggle yabai window management",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "escape",
                                     "modifiers": { "mandatory": ["command", "control"] }
                                 },
-                                "to": [{ "shell_command": "/opt/homebrew/bin/aerospace enable toggle" }],
+                                "to": [
+                                    {
+                                        "shell_command": "/usr/bin/pgrep -x yabai >/dev/null && /opt/homebrew/bin/yabai --stop-service || /opt/homebrew/bin/yabai --start-service"
+                                    }
+                                ],
                                 "type": "basic"
                             }
                         ]

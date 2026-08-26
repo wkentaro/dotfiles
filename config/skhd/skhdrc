@@ -1,0 +1,44 @@
+# Omarchy Quattro-style window management through yabai.
+
+cmd + shift - return : open -na WezTerm
+cmd + shift - b      : open -na "Brave Browser" --args --new-window
+
+# Return to BSP and rotate its tree through four orientations.
+cmd + ctrl - j : yabai -m query --spaces --space | jq -e '.type == "bsp"' >/dev/null || yabai -m space --layout bsp; yabai -m space --rotate 270
+cmd + ctrl - l : yabai -m space --layout "$(yabai -m query --spaces --space | jq -r 'if .type == "stack" then "bsp" else "stack" end')"
+cmd + ctrl - t : yabai -m window --toggle float
+cmd + ctrl - f : yabai -m window --toggle zoom-fullscreen
+cmd + ctrl - b : yabai -m space --balance
+
+cmd + ctrl - left  : yabai -m window --focus west  || yabai -m space --focus prev
+cmd + ctrl - right : yabai -m window --focus east  || yabai -m space --focus next
+cmd + ctrl - up    : yabai -m window --focus north
+cmd + ctrl - down  : yabai -m window --focus south
+
+cmd + ctrl + shift - left  : yabai -m window --swap west  || { yabai -m window --space prev && yabai -m space --focus prev; }
+cmd + ctrl + shift - right : yabai -m window --swap east  || { yabai -m window --space next && yabai -m space --focus next; }
+cmd + ctrl + shift - up    : yabai -m window --swap north
+cmd + ctrl + shift - down  : yabai -m window --swap south
+
+cmd + ctrl - 1 : yabai -m space --focus 1
+cmd + ctrl - 2 : yabai -m space --focus 2
+cmd + ctrl - 3 : yabai -m space --focus 3
+cmd + ctrl - 4 : yabai -m space --focus 4
+cmd + ctrl - 5 : yabai -m space --focus 5
+cmd + ctrl - 6 : yabai -m space --focus 6
+cmd + ctrl - 7 : yabai -m space --focus 7
+cmd + ctrl - 8 : yabai -m space --focus 8
+cmd + ctrl - 9 : yabai -m space --focus 9
+
+cmd + ctrl + shift - 1 : yabai -m window --space 1; yabai -m space --focus 1
+cmd + ctrl + shift - 2 : yabai -m window --space 2; yabai -m space --focus 2
+cmd + ctrl + shift - 3 : yabai -m window --space 3; yabai -m space --focus 3
+cmd + ctrl + shift - 4 : yabai -m window --space 4; yabai -m space --focus 4
+cmd + ctrl + shift - 5 : yabai -m window --space 5; yabai -m space --focus 5
+cmd + ctrl + shift - 6 : yabai -m window --space 6; yabai -m space --focus 6
+cmd + ctrl + shift - 7 : yabai -m window --space 7; yabai -m space --focus 7
+cmd + ctrl + shift - 8 : yabai -m window --space 8; yabai -m space --focus 8
+cmd + ctrl + shift - 9 : yabai -m window --space 9; yabai -m space --focus 9
+
+cmd + ctrl - tab       : yabai -m space --focus recent
+cmd + ctrl - 0x32      : yabai -m display --focus next

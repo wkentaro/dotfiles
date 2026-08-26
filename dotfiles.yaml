@@ -16,6 +16,10 @@ config/acron/config.toml:
   .config/acron/config.toml
 config/aerospace/aerospace.toml:
   .config/aerospace/aerospace.toml
+config/yabai/yabairc:
+  .config/yabai/yabairc
+config/skhd/skhdrc:
+  .config/skhd/skhdrc
 config/karabiner:
   .config/karabiner
 config/nix:

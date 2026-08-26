@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+yabai -m config \
+    layout bsp \
+    split_type auto \
+    auto_balance off \
+    window_placement second_child \
+    window_insertion_point focused \
+    top_padding 10 \
+    bottom_padding 10 \
+    left_padding 10 \
+    right_padding 10 \
+    window_gap 10 \
+    mouse_follows_focus off \
+    focus_follows_mouse off
+
+borders active_color=0xff737373 inactive_color=0x00000000 width=8.0 &

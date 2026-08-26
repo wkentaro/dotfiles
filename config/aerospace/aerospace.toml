@@ -2,7 +2,7 @@
 # Use Command where it is safe, and add Control where plain Command belongs to macOS.
 
 config-version = 2
-start-at-login = true
+start-at-login = false
 auto-reload-config = true
 after-startup-command = [
     'exec-and-forget borders active_color=0xff737373 inactive_color=0x00000000 width=8.0',
