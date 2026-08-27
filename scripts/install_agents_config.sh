@@ -31,17 +31,20 @@ _install_ponytail() {
 
 main() {
   npx skills add "wkentaro/skills" -s "*" -g -a claude-code codex -y
-  npx skills remove to-html -g -y
+  npx skills remove to-html coin -g -y
 
   npx skills add "coreyhaines31/makerskills" -s decide maker-council social-fetch watch-video -g -a claude-code codex -y
 
-  npx skills add "kunchenguid/vision" -s "vision" -g -a claude-code codex -y
+  # npx skills add "kunchenguid/vision" -s "vision" -g -a claude-code codex -y
+  npx skills remove vision -g -y
 
   _install_brooks_lint
 
   _install_attention_span
   npx skills add "ayghri/i-have-adhd" -s "i-have-adhd" -g -a claude-code codex -y
-  npx skills add "dmmulroy/skills" -s "bro" -g -a claude-code codex -y
+
+  # npx skills add "dmmulroy/skills" -s "bro" -g -a claude-code codex -y
+  npx skills remove bro -g -y
 
   npx skills add "https://github.com/mattpocock/skills/tree/v1.2.3/skills/engineering" -s "*" -g -a claude-code codex -y
   npx skills add "https://github.com/mattpocock/skills/tree/v1.2.3/skills/productivity" -s "*" -g -a claude-code codex -y
@@ -51,7 +54,8 @@ main() {
 
   npx skills add "pbakaus/impeccable" -s "impeccable" -g -a claude-code codex -y
 
-  npx skills add "OutThisLife/brooklyn-skills" -s "list-open-work" -g -a claude-code codex -y
+  # npx skills add "OutThisLife/brooklyn-skills" -s "list-open-work" -g -a claude-code codex -y
+  npx skills remove list-open-work -g -y
 
   npx skills add "humanlayer/skills" -s "show-me" -g -a claude-code codex -y
 
