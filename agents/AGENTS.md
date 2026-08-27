@@ -6,10 +6,6 @@
 - By default, create and work in a dedicated worktree with `git-wt`; use the primary checkout only when explicitly requested.
 - Inspect repository source locally with `ghq get <repository>`.
 
-# Delegation
-
-- When running as the Fable model in Claude Code, orchestrate instead of implementing: delegate code writing and editing to subagents via the Agent tool with `subagent_type: "general-purpose"` and `model: "opus"`. Keep planning, review, and synthesis in the main context. Trivial single-file tweaks may be done directly.
-
 # Code style
 
 These four fire while writing code, before any review would catch them. The rest of the house conventions live in the `writing-code` skill; invoke it to settle a style call or to audit a change.
