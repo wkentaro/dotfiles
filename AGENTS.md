@@ -1,9 +1,5 @@
 # Agent instructions
 
-## Remote access
-
-Work only on the local computer. Never use SSH to connect to another computer.
-
 ## Agent skills
 
 ### Issue tracker

@@ -1,3 +1,7 @@
+# Remote access
+
+Work only on the local computer. Never use SSH to connect to another computer.
+
 # Git
 
 - Commit with the configured Git author; omit `Co-authored-by` trailers.
