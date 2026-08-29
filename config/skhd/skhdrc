@@ -7,7 +7,7 @@ cmd + shift - b      : space=$(yabai -m query --windows --window 2>/dev/null | j
 # Return to BSP and rotate its tree through four orientations.
 cmd + ctrl - j : yabai -m query --spaces --space | jq -e '.type == "bsp"' >/dev/null || yabai -m space --layout bsp; yabai -m space --rotate 270
 cmd + ctrl - l : yabai -m space --layout "$(yabai -m query --spaces --space | jq -r 'if .type == "stack" then "bsp" else "stack" end')"
-cmd + ctrl - t : yabai -m window --toggle float
+cmd + ctrl - t : yabai -m window --toggle float && "$HOME/.local/bin/set-yabai-border-color"
 cmd + ctrl - f : yabai -m window --toggle zoom-fullscreen
 cmd + ctrl - b : yabai -m space --balance
 

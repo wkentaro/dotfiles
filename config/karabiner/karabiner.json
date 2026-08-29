@@ -14,7 +14,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "/usr/bin/pgrep -x yabai >/dev/null && /opt/homebrew/bin/yabai --stop-service || /opt/homebrew/bin/yabai --start-service"
+                                        "shell_command": "if /usr/bin/pgrep -x yabai >/dev/null; then /opt/homebrew/bin/yabai --stop-service && $HOME/.local/bin/set-yabai-border-color; else /opt/homebrew/bin/yabai --start-service; fi"
                                     }
                                 ],
                                 "type": "basic"

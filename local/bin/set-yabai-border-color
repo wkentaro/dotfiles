@@ -1,0 +1,8 @@
+#!/bin/sh
+
+color=$(
+    /opt/homebrew/bin/yabai -m query --windows --window 2>/dev/null |
+        /opt/homebrew/bin/jq -er 'if ."is-floating" then "0xff0a84ff" else "0xff737373" end'
+) || color=0xff0a84ff
+
+/opt/homebrew/bin/borders active_color="$color" inactive_color=0x00000000 width=8.0 &
