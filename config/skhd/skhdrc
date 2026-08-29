@@ -3,6 +3,7 @@
 cmd + shift - return : open -na WezTerm
 # Launch in the background so macOS cannot switch to the browser's existing Space.
 cmd + shift - b      : space=$(yabai -m query --windows --window 2>/dev/null | jq -er .space) || space=$(yabai -m query --spaces --space | jq -r .index); label=open-brave-here-$$; if yabai -m rule --add --one-shot label="$label" app="^Brave Browser$" space="$space" && open -gna "Brave Browser" --args --new-window; then tries=0; while yabai -m rule --list | jq -e --arg label "$label" '.[] | select(.label == $label)' >/dev/null && [ "$tries" -lt 100 ]; do sleep 0.05; tries=$((tries + 1)); done; yabai -m rule --remove "$label" 2>/dev/null || yabai -m window --focus "$(yabai -m query --spaces --space "$space" | jq -r '."last-window"')"; fi
+cmd + shift - x : open -na X
 
 # Return to BSP and rotate its tree through four orientations.
 cmd + ctrl - j : yabai -m query --spaces --space | jq -e '.type == "bsp"' >/dev/null || yabai -m space --layout bsp; yabai -m space --rotate 270
