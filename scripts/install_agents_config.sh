@@ -22,11 +22,15 @@ _install_attention_span() (
 )
 
 _install_ponytail() {
-  claude plugin marketplace add "DietrichGebert/ponytail"
-  claude plugin install "ponytail@ponytail" --scope user --yes
+  if command -v claude >/dev/null; then
+    claude plugin marketplace add "DietrichGebert/ponytail"
+    claude plugin install "ponytail@ponytail" --scope user --yes
+  fi
 
-  codex plugin marketplace add "DietrichGebert/ponytail"
-  codex plugin add "ponytail@ponytail"
+  if command -v codex >/dev/null; then
+    codex plugin marketplace add "DietrichGebert/ponytail"
+    codex plugin add "ponytail@ponytail"
+  fi
 }
 
 main() {
