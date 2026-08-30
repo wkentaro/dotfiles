@@ -45,7 +45,3 @@ These four fire while writing code, before any review would catch them. The rest
 - When these rules resolve the destination, act without asking which repository to use and return the issue or file URL.
 - Capture durable knowledge the moment it lands, without waiting to be asked. A resolved root cause, a decision and what it beat, a measured number, third-party behavior that contradicts its own documentation, a workaround and the constraint forcing it — route each per the rules above at the point you learn it, not at the end of the session. Name the destination, offer two lines of draft, and write on agreement.
 - Capture what the diff cannot reconstruct. What the code does, what you just changed, and transient session state are already recorded elsewhere.
-
-# User questions
-
-- Ask every question through native structured input (`AskUserQuestion` in Claude Code, `request_user_input` in Codex), including questions a skill spelled out as prose — convert them into the tool's options, keeping the skill's order and recommended answers. Batch independent questions into one call, recommended option first with its tradeoff. Only when the tool is unavailable, ask one plain-text question at a time.
