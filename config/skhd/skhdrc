@@ -1,4 +1,4 @@
-# Omarchy Quattro-style window management through yabai.
+# Omarchy Quattro-style window management through yabai with native Space fallbacks.
 
 cmd + shift - return : open -na WezTerm
 # Launch in the background so macOS cannot switch to the browser's existing Space.
@@ -12,8 +12,8 @@ cmd + ctrl - t : yabai -m window --toggle float && "$HOME/.local/bin/set-yabai-b
 cmd + ctrl - f : yabai -m window --toggle zoom-fullscreen
 cmd + ctrl - b : yabai -m space --balance
 
-cmd + ctrl - left  : yabai -m window --focus west  || yabai -m space --focus prev
-cmd + ctrl - right : yabai -m window --focus east  || yabai -m space --focus next
+cmd + ctrl - left  : yabai -m window --focus west  || yabai -m space --focus prev || skhd -k "ctrl - left"
+cmd + ctrl - right : yabai -m window --focus east  || yabai -m space --focus next || skhd -k "ctrl - right"
 cmd + ctrl - up    : yabai -m window --focus north
 cmd + ctrl - down  : yabai -m window --focus south
 
@@ -22,15 +22,15 @@ cmd + ctrl + shift - right : yabai -m window --swap east  || { yabai -m window -
 cmd + ctrl + shift - up    : yabai -m window --swap north
 cmd + ctrl + shift - down  : yabai -m window --swap south
 
-cmd + ctrl - 1 : yabai -m space --focus 1
-cmd + ctrl - 2 : yabai -m space --focus 2
-cmd + ctrl - 3 : yabai -m space --focus 3
-cmd + ctrl - 4 : yabai -m space --focus 4
-cmd + ctrl - 5 : yabai -m space --focus 5
-cmd + ctrl - 6 : yabai -m space --focus 6
-cmd + ctrl - 7 : yabai -m space --focus 7
-cmd + ctrl - 8 : yabai -m space --focus 8
-cmd + ctrl - 9 : yabai -m space --focus 9
+cmd + ctrl - 1 : yabai -m space --focus 1 || skhd -k "ctrl - 1"
+cmd + ctrl - 2 : yabai -m space --focus 2 || skhd -k "ctrl - 2"
+cmd + ctrl - 3 : yabai -m space --focus 3 || skhd -k "ctrl - 3"
+cmd + ctrl - 4 : yabai -m space --focus 4 || skhd -k "ctrl - 4"
+cmd + ctrl - 5 : yabai -m space --focus 5 || skhd -k "ctrl - 5"
+cmd + ctrl - 6 : yabai -m space --focus 6 || skhd -k "ctrl - 6"
+cmd + ctrl - 7 : yabai -m space --focus 7 || skhd -k "ctrl - 7"
+cmd + ctrl - 8 : yabai -m space --focus 8 || skhd -k "ctrl - 8"
+cmd + ctrl - 9 : yabai -m space --focus 9 || skhd -k "ctrl - 9"
 
 cmd + ctrl + shift - 1 : yabai -m window --space 1; yabai -m space --focus 1
 cmd + ctrl + shift - 2 : yabai -m window --space 2; yabai -m space --focus 2

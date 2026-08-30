@@ -1,5 +1,9 @@
 # Agent instructions
 
+## Git
+
+Work in the primary checkout; do not create or use Git worktrees.
+
 ## Agent skills
 
 ### Issue tracker
