@@ -2,7 +2,7 @@
 
 color=$(
     /opt/homebrew/bin/yabai -m query --windows --window 2>/dev/null |
-        /opt/homebrew/bin/jq -er 'if ."is-floating" then "0xff0a84ff" else "0xff737373" end'
+        /opt/homebrew/bin/jq -er 'if ."is-floating" then "0xff0a84ff" else "0xff89b4fa" end'
 ) || color=0x00000000
 
 /opt/homebrew/bin/borders active_color="$color" inactive_color=0x00000000 width=8.0 &
