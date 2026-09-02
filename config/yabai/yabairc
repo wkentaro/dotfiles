@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-yabai -m rule --add app="^(Python|python3)$" title="^Labelme($| - )" manage=off
+yabai -m rule --add app="^(Python|python3|Labelme)$" title="^Labelme($| - )" manage=off
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --apply
 
