@@ -43,5 +43,6 @@ cmd + ctrl + shift - 8 : yabai -m window --space 8; yabai -m space --focus 8
 cmd + ctrl + shift - 9 : yabai -m window --space 9; yabai -m space --focus 9
 
 cmd + ctrl - tab       : yabai -m space --focus recent
+cmd - 0x32             : yabai -m window --focus recent
 # ponytail: window focus handles macOS failures; use display focus when empty displays must work.
 cmd + ctrl - 0x32      : yabai -m window --focus "$(yabai -m query --windows | jq -r '(.[] | select(."has-focus").display) as $display | first(.[] | select(."is-visible" and .display != $display and .subrole == "AXStandardWindow")).id')"
