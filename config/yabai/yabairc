@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 
+yabai -m rule --add app="^(Python|python3)$" title="^Labelme($| - )" manage=off
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --apply
+
 yabai -m config \
     layout bsp \
     split_type auto \
