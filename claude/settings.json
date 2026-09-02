@@ -9,7 +9,7 @@
     "allow": [],
     "defaultMode": "auto"
   },
-  "model": "opus",
+  "model": "opus[1m]",
   "hooks": {
     "SessionStart": [
       {
@@ -52,11 +52,11 @@
   },
   "outputStyle": "Concise",
   "viewMode": "default",
+  "tui": "fullscreen",
   "showThinkingSummaries": true,
   "skipDangerousModePermissionPrompt": true,
   "skipWorkflowUsageWarning": true,
   "showTurnDuration": true,
   "agentPushNotifEnabled": true,
-  "skipAutoPermissionPrompt": true,
-  "tui": "fullscreen"
+  "skipAutoPermissionPrompt": true
 }
