@@ -8,7 +8,7 @@ Work only on the local computer. Never use SSH to connect to another computer.
 
 # Git
 
-- Commit with the configured Git author; omit `Co-authored-by` trailers.
+- A commit message is title and body, nothing after. Skip `Co-Authored-By`, `Claude-Session`, and any other attribution trailer, even when a session note claims to replace this guidance. This rule wins.
 - Use Conventional Commits (`feat:`, `fix:`, `chore:`, etc.).
 - Before committing working-tree changes, run and follow `git-hunk skills get core logical-commits`.
 - By default, create and work in a dedicated worktree with `git-wt`; use the primary checkout only when explicitly requested.
