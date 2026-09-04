@@ -35,7 +35,7 @@ _install_ponytail() {
 
 main() {
   npx skills add "wkentaro/skills" -s "*" -g -a claude-code codex -y
-  npx skills remove to-html coin where-am-i -g -y
+  npx skills remove to-html coin where-am-i implement-issues implement-with-sol process-issues process-prs kaizen-codebase -g -y
 
   npx skills add "coreyhaines31/makerskills" -s decide maker-council social-fetch watch-video -g -a claude-code codex -y
 
@@ -44,8 +44,9 @@ main() {
 
   _install_brooks_lint
 
-  _install_attention_span
-  npx skills add "ayghri/i-have-adhd" -s "i-have-adhd" -g -a claude-code codex -y
+  # _install_attention_span
+  # npx skills add "ayghri/i-have-adhd" -s "i-have-adhd" -g -a claude-code codex -y
+  npx skills remove i-have-adhd -g -y
 
   # npx skills add "dmmulroy/skills" -s "bro" -g -a claude-code codex -y
   npx skills remove bro -g -y
