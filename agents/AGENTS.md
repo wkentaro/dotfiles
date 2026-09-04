@@ -1,6 +1,6 @@
 # Subagent
 
-If you're fable and launching subagents, use model opus by default.
+If you're fable and launching subagents, use model sonnet by default.
 
 # Remote access
 
