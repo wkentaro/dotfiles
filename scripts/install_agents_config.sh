@@ -34,6 +34,8 @@ _install_ponytail() {
 }
 
 main() {
+  npx skills add "vercel-labs/before-and-after#main" -g -a claude-code codex -y
+
   npx skills add "wkentaro/skills" -s "*" -g -a claude-code codex -y
   npx skills remove to-html coin where-am-i implement-issues implement-with-sol process-issues process-prs kaizen-codebase -g -y
 
