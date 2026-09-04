@@ -52,7 +52,7 @@ main() {
 
   npx skills add "https://github.com/mattpocock/skills/tree/v1.2.3/skills/engineering" -s "*" -g -a claude-code codex -y
   npx skills add "https://github.com/mattpocock/skills/tree/v1.2.3/skills/productivity" -s "*" -g -a claude-code codex -y
-  npx skills remove ask-matt wait-what -g -y
+  npx skills remove ask-matt implement teach -g -y
 
   npx skills add "jnsahaj/skills" -s "zero-tech-debt" -g -a claude-code codex -y
 
