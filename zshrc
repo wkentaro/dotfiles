@@ -396,9 +396,12 @@ if (( $+commands[git-wt] )); then
 fi
 
 alias cc="claude --allow-dangerously-skip-permissions"
-alias fable="claude --allow-dangerously-skip-permissions --model fable"
 alias ca="claude agents"
 alias cx="codex --yolo"
+
+alias fable="cc --model fable"
+alias sol="cx --model gpt-5.6-sol"
+alias luna="cx --model gpt-5.6-luna"
 
 alias fpp='FPP_EDITOR=~/.local/bin/fpp-copy command fpp -ni'
 
