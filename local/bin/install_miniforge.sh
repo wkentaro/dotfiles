@@ -25,11 +25,7 @@ else
     URL="https://github.com/conda-forge/miniforge/releases/download/${VERSION}/Miniforge3-$(uname)-$(uname -m).sh"
 fi
 
-if which wget &>/dev/null; then
-  wget --no-check-certificate -q $URL -O miniforge.sh
-else
-  curl -s -L $URL -o miniforge.sh
-fi
+curl -fsSL $URL -o miniforge.sh
 
 unset PYTHONPATH
 

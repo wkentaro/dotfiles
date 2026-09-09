@@ -16,7 +16,7 @@ fi
 TMPDIR=$(mktemp -d)
 cd $TMPDIR
 
-wget -q https://github.com/adobe-fonts/source-code-pro/archive/2.010R-ro/1.030R-it.zip
+curl -fsSL -O https://github.com/adobe-fonts/source-code-pro/archive/2.010R-ro/1.030R-it.zip
 unzip -qq 1.030R-it.zip
 
 mkdir -p ~/.fonts

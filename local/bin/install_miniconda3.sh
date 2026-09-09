@@ -25,11 +25,7 @@ else
   exit 0
 fi
 
-if which wget &>/dev/null; then
-  wget --no-check-certificate -q $URL -O miniconda3.sh
-else
-  curl -s -L $URL -o miniconda3.sh
-fi
+curl -fsSL $URL -o miniconda3.sh
 
 unset PYTHONPATH
 

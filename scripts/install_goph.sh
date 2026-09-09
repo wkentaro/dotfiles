@@ -7,4 +7,4 @@ fi
 set -e
 
 sudo apt-get install dconf-cli uuid-runtime
-bash -c  "$(wget -qO- https://git.io/vQgMr)"
+bash -c  "$(curl -fsSL https://git.io/vQgMr)"

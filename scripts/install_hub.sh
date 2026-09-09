@@ -11,7 +11,7 @@ VERSION='2.14.2'
 
 cd $TMPDIR
 URL="https://github.com/github/hub/releases/download/v$VERSION/hub-linux-amd64-$VERSION.tgz"
-wget -q $URL -O hub-linux-amd64-$VERSION.tgz
+curl -fsSL $URL -o hub-linux-amd64-$VERSION.tgz
 tar zxf hub-linux-amd64-$VERSION.tgz
 
 cd hub-linux-amd64-$VERSION
