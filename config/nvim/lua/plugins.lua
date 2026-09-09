@@ -662,7 +662,7 @@ require("packer").startup(function()
       {"neovim/nvim-lspconfig"},
       {"hrsh7th/cmp-nvim-lsp"},
       -- {"ray-x/lsp_signature.nvim"},
-      {'nvim-treesitter/nvim-treesitter', run=':TSUpdate'},
+      {'nvim-treesitter/nvim-treesitter', branch='main', run=':TSUpdate'},
       -- {'rmagatti/goto-preview'},
     },
     config = function()
