@@ -431,7 +431,6 @@ require("packer").startup(function()
             },
           },
           history = {
-            path = '~/.local/share/nvim/databases/telescope_history.sqlite3',
             limit = 100,
           },
           mappings = {
@@ -726,12 +725,10 @@ require("packer").startup(function()
       -- vim.keymap.set('n', 'g]', '<cmd>lua vim.diagnostic.goto_next()<CR>')
       -- vim.keymap.set('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
 
-      require('nvim-treesitter.configs').setup {
-        ensure_installed = { "python", "comment" },
-        highlight = {
-          enable = true,
-        },
-      }
+      require('nvim-treesitter').install { "python", "comment" }
+      vim.api.nvim_create_autocmd('FileType', {
+        callback = function() pcall(vim.treesitter.start) end,
+      })
 
       -- require('goto-preview').setup()
       -- vim.keymap.set('n', '<leader>d', require('goto-preview').goto_preview_definition)
