@@ -19,115 +19,7 @@ alias py='python'
 alias ipy='ipython'
 
 # herdr
-list_herdr_sessions() {
-  local sessions
-  sessions=$(herdr session list --json | jq -r '.sessions[] | [.name, (if .running then "running" else "stopped" end), .session_dir, .socket_path] | @tsv') || return
-  print -r -- $'NAME\tSTATUS\tDIRECTORY\tSOCKET\n'"$sessions" | column -t -s $'\t'
-}
-alias hl='list_herdr_sessions'
-select_herdr_session() {
-  local jq_filter="$1"
-  local query="${2:-}"
-  local sessions
-  sessions=$(herdr session list --json 2>/dev/null | jq -r "$jq_filter | [.name, (if .running then \"running\" else \"stopped\" end), .session_dir, .socket_path] | @tsv") || sessions=
-  if [[ -z "$sessions" ]]; then
-    return 3
-  fi
-
-  local rows=$'NAME\tSTATUS\tDIRECTORY\tSOCKET\n'"$sessions"
-  local selected
-  selected=$(paste <(print -r -- "$rows") <(print -r -- "$rows" | column -t -s $'\t') | fzf --query="$query" \
-    --exact --no-sort --cycle --keep-right \
-    --bind=ctrl-z:ignore,btab:up,tab:down \
-    --border=sharp --height=45% --info=inline --layout=reverse \
-    --delimiter=$'\t' --with-nth=5 --accept-nth=1 --header-lines=1 \
-    --preview='printf "Name: %s\nStatus: %s\nDirectory: %s\nSocket: %s\n" {1} {2} {3} {4}' \
-    --preview-window=down,30%,sharp)
-  local selection_status=$?
-  if (( selection_status == 1 )); then
-    print -u2 'No matching Herdr sessions.'
-    return 1
-  fi
-  (( selection_status == 0 )) || return "$selection_status"
-  print -r -- "$selected"
-}
-open_herdr_session() {
-  local session
-  session=$(select_herdr_session '.sessions[]' "${1:-}")
-  local selection_status=$?
-  if (( selection_status == 3 )); then
-    print -u2 'No Herdr sessions. Start one with hn <name>.'
-    return 1
-  fi
-  (( selection_status == 0 )) || return "$selection_status"
-  [[ -n "$session" ]] && herdr session attach "$session"
-}
-alias h='open_herdr_session'
-start_herdr_session() {
-  if (( $# == 0 )); then
-    print -u2 'Please specify session name.'
-    return 1
-  fi
-  herdr --session "$1"
-}
-alias hn='start_herdr_session'
-rename_herdr_session() {
-  if (( $# != 2 )); then
-    print -u2 'Usage: hr <current-name> <new-name>'
-    return 1
-  fi
-
-  local source="$1"
-  local target="$2"
-  local sessions
-  sessions=$(herdr session list --json) || return
-  if ! jq -e --arg name "$source" '.sessions[] | select(.name == $name and .running)' <<<"$sessions" >/dev/null; then
-    print -u2 "Herdr session is not running: $source"
-    return 1
-  fi
-  if jq -e --arg name "$target" '.sessions[] | select(.name == $name)' <<<"$sessions" >/dev/null; then
-    print -u2 "Herdr session already exists: $target"
-    return 1
-  fi
-  herdr --session "$target" --version >/dev/null || return
-
-  local temp_dir
-  temp_dir=$(mktemp -d "${TMPDIR:-/tmp}/herdr-rename.XXXXXX") || return
-  local wrapper="$temp_dir/$target"
-  if ! print -rl -- '#!/bin/sh' 'export HERDR_SESSION="${0##*/}"' 'exec "$HOME/.local/bin/herdr" "$@"' >"$wrapper" || ! chmod 700 "$wrapper"; then
-    rm -f -- "$wrapper"
-    rmdir -- "$temp_dir"
-    return 1
-  fi
-
-  herdr --session "$source" server live-handoff --import-exe "$wrapper"
-  local handoff_status=$?
-  rm -f -- "$wrapper"
-  rmdir -- "$temp_dir"
-  (( handoff_status == 0 )) || return "$handoff_status"
-  [[ "$source" == default ]] || herdr session delete "$source" || return
-  print "Reattach with: herdr session attach $target"
-}
-alias hr='rename_herdr_session'
-kill_herdr_session() {
-  local session
-  session=$(select_herdr_session '.sessions[]' "${1:-}")
-  local selection_status=$?
-  if (( selection_status == 3 )); then
-    print -u2 'No Herdr sessions.'
-    return 1
-  fi
-  (( selection_status == 0 )) || return "$selection_status"
-
-  local is_running
-  is_running=$(herdr session list --json 2>/dev/null | jq -r --arg name "$session" '.sessions[] | select(.name == $name) | .running') || return
-  if [[ "$is_running" == true ]]; then
-    herdr session stop "$session" || return
-  fi
-  [[ "$session" == default ]] && return
-  herdr session delete "$session"
-}
-alias hk='kill_herdr_session'
+alias h='herdr'
 
 # tmux
 list_tmux_sessions() {
@@ -174,8 +66,8 @@ open_tmux_session() {
   session=$(select_tmux_session "${1:-}")
   local selection_status=$?
   if (( selection_status == 3 )); then
-    print -u2 'No tmux sessions. Start one with tn <name>.'
-    return 1
+    start_tmux_session "${1:-default}"
+    return 0
   fi
   (( selection_status == 0 )) || return "$selection_status"
   [[ -n "$session" ]] || return
