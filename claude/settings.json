@@ -52,12 +52,12 @@
   },
   "outputStyle": "Concise",
   "viewMode": "default",
+  "feedbackDrafts": "off",
   "tui": "fullscreen",
   "showThinkingSummaries": true,
   "skipDangerousModePermissionPrompt": true,
   "skipWorkflowUsageWarning": true,
   "showTurnDuration": true,
   "agentPushNotifEnabled": true,
-  "skipAutoPermissionPrompt": true,
-  "feedbackDrafts": "off"
+  "skipAutoPermissionPrompt": true
 }
