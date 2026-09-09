@@ -120,6 +120,7 @@ toggle_sidebar = ["prefix+b", "alt+b"]
 pane_gaps = false
 # tmux-style: dividers between panes only, no frame around the pane area.
 pane_outer_borders = false
+pane_scrollbars = false
 #dim_unfocused_panes = true
 # Sidebar width (auto-scaled based on workspace names, this sets the default)
 # sidebar_width = 26
