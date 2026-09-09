@@ -1,48 +1,36 @@
 # Omarchy Quattro-style window management through yabai with native Space fallbacks.
 
-cmd + shift - return : open -na WezTerm
+alt - return : open -na WezTerm
 # Launch in the background so macOS cannot switch to the browser's existing Space.
-cmd + shift - b      : space=$(yabai -m query --windows --window 2>/dev/null | jq -er .space) || space=$(yabai -m query --spaces --space | jq -r .index); label=open-brave-here-$$; if yabai -m rule --add --one-shot label="$label" app="^Brave Browser$" space="$space" && open -gna "Brave Browser" --args --new-window; then tries=0; while yabai -m rule --list | jq -e --arg label "$label" '.[] | select(.label == $label)' >/dev/null && [ "$tries" -lt 100 ]; do sleep 0.05; tries=$((tries + 1)); done; yabai -m rule --remove "$label" 2>/dev/null || yabai -m window --focus "$(yabai -m query --spaces --space "$space" | jq -r '."last-window"')"; fi
-cmd + shift - x : open -na X
+alt + shift - return      : space=$(yabai -m query --windows --window 2>/dev/null | jq -er .space) || space=$(yabai -m query --spaces --space | jq -r .index); label=open-brave-here-$$; if yabai -m rule --add --one-shot label="$label" app="^Brave Browser$" space="$space" && open -gna "Brave Browser" --args --new-window; then tries=0; while yabai -m rule --list | jq -e --arg label "$label" '.[] | select(.label == $label)' >/dev/null && [ "$tries" -lt 100 ]; do sleep 0.05; tries=$((tries + 1)); done; yabai -m rule --remove "$label" 2>/dev/null || yabai -m window --focus "$(yabai -m query --spaces --space "$space" | jq -r '."last-window"')"; fi
 
-# Return to BSP and rotate its tree through four orientations.
-cmd + ctrl - j : yabai -m query --spaces --space | jq -e '.type == "bsp"' >/dev/null || yabai -m space --layout bsp; yabai -m space --rotate 270
-cmd + ctrl - l : yabai -m space --layout "$(yabai -m query --spaces --space | jq -r 'if .type == "stack" then "bsp" else "stack" end')"
-cmd + ctrl - t : yabai -m window --toggle float && "$HOME/.local/bin/set-yabai-border-color"
-cmd + ctrl - f : yabai -m window --toggle zoom-fullscreen
-cmd + ctrl - b : yabai -m space --balance
+# Return to BSP so split toggling also works from stack layout.
+alt - j : yabai -m query --spaces --space | jq -e '.type == "bsp"' >/dev/null || yabai -m space --layout bsp; yabai -m window --toggle split; "$HOME/.local/bin/set-yabai-border-color"
+alt - t : yabai -m window --toggle float && "$HOME/.local/bin/set-yabai-border-color"
+alt + shift - t : "$HOME/.local/bin/toggle-yabai-layout"
+alt - f : yabai -m window --toggle zoom-fullscreen
+alt - b : yabai -m space --balance
 
-cmd + ctrl - left  : yabai -m window --focus west  || yabai -m space --focus prev || skhd -k "ctrl - left"
-cmd + ctrl - right : yabai -m window --focus east  || yabai -m space --focus next || skhd -k "ctrl - right"
-cmd + ctrl - up    : yabai -m window --focus north
-cmd + ctrl - down  : yabai -m window --focus south
+alt - left  : yabai -m window --focus west
+alt - right : yabai -m window --focus east
+alt - up    : yabai -m window --focus north
+alt - down  : yabai -m window --focus south
 
-cmd + ctrl + shift - left  : yabai -m window --swap west  || { yabai -m window --space prev && yabai -m space --focus prev; }
-cmd + ctrl + shift - right : yabai -m window --swap east  || { yabai -m window --space next && yabai -m space --focus next; }
-cmd + ctrl + shift - up    : yabai -m window --swap north
-cmd + ctrl + shift - down  : yabai -m window --swap south
+alt + shift - left  : yabai -m window --swap west
+alt + shift - right : yabai -m window --swap east
+alt + shift - up    : yabai -m window --swap north
+alt + shift - down  : yabai -m window --swap south
 
-cmd + ctrl - 1 : yabai -m space --focus 1 || skhd -k "ctrl - 1"
-cmd + ctrl - 2 : yabai -m space --focus 2 || skhd -k "ctrl - 2"
-cmd + ctrl - 3 : yabai -m space --focus 3 || skhd -k "ctrl - 3"
-cmd + ctrl - 4 : yabai -m space --focus 4 || skhd -k "ctrl - 4"
-cmd + ctrl - 5 : yabai -m space --focus 5 || skhd -k "ctrl - 5"
-cmd + ctrl - 6 : yabai -m space --focus 6 || skhd -k "ctrl - 6"
-cmd + ctrl - 7 : yabai -m space --focus 7 || skhd -k "ctrl - 7"
-cmd + ctrl - 8 : yabai -m space --focus 8 || skhd -k "ctrl - 8"
-cmd + ctrl - 9 : yabai -m space --focus 9 || skhd -k "ctrl - 9"
+alt - 1 : yabai -m space --focus 1 || skhd -k "ctrl - 1"
+alt - 2 : yabai -m space --focus 2 || skhd -k "ctrl - 2"
+alt - 3 : yabai -m space --focus 3 || skhd -k "ctrl - 3"
+alt - 4 : yabai -m space --focus 4 || skhd -k "ctrl - 4"
+alt - 5 : yabai -m space --focus 5 || skhd -k "ctrl - 5"
 
-cmd + ctrl + shift - 1 : yabai -m window --space 1; yabai -m space --focus 1
-cmd + ctrl + shift - 2 : yabai -m window --space 2; yabai -m space --focus 2
-cmd + ctrl + shift - 3 : yabai -m window --space 3; yabai -m space --focus 3
-cmd + ctrl + shift - 4 : yabai -m window --space 4; yabai -m space --focus 4
-cmd + ctrl + shift - 5 : yabai -m window --space 5; yabai -m space --focus 5
-cmd + ctrl + shift - 6 : yabai -m window --space 6; yabai -m space --focus 6
-cmd + ctrl + shift - 7 : yabai -m window --space 7; yabai -m space --focus 7
-cmd + ctrl + shift - 8 : yabai -m window --space 8; yabai -m space --focus 8
-cmd + ctrl + shift - 9 : yabai -m window --space 9; yabai -m space --focus 9
+alt + shift - 1 : yabai -m window --space 1; yabai -m space --focus 1
+alt + shift - 2 : yabai -m window --space 2; yabai -m space --focus 2
+alt + shift - 3 : yabai -m window --space 3; yabai -m space --focus 3
+alt + shift - 4 : yabai -m window --space 4; yabai -m space --focus 4
+alt + shift - 5 : yabai -m window --space 5; yabai -m space --focus 5
 
-cmd + ctrl - tab       : yabai -m space --focus recent
-cmd - 0x32             : yabai -m window --focus recent
-# ponytail: window focus handles macOS failures; use display focus when empty displays must work.
 cmd + ctrl - 0x32      : yabai -m window --focus "$(yabai -m query --windows | jq -r '(.[] | select(."has-focus").display) as $display | first(.[] | select(."is-visible" and .display != $display and .subrole == "AXStandardWindow")).id')"
