@@ -240,6 +240,8 @@ alias -g GM="origin/master"
 # copy
 if type pbcopy &>/dev/null; then
   alias -g C='| pbcopy' # osx
+elif type wl-copy &>/dev/null; then
+  alias -g C='| wl-copy --trim-newline' # wayland
 elif type xsel &>/dev/null; then
   alias -g C='| sed -z "$ s/\n$//" | xsel --input --clipboard'  # linux
 elif type putclip &>/dev/null; then
