@@ -26,6 +26,14 @@ config/peco:
   .config/peco
 config/rofi:
   .config/rofi
+claude/CLAUDE.md:
+  .claude/CLAUDE.md
+claude/settings.json:
+  .claude/settings.json
+claude/statusline-command.sh:
+  .claude/statusline-command.sh
+codex/AGENTS.md:
+  .codex/AGENTS.md
 gitconfig:
   .gitconfig
 gitmessage.txt:
