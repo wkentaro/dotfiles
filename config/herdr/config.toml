@@ -20,7 +20,7 @@ onboarding = false
 # red = "#ff6188"
 # green = "#a6e3a1"
 
-name = "catppuccin"
+name = "terminal"
 [terminal]
 # Executable used for new interactive panes.
 # Empty means $SHELL, then /bin/sh.
@@ -169,9 +169,6 @@ agent_panel_sort = "priority"
 
 [ui.sidebar.spaces]
 rows = [["state_icon", "workspace"]]
-
-[ui.sidebar.agents]
-visible = false
 
 [ui.toast]
 # off = disable pop-up notifications
