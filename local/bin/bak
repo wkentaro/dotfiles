@@ -2,12 +2,16 @@
 
 set -euo pipefail
 
-if [[ $# -ne 1 || ! -f $1 ]]; then
-  echo "Usage: $0 <file>" >&2
+if [[ $# -ne 1 || ( ! -f $1 && ! -d $1 ) ]]; then
+  echo "Usage: $0 <file-or-directory>" >&2
   exit 1
 fi
 
 file=$1
+# Keep the backup beside the source even when passed trailing slashes.
+while [[ $file == */ && $file != / ]]; do
+  file=${file%/}
+done
 backup="$file.$(date +%Y%m%d%H%M%S)"
 counter=1
 while [[ -e $backup ]]; do
@@ -15,5 +19,5 @@ while [[ -e $backup ]]; do
   ((counter++))
 done
 
-cp -- "$file" "$backup"
+mv -- "$file" "$backup"
 printf '%s\n' "$backup"
