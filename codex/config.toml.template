@@ -1,0 +1,69 @@
+# Portable preferences only. Codex adds machine-local state to this copy.
+
+service_tier = "default"
+model = "gpt-6-astra"
+model_reasoning_effort = "medium"
+suppress_unstable_features_warning = true
+
+[tui]
+status_line = ["model-with-reasoning", "current-dir", "git-branch", "context-used", "used-tokens", "pull-request-number", "weekly-limit"]
+status_line_use_colors = true
+session_picker_view = "comfortable"
+
+[features]
+hooks = true
+apps = false
+enable_mcp_apps = false
+js_repl = false
+default_mode_request_user_input = true
+context_management = true
+
+[marketplaces.ponytail]
+source_type = "git"
+source = "https://github.com/DietrichGebert/ponytail.git"
+
+[marketplaces.posthog]
+source_type = "git"
+source = "https://github.com/PostHog/ai-plugin.git"
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."computer-use@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."chrome@openai-bundled"]
+enabled = true
+
+[plugins."gmail@openai-curated-remote"]
+enabled = true
+
+[plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[plugins."ponytail@ponytail"]
+enabled = true
+
+[plugins."sites@openai-bundled"]
+enabled = true
+
+[plugins."unified-computer-use@openai-bundled"]
+enabled = true
