@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -euo pipefail
+
+if [[ $# -ne 1 || ! -f $1 ]]; then
+  echo "Usage: $0 <file>" >&2
+  exit 1
+fi
+
+file=$1
+backup="$file.$(date +%Y%m%d%H%M%S)"
+counter=1
+while [[ -e $backup ]]; do
+  backup="$file.$(date +%Y%m%d%H%M%S).$counter"
+  ((counter++))
+done
+
+cp -- "$file" "$backup"
+printf '%s\n' "$backup"
