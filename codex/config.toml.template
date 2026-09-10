@@ -2,7 +2,6 @@
 
 service_tier = "default"
 model = "gpt-6-astra"
-model_reasoning_effort = "medium"
 suppress_unstable_features_warning = true
 
 [tui]
