@@ -12,8 +12,8 @@ replaces TOML configuration.
 | Alt + T | Toggle one window between tiled and floating |
 | Alt + Shift + T | Toggle floating mode for the current workspace |
 | Alt + F | Toggle full width |
-| Alt + C | Center window |
-| Alt + equal / minus | Grow / shrink through preset widths |
+| Alt + Shift + 0 | Center window |
+| Alt + Shift + equal / minus | Grow / shrink through preset widths |
 | Alt + 1–5 | Switch Paneru virtual workspace |
 | Alt + Shift + 1–5 | Move window and follow |
 | Alt + scroll | Scroll columns |
