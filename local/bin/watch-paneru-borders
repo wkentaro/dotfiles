@@ -1,0 +1,60 @@
+#!/opt/homebrew/bin/python3
+
+import json
+import pathlib
+import signal
+import subprocess
+import sys
+import time
+
+
+def select_border_color(state: dict) -> str:
+    focused = state["active"]["focused_window_id"]
+    for workspace in state["virtual_workspaces"]:
+        for window in workspace["windows"]:
+            if focused is not None and window["window_id"] == focused:
+                return "0xff0a84ff" if window["floating"] else "0xff89b4fa"
+    return "0x00000000"
+
+
+def main() -> None:
+    if sys.argv[1:] == ["--check"]:
+        window = {"window_id": 1, "floating": False}
+        state = {"active": {"focused_window_id": 1}, "virtual_workspaces": [{"windows": [window]}]}
+        assert select_border_color(state) == "0xff89b4fa"
+        window["floating"] = True
+        assert select_border_color(state) == "0xff0a84ff"
+        state["active"]["focused_window_id"] = None
+        assert select_border_color(state) == "0x00000000"
+        state["active"]["focused_window_id"] = 2
+        assert select_border_color(state) == "0x00000000"
+        print("Border color checks passed")
+        return
+
+    signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
+    paneru = str(pathlib.Path.home() / ".cargo/bin/paneru")
+    border_args = ["/opt/homebrew/bin/borders", "inactive_color=0x00000000", "width=8.0"]
+    process = subprocess.Popen([*border_args, "active_color=0x00000000"])
+    try:
+        previous = None
+        while process.poll() is None:
+            try:
+                result = subprocess.run(
+                    [paneru, "query", "state", "--json"],
+                    capture_output=True, check=True, timeout=1,
+                )
+                color = select_border_color(json.loads(result.stdout))
+            except (subprocess.SubprocessError, OSError, ValueError, KeyError):
+                color = "0x00000000"
+            if color != previous:
+                subprocess.run([*border_args, f"active_color={color}"], check=True, timeout=2)
+                previous = color
+            # ponytail: poll at 5 Hz; use events when float changes reliably emit them.
+            time.sleep(0.2)
+    finally:
+        process.terminate()
+        process.wait()
+
+
+if __name__ == "__main__":
+    main()

@@ -12,8 +12,13 @@ config/herdr/config.toml:
   .config/herdr/config.toml
 config/acron/config.toml:
   .config/acron/config.toml
-config/yabai/yabairc:
-  .config/yabai/yabairc
+config/paneru/init.lua:
+  .config/paneru/init.lua
+config/paneru/float-workspace.lua:
+  .config/paneru/float-workspace.lua
+config/paneru/borders.plist:
+  name: Library/LaunchAgents/com.wkentaro.paneru-borders.plist
+  uname: macOS
 config/skhd/skhdrc:
   .config/skhd/skhdrc
 config/karabiner:

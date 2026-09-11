@@ -5,23 +5,6 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Toggle yabai window management",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "escape",
-                                    "modifiers": { "mandatory": ["command", "control"] }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "if /usr/bin/pgrep -x yabai >/dev/null; then /opt/homebrew/bin/yabai --stop-service && $HOME/.local/bin/set-yabai-border-color; else /opt/homebrew/bin/yabai --start-service; fi"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "コマンドキーを単体で押したときに、英数・かなキーを送信する。（左コマンドキーは英数、右コマンドキーはかな） (rev 3)",
                         "manipulators": [
                             {
