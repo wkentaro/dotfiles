@@ -7,14 +7,14 @@ paneru.setup {
         -- Keep numbered workspaces stable when their last window closes.
         reap_empty_workspaces = false,
     },
-    padding = { top = 10, bottom = 10, left = 10, right = 10 },
+    -- padding = { top = 10, bottom = 10, left = 10, right = 10 },
     swipe = { scroll = { modifier = "alt", vertical_modifier = "shift" } },
     bindings = {
         ["window focus west"] = "alt - leftarrow",
         ["window focus east"] = "alt - rightarrow",
         ["window swap west"] = "alt + shift - leftarrow",
         ["window swap east"] = "alt + shift - rightarrow",
-        ["window manage"] = "alt - t",
+        -- ["window manage"] = "alt - t",
         ["window fullwidth"] = "alt - f",
         ["window center"] = "alt + shift - 0",
         ["window grow"] = "alt + shift - equal",
