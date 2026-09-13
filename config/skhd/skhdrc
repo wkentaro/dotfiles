@@ -1,3 +1,28 @@
 alt - return : open -na WezTerm
 # Background launch avoids jumping to the browser's existing native Space.
 alt + shift - return : open -gna "Brave Browser" --args --new-window
+
+# Letters remain available for terminal pane navigation.
+alt - left : /opt/homebrew/bin/yabai -m window --focus west
+alt - down : /opt/homebrew/bin/yabai -m window --focus south
+alt - up : /opt/homebrew/bin/yabai -m window --focus north
+alt - right : /opt/homebrew/bin/yabai -m window --focus east
+alt + shift - left : /opt/homebrew/bin/yabai -m window --swap west
+alt + shift - down : /opt/homebrew/bin/yabai -m window --swap south
+alt + shift - up : /opt/homebrew/bin/yabai -m window --swap north
+alt + shift - right : /opt/homebrew/bin/yabai -m window --swap east
+alt - 1 : /opt/homebrew/bin/yabai -m space --focus 1
+alt - 2 : /opt/homebrew/bin/yabai -m space --focus 2
+alt - 3 : /opt/homebrew/bin/yabai -m space --focus 3
+alt - 4 : /opt/homebrew/bin/yabai -m space --focus 4
+alt - 5 : /opt/homebrew/bin/yabai -m space --focus 5
+alt + shift - 1 : /opt/homebrew/bin/yabai -m window --space 1
+alt + shift - 2 : /opt/homebrew/bin/yabai -m window --space 2
+alt + shift - 3 : /opt/homebrew/bin/yabai -m window --space 3
+alt + shift - 4 : /opt/homebrew/bin/yabai -m window --space 4
+alt + shift - 5 : /opt/homebrew/bin/yabai -m window --space 5
+# ctrl + cmd - t : /opt/homebrew/bin/yabai -m window --toggle float
+alt + ctrl - escape : "$HOME/.local/bin/toggle-yabai-tiling"
+alt - f : /opt/homebrew/bin/yabai -m window --toggle zoom-fullscreen
+ctrl + cmd - 0x18 : /opt/homebrew/bin/yabai -m window --resize right:40:0 || /opt/homebrew/bin/yabai -m window --resize left:-40:0
+ctrl + cmd - 0x1B : /opt/homebrew/bin/yabai -m window --resize right:-40:0 || /opt/homebrew/bin/yabai -m window --resize left:40:0

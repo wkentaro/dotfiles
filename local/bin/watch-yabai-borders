@@ -1,0 +1,65 @@
+#!/opt/homebrew/bin/python3
+
+import fcntl
+import json
+import pathlib
+import signal
+import subprocess
+import sys
+import time
+
+
+def select_border_color(window: dict, space: dict) -> str:
+    return "0xff0a84ff" if window["is-floating"] or space["type"] == "float" else "0xff89b4fa"
+
+
+def main() -> None:
+    if sys.argv[1:] == ["--check"]:
+        assert select_border_color({"is-floating": False}, {"type": "bsp"}) == "0xff89b4fa"
+        assert select_border_color({"is-floating": True}, {"type": "bsp"}) == "0xff0a84ff"
+        assert select_border_color({"is-floating": False}, {"type": "float"}) == "0xff0a84ff"
+        assert select_border_color({"is-floating": False}, {"type": "stack"}) == "0xff89b4fa"
+        print("Border color checks passed")
+        return
+
+    cache = pathlib.Path.home() / ".cache/yabai"
+    cache.mkdir(parents=True, exist_ok=True)
+    with (cache / "borders.lock").open("w") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            return
+        signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
+        border_args = ["/opt/homebrew/bin/borders", "inactive_color=0x00000000", "width=8.0", "ax_focus=on"]
+        process = None
+        try:
+            previous = None
+            while process is None or process.poll() is None:
+                try:
+                    window = json.loads(subprocess.check_output(
+                        ["/opt/homebrew/bin/yabai", "-m", "query", "--windows", "--window"],
+                        stderr=subprocess.DEVNULL, timeout=1,
+                    ))
+                    space = json.loads(subprocess.check_output(
+                        ["/opt/homebrew/bin/yabai", "-m", "query", "--spaces", "--space", str(window["space"])],
+                        stderr=subprocess.DEVNULL, timeout=1,
+                    ))
+                    color = select_border_color(window, space)
+                except (subprocess.SubprocessError, OSError, ValueError, KeyError):
+                    color = "0x00000000"
+                if color != previous:
+                    if process is None:
+                        process = subprocess.Popen([*border_args, f"active_color={color}"])
+                    else:
+                        subprocess.run([*border_args, f"active_color={color}"], check=True, timeout=2)
+                    previous = color
+                # ponytail: poll at 5 Hz; use events when every floating change emits one.
+                time.sleep(0.2)
+        finally:
+            if process is not None:
+                process.terminate()
+                process.wait()
+
+
+if __name__ == "__main__":
+    main()

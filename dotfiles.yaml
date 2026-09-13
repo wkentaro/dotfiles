@@ -21,6 +21,8 @@ config/paneru/borders.plist:
   uname: macOS
 config/skhd/skhdrc:
   .config/skhd/skhdrc
+config/yabai/yabairc:
+  .config/yabai/yabairc
 config/karabiner:
   .config/karabiner
 config/nix:

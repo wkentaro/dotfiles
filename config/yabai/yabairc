@@ -1,0 +1,21 @@
+#!/bin/sh
+set -eu
+export PATH="/opt/homebrew/bin:$PATH"
+
+yabai -m config layout bsp
+yabai -m config auto_balance on
+yabai -m config split_ratio 0.5
+yabai -m config window_gap 10
+yabai -m config top_padding 10
+yabai -m config bottom_padding 10
+yabai -m config left_padding 10
+yabai -m config right_padding 10
+yabai -m config focus_follows_mouse off
+yabai -m config mouse_follows_focus off
+yabai -m rule --add label=labelme app='^[Ll]abelme$' manage=off
+# Command-line Qt launches can inherit the Python application's name.
+yabai -m rule --add label=labelme-python app='^[Pp]ython([0-9.]+)?$' title='^Labelme($| - )' manage=off
+yabai -m rule --add label=settings app='^System Settings$' manage=off
+yabai -m rule --add label=utilities app='^(1Password|Calculator|Activity Monitor|AppCleaner|Karabiner-Elements|Karabiner-EventViewer|BetterTouchTool)$' manage=off
+
+"$HOME/.local/bin/watch-yabai-borders" &

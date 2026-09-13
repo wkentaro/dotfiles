@@ -1,0 +1,23 @@
+#!/bin/sh
+set -eu
+export PATH="/opt/homebrew/bin:$PATH"
+
+toggle_tiling() {
+    case "$(yabai -m config layout)" in
+        bsp) yabai -m config layout float ;;
+        float) yabai -m config layout bsp ;;
+        *) echo 'Expected the shared bsp or float layout.' >&2; return 1 ;;
+    esac
+}
+
+if [ "${1-}" = --check ]; then
+    original=$(yabai -m config layout)
+    trap 'yabai -m config layout "$original"' EXIT
+    toggle_tiling
+    test "$(yabai -m config layout)" != "$original"
+    toggle_tiling
+    test "$(yabai -m config layout)" = "$original"
+    echo 'Live tiling toggle round-trip passed.'
+else
+    toggle_tiling
+fi
