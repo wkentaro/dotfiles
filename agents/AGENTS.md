@@ -45,10 +45,11 @@ These four fire while writing code, before any review would catch them. The rest
 - Capture durable knowledge the moment it lands, without waiting to be asked. A resolved root cause, a decision and what it beat, a measured number, third-party behavior that contradicts its own documentation, a workaround and the constraint forcing it — route each per the rules above at the point you learn it, not at the end of the session. Name the destination, offer two lines of draft, and write on agreement.
 - Capture what the diff cannot reconstruct. What the code does, what you just changed, and transient session state are already recorded elsewhere.
 
-# Herdr
+# Default workflow
 
-- On a new session, check the tab title for the current project and update it if needed.
+- On a new session, check the tab title of `herdr`/`tmux` for the current project and update it if needed.
 - When user mentions doing something with herdr pane or tab, check `herdr --skill`. Do the same for `tmux`.
+- When using computer-use or browser-use for qa, try opening a separate window and interacting in the background not to block the user's work.
 
 # Default workflow per project
 
