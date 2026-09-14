@@ -44,3 +44,15 @@ These four fire while writing code, before any review would catch them. The rest
 - When these rules resolve the destination, act without asking which repository to use and return the issue or file URL.
 - Capture durable knowledge the moment it lands, without waiting to be asked. A resolved root cause, a decision and what it beat, a measured number, third-party behavior that contradicts its own documentation, a workaround and the constraint forcing it — route each per the rules above at the point you learn it, not at the end of the session. Name the destination, offer two lines of draft, and write on agreement.
 - Capture what the diff cannot reconstruct. What the code does, what you just changed, and transient session state are already recorded elsewhere.
+
+# Herdr
+
+- On a new session, check the tab title for the current project and update it if needed.
+- When user mentions doing something with herdr pane or tab, check `herdr --skill`. Do the same for `tmux`.
+
+# Default workflow per project
+
+- `wkentaro/labelme`, `wkentaro/labelme-io`:
+    - Use worktree with `git-wt` to isolate changes per work.
+- `wkentaro/secondbrain`:
+    - Use the primary checkout for all work.
