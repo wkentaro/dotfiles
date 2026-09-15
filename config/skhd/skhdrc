@@ -4,8 +4,8 @@ alt + shift - return : open -gna "Brave Browser" --args --new-window
 
 # Letters remain available for terminal pane navigation.
 alt - left : /opt/homebrew/bin/yabai -m window --focus west
-alt - down : /opt/homebrew/bin/yabai -m window --focus south
-alt - up : /opt/homebrew/bin/yabai -m window --focus north
+# alt - down : /opt/homebrew/bin/yabai -m window --focus south
+# alt - up : /opt/homebrew/bin/yabai -m window --focus north
 alt - right : /opt/homebrew/bin/yabai -m window --focus east
 alt + shift - left : /opt/homebrew/bin/yabai -m window --swap west
 alt + shift - down : /opt/homebrew/bin/yabai -m window --swap south
