@@ -21,7 +21,7 @@ Standard dialogs are already excluded by yabai's normal window eligibility rules
 | Option + arrows | Focus window |
 | Option + Shift + arrows | Swap windows |
 | Option + 1–5 | Focus existing macOS Space |
-| Option + Shift + 1–5 | Send window to Space without following |
+| Option + Shift + 1–5 | Send window to Space and follow it |
 | Control + Option + Escape | Toggle all Spaces between BSP and floating |
 | Option + F | Zoom tiled window within current Space |
 | Control + Command + equal / minus | Grow / shrink window horizontally |

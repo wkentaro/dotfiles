@@ -16,11 +16,11 @@ alt - 2 : /opt/homebrew/bin/yabai -m space --focus 2
 alt - 3 : /opt/homebrew/bin/yabai -m space --focus 3
 alt - 4 : /opt/homebrew/bin/yabai -m space --focus 4
 alt - 5 : /opt/homebrew/bin/yabai -m space --focus 5
-alt + shift - 1 : /opt/homebrew/bin/yabai -m window --space 1
-alt + shift - 2 : /opt/homebrew/bin/yabai -m window --space 2
-alt + shift - 3 : /opt/homebrew/bin/yabai -m window --space 3
-alt + shift - 4 : /opt/homebrew/bin/yabai -m window --space 4
-alt + shift - 5 : /opt/homebrew/bin/yabai -m window --space 5
+alt + shift - 1 : /opt/homebrew/bin/yabai -m window --space 1 --focus
+alt + shift - 2 : /opt/homebrew/bin/yabai -m window --space 2 --focus
+alt + shift - 3 : /opt/homebrew/bin/yabai -m window --space 3 --focus
+alt + shift - 4 : /opt/homebrew/bin/yabai -m window --space 4 --focus
+alt + shift - 5 : /opt/homebrew/bin/yabai -m window --space 5 --focus
 # ctrl + cmd - t : /opt/homebrew/bin/yabai -m window --toggle float
 alt + ctrl - escape : "$HOME/.local/bin/toggle-yabai-tiling"
 alt - f : /opt/homebrew/bin/yabai -m window --toggle zoom-fullscreen
