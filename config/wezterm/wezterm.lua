@@ -147,4 +147,9 @@ config.keys = {
   { key = 'w', mods = 'CTRL|SHIFT', action = wezterm.action.CloseCurrentTab { confirm = false } },
 }
 
+if not is_macos then
+  table.insert(config.keys, { key = 'Insert', mods = 'CTRL', action = wezterm.action.CopyTo 'Clipboard' })
+  table.insert(config.keys, { key = 'Insert', mods = 'SHIFT', action = wezterm.action.PasteFrom 'Clipboard' })
+end
+
 return config
