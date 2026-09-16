@@ -1,6 +1,6 @@
-alt - return : open -na WezTerm
+cmd + ctrl - t : open -na WezTerm
 # Background launch avoids jumping to the browser's existing native Space.
-alt + shift - return : open -gna "Brave Browser" --args --new-window
+cmd + ctrl - b : open -gna "Brave Browser" --args --new-window
 
 # Letters remain available for terminal pane navigation.
 alt - left : /opt/homebrew/bin/yabai -m window --focus west
@@ -24,5 +24,3 @@ alt + shift - 5 : /opt/homebrew/bin/yabai -m window --space 5 --focus
 # ctrl + cmd - t : /opt/homebrew/bin/yabai -m window --toggle float
 alt + ctrl - escape : "$HOME/.local/bin/toggle-yabai-tiling"
 alt - f : /opt/homebrew/bin/yabai -m window --toggle zoom-fullscreen
-ctrl + cmd - 0x18 : /opt/homebrew/bin/yabai -m window --resize right:40:0 || /opt/homebrew/bin/yabai -m window --resize left:-40:0
-ctrl + cmd - 0x1B : /opt/homebrew/bin/yabai -m window --resize right:-40:0 || /opt/homebrew/bin/yabai -m window --resize left:40:0
