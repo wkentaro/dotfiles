@@ -120,7 +120,9 @@ config.selection_word_boundary = ' \t\n{}[]()"\'-'
 local function send_herdr_key(sequence, fallback_key, fallback_mods)
   return wezterm.action_callback(function(window, pane)
     local process = pane:get_foreground_process_name() or ''
-    if process:match '/herdr$' then
+    -- ssh counts too: a remote herdr is invisible here, only the ssh client
+    -- shows as the foreground process.
+    if process:match '/herdr$' or process:match '/ssh$' then
       pane:send_text(sequence)
       return
     end
