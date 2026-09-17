@@ -10,6 +10,9 @@
     "defaultMode": "auto"
   },
   "model": "opus[1m]",
+  "attribution": {
+    "pr": ""
+  },
   "hooks": {
     "SessionStart": [
       {
