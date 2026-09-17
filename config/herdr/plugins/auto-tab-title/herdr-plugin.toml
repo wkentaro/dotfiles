@@ -1,0 +1,10 @@
+id = "wkentaro.auto-tab-title"
+name = "Auto Tab Title"
+version = "0.1.0"
+min_herdr_version = "0.9.0"
+description = "Names new agent tabs from their terminal titles."
+platforms = ["linux", "macos"]
+
+[[events]]
+on = "pane.agent_status_changed"
+command = ["sh", "rename-tab.sh"]

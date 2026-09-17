@@ -4,8 +4,10 @@ set -e
 
 VERSION=v0.9.0-fork.1
 EXPECTED_VERSION="herdr 0.9.0-fork.1"
+plugin_path="$(cd "$(dirname "$0")/.." && pwd)/config/herdr/plugins/auto-tab-title"
 
 if command -v herdr >/dev/null 2>&1 && [ "$(herdr --version 2>/dev/null)" = "$EXPECTED_VERSION" ]; then
+  herdr plugin link "$plugin_path" >/dev/null
   exit 0
 fi
 
@@ -38,3 +40,4 @@ printf '%s  %s\n' "$checksum" "${tmp_path}/herdr" | shasum -a 256 -c -
 
 mkdir -p "$HOME/.local/bin"
 install -m 0755 "${tmp_path}/herdr" "$HOME/.local/bin/herdr"
+herdr plugin link "$plugin_path" >/dev/null

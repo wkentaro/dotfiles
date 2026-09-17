@@ -47,7 +47,6 @@ These four fire while writing code, before any review would catch them. The rest
 
 # Default workflow
 
-- On a new session, check the tab title of `herdr`/`tmux` for the current project and update it if needed.
 - When user mentions doing something with herdr pane or tab, check `herdr --skill`. Do the same for `tmux`. Make sure you open in `codex --yolo` and `claude --allow-dangerously-skip-permissions`.
 - When using computer-use or browser-use for qa, try opening a separate window and interacting in the background not to block the user's work.
 
