@@ -5,6 +5,8 @@ set -eu
 status=$(printf '%s' "$HERDR_PLUGIN_EVENT_JSON" | jq -r '.data.agent_status // empty')
 [ "$status" = working ] || exit 0
 
+# Agent titles settle shortly after the working-state event.
+sleep 1
 pane=$("$HERDR_BIN_PATH" pane get "$HERDR_PANE_ID")
 tab_id=$(printf '%s' "$pane" | jq -r '.result.pane.tab_id // empty')
 title=$(printf '%s' "$pane" | jq -r '.result.pane.terminal_title_stripped // empty')
