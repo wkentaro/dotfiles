@@ -12,7 +12,7 @@ Issues are tracked in this repo's GitHub Issues, managed via the `gh` CLI. See `
 
 ### Triage labels
 
-Default five-role vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+Issue type, issue triage, and PR verdict labels are mapped in `docs/agents/triage-labels.md`.
 
 ### Domain docs
 
