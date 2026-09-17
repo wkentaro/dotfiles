@@ -16,6 +16,6 @@ yabai -m rule --add label=labelme app='^[Ll]abelme$' manage=off
 # Command-line Qt launches can inherit the Python application's name.
 yabai -m rule --add label=labelme-python app='^[Pp]ython([0-9.]+)?$' title='^Labelme($| - )' manage=off
 yabai -m rule --add label=settings app='^System Settings$' manage=off
-yabai -m rule --add label=utilities app='^(1Password|Calculator|Activity Monitor|AppCleaner|Karabiner-Elements|Karabiner-EventViewer|BetterTouchTool|LINE)$' manage=off
+yabai -m rule --add label=utilities app='^(1Password|Calculator|Activity Monitor|AppCleaner|Karabiner-Elements|Karabiner-EventViewer|BetterTouchTool|LINE|Finder)$' manage=off
 
 "$HOME/.local/bin/watch-yabai-borders" &
