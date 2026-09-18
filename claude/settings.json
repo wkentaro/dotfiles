@@ -5,14 +5,14 @@
     "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
     "CLAUDE_CODE_SUBAGENT_MODEL": "opus"
   },
+  "attribution": {
+    "pr": ""
+  },
   "permissions": {
     "allow": [],
     "defaultMode": "auto"
   },
   "model": "opus[1m]",
-  "attribution": {
-    "pr": ""
-  },
   "hooks": {
     "SessionStart": [
       {
