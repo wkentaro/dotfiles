@@ -397,13 +397,14 @@ if (( $+commands[git-wt] )); then
   }
 fi
 
-alias claude="claude --allow-dangerously-skip-permissions"
-alias fable="claude --model fable"
+alias cc="claude --allow-dangerously-skip-permissions"
+alias cx="codex --yolo"
 
-alias codex="codex --yolo"
-alias astra='codex --model gpt-6-astra -c model_reasoning_effort="high"'
-alias sol='codex --model gpt-5.6-sol -c model_reasoning_effort="high"'
-alias luna='codex --model gpt-5.6-luna -c model_reasoning_effort="high"'
+alias fable="cc --model fable"
+
+alias astra='cx --model gpt-6-astra -c model_reasoning_effort="high"'
+alias sol='cx --model gpt-5.6-sol -c model_reasoning_effort="high"'
+alias luna='cx --model gpt-5.6-luna -c model_reasoning_effort="high"'
 
 alias fpp='FPP_EDITOR=~/.local/bin/fpp-copy command fpp -ni'
 
