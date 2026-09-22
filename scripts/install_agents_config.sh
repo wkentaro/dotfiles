@@ -22,8 +22,7 @@ main() {
     npx skills add ./private/agents -g -a claude-code codex -y
   fi
 
-  # npx skills add "vercel-labs/before-and-after#main" -g -a claude-code codex -y
-  npx skills remove before-and-after -g -y
+  npx skills add "vercel-labs/before-and-after#main" -g -a claude-code codex -y
 
   npx skills add "humanlayer/skills" -s show-me -g -a claude-code codex -y
 
