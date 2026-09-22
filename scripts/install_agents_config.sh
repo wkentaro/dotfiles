@@ -15,7 +15,7 @@ _install_ponytail() {
 }
 
 main() {
-  npx skills add "wkentaro/skills" -g -a claude-code codex -y
+  npx skills add "wkentaro/agent-skills" -g -a claude-code codex -y
   npx skills remove where-am-i sending-pull-request -g -y
 
   if [ -d "./private" ]; then
