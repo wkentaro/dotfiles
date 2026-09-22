@@ -16,6 +16,7 @@ _install_ponytail() {
 
 main() {
   npx skills add "wkentaro/skills" -g -a claude-code codex -y
+  npx skills remove where-am-i -g -y
 
   npx skills add "vercel-labs/before-and-after#main" -g -a claude-code codex -y
 

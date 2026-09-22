@@ -401,6 +401,7 @@ alias cc="claude --allow-dangerously-skip-permissions"
 alias cx="codex --yolo"
 
 alias fable="cc --model fable"
+alias opus="cc --model opus"
 
 alias astra='cx --model gpt-6-astra -c model_reasoning_effort="high"'
 alias sol='cx --model gpt-5.6-sol -c model_reasoning_effort="high"'
