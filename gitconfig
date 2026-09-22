@@ -52,8 +52,7 @@
 [blame]
 	ignoreRevsFile = .git-blame-ignore-revs
 [wt]
-	copyignored = true
-	nocopy = .venv/
+	copy = .env
 [interactive]
 	diffFilter = delta --color-only
 [delta]
