@@ -35,6 +35,8 @@ main() {
 
   npx skills add "pbakaus/impeccable" -s "impeccable" -g -a claude-code codex -y
 
+  npx skills add "https://github.com/cursor/plugins/tree/main/pstack/skills/unslop" -g -a claude-code codex -y
+
   _install_ponytail
 }
 
