@@ -18,6 +18,10 @@ main() {
   npx skills add "wkentaro/skills" -g -a claude-code codex -y
   npx skills remove where-am-i -g -y
 
+  if [ -d "./private" ]; then
+    npx skills add ./private/agents -g -a claude-code codex -y
+  fi
+
   npx skills add "vercel-labs/before-and-after#main" -g -a claude-code codex -y
 
   npx skills add "humanlayer/skills" -s show-me -g -a claude-code codex -y
