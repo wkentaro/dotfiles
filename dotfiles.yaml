@@ -61,8 +61,6 @@ pdbrc:
   .pdbrc
 percol.d:
   .percol.d
-private/aicommits:
-  .aicommits
 private/aws:
   .aws
 private/cargo/credentials.toml:
