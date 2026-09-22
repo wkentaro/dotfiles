@@ -8,8 +8,8 @@ alt - left : /opt/homebrew/bin/yabai -m window --focus west
 # alt - up : /opt/homebrew/bin/yabai -m window --focus north
 alt - right : /opt/homebrew/bin/yabai -m window --focus east
 alt + shift - left : /opt/homebrew/bin/yabai -m window --swap west
-alt + shift - down : /opt/homebrew/bin/yabai -m window --swap south
-alt + shift - up : /opt/homebrew/bin/yabai -m window --swap north
+# alt + shift - down : /opt/homebrew/bin/yabai -m window --swap south
+# alt + shift - up : /opt/homebrew/bin/yabai -m window --swap north
 alt + shift - right : /opt/homebrew/bin/yabai -m window --swap east
 alt - 1 : /opt/homebrew/bin/yabai -m space --focus 1
 alt - 2 : /opt/homebrew/bin/yabai -m space --focus 2
