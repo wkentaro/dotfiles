@@ -51,8 +51,6 @@
 # 	template = ~/.gitmessage.txt
 [blame]
 	ignoreRevsFile = .git-blame-ignore-revs
-[wt]
-	copy = .env
 [interactive]
 	diffFilter = delta --color-only
 [delta]
@@ -64,3 +62,6 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !gh auth git-credential
+[wt]
+	copy = .env
+	copy = pb_data
