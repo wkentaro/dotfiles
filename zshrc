@@ -404,8 +404,8 @@ alias fable="cc --model fable"
 alias opus="cc --model opus"
 
 alias astra='cx --model gpt-6-astra -c model_reasoning_effort="high"'
-alias sol='cx --model gpt-5.6-sol -c model_reasoning_effort="high"'
-alias luna='cx --model gpt-5.6-luna -c model_reasoning_effort="high"'
+alias sol='cx --model gpt-6-sol -c model_reasoning_effort="high"'
+alias luna='cx --model gpt-6-luna -c model_reasoning_effort="high"'
 
 alias fpp='FPP_EDITOR=~/.local/bin/fpp-copy command fpp -ni'
 
