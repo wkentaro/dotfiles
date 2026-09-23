@@ -31,7 +31,7 @@ main() {
 
   npx skills add "https://github.com/mattpocock/skills/tree/v1.2.3/skills/engineering" -s "*" -g -a claude-code codex -y
   npx skills add "https://github.com/mattpocock/skills/tree/v1.2.3/skills/productivity" -s "*" -g -a claude-code codex -y
-  npx skills remove ask-matt implement teach tdd to-questionnaire -g -y
+  npx skills remove ask-matt implement teach tdd to-questionnaire wizard -g -y
   npx skills add "https://github.com/mattpocock/skills/tree/main/skills/in-progress" -s "pr" -g -a claude-code codex -y
 
   npx skills add "pbakaus/impeccable" -s "impeccable" -g -a claude-code codex -y
