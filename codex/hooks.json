@@ -1,0 +1,42 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "[ ! -f '/Users/wkentaro/.agents/skills/impeccable/scripts/hook.mjs' ] || node '/Users/wkentaro/.agents/skills/impeccable/scripts/hook.mjs'",
+            "commandWindows": "if exist \"/Users/wkentaro/.agents/skills/impeccable/scripts/hook.mjs\" (node \"/Users/wkentaro/.agents/skills/impeccable/scripts/hook.mjs\" & exit /b)",
+            "statusMessage": "Checking UI changes",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": "Edit|Write|apply_patch"
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "bash '/Users/wkentaro/.codex/herdr-agent-state.sh' session",
+            "timeout": 10,
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "command": "[ ! -f '/Users/wkentaro/.agents/skills/impeccable/scripts/hook.mjs' ] || node '/Users/wkentaro/.agents/skills/impeccable/scripts/hook.mjs'",
+            "commandWindows": "if exist \"/Users/wkentaro/.agents/skills/impeccable/scripts/hook.mjs\" (node \"/Users/wkentaro/.agents/skills/impeccable/scripts/hook.mjs\" & exit /b)",
+            "statusMessage": "Design deep pass",
+            "timeout": 30,
+            "type": "command"
+          }
+        ]
+      }
+    ]
+  }
+}

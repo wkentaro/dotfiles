@@ -44,6 +44,8 @@ claude/statusline-command.sh:
   .claude/statusline-command.sh
 codex/AGENTS.md:
   .codex/AGENTS.md
+codex/hooks.json:
+  .codex/hooks.json
 codex/config.toml.template:
   name: .codex/config.toml
   type: copy
