@@ -42,6 +42,8 @@ claude/settings.json:
   .claude/settings.json
 claude/statusline-command.sh:
   .claude/statusline-command.sh
+claude/hooks/herdr-tab-name.sh:
+  .claude/hooks/herdr-tab-name.sh
 codex/AGENTS.md:
   .codex/AGENTS.md
 codex/hooks.json:
