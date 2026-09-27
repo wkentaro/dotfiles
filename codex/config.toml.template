@@ -13,7 +13,6 @@ session_picker_view = "comfortable"
 hooks = true
 apps = false
 enable_mcp_apps = false
-js_repl = false
 default_mode_request_user_input = true
 context_management = true
 

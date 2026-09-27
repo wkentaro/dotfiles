@@ -55,8 +55,6 @@ gitconfig:
   .gitconfig
 gitmessage.txt:
   .gitmessage.txt
-gitignore_global:
-  .gitignore_global
 latexmkrc:
   .latexmkrc
 local/bin/*:
