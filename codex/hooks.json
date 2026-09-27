@@ -4,8 +4,8 @@
       {
         "hooks": [
           {
-            "command": "[ ! -f '/Users/wkentaro/.agents/skills/impeccable/scripts/hook.mjs' ] || node '/Users/wkentaro/.agents/skills/impeccable/scripts/hook.mjs'",
-            "commandWindows": "if exist \"/Users/wkentaro/.agents/skills/impeccable/scripts/hook.mjs\" (node \"/Users/wkentaro/.agents/skills/impeccable/scripts/hook.mjs\" & exit /b)",
+            "command": "[ ! -f \"$HOME/.agents/skills/impeccable/scripts/impeccable\" ] || \"$HOME/.agents/skills/impeccable/scripts/impeccable\" hook",
+            "commandWindows": "if exist \"%USERPROFILE%/.agents/skills/impeccable/scripts/impeccable.cmd\" (\"%USERPROFILE%/.agents/skills/impeccable/scripts/impeccable.cmd\" hook & exit /b)",
             "statusMessage": "Checking UI changes",
             "timeout": 5,
             "type": "command"
@@ -18,7 +18,7 @@
       {
         "hooks": [
           {
-            "command": "bash '/Users/wkentaro/.codex/herdr-agent-state.sh' session",
+            "command": "[ ! -f \"$HOME/.codex/herdr-agent-state.sh\" ] || bash \"$HOME/.codex/herdr-agent-state.sh\" session",
             "timeout": 10,
             "type": "command"
           }
@@ -29,8 +29,8 @@
       {
         "hooks": [
           {
-            "command": "[ ! -f '/Users/wkentaro/.agents/skills/impeccable/scripts/hook.mjs' ] || node '/Users/wkentaro/.agents/skills/impeccable/scripts/hook.mjs'",
-            "commandWindows": "if exist \"/Users/wkentaro/.agents/skills/impeccable/scripts/hook.mjs\" (node \"/Users/wkentaro/.agents/skills/impeccable/scripts/hook.mjs\" & exit /b)",
+            "command": "[ ! -f \"$HOME/.agents/skills/impeccable/scripts/impeccable\" ] || \"$HOME/.agents/skills/impeccable/scripts/impeccable\" hook",
+            "commandWindows": "if exist \"%USERPROFILE%/.agents/skills/impeccable/scripts/impeccable.cmd\" (\"%USERPROFILE%/.agents/skills/impeccable/scripts/impeccable.cmd\" hook & exit /b)",
             "statusMessage": "Design deep pass",
             "timeout": 30,
             "type": "command"
@@ -43,7 +43,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/.claude/hooks/herdr-tab-name.sh",
+            "command": "bash \"$HOME/.claude/hooks/herdr-tab-name.sh\"",
             "timeout": 5
           }
         ]
