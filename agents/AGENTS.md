@@ -53,7 +53,7 @@ These four fire while writing code, before any review would catch them. The rest
 
 # Default workflow per project
 
-- `wkentaro/labelme`, `wkentaro/labelme-io`:
+- Default:
     - Use worktree with `git-wt` to isolate changes per work.
 - `wkentaro/secondbrain`:
     - Use the primary checkout for all work.
