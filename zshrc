@@ -399,7 +399,6 @@ fi
 
 alias cp="cp -i"
 alias mv="mv -i"
-alias rm="rm -i"
 
 alias cc="claude --allow-dangerously-skip-permissions"
 alias cx="codex"
