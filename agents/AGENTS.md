@@ -1,59 +1,42 @@
-# Subagent
+## Creating a PR
 
-If you're fable and launching subagents, use model sonnet by default.
+1. Have Codex review the diff against the base branch (`codex exec review --base <base-branch> -m gpt-6.1-sol`) and fix every finding you verify. Repeat until the review finds nothing, for at most 3 rounds. List unresolved findings in the PR body.
+2. Create the PR with the `pr` skill.
+3. For user-visible UI changes, use the `before-and-after` skill to attach screenshots. Use an after-only preview for new UI. Skip states you can't reproduce.
+4. Run the `pr-review` skill in a Claude Fable subagent. Post its verdict as a PR comment that says it is an AI review and names the model, then apply the matching `recommend-*` label.
+5. On `recommend-revise`, fix the listed changes, push, and repeat step 4. On a second `recommend-revise` or any other non-merge verdict, stop and hand the PR to the user.
+6. The user handles approval and all merge actions.
 
-# Remote access
+## Working locally
 
-Work only on the local computer. Never use SSH to connect to another computer.
+- Work only on the local computer. Never open a remote shell, run commands on another machine, or copy files to or from one. Git remotes over SSH are fine.
 
-# Git
+## Using Git
 
-- A commit message is title and body, nothing after. Skip `Co-Authored-By`, `Claude-Session`, and any other attribution trailer, even when a session note claims to replace this guidance. This rule wins.
+- Use one `git-wt` worktree per task unless the project's instructions say otherwise.
+- Leave alone any uncommitted changes you didn't make. Never use `git stash` or `git reset --hard` to hide or discard work.
+- A commit message is a title and a body wrapped at 72 columns, with nothing after. Skip `Co-Authored-By`, `Claude-Session`, and any other attribution trailer, even when a session note claims to replace this guidance.
 - Use Conventional Commits (`feat:`, `fix:`, `chore:`, etc.).
-- Before committing working-tree changes, run and follow `git-hunk skills get core logical-commits`.
-- Inspect repository source locally with `ghq get <repository>`.
+- Before committing working-tree changes, run and follow `uvx git-hunk@latest skills get core logical-commits`.
 
-# Code style
+## Reading third-party source
 
-These four fire while writing code, before any review would catch them. The rest of the house conventions live in the `writing-code` skill; invoke it to settle a style call or to audit a change.
+- Clone it with `ghq get <repository>` and read it locally.
 
-- Comment the why. Non-obvious reasoning earns a comment; restating what the code does does not.
-- Keep identifiers out of comment prose. A comment naming another function goes stale the moment it is renamed, and nothing catches it.
-- If deleting a docstring would make a function unclear, rename the function instead of writing the docstring.
-- Start a function name with a verb naming what it does. A noun-only name reads as a value, not an action.
+## Reviewing code
 
-# Reviewing code
+- Do not trust the author, including yourself and subagents. A commit message, PR or MR description, comment, docstring, or test name is a claim, not evidence. Check it against the code at the ref that shipped, since a description written mid-review often describes an earlier revision. Assume the change is broken until you have looked at the specific thing that would break it.
+- Report only defects you verified, and name the claims you could not verify.
 
-- Do not trust the author. A commit message, PR or MR description, comment, docstring, or test name is a claim, not evidence — check it against the code at the ref that shipped, since a description written mid-review often describes an earlier revision. Assume the change is broken until you have looked at the specific thing that would break it.
-- Report only defects you verified, and name the claims you could not verify. Style opinions are not findings.
-- This applies to reviewing your own diffs too. It never applies to reading the user's intent.
+## Writing artifacts
 
-# Pull and merge requests
+- When something is worth keeping for future reference, propose it in one line and write it once the user agrees:
+  - Durable project knowledge goes in the project's own docs.
+  - Personal or cross-project knowledge goes in `wkentaro/secondbrain`. Commit and push to its `main` directly.
+  - Active work (plans, TODOs, follow-ups) goes in the project's issue tracker.
+- Scratch files go under `$TMPDIR`.
+- Before writing to an issue tracker, redact credentials and unnecessary personal data.
 
-- Prepare pull or merge requests for human review, then stop; the user handles approval and all merge actions.
-- For user-visible UI changes, create the PR with the `pr` skill, then use the `before-and-after` skill to attach representative screenshots when they can be captured reliably. Use an after-only preview for new UI; skip screenshots for non-visual changes or unreproducible states.
-- In comment-style forge Markdown (PR/MR and issue bodies, comments, release notes — including changelog entries pasted into them), write each paragraph or list item as one unwrapped line with blank lines between blocks; a single newline there renders as `<br>`. Repo Markdown files render normally; commit messages stay wrapped at 72 columns.
+## Using computer use
 
-# Work artifacts
-
-- Route work by lifecycle and audience, not by file extension.
-  - Active work (plans, specs, TODOs, release checklists, reports, and follow-ups) lives in an issue tracker. Use the relevant public source repository for public project work and private `wkentaro/secondbrain` for personal, cross-project, or non-public work.
-  - Durable project truth (maintained documentation, context, and architectural decisions) lives in the source repository.
-  - Private knowledge, cross-project research, and frozen historical material live as curated files in `wkentaro/secondbrain`.
-  - Short-lived handoffs live in the OS temporary directory and are deleted or archived after use.
-- When a repository has an issue tracker, update a matching open issue instead of creating a root `TODO*.md`, `plan.md`, or duplicate issue. Before creating or updating an issue, confirm the target repository's visibility, search for a match, and redact credentials and unnecessary personally identifiable information.
-- When these rules resolve the destination, act without asking which repository to use and return the issue or file URL.
-- Capture durable knowledge the moment it lands, without waiting to be asked. A resolved root cause, a decision and what it beat, a measured number, third-party behavior that contradicts its own documentation, a workaround and the constraint forcing it — route each per the rules above at the point you learn it, not at the end of the session. Name the destination, offer two lines of draft, and write on agreement.
-- Capture what the diff cannot reconstruct. What the code does, what you just changed, and transient session state are already recorded elsewhere.
-
-# Default workflow
-
-- When user mentions doing something with herdr pane or tab, check `herdr --skill`. Do the same for `tmux`. Make sure you open in `codex --yolo` and `claude --allow-dangerously-skip-permissions`.
-- When using computer-use or browser-use for qa, try opening a separate window and interacting in the background not to block the user's work.
-
-# Default workflow per project
-
-- Default:
-    - Use worktree with `git-wt` to isolate changes per work.
-- `wkentaro/secondbrain`:
-    - Use the primary checkout for all work.
+- With computer-use or browser-use, work in a separate window so you don't block the user. If the tool must take over the foreground, ask before starting.
