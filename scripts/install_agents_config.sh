@@ -16,7 +16,7 @@ _install_ponytail() {
 
 main() {
   npx skills add "wkentaro/agent-skills" -g -a claude-code codex -y
-  npx skills remove where-am-i sending-pull-request session-status -g -y
+  npx skills remove where-am-i sending-pull-request session-status resume-note -g -y
 
   if [ -d "./private" ]; then
     npx skills add ./private/agents -g -a claude-code codex -y
