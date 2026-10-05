@@ -1,11 +1,12 @@
 ## Creating a PR
 
-1. Have Codex review the diff against the base branch (`codex exec review --base <base-branch> -m gpt-6.1-sol`) and fix every finding you verify. Repeat until the review finds nothing, for at most 3 rounds. List unresolved findings in the PR body.
-2. Create the PR with the `pr` skill.
-3. For user-visible UI changes, use the `before-and-after` skill to attach screenshots. Use an after-only preview for new UI. Skip states you can't reproduce.
-4. Run the `pr-review` skill in a Claude Fable subagent. Post its verdict as a PR comment that says it is an AI review and names the model, then apply the matching `recommend-*` label.
-5. On `recommend-revise`, fix the listed changes, push, and repeat step 4. On a second `recommend-revise` or any other non-merge verdict, stop and hand the PR to the user.
-6. The user handles approval and all merge actions.
+1. Split multiple related changes into stacked PRs with `gh stack`. Order the stack by dependency, and make each PR reviewable on its own. Run the steps below once per PR, using the branch beneath it as the base branch. To change a PR's base branch, use `gh pr edit --base <new-base-branch>`.
+2. Have Codex review the diff against the base branch (`codex exec review --base <base-branch> -m gpt-6.1-sol`) and fix every finding you verify. Repeat until the review finds nothing, for at most 3 rounds. List unresolved findings in the PR body.
+3. Create the PR with the `pr` skill.
+4. For user-visible UI changes, use the `before-and-after` skill to attach screenshots. Use an after-only preview for new UI. Skip states you can't reproduce.
+5. Run the `pr-review` skill in a Claude Fable subagent. Post its verdict as a PR comment that says it is an AI review and names the model, then apply the matching `recommend-*` label.
+6. On `recommend-revise`, fix the listed changes, push, and repeat step 5. On a second `recommend-revise` or any other non-merge verdict, stop and hand the PR to the user.
+7. The user handles approval and all merge actions.
 
 ## Working locally
 
