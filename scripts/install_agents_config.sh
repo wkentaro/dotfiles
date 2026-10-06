@@ -39,7 +39,7 @@ main() {
 
   _install_ponytail
 
-  npx skills add "emilkowalski/skills" -s apple-design mobile-native break-ui -g -a claude-code codex -y
+  npx skills add "emilkowalski/skills" -s apple-design break-ui find-animation-opportunities mobile-native -g -a claude-code codex -y
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
