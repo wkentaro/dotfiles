@@ -38,6 +38,8 @@ main() {
   npx skills add "https://github.com/cursor/plugins/tree/main/pstack/skills/unslop" -g -a claude-code codex -y
 
   _install_ponytail
+
+  npx skills add "emilkowalski/skills" -s apple-design mobile-native break-ui -g -a claude-code codex -y
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
