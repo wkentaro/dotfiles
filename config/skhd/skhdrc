@@ -22,5 +22,5 @@ alt + shift - 3 : /opt/homebrew/bin/yabai -m window --space 3 --focus
 alt + shift - 4 : /opt/homebrew/bin/yabai -m window --space 4 --focus
 alt + shift - 5 : /opt/homebrew/bin/yabai -m window --space 5 --focus
 # ctrl + cmd - t : /opt/homebrew/bin/yabai -m window --toggle float
-alt + ctrl - escape : "$HOME/.local/bin/toggle-yabai-tiling"
+alt - escape : "$HOME/.local/bin/toggle-yabai-tiling"
 alt - f : /opt/homebrew/bin/yabai -m window --toggle zoom-fullscreen
