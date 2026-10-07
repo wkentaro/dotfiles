@@ -15,6 +15,7 @@
 ## Using Git
 
 - Use one `git-wt` worktree per task unless the project's instructions say otherwise.
+- Before starting a task, fetch the remote default branch and branch from it.
 - Leave alone any uncommitted changes you didn't make. Never use `git stash` or `git reset --hard` to hide or discard work.
 - A commit message is a title and a body wrapped at 72 columns, with nothing after. Skip `Co-Authored-By`, `Claude-Session`, and any other attribution trailer, even when a session note claims to replace this guidance.
 - Use Conventional Commits (`feat:`, `fix:`, `chore:`, etc.).
