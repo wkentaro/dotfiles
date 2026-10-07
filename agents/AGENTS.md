@@ -41,3 +41,7 @@
 ## Using computer use
 
 - With computer-use or browser-use, work in a separate window so you don't block the user. If the tool must take over the foreground, ask before starting.
+
+## Translating
+
+- Translate to the standard of iOS and Android in the target language. For UI text, use the term Apple and Google already use for the same concept (Japanese: 設定, キャンセル, 完了) and follow their tone and punctuation. For any other text, write what a native speaker would have written from scratch.
