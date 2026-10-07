@@ -13,3 +13,7 @@
 /private/
 
 *.py[cdo]
+
+# written by Claude Code when it loads a mod
+/claude/mods/*/.claude-plugin/types/
+/claude/mods/*/tsconfig.json
