@@ -4,7 +4,7 @@
 2. Have Codex review the diff against the base branch (`codex exec review --base <base-branch> -m gpt-6.1-sol`) and fix every finding you verify. Repeat until the review finds nothing, for at most 3 rounds. List unresolved findings in the PR body.
 3. Create the PR with the `pr` skill.
 4. For user-visible UI changes, use the `before-and-after` skill to attach screenshots. Use an after-only preview for new UI. Skip states you can't reproduce.
-5. Run the `pr-review` skill in a Claude Fable subagent. Post its verdict as a PR comment that says it is an AI review and names the model, then apply the matching `recommend-*` label.
+5. Run the `pr-review` skill in a Codex Astra subagent (effort level high). Post its verdict as a PR comment that says it is an AI review and names the model, then apply the matching `recommend-*` label.
 6. On `recommend-revise`, fix the listed changes, push, and repeat step 5. On a second `recommend-revise` or any other non-merge verdict, stop and hand the PR to the user.
 7. The user handles approval and all merge actions.
 
