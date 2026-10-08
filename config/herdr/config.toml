@@ -21,6 +21,7 @@ onboarding = false
 # green = "#a6e3a1"
 
 name = "terminal"
+auto_switch = false
 [terminal]
 # Executable used for new interactive panes.
 # Empty means $SHELL, then /bin/sh.
