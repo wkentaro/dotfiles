@@ -42,7 +42,10 @@
 
 ## Using computer use
 
-- With computer-use or browser-use, work in a separate window so you don't block the user. If the tool must take over the foreground, ask before starting.
+- Use a separate browser session for testing. Prefer headless or hidden automation, and use a temporary profile when supported.
+- For visible browser testing and other computer use, use a separate window and keep it in the background. Ask before a tool takes foreground control.
+- Use the user's existing browser session, profile, or tabs only when they explicitly request or approve it.
+- Clean up only tabs, windows, and temporary profiles you created for the task.
 
 ## Writing CSS
 
