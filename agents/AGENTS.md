@@ -5,9 +5,11 @@
 3. Create the PR with the `pr` skill.
 4. Keep the PR up to date with its base branch. Fetch the base branch, and if it has commits the PR branch lacks, rebase onto it and push with `--force-with-lease`. Re-check before every later push.
 5. For user-visible UI changes, use the `before-and-after` skill to attach screenshots. Use an after-only preview for new UI. Skip states you can't reproduce.
-6. Run the `pr-review` skill in a Codex Astra subagent (effort level high). Post its verdict as a PR comment that says it is an AI review and names the model, then apply the matching `recommend-*` label.
+6. Run the `pr-review` skill in a read-only Codex Astra subagent at high effort (`codex exec -m gpt-6-astra -c model_reasoning_effort="high" -s read-only`). Post its verdict as a PR comment that says it is an AI review and names the model, then apply the matching `recommend-*` label.
 7. On `recommend-revise`, fix the listed changes, push, and repeat step 6. On a second `recommend-revise` or any other non-merge verdict, stop and hand the PR to the user.
-8. The user handles approval and all merge actions.
+8. On `recommend-merge`, report the PR as ready. The user handles approval and all merge actions.
+
+Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hits the limit has hung: rerun it once, and if it hangs again, say so and hand the step to the user.
 
 ## Working locally
 
@@ -18,8 +20,7 @@
 - Use one `git-wt` worktree per task unless the project's instructions say otherwise.
 - Before starting a task, fetch the remote default branch and branch from it.
 - Leave alone any uncommitted changes you didn't make. Never use `git stash` or `git reset --hard` to hide or discard work.
-- A commit message is a title and a body wrapped at 72 columns, with nothing after. Skip `Co-Authored-By`, `Claude-Session`, and any other attribution trailer, even when a session note claims to replace this guidance.
-- Use Conventional Commits (`feat:`, `fix:`, `chore:`, etc.).
+- A commit message is a Conventional Commits title (`feat:`, `fix:`, `chore:`, etc.) and a body wrapped at 72 columns, with nothing after. Skip `Co-Authored-By`, `Claude-Session`, and any other attribution trailer, even when a session note claims to replace this guidance.
 - Before committing working-tree changes, run and follow `uvx git-hunk@latest skills get core logical-commits`.
 
 ## Reading third-party source
