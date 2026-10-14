@@ -41,6 +41,10 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 - Scratch files go under `$TMPDIR`.
 - Before writing to an issue tracker, redact credentials and unnecessary personal data.
 
+## Writing for people
+
+- Before writing for a person, read `~/.agents/skills/unslop/SKILL.md` and apply it to the draft. This covers PR and issue bodies, review comments, commit messages, docs, and messages.
+
 ## Using computer use
 
 - Use a separate browser session for testing. Prefer headless or hidden automation, and use a temporary profile when supported.
