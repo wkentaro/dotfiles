@@ -5,7 +5,7 @@
 3. Create the PR with the `pr` skill.
 4. Keep the PR up to date with its base branch. Fetch the base branch, and if it has commits the PR branch lacks, rebase onto it and push with `--force-with-lease`. Re-check before every later push.
 5. For user-visible UI changes, use the `before-and-after` skill to attach screenshots. Use an after-only preview for new UI. Skip states you can't reproduce.
-6. Run the `pr-review` skill in a read-only Codex Astra subagent at high effort (`codex exec -m gpt-6-astra -c model_reasoning_effort="high" -s read-only -o <file>`). Post the contents of `<file>` as a PR comment that says it is an AI review and names the model, then apply the matching `recommend-*` label. Never post the command's stdout. It is the whole session log.
+6. Run the `pr-review` skill in a read-only Codex Sol subagent at high effort (`codex exec -m gpt-6.1-sol -c model_reasoning_effort="high" -s read-only -o <file>`). Post the contents of `<file>` as a PR comment that says it is an AI review and names the model, then apply the matching `recommend-*` label. Never post the command's stdout. It is the whole session log.
 7. On `recommend-revise`, fix the listed changes, push, and repeat step 6. On a third `recommend-revise` or any other non-merge verdict, stop and hand the PR to the user.
 8. On `recommend-merge`, report the PR as ready. The user handles approval and all merge actions.
 
