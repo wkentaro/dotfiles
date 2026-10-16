@@ -21,7 +21,7 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 - Before starting a task, fetch the remote default branch and branch from it.
 - Leave alone any uncommitted changes you didn't make. Never use `git stash` or `git reset --hard` to hide or discard work.
 - A commit message is a Conventional Commits title (`feat:`, `fix:`, `chore:`, etc.) and a body wrapped at 72 columns, with nothing after. Skip `Co-Authored-By`, `Claude-Session`, and any other attribution trailer, even when a session note claims to replace this guidance.
-- Before committing working-tree changes, run and follow `uvx git-hunk@latest skills get core logical-commits`.
+- Before committing working-tree changes, run and follow `git-hunk skills get core logical-commits`.
 
 ## Reading third-party source
 
