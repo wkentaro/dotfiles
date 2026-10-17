@@ -38,7 +38,7 @@ else
 end
 
 config.font = wezterm.font_with_fallback(font_fallback)
-config.font_size = is_macos and 13.0 or 9.0
+config.font_size = is_macos and 14.0 or 9.0
 
 -- Glyph rasterization. macOS renders via CoreText (these freetype knobs are
 -- ignored there), so only set them on Linux: Light hinting keeps stems crisp
