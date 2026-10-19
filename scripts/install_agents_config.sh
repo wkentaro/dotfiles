@@ -39,7 +39,7 @@ main() {
 
   _install_ponytail
 
-  npx skills add "emilkowalski/skills" -s apple-design break-ui find-animation-opportunities mobile-native -g -a claude-code codex -y
+  npx skills add "emilkowalski/skills" -s animate apple-design break-ui find-animation-opportunities mobile-native review-animations -g -a claude-code codex -y
 
   npx skills add "coreyhaines31/marketingskills" -a claude-code codex -g -y
 }
