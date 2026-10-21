@@ -60,7 +60,8 @@
   "feedbackDrafts": "off",
   "modelSettings": {
     "claude-opus-5-5": {
-      "effortLevel": "medium"
+      "effortLevel": "medium",
+      "autoCompactWindow": 300000
     },
     "claude-fable-5-1": {
       "effortLevel": "high"
