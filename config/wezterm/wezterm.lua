@@ -40,16 +40,16 @@ end
 config.font = wezterm.font_with_fallback(font_fallback)
 config.font_size = is_macos and 14.0 or 9.0
 
--- Glyph rasterization. macOS renders via CoreText (these freetype knobs are
--- ignored there), so only set them on Linux: Light hinting keeps stems crisp
--- and HorizontalLcd turns on RGB subpixel AA for sharper text than the default
--- grayscale.
-if is_macos then
-  -- CoreText handles antialiasing; nothing to configure.
-else
-  config.freetype_load_target = 'Light'
+-- Glyph rasterization. WezTerm rasterizes with FreeType on every OS (CoreText
+-- only finds fonts on macOS), so Light hinting applies everywhere and keeps
+-- stems thin like native macOS text. HorizontalLcd turns on RGB subpixel AA on
+-- Linux; Retina Macs have no subpixel AA, so it stays off there. WebGpu
+-- renders through Metal on macOS.
+config.freetype_load_target = 'Light'
+if not is_macos then
   config.freetype_render_target = 'HorizontalLcd'
 end
+config.front_end = 'WebGpu'
 -- line_height >= ~1.28 trips a WezTerm glyph-rendering bug on Linux (renders a
 -- serif fallback instead of JetBrains Mono); 1.25 stays just below that cliff.
 config.line_height = 1.25
