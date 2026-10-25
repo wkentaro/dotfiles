@@ -13,8 +13,9 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 
 ## Reviewing community and bot PRs
 
-1. Run steps 2 and 6 of "Creating a PR" against the PR's base branch, holding fixes.
-2. Report the verified findings and verdict, recommend a direction, and ask the user to pick one:
+1. Run steps 2 and 6 of "Creating a PR" against the PR's base branch, holding fixes. Post the step 6 comment and label without asking.
+2. On `recommend-merge`, continue from step 8.
+3. On any other verdict, report the verified findings, recommend a direction, and ask the user to pick one:
    - Build on top: push fixes to the PR's branch and continue from step 7.
    - Start fresh: follow "Creating a PR" on a new branch and link the original PR.
 
