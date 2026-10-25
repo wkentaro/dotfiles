@@ -52,6 +52,14 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 - Use the user's existing browser session, profile, or tabs only when they explicitly request or approve it.
 - Clean up only tabs, windows, and temporary profiles you created for the task.
 
+## Making tradeoffs
+
+- Before taking an option that makes the user, developer, or agent experience worse, name what it costs and ask.
+
+## Designing UI
+
+- Cut taglines, helper text, and secondary labels. If a screen needs them to make sense, fix the layout instead.
+
 ## Writing CSS
 
 - Before writing or editing CSS, read [good-css](https://good-css.com/llms.txt) and the references relevant to the task. Use techniques that meet the project's browser support requirements.
