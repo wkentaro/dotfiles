@@ -11,6 +11,13 @@
 
 Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hits the limit has hung: rerun it once, and if it hangs again, say so and hand the step to the user.
 
+## Reviewing community and bot PRs
+
+1. Run steps 2 and 6 of "Creating a PR" against the PR's base branch, holding fixes.
+2. Report the verified findings and verdict, recommend a direction, and ask the user to pick one:
+   - Build on top: push fixes to the PR's branch and continue from step 7.
+   - Start fresh: follow "Creating a PR" on a new branch and link the original PR.
+
 ## Working locally
 
 - Work only on the local computer. Never open a remote shell, run commands on another machine, or copy files to or from one. Git remotes over SSH are fine.
