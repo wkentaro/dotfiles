@@ -26,6 +26,8 @@ main() {
 
   npx skills add "humanlayer/skills" -s show-me -g -a claude-code codex -y
 
+  npx skills add "DannyMac180/skills" -s be-ambitious -g -a claude-code codex -y
+
   # npx skills add "coreyhaines31/makerskills" -s maker-council -g -a claude-code codex -y
   npx skills remove maker-council -g -y
 
