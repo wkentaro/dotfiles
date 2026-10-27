@@ -11,6 +11,12 @@
 
 Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hits the limit has hung: rerun it once, and if it hangs again, say so and hand the step to the user.
 
+## Run checks
+
+- During edits and review fixes, run the narrowest relevant checks.
+- After review fixes and rebasing, run the project's required full suite before opening or updating the PR.
+- Reuse results for PR metadata updates. Rerun the full suite when code, tests, or runtime configuration changes, including through a rebase.
+
 ## Reviewing community and bot PRs
 
 1. Run steps 2 and 6 of "Creating a PR" against the PR's base branch, holding fixes. Post the step 6 comment and label without asking.
