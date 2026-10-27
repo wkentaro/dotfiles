@@ -1,7 +1,7 @@
 ## Creating a PR
 
 1. Split related changes into stacked PRs, ordered by dependency and each reviewable alone. Keep the stack in one worktree, since `gh stack` can't switch to a branch checked out in another. Use `gh stack init`/`add` to build it, `submit` to open and link the PRs, and `rebase` then `push` to update them. Run the steps below once per PR, using the branch beneath it as the base branch.
-2. Have Codex review the diff against the base branch (`codex exec review --base <base-branch> -m gpt-6.1-sol`) and fix every finding you verify. Repeat until the review finds nothing, for at most 3 rounds. List unresolved findings in the PR body.
+2. Have Codex review the diff against the base branch (`codex exec review --base <base-branch> -m gpt-6.1-sol`). Verify each finding, fix the ones that are real and worth the change, and reject the rest with a one-line reason. Repeat until a round brings no new finding you'd fix, for at most 3 rounds. List unresolved and rejected findings in the PR body.
 3. Create the PR with the `pr` skill.
 4. Keep the stack current with `gh stack rebase` and `gh stack push` before every push.
 5. For user-visible UI changes, use the `before-and-after` skill to attach screenshots. Use an after-only preview for new UI. Skip states you can't reproduce.
