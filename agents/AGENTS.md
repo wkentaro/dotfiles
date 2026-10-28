@@ -28,6 +28,7 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 ## Working locally
 
 - Work only on the local computer. Never open a remote shell, run commands on another machine, or copy files to or from one. Git remotes over SSH are fine.
+- On mac, assume GNU (Homebrew gnubin) shell tools are installed, e.g. `sed -i 's/a/b/' file`.
 
 ## Using Git
 
