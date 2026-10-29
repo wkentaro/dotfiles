@@ -60,6 +60,10 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 
 - Before writing for a person, read `~/.agents/skills/unslop/SKILL.md` and apply it to the draft. This covers PR and issue bodies, review comments, commit messages, docs, and messages.
 
+## Notifying the user
+
+- To notify the user, send a Telegram message with `tg send "<message>"`. See `tg --help` for other options.
+
 ## Using computer use
 
 - Use a separate browser session for testing. Prefer headless or hidden automation, and use a temporary profile when supported.
