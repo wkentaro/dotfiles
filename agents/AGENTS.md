@@ -62,7 +62,7 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 
 ## Notifying the user
 
-- To notify the user, send a Telegram message with `tg send "<message>"`. See `tg --help` for other options.
+- When the user asks to be pinged or notified ("ping me when done"), send a Telegram message with `tg send "<message>"`. See `tg --help` for other options.
 
 ## Using computer use
 
