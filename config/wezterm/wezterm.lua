@@ -29,7 +29,9 @@ local FONT_FAMILY = 'JetBrains Mono'
 -- suggestion text. Relying on the full JetBrains Mono family lets WezTerm
 -- derive real bold/italic and dim faint text natively. Emoji/CJK fallbacks are
 -- per-OS to avoid missing-font warnings on Linux.
-local font_fallback = { { family = FONT_FAMILY } }
+-- Medium on macOS: thicker stems survive the downsample of scaled
+-- ("More Space") external displays, like ghostty's font-thicken.
+local font_fallback = { { family = FONT_FAMILY, weight = is_macos and 'Medium' or 'Regular' } }
 if is_macos then
   table.insert(font_fallback, { family = 'PingFang SC' })
   table.insert(font_fallback, 'Apple Color Emoji')
@@ -46,6 +48,10 @@ config.font_size = is_macos and 14.0 or 9.0
 -- Linux; Retina Macs have no subpixel AA, so it stays off there. WebGpu
 -- renders through Metal on macOS.
 config.freetype_load_target = 'Light'
+-- macOS downsamples scaled displays anyway, so grid-fitting only adds jaggies.
+if is_macos then
+  config.freetype_load_flags = 'NO_HINTING'
+end
 if not is_macos then
   config.freetype_render_target = 'HorizontalLcd'
 end
