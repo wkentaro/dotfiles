@@ -75,9 +75,10 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 
 - Before taking an option that makes the user, developer, or agent experience worse, name what it costs and ask.
 
-## Designing UI
+## Designing visuals
 
-- Cut taglines, helper text, and secondary labels. If a screen needs them to make sense, fix the layout instead.
+- Before making or editing UI, slides, social images, or any other visual, read `~/.agents/skills/unslop-ui/references/signs.md`. Apply the fix for every sign you find in what you touch.
+- Let the layout carry the meaning. Cut taglines, helper text, and secondary labels.
 
 ## Writing CSS
 
