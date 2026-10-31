@@ -80,6 +80,11 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 - Before making or editing UI, slides, social images, or any other visual, read `~/.agents/skills/unslop-ui/references/signs.md`. Apply the fix for every sign you find in what you touch.
 - Let the layout carry the meaning. Cut taglines, helper text, and secondary labels.
 
+## Showing visuals
+
+- I may be away from this computer, so share every HTML file as a tailnet link, even when a skill says to open it. Serve its directory with `python3 -m http.server <local-port> --bind 127.0.0.1 -d <dir>` in the background, run `tailscale serve --bg --https=<port> <local-port>`, and reply with `https://<host>.ts.net:<port>/<file>`. Serving a file path with `tailscale serve` directly needs root.
+- Draw diagrams in terminal replies as text, such as trees, pseudocode, or ASCII. Put Mermaid in an HTML file and share its tailnet link.
+
 ## Writing CSS
 
 - Before writing or editing CSS, read [good-css](https://good-css.com/llms.txt) and the references relevant to the task. Use techniques that meet the project's browser support requirements.
