@@ -2,6 +2,15 @@
 
 set -euo pipefail
 
+_install_renamed() {  # <git-url> <skill-subdir> <new-name>
+  local tmp
+  tmp=$(mktemp -d)
+  git clone -q --depth 1 "$1" "$tmp"
+  sed -i "s/^name: .*/name: $3/" "$tmp/$2/SKILL.md"
+  npx skills add "$tmp/$2" -g -a claude-code codex -y --copy
+  rm -rf "$tmp"
+}
+
 _install_ponytail() {
   if command -v claude >/dev/null; then
     claude plugin marketplace add "DietrichGebert/ponytail"
@@ -38,7 +47,9 @@ main() {
 
   npx skills add "pbakaus/impeccable" -s "impeccable" -g -a claude-code codex -y
 
-  npx skills add "https://github.com/cursor/plugins/tree/main/pstack/skills/unslop" -g -a claude-code codex -y
+  _install_renamed "https://github.com/cursor/plugins" pstack/skills/unslop unslop-writing
+  _install_renamed "https://github.com/heydamir/unslop" skills/unslop unslop-ui
+  npx skills add ./agents/skills/unslop -g -a claude-code codex -y
 
   _install_ponytail
 

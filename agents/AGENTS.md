@@ -58,7 +58,7 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 
 ## Writing for people
 
-- Before writing for a person, read `~/.agents/skills/unslop/SKILL.md` and apply it to the draft. This covers PR and issue bodies, review comments, commit messages, docs, and messages.
+- Before writing for a person, read `~/.agents/skills/unslop-writing/SKILL.md` and apply it to the draft. This covers PR and issue bodies, review comments, commit messages, docs, and messages.
 
 ## Notifying the user
 
