@@ -29,7 +29,7 @@ main() {
 
   if [ -d "./private" ]; then
     npx skills add ./private/agents -g -a claude-code codex -y
-    npx skills remove writing-social-skills -g -y
+    npx skills remove writing-social-posts -g -y
   fi
 
   npx skills add "vercel-labs/before-and-after#main" -g -a claude-code codex -y
