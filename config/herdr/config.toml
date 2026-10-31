@@ -175,6 +175,8 @@ prompt_new_tab_name = false
 # Background notification popup delivery
 agent_panel_sort = "priority"
 
+sidebar_collapsed_mode = "hidden"
+
 [ui.sidebar.spaces]
 rows = [["state_icon", "workspace"]]
 
