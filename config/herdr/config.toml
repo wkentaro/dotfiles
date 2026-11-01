@@ -57,7 +57,7 @@ detach = "prefix+d"
 # reload_config = "prefix+shift+r"
 open_notification_target = ""
 # workspace_picker = "prefix+w"
-goto = ["prefix+o", "alt+o"]
+# goto = ["prefix+o", "alt+o"]
 new_workspace = ["prefix+shift+n", "alt+shift+n"]
 # new_worktree = ["prefix+shift+g", "alt+shift+g"]
 # open_worktree = ["prefix+g", "alt+g"]    # optional, unset by default
@@ -108,6 +108,18 @@ toggle_sidebar = ["prefix+b", "alt+b"]
 # key = "prefix+alt+g"
 # type = "pane"
 # command = "lazygit"
+
+[[keys.command]]
+key = "prefix+o"
+type = "plugin_action"
+command = "herdr-bar.open"
+description = "command bar"
+
+[[keys.command]]
+key = "alt+o"
+type = "plugin_action"
+command = "herdr-bar.open"
+description = "command bar"
 
 # Legacy indexed shortcut config is still parsed for compatibility.
 # Prefer switch_tab, switch_workspace, and focus_agent for new configs.
