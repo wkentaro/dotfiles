@@ -49,6 +49,7 @@
 # resize-overlay-duration = 4s 200ms
 
 app-notifications = no-clipboard-copy
+confirm-close-surface = false
 font-family = Source Code Pro
 keybind = ctrl+enter=text:\r
 keybind = super+ctrl+enter=text:\r
