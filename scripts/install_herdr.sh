@@ -2,35 +2,46 @@
 
 set -e
 
-VERSION=v0.9.0-fork.3
-EXPECTED_VERSION="herdr 0.9.0-fork.3"
+VERSION=v0.9.5
+EXPECTED_VERSION="herdr 0.9.5"
+HERDR_BAR_REF=v0.14.0
 
-case "$(uname)" in
-  Linux)  os=linux ;;
-  Darwin) os=macos ;;
-  *) echo "Unsupported OS: $(uname)" >&2; exit 1 ;;
-esac
+install_herdr() {
+  case "$(uname)" in
+    Linux)  os=linux ;;
+    Darwin) os=macos ;;
+    *) echo "Unsupported OS: $(uname)" >&2; exit 1 ;;
+  esac
 
-case "$(uname -m)" in
-  x86_64|amd64) arch=x86_64 ;;
-  aarch64|arm64) arch=aarch64 ;;
-  *) echo "Unsupported arch: $(uname -m)" >&2; exit 1 ;;
-esac
+  case "$(uname -m)" in
+    x86_64|amd64) arch=x86_64 ;;
+    aarch64|arm64) arch=aarch64 ;;
+    *) echo "Unsupported arch: $(uname -m)" >&2; exit 1 ;;
+  esac
 
-asset="herdr-${os}-${arch}"
+  asset="herdr-${os}-${arch}"
 
-case "${os}-${arch}" in
-  linux-aarch64) checksum=0473de76d2d8518fbf5798724755bc3093a58a7e7761447b794f5f431541eb89 ;;
-  linux-x86_64)  checksum=84432872ea60ba8e1c14ddc4af027ce08417544811bc29d32ef6f8fc58bd578d ;;
-  macos-aarch64) checksum=30ce5c998b4bbc293b4f1d7c86561be00d524fc78ad456d9ca6e78c0c43d643e ;;
-  macos-x86_64)  checksum=d149ba958c481034913e658712c6a49265d377280c7e691ad4ca4a7fae01247d ;;
-esac
+  case "${os}-${arch}" in
+    linux-aarch64) checksum=17d7536f2da50859523680ef279dffcac8e4a235f4e46fe8da6c2ec44141897c ;;
+    linux-x86_64)  checksum=14d9e8bc8b4a9e0118d77c32266f76d461f09b40342eb23752960bd89f59929d ;;
+    macos-aarch64) checksum=fb77c2232a05a8035421382c894392f4174e4e38a18e48af3dd0290157c3a7e2 ;;
+    macos-x86_64)  checksum=5fb0a908ec7f6745e3e245738b06bfad56c46391c391ab3c0955fbead01f1369 ;;
+  esac
 
-tmp_path=$(mktemp -d)
-trap 'rm -rf "$tmp_path"' EXIT
+  tmp_path=$(mktemp -d)
+  trap 'rm -rf "$tmp_path"' EXIT
 
-curl -fL "https://github.com/wkentaro/herdr/releases/download/${VERSION}/${asset}" -o "${tmp_path}/herdr"
-printf '%s  %s\n' "$checksum" "${tmp_path}/herdr" | shasum -a 256 -c -
+  curl -fL "https://github.com/herdrdev/herdr/releases/download/${VERSION}/${asset}" -o "${tmp_path}/herdr"
+  printf '%s  %s\n' "$checksum" "${tmp_path}/herdr" | shasum -a 256 -c -
 
-mkdir -p "$HOME/.local/bin"
-install -m 0755 "${tmp_path}/herdr" "$HOME/.local/bin/herdr"
+  mkdir -p "$HOME/.local/bin"
+  install -m 0755 "${tmp_path}/herdr" "$HOME/.local/bin/herdr"
+}
+
+if [ "$("$HOME/.local/bin/herdr" --version 2>/dev/null)" != "$EXPECTED_VERSION" ]; then
+  install_herdr
+fi
+
+if ! "$HOME/.local/bin/herdr" plugin list 2>/dev/null | grep -q "^- herdr-bar "; then
+  "$HOME/.local/bin/herdr" plugin install jeffarese/herdr-bar --ref "$HERDR_BAR_REF" --yes
+fi
