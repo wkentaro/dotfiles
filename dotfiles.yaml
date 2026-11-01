@@ -53,6 +53,9 @@ codex/hooks.json:
 codex/config.toml.template:
   name: .codex/config.toml
   type: copy
+grok/config.toml.template:
+  name: .grok/config.toml
+  type: copy
 gitconfig:
   .gitconfig
 gitmessage.txt:

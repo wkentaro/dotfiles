@@ -1,0 +1,10 @@
+# Portable preferences only. Grok adds machine-local state to this copy.
+
+[features]
+terminal_theme = true
+
+[ui]
+max_thoughts_width = 120
+yolo = false
+compact_mode = false
+theme = "terminal"
