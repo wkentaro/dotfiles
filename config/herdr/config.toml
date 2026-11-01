@@ -57,7 +57,7 @@ detach = "prefix+d"
 # reload_config = "prefix+shift+r"
 open_notification_target = ""
 # workspace_picker = "prefix+w"
-# goto = ["prefix+o", "alt+o"]
+goto = ["prefix+shift+o", "alt+shift+o"]
 new_workspace = ["prefix+shift+n", "alt+shift+n"]
 # new_worktree = ["prefix+shift+g", "alt+shift+g"]
 # open_worktree = ["prefix+g", "alt+g"]    # optional, unset by default
@@ -110,16 +110,24 @@ toggle_sidebar = ["prefix+b", "alt+b"]
 # command = "lazygit"
 
 [[keys.command]]
-key = "prefix+o"
+key = "alt+o"
 type = "plugin_action"
 command = "herdr-bar.open"
 description = "command bar"
 
 [[keys.command]]
-key = "alt+o"
-type = "plugin_action"
-command = "herdr-bar.open"
-description = "command bar"
+key = ["prefix+m", "alt+m"]
+type = "popup"
+description = "move pane to workspace"
+width = "50%"
+height = "40%"
+command = '''
+p="$HERDR_ACTIVE_PANE_ID"
+ws=$(herdr workspace list \
+  | jq -r --arg w "${p%%:*}" '.result.workspaces[] | select(.workspace_id != $w) | "\(.workspace_id)\t\(.label)"' \
+  | fzf --delimiter='\t' --with-nth=2 --prompt='move to> ' | cut -f1)
+[ -n "$ws" ] && herdr pane move "$p" --new-tab --workspace "$ws"
+'''
 
 # Legacy indexed shortcut config is still parsed for compatibility.
 # Prefer switch_tab, switch_workspace, and focus_agent for new configs.
@@ -137,6 +145,7 @@ pane_gaps = false
 # tmux-style: dividers between panes only, no frame around the pane area.
 pane_outer_borders = false
 pane_scrollbars = false
+tab_bar_right = [{ type = "hostname" }]
 #dim_unfocused_panes = true
 # Sidebar width (auto-scaled based on workspace names, this sets the default)
 # sidebar_width = 26
