@@ -37,17 +37,6 @@
           }
         ]
       }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/herdr-tab-name.sh\"",
-            "timeout": 5
-          }
-        ]
-      }
     ]
   }
 }
