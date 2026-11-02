@@ -46,6 +46,8 @@ claude/keybindings.json:
   .claude/keybindings.json
 claude/mods/effort-keys:
   .claude/mods/effort-keys
+claude/hooks/herdr-tab-name.sh:
+  .claude/hooks/herdr-tab-name.sh
 codex/AGENTS.md:
   .codex/AGENTS.md
 codex/hooks.json:
