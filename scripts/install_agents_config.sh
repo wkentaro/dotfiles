@@ -56,6 +56,8 @@ main() {
   npx skills add "emilkowalski/skills" -s animate animation-performance apple-design break-ui find-animation-opportunities improve-animations mobile-native remove-animations review-animations -g -a claude-code codex -y
 
   npx skills add "coreyhaines31/marketingskills" -a claude-code codex -g -y
+
+  npx skills add benjitaylor/skills -s stageshow -g -a claude-code codex -y
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
