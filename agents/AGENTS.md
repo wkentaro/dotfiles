@@ -11,7 +11,7 @@
    - After the redesign, count `recommend-revise` from zero. On the second, stop and hand the PR to the user.
 8. On `recommend-merge`, report the PR as ready. The user handles approval and all merge actions.
 
-Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hits the limit has hung: rerun it once, and if it hangs again, say so and hand the step to the user.
+Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hits the limit has hung. Rerun it once, and if it hangs again, say so and hand the step to the user.
 
 ## Run checks
 
@@ -30,7 +30,7 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 ## Working locally
 
 - Work only on the local computer. Never open a remote shell, run commands on another machine, or copy files to or from one. Git remotes over SSH are fine.
-- On mac, assume GNU (Homebrew gnubin) shell tools are installed, e.g. `sed -i 's/a/b/' file`.
+- On mac, assume GNU (Homebrew gnubin) shell tools are installed, such as `sed -i 's/a/b/' file`.
 
 ## Using Git
 
@@ -84,8 +84,12 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 
 ## Showing visuals
 
-- I may be away from this computer, so share every HTML file as a tailnet link, even when a skill says to open it. Serve its directory with `python3 -m http.server <local-port> --bind 127.0.0.1 -d <dir>` in the background, run `tailscale serve --bg --https=<port> <local-port>`, and reply with `https://<host>.ts.net:<port>/<file>`. Serving a file path with `tailscale serve` directly needs root.
-- Draw diagrams in terminal replies as text, such as trees, pseudocode, or ASCII. Put Mermaid in an HTML file and share its tailnet link.
+- I may be away from this computer, so share every HTML file as a Dropbox link, even when a skill says to open it:
+  1. Make it one self-contained file. Dropbox's preview loads no relative or external URL, so inline every image, video, font, stylesheet, and script, CDN libraries included.
+  2. Open it in a headless browser with network requests blocked. It is done when no image, video, or script is missing.
+  3. Save it where `~/Dropbox/README.md` files it: the matching area's `projects/YYYYMMDD-short-name/` folder, or `Inbox/YYYYMMDD-short-name.html` when no area fits.
+  4. Reply with `https://www.dropbox.com/home/<folder>?preview=<file>`.
+- Draw diagrams in terminal replies as text, such as trees, pseudocode, or ASCII. Put Mermaid in an HTML file and share its Dropbox link.
 
 ## Writing CSS
 
