@@ -5,7 +5,7 @@
 # never touched.
 [ "${HERDR_ENV:-}" = 1 ] && [ -n "${HERDR_TAB_ID:-}" ] && [ -n "${HERDR_PANE_ID:-}" ] || exit 0
 tab_label=$(herdr tab get "$HERDR_TAB_ID" 2>/dev/null | jq -r '.result.tab.label // empty')
-pane_label=$(herdr pane get "$HERDR_PANE_ID" 2>/dev/null | jq -r '.result.pane.label // empty')
+pane_label=$(herdr pane get "$HERDR_PANE_ID" 2>/dev/null | jq -er '.result.pane // error | .label // ""' 2>/dev/null) || pane_label=unknown
 cmds=()
 [[ $tab_label =~ ^[0-9]+$ ]] && cmds+=("herdr tab rename $HERDR_TAB_ID <tag>")
 [ -z "$pane_label" ] && cmds+=("herdr pane rename $HERDR_PANE_ID <tag>")
