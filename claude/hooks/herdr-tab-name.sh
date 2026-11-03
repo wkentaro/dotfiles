@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # UserPromptSubmit hook shared by Claude Code and Codex: ask the agent to tag
-# the herdr tab while its label is still herdr's generated tab number, and the
+# the herdr tab while its label is still a generated tab number (it keeps the
+# number from creation, so it can differ from the current one), and the
 # pane while it has no label, so anything named by hand (or already tagged) is
 # never touched. The pane is looked up first because HERDR_TAB_ID goes stale
 # when the pane moves to another tab. A failed lookup renames nothing.
@@ -9,7 +10,7 @@ pane=$(herdr pane get "$HERDR_PANE_ID" 2>/dev/null | jq -ec '.result.pane // err
 tab_id=$(jq -r '.tab_id // empty' <<<"$pane")
 cmds=()
 [ -n "$tab_id" ] && herdr tab get "$tab_id" 2>/dev/null |
-  jq -e '.result.tab | .label == (.number | tostring)' >/dev/null 2>&1 &&
+  jq -e '.result.tab.label | test("^[0-9]+$")' >/dev/null 2>&1 &&
   cmds+=("herdr tab rename $tab_id <tag>")
 jq -e '(.label // "") == ""' <<<"$pane" >/dev/null && cmds+=("herdr pane rename $HERDR_PANE_ID <tag>")
 [ ${#cmds[@]} -gt 0 ] || exit 0
