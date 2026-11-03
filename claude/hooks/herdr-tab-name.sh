@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
 # UserPromptSubmit hook shared by Claude Code and Codex: ask the agent to tag
-# the herdr tab while its label is still herdr's generated tab number, and the
+# the herdr tab while its label is still herdr's generated one, and the
 # pane while it has no label, so anything named by hand (or already tagged) is
 # never touched. The pane is looked up first because HERDR_TAB_ID goes stale
-# when the pane moves to another tab. A failed lookup renames nothing.
+# when the pane moves to another tab. herdr labels an unnamed tab with its
+# position in the tab bar, not its stable number, and `tab list` returns tabs
+# in that order. A failed lookup renames nothing.
 [ "${HERDR_ENV:-}" = 1 ] && [ -n "${HERDR_PANE_ID:-}" ] || exit 0
 pane=$(herdr pane get "$HERDR_PANE_ID" 2>/dev/null | jq -ec '.result.pane // error' 2>/dev/null) || exit 0
 tab_id=$(jq -r '.tab_id // empty' <<<"$pane")
+ws_id=$(jq -r '.workspace_id // empty' <<<"$pane")
 cmds=()
-[ -n "$tab_id" ] && herdr tab get "$tab_id" 2>/dev/null |
-  jq -e '.result.tab | .label == (.number | tostring)' >/dev/null 2>&1 &&
+[ -n "$tab_id" ] && [ -n "$ws_id" ] && herdr tab list --workspace "$ws_id" 2>/dev/null |
+  jq -e --arg id "$tab_id" '.result.tabs | to_entries[] |
+    select(.value.tab_id == $id) | .value.label == (.key + 1 | tostring)' >/dev/null 2>&1 &&
   cmds+=("herdr tab rename $tab_id <tag>")
 jq -e '(.label // "") == ""' <<<"$pane" >/dev/null && cmds+=("herdr pane rename $HERDR_PANE_ID <tag>")
 [ ${#cmds[@]} -gt 0 ] || exit 0

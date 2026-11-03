@@ -19,10 +19,14 @@ check() { # name pane-json tab-json expected-renames
   [ "$got" = "$4" ] && echo "ok   $1" || { echo "FAIL $1: got '$got', want '$4'"; exit 1; }
 }
 
-unnamed_tab='{"result":{"tab":{"label":"3","number":3}}}'
-pane='{"result":{"pane":{"tab_id":"w:t3"}}}'
-check 'unnamed tab and pane, via the pane'\''s current tab' "$pane" "$unnamed_tab" 'herdr tab rename w:t3 herdr pane rename w:p '
-check 'named pane' '{"result":{"pane":{"tab_id":"w:t3","label":"mine"}}}' "$unnamed_tab" 'herdr tab rename w:t3 '
-check 'numeric custom tab name' "$pane" '{"result":{"tab":{"label":"2026","number":3}}}' 'herdr pane rename w:p '
+tabs() { # label of the second tab, w:t3; an unnamed tab's label is its position
+  echo '{"result":{"tabs":[{"tab_id":"w:t1","label":"1","number":1},{"tab_id":"w:t3","label":"'"$1"'","number":3}]}}'
+}
+unnamed_tab=$(tabs 2)
+pane='{"result":{"pane":{"tab_id":"w:t3","workspace_id":"w"}}}'
+check 'unnamed tab numbered apart from its position, and pane' "$pane" "$unnamed_tab" 'herdr tab rename w:t3 herdr pane rename w:p '
+check 'named pane' '{"result":{"pane":{"tab_id":"w:t3","workspace_id":"w","label":"mine"}}}' "$unnamed_tab" 'herdr tab rename w:t3 '
+check 'numeric custom tab name' "$pane" "$(tabs 2026)" 'herdr pane rename w:p '
+check 'tab label matching its number, not its position' "$pane" "$(tabs 3)" 'herdr pane rename w:p '
 check 'pane lookup error JSON' '{"ok":false}' "$unnamed_tab" ''
 check 'pane lookup fails' '' "$unnamed_tab" ''
