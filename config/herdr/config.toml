@@ -227,7 +227,9 @@ enabled = false
 [session]
 # Resume supported AI-agent panes into their native conversation sessions after
 # a Herdr server restart. Requires official integrations that report session refs.
-# resume_agents_on_restore = false
+# herdr-hc-shell keeps agents running across restarts, so resuming would type
+# into them.
+resume_agents_on_restore = false
 
 [experimental]
 # Allow launching herdr from inside a herdr-managed pane.
