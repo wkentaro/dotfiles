@@ -78,6 +78,11 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 - Use the user's existing browser session, profile, or tabs only when they explicitly request or approve it.
 - Clean up only tabs, windows, and temporary profiles you created for the task.
 
+## Fitting features in
+
+- Build each change so it reads as native to the design, as if it was always there.
+- When a change fits natively only after a refactor, stop before writing it, propose the refactor, and wait.
+
 ## Making tradeoffs
 
 - Before taking an option that makes the user, developer, or agent experience worse, name what it costs and ask.
