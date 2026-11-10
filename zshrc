@@ -155,6 +155,12 @@ for plugin in $plugins; do
 done
 
 autoload -U compinit && compinit
+# Homebrew git's _git wraps bash completion and ignores zsh-style _git-<cmd>
+# completers such as git-wt's _git-wt, so prefer zsh's own _git.
+if [[ -r /usr/share/zsh/$ZSH_VERSION/functions/_git ]]; then
+  unfunction _git 2>/dev/null
+  autoload -Uz /usr/share/zsh/$ZSH_VERSION/functions/_git
+fi
 
 # z command (https://github.com/ajeetdsouza/zoxide)
 if (( $+commands[zoxide] )); then
