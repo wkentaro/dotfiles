@@ -9,7 +9,7 @@
 7. On `recommend-revise`, fix the listed changes, push, and repeat step 6. On any other non-merge verdict, stop and hand the PR to the user.
    - Zoom out once per PR, on the second `recommend-revise`. Repeat findings mean the fixes treat symptoms. Find the root cause they share and redesign around it without asking. For a race, remove the shared state before adding a lock. When the root cause lives on `main`, fix it in its own PR against `main` and rebase the stack onto that branch.
    - After the redesign, count `recommend-revise` from zero. On the second, stop and hand the PR to the user.
-8. On `recommend-merge`, report the PR as ready. The user handles approval and all merge actions.
+8. On `recommend-merge`, wait for CI and read `statusCheckRollup`. Fix any failing check as in step 7, then report the PR as ready. The user handles approval and all merge actions.
 
 Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hits the limit has hung. Rerun it once, and if it hangs again, say so and hand the step to the user.
 
