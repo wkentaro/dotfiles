@@ -58,6 +58,8 @@ main() {
   npx skills add "coreyhaines31/marketingskills" -a claude-code codex -g -y
 
   npx skills add benjitaylor/skills -s stageshow -g -a claude-code codex -y
+
+  npx skills add shadcn/improve -g -a claude-code codex -y
 }
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
