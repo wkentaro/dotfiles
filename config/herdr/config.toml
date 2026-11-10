@@ -25,7 +25,7 @@ auto_switch = false
 [terminal]
 # Executable used for new interactive panes.
 # Empty means $SHELL, then /bin/sh.
-# default_shell = ""
+default_shell = "herdr-hc-shell"
 
 # Startup mode for new interactive pane shells: "auto", "login", or "non_login".
 # "auto" uses login shells on macOS and keeps the current behavior elsewhere.

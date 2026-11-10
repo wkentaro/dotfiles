@@ -1,0 +1,68 @@
+#!/bin/sh
+# herdr TUI pane shell backed by herdr-core, like herdr-app: each pane runs in an hc
+# terminal; closing the pane kills that terminal and its sub-agents. The terminal
+# survives herdr server restarts and reattaches when the same pane id comes back.
+# Use as [terminal] default_shell in ~/.config/herdr/config.toml.
+
+# Kill $1's sub-agents, deepest first, sparing ones herdr-app shows (herdr.space).
+# Mirrors kill() in herdr-app's src/window.rs; hc ls has no labels, so ask hc get.
+kill_tree() (  # subshell: sh has no locals, and this recurses
+  for t in $(hc ls --json | jq -r --arg p "$1" '.terminals[] | select(.parent == $p) | .address'); do
+    [ -n "$(hc get "$t" | jq -r '.labels["herdr.space"] // empty')" ] && continue
+    kill_tree "$t"; hc kill "$t"
+  done
+)
+
+if [ "$1" = --watch ]; then  # --watch <pid> <terminal name>
+  while kill -0 "$2" 2>/dev/null; do sleep 2; done
+  info=$(hc get "$3" 2>/dev/null)
+  if ! printf %s "$info" | jq -e '.state == "live"' >/dev/null 2>&1; then
+    hc rm "$3"                                  # shell exited
+  elif herdr status server --json | jq -e .running && ! herdr pane get "$HERDR_PANE_ID"; then
+    # Pane closed. A server that stopped doesn't answer, so its terminals stay for reattach.
+    # ponytail: a server that still answers mid-stop counts as a close.
+    kill_tree "$(printf %s "$info" | jq -r .address)"; hc kill "$3"; hc rm "$3"
+  fi
+  exit
+fi
+
+# herdr points $SHELL at this script, so find the real login shell.
+sh=$SHELL
+case $sh in *herdr-hc-shell|'')
+  sh=$(getent passwd "$(id -un)" 2>/dev/null | cut -d: -f7)
+  [ -n "$sh" ] || sh=$(dscl . -read "$HOME" UserShell 2>/dev/null | awk '{print $2}')
+  sh=${sh:-/bin/sh} ;;
+esac
+[ -n "$HERDR_PANE_ID" ] && command -v hc >/dev/null && command -v jq >/dev/null || exec "$sh" -l
+
+# hc names are lowercase and shared by every herdr session, so add a checksum of
+# this session's socket and the exact pane id.
+id=$(printf '%s %s' "$HERDR_SOCKET_PATH" "$HERDR_PANE_ID" | cksum | cut -d' ' -f1)
+name="herdr-$(printf %s "$HERDR_PANE_ID" | tr 'A-Z:' 'a-z-')-$id"
+if ! hc get "$name" >/dev/null 2>&1; then
+  # hc terminals get the core's env, so carry over what herdr set for the pane:
+  # its ids for agent hooks and its forwarded ssh agent.
+  set --
+  for v in $(env | sed -n 's/^\(HERDR_[A-Z0-9_]*\)=.*/\1/p') SSH_AUTH_SOCK; do
+    eval "val=\${$v-}"; [ -n "$val" ] && set -- "$@" "$v=$val"
+  done
+  hc run --bg --no-parent --name "$name" --cwd "$PWD" -- env "$@" SHELL="$sh" "$sh" -l >/dev/null || exec "$sh" -l
+fi
+# herdr kills the pane's whole session on close, so the watcher starts a new one.
+perl -MPOSIX -e 'POSIX::setsid(); exec @ARGV' "$0" --watch $$ "$name" >/dev/null 2>&1 </dev/null &
+# herdr opens splits and tabs in the directory of this pane's foreground process
+# group leader, which is this process. Stay in the hc terminal's foreground
+# directory while hc attach runs as a child.
+# ponytail: one hc get per pane per second; follow hc events if that shows up.
+exec perl -MJSON::PP -MPOSIX=:sys_wait_h -e '
+  my $name = shift;
+  defined(my $pid = fork) or die "fork: $!\n";
+  unless ($pid) { exec "hc", "attach", "--history", "2000", $name; exit 127 }
+  while (waitpid($pid, WNOHANG) == 0) {
+    my $t = eval { decode_json(`hc get $name 2>/dev/null`) };
+    my $cwd = $t && $t->{foreground} && $t->{foreground}{cwd};
+    chdir $cwd if $cwd;
+    sleep 1;
+  }
+  exit($? >> 8);
+' "$name"
