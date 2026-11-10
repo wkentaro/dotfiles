@@ -44,6 +44,11 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 
 - Clone it with `ghq get <repository>` and read it locally.
 
+## Researching with Grok
+
+- For X posts, articles, and threads, user sentiment, market data, or the latest news, ask Grok Build from a `mktemp -d` directory: `timeout 300 grok -p "<question>" --disallowed-tools Bash,Edit,Write </dev/null`.
+- Ask for verbatim quotes and a link per claim, and check each claim you rely on against its link.
+
 ## Reviewing code
 
 - Do not trust the author, including yourself and subagents. A commit message, PR or MR description, comment, docstring, or test name is a claim, not evidence. Check it against the code at the ref that shipped, since a description written mid-review often describes an earlier revision. Assume the change is broken until you have looked at the specific thing that would break it.
