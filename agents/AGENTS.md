@@ -66,6 +66,7 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 ## Writing for people
 
 - Before writing for a person, read `~/.agents/skills/unslop-writing/SKILL.md` and apply it to the draft. This covers PR and issue bodies, review comments, commit messages, docs, and messages.
+- For Japanese, chat replies included, also apply the rules in `~/ghq/github.com/nanaism/yomiyasu-pocket/yomiyasu-pocket.txt`, fetching it with `ghq get nanaism/yomiyasu-pocket` when missing.
 
 ## Notifying the user
 
