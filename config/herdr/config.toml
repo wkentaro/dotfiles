@@ -110,12 +110,6 @@ toggle_sidebar = ["prefix+b", "alt+b"]
 # command = "lazygit"
 
 [[keys.command]]
-key = "alt+o"
-type = "plugin_action"
-command = "herdr-bar.open"
-description = "command bar"
-
-[[keys.command]]
 key = ["prefix+m", "alt+m"]
 type = "popup"
 description = "move pane to workspace"

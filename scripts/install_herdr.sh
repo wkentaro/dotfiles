@@ -4,7 +4,6 @@ set -e
 
 VERSION=v0.9.5
 EXPECTED_VERSION="herdr 0.9.5"
-HERDR_BAR_REF=v0.14.0
 
 install_herdr() {
   case "$(uname)" in
@@ -40,8 +39,4 @@ install_herdr() {
 
 if [ "$("$HOME/.local/bin/herdr" --version 2>/dev/null)" != "$EXPECTED_VERSION" ]; then
   install_herdr
-fi
-
-if ! "$HOME/.local/bin/herdr" plugin list 2>/dev/null | grep -q "^- herdr-bar "; then
-  "$HOME/.local/bin/herdr" plugin install jeffarese/herdr-bar --ref "$HERDR_BAR_REF" --yes
 fi
