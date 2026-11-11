@@ -101,8 +101,11 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
   4. Reply with `https://www.dropbox.com/home/<folder>?preview=<file>`.
 - Draw diagrams in terminal replies as text, such as trees, pseudocode, or ASCII. Put Mermaid in an HTML file and share its Dropbox link.
 
-## Writing CSS
+## Using references
 
+- Before designing app screens or flows, search Mobbin for how shipped apps solve the same problem.
+- Before designing web pages or sections, search Inspo for real sites in the same register, and read their design systems for fonts, palette, and spacing.
+- Before designing for Apple platforms, read the Human Interface Guidelines through sosumi.ai by replacing `developer.apple.com` with `sosumi.ai` in the URL.
 - Before writing or editing CSS, read [good-css](https://good-css.com/llms.txt) and the references relevant to the task. Use techniques that meet the project's browser support requirements.
 
 ## Translating
