@@ -63,8 +63,9 @@
       "effortLevel": "medium",
       "autoCompactWindow": 300000
     },
-    "claude-fable-5-1": {
-      "effortLevel": "high"
+    "claude-fable-5-2": {
+      "effortLevel": "high",
+      "autoCompactWindow": 300000
     }
   },
   "tui": "fullscreen",
