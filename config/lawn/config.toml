@@ -1,0 +1,66 @@
+onboarding = false
+
+[theme]
+name = "terminal"
+auto_switch = false
+
+[update]
+version_check = false
+
+[keys]
+prefix = "ctrl+space"
+detach = "prefix+d"
+open_notification_target = ""
+goto = ["prefix+o", "alt+o"]
+open_parked = ["prefix+shift+o", "alt+shift+o"]
+new_workspace = ["prefix+shift+n", "alt+shift+n"]
+close_workspace = ""
+previous_workspace = "alt+k"
+next_workspace = "alt+j"
+new_tab = ["prefix+t", "alt+t"]
+rename_tab = ["prefix+shift+t", "alt+shift+t"]
+previous_tab = ["alt+h", "alt+p", "prefix+p"]
+next_tab = ["alt+l", "alt+n", "prefix+n"]
+focus_pane_left = ["prefix+h", "alt+shift+h"]
+focus_pane_down = ["prefix+j", "alt+shift+j"]
+focus_pane_up = ["prefix+k", "alt+shift+k"]
+focus_pane_right = ["prefix+l", "alt+shift+l"]
+split_vertical = ["prefix+v", "alt+v"]
+split_horizontal = ["prefix+minus", "alt+minus"]
+zoom = ["prefix+z", "alt+z"]
+toggle_sidebar = ["prefix+b", "alt+b"]
+
+[[keys.command]]
+key = ["prefix+m", "alt+m"]
+type = "popup"
+description = "move pane to workspace"
+width = "50%"
+height = "40%"
+command = '''
+p="$HERDR_ACTIVE_PANE_ID"
+ws=$(herdr workspace list \
+  | jq -r --arg w "${p%%:*}" '.result.workspaces[] | select(.workspace_id != $w) | "\(.workspace_id)\t\(.label)"' \
+  | fzf --delimiter='\t' --with-nth=2 --prompt='move to> ' | cut -f1)
+[ -n "$ws" ] && herdr pane move "$p" --new-tab --workspace "$ws"
+'''
+
+[ui]
+pane_gaps = false
+pane_outer_borders = false
+pane_scrollbars = false
+tab_bar_right = [{ type = "hostname" }]
+sidebar_collapsed_mode = "hidden"
+prompt_new_tab_name = false
+agent_panel_sort = "priority"
+
+[ui.sidebar.spaces]
+rows = [["state_icon", "workspace"]]
+
+[ui.toast.clipboard]
+enabled = false
+
+[ui.sound]
+enabled = false
+
+[experimental]
+pane_history = false

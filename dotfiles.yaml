@@ -10,6 +10,8 @@ config/wezterm/wezterm.lua:
   .config/wezterm/wezterm.lua
 config/herdr/config.toml:
   .config/herdr/config.toml
+config/lawn/config.toml:
+  .config/lawn/config.toml
 config/fcitx5/config:
   name: .config/fcitx5/config
   uname: Linux
