@@ -1,8 +1,5 @@
 {
-  "apiKeyHelper": "cat \"$HOME/.config/cliproxyapi/api-key\"",
   "env": {
-    "ANTHROPIC_BASE_URL": "https://lora.tail962e6b.ts.net:8317",
-    "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "272000",
     "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "1",
     "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "1",
     "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
@@ -17,22 +14,6 @@
     "defaultMode": "auto"
   },
   "model": "opus",
-  "modelPicker": {
-    "options": [
-      {
-        "model": "gpt-6.1-sol",
-        "label": "Sol"
-      },
-      {
-        "model": "gpt-6-astra",
-        "label": "Astra"
-      },
-      {
-        "model": "gpt-6-luna",
-        "label": "Luna"
-      }
-    ]
-  },
   "hooks": {
     "SessionStart": [
       {

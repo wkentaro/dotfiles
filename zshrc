@@ -408,7 +408,7 @@ fi
 # alias rm="rm -i"
 
 alias cc="claude --allow-dangerously-skip-permissions"
-alias claude-sol="cc --model gpt-6.1-sol"
+alias claude-sol="cc --settings ~/.claude/settings-gateway.json --model gpt-6.1-sol"
 alias cx="codex"
 
 alias fable="cc --model fable"

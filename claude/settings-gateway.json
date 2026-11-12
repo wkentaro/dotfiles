@@ -1,0 +1,23 @@
+{
+  "apiKeyHelper": "cat \"$HOME/.config/cliproxyapi/api-key\"",
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://lora.tail962e6b.ts.net:8317",
+    "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "272000"
+  },
+  "modelPicker": {
+    "options": [
+      {
+        "model": "gpt-6.1-sol",
+        "label": "Sol"
+      },
+      {
+        "model": "gpt-6-astra",
+        "label": "Astra"
+      },
+      {
+        "model": "gpt-6-luna",
+        "label": "Luna"
+      }
+    ]
+  }
+}
