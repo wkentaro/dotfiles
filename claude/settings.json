@@ -1,5 +1,8 @@
 {
+  "apiKeyHelper": "cat \"$HOME/.config/cliproxyapi/api-key\"",
   "env": {
+    "ANTHROPIC_BASE_URL": "https://lora.tail962e6b.ts.net:8317",
+    "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "272000",
     "CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING": "1",
     "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "1",
     "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
@@ -14,6 +17,22 @@
     "defaultMode": "auto"
   },
   "model": "opus",
+  "modelPicker": {
+    "options": [
+      {
+        "model": "gpt-6.1-sol",
+        "label": "Sol"
+      },
+      {
+        "model": "gpt-6-astra",
+        "label": "Astra"
+      },
+      {
+        "model": "gpt-6-luna",
+        "label": "Luna"
+      }
+    ]
+  },
   "hooks": {
     "SessionStart": [
       {
@@ -93,6 +112,7 @@
   "outputStyle": "Concise",
   "viewMode": "default",
   "feedbackDrafts": "off",
+  "promptCacheTtl": "1h",
   "modelSettings": {
     "claude-opus-5-5": {
       "effortLevel": "medium",
@@ -101,6 +121,18 @@
     "claude-fable-5-2": {
       "effortLevel": "high",
       "autoCompactWindow": 300000
+    },
+    "gpt-6.1-sol": {
+      "effortLevel": "high",
+      "autoCompactWindow": 250000
+    },
+    "gpt-6-astra": {
+      "effortLevel": "high",
+      "autoCompactWindow": 250000
+    },
+    "gpt-6-luna": {
+      "effortLevel": "high",
+      "autoCompactWindow": 250000
     }
   },
   "tui": "fullscreen",
