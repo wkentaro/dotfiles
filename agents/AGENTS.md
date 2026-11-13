@@ -58,7 +58,7 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 
 - When something is worth keeping for future reference, propose it in one line and write it once the user agrees:
   - Durable project knowledge goes in the project's own docs.
-  - Personal or cross-project knowledge goes in `wkentaro/secondbrain`. Commit and push to its `main` directly.
+  - Personal or cross-project knowledge goes in `wkentaro/brain`. Commit and push to its `main` directly.
   - Active work (plans, TODOs, follow-ups) goes in the project's issue tracker.
 - Scratch files go in a directory made with `mktemp -d`.
 - Before writing to an issue tracker, redact credentials and unnecessary personal data.
