@@ -31,6 +31,7 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 
 - Work only on the local computer. Never open a remote shell, run commands on another machine, or copy files to or from one. Git remotes over SSH are fine.
 - On mac, assume GNU (Homebrew gnubin) shell tools are installed, such as `sed -i 's/a/b/' file`.
+- "Resource deadlock avoided" on a read means the file is online-only in Dropbox. Read it with `python3 -c 'import ctypes,os,sys; ctypes.CDLL(None).setiopolicy_np(3,0,2); os.execvp(sys.argv[1], sys.argv[1:])' <command> <file>`, which lets that one command download it. Each read downloads the whole file, so use it on the specific files you need and search with plain commands.
 
 ## Using Git
 
