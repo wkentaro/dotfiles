@@ -47,7 +47,8 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 
 ## Researching with Grok
 
-- For X posts, articles, and threads, user sentiment, market data, or the latest news, ask Grok Build from a `mktemp -d` directory: `timeout 300 grok -p "<question>" --disallowed-tools Bash,Edit,Write </dev/null`.
+- For X posts, articles, and threads, user sentiment, market data, or the latest news, ask Grok Build from a `mktemp -d` directory with only its search tools and none of your skills or CLAUDE.md loaded: `GROK_CLAUDE_AGENTS_ENABLED=0 GROK_CLAUDE_SKILLS_ENABLED=0 timeout 300 grok -p "<question>" --tools XSearch,web_search --no-subagents --max-turns 4 --reasoning-effort low </dev/null`.
+- Keep the default model. Input context, not reasoning, uses the tokens, and `grok-4.7-build-fast` costs twice as much.
 - Ask for verbatim quotes and a link per claim, and check each claim you rely on against its link.
 
 ## Reviewing code
