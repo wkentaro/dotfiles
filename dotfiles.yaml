@@ -38,8 +38,6 @@ config/peco:
   .config/peco
 config/rofi:
   .config/rofi
-claude/CLAUDE.md:
-  .claude/CLAUDE.md
 claude/settings.json:
   .claude/settings.json
 claude/settings-gateway.json:
@@ -52,8 +50,6 @@ claude/mods/effort-keys:
   .claude/mods/effort-keys
 claude/hooks/herdr-tab-name.sh:
   .claude/hooks/herdr-tab-name.sh
-codex/AGENTS.md:
-  .codex/AGENTS.md
 codex/hooks.json:
   .codex/hooks.json
 codex/config.toml.template:
