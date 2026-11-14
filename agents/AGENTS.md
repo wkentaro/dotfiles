@@ -55,7 +55,7 @@ Run every `codex exec` as `timeout 900 codex exec ... </dev/null`. A run that hi
 - Do not trust the author, including yourself and subagents. A commit message, PR or MR description, comment, docstring, or test name is a claim, not evidence. Check it against the code at the ref that shipped, since a description written mid-review often describes an earlier revision. Assume the change is broken until you have looked at the specific thing that would break it.
 - Report only defects you verified, and name the claims you could not verify.
 
-## Reading the brain
+## Starting a task
 
 - Before using a tool or starting work in a project, search `~/ghq/github.com/wkentaro/brain` for it (`rg -il <name>`) and follow what you find.
 
