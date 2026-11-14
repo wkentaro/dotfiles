@@ -29,20 +29,7 @@ split_vertical = ["prefix+v", "alt+v"]
 split_horizontal = ["prefix+minus", "alt+minus"]
 zoom = ["prefix+z", "alt+z"]
 toggle_sidebar = ["prefix+b", "alt+b"]
-
-[[keys.command]]
-key = ["prefix+m", "alt+m"]
-type = "popup"
-description = "move pane to workspace"
-width = "50%"
-height = "40%"
-command = '''
-p="$HERDR_ACTIVE_PANE_ID"
-ws=$(herdr workspace list \
-  | jq -r --arg w "${p%%:*}" '.result.workspaces[] | select(.workspace_id != $w) | "\(.workspace_id)\t\(.label)"' \
-  | fzf --delimiter='\t' --with-nth=2 --prompt='move to> ' | cut -f1)
-[ -n "$ws" ] && herdr pane move "$p" --new-tab --workspace "$ws"
-'''
+move_pane = ["prefix+m", "alt+m"]
 
 [ui]
 pane_gaps = false
