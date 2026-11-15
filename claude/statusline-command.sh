@@ -11,6 +11,49 @@ used_tokens=$(echo "$input" | jq -r '.context_window.total_input_tokens // empty
 pr_number=$(echo "$input" | jq -r '.pr.number // empty')
 weekly_used=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
 
+# Gateway sessions get no rate_limits, so read the weekly quota from the
+# proxy's own OAuth tokens on lora, cached and refreshed in the background.
+# shortcut: the proxy host is hardcoded; read it from ANTHROPIC_BASE_URL if it moves.
+if [ -z "$weekly_used" ]; then
+  cache="$HOME/.cache/claude-gateway-quota.json"
+  mkdir -p "$HOME/.cache"
+  # The lock outlives each attempt, so a failing host is retried at most every 2 minutes.
+  find "$cache.lock" -maxdepth 0 -mmin +2 -exec rmdir {} \; 2>/dev/null
+  if [ -z "$(find "$cache" -mmin -5 2>/dev/null)" ] && mkdir "$cache.lock" 2>/dev/null; then
+    (
+      timeout 60 ssh -o BatchMode=yes -o ConnectTimeout=5 lora python3 - >"$cache.tmp" <<'EOF' &&
+import glob, json, os, urllib.request
+out = {}
+for path in glob.glob(os.path.expanduser("~/.cli-proxy-api/*.json")):
+    try:
+        auth = json.load(open(path))
+        if auth.get("disabled"):
+            continue
+        headers = {"Authorization": "Bearer " + auth.get("access_token", "")}
+        if auth.get("type") == "claude":
+            headers["anthropic-beta"] = "oauth-2025-04-20"
+            req = urllib.request.Request("https://api.anthropic.com/api/oauth/usage", headers=headers)
+            out["claude"] = json.load(urllib.request.urlopen(req, timeout=10))["seven_day"]["utilization"]
+        elif auth.get("type") == "codex":
+            headers["ChatGPT-Account-Id"] = auth["account_id"]
+            req = urllib.request.Request("https://chatgpt.com/backend-api/wham/usage", headers=headers)
+            limit = json.load(urllib.request.urlopen(req, timeout=10))["rate_limit"]
+            weekly = [w for w in (limit.get("primary_window"), limit.get("secondary_window")) if w and w["limit_window_seconds"] == 604800]
+            out["codex"] = weekly[0]["used_percent"]
+    except Exception:
+        pass
+print(json.dumps(out))
+EOF
+        { cat "$cache" 2>/dev/null; cat "$cache.tmp"; } | jq -s add >"$cache.new" && mv "$cache.new" "$cache"
+    ) </dev/null >/dev/null 2>&1 &
+  fi
+  case $(echo "$input" | jq -r '.model.id // empty') in
+    gpt-*) provider=codex ;;
+    *) provider=claude ;;
+  esac
+  weekly_used=$(jq -r ".$provider // empty" "$cache" 2>/dev/null)
+fi
+
 # Colors sampled from Codex's statusline rendering (Catppuccin Mocha)
 yellow='\033[38;2;249;226;175m'
 green='\033[38;2;166;227;161m'
