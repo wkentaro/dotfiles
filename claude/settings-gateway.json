@@ -1,5 +1,7 @@
 {
   "apiKeyHelper": "cat \"$HOME/.config/cliproxyapi/api-key\"",
+  "model": "gpt-6.1-sol",
+  "disableClaudeAiConnectors": true,
   "env": {
     "ANTHROPIC_BASE_URL": "https://lora.tail962e6b.ts.net:8317",
     "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "272000"

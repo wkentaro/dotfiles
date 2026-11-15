@@ -408,8 +408,8 @@ fi
 # alias rm="rm -i"
 
 alias cc="claude --allow-dangerously-skip-permissions"
-alias cc-sol="cc --settings ~/.claude/settings-gateway.json --model gpt-6.1-sol"
-alias cc-astra="cc --settings ~/.claude/settings-gateway.json --model gpt-6-astra"
+alias ccg="cc --settings ~/.claude/settings-gateway.json"
+alias cc-sol="ccg"
 alias cx="codex"
 
 alias fable="cc --model fable"
