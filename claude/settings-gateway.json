@@ -3,8 +3,7 @@
   "model": "claude-opus-5-5",
   "disableClaudeAiConnectors": true,
   "env": {
-    "ANTHROPIC_BASE_URL": "https://lora.tail962e6b.ts.net:8317",
-    "CLAUDE_CODE_MAX_CONTEXT_TOKENS": "272000"
+    "ANTHROPIC_BASE_URL": "https://lora.tail962e6b.ts.net:8317"
   },
   "modelPicker": {
     "options": [
