@@ -407,16 +407,14 @@ fi
 # alias mv="mv -i"
 # alias rm="rm -i"
 
-alias cc="claude --allow-dangerously-skip-permissions"
-alias ccg="cc --settings ~/.claude/settings-gateway.json"
-alias cc-sol="ccg"
+alias cc="claude --allow-dangerously-skip-permissions --settings ~/.claude/settings-gateway.json"
 alias cx="codex"
 
 alias fable="cc --model fable"
 alias opus="cc --model opus"
 
-alias astra='cx --model gpt-6-astra -c model_reasoning_effort="high"'
-alias sol='cx --model gpt-6.1-sol -c model_reasoning_effort="high"'
+alias astra="cc --model gpt-6-astra"
+alias sol="cc --model gpt-6.1-sol"
 alias luna='cx --model gpt-6-luna -c model_reasoning_effort="high"'
 
 alias fpp='FPP_EDITOR=~/.local/bin/fpp-copy command fpp -ni'
