@@ -10,6 +10,13 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+
+    - name: Test Pi extensions
+      run: node --test tests/*.test.mjs
+
     - name: Update submodules
       run: |
         git submodule update --init --recursive
