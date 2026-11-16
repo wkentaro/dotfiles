@@ -21,7 +21,12 @@ if [ -z "$weekly_used" ]; then
   find "$cache.lock" -maxdepth 0 -mmin +2 -exec rmdir {} \; 2>/dev/null
   if [ -z "$(find "$cache" -mmin -5 2>/dev/null)" ] && mkdir "$cache.lock" 2>/dev/null; then
     (
-      timeout 60 ssh -o BatchMode=yes -o ConnectTimeout=5 lora python3 - >"$cache.tmp" <<'EOF' &&
+      if [ "$(hostname -s)" = lora ]; then
+        set -- python3 -
+      else
+        set -- ssh -o BatchMode=yes -o ConnectTimeout=5 lora python3 -
+      fi
+      timeout 60 "$@" >"$cache.tmp" <<'EOF' &&
 import glob, json, os, urllib.request
 out = {}
 for path in glob.glob(os.path.expanduser("~/.cli-proxy-api/*.json")):
