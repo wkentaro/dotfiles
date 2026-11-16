@@ -50,6 +50,8 @@ claude/mods/effort-keys:
   .claude/mods/effort-keys
 claude/hooks/herdr-tab-name.sh:
   .claude/hooks/herdr-tab-name.sh
+pi/keybindings.json:
+  .pi/agent/keybindings.json
 codex/hooks.json:
   .codex/hooks.json
 codex/config.toml.template:
