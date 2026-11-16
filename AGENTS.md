@@ -1,5 +1,9 @@
 # Agent instructions
 
+## Layout
+
+A file's path in this repo is its install path under `~` with the leading dot dropped, every directory kept: `~/.pi/agent/mcp.json` lives at `pi/agent/mcp.json`.
+
 ## Agent skills
 
 ### Issue tracker
