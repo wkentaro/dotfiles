@@ -54,6 +54,11 @@ pi/keybindings.json:
   .pi/agent/keybindings.json
 pi/extensions/herdr-tab-name.ts:
   .pi/agent/extensions/herdr-tab-name.ts
+pi/agents/*:
+  .pi/agent/agents
+pi/settings.json.template:
+  name: .pi/agent/settings.json
+  type: copy
 codex/hooks.json:
   .codex/hooks.json
 codex/config.toml.template:
