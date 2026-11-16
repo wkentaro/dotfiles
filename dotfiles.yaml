@@ -50,13 +50,15 @@ claude/mods/effort-keys:
   .claude/mods/effort-keys
 claude/hooks/herdr-tab-name.sh:
   .claude/hooks/herdr-tab-name.sh
-pi/keybindings.json:
+pi/agent/keybindings.json:
   .pi/agent/keybindings.json
-pi/extensions/herdr-tab-name.ts:
+pi/agent/mcp.json:
+  .pi/agent/mcp.json
+pi/agent/extensions/herdr-tab-name.ts:
   .pi/agent/extensions/herdr-tab-name.ts
-pi/agents/*:
+pi/agent/agents/*:
   .pi/agent/agents
-pi/settings.json:
+pi/agent/settings.json:
   .pi/agent/settings.json
 codex/hooks.json:
   .codex/hooks.json
