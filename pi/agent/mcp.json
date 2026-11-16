@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "posthog": {
+      "url": "https://mcp.posthog.com/mcp"
+    },
+    "mobbin": {
+      "url": "https://api.mobbin.com/mcp"
+    },
+    "poleway": {
+      "url": "https://alpha.poleway.so/mcp"
+    }
+  }
+}
