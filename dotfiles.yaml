@@ -56,6 +56,8 @@ pi/agent/mcp.json:
   .pi/agent/mcp.json
 pi/agent/extensions/herdr-tab-name.ts:
   .pi/agent/extensions/herdr-tab-name.ts
+pi/agent/extensions/codex-fast.ts:
+  .pi/agent/extensions/codex-fast.ts
 pi/agent/agents/*:
   .pi/agent/agents
 pi/agent/settings.json:
