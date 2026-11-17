@@ -55,8 +55,11 @@ exits with status 1 if any account fails or no accounts are found.
 
 Each account's quota is cached in `~/.cache/cliproxy-quota`, readable only
 by you, and reused for 5 minutes, marked `as of HH:MM`, so `watch` does not
-hit provider rate limits. After an HTTP 429, the account is not queried
-again until the provider's `Retry-After` time, between 1 and 60 minutes.
+hit provider rate limits. After a failed request, the account is not
+queried again for a minute, or after an HTTP 429 for the provider's
+`Retry-After` seconds, between 1 and 60 minutes (5 minutes when it is
+missing, a date, or over 9 digits). Changing the credential file, such as
+by re-login, ends any wait but a 429.
 When a request fails or is waiting, the last cached quota stays on screen
 next to the error.
 

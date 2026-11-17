@@ -153,10 +153,13 @@ def fetch_usage(provider, auth, timeout):
         return json.load(response)
 
 
+def digest(text):
+    return hashlib.sha256(text.encode()).hexdigest()[:32]
+
+
 def timestamp(value):
     if isinstance(value, (int, float)) and not isinstance(value, bool):
-        if math.isfinite(value):
-            return value
+        return value
     return 0
 
 
@@ -220,8 +223,22 @@ def retry_seconds(error):
     return max(MIN_RETRY_SECONDS, min(seconds, MAX_RETRY_SECONDS))
 
 
-def rate_limited(seconds):
-    return f"HTTP 429; retry in {math.ceil(seconds / 60)} min"
+def retrying(message, seconds):
+    return f"{message}; retry in {math.ceil(seconds / 60)} min"
+
+
+def pending_retry(path, now, credential):
+    retry = read_json(path)
+    if (
+        not isinstance(retry, list)
+        or len(retry) != 3
+        or retry[2] not in (None, credential)
+    ):
+        return None
+    retry_at, message = timestamp(retry[0]), retry[1]
+    if not isinstance(message, str) or not now < retry_at <= now + MAX_RETRY_SECONDS:
+        return None
+    return retrying(clean_text(message), retry_at - now)
 
 
 def account_status(path, timeout):
@@ -237,7 +254,8 @@ def account_status(path, timeout):
         "error": None,
     }
     try:
-        auth = json.loads(path.read_text())
+        text = path.read_text()
+        auth = json.loads(text)
         if not isinstance(auth, dict):
             raise ValueError("invalid credential")
     except (OSError, ValueError, RecursionError):
@@ -254,18 +272,20 @@ def account_status(path, timeout):
     if auth.get("disabled"):
         return {**status, "disabled": True}
     account = f"{provider}\0{email}\0{path.resolve()}"
-    key = hashlib.sha256(account.encode()).hexdigest()[:32]
+    key = digest(account)
     cache_path = CACHE_DIR / f"{key}.json"
     retry_path = CACHE_DIR / f"{key}.retry"
     now = time.time()
     fetched_at, windows = cached_windows(cache_path, now)
     if windows:
         status.update(windows=windows, fetched_at=fetched_at, cached=True)
-    retry_at = timestamp(read_json(retry_path))
-    if now < retry_at <= now + MAX_RETRY_SECONDS:
-        return {**status, "error": rate_limited(retry_at - now)}
     if windows and now - fetched_at < CACHE_SECONDS:
         return status
+    credential = digest(text)
+    retry = pending_retry(retry_path, now, credential)
+    if retry:
+        return {**status, "error": retry}
+    seconds = MIN_RETRY_SECONDS
     try:
         windows = quota_windows(provider, fetch_usage(provider, auth, timeout))
         write_json(cache_path, {"fetched_at": now, "windows": windows})
@@ -277,13 +297,13 @@ def account_status(path, timeout):
             message += "; re-login may be required"
         elif error.code == 429:
             seconds = retry_seconds(error)
-            write_json(retry_path, now + seconds)
-            message = rate_limited(seconds)
+            credential = None
     except (OSError, urllib.error.URLError, HTTPException):
         message = "Network request failed"
     except (ValueError, TypeError, OverflowError, RecursionError):
         message = "Invalid credentials or quota response"
-    return {**status, "error": message}
+    write_json(retry_path, [time.time() + seconds, message, credential])
+    return {**status, "error": retrying(message, seconds)}
 
 
 def account_text(status):

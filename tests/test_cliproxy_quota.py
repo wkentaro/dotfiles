@@ -229,11 +229,13 @@ class QuotaTests(unittest.TestCase):
             output, failed = account_report(path)
         self.assertTrue(failed)
         self.assertIn("Invalid credentials or quota response", output)
-        with patch.object(quota, "fetch_usage", return_value={}):
+        shutil.rmtree(self.cache_dir)
+        with patch.object(quota, "fetch_usage", return_value={}) as fetch:
             status, output, error = self.run_cli()
         self.assertEqual(status, 1)
         self.assertIn("Cannot read credential JSON", output)
         self.assertIn("claude  member@example.test", output)
+        self.assertEqual(fetch.call_count, 1)
         self.assertNotIn("secret-access-token", output + error)
 
     def test_network_and_response_errors_are_redacted(self):
@@ -248,11 +250,13 @@ class QuotaTests(unittest.TestCase):
             RecursionError("secret-access-token"),
         ]
         for error in errors:
+            shutil.rmtree(self.cache_dir, ignore_errors=True)
             with (
                 self.subTest(error=error),
-                patch.object(quota, "fetch_usage", side_effect=error),
+                patch.object(quota, "fetch_usage", side_effect=error) as fetch,
             ):
                 output, failed = account_report(path)
+                self.assertEqual(fetch.call_count, 1)
                 self.assertTrue(failed)
                 self.assertNotIn("secret-access-token", output)
 
@@ -446,45 +450,91 @@ class QuotaTests(unittest.TestCase):
         self.assertEqual(calls, 1)
         self.assertFalse(failed)
 
-    def test_rate_limit_blocks_requests_and_keeps_showing_cached_quota(self):
+    def test_failures_back_off_and_keep_showing_cached_quota(self):
+        for failure, message, minutes, blocked, expired in (
+            (self.rate_limit({"Retry-After": "120"}), "HTTP 429", 2, 400, 422),
+            (
+                patch.object(quota, "fetch_usage", side_effect=OSError("secret")),
+                "Network request failed",
+                1,
+                340,
+                362,
+            ),
+        ):
+            with self.subTest(message=message):
+                path = self.account()
+                now = time.time()
+                self.report_at(path, now, {"seven_day": {"utilization": 40}})
+                with patch.object(quota.time, "time", return_value=now + 301), failure:
+                    output, failed = account_report(path)
+                self.assertTrue(failed)
+                self.assertIn("as of", output)
+                self.assertIn("60.0% left", output)
+                self.assertIn(f"{message}; retry in {minutes} min", output)
+                output, failed, calls = self.report_at(path, now + blocked)
+                self.assertEqual(calls, 0)
+                self.assertTrue(failed)
+                self.assertIn("as of", output)
+                self.assertIn("60.0% left", output)
+                self.assertIn(f"{message}; retry in 1 min", output)
+                output, failed, calls = self.report_at(path, now + expired)
+                self.assertEqual(calls, 1)
+                self.assertFalse(failed)
+                self.assertIn("100.0% left", output)
+
+    def test_backoff_counts_from_the_failure(self):
         path = self.account()
         now = time.time()
-        self.report_at(path, now, {"seven_day": {"utilization": 40}})
+        clock = [now]
+
+        def slow_failure(provider, auth, timeout):
+            clock[0] += 70
+            raise OSError("slow")
+
         with (
-            patch.object(quota.time, "time", return_value=now + 301),
-            self.rate_limit({"Retry-After": "120"}),
+            patch.object(quota.time, "time", side_effect=lambda: clock[0]),
+            patch.object(quota, "fetch_usage", side_effect=slow_failure),
         ):
-            output, failed = account_report(path)
-        self.assertTrue(failed)
-        self.assertIn("60.0% left", output)
-        self.assertIn("HTTP 429; retry in 2 min", output)
-        output, failed, calls = self.report_at(path, now + 400)
+            account_report(path)
+        output, failed, calls = self.report_at(path, now + 75)
+        self.assertEqual(calls, 0)
+        self.assertIn("retry in 1 min", output)
+
+    def test_changed_credentials_end_the_backoff_except_a_rate_limit(self):
+        for failure, ended in (
+            (patch.object(quota, "fetch_usage", side_effect=OSError("down")), True),
+            (self.rate_limit({"Retry-After": "600"}), False),
+        ):
+            with self.subTest(ended=ended):
+                path = self.account()
+                now = time.time()
+                with failure:
+                    account_report(path)
+                path.write_text(path.read_text().replace("secret", "renewed"))
+                output, failed, calls = self.report_at(path, now + 1)
+                self.assertEqual(calls, int(ended))
+                self.assertEqual(failed, not ended)
+
+    def test_pending_retry_is_cleaned_and_yields_to_fresh_quota(self):
+        path = self.account()
+        credential = quota.digest(path.read_text())
+        now = time.time()
+        self.report_at(path, now)
+        (cached,) = self.cache_files(".json")
+        cached.with_suffix(".retry").write_text(
+            json.dumps([now + 400, "HTTP 500\x1b[31m", credential])
+        )
+        output, failed, calls = self.report_at(path, now + 1)
+        self.assertEqual(calls, 0)
+        self.assertFalse(failed)
+        output, failed, calls = self.report_at(path, now + 301)
         self.assertEqual(calls, 0)
         self.assertTrue(failed)
-        self.assertIn("as of", output)
-        self.assertIn("60.0% left", output)
-        self.assertIn("HTTP 429; retry in 1 min", output)
-        output, failed, calls = self.report_at(path, now + 422)
-        self.assertEqual(calls, 1)
-        self.assertFalse(failed)
-        self.assertIn("100.0% left", output)
-
-    def test_other_failures_keep_showing_cached_quota(self):
-        path = self.account()
-        now = time.time()
-        self.report_at(path, now, {"seven_day": {"utilization": 40}})
-        with (
-            patch.object(quota.time, "time", return_value=now + 301),
-            patch.object(quota, "fetch_usage", side_effect=OSError("secret")),
-        ):
-            output, failed = account_report(path)
-        self.assertTrue(failed)
-        self.assertIn("as of", output)
-        self.assertIn("60.0% left", output)
-        self.assertIn("Network request failed", output)
+        self.assertIn("HTTP 500?[31m; retry in 2 min", output)
 
     def test_unreadable_or_invalid_cache_is_ignored(self):
         now = time.time()
+        credential = quota.digest(self.account().read_text())
         for suffix, cache in (
             (".json", "not json"),
             (".json", "[]"),
@@ -499,8 +549,14 @@ class QuotaTests(unittest.TestCase):
                 ".json",
                 json.dumps({"fetched_at": now, "windows": [["weekly", None, None]]}),
             ),
-            (".retry", "true"),
-            (".retry", json.dumps(now + 10**9)),
+            (".retry", json.dumps(now + 60)),
+            (".retry", json.dumps([now + 60, "HTTP 500"])),
+            (".retry", json.dumps([True, "HTTP 500", credential])),
+            (".retry", json.dumps([now + 10**9, "HTTP 500", credential])),
+            (".retry", json.dumps([10**400, "HTTP 500", credential])),
+            (".retry", json.dumps([now + 60, None, credential])),
+            (".retry", json.dumps([now + 60, "HTTP 500", "other"])),
+            (".retry", json.dumps([now + 60, "HTTP 500", credential, 0])),
         ):
             with self.subTest(suffix=suffix, cache=cache):
                 shutil.rmtree(self.cache_dir, ignore_errors=True)
@@ -568,7 +624,9 @@ class QuotaTests(unittest.TestCase):
                 },
             ],
         )
-        self.assertEqual(accounts["claude-1.json"]["error"], "Network request failed")
+        self.assertEqual(
+            accounts["claude-1.json"]["error"], "Network request failed; retry in 1 min"
+        )
         self.assertEqual(accounts["claude-1.json"]["windows"], [])
         self.assertTrue(accounts["claude-2.json"]["disabled"])
         codex = accounts["codex-3.json"]
@@ -583,7 +641,7 @@ class QuotaTests(unittest.TestCase):
         cached = {account["file"]: account for account in json.loads(output)}
         self.assertTrue(cached["claude-0.json"]["cached"])
         self.assertEqual(cached["claude-0.json"]["fetched_at"], ok["fetched_at"])
-        self.assertEqual(fetch.call_count, 1)
+        self.assertEqual(fetch.call_count, 0)
 
     def test_json_times_are_utc_and_labels_are_cleaned(self):
         status = {
