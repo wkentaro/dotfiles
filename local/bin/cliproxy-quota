@@ -1,0 +1,212 @@
+#!/usr/bin/env python3
+
+import argparse
+import json
+import math
+import sys
+import urllib.error
+import urllib.request
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timezone
+from http.client import HTTPException
+from pathlib import Path
+
+ENDPOINTS = {
+    "claude": "https://api.anthropic.com/api/oauth/usage",
+    "codex": "https://chatgpt.com/backend-api/wham/usage",
+}
+
+
+class NoRedirects(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
+def clean_text(value):
+    return "".join(c if c.isprintable() else "?" for c in str(value))
+
+
+def percentage(value):
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    if not 0 <= value <= 100 or not math.isfinite(value):
+        return None
+    return value
+
+
+def reset_text(value):
+    try:
+        if isinstance(value, bool) or value is None:
+            return "reset not reported"
+        if isinstance(value, (int, float)):
+            reset = datetime.fromtimestamp(value, timezone.utc)
+        else:
+            reset = datetime.fromisoformat(value.replace("Z", "+00:00"))
+            if reset.tzinfo is None:
+                return "reset not reported"
+        return "resets " + reset.astimezone().strftime("%Y-%m-%d %H:%M %Z")
+    except (ValueError, TypeError, AttributeError, OverflowError, OSError):
+        return "reset not reported"
+
+
+def window_line(label, used, reset):
+    used = percentage(used)
+    if used is None:
+        return f"  {label:<16} not reported"
+    remaining = 100 - used
+    filled = int(remaining / 10 + 0.5)
+    bar = "#" * filled + "-" * (10 - filled)
+    return f"  {label:<16} [{bar}] {remaining:5.1f}% left  {reset_text(reset)}"
+
+
+def duration_label(seconds):
+    if seconds == 604800:
+        return "weekly"
+    if seconds == 86400:
+        return "daily"
+    if isinstance(seconds, (int, float)) and not isinstance(seconds, bool):
+        if math.isfinite(seconds) and seconds > 0:
+            if seconds % 3600 == 0:
+                return f"{seconds / 3600:g}-hour"
+            if seconds % 60 == 0:
+                return f"{seconds / 60:g}-minute"
+            return f"{seconds:g}-second"
+    return "window"
+
+
+def usage_lines(provider, data):
+    if not isinstance(data, dict):
+        raise ValueError("invalid response")
+    if provider == "claude":
+        windows = [("5-hour", data.get("five_hour")), ("weekly", data.get("seven_day"))]
+        windows.extend(
+            (key.removeprefix("seven_day_").replace("_", " ") + " weekly", value)
+            for key, value in data.items()
+            if key.startswith("seven_day_")
+            and isinstance(value, dict)
+            and "utilization" in value
+        )
+        return [
+            window_line(
+                clean_text(label), window.get("utilization"), window.get("resets_at")
+            )
+            if isinstance(window, dict)
+            else window_line(label, None, None)
+            for label, window in windows
+        ]
+    limits = data.get("rate_limit")
+    if not isinstance(limits, dict):
+        raise ValueError("missing rate limits")
+    windows = [limits.get("primary_window"), limits.get("secondary_window")]
+    lines = [
+        window_line(
+            duration_label(window.get("limit_window_seconds")),
+            window.get("used_percent"),
+            window.get("reset_at"),
+        )
+        for window in windows
+        if isinstance(window, dict)
+    ]
+    return lines or ["  Quota windows not reported"]
+
+
+def fetch_usage(provider, auth, timeout):
+    token = auth.get("access_token")
+    if not isinstance(token, str) or not token:
+        raise ValueError("missing access token")
+    headers = {"Authorization": "Bearer " + token, "Accept": "application/json"}
+    if provider == "claude":
+        headers["anthropic-beta"] = "oauth-2025-04-20"
+    else:
+        account_id = auth.get("account_id")
+        if not isinstance(account_id, str) or not account_id:
+            raise ValueError("missing account ID")
+        headers["ChatGPT-Account-Id"] = account_id
+    request = urllib.request.Request(ENDPOINTS[provider], headers=headers)
+    opener = urllib.request.build_opener(NoRedirects())
+    with opener.open(request, timeout=timeout) as response:
+        return json.load(response)
+
+
+def account_report(path, timeout):
+    try:
+        auth = json.loads(path.read_text())
+        if not isinstance(auth, dict):
+            raise ValueError("invalid credential")
+    except (OSError, ValueError, RecursionError):
+        return f"{clean_text(path.name)}\n  Cannot read credential JSON", True
+    provider = auth.get("type")
+    if not isinstance(provider, str) or provider not in ENDPOINTS:
+        return None
+    email = clean_text(auth.get("email") or path.stem)
+    organization = clean_text(auth.get("organization_name") or "")
+    title = f"{provider}  {email}" + (f"  ({organization})" if organization else "")
+    if auth.get("disabled"):
+        return title + "\n  Disabled", False
+    try:
+        data = fetch_usage(provider, auth, timeout)
+        return title + "\n" + "\n".join(usage_lines(provider, data)), False
+    except urllib.error.HTTPError as error:
+        error.close()
+        message = f"HTTP {error.code}"
+        if error.code in (401, 403):
+            message += "; re-login may be required"
+        elif error.code == 429:
+            message += "; try again later"
+    except (OSError, urllib.error.URLError, HTTPException):
+        message = "Network request failed"
+    except (ValueError, TypeError, OverflowError, RecursionError):
+        message = "Invalid credentials or quota response"
+    return title + "\n  " + message, True
+
+
+def positive_timeout(value):
+    try:
+        timeout = float(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError("timeout must be a positive number") from None
+    if not math.isfinite(timeout) or timeout <= 0:
+        raise argparse.ArgumentTypeError("timeout must be a positive number")
+    return timeout
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(
+        description="Show remaining Claude and Codex quota for local CLIProxyAPI accounts.",
+        epilog="Read-only. Output includes account emails. Reset times use your local timezone.",
+    )
+    parser.add_argument(
+        "--auth-dir",
+        type=Path,
+        default=Path.home() / ".cli-proxy-api",
+        help="CLIProxyAPI credential directory (default: ~/.cli-proxy-api)",
+    )
+    parser.add_argument(
+        "--timeout",
+        type=positive_timeout,
+        default=10,
+        help="socket timeout in seconds (default: 10)",
+    )
+    args = parser.parse_args(argv)
+    auth_dir = args.auth_dir.expanduser()
+    try:
+        if not auth_dir.is_dir():
+            raise OSError("missing directory")
+        paths = sorted(auth_dir.glob("*.json"))
+    except OSError:
+        print(
+            "Cannot read the credential directory; check --auth-dir.", file=sys.stderr
+        )
+        return 1
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        reports = list(pool.map(lambda path: account_report(path, args.timeout), paths))
+    reports = [report for report in reports if report is not None]
+    if not reports:
+        print("No Claude or Codex accounts found.")
+        return 1
+    print("\n\n".join(report for report, failed in reports))
+    return int(any(failed for report, failed in reports))
+
+
+if __name__ == "__main__":
+    sys.exit(main())
