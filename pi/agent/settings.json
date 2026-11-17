@@ -2,8 +2,8 @@
   "lastChangelogVersion": "1.5.2",
   "defaultProvider": "anthropic",
   "enabledModels": [
-    "openai-codex/gpt-6.1-sol",
-    "claude-code/claude-opus-5-5"
+    "claude-code/claude-opus-5-5",
+    "openai-codex/gpt-6.1-sol"
   ],
   "theme": "dark",
   "hideThinkingBlock": true,
