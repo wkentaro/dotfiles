@@ -1,6 +1,8 @@
 import io
 import json
+import shutil
 import tempfile
+import time
 import unittest
 import urllib.error
 from contextlib import redirect_stderr, redirect_stdout
@@ -18,11 +20,20 @@ with patch("sys.dont_write_bytecode", True):
     LOADER.exec_module(quota)
 
 
+def usage_lines(provider, data):
+    return quota.window_lines(quota.quota_windows(provider, data))
+
+
 class QuotaTests(unittest.TestCase):
     def setUp(self):
         self.directory = tempfile.TemporaryDirectory()
         self.addCleanup(self.directory.cleanup)
-        self.auth_dir = Path(self.directory.name)
+        self.auth_dir = Path(self.directory.name) / "auth"
+        self.auth_dir.mkdir()
+        self.cache_dir = Path(self.directory.name) / "cache"
+        cache_patch = patch.object(quota, "CACHE_DIR", self.cache_dir)
+        cache_patch.start()
+        self.addCleanup(cache_patch.stop)
 
     def account(self, provider="claude", **overrides):
         auth = {
@@ -43,7 +54,7 @@ class QuotaTests(unittest.TestCase):
         return status, stdout.getvalue(), stderr.getvalue()
 
     def test_claude_remaining_and_missing_window(self):
-        lines = quota.usage_lines(
+        lines = usage_lines(
             "claude",
             {
                 "five_hour": None,
@@ -59,13 +70,8 @@ class QuotaTests(unittest.TestCase):
         self.assertIn("100.0% left", lines[2])
         self.assertIn("reset not reported", lines[2])
 
-    def test_model_specific_claude_window_alone_is_reported(self):
-        lines = quota.usage_lines("claude", {"seven_day_opus": {"utilization": 20}})
-        self.assertIn("opus weekly", lines[2])
-        self.assertIn("80.0% left", lines[2])
-
     def test_codex_labels_actual_window_duration(self):
-        lines = quota.usage_lines(
+        lines = usage_lines(
             "codex",
             {
                 "rate_limit": {
@@ -87,7 +93,7 @@ class QuotaTests(unittest.TestCase):
         self.assertIn("[----------]   0.0% left", lines[1])
 
     def test_codex_weekly_only_and_missing_windows(self):
-        lines = quota.usage_lines(
+        lines = usage_lines(
             "codex",
             {
                 "rate_limit": {
@@ -102,7 +108,7 @@ class QuotaTests(unittest.TestCase):
         self.assertEqual(len(lines), 1)
         self.assertIn("weekly", lines[0])
         with self.assertRaises(ValueError):
-            quota.usage_lines("codex", {"rate_limit": {}})
+            quota.quota_windows("codex", {"rate_limit": {}})
 
     def test_invalid_percentages_are_not_shown_as_available_quota(self):
         for value in (None, True, "0", -1, 101, 10**1000, float("nan"), float("inf")):
@@ -284,14 +290,14 @@ class QuotaTests(unittest.TestCase):
         self.assertIn("No Claude or Codex accounts", output)
         for provider, data in (
             ("claude", []),
-            ("codex", {}),
             ("claude", {}),
             ("claude", {"five_hour": None, "seven_day": None}),
+            ("codex", {}),
             ("codex", {"rate_limit": []}),
             ("codex", {"rate_limit": {"primary_window": None}}),
         ):
             with self.assertRaises(ValueError):
-                quota.usage_lines(provider, data)
+                quota.quota_windows(provider, data)
 
     def test_terminal_controls_are_removed_from_account_names(self):
         path = self.account(
@@ -321,24 +327,190 @@ class QuotaTests(unittest.TestCase):
                     quota.main(["--timeout", value])
                 self.assertEqual(error.exception.code, 2)
 
+    def rate_limit(self, headers):
+        return patch.object(
+            quota,
+            "fetch_usage",
+            side_effect=urllib.error.HTTPError(
+                "https://example.test", 429, "secret", headers, io.BytesIO()
+            ),
+        )
+
     def test_success_exit_and_rate_limit_error(self):
-        path = self.account()
+        self.account()
         with patch.object(
             quota, "fetch_usage", return_value={"seven_day": {"utilization": 0}}
         ):
             status, output, error = self.run_cli()
         self.assertEqual(status, 0)
         self.assertIn("100.0% left", output)
-        with patch.object(
-            quota,
-            "fetch_usage",
-            side_effect=urllib.error.HTTPError(
-                "https://example.test", 429, "secret", {}, io.BytesIO()
-            ),
+        for retry_after, expected in (
+            (None, "5 min"),
+            ("197", "4 min"),
+            ("60", "1 min"),
+            ("0", "1 min"),
+            ("1", "1 min"),
+            ("86400", "60 min"),
+            ("Wed, 18 Nov 2026 07:00:00 GMT", "5 min"),
+            ("9" * 5000, "5 min"),
+        ):
+            path = self.account()
+            headers = {} if retry_after is None else {"Retry-After": retry_after}
+            with self.rate_limit(headers):
+                output, failed = quota.account_report(path, 1)
+            self.assertTrue(failed)
+            self.assertIn(f"HTTP 429; retry in {expected}", output)
+
+    def report_at(self, path, now, response=None):
+        response = response or {"seven_day": {"utilization": 0}}
+        with (
+            patch.object(quota.time, "time", return_value=now),
+            patch.object(quota, "fetch_usage", return_value=response) as fetch,
+        ):
+            output, failed = quota.account_report(path, 1)
+        return output, failed, fetch.call_count
+
+    def cache_files(self, suffix):
+        return list(self.cache_dir.glob("*" + suffix))
+
+    def test_model_specific_claude_window_alone_is_reported(self):
+        lines = usage_lines("claude", {"seven_day_opus": {"utilization": 20}})
+        self.assertIn("opus weekly", lines[2])
+        self.assertIn("80.0% left", lines[2])
+
+    def test_fresh_results_are_reused_without_a_request(self):
+        path = self.account()
+        now = time.time()
+        first, failed, calls = self.report_at(
+            path, now, {"seven_day": {"utilization": 40}}
+        )
+        self.assertEqual(calls, 1)
+        self.assertNotIn("as of", first)
+        second, failed, calls = self.report_at(path, now + 299)
+        self.assertEqual(calls, 0)
+        self.assertFalse(failed)
+        self.assertIn("as of", second)
+        self.assertIn("60.0% left", second)
+        third, failed, calls = self.report_at(path, now + 301)
+        self.assertEqual(calls, 1)
+        self.assertIn("100.0% left", third)
+
+    def test_cache_is_private_and_holds_only_displayed_windows(self):
+        self.cache_dir.mkdir(mode=0o755)
+        self.cache_dir.chmod(0o755)
+        path = self.account(email="member@example.test")
+        self.report_at(
+            path, time.time(), {"seven_day": {"utilization": 1}, "extra": "private"}
+        )
+        (cache,) = self.cache_files(".json")
+        self.assertEqual(self.cache_dir.stat().st_mode & 0o777, 0o700)
+        self.assertEqual(cache.stat().st_mode & 0o777, 0o600)
+        self.assertNotIn("member", cache.name)
+        for text in ("secret", "private", "member"):
+            self.assertNotIn(text, cache.read_text())
+        self.assertEqual(list(self.cache_dir.glob("tmp*")), [])
+
+    def test_cache_is_not_shared_between_accounts_with_the_same_file_name(self):
+        now = time.time()
+        paths = []
+        for name, provider, email in (
+            ("one", "claude", "alice@example.test"),
+            ("two", "claude", "bob@example.test"),
+            ("three", "codex", "alice@example.test"),
+        ):
+            directory = self.auth_dir / name
+            directory.mkdir()
+            path = directory / "account.json"
+            path.write_text(
+                json.dumps({"type": provider, "email": email, "access_token": "secret"})
+            )
+            paths.append(path)
+        self.report_at(paths[0], now, {"seven_day": {"utilization": 10}})
+        output, failed, calls = self.report_at(
+            paths[1], now + 1, {"seven_day": {"utilization": 70}}
+        )
+        self.assertEqual(calls, 1)
+        self.assertIn("30.0% left", output)
+        response = {
+            "rate_limit": {
+                "primary_window": {"used_percent": 0, "limit_window_seconds": 604800}
+            }
+        }
+        output, failed, calls = self.report_at(paths[2], now + 2, response)
+        self.assertEqual(calls, 1)
+        self.assertFalse(failed)
+
+    def test_rate_limit_blocks_requests_and_keeps_showing_cached_quota(self):
+        path = self.account()
+        now = time.time()
+        self.report_at(path, now, {"seven_day": {"utilization": 40}})
+        with (
+            patch.object(quota.time, "time", return_value=now + 301),
+            self.rate_limit({"Retry-After": "120"}),
         ):
             output, failed = quota.account_report(path, 1)
         self.assertTrue(failed)
-        self.assertIn("HTTP 429; try again later", output)
+        self.assertIn("60.0% left", output)
+        self.assertIn("HTTP 429; retry in 2 min", output)
+        output, failed, calls = self.report_at(path, now + 400)
+        self.assertEqual(calls, 0)
+        self.assertTrue(failed)
+        self.assertIn("as of", output)
+        self.assertIn("60.0% left", output)
+        self.assertIn("HTTP 429; retry in 1 min", output)
+        output, failed, calls = self.report_at(path, now + 422)
+        self.assertEqual(calls, 1)
+        self.assertFalse(failed)
+        self.assertIn("100.0% left", output)
+
+    def test_other_failures_keep_showing_cached_quota(self):
+        path = self.account()
+        now = time.time()
+        self.report_at(path, now, {"seven_day": {"utilization": 40}})
+        with (
+            patch.object(quota.time, "time", return_value=now + 301),
+            patch.object(quota, "fetch_usage", side_effect=OSError("secret")),
+        ):
+            output, failed = quota.account_report(path, 1)
+        self.assertTrue(failed)
+        self.assertIn("as of", output)
+        self.assertIn("60.0% left", output)
+        self.assertIn("Network request failed", output)
+
+    def test_unreadable_or_invalid_cache_is_ignored(self):
+        now = time.time()
+        for suffix, cache in (
+            (".json", "not json"),
+            (".json", "[]"),
+            (".json", '{"fetched_at": "now", "windows": [["weekly", 0, null]]}'),
+            (".json", '{"fetched_at": 1e999, "windows": [["weekly", 0, null]]}'),
+            (".json", json.dumps({"fetched_at": now + 60, "windows": []})),
+            (".json", json.dumps({"fetched_at": now, "windows": []})),
+            (".json", json.dumps({"fetched_at": now, "windows": [[1, 2, 3]]})),
+            (".json", json.dumps({"fetched_at": now, "windows": [["weekly", 0]]})),
+            (".json", json.dumps({"fetched_at": now, "windows": {"weekly": 0}})),
+            (".retry", "true"),
+            (".retry", json.dumps(now + 10**9)),
+        ):
+            with self.subTest(suffix=suffix, cache=cache):
+                shutil.rmtree(self.cache_dir, ignore_errors=True)
+                path = self.account()
+                self.report_at(path, now - 1000)
+                (cached,) = self.cache_files(".json")
+                cached.with_suffix(suffix).write_text(cache)
+                output, failed, calls = self.report_at(path, now)
+                self.assertEqual(calls, 1)
+                self.assertFalse(failed)
+                self.assertIn("100.0% left", output)
+
+    def test_unwritable_cache_does_not_fail_the_command(self):
+        self.cache_dir.mkdir()
+        self.cache_dir.chmod(0o500)
+        self.addCleanup(self.cache_dir.chmod, 0o700)
+        output, failed, calls = self.report_at(self.account(), time.time())
+        self.assertEqual(calls, 1)
+        self.assertFalse(failed)
+        self.assertIn("100.0% left", output)
 
 
 if __name__ == "__main__":

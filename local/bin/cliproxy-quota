@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 
 import argparse
+import hashlib
 import json
 import math
+import os
 import sys
+import tempfile
+import time
 import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
@@ -15,6 +19,10 @@ ENDPOINTS = {
     "claude": "https://api.anthropic.com/api/oauth/usage",
     "codex": "https://chatgpt.com/backend-api/wham/usage",
 }
+CACHE_DIR = Path.home() / ".cache" / "cliproxy-quota"
+CACHE_SECONDS = 300
+MIN_RETRY_SECONDS = 60
+MAX_RETRY_SECONDS = 3600
 
 
 class NoRedirects(urllib.request.HTTPRedirectHandler):
@@ -74,7 +82,7 @@ def duration_label(seconds):
     return "window"
 
 
-def usage_lines(provider, data):
+def quota_windows(provider, data):
     if not isinstance(data, dict):
         raise ValueError("invalid response")
     if provider == "claude":
@@ -86,32 +94,34 @@ def usage_lines(provider, data):
             and isinstance(value, dict)
             and "utilization" in value
         )
-        if not any(isinstance(window, dict) for label, window in windows):
-            raise ValueError("missing quota windows")
-        return [
-            window_line(
-                clean_text(label), window.get("utilization"), window.get("resets_at")
-            )
+        windows = [
+            (label, window.get("utilization"), window.get("resets_at"))
             if isinstance(window, dict)
-            else window_line(label, None, None)
+            else (label, None, None)
             for label, window in windows
         ]
-    limits = data.get("rate_limit")
-    if not isinstance(limits, dict):
-        raise ValueError("missing rate limits")
-    windows = [limits.get("primary_window"), limits.get("secondary_window")]
-    lines = [
-        window_line(
-            duration_label(window.get("limit_window_seconds")),
-            window.get("used_percent"),
-            window.get("reset_at"),
-        )
-        for window in windows
-        if isinstance(window, dict)
-    ]
-    if not lines:
+    else:
+        limits = data.get("rate_limit")
+        if not isinstance(limits, dict):
+            raise ValueError("missing rate limits")
+        windows = [
+            (
+                duration_label(window.get("limit_window_seconds")),
+                window.get("used_percent"),
+                window.get("reset_at"),
+            )
+            for window in (limits.get("primary_window"), limits.get("secondary_window"))
+            if isinstance(window, dict)
+        ]
+    if all(used is None and reset is None for label, used, reset in windows):
         raise ValueError("missing quota windows")
-    return lines
+    return windows
+
+
+def window_lines(windows):
+    return [
+        window_line(clean_text(label), used, reset) for label, used, reset in windows
+    ]
 
 
 def fetch_usage(provider, auth, timeout):
@@ -132,6 +142,77 @@ def fetch_usage(provider, auth, timeout):
         return json.load(response)
 
 
+def timestamp(value):
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        if math.isfinite(value):
+            return value
+    return 0
+
+
+def read_json(path):
+    try:
+        return json.loads(path.read_text())
+    except (OSError, ValueError, RecursionError):
+        return None
+
+
+def write_json(path, value):
+    try:
+        CACHE_DIR.mkdir(parents=True, exist_ok=True)
+        CACHE_DIR.chmod(0o700)
+        descriptor, temporary = tempfile.mkstemp(dir=CACHE_DIR)
+        try:
+            with os.fdopen(descriptor, "w") as file:
+                json.dump(value, file)
+            os.replace(temporary, path)
+        except OSError:
+            os.unlink(temporary)
+            raise
+    except OSError:
+        pass
+
+
+def cached_windows(path, now):
+    entry = read_json(path)
+    if not isinstance(entry, dict):
+        return 0, None
+    fetched_at = timestamp(entry.get("fetched_at"))
+    windows = entry.get("windows")
+    if not 0 < fetched_at <= now or not isinstance(windows, list) or not windows:
+        return 0, None
+    if not all(
+        isinstance(window, list) and len(window) == 3 and isinstance(window[0], str)
+        for window in windows
+    ):
+        return 0, None
+    return fetched_at, windows
+
+
+def as_of(fetched_at):
+    fetched = datetime.fromtimestamp(fetched_at)
+    same_day = fetched.date() == datetime.now().date()
+    return "  as of " + fetched.strftime("%H:%M" if same_day else "%Y-%m-%d %H:%M")
+
+
+def render(title, windows, fetched_at=None):
+    if fetched_at is not None:
+        title += as_of(fetched_at)
+    return title + "\n" + "\n".join(window_lines(windows))
+
+
+def retry_seconds(error):
+    retry_after = (error.headers or {}).get("Retry-After", "")
+    if retry_after.isdecimal() and len(retry_after) <= 9:
+        seconds = int(retry_after)
+    else:
+        seconds = CACHE_SECONDS
+    return max(MIN_RETRY_SECONDS, min(seconds, MAX_RETRY_SECONDS))
+
+
+def rate_limited(seconds):
+    return f"HTTP 429; retry in {math.ceil(seconds / 60)} min"
+
+
 def account_report(path, timeout):
     try:
         auth = json.loads(path.read_text())
@@ -147,20 +228,37 @@ def account_report(path, timeout):
     title = f"{provider}  {email}" + (f"  ({organization})" if organization else "")
     if auth.get("disabled"):
         return title + "\n  Disabled", False
-    try:
-        data = fetch_usage(provider, auth, timeout)
-        return title + "\n" + "\n".join(usage_lines(provider, data)), False
-    except urllib.error.HTTPError as error:
-        error.close()
-        message = f"HTTP {error.code}"
-        if error.code in (401, 403):
-            message += "; re-login may be required"
-        elif error.code == 429:
-            message += "; try again later"
-    except (OSError, urllib.error.URLError, HTTPException):
-        message = "Network request failed"
-    except (ValueError, TypeError, OverflowError, RecursionError):
-        message = "Invalid credentials or quota response"
+    account = f"{provider}\0{email}\0{path.resolve()}"
+    key = hashlib.sha256(account.encode()).hexdigest()[:32]
+    cache_path = CACHE_DIR / f"{key}.json"
+    retry_path = CACHE_DIR / f"{key}.retry"
+    now = time.time()
+    fetched_at, windows = cached_windows(cache_path, now)
+    retry_at = timestamp(read_json(retry_path))
+    if now < retry_at <= now + MAX_RETRY_SECONDS:
+        message = rate_limited(retry_at - now)
+    elif windows and now - fetched_at < CACHE_SECONDS:
+        return render(title, windows, fetched_at), False
+    else:
+        try:
+            windows = quota_windows(provider, fetch_usage(provider, auth, timeout))
+            write_json(cache_path, {"fetched_at": now, "windows": windows})
+            return render(title, windows), False
+        except urllib.error.HTTPError as error:
+            error.close()
+            message = f"HTTP {error.code}"
+            if error.code in (401, 403):
+                message += "; re-login may be required"
+            elif error.code == 429:
+                seconds = retry_seconds(error)
+                write_json(retry_path, now + seconds)
+                message = rate_limited(seconds)
+        except (OSError, urllib.error.URLError, HTTPException):
+            message = "Network request failed"
+        except (ValueError, TypeError, OverflowError, RecursionError):
+            message = "Invalid credentials or quota response"
+    if windows:
+        title = render(title, windows, fetched_at)
     return title + "\n  " + message, True
 
 

@@ -35,7 +35,7 @@ make install
 
 ```bash
 cliproxy-quota
-watch -n 300 cliproxy-quota
+watch -n 60 cliproxy-quota
 cliproxy-quota --auth-dir /path/to/credentials --timeout 15
 ```
 
@@ -49,6 +49,13 @@ The command only reads credentials and queries provider usage endpoints. It
 never refreshes tokens or changes credential files. Disabled accounts are
 listed without querying them. Errors affect only that account; the command
 exits with status 1 if any account fails or no accounts are found.
+
+Each account's quota is cached in `~/.cache/cliproxy-quota`, readable only
+by you, and reused for 5 minutes, marked `as of HH:MM`, so `watch` does not
+hit provider rate limits. After an HTTP 429, the account is not queried
+again until the provider's `Retry-After` time, between 1 and 60 minutes.
+When a request fails or is waiting, the last cached quota stays on screen
+next to the error.
 
 Output includes account emails and organization names. Keep it private.
 Do not commit credential files or live output. If authentication expires,
