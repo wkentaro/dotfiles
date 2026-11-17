@@ -12,21 +12,15 @@ pr_number=$(echo "$input" | jq -r '.pr.number // empty')
 weekly_used=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
 
 # Gateway sessions get no rate_limits, so average the weekly quota of the
-# proxy's enabled accounts from cliproxy-quota on lora, in the background.
-# shortcut: the proxy host is hardcoded; read it from ANTHROPIC_BASE_URL if it moves.
-if [ -z "$weekly_used" ]; then
+# proxy's enabled accounts from the gateway's /quota, in the background.
+if [ -z "$weekly_used" ] && [ -n "$ANTHROPIC_BASE_URL" ]; then
   cache="$HOME/.cache/claude-gateway-quota.json"
   mkdir -p "$HOME/.cache"
   # The lock outlives each attempt, so a failing host is retried at most every 2 minutes.
   find "$cache.lock" -maxdepth 0 -mmin +2 -exec rmdir {} \; 2>/dev/null
   if [ -z "$(find "$cache" -mmin -5 2>/dev/null)" ] && mkdir "$cache.lock" 2>/dev/null; then
     (
-      if [ "$(hostname -s)" = lora ]; then
-        set -- "$HOME/.local/bin/cliproxy-quota" --json
-      else
-        set -- ssh -o BatchMode=yes -o ConnectTimeout=5 lora '~/.local/bin/cliproxy-quota --json'
-      fi
-      timeout 60 "$@" | jq '
+      curl -fsS --max-time 60 "${ANTHROPIC_BASE_URL%/}/quota" | jq '
         map(select(.disabled | not) | {
           provider,
           used: (first(.windows[]

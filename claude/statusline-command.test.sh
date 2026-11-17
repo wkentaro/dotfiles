@@ -19,35 +19,22 @@ cat >"$FIXTURE" <<'JSON'
   {"provider": "codex", "disabled": false, "windows": [{"label": "weekly", "used_percent": 17}]}
 ]
 JSON
-cat >"$stub/bin/hostname" <<'SH'
+cat >"$stub/bin/curl" <<'SH'
 #!/bin/sh
-printf '%s\n' "$TEST_HOST"
-SH
-cat >"$stub/quota" <<'SH'
-#!/bin/sh
-printf '%s\n' "$*" >"$HOME/quota-args"
-cat "$FIXTURE"
-exit 1
-SH
-cat >"$stub/bin/ssh" <<'SH'
-#!/bin/sh
-printf '%s\n' "$*" >"$HOME/ssh-args"
-[ "$TEST_HOST" != lora ] && [ -z "${TEST_SSH_FAIL-}" ] || exit 255
-[ "$*" = '-o BatchMode=yes -o ConnectTimeout=5 lora ~/.local/bin/cliproxy-quota --json' ] || exit 1
+[ -z "${TEST_CURL_FAIL-}" ] || exit 7
+[ "$*" = '-fsS --max-time 60 https://gateway.test:8317/quota' ] || exit 2
 if [ -n "${TEST_ALL_ERRORS-}" ]; then
   printf '[{"provider": "claude", "disabled": false, "windows": [], "error": "HTTP 401"}]\n'
 else
   cat "$FIXTURE"
 fi
-exit 1
 SH
-chmod +x "$stub/quota" "$stub/bin/"*
+chmod +x "$stub/bin/"*
 export PATH="$stub/bin:$PATH"
+export ANTHROPIC_BASE_URL=https://gateway.test:8317/
 
 new_home() {
   export HOME="$stub/$1"
-  mkdir -p "$HOME/.local/bin"
-  ln -s "$stub/quota" "$HOME/.local/bin/cliproxy-quota"
 }
 
 refresh() {
@@ -60,30 +47,19 @@ cache() {
 }
 
 for shell in sh bash; do
-  for host in lora laptop; do
-    export TEST_HOST="$host"
-    new_home "$shell-$host"
-    refresh
-    if ! jq -e '. == {"claude": 50, "codex": 17}' "$(cache)" >/dev/null 2>&1; then
-      printf 'FAIL %s on %s: quota cache was not the pool average\n' "$shell" "$host"
-      exit 1
-    fi
-    if [ "$host" = lora ]; then
-      [ ! -e "$HOME/ssh-args" ]
-      [ "$(cat "$HOME/quota-args")" = --json ]
-    else
-      [ -s "$HOME/ssh-args" ]
-      [ ! -e "$HOME/quota-args" ]
-    fi
-    output=$(printf '%s' '{"model":{"id":"gpt-6.1-sol"}}' | "$shell" "$script")
-    [[ "$output" = *'weekly 83% left'* ]]
-    output=$(printf '%s' '{"model":{"id":"claude-opus-5-5"}}' | "$shell" "$script")
-    [[ "$output" = *'weekly 50% left'* ]]
-    printf 'ok %s on %s: pool average for both providers\n' "$shell" "$host"
-  done
+  new_home "$shell"
+  refresh
+  if ! jq -e '. == {"claude": 50, "codex": 17}' "$(cache)" >/dev/null 2>&1; then
+    printf 'FAIL %s: quota cache was not the pool average\n' "$shell"
+    exit 1
+  fi
+  output=$(printf '%s' '{"model":{"id":"gpt-6.1-sol"}}' | "$shell" "$script")
+  [[ "$output" = *'weekly 83% left'* ]]
+  output=$(printf '%s' '{"model":{"id":"claude-opus-5-5"}}' | "$shell" "$script")
+  [[ "$output" = *'weekly 50% left'* ]]
+  printf 'ok %s: pool average for both providers\n' "$shell"
 
-  export TEST_HOST=laptop
-  for failure in TEST_SSH_FAIL TEST_ALL_ERRORS; do
+  for failure in TEST_CURL_FAIL TEST_ALL_ERRORS; do
     export "$failure=1"
     new_home "$shell-$failure"
     refresh
@@ -98,6 +74,11 @@ for shell in sh bash; do
     unset "$failure"
     printf 'ok %s: %s keeps the cache untouched\n' "$shell" "$failure"
   done
+
+  new_home "$shell-direct"
+  printf '%s' '{"model":{"id":"claude-opus-5-5"}}' | ANTHROPIC_BASE_URL= "$shell" "$script" >/dev/null
+  [ ! -e "$HOME/.cache" ]
+  printf 'ok %s: no gateway URL skips the gateway fetch\n' "$shell"
 
   new_home "$shell-native"
   output=$(printf '%s' '{"rate_limits":{"seven_day":{"used_percentage":25}}}' | "$shell" "$script")
