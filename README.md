@@ -55,14 +55,28 @@ exits with status 1 if any account fails or no accounts are found.
 
 Each account's quota is cached in `~/.cache/cliproxy-quota`, readable only
 by you, and reused for 5 minutes, marked `as of HH:MM`, so `watch` does not
-hit provider rate limits. After an HTTP 429, the account is not queried
-again until the provider's `Retry-After` time, between 1 and 60 minutes.
+hit provider rate limits. After a failed request, the account is not
+queried again for a minute, or after an HTTP 429 for the provider's
+`Retry-After` seconds, between 1 and 60 minutes (5 minutes when it is
+missing, a date, or over 9 digits). Changing the credential file, such as
+by re-login, ends any wait but a 429.
 When a request fails or is waiting, the last cached quota stays on screen
 next to the error.
 
 Output includes account emails and organization names. Keep it private.
 Do not commit credential files or live output. If authentication expires,
 re-login through CLIProxyAPI and run the command again.
+
+On the proxy host, `cliproxy-quota serve` answers every GET on
+`127.0.0.1:8318` with the `--json` output, minus file names, emails, and
+organizations. Run it as a service and publish it next to the gateway on the
+tailnet, so any machine there reads `/quota` under the gateway URL:
+
+```bash
+loginctl enable-linger
+systemctl --user enable --now cliproxy-quota
+tailscale serve --bg --https=8317 --set-path /quota http://127.0.0.1:8318
+```
 
 
 ## macOS

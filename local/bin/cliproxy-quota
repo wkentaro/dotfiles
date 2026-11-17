@@ -13,6 +13,7 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from http.client import HTTPException
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 
 ENDPOINTS = {
@@ -23,6 +24,9 @@ CACHE_DIR = Path.home() / ".cache" / "cliproxy-quota"
 CACHE_SECONDS = 300
 MIN_RETRY_SECONDS = 60
 MAX_RETRY_SECONDS = 3600
+SERVE_PORT = 8318
+SERVE_TIMEOUT = 5
+PUBLIC_FIELDS = ("provider", "disabled", "windows", "fetched_at", "cached", "error")
 
 
 class NoRedirects(urllib.request.HTTPRedirectHandler):
@@ -153,10 +157,13 @@ def fetch_usage(provider, auth, timeout):
         return json.load(response)
 
 
+def digest(text):
+    return hashlib.sha256(text.encode()).hexdigest()[:32]
+
+
 def timestamp(value):
     if isinstance(value, (int, float)) and not isinstance(value, bool):
-        if math.isfinite(value):
-            return value
+        return value
     return 0
 
 
@@ -220,8 +227,22 @@ def retry_seconds(error):
     return max(MIN_RETRY_SECONDS, min(seconds, MAX_RETRY_SECONDS))
 
 
-def rate_limited(seconds):
-    return f"HTTP 429; retry in {math.ceil(seconds / 60)} min"
+def retrying(message, seconds):
+    return f"{message}; retry in {math.ceil(seconds / 60)} min"
+
+
+def pending_retry(path, now, credential):
+    retry = read_json(path)
+    if (
+        not isinstance(retry, list)
+        or len(retry) != 3
+        or retry[2] not in (None, credential)
+    ):
+        return None
+    retry_at, message = timestamp(retry[0]), retry[1]
+    if not isinstance(message, str) or not now < retry_at <= now + MAX_RETRY_SECONDS:
+        return None
+    return retrying(clean_text(message), retry_at - now)
 
 
 def account_status(path, timeout):
@@ -237,7 +258,8 @@ def account_status(path, timeout):
         "error": None,
     }
     try:
-        auth = json.loads(path.read_text())
+        text = path.read_text()
+        auth = json.loads(text)
         if not isinstance(auth, dict):
             raise ValueError("invalid credential")
     except (OSError, ValueError, RecursionError):
@@ -254,18 +276,20 @@ def account_status(path, timeout):
     if auth.get("disabled"):
         return {**status, "disabled": True}
     account = f"{provider}\0{email}\0{path.resolve()}"
-    key = hashlib.sha256(account.encode()).hexdigest()[:32]
+    key = digest(account)
     cache_path = CACHE_DIR / f"{key}.json"
     retry_path = CACHE_DIR / f"{key}.retry"
     now = time.time()
     fetched_at, windows = cached_windows(cache_path, now)
     if windows:
         status.update(windows=windows, fetched_at=fetched_at, cached=True)
-    retry_at = timestamp(read_json(retry_path))
-    if now < retry_at <= now + MAX_RETRY_SECONDS:
-        return {**status, "error": rate_limited(retry_at - now)}
     if windows and now - fetched_at < CACHE_SECONDS:
         return status
+    credential = digest(text)
+    retry = pending_retry(retry_path, now, credential)
+    if retry:
+        return {**status, "error": retry}
+    seconds = MIN_RETRY_SECONDS
     try:
         windows = quota_windows(provider, fetch_usage(provider, auth, timeout))
         write_json(cache_path, {"fetched_at": now, "windows": windows})
@@ -277,13 +301,13 @@ def account_status(path, timeout):
             message += "; re-login may be required"
         elif error.code == 429:
             seconds = retry_seconds(error)
-            write_json(retry_path, now + seconds)
-            message = rate_limited(seconds)
+            credential = None
     except (OSError, urllib.error.URLError, HTTPException):
         message = "Network request failed"
     except (ValueError, TypeError, OverflowError, RecursionError):
         message = "Invalid credentials or quota response"
-    return {**status, "error": message}
+    write_json(retry_path, [time.time() + seconds, message, credential])
+    return {**status, "error": retrying(message, seconds)}
 
 
 def account_text(status):
@@ -321,6 +345,39 @@ def account_json(status):
     return {**status, "fetched_at": fetched_at, "windows": windows}
 
 
+def public_json(status):
+    account = account_json(status)
+    return {field: account[field] for field in PUBLIC_FIELDS}
+
+
+def account_statuses(auth_dir, timeout):
+    paths = sorted(path for path in auth_dir.iterdir() if path.suffix == ".json")
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        statuses = list(pool.map(lambda path: account_status(path, timeout), paths))
+    return [status for status in statuses if status is not None]
+
+
+def quota_server(auth_dir, fetch_timeout, port):
+    class Handler(BaseHTTPRequestHandler):
+        timeout = SERVE_TIMEOUT
+
+        def do_GET(self):
+            try:
+                statuses = account_statuses(auth_dir, fetch_timeout)
+            except OSError:
+                self.send_error(503, "Cannot read the credential directory")
+                return
+            accounts = [public_json(status) for status in statuses]
+            body = json.dumps(accounts).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+    return HTTPServer(("127.0.0.1", port), Handler)
+
+
 def positive_timeout(value):
     try:
         timeout = float(value)
@@ -335,6 +392,12 @@ def main(argv=None):
     parser = argparse.ArgumentParser(
         description="Show remaining Claude and Codex quota for local CLIProxyAPI accounts.",
         epilog="Read-only. Output includes account emails. Text reset times use your local timezone; --json uses UTC.",
+    )
+    parser.add_argument(
+        "command",
+        nargs="?",
+        choices=["serve"],
+        help=f"serve the --json accounts without file names, emails, or organizations on 127.0.0.1:{SERVE_PORT}",
     )
     parser.add_argument(
         "--auth-dir",
@@ -355,20 +418,15 @@ def main(argv=None):
     )
     args = parser.parse_args(argv)
     auth_dir = args.auth_dir.expanduser()
+    if args.command == "serve":
+        return quota_server(auth_dir, args.timeout, SERVE_PORT).serve_forever()
     try:
-        if not auth_dir.is_dir():
-            raise OSError("missing directory")
-        paths = sorted(auth_dir.glob("*.json"))
+        statuses = account_statuses(auth_dir, args.timeout)
     except OSError:
         print(
             "Cannot read the credential directory; check --auth-dir.", file=sys.stderr
         )
         return 1
-    with ThreadPoolExecutor(max_workers=4) as pool:
-        statuses = list(
-            pool.map(lambda path: account_status(path, args.timeout), paths)
-        )
-    statuses = [status for status in statuses if status is not None]
     if args.json:
         print(json.dumps([account_json(status) for status in statuses], indent=2))
     elif statuses:

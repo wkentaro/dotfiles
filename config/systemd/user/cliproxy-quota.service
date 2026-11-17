@@ -1,0 +1,10 @@
+[Unit]
+Description=CLIProxyAPI quota for the tailnet
+
+[Service]
+ExecStart=%h/.local/bin/cliproxy-quota serve
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target
