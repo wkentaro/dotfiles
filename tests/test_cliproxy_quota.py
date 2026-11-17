@@ -508,13 +508,14 @@ class QuotaTests(unittest.TestCase):
                 self.assertIn("100.0% left", output)
 
     def test_unwritable_cache_does_not_fail_the_command(self):
-        self.cache_dir.mkdir()
-        self.cache_dir.chmod(0o500)
-        self.addCleanup(self.cache_dir.chmod, 0o700)
-        output, failed, calls = self.report_at(self.account(), time.time())
-        self.assertEqual(calls, 1)
-        self.assertFalse(failed)
-        self.assertIn("100.0% left", output)
+        for target in ("mkstemp", "chmod"):
+            with self.subTest(target=target):
+                owner = quota.tempfile if target == "mkstemp" else type(self.cache_dir)
+                with patch.object(owner, target, side_effect=OSError("denied")):
+                    output, failed, calls = self.report_at(self.account(), time.time())
+                self.assertEqual(calls, 1)
+                self.assertFalse(failed)
+                self.assertIn("100.0% left", output)
 
 
 if __name__ == "__main__":
