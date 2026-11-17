@@ -23,6 +23,9 @@ jobs:
         make uv
         uv run --no-project --python 3.9 python -m unittest discover -s tests -p 'test_*.py'
 
+    - name: Test Claude Code statusline
+      run: bash claude/statusline-command.test.sh
+
     - name: Update submodules
       run: |
         git submodule update --init --recursive
