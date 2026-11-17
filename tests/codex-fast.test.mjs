@@ -34,13 +34,13 @@ function createExtension(branch = [], api = "openai-codex-responses", hasUI = tr
 test("/fast toggles priority without changing reasoning or input", async () => {
   const ext = createExtension();
   const payload = { model: "gpt-6.1-sol", input: [], reasoning: { effort: "high" } };
-  assert.deepEqual(ext.request(payload), { ...payload, service_tier: "priority" });
-  assert.equal(ext.statuses.get("codex-fast"), "fast on");
-  await ext.fast();
   assert.deepEqual(ext.request(payload), { ...payload, service_tier: "default" });
   assert.equal(ext.statuses.get("codex-fast"), "fast off");
   await ext.fast();
-  assert.equal(ext.request().service_tier, "priority");
+  assert.deepEqual(ext.request(payload), { ...payload, service_tier: "priority" });
+  assert.equal(ext.statuses.get("codex-fast"), "fast on");
+  await ext.fast();
+  assert.equal(ext.request().service_tier, "default");
   assert.equal(payload.service_tier, undefined);
 });
 
@@ -61,30 +61,31 @@ test("explicit arguments are idempotent and invalid arguments do not change stat
 
 test("last valid branch choice survives reload, resume, and fork", async () => {
   const ext = createExtension();
-  await ext.fast("on");
-  await ext.fast("off");
-  ext.branch.push({ type: "custom", customType: "other", data: true });
-  ext.branch.push({ type: "custom", customType: "codex-fast", data: "invalid" });
-  for (const reason of ["reload", "resume", "fork"]) {
-    const restored = createExtension([...ext.branch]);
-    restored.emit("session_start", { reason });
-    assert.equal(restored.request().service_tier, "default");
-    assert.equal(restored.statuses.get("codex-fast"), "fast off");
+  for (const value of ["on", "off"]) {
+    await ext.fast(value);
+    ext.branch.push({ type: "custom", customType: "other", data: true });
+    ext.branch.push({ type: "custom", customType: "codex-fast", data: "invalid" });
+    for (const reason of ["reload", "resume", "fork"]) {
+      const restored = createExtension([...ext.branch]);
+      restored.emit("session_start", { reason });
+      assert.equal(restored.request().service_tier, value === "on" ? "priority" : "default");
+      assert.equal(restored.statuses.get("codex-fast"), `fast ${value}`);
+    }
   }
 });
 
 test("tree navigation and new sessions restore their own state", async () => {
   const ext = createExtension();
-  await ext.fast("off");
-  const offEntry = ext.branch.pop();
-  ext.emit("session_tree");
-  assert.equal(ext.request().service_tier, "priority");
-  ext.branch.push(offEntry);
+  await ext.fast("on");
+  const onEntry = ext.branch.pop();
   ext.emit("session_tree");
   assert.equal(ext.request().service_tier, "default");
+  ext.branch.push(onEntry);
+  ext.emit("session_tree");
+  assert.equal(ext.request().service_tier, "priority");
   ext.branch.length = 0;
   ext.emit("session_start", { reason: "new" });
-  assert.equal(ext.request().service_tier, "priority");
+  assert.equal(ext.request().service_tier, "default");
 });
 
 test("other APIs and missing models are unchanged and hide the status", async () => {

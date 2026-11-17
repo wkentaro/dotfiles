@@ -3,7 +3,7 @@ import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-a
 const stateKey = "codex-fast";
 
 export default function (pi: ExtensionAPI) {
-  let enabled = true;
+  let enabled = false;
 
   function updateStatus(ctx: ExtensionContext) {
     if (!ctx.hasUI) return;
@@ -14,7 +14,7 @@ export default function (pi: ExtensionAPI) {
   }
 
   function restore(ctx: ExtensionContext) {
-    enabled = true;
+    enabled = false;
     for (const entry of ctx.sessionManager.getBranch()) {
       if (entry.type === "custom" && entry.customType === stateKey && typeof entry.data === "boolean") {
         enabled = entry.data;
