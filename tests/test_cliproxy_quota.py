@@ -2,17 +2,20 @@ import io
 import json
 import os
 import shutil
+import socket
 import tempfile
+import threading
 import time
 import unittest
 import urllib.error
+import urllib.request
 from contextlib import redirect_stderr, redirect_stdout
 from datetime import datetime, timezone
 from http.client import BadStatusLine, IncompleteRead
 from importlib.machinery import SourceFileLoader
 from importlib.util import module_from_spec, spec_from_loader
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 SCRIPT = Path(__file__).resolve().parents[1] / "local/bin/cliproxy-quota"
 LOADER = SourceFileLoader("cliproxy_quota", str(SCRIPT))
@@ -682,6 +685,79 @@ class QuotaTests(unittest.TestCase):
         status, output, error = self.run_cli("--json")
         self.assertEqual(status, 1)
         self.assertEqual(json.loads(output), [])
+
+    def start_server(self, auth_dir):
+        server = quota.quota_server(auth_dir, 1, 0)
+        self.addCleanup(server.server_close)
+        thread = threading.Thread(target=server.serve_forever)
+        thread.start()
+        self.addCleanup(thread.join)
+        self.addCleanup(server.shutdown)
+        self.assertEqual(server.server_address[0], "127.0.0.1")
+        self.assertIs(type(server), quota.HTTPServer)
+        return server.server_address[1]
+
+    def get_served(self, auth_dir, port=None):
+        port = port or self.start_server(auth_dir)
+        url = f"http://127.0.0.1:{port}/quota"
+        try:
+            with (
+                redirect_stderr(io.StringIO()),
+                urllib.request.urlopen(url, timeout=5) as response,
+            ):
+                return response.status, response.read()
+        except urllib.error.HTTPError as error:
+            return error.code, error.read()
+
+    def test_serve_returns_the_json_accounts_without_identities(self):
+        self.account(email="ok@example.test", organization_name="Org")
+        self.account(email="off@example.test", disabled=True)
+        usage = {"seven_day": {"utilization": 40, "resets_at": None}}
+        with patch.object(quota, "fetch_usage", return_value=usage) as fetch:
+            self.run_cli("--json")
+            _, output, _ = self.run_cli("--json")
+            code, body = self.get_served(self.auth_dir)
+        self.assertEqual(code, 200)
+        self.assertEqual(fetch.call_count, 1)
+        for private in ("example.test", "Org", "claude-0", "secret"):
+            self.assertNotIn(private.encode(), body)
+        accounts = json.loads(body)
+        for account in accounts:
+            self.assertEqual(
+                set(account),
+                {"provider", "disabled", "windows", "fetched_at", "cached", "error"},
+            )
+        expected = [
+            {key: account[key] for key in accounts[0]} for account in json.loads(output)
+        ]
+        self.assertEqual(accounts, expected)
+        self.assertEqual(expected[0]["windows"][-1]["used_percent"], 40)
+
+    def test_serve_drops_an_idle_connection(self):
+        with patch.object(quota, "SERVE_TIMEOUT", 0.2):
+            port = self.start_server(self.auth_dir)
+        idle = socket.create_connection(("127.0.0.1", port))
+        self.addCleanup(idle.close)
+        code, body = self.get_served(self.auth_dir, port)
+        self.assertEqual((code, json.loads(body)), (200, []))
+
+    def test_serve_command_serves_the_credential_directory_on_its_port(self):
+        with patch.object(quota, "quota_server", return_value=MagicMock()) as server:
+            self.run_cli("serve")
+        server.assert_called_once_with(self.auth_dir, 10, 8318)
+        server.return_value.serve_forever.assert_called_once_with()
+
+    def test_serve_fails_without_a_readable_credential_directory(self):
+        path = self.account()
+        for auth_dir in (self.auth_dir / "missing", path):
+            with self.subTest(auth_dir=auth_dir.name):
+                code, _ = self.get_served(auth_dir)
+                self.assertEqual(code, 503)
+        if os.geteuid() != 0:
+            self.addCleanup(self.auth_dir.chmod, 0o700)
+            self.auth_dir.chmod(0)
+            code, _ = self.get_served(self.auth_dir)
+            self.assertEqual(code, 503)
 
 
 if __name__ == "__main__":

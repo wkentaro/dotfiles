@@ -15,6 +15,9 @@ config/lawn/config.toml:
 config/fcitx5/config:
   name: .config/fcitx5/config
   uname: Linux
+config/systemd/user/cliproxy-quota.service:
+  name: .config/systemd/user/cliproxy-quota.service
+  uname: Linux
 config/acron/config.toml:
   .config/acron/config.toml
 config/paneru/init.lua:
