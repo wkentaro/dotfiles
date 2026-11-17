@@ -86,6 +86,8 @@ def usage_lines(provider, data):
             and isinstance(value, dict)
             and "utilization" in value
         )
+        if not any(isinstance(window, dict) for label, window in windows):
+            raise ValueError("missing quota windows")
         return [
             window_line(
                 clean_text(label), window.get("utilization"), window.get("resets_at")
@@ -107,7 +109,9 @@ def usage_lines(provider, data):
         for window in windows
         if isinstance(window, dict)
     ]
-    return lines or ["  Quota windows not reported"]
+    if not lines:
+        raise ValueError("missing quota windows")
+    return lines
 
 
 def fetch_usage(provider, auth, timeout):

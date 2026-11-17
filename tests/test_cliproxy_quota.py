@@ -59,6 +59,11 @@ class QuotaTests(unittest.TestCase):
         self.assertIn("100.0% left", lines[2])
         self.assertIn("reset not reported", lines[2])
 
+    def test_model_specific_claude_window_alone_is_reported(self):
+        lines = quota.usage_lines("claude", {"seven_day_opus": {"utilization": 20}})
+        self.assertIn("opus weekly", lines[2])
+        self.assertIn("80.0% left", lines[2])
+
     def test_codex_labels_actual_window_duration(self):
         lines = quota.usage_lines(
             "codex",
@@ -96,10 +101,8 @@ class QuotaTests(unittest.TestCase):
         )
         self.assertEqual(len(lines), 1)
         self.assertIn("weekly", lines[0])
-        self.assertEqual(
-            quota.usage_lines("codex", {"rate_limit": {}}),
-            ["  Quota windows not reported"],
-        )
+        with self.assertRaises(ValueError):
+            quota.usage_lines("codex", {"rate_limit": {}})
 
     def test_invalid_percentages_are_not_shown_as_available_quota(self):
         for value in (None, True, "0", -1, 101, 10**1000, float("nan"), float("inf")):
@@ -282,7 +285,10 @@ class QuotaTests(unittest.TestCase):
         for provider, data in (
             ("claude", []),
             ("codex", {}),
+            ("claude", {}),
+            ("claude", {"five_hour": None, "seven_day": None}),
             ("codex", {"rate_limit": []}),
+            ("codex", {"rate_limit": {"primary_window": None}}),
         ):
             with self.assertRaises(ValueError):
                 quota.usage_lines(provider, data)
