@@ -489,6 +489,10 @@ class QuotaTests(unittest.TestCase):
             (".json", json.dumps({"fetched_at": now, "windows": [[1, 2, 3]]})),
             (".json", json.dumps({"fetched_at": now, "windows": [["weekly", 0]]})),
             (".json", json.dumps({"fetched_at": now, "windows": {"weekly": 0}})),
+            (
+                ".json",
+                json.dumps({"fetched_at": now, "windows": [["weekly", None, None]]}),
+            ),
             (".retry", "true"),
             (".retry", json.dumps(now + 10**9)),
         ):

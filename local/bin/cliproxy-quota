@@ -113,9 +113,13 @@ def quota_windows(provider, data):
             for window in (limits.get("primary_window"), limits.get("secondary_window"))
             if isinstance(window, dict)
         ]
-    if all(used is None and reset is None for label, used, reset in windows):
+    if not reported(windows):
         raise ValueError("missing quota windows")
     return windows
+
+
+def reported(windows):
+    return any(used is not None or reset is not None for label, used, reset in windows)
 
 
 def window_lines(windows):
@@ -183,7 +187,7 @@ def cached_windows(path, now):
     if not all(
         isinstance(window, list) and len(window) == 3 and isinstance(window[0], str)
         for window in windows
-    ):
+    ) or not reported(windows):
         return 0, None
     return fetched_at, windows
 
