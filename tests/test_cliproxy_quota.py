@@ -40,9 +40,18 @@ class QuotaTests(unittest.TestCase):
         self.auth_dir = Path(self.directory.name) / "auth"
         self.auth_dir.mkdir()
         self.cache_dir = Path(self.directory.name) / "cache"
-        cache_patch = patch.object(quota, "CACHE_DIR", self.cache_dir)
-        cache_patch.start()
-        self.addCleanup(cache_patch.stop)
+        for name, value in (("CACHE_DIR", self.cache_dir), ("AUTH_DIR", self.auth_dir)):
+            value_patch = patch.object(quota, name, value)
+            value_patch.start()
+            self.addCleanup(value_patch.stop)
+        self.settings = Path(self.directory.name) / "settings-gateway.json"
+        settings_patch = patch.object(quota, "GATEWAY_SETTINGS", self.settings)
+        settings_patch.start()
+        self.addCleanup(settings_patch.stop)
+        env_patch = patch.dict(os.environ)
+        env_patch.start()
+        self.addCleanup(env_patch.stop)
+        os.environ.pop("ANTHROPIC_BASE_URL", None)
 
     def account(self, provider="claude", **overrides):
         auth = {
@@ -59,7 +68,7 @@ class QuotaTests(unittest.TestCase):
     def run_cli(self, *args):
         stdout, stderr = io.StringIO(), io.StringIO()
         with redirect_stdout(stdout), redirect_stderr(stderr):
-            status = quota.main(["--auth-dir", str(self.auth_dir), *args])
+            status = quota.main(list(args))
         return status, stdout.getvalue(), stderr.getvalue()
 
     def test_claude_remaining_and_missing_window(self):
@@ -758,6 +767,188 @@ class QuotaTests(unittest.TestCase):
             self.auth_dir.chmod(0)
             code, _ = self.get_served(self.auth_dir)
             self.assertEqual(code, 503)
+
+    def test_no_local_accounts_reads_the_gateway(self):
+        self.account(email="ok@example.test", organization_name="Org")
+        self.account("codex", email="off@example.test", disabled=True)
+        self.account(email="bad@example.test")
+        usage = {"seven_day": {"utilization": 40, "resets_at": None}}
+        empty = Path(self.directory.name) / "empty"
+        empty.mkdir()
+
+        def response(provider, auth, timeout):
+            if auth["email"] == "bad@example.test":
+                raise urllib.error.URLError("down")
+            return usage
+
+        fetch = patch.object(quota, "fetch_usage", side_effect=response)
+        fetch.start()
+        self.addCleanup(fetch.stop)
+        port = self.start_server(self.auth_dir)
+        self.get_served(self.auth_dir, port)
+        url = f"http://127.0.0.1:{port}/"
+        for source in ("environment", "settings"):
+            with self.subTest(source=source):
+                if source == "environment":
+                    os.environ["ANTHROPIC_BASE_URL"] = url
+                else:
+                    os.environ.pop("ANTHROPIC_BASE_URL")
+                    self.settings.write_text(
+                        json.dumps({"env": {"ANTHROPIC_BASE_URL": url}})
+                    )
+                for auth_dir in (empty, empty / "missing"):
+                    with patch.object(quota, "AUTH_DIR", auth_dir):
+                        status, output, _ = self.run_cli()
+                    self.assertEqual(status, 1)
+                    self.assertNotIn("example.test", output)
+                    self.assertNotIn("Org", output)
+                    self.assertIn("claude  #1  as of", output)
+                    self.assertIn("[######----]  60.0% left", output)
+                    self.assertIn("claude  #2\n  Network request failed", output)
+                    self.assertIn("codex  #3\n  Disabled", output)
+                    with patch.object(quota, "AUTH_DIR", auth_dir):
+                        status, output, _ = self.run_cli("--json")
+                    _, served = self.get_served(self.auth_dir, port)
+                    self.assertEqual(json.loads(output), json.loads(served))
+
+    def test_local_accounts_win_over_the_gateway(self):
+        path = self.account()
+        os.environ["ANTHROPIC_BASE_URL"] = "http://127.0.0.1:9"
+        usage = {"seven_day": {"utilization": 40, "resets_at": None}}
+        with patch.object(quota, "fetch_usage", return_value=usage):
+            status, output, _ = self.run_cli()
+        self.assertEqual(status, 0)
+        self.assertIn("member@example.test", output)
+        missing = self.auth_dir / "missing"
+        for auth_dir in (missing, path):
+            status, _, error = self.run_cli("--auth-dir", str(auth_dir))
+            self.assertEqual(status, 1)
+            self.assertIn("Cannot read the credential directory", error)
+        with patch.object(quota, "AUTH_DIR", missing):
+            status, _, error = self.run_cli("--auth-dir", str(missing))
+            self.assertEqual(status, 1)
+            self.assertIn("Cannot read the credential directory", error)
+        empty = Path(self.directory.name) / "empty"
+        empty.mkdir()
+        status, output, _ = self.run_cli("--auth-dir", str(empty))
+        self.assertEqual(status, 1)
+        self.assertIn("No Claude or Codex accounts", output)
+        if os.geteuid() != 0:
+            self.addCleanup(self.auth_dir.chmod, 0o700)
+            self.auth_dir.chmod(0)
+            status, _, error = self.run_cli()
+            self.assertEqual(status, 1)
+            self.assertIn("Cannot read the credential directory", error)
+
+    def test_unusable_gateway_settings_are_ignored(self):
+        for settings in (
+            "[1]",
+            '"url"',
+            '{"env": ["x"]}',
+            '{"env": {"ANTHROPIC_BASE_URL": 5}}',
+            "{",
+        ):
+            with self.subTest(settings=settings):
+                self.settings.write_text(settings)
+                status, output, _ = self.run_cli()
+                self.assertEqual(status, 1)
+                self.assertIn("No Claude or Codex accounts", output)
+        self.settings.write_text(
+            '{"env": {"ANTHROPIC_BASE_URL": "http://gateway.test"}}'
+        )
+        os.environ["ANTHROPIC_BASE_URL"] = ""
+        with patch.object(quota.urllib.request, "urlopen") as urlopen:
+            status, output, _ = self.run_cli()
+        urlopen.assert_not_called()
+        self.assertEqual(status, 1)
+        self.assertIn("No Claude or Codex accounts", output)
+
+    def test_unreachable_or_invalid_gateway_fails(self):
+        os.environ["ANTHROPIC_BASE_URL"] = "http://gateway\x1b.test/"
+        bodies = [b"{}", b"[1]", b"not json", b"[" * 100000, b"\xff"]
+        for body in bodies:
+            with self.subTest(body=body[:10]):
+                with patch.object(
+                    quota.urllib.request, "urlopen", return_value=io.BytesIO(body)
+                ):
+                    status, output, error = self.run_cli()
+                self.assertEqual((status, output), (1, ""))
+                self.assertEqual(error, "Cannot read http://gateway?.test/quota.\n")
+        for failure in (
+            urllib.error.HTTPError("http://gateway.test", 502, "Bad", {}, None),
+            IncompleteRead(b"["),
+        ):
+            with patch.object(quota.urllib.request, "urlopen", side_effect=failure):
+                status, _, error = self.run_cli()
+            self.assertEqual(status, 1)
+            self.assertIn("Cannot read", error)
+
+    def test_hostile_gateway_accounts_are_cleaned(self):
+        os.environ["ANTHROPIC_BASE_URL"] = "http://gateway.test"
+        accounts = [
+            {
+                "provider": "claude\x1b[31m",
+                "windows": [{"label": "weekly\x1b", "used_percent": "50"}, 1],
+                "fetched_at": "9999-12-31T23:59:59Z",
+                "cached": True,
+                "error": 5,
+                "disabled": "yes",
+            },
+            {
+                "provider": 5,
+                "windows": 5,
+                "fetched_at": 10**400,
+                "cached": "yes",
+                "error": "bad\x07",
+            },
+            {"provider": "codex", "fetched_at": -1},
+        ]
+        body = json.dumps(accounts).encode()
+        with patch.object(
+            quota.urllib.request, "urlopen", return_value=io.BytesIO(body)
+        ):
+            status, output, _ = self.run_cli()
+        self.assertEqual(status, 1)
+        self.assertEqual(
+            output,
+            "claude?[31m  #1\n  weekly?          not reported\n\n#2\n  bad?\n\n"
+            "codex  #3\n",
+        )
+        with patch.object(
+            quota.urllib.request, "urlopen", return_value=io.BytesIO(body)
+        ):
+            _, output, _ = self.run_cli("--json")
+        self.assertEqual(
+            json.loads(output),
+            [
+                {
+                    "provider": "claude?[31m",
+                    "disabled": False,
+                    "windows": [
+                        {"label": "weekly?", "used_percent": None, "resets_at": None}
+                    ],
+                    "fetched_at": None,
+                    "cached": True,
+                    "error": None,
+                },
+                {
+                    "provider": None,
+                    "disabled": False,
+                    "windows": [],
+                    "fetched_at": None,
+                    "cached": False,
+                    "error": "bad?",
+                },
+                {
+                    "provider": "codex",
+                    "disabled": False,
+                    "windows": [],
+                    "fetched_at": None,
+                    "cached": False,
+                    "error": None,
+                },
+            ],
+        )
 
 
 if __name__ == "__main__":

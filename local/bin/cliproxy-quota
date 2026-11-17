@@ -20,7 +20,9 @@ ENDPOINTS = {
     "claude": "https://api.anthropic.com/api/oauth/usage",
     "codex": "https://chatgpt.com/backend-api/wham/usage",
 }
+AUTH_DIR = Path.home() / ".cli-proxy-api"
 CACHE_DIR = Path.home() / ".cache" / "cliproxy-quota"
+GATEWAY_SETTINGS = Path.home() / ".claude" / "settings-gateway.json"
 CACHE_SECONDS = 300
 MIN_RETRY_SECONDS = 60
 MAX_RETRY_SECONDS = 3600
@@ -357,6 +359,55 @@ def account_statuses(auth_dir, timeout):
     return [status for status in statuses if status is not None]
 
 
+def gateway_url():
+    url = os.environ.get("ANTHROPIC_BASE_URL")
+    if url is None:
+        settings = read_json(GATEWAY_SETTINGS)
+        env = settings.get("env") if isinstance(settings, dict) else None
+        url = env.get("ANTHROPIC_BASE_URL") if isinstance(env, dict) else None
+    return url.rstrip("/") if isinstance(url, str) else None
+
+
+def gateway_status(number, account):
+    provider, error = account.get("provider"), account.get("error")
+    windows = account.get("windows")
+    fetched = parse_time(account.get("fetched_at"))
+    fetched_at = fetched.timestamp() if fetched else None
+    if fetched_at is not None and not 0 < fetched_at <= time.time() + CACHE_SECONDS:
+        fetched_at = None
+    return {
+        "file": f"#{number}",
+        "provider": clean_text(provider) if isinstance(provider, str) else None,
+        "email": f"#{number}",
+        "organization": None,
+        "disabled": account.get("disabled") is True,
+        "windows": [
+            (
+                window.get("label"),
+                window.get("used_percent"),
+                window.get("resets_at"),
+            )
+            for window in (windows if isinstance(windows, list) else [])
+            if isinstance(window, dict)
+        ],
+        "fetched_at": fetched_at,
+        "cached": account.get("cached") is True,
+        "error": clean_text(error) if isinstance(error, str) else None,
+    }
+
+
+def gateway_statuses(url, timeout):
+    with urllib.request.urlopen(url + "/quota", timeout=timeout) as response:
+        accounts = json.load(response)
+    if not isinstance(accounts, list) or not all(
+        isinstance(account, dict) for account in accounts
+    ):
+        raise ValueError("invalid quota response")
+    return [
+        gateway_status(number, account) for number, account in enumerate(accounts, 1)
+    ]
+
+
 def quota_server(auth_dir, fetch_timeout, port):
     class Handler(BaseHTTPRequestHandler):
         timeout = SERVE_TIMEOUT
@@ -390,7 +441,7 @@ def positive_timeout(value):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(
-        description="Show remaining Claude and Codex quota for local CLIProxyAPI accounts.",
+        description="Show remaining Claude and Codex quota for local CLIProxyAPI accounts, or the gateway's /quota when there are none.",
         epilog="Read-only. Output includes account emails. Text reset times use your local timezone; --json uses UTC.",
     )
     parser.add_argument(
@@ -402,7 +453,6 @@ def main(argv=None):
     parser.add_argument(
         "--auth-dir",
         type=Path,
-        default=Path.home() / ".cli-proxy-api",
         help="CLIProxyAPI credential directory (default: ~/.cli-proxy-api)",
     )
     parser.add_argument(
@@ -417,18 +467,30 @@ def main(argv=None):
         help="print the accounts as a JSON array instead of text",
     )
     args = parser.parse_args(argv)
-    auth_dir = args.auth_dir.expanduser()
+    auth_dir = (args.auth_dir or AUTH_DIR).expanduser()
     if args.command == "serve":
         return quota_server(auth_dir, args.timeout, SERVE_PORT).serve_forever()
     try:
         statuses = account_statuses(auth_dir, args.timeout)
-    except OSError:
+    except OSError as error:
+        statuses, no_accounts = None, isinstance(error, FileNotFoundError)
+    else:
+        no_accounts = not statuses
+    url = gateway_url() if no_accounts and args.auth_dir is None else None
+    if url:
+        try:
+            statuses = gateway_statuses(url, args.timeout)
+        except (OSError, ValueError, HTTPException, RecursionError):
+            print(f"Cannot read {clean_text(url)}/quota.", file=sys.stderr)
+            return 1
+    elif statuses is None:
         print(
             "Cannot read the credential directory; check --auth-dir.", file=sys.stderr
         )
         return 1
     if args.json:
-        print(json.dumps([account_json(status) for status in statuses], indent=2))
+        to_json = public_json if url else account_json
+        print(json.dumps([to_json(status) for status in statuses], indent=2))
     elif statuses:
         print("\n\n".join(account_text(status) for status in statuses))
     else:

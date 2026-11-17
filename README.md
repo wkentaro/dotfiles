@@ -63,6 +63,11 @@ by re-login, ends any wait but a 429.
 When a request fails or is waiting, the last cached quota stays on screen
 next to the error.
 
+When `~/.cli-proxy-api` is missing or holds no accounts, the command reads
+`/quota` from the gateway URL instead, taken from `$ANTHROPIC_BASE_URL` or
+`~/.claude/settings-gateway.json`, and numbers the accounts in place of
+their emails. An explicit `--auth-dir` never falls back to the gateway.
+
 Output includes account emails and organization names. Keep it private.
 Do not commit credential files or live output. If authentication expires,
 re-login through CLIProxyAPI and run the command again.
