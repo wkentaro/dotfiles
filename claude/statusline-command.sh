@@ -11,8 +11,8 @@ used_tokens=$(echo "$input" | jq -r '.context_window.total_input_tokens // empty
 pr_number=$(echo "$input" | jq -r '.pr.number // empty')
 weekly_used=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
 
-# Gateway sessions get no rate_limits, so read the weekly quota from the
-# proxy's own OAuth tokens on lora, cached and refreshed in the background.
+# Gateway sessions get no rate_limits, so average the weekly quota of the
+# proxy's enabled accounts from cliproxy-quota on lora, in the background.
 # shortcut: the proxy host is hardcoded; read it from ANTHROPIC_BASE_URL if it moves.
 if [ -z "$weekly_used" ]; then
   cache="$HOME/.cache/claude-gateway-quota.json"
@@ -22,33 +22,22 @@ if [ -z "$weekly_used" ]; then
   if [ -z "$(find "$cache" -mmin -5 2>/dev/null)" ] && mkdir "$cache.lock" 2>/dev/null; then
     (
       if [ "$(hostname -s)" = lora ]; then
-        set -- python3 -
+        set -- "$HOME/.local/bin/cliproxy-quota" --json
       else
-        set -- ssh -o BatchMode=yes -o ConnectTimeout=5 lora python3 -
+        set -- ssh -o BatchMode=yes -o ConnectTimeout=5 lora '~/.local/bin/cliproxy-quota --json'
       fi
-      timeout 60 "$@" >"$cache.tmp" <<'EOF' &&
-import glob, json, os, urllib.request
-out = {}
-for path in glob.glob(os.path.expanduser("~/.cli-proxy-api/*.json")):
-    try:
-        auth = json.load(open(path))
-        if auth.get("disabled"):
-            continue
-        headers = {"Authorization": "Bearer " + auth.get("access_token", "")}
-        if auth.get("type") == "claude":
-            headers["anthropic-beta"] = "oauth-2025-04-20"
-            req = urllib.request.Request("https://api.anthropic.com/api/oauth/usage", headers=headers)
-            out["claude"] = json.load(urllib.request.urlopen(req, timeout=10))["seven_day"]["utilization"]
-        elif auth.get("type") == "codex":
-            headers["ChatGPT-Account-Id"] = auth["account_id"]
-            req = urllib.request.Request("https://chatgpt.com/backend-api/wham/usage", headers=headers)
-            limit = json.load(urllib.request.urlopen(req, timeout=10))["rate_limit"]
-            weekly = [w for w in (limit.get("primary_window"), limit.get("secondary_window")) if w and w["limit_window_seconds"] == 604800]
-            out["codex"] = weekly[0]["used_percent"]
-    except Exception:
-        pass
-print(json.dumps(out))
-EOF
+      timeout 60 "$@" | jq '
+        map(select(.disabled | not) | {
+          provider,
+          used: (first(.windows[]
+            | select(.label == "weekly")
+            | select((.resets_at // "9999-12-31T23:59:59")[:19] + "Z" | fromdateiso8601 > now)
+            | .used_percent | numbers) // null)
+        } | select(.used != null))
+        | group_by(.provider)
+        | map({key: .[0].provider, value: (map(.used) | add / length)})
+        | from_entries
+        | select(length > 0)' >"$cache.tmp" && [ -s "$cache.tmp" ] &&
         { cat "$cache" 2>/dev/null; cat "$cache.tmp"; } | jq -s add >"$cache.new" && mv "$cache.new" "$cache"
     ) </dev/null >/dev/null 2>&1 &
   fi
