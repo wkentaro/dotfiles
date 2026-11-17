@@ -1,5 +1,6 @@
 import io
 import json
+import os
 import shutil
 import tempfile
 import time
@@ -18,6 +19,11 @@ LOADER = SourceFileLoader("cliproxy_quota", str(SCRIPT))
 quota = module_from_spec(spec_from_loader(LOADER.name, LOADER))
 with patch("sys.dont_write_bytecode", True):
     LOADER.exec_module(quota)
+
+
+def account_report(path):
+    status = quota.account_status(path, 1)
+    return quota.account_text(status), status["error"] is not None
 
 
 def usage_lines(provider, data):
@@ -220,7 +226,7 @@ class QuotaTests(unittest.TestCase):
             build.return_value.open.return_value.__enter__.return_value = io.StringIO(
                 nested
             )
-            output, failed = quota.account_report(path, 1)
+            output, failed = account_report(path)
         self.assertTrue(failed)
         self.assertIn("Invalid credentials or quota response", output)
         with patch.object(quota, "fetch_usage", return_value={}):
@@ -246,7 +252,7 @@ class QuotaTests(unittest.TestCase):
                 self.subTest(error=error),
                 patch.object(quota, "fetch_usage", side_effect=error),
             ):
-                output, failed = quota.account_report(path, 1)
+                output, failed = account_report(path)
                 self.assertTrue(failed)
                 self.assertNotIn("secret-access-token", output)
 
@@ -304,7 +310,7 @@ class QuotaTests(unittest.TestCase):
             email="member\x1b[31m@example.test\nforged", organization_name="org\r\ttest"
         )
         with patch.object(quota, "fetch_usage", return_value={}):
-            output, failed = quota.account_report(path, 1)
+            output, failed = account_report(path)
         self.assertNotIn("\x1b", output)
         self.assertNotIn("\r", output)
         self.assertNotIn("\t", output)
@@ -357,7 +363,7 @@ class QuotaTests(unittest.TestCase):
             path = self.account()
             headers = {} if retry_after is None else {"Retry-After": retry_after}
             with self.rate_limit(headers):
-                output, failed = quota.account_report(path, 1)
+                output, failed = account_report(path)
             self.assertTrue(failed)
             self.assertIn(f"HTTP 429; retry in {expected}", output)
 
@@ -367,7 +373,7 @@ class QuotaTests(unittest.TestCase):
             patch.object(quota.time, "time", return_value=now),
             patch.object(quota, "fetch_usage", return_value=response) as fetch,
         ):
-            output, failed = quota.account_report(path, 1)
+            output, failed = account_report(path)
         return output, failed, fetch.call_count
 
     def cache_files(self, suffix):
@@ -448,7 +454,7 @@ class QuotaTests(unittest.TestCase):
             patch.object(quota.time, "time", return_value=now + 301),
             self.rate_limit({"Retry-After": "120"}),
         ):
-            output, failed = quota.account_report(path, 1)
+            output, failed = account_report(path)
         self.assertTrue(failed)
         self.assertIn("60.0% left", output)
         self.assertIn("HTTP 429; retry in 2 min", output)
@@ -471,7 +477,7 @@ class QuotaTests(unittest.TestCase):
             patch.object(quota.time, "time", return_value=now + 301),
             patch.object(quota, "fetch_usage", side_effect=OSError("secret")),
         ):
-            output, failed = quota.account_report(path, 1)
+            output, failed = account_report(path)
         self.assertTrue(failed)
         self.assertIn("as of", output)
         self.assertIn("60.0% left", output)
@@ -516,6 +522,108 @@ class QuotaTests(unittest.TestCase):
                 self.assertEqual(calls, 1)
                 self.assertFalse(failed)
                 self.assertIn("100.0% left", output)
+
+    def test_json_lists_every_account_with_parsed_windows(self):
+        self.account(email="ok@example.test", organization_name="Org")
+        self.account(email="down@example.test")
+        self.account(email="off@example.test", disabled=True)
+        self.account("codex", email="codex@example.test", account_id="id")
+        (self.auth_dir / "broken.json").write_text("{")
+
+        def response(provider, auth, timeout):
+            if auth["email"] == "down@example.test":
+                raise OSError("secret")
+            if provider == "codex":
+                window = {"used_percent": 25, "limit_window_seconds": 604800}
+                return {"rate_limit": {"primary_window": window}}
+            return {
+                "five_hour": {"utilization": "bad", "resets_at": None},
+                "seven_day": {
+                    "utilization": 40,
+                    "resets_at": "2026-11-19T07:00:00+00:00",
+                },
+            }
+
+        with patch.object(quota, "fetch_usage", side_effect=response):
+            status, output, error = self.run_cli("--json")
+        self.assertEqual(status, 1)
+        self.assertNotIn("secret", output)
+        accounts = {account["file"]: account for account in json.loads(output)}
+        self.assertEqual(len(accounts), 5)
+        ok = accounts["claude-0.json"]
+        self.assertEqual(ok["provider"], "claude")
+        self.assertEqual(ok["email"], "ok@example.test")
+        self.assertEqual(ok["organization"], "Org")
+        self.assertIsNone(ok["error"])
+        self.assertFalse(ok["cached"])
+        self.assertTrue(ok["fetched_at"].endswith("Z"))
+        self.assertEqual(
+            ok["windows"],
+            [
+                {"label": "5-hour", "used_percent": None, "resets_at": None},
+                {
+                    "label": "weekly",
+                    "used_percent": 40,
+                    "resets_at": "2026-11-19T07:00:00Z",
+                },
+            ],
+        )
+        self.assertEqual(accounts["claude-1.json"]["error"], "Network request failed")
+        self.assertEqual(accounts["claude-1.json"]["windows"], [])
+        self.assertTrue(accounts["claude-2.json"]["disabled"])
+        codex = accounts["codex-3.json"]
+        self.assertEqual(codex["windows"][0]["label"], "weekly")
+        self.assertEqual(codex["windows"][0]["used_percent"], 25)
+        self.assertIsNone(accounts["broken.json"]["provider"])
+        self.assertEqual(
+            accounts["broken.json"]["error"], "Cannot read credential JSON"
+        )
+        with patch.object(quota, "fetch_usage", side_effect=response) as fetch:
+            status, output, error = self.run_cli("--json")
+        cached = {account["file"]: account for account in json.loads(output)}
+        self.assertTrue(cached["claude-0.json"]["cached"])
+        self.assertEqual(cached["claude-0.json"]["fetched_at"], ok["fetched_at"])
+        self.assertEqual(fetch.call_count, 1)
+
+    def test_json_times_are_utc_and_labels_are_cleaned(self):
+        status = {
+            "windows": [["x\x1b[31m weekly", 5, "2026-11-19T16:00:00+09:00"]],
+            "fetched_at": 0,
+        }
+        result = quota.account_json(status)
+        self.assertEqual(result["fetched_at"], "1970-01-01T00:00:00Z")
+        self.assertEqual(
+            result["windows"],
+            [
+                {
+                    "label": "x?[31m weekly",
+                    "used_percent": 5,
+                    "resets_at": "2026-11-19T07:00:00Z",
+                }
+            ],
+        )
+
+    def test_out_of_range_reset_times_are_not_reported(self):
+        self.addCleanup(time.tzset)
+        with patch.dict(os.environ, {"TZ": "Asia/Tokyo"}):
+            time.tzset()
+            for value, utc in (
+                ("9999-12-31T23:59:00-05:00", None),
+                ("0001-01-01T00:00:00+09:00", None),
+                ("9999-12-31T23:59:00Z", "9999-12-31T23:59:00Z"),
+                (253402300799, "9999-12-31T23:59:59Z"),
+            ):
+                with self.subTest(value=value):
+                    self.assertEqual(quota.reset_text(value), "reset not reported")
+                    window = quota.account_json(
+                        {"windows": [["weekly", 5, value]], "fetched_at": None}
+                    )["windows"][0]
+                    self.assertEqual(window["resets_at"], utc)
+
+    def test_json_with_no_accounts_is_an_empty_list(self):
+        status, output, error = self.run_cli("--json")
+        self.assertEqual(status, 1)
+        self.assertEqual(json.loads(output), [])
 
 
 if __name__ == "__main__":

@@ -37,11 +37,14 @@ make install
 cliproxy-quota
 watch -n 60 cliproxy-quota
 cliproxy-quota --auth-dir /path/to/credentials --timeout 15
+cliproxy-quota --json | jq '.[] | {email, windows}'
 ```
 
 Each account gets remaining-percentage bars and local reset times. Claude
 shows five-hour, weekly, and any reported model-specific weekly limits.
 Codex labels its primary and secondary windows by their actual duration.
+`--json` prints the same accounts as a list of objects, with percentages
+used and ISO 8601 UTC times.
 Missing limits stay unreported, not 100% available. Code-review allowances,
 paid credits, and extra usage are not included.
 

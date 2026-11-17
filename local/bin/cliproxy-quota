@@ -42,19 +42,26 @@ def percentage(value):
     return value
 
 
-def reset_text(value):
+def parse_time(value):
     try:
         if isinstance(value, bool) or value is None:
-            return "reset not reported"
+            return None
         if isinstance(value, (int, float)):
-            reset = datetime.fromtimestamp(value, timezone.utc)
-        else:
-            reset = datetime.fromisoformat(value.replace("Z", "+00:00"))
-            if reset.tzinfo is None:
-                return "reset not reported"
-        return "resets " + reset.astimezone().strftime("%Y-%m-%d %H:%M %Z")
+            return datetime.fromtimestamp(value, timezone.utc)
+        reset = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        return reset.astimezone(timezone.utc) if reset.tzinfo else None
     except (ValueError, TypeError, AttributeError, OverflowError, OSError):
-        return "reset not reported"
+        return None
+
+
+def reset_text(value):
+    reset = parse_time(value)
+    try:
+        if reset is not None:
+            return "resets " + reset.astimezone().strftime("%Y-%m-%d %H:%M %Z")
+    except (OverflowError, OSError, ValueError):
+        pass
+    return "reset not reported"
 
 
 def window_line(label, used, reset):
@@ -217,53 +224,101 @@ def rate_limited(seconds):
     return f"HTTP 429; retry in {math.ceil(seconds / 60)} min"
 
 
-def account_report(path, timeout):
+def account_status(path, timeout):
+    status = {
+        "file": clean_text(path.name),
+        "provider": None,
+        "email": None,
+        "organization": None,
+        "disabled": False,
+        "windows": [],
+        "fetched_at": None,
+        "cached": False,
+        "error": None,
+    }
     try:
         auth = json.loads(path.read_text())
         if not isinstance(auth, dict):
             raise ValueError("invalid credential")
     except (OSError, ValueError, RecursionError):
-        return f"{clean_text(path.name)}\n  Cannot read credential JSON", True
+        return {**status, "error": "Cannot read credential JSON"}
     provider = auth.get("type")
     if not isinstance(provider, str) or provider not in ENDPOINTS:
         return None
     email = clean_text(auth.get("email") or path.stem)
-    organization = clean_text(auth.get("organization_name") or "")
-    title = f"{provider}  {email}" + (f"  ({organization})" if organization else "")
+    status.update(
+        provider=provider,
+        email=email,
+        organization=clean_text(auth.get("organization_name") or "") or None,
+    )
     if auth.get("disabled"):
-        return title + "\n  Disabled", False
+        return {**status, "disabled": True}
     account = f"{provider}\0{email}\0{path.resolve()}"
     key = hashlib.sha256(account.encode()).hexdigest()[:32]
     cache_path = CACHE_DIR / f"{key}.json"
     retry_path = CACHE_DIR / f"{key}.retry"
     now = time.time()
     fetched_at, windows = cached_windows(cache_path, now)
+    if windows:
+        status.update(windows=windows, fetched_at=fetched_at, cached=True)
     retry_at = timestamp(read_json(retry_path))
     if now < retry_at <= now + MAX_RETRY_SECONDS:
-        message = rate_limited(retry_at - now)
-    elif windows and now - fetched_at < CACHE_SECONDS:
-        return render(title, windows, fetched_at), False
-    else:
-        try:
-            windows = quota_windows(provider, fetch_usage(provider, auth, timeout))
-            write_json(cache_path, {"fetched_at": now, "windows": windows})
-            return render(title, windows), False
-        except urllib.error.HTTPError as error:
-            error.close()
-            message = f"HTTP {error.code}"
-            if error.code in (401, 403):
-                message += "; re-login may be required"
-            elif error.code == 429:
-                seconds = retry_seconds(error)
-                write_json(retry_path, now + seconds)
-                message = rate_limited(seconds)
-        except (OSError, urllib.error.URLError, HTTPException):
-            message = "Network request failed"
-        except (ValueError, TypeError, OverflowError, RecursionError):
-            message = "Invalid credentials or quota response"
-    if windows:
-        title = render(title, windows, fetched_at)
-    return title + "\n  " + message, True
+        return {**status, "error": rate_limited(retry_at - now)}
+    if windows and now - fetched_at < CACHE_SECONDS:
+        return status
+    try:
+        windows = quota_windows(provider, fetch_usage(provider, auth, timeout))
+        write_json(cache_path, {"fetched_at": now, "windows": windows})
+        return {**status, "windows": windows, "fetched_at": now, "cached": False}
+    except urllib.error.HTTPError as error:
+        error.close()
+        message = f"HTTP {error.code}"
+        if error.code in (401, 403):
+            message += "; re-login may be required"
+        elif error.code == 429:
+            seconds = retry_seconds(error)
+            write_json(retry_path, now + seconds)
+            message = rate_limited(seconds)
+    except (OSError, urllib.error.URLError, HTTPException):
+        message = "Network request failed"
+    except (ValueError, TypeError, OverflowError, RecursionError):
+        message = "Invalid credentials or quota response"
+    return {**status, "error": message}
+
+
+def account_text(status):
+    if status["provider"] is None:
+        return f"{status['file']}\n  {status['error']}"
+    title = f"{status['provider']}  {status['email']}"
+    if status["organization"]:
+        title += f"  ({status['organization']})"
+    if status["disabled"]:
+        return title + "\n  Disabled"
+    if status["windows"]:
+        fetched_at = status["fetched_at"] if status["cached"] else None
+        title = render(title, status["windows"], fetched_at)
+    if status["error"]:
+        title += "\n  " + status["error"]
+    return title
+
+
+def iso_time(value):
+    if value is None:
+        return None
+    return value.isoformat().replace("+00:00", "Z")
+
+
+def account_json(status):
+    windows = [
+        {
+            "label": clean_text(label),
+            "used_percent": percentage(used),
+            "resets_at": iso_time(parse_time(reset)),
+        }
+        for label, used, reset in status["windows"]
+    ]
+    fetched_at = iso_time(parse_time(status["fetched_at"]))
+    return {**status, "fetched_at": fetched_at, "windows": windows}
 
 
 def positive_timeout(value):
@@ -279,7 +334,7 @@ def positive_timeout(value):
 def main(argv=None):
     parser = argparse.ArgumentParser(
         description="Show remaining Claude and Codex quota for local CLIProxyAPI accounts.",
-        epilog="Read-only. Output includes account emails. Reset times use your local timezone.",
+        epilog="Read-only. Output includes account emails. Text reset times use your local timezone; --json uses UTC.",
     )
     parser.add_argument(
         "--auth-dir",
@@ -293,6 +348,11 @@ def main(argv=None):
         default=10,
         help="socket timeout in seconds (default: 10)",
     )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="print the accounts as a JSON array instead of text",
+    )
     args = parser.parse_args(argv)
     auth_dir = args.auth_dir.expanduser()
     try:
@@ -305,13 +365,17 @@ def main(argv=None):
         )
         return 1
     with ThreadPoolExecutor(max_workers=4) as pool:
-        reports = list(pool.map(lambda path: account_report(path, args.timeout), paths))
-    reports = [report for report in reports if report is not None]
-    if not reports:
+        statuses = list(
+            pool.map(lambda path: account_status(path, args.timeout), paths)
+        )
+    statuses = [status for status in statuses if status is not None]
+    if args.json:
+        print(json.dumps([account_json(status) for status in statuses], indent=2))
+    elif statuses:
+        print("\n\n".join(account_text(status) for status in statuses))
+    else:
         print("No Claude or Codex accounts found.")
-        return 1
-    print("\n\n".join(report for report, failed in reports))
-    return int(any(failed for report, failed in reports))
+    return int(not statuses or any(status["error"] for status in statuses))
 
 
 if __name__ == "__main__":
