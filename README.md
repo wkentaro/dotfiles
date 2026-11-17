@@ -27,6 +27,22 @@ make install
 
 
 
+## Claude models in Pi
+
+`pi/agent/settings.json` includes the Claude Code extension and scopes model
+cycling to Codex and Claude Code Opus. Pi installs the extension at startup.
+
+On each machine, pull dotfiles and run `make install`. Install Claude Code
+if needed, then run `claude auth login` with the account you want that machine
+to use. Restart Pi and run `/claude-code-status` to verify the login.
+Credentials stay on each machine and are not shared through dotfiles.
+Existing regular `~/.pi/agent/settings.json` files are skipped by the installer;
+back up that file and replace it with a symlink to `pi/agent/settings.json`.
+
+The Claude Code provider is experimental and uses the logged-in account's
+subscription quota. This configuration leaves Pi's default provider unchanged;
+choose Claude Code Opus with `/model`.
+
 ## CLIProxyAPI quota
 
 `cliproxy-quota` shows remaining Claude and Codex quota for every account in

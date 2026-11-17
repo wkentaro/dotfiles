@@ -3,19 +3,22 @@
   "defaultProvider": "anthropic",
   "enabledModels": [
     "openai-codex/gpt-6.1-sol",
-    "anthropic/claude-opus-5-5"
+    "claude-code/claude-opus-5-5"
   ],
   "theme": "dark",
   "hideThinkingBlock": true,
   "treeFilterMode": "user-only",
   "compaction": {
     "modelOverrides": {
-      "anthropic/claude-opus-5-5": {
+      "claude-code/claude-opus-5-5": {
         "reserveTokens": 700000
       },
       "openai-codex/gpt-6.1-sol": {
         "reserveTokens": 200000
       }
     }
-  }
+  },
+  "packages": [
+    "https://github.com/earendil-works/pi-claude-code"
+  ]
 }
