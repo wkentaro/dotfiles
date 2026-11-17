@@ -27,6 +27,41 @@ make install
 
 
 
+## CLIProxyAPI quota
+
+`cliproxy-quota` shows remaining Claude and Codex quota for every account in
+`~/.cli-proxy-api`. It requires Python 3.9 or newer and is installed by
+`make install` with the other commands in `local/bin`.
+
+```bash
+cliproxy-quota
+watch -n 60 cliproxy-quota
+cliproxy-quota --auth-dir /path/to/credentials --timeout 15
+```
+
+Each account gets remaining-percentage bars and local reset times. Claude
+shows five-hour, weekly, and any reported model-specific weekly limits.
+Codex labels its primary and secondary windows by their actual duration.
+Missing limits stay unreported, not 100% available. Code-review allowances,
+paid credits, and extra usage are not included.
+
+The command only reads credentials and queries provider usage endpoints. It
+never refreshes tokens or changes credential files. Disabled accounts are
+listed without querying them. Errors affect only that account; the command
+exits with status 1 if any account fails or no accounts are found.
+
+Each account's quota is cached in `~/.cache/cliproxy-quota`, readable only
+by you, and reused for 5 minutes, marked `as of HH:MM`, so `watch` does not
+hit provider rate limits. After an HTTP 429, the account is not queried
+again until the provider's `Retry-After` time, between 1 and 60 minutes.
+When a request fails or is waiting, the last cached quota stays on screen
+next to the error.
+
+Output includes account emails and organization names. Keep it private.
+Do not commit credential files or live output. If authentication expires,
+re-login through CLIProxyAPI and run the command again.
+
+
 ## macOS
 
 ### iTerm2

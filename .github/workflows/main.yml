@@ -17,6 +17,12 @@ jobs:
     - name: Test Pi extensions
       run: node --test tests/*.test.mjs
 
+    - name: Test CLIProxyAPI quota command
+      run: |
+        export PATH="$HOME/.local/bin:$PATH"
+        make uv
+        uv run --no-project --python 3.9 python -m unittest discover -s tests -p 'test_*.py'
+
     - name: Update submodules
       run: |
         git submodule update --init --recursive
