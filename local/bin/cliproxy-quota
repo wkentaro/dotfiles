@@ -307,11 +307,13 @@ def pending_retry(path, now, credential):
 
 
 def credential_priority(value):
-    if isinstance(value, str) and re.fullmatch(r"\s*[+-]?[0-9]+\s*", value):
-        value = int(value)
+    space = r"[^\S\x1c-\x1f]*"
+    pattern = f"{space}([+-]?[0-9]+){space}"
+    if isinstance(value, str) and (match := re.fullmatch(pattern, value)):
+        value = int(match[1])
     elif isinstance(value, float) and math.isfinite(value):
         value = int(value)
-    return value if type(value) is int and value > 0 else None
+    return value if type(value) is int and 0 < value < 2**63 else None
 
 
 def account_status(path, timeout, providers=ENDPOINTS):
