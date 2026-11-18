@@ -124,11 +124,12 @@ def window_line(label, used, reset):
     if used is None:
         return f"  {label:<16} not reported"
     remaining = 100 - used
-    line = f"  {label:<16} quota {bar(remaining)} {remaining:5.1f}% left"
+    column = f"{label:<16}"
+    line = f"  {column} quota {bar(remaining)} {remaining:5.1f}% left"
     time_row = time_line(label, reset)
     if time_row is None:
         return f"{line}  {reset_text(reset)}"
-    return f"{line}\n  {'':<16} {time_row}"
+    return f"{line}\n  {' ' * len(column)} {time_row}"
 
 
 def duration_label(seconds):

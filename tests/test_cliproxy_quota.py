@@ -173,6 +173,8 @@ class QuotaTests(unittest.TestCase):
             "time  [############--------]  58.3% left  4d 2h to reset (", time_row
         )
         self.assertEqual(quota_row.index("quota"), time_row.index("time"))
+        quota_row, time_row = self.time_row("sonnet 4 5 weekly", 3600).split("\n")
+        self.assertEqual(quota_row.index("quota"), time_row.index("time"))
         line = self.time_row("5-hour", (3 * 60 + 12) * 60)
         self.assertIn(
             "time  [#############-------]  64.0% left  3h 12m to reset (", line
