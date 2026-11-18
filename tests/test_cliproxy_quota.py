@@ -1119,6 +1119,7 @@ class QuotaTests(unittest.TestCase):
             ("codex", "codex@x.test", 9),
         ):
             self.account(provider, email=email, priority=priority)
+        self.account(email="disabled@x.test", priority=20, disabled=True)
         usage = {
             "seven_day": {"utilization": 40},
             "rate_limit": {"primary_window": {"used_percent": 1}},
@@ -1132,12 +1133,13 @@ class QuotaTests(unittest.TestCase):
                 "claude  first@x.test  priority 1",
                 "claude  unranked@x.test",
                 "claude  second@x.test  priority 2",
+                "claude  disabled@x.test",
                 "codex  codex@x.test  priority 1",
             ],
         )
         self.assertEqual(
             [account["priority"] for account in json.loads(json_output)],
-            [1, None, 2, 1],
+            [1, None, 2, None, 1],
         )
 
     def test_credential_priority_reads_what_cliproxyapi_accepts(self):

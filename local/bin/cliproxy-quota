@@ -342,10 +342,10 @@ def account_status(path, timeout, providers=ENDPOINTS):
         provider=provider,
         email=email,
         organization=clean_text(auth.get("organization_name") or "") or None,
-        priority=credential_priority(auth.get("priority")),
     )
     if auth.get("disabled"):
         return {**status, "disabled": True}
+    status["priority"] = credential_priority(auth.get("priority"))
     account = f"{provider}\0{email}\0{path.resolve()}"
     key = digest(account)
     cache_path = CACHE_DIR / f"{key}.json"
