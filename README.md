@@ -54,10 +54,12 @@ cliproxy-quota
 watch -n 60 cliproxy-quota
 cliproxy-quota --auth-dir /path/to/credentials --timeout 15
 cliproxy-quota --json | jq '.[] | {email, windows}'
+cliproxy-quota --no-fable
 ```
 
 Each account gets remaining-percentage bars and local reset times. Claude
 shows five-hour, weekly, and any reported model-specific weekly limits.
+`--no-fable` hides the Fable weekly limit.
 Codex labels its primary and secondary windows by their actual duration.
 `--json` prints the same accounts as a list of objects, with percentages
 used and ISO 8601 UTC times.

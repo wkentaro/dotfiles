@@ -735,6 +735,31 @@ class QuotaTests(unittest.TestCase):
         self.assertEqual(cached["claude-0.json"]["fetched_at"], ok["fetched_at"])
         self.assertEqual(fetch.call_count, 0)
 
+    def test_no_fable_hides_the_fable_weekly_limit(self):
+        self.account()
+        usage = {
+            "seven_day": {"utilization": 40, "resets_at": None},
+            "limits": [
+                {
+                    "kind": "weekly_scoped",
+                    "percent": 21,
+                    "scope": {"model": {"display_name": "Fable"}},
+                }
+            ],
+        }
+        for args, labels in (
+            ((), ["5-hour", "weekly", "Fable weekly"]),
+            (("--no-fable",), ["5-hour", "weekly"]),
+        ):
+            with self.subTest(args=args):
+                with patch.object(quota, "fetch_usage", return_value=usage):
+                    _, output, _ = self.run_cli("--json", *args)
+                windows = json.loads(output)[0]["windows"]
+                self.assertEqual([window["label"] for window in windows], labels)
+        with patch.object(quota, "fetch_usage", return_value=usage):
+            _, output, _ = self.run_cli("--no-fable")
+        self.assertNotIn("Fable", output)
+
     def test_json_times_are_utc_and_labels_are_cleaned(self):
         status = {
             "windows": [["x\x1b[31m weekly", 5, "2026-11-19T16:00:00+09:00"]],
