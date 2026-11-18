@@ -83,7 +83,7 @@ class QuotaTests(unittest.TestCase):
         )
         self.assertEqual(len(lines), 3)
         self.assertIn("not reported", lines[0])
-        self.assertIn("[####------]  37.5% left", lines[1])
+        self.assertIn("[########------------]  37.5% left", lines[1])
         self.assertIn("sonnet weekly", lines[2])
         self.assertIn("100.0% left", lines[2])
         self.assertIn("reset not reported", lines[2])
@@ -108,7 +108,7 @@ class QuotaTests(unittest.TestCase):
         self.assertIn("weekly", lines[0])
         self.assertIn("86.0% left", lines[0])
         self.assertIn("5-hour", lines[1])
-        self.assertIn("[----------]   0.0% left", lines[1])
+        self.assertIn("[--------------------]   0.0% left", lines[1])
 
     def test_codex_weekly_only_and_missing_windows(self):
         lines = usage_lines(
@@ -145,6 +145,9 @@ class QuotaTests(unittest.TestCase):
             (-1, "window"),
         ):
             self.assertEqual(quota.duration_label(seconds), label)
+        for seconds in (604800, 86400, 18000, 10800, 120, 90):
+            label = quota.duration_label(seconds)
+            self.assertEqual(quota.window_seconds(label), seconds)
 
     def test_reset_time_converts_iso_and_epoch_to_local_timezone(self):
         expected = "resets " + datetime.fromtimestamp(
@@ -154,6 +157,52 @@ class QuotaTests(unittest.TestCase):
         self.assertEqual(quota.reset_text("2026-11-24T01:42:15Z"), expected)
         for value in (None, True, {}, "bad", "2026-11-19T07:00:00", 10**100):
             self.assertEqual(quota.reset_text(value), "reset not reported")
+
+    def time_row(self, label, reset_in):
+        now = 1795484535
+        with patch.object(quota.time, "time", return_value=now):
+            return quota.window_line(label, 40, now + reset_in)
+
+    def test_time_row_shows_how_much_of_the_window_is_left(self):
+        line = self.time_row("weekly", (4 * 24 + 2) * 3600)
+        quota_row, time_row = line.split("\n")
+        self.assertIn(
+            "weekly           quota [############--------]  60.0% left", quota_row
+        )
+        self.assertIn(
+            "time  [############--------]  58.3% left  4d 2h to reset (", time_row
+        )
+        self.assertEqual(quota_row.index("quota"), time_row.index("time"))
+        quota_row, time_row = self.time_row("sonnet 4 5 weekly", 3600).split("\n")
+        self.assertEqual(quota_row.index("quota"), time_row.index("time"))
+        line = self.time_row("5-hour", (3 * 60 + 12) * 60)
+        self.assertIn(
+            "time  [#############-------]  64.0% left  3h 12m to reset (", line
+        )
+        self.assertIn("  0.0% left  0m to reset", self.time_row("sonnet weekly", -60))
+
+    def test_no_time_row_without_a_window_length_or_a_valid_reset(self):
+        for label, reset_in in (
+            ("window", 3600),
+            ("nan-hour", 3600),
+            ("weekly", 10**9),
+        ):
+            with self.subTest(label=label):
+                line = self.time_row(label, reset_in)
+                self.assertNotIn("\n", line)
+                self.assertIn("60.0% left  resets ", line)
+        self.assertNotIn("\n", quota.window_line("weekly", 40, None))
+
+    def test_text_hides_the_5_hour_window_and_json_keeps_it(self):
+        self.account()
+        usage = {"five_hour": {"utilization": 10}, "seven_day": {"utilization": 40}}
+        with patch.object(quota, "fetch_usage", return_value=usage):
+            _, output, _ = self.run_cli()
+            _, json_output, _ = self.run_cli("--json")
+        self.assertNotIn("5-hour", output)
+        self.assertIn("weekly", output)
+        labels = [window["label"] for window in json.loads(json_output)[0]["windows"]]
+        self.assertEqual(labels, ["5-hour", "weekly"])
 
     def test_fetch_uses_provider_endpoint_and_headers(self):
         auth = {"access_token": "secret-access-token", "account_id": "account-123"}
@@ -803,7 +852,7 @@ class QuotaTests(unittest.TestCase):
                     self.assertNotIn("example.test", output)
                     self.assertNotIn("Org", output)
                     self.assertIn("claude  #1  as of", output)
-                    self.assertIn("[######----]  60.0% left", output)
+                    self.assertIn("[############--------]  60.0% left", output)
                     self.assertIn("claude  #2\n  Network request failed", output)
                     self.assertIn("codex  #3\n  Disabled", output)
                     with patch.object(quota, "AUTH_DIR", auth_dir):
