@@ -12,6 +12,7 @@ import urllib.request
 from contextlib import redirect_stderr, redirect_stdout
 from datetime import datetime, timezone
 from http.client import BadStatusLine, IncompleteRead
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from importlib.machinery import SourceFileLoader
 from importlib.util import module_from_spec, spec_from_loader
 from pathlib import Path
@@ -744,16 +745,20 @@ class QuotaTests(unittest.TestCase):
         self.assertEqual(status, 1)
         self.assertEqual(json.loads(output), [])
 
-    def start_server(self, auth_dir):
-        server = quota.quota_server(auth_dir, 1, 0)
+    def serve_in_background(self, server):
         self.addCleanup(server.server_close)
         thread = threading.Thread(target=server.serve_forever)
         thread.start()
         self.addCleanup(thread.join)
         self.addCleanup(server.shutdown)
+        return server.server_address[1]
+
+    def start_server(self, auth_dir):
+        server = quota.quota_server(auth_dir, 1, 0)
+        port = self.serve_in_background(server)
         self.assertEqual(server.server_address[0], "127.0.0.1")
         self.assertIs(type(server), quota.HTTPServer)
-        return server.server_address[1]
+        return port
 
     def get_served(self, auth_dir, port=None):
         port = port or self.start_server(auth_dir)
@@ -999,6 +1004,171 @@ class QuotaTests(unittest.TestCase):
             ],
         )
 
+
+    def start_management(self, files):
+        key_path = Path(self.directory.name) / "management-key"
+        key_path.write_text("management-secret\n")
+        requests = []
+
+        class Handler(BaseHTTPRequestHandler):
+            def log_message(self, *args):
+                pass
+
+            def reply(self, code, value):
+                body = json.dumps(value).encode()
+                self.send_response(code)
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+
+            def do_GET(self):
+                if self.headers["Authorization"] != "Bearer management-secret":
+                    return self.reply(401, {"error": "invalid management key"})
+                self.reply(200, {"files": files})
+
+            def do_PATCH(self):
+                length = int(self.headers["Content-Length"])
+                requests.append((self.path, json.loads(self.rfile.read(length))))
+                self.reply(200, {"status": "ok"})
+
+        port = self.serve_in_background(HTTPServer(("127.0.0.1", 0), Handler))
+        url = f"http://127.0.0.1:{port}/v0/management/auth-files"
+        for name, value in (("MANAGEMENT_URL", url), ("MANAGEMENT_KEY", key_path)):
+            value_patch = patch.object(quota, name, value)
+            value_patch.start()
+            self.addCleanup(value_patch.stop)
+        return requests
+
+    def weekly_usage(self, hours_by_email):
+        def response(provider, auth, timeout):
+            hours = hours_by_email[auth["email"]]
+            if hours is None:
+                raise urllib.error.URLError("offline")
+            reset = datetime.fromtimestamp(time.time() + hours * 3600, timezone.utc)
+            return {"seven_day": {"utilization": 10, "resets_at": reset.isoformat()}}
+
+        return patch.object(quota, "fetch_usage", side_effect=response)
+
+    def test_prioritize_puts_the_soonest_weekly_reset_first(self):
+        hours = {"late@x.test": 100, "soon@x.test": 2, "mid@x.test": 30, "down@x.test": None}
+        names = [self.account(email=email).name for email in hours]
+        codex = self.account("codex", email="codex@x.test").name
+        files = [{"name": name, "priority": None} for name in names]
+        files[2]["priority"] = 2
+        files[3]["priority"] = 4
+        files.append({"name": codex, "priority": None})
+        requests = self.start_management(files)
+        with self.weekly_usage(hours):
+            status, output, _ = self.run_cli("prioritize")
+        self.assertEqual(status, 0)
+        self.assertEqual(
+            requests,
+            [
+                ("/v0/management/auth-files/fields", {"name": names[0], "priority": 1}),
+                ("/v0/management/auth-files/fields", {"name": names[1], "priority": 3}),
+                ("/v0/management/auth-files/fields", {"name": names[3], "priority": 0}),
+            ],
+        )
+        self.assertIn(f"{names[1]}  priority 0 -> 3", output)
+
+    def test_prioritize_leaves_unchanged_priorities_alone(self):
+        name = self.account(email="only@x.test").name
+        requests = self.start_management([{"name": name, "priority": 1}])
+        with self.weekly_usage({"only@x.test": 5}):
+            status, output, _ = self.run_cli("prioritize")
+        self.assertEqual((status, output, requests), (0, "", []))
+
+    def test_weekly_resets_within_a_minute_rank_by_file_name(self):
+        now = 1794960000
+        statuses = [
+            {"provider": "claude", "file": file, "windows": [("weekly", 0, now + offset)]}
+            for file, offset in (("b.json", 3600), ("a.json", 3610), ("c.json", -60))
+        ]
+        self.assertEqual(
+            quota.drain_priorities(statuses, now),
+            {"a.json": 2, "b.json": 1, "c.json": 0},
+        )
+
+    def test_prioritize_fails_on_a_wrong_or_missing_management_key(self):
+        self.account(email="only@x.test")
+        requests = self.start_management([])
+        quota.MANAGEMENT_KEY.write_text("wrong")
+        status, _, error = self.run_cli("prioritize")
+        self.assertEqual((status, requests), (1, []))
+        self.assertIn("Cannot set priorities: HTTP Error 401", error)
+        quota.MANAGEMENT_KEY.unlink()
+        status, _, error = self.run_cli("prioritize")
+        self.assertEqual(status, 1)
+        self.assertIn("management-key", error)
+
+    def test_prioritize_rejects_a_malformed_management_response(self):
+        self.start_management([])
+        for response in ([], {"files": "x"}, {"files": [{"priority": 1}]}):
+            with self.subTest(response=response), patch.object(
+                quota, "management_request", return_value=response
+            ):
+                status, _, error = self.run_cli("prioritize")
+                self.assertEqual(status, 1)
+                self.assertIn("invalid management response", error)
+
+    def test_text_shows_each_account_place_in_line(self):
+        for provider, email, priority in (
+            ("claude", "first@x.test", "10"),
+            ("claude", "unranked@x.test", 0),
+            ("claude", "second@x.test", 2),
+            ("codex", "codex@x.test", 9),
+        ):
+            self.account(provider, email=email, priority=priority)
+        self.account(email="disabled@x.test", priority=20, disabled=True)
+        usage = {
+            "seven_day": {"utilization": 40},
+            "rate_limit": {"primary_window": {"used_percent": 1}},
+        }
+        with patch.object(quota, "fetch_usage", return_value=usage):
+            _, output, _ = self.run_cli()
+            _, json_output, _ = self.run_cli("--json")
+        self.assertEqual(
+            [line for line in output.splitlines() if line.startswith(("claude", "codex"))],
+            [
+                "claude  first@x.test  priority 1",
+                "claude  unranked@x.test",
+                "claude  second@x.test  priority 2",
+                "claude  disabled@x.test",
+                "codex  codex@x.test  priority 1",
+            ],
+        )
+        self.assertEqual(
+            [account["priority"] for account in json.loads(json_output)],
+            [1, None, 2, None, 1],
+        )
+
+    def test_credential_priority_reads_what_cliproxyapi_accepts(self):
+        for value, expected in (
+            (3, 3),
+            (" +7 ", 7),
+            (2.9, 2),
+            (0, None),
+            (-1, None),
+            ("5_0", None),
+            ("\x1c10", None),
+            ("\u00a0 4\n", 4),
+            ("x", None),
+            ("9223372036854775807", 2**63 - 1),
+            ("9223372036854775808", None),
+            (1e19, None),
+            ("9" * 5000, None),
+            ("0" * 19 + "1", 1),
+            ("+" + "0" * 5000 + "7", 7),
+            ("-" + "0" * 30 + "7", None),
+            (10**400, None),
+            (9007199254740993, 9007199254740992),
+            ("9007199254740993", 9007199254740993),
+            (True, None),
+            (None, None),
+            (float("inf"), None),
+        ):
+            with self.subTest(value=value):
+                self.assertEqual(quota.credential_priority(value), expected)
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,6 @@
+[Unit]
+Description=Route new Claude sessions to the account whose weekly quota resets first
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/cliproxy-quota prioritize

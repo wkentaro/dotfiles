@@ -99,6 +99,21 @@ systemctl --user enable --now cliproxy-quota
 tailscale serve --bg --https=8317 --set-path /quota http://127.0.0.1:8318
 ```
 
+Weekly quota left unused at reset is lost, so `cliproxy-quota prioritize`
+gives the Claude account whose weekly quota resets first CLIProxyAPI's
+highest `priority`, and the account that resets last the lowest. New
+sessions go to the top account until it hits a limit, then fall to the
+next. Running sessions stay on their account. Accounts without a known
+reset get priority 0. It changes priorities through CLIProxyAPI's
+management API on `127.0.0.1:8317` with the key in
+`~/.config/cliproxyapi/management-key`, and only when the order changes.
+`cliproxy-quota` then shows each account's place in line as
+`priority 1`, `priority 2`, and so on. Run it every 5 minutes:
+
+```bash
+systemctl --user enable --now cliproxy-quota-prioritize.timer
+```
+
 
 ## macOS
 

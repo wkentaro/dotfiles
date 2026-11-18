@@ -18,6 +18,12 @@ config/fcitx5/config:
 config/systemd/user/cliproxy-quota.service:
   name: .config/systemd/user/cliproxy-quota.service
   uname: Linux
+config/systemd/user/cliproxy-quota-prioritize.service:
+  name: .config/systemd/user/cliproxy-quota-prioritize.service
+  uname: Linux
+config/systemd/user/cliproxy-quota-prioritize.timer:
+  name: .config/systemd/user/cliproxy-quota-prioritize.timer
+  uname: Linux
 config/acron/config.toml:
   .config/acron/config.toml
 config/paneru/init.lua:

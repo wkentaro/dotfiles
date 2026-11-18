@@ -5,6 +5,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import sys
 import tempfile
 import time
@@ -28,6 +29,8 @@ MIN_RETRY_SECONDS = 60
 MAX_RETRY_SECONDS = 3600
 SERVE_PORT = 8318
 SERVE_TIMEOUT = 5
+MANAGEMENT_URL = "http://127.0.0.1:8317/v0/management/auth-files"
+MANAGEMENT_KEY = Path.home() / ".config" / "cliproxyapi" / "management-key"
 NAMED_WINDOWS = {"weekly": 604800, "daily": 86400}
 PUBLIC_FIELDS = ("provider", "disabled", "windows", "fetched_at", "cached", "error")
 
@@ -205,6 +208,10 @@ def fetch_usage(provider, auth, timeout):
             raise ValueError("missing account ID")
         headers["ChatGPT-Account-Id"] = account_id
     request = urllib.request.Request(ENDPOINTS[provider], headers=headers)
+    return open_json(request, timeout)
+
+
+def open_json(request, timeout):
     opener = urllib.request.build_opener(NoRedirects())
     with opener.open(request, timeout=timeout) as response:
         return json.load(response)
@@ -298,12 +305,23 @@ def pending_retry(path, now, credential):
     return retrying(clean_text(message), retry_at - now)
 
 
-def account_status(path, timeout):
+def credential_priority(value):
+    space = r"[^\S\x1c-\x1f]*"
+    pattern = f"{space}\\+?0*([0-9]{{1,19}}){space}"
+    if isinstance(value, str) and (match := re.fullmatch(pattern, value)):
+        value = int(match[1])
+    elif type(value) in (int, float) and abs(value) < 2**63:
+        value = int(float(value))
+    return value if type(value) is int and 0 < value < 2**63 else None
+
+
+def account_status(path, timeout, providers=ENDPOINTS):
     status = {
         "file": clean_text(path.name),
         "provider": None,
         "email": None,
         "organization": None,
+        "priority": None,
         "disabled": False,
         "windows": [],
         "fetched_at": None,
@@ -318,7 +336,7 @@ def account_status(path, timeout):
     except (OSError, ValueError, RecursionError):
         return {**status, "error": "Cannot read credential JSON"}
     provider = auth.get("type")
-    if not isinstance(provider, str) or provider not in ENDPOINTS:
+    if not isinstance(provider, str) or provider not in providers:
         return None
     email = clean_text(auth.get("email") or path.stem)
     status.update(
@@ -328,6 +346,7 @@ def account_status(path, timeout):
     )
     if auth.get("disabled"):
         return {**status, "disabled": True}
+    status["priority"] = credential_priority(auth.get("priority"))
     account = f"{provider}\0{email}\0{path.resolve()}"
     key = digest(account)
     cache_path = CACHE_DIR / f"{key}.json"
@@ -369,6 +388,8 @@ def account_text(status):
     title = f"{status['provider']}  {status['email']}"
     if status["organization"]:
         title += f"  ({status['organization']})"
+    if status["priority"]:
+        title += f"  priority {status['priority']}"
     if status["disabled"]:
         return title + "\n  Disabled"
     if status["windows"]:
@@ -403,11 +424,28 @@ def public_json(status):
     return {field: account[field] for field in PUBLIC_FIELDS}
 
 
-def account_statuses(auth_dir, timeout):
+def account_statuses(auth_dir, timeout, providers=ENDPOINTS):
     paths = sorted(path for path in auth_dir.iterdir() if path.suffix == ".json")
     with ThreadPoolExecutor(max_workers=4) as pool:
-        statuses = list(pool.map(lambda path: account_status(path, timeout), paths))
+        statuses = list(
+            pool.map(lambda path: account_status(path, timeout, providers), paths)
+        )
     return [status for status in statuses if status is not None]
+
+
+def rank_priorities(statuses):
+    ranked = [status for status in statuses if status["priority"]]
+    ranks = [
+        1
+        + sum(
+            other["provider"] == status["provider"]
+            and other["priority"] > status["priority"]
+            for other in ranked
+        )
+        for status in ranked
+    ]
+    for status, rank in zip(ranked, ranks):
+        status["priority"] = rank
 
 
 def gateway_url():
@@ -431,6 +469,7 @@ def gateway_status(number, account):
         "provider": clean_text(provider) if isinstance(provider, str) else None,
         "email": f"#{number}",
         "organization": None,
+        "priority": None,
         "disabled": account.get("disabled") is True,
         "windows": [
             (
@@ -480,6 +519,54 @@ def quota_server(auth_dir, fetch_timeout, port):
     return HTTPServer(("127.0.0.1", port), Handler)
 
 
+def weekly_reset_minute(status, now):
+    for label, _, reset in status["windows"]:
+        if label == "weekly" and (reset_at := parse_time(reset)):
+            if reset_at.timestamp() > now:
+                return round(reset_at.timestamp() / 60)
+    return None
+
+
+def drain_priorities(statuses, now):
+    claude = [status for status in statuses if status["provider"] == "claude"]
+    resets = sorted(
+        (minute, status["file"])
+        for status in claude
+        if (minute := weekly_reset_minute(status, now)) is not None
+    )
+    priorities = {status["file"]: 0 for status in claude}
+    for priority, (_, file) in enumerate(reversed(resets), 1):
+        priorities[file] = priority
+    return priorities
+
+
+def management_request(key, timeout, path="", body=None):
+    request = urllib.request.Request(
+        MANAGEMENT_URL + path,
+        data=None if body is None else json.dumps(body).encode(),
+        headers={"Authorization": "Bearer " + key, "Content-Type": "application/json"},
+        method="GET" if body is None else "PATCH",
+    )
+    return open_json(request, timeout)
+
+
+def prioritize(auth_dir, timeout):
+    key = MANAGEMENT_KEY.read_text().strip()
+    files = management_request(key, timeout)
+    files = files.get("files") if isinstance(files, dict) else None
+    if not isinstance(files, list) or not all(
+        isinstance(file, dict) and isinstance(file.get("name"), str) for file in files
+    ):
+        raise ValueError("invalid management response")
+    current = {file["name"]: file.get("priority") or 0 for file in files}
+    statuses = account_statuses(auth_dir, timeout, {"claude"})
+    for file, priority in drain_priorities(statuses, time.time()).items():
+        if file in current and current[file] != priority:
+            body = {"name": file, "priority": priority}
+            management_request(key, timeout, "/fields", body)
+            print(f"{file}  priority {current[file]} -> {priority}")
+
+
 def positive_timeout(value):
     try:
         timeout = float(value)
@@ -493,13 +580,13 @@ def positive_timeout(value):
 def main(argv=None):
     parser = argparse.ArgumentParser(
         description="Show remaining Claude and Codex quota for local CLIProxyAPI accounts, or the gateway's /quota when there are none.",
-        epilog="Read-only. Output includes account emails. Text reset times use your local timezone; --json uses UTC.",
+        epilog="Read-only except prioritize. Output includes account emails. Text reset times use your local timezone; --json uses UTC.",
     )
     parser.add_argument(
         "command",
         nargs="?",
-        choices=["serve"],
-        help=f"serve the --json accounts without file names, emails, or organizations on 127.0.0.1:{SERVE_PORT}",
+        choices=["serve", "prioritize"],
+        help=f"serve: serve the --json accounts without file names, emails, or organizations on 127.0.0.1:{SERVE_PORT}; prioritize: give CLIProxyAPI's highest priority to the Claude account whose weekly quota resets first",
     )
     parser.add_argument(
         "--auth-dir",
@@ -521,12 +608,20 @@ def main(argv=None):
     auth_dir = (args.auth_dir or AUTH_DIR).expanduser()
     if args.command == "serve":
         return quota_server(auth_dir, args.timeout, SERVE_PORT).serve_forever()
+    if args.command == "prioritize":
+        try:
+            prioritize(auth_dir, args.timeout)
+        except (OSError, ValueError, HTTPException, RecursionError) as error:
+            print(f"Cannot set priorities: {clean_text(error)}", file=sys.stderr)
+            return 1
+        return 0
     try:
         statuses = account_statuses(auth_dir, args.timeout)
     except OSError as error:
         statuses, no_accounts = None, isinstance(error, FileNotFoundError)
     else:
         no_accounts = not statuses
+        rank_priorities(statuses)
     url = gateway_url() if no_accounts and args.auth_dir is None else None
     if url:
         try:
