@@ -10,9 +10,11 @@ used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
 used_tokens=$(echo "$input" | jq -r '.context_window.total_input_tokens // empty')
 pr_number=$(echo "$input" | jq -r '.pr.number // empty')
 weekly_used=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
+weekly_reset=$(echo "$input" | jq -r '.rate_limits.seven_day.resets_at | numbers')
 
-# Gateway sessions get no rate_limits, so average the weekly quota of the
-# proxy's enabled accounts from the gateway's /quota, in the background.
+# Gateway sessions get no rate_limits, so average the weekly quota and reset
+# time of the proxy's enabled accounts from the gateway's /quota, in the
+# background.
 if [ -z "$weekly_used" ] && [ -n "$ANTHROPIC_BASE_URL" ]; then
   cache="$HOME/.cache/claude-gateway-quota.json"
   mkdir -p "$HOME/.cache"
@@ -23,13 +25,17 @@ if [ -z "$weekly_used" ] && [ -n "$ANTHROPIC_BASE_URL" ]; then
       curl -fsS --max-time 60 "${ANTHROPIC_BASE_URL%/}/quota" | jq '
         map(select(.disabled | not) | {
           provider,
-          used: (first(.windows[]
-            | select(.label == "weekly")
-            | select((.resets_at // "9999-12-31T23:59:59")[:19] + "Z" | fromdateiso8601 > now)
-            | .used_percent | numbers) // null)
-        } | select(.used != null))
+          weekly: first(.windows[]
+            | select(.label == "weekly" and (.used_percent | type) == "number")
+            | {used: .used_percent, reset: ((.resets_at // "9999-12-31T23:59:59")[:19] + "Z" | fromdateiso8601)}
+            | select(.reset > now))
+        })
         | group_by(.provider)
-        | map({key: .[0].provider, value: (map(.used) | add / length)})
+        | map({key: .[0].provider, value: {
+            used: (map(.weekly.used) | add / length),
+            reset: ([.[].weekly.reset | select(. <= now + 604800)]
+              | if length > 0 then add / length else null end)
+          }})
         | from_entries
         | select(length > 0)' >"$cache.tmp" && [ -s "$cache.tmp" ] &&
         { cat "$cache" 2>/dev/null; cat "$cache.tmp"; } | jq -s add >"$cache.new" && mv "$cache.new" "$cache"
@@ -39,7 +45,9 @@ if [ -z "$weekly_used" ] && [ -n "$ANTHROPIC_BASE_URL" ]; then
     gpt-*) provider=codex ;;
     *) provider=claude ;;
   esac
-  weekly_used=$(jq -r ".$provider // empty" "$cache" 2>/dev/null)
+  read -r weekly_used weekly_reset <<EOF
+$(jq -r ".$provider // empty | \"\\(.used) \\(.reset // \"\")\"" "$cache" 2>/dev/null)
+EOF
 fi
 
 # Colors sampled from Codex's statusline rendering (Catppuccin Mocha)
@@ -94,7 +102,16 @@ fi
 
 if [ -n "$weekly_used" ]; then
   weekly_left=$((100 - $(printf '%.0f' "$weekly_used")))
-  append "${red}weekly ${weekly_left}% left${reset}"
+  seg="weekly ${weekly_left}% left"
+  color=$red
+  week_left=$(jq -nr --arg reset "$weekly_reset" '$reset | tonumber?
+    | (. - now) / 604800 * 100 | if . < 0 then 0 else . end | select(. <= 100)')
+  if [ -n "$week_left" ]; then
+    week_left=$(printf '%.0f' "$week_left")
+    seg="$seg ($week_left% of week)"
+    [ "$weekly_left" -ge "$week_left" ] && color=$reset
+  fi
+  append "${color}${seg}${reset}"
 fi
 
 printf '%b\n' "$line"
