@@ -205,6 +205,10 @@ def fetch_usage(provider, auth, timeout):
             raise ValueError("missing account ID")
         headers["ChatGPT-Account-Id"] = account_id
     request = urllib.request.Request(ENDPOINTS[provider], headers=headers)
+    return open_json(request, timeout)
+
+
+def open_json(request, timeout):
     opener = urllib.request.build_opener(NoRedirects())
     with opener.open(request, timeout=timeout) as response:
         return json.load(response)

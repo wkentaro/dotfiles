@@ -744,16 +744,20 @@ class QuotaTests(unittest.TestCase):
         self.assertEqual(status, 1)
         self.assertEqual(json.loads(output), [])
 
-    def start_server(self, auth_dir):
-        server = quota.quota_server(auth_dir, 1, 0)
+    def serve_in_background(self, server):
         self.addCleanup(server.server_close)
         thread = threading.Thread(target=server.serve_forever)
         thread.start()
         self.addCleanup(thread.join)
         self.addCleanup(server.shutdown)
+        return server.server_address[1]
+
+    def start_server(self, auth_dir):
+        server = quota.quota_server(auth_dir, 1, 0)
+        port = self.serve_in_background(server)
         self.assertEqual(server.server_address[0], "127.0.0.1")
         self.assertIs(type(server), quota.HTTPServer)
-        return server.server_address[1]
+        return port
 
     def get_served(self, auth_dir, port=None):
         port = port or self.start_server(auth_dir)
