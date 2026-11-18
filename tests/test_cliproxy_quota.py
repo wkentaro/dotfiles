@@ -193,6 +193,17 @@ class QuotaTests(unittest.TestCase):
                 self.assertIn("60.0% left  resets ", line)
         self.assertNotIn("\n", quota.window_line("weekly", 40, None))
 
+    def test_text_hides_the_5_hour_window_and_json_keeps_it(self):
+        self.account()
+        usage = {"five_hour": {"utilization": 10}, "seven_day": {"utilization": 40}}
+        with patch.object(quota, "fetch_usage", return_value=usage):
+            _, output, _ = self.run_cli()
+            _, json_output, _ = self.run_cli("--json")
+        self.assertNotIn("5-hour", output)
+        self.assertIn("weekly", output)
+        labels = [window["label"] for window in json.loads(json_output)[0]["windows"]]
+        self.assertEqual(labels, ["5-hour", "weekly"])
+
     def test_fetch_uses_provider_endpoint_and_headers(self):
         auth = {"access_token": "secret-access-token", "account_id": "account-123"}
         for provider, expected_header, expected_value in (

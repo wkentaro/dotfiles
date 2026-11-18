@@ -268,7 +268,8 @@ def as_of(fetched_at):
 def render(title, windows, fetched_at=None):
     if fetched_at is not None:
         title += as_of(fetched_at)
-    return title + "\n" + "\n".join(window_lines(windows))
+    shown = [window for window in windows if window[0] != "5-hour"]
+    return title + "\n" + "\n".join(window_lines(shown))
 
 
 def retry_seconds(error):
