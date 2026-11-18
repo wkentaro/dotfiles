@@ -12,6 +12,7 @@ import urllib.request
 from contextlib import redirect_stderr, redirect_stdout
 from datetime import datetime, timezone
 from http.client import BadStatusLine, IncompleteRead
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from importlib.machinery import SourceFileLoader
 from importlib.util import module_from_spec, spec_from_loader
 from pathlib import Path
@@ -1003,6 +1004,112 @@ class QuotaTests(unittest.TestCase):
             ],
         )
 
+
+    def start_management(self, files):
+        key_path = Path(self.directory.name) / "management-key"
+        key_path.write_text("management-secret\n")
+        requests = []
+
+        class Handler(BaseHTTPRequestHandler):
+            def log_message(self, *args):
+                pass
+
+            def reply(self, code, value):
+                body = json.dumps(value).encode()
+                self.send_response(code)
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+
+            def do_GET(self):
+                if self.headers["Authorization"] != "Bearer management-secret":
+                    return self.reply(401, {"error": "invalid management key"})
+                self.reply(200, {"files": files})
+
+            def do_PATCH(self):
+                length = int(self.headers["Content-Length"])
+                requests.append((self.path, json.loads(self.rfile.read(length))))
+                self.reply(200, {"status": "ok"})
+
+        port = self.serve_in_background(HTTPServer(("127.0.0.1", 0), Handler))
+        url = f"http://127.0.0.1:{port}/v0/management/auth-files"
+        for name, value in (("MANAGEMENT_URL", url), ("MANAGEMENT_KEY", key_path)):
+            value_patch = patch.object(quota, name, value)
+            value_patch.start()
+            self.addCleanup(value_patch.stop)
+        return requests
+
+    def weekly_usage(self, hours_by_email):
+        def response(provider, auth, timeout):
+            hours = hours_by_email[auth["email"]]
+            if hours is None:
+                raise urllib.error.URLError("offline")
+            reset = datetime.fromtimestamp(time.time() + hours * 3600, timezone.utc)
+            return {"seven_day": {"utilization": 10, "resets_at": reset.isoformat()}}
+
+        return patch.object(quota, "fetch_usage", side_effect=response)
+
+    def test_prioritize_puts_the_soonest_weekly_reset_first(self):
+        hours = {"late@x.test": 100, "soon@x.test": 2, "mid@x.test": 30, "down@x.test": None}
+        names = [self.account(email=email).name for email in hours]
+        codex = self.account("codex", email="codex@x.test").name
+        files = [{"name": name, "priority": None} for name in names]
+        files[2]["priority"] = 2
+        files[3]["priority"] = 4
+        files.append({"name": codex, "priority": None})
+        requests = self.start_management(files)
+        with self.weekly_usage(hours):
+            status, output, _ = self.run_cli("prioritize")
+        self.assertEqual(status, 0)
+        self.assertEqual(
+            requests,
+            [
+                ("/v0/management/auth-files/fields", {"name": names[0], "priority": 1}),
+                ("/v0/management/auth-files/fields", {"name": names[1], "priority": 3}),
+                ("/v0/management/auth-files/fields", {"name": names[3], "priority": 0}),
+            ],
+        )
+        self.assertIn(f"{names[1]}  priority 0 -> 3", output)
+
+    def test_prioritize_leaves_unchanged_priorities_alone(self):
+        name = self.account(email="only@x.test").name
+        requests = self.start_management([{"name": name, "priority": 1}])
+        with self.weekly_usage({"only@x.test": 5}):
+            status, output, _ = self.run_cli("prioritize")
+        self.assertEqual((status, output, requests), (0, "", []))
+
+    def test_weekly_resets_within_a_minute_rank_by_file_name(self):
+        now = time.time()
+        statuses = [
+            {"provider": "claude", "file": file, "windows": [("weekly", 0, now + offset)]}
+            for file, offset in (("b.json", 3600), ("a.json", 3610), ("c.json", -60))
+        ]
+        self.assertEqual(
+            quota.drain_priorities(statuses, now),
+            {"a.json": 2, "b.json": 1, "c.json": 0},
+        )
+
+    def test_prioritize_fails_on_a_wrong_or_missing_management_key(self):
+        self.account(email="only@x.test")
+        requests = self.start_management([])
+        quota.MANAGEMENT_KEY.write_text("wrong")
+        status, _, error = self.run_cli("prioritize")
+        self.assertEqual((status, requests), (1, []))
+        self.assertIn("Cannot set priorities: HTTP Error 401", error)
+        quota.MANAGEMENT_KEY.unlink()
+        status, _, error = self.run_cli("prioritize")
+        self.assertEqual(status, 1)
+        self.assertIn("management-key", error)
+
+    def test_prioritize_rejects_a_malformed_management_response(self):
+        self.start_management([])
+        for response in ([], {"files": "x"}, {"files": [{"priority": 1}]}):
+            with self.subTest(response=response), patch.object(
+                quota, "management_request", return_value=response
+            ):
+                status, _, error = self.run_cli("prioritize")
+                self.assertEqual(status, 1)
+                self.assertIn("invalid management response", error)
 
 if __name__ == "__main__":
     unittest.main()
