@@ -1111,5 +1111,34 @@ class QuotaTests(unittest.TestCase):
                 self.assertEqual(status, 1)
                 self.assertIn("invalid management response", error)
 
+    def test_text_shows_each_account_place_in_line(self):
+        for provider, email, priority in (
+            ("claude", "first@x.test", 6),
+            ("claude", "unranked@x.test", 0),
+            ("claude", "second@x.test", 2),
+            ("codex", "codex@x.test", 9),
+        ):
+            self.account(provider, email=email, priority=priority)
+        usage = {
+            "seven_day": {"utilization": 40},
+            "rate_limit": {"primary_window": {"used_percent": 1}},
+        }
+        with patch.object(quota, "fetch_usage", return_value=usage):
+            _, output, _ = self.run_cli()
+            _, json_output, _ = self.run_cli("--json")
+        self.assertEqual(
+            [line for line in output.splitlines() if line.startswith(("claude", "codex"))],
+            [
+                "claude  first@x.test  priority 1",
+                "claude  unranked@x.test",
+                "claude  second@x.test  priority 2",
+                "codex  codex@x.test  priority 1",
+            ],
+        )
+        self.assertEqual(
+            [account["priority"] for account in json.loads(json_output)],
+            [1, None, 2, 1],
+        )
+
 if __name__ == "__main__":
     unittest.main()

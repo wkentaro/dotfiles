@@ -311,6 +311,7 @@ def account_status(path, timeout, providers=ENDPOINTS):
         "provider": None,
         "email": None,
         "organization": None,
+        "priority": None,
         "disabled": False,
         "windows": [],
         "fetched_at": None,
@@ -328,10 +329,12 @@ def account_status(path, timeout, providers=ENDPOINTS):
     if not isinstance(provider, str) or provider not in providers:
         return None
     email = clean_text(auth.get("email") or path.stem)
+    priority = auth.get("priority")
     status.update(
         provider=provider,
         email=email,
         organization=clean_text(auth.get("organization_name") or "") or None,
+        priority=priority if type(priority) is int and priority > 0 else None,
     )
     if auth.get("disabled"):
         return {**status, "disabled": True}
@@ -376,6 +379,8 @@ def account_text(status):
     title = f"{status['provider']}  {status['email']}"
     if status["organization"]:
         title += f"  ({status['organization']})"
+    if status["priority"]:
+        title += f"  priority {status['priority']}"
     if status["disabled"]:
         return title + "\n  Disabled"
     if status["windows"]:
@@ -419,6 +424,21 @@ def account_statuses(auth_dir, timeout, providers=ENDPOINTS):
     return [status for status in statuses if status is not None]
 
 
+def rank_priorities(statuses):
+    ranked = [status for status in statuses if status["priority"]]
+    ranks = [
+        1
+        + sum(
+            other["provider"] == status["provider"]
+            and other["priority"] > status["priority"]
+            for other in ranked
+        )
+        for status in ranked
+    ]
+    for status, rank in zip(ranked, ranks):
+        status["priority"] = rank
+
+
 def gateway_url():
     url = os.environ.get("ANTHROPIC_BASE_URL")
     if url is None:
@@ -440,6 +460,7 @@ def gateway_status(number, account):
         "provider": clean_text(provider) if isinstance(provider, str) else None,
         "email": f"#{number}",
         "organization": None,
+        "priority": None,
         "disabled": account.get("disabled") is True,
         "windows": [
             (
@@ -591,6 +612,7 @@ def main(argv=None):
         statuses, no_accounts = None, isinstance(error, FileNotFoundError)
     else:
         no_accounts = not statuses
+        rank_priorities(statuses)
     url = gateway_url() if no_accounts and args.auth_dir is None else None
     if url:
         try:
