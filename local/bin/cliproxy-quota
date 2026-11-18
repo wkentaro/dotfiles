@@ -149,6 +149,21 @@ def duration_label(seconds):
     return "window"
 
 
+def scoped_weekly_windows(limits):
+    windows = []
+    for limit in limits if isinstance(limits, list) else []:
+        if not isinstance(limit, dict) or limit.get("kind") != "weekly_scoped":
+            continue
+        scope = limit.get("scope")
+        model = scope.get("model") if isinstance(scope, dict) else None
+        name = model.get("display_name") if isinstance(model, dict) else None
+        if isinstance(name, str) and name:
+            windows.append(
+                (name + " weekly", limit.get("percent"), limit.get("resets_at"))
+            )
+    return windows
+
+
 def quota_windows(provider, data):
     if not isinstance(data, dict):
         raise ValueError("invalid response")
@@ -167,6 +182,12 @@ def quota_windows(provider, data):
             else (label, None, None)
             for label, window in windows
         ]
+        labels = {window[0].lower() for window in windows}
+        windows.extend(
+            window
+            for window in scoped_weekly_windows(data.get("limits"))
+            if window[0].lower() not in labels
+        )
     else:
         limits = data.get("rate_limit")
         if not isinstance(limits, dict):

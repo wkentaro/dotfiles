@@ -89,6 +89,36 @@ class QuotaTests(unittest.TestCase):
         self.assertIn("100.0% left", lines[2])
         self.assertIn("reset not reported", lines[2])
 
+    def test_model_scoped_weekly_limits_are_shown_once(self):
+        def scoped(name, percent, kind="weekly_scoped"):
+            return {
+                "kind": kind,
+                "percent": percent,
+                "resets_at": "2026-11-19T07:00:00Z",
+                "scope": {"model": {"id": None, "display_name": name}, "surface": None},
+            }
+
+        windows = quota.quota_windows(
+            "claude",
+            {
+                "seven_day": {"utilization": 24, "resets_at": "2026-11-19T07:00:00Z"},
+                "seven_day_opus": {"utilization": 30, "resets_at": None},
+                "limits": [
+                    {"kind": "weekly_all", "percent": 24, "scope": None},
+                    scoped("Fable", 21),
+                    scoped("Opus", 99),
+                    scoped("Haiku", 5, kind="session"),
+                    {"kind": "weekly_scoped", "percent": 1, "scope": {"surface": "x"}},
+                    "invalid",
+                ],
+            },
+        )
+        self.assertEqual(
+            [label for label, _, _ in windows],
+            ["5-hour", "weekly", "opus weekly", "Fable weekly"],
+        )
+        self.assertEqual(windows[3][1:], (21, "2026-11-19T07:00:00Z"))
+
     def test_codex_labels_actual_window_duration(self):
         lines = usage_lines(
             "codex",
