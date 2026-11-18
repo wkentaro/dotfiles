@@ -27,8 +27,6 @@
 	sslVerify = false
 [rerere]
 	enabled = true
-[branch]
-	autosetupmerge = always
 [pull]
 	rebase = true
 [push]
