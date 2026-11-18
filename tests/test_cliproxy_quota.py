@@ -1079,7 +1079,7 @@ class QuotaTests(unittest.TestCase):
         self.assertEqual((status, output, requests), (0, "", []))
 
     def test_weekly_resets_within_a_minute_rank_by_file_name(self):
-        now = time.time()
+        now = 1794960000
         statuses = [
             {"provider": "claude", "file": file, "windows": [("weekly", 0, now + offset)]}
             for file, offset in (("b.json", 3600), ("a.json", 3610), ("c.json", -60))
