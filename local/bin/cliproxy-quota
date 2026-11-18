@@ -5,6 +5,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import sys
 import tempfile
 import time
@@ -305,6 +306,14 @@ def pending_retry(path, now, credential):
     return retrying(clean_text(message), retry_at - now)
 
 
+def credential_priority(value):
+    if isinstance(value, str) and re.fullmatch(r"\s*[+-]?[0-9]+\s*", value):
+        value = int(value)
+    elif isinstance(value, float) and math.isfinite(value):
+        value = int(value)
+    return value if type(value) is int and value > 0 else None
+
+
 def account_status(path, timeout, providers=ENDPOINTS):
     status = {
         "file": clean_text(path.name),
@@ -329,12 +338,11 @@ def account_status(path, timeout, providers=ENDPOINTS):
     if not isinstance(provider, str) or provider not in providers:
         return None
     email = clean_text(auth.get("email") or path.stem)
-    priority = auth.get("priority")
     status.update(
         provider=provider,
         email=email,
         organization=clean_text(auth.get("organization_name") or "") or None,
-        priority=priority if type(priority) is int and priority > 0 else None,
+        priority=credential_priority(auth.get("priority")),
     )
     if auth.get("disabled"):
         return {**status, "disabled": True}

@@ -1113,7 +1113,7 @@ class QuotaTests(unittest.TestCase):
 
     def test_text_shows_each_account_place_in_line(self):
         for provider, email, priority in (
-            ("claude", "first@x.test", 6),
+            ("claude", "first@x.test", "10"),
             ("claude", "unranked@x.test", 0),
             ("claude", "second@x.test", 2),
             ("codex", "codex@x.test", 9),
@@ -1139,6 +1139,22 @@ class QuotaTests(unittest.TestCase):
             [account["priority"] for account in json.loads(json_output)],
             [1, None, 2, 1],
         )
+
+    def test_credential_priority_reads_what_cliproxyapi_accepts(self):
+        for value, expected in (
+            (3, 3),
+            (" +7 ", 7),
+            (2.9, 2),
+            (0, None),
+            (-1, None),
+            ("5_0", None),
+            ("x", None),
+            (True, None),
+            (None, None),
+            (float("inf"), None),
+        ):
+            with self.subTest(value=value):
+                self.assertEqual(quota.credential_priority(value), expected)
 
 if __name__ == "__main__":
     unittest.main()
