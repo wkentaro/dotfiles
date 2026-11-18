@@ -217,6 +217,7 @@ bindkey "^B" backward-char
 bindkey "^D" delete-char
 bindkey "^K" kill-line
 bindkey "^Y" yank
+bindkey '^G' edit-command-line
 
 # --------------------------------
 # alias
