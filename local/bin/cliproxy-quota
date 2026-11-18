@@ -28,6 +28,7 @@ MIN_RETRY_SECONDS = 60
 MAX_RETRY_SECONDS = 3600
 SERVE_PORT = 8318
 SERVE_TIMEOUT = 5
+NAMED_WINDOWS = {"weekly": 604800, "daily": 86400}
 PUBLIC_FIELDS = ("provider", "disabled", "windows", "fetched_at", "cached", "error")
 
 
@@ -60,14 +61,62 @@ def parse_time(value):
         return None
 
 
-def reset_text(value):
+def local_time(value):
     reset = parse_time(value)
     try:
-        if reset is not None:
-            return "resets " + reset.astimezone().strftime("%Y-%m-%d %H:%M %Z")
+        return None if reset is None else reset.astimezone()
     except (OverflowError, OSError, ValueError):
-        pass
-    return "reset not reported"
+        return None
+
+
+def reset_text(value):
+    reset = local_time(value)
+    if reset is None:
+        return "reset not reported"
+    return "resets " + reset.strftime("%Y-%m-%d %H:%M %Z")
+
+
+def bar(percent):
+    filled = int(percent / 5 + 0.5)
+    return "[" + "#" * filled + "-" * (20 - filled) + "]"
+
+
+def window_seconds(label):
+    for name, length in NAMED_WINDOWS.items():
+        if label.endswith(name):
+            return length
+    count, _, unit = label.partition("-")
+    try:
+        seconds = float(count) * {"hour": 3600, "minute": 60, "second": 1}[unit]
+    except (ValueError, KeyError):
+        return None
+    return seconds if math.isfinite(seconds) and seconds > 0 else None
+
+
+def countdown(seconds):
+    days, minutes = divmod(int(seconds // 60), 1440)
+    hours, minutes = divmod(minutes, 60)
+    if days:
+        return f"{days}d {hours}h"
+    if hours:
+        return f"{hours}h {minutes}m"
+    return f"{minutes}m"
+
+
+def time_line(label, reset):
+    reset_at, length = local_time(reset), window_seconds(label)
+    if reset_at is None or length is None:
+        return None
+    left = max(0, reset_at.timestamp() - time.time())
+    if left > length:
+        return None
+    same_day = reset_at.date() == datetime.now().date()
+    clock = reset_at.strftime("%H:%M" if same_day else "%a %H:%M")
+    percent = left / length * 100
+    return (
+        f"time  {bar(percent)} {percent:5.1f}% left"
+        f"  {countdown(left)} to reset ({clock})"
+    )
 
 
 def window_line(label, used, reset):
@@ -75,16 +124,17 @@ def window_line(label, used, reset):
     if used is None:
         return f"  {label:<16} not reported"
     remaining = 100 - used
-    filled = int(remaining / 10 + 0.5)
-    bar = "#" * filled + "-" * (10 - filled)
-    return f"  {label:<16} [{bar}] {remaining:5.1f}% left  {reset_text(reset)}"
+    line = f"  {label:<16} quota {bar(remaining)} {remaining:5.1f}% left"
+    time_row = time_line(label, reset)
+    if time_row is None:
+        return f"{line}  {reset_text(reset)}"
+    return f"{line}\n  {'':<16} {time_row}"
 
 
 def duration_label(seconds):
-    if seconds == 604800:
-        return "weekly"
-    if seconds == 86400:
-        return "daily"
+    for name, length in NAMED_WINDOWS.items():
+        if seconds == length:
+            return name
     if isinstance(seconds, (int, float)) and not isinstance(seconds, bool):
         if math.isfinite(seconds) and seconds > 0:
             if seconds % 3600 == 0:
