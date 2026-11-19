@@ -3,7 +3,7 @@
   "defaultProvider": "anthropic",
   "enabledModels": [
     "claude-code/claude-opus-5-5",
-    "openai-codex/gpt-6.1-sol"
+    "openai-codex/gpt-6.2-sol"
   ],
   "theme": "dark",
   "hideThinkingBlock": true,
@@ -13,7 +13,7 @@
       "claude-code/claude-opus-5-5": {
         "reserveTokens": 700000
       },
-      "openai-codex/gpt-6.1-sol": {
+      "openai-codex/gpt-6.2-sol": {
         "reserveTokens": 200000
       }
     }

@@ -1,7 +1,7 @@
 ---
 name: sol-review
 description: Read-only code and PR reviewer using GPT Sol at high effort. Use to review work implemented with Opus.
-model: openai-codex/gpt-6.1-sol:high
+model: openai-codex/gpt-6.2-sol:high
 tools: read, bash, grep, find, ls
 ---
 

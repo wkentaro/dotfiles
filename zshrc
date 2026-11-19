@@ -414,8 +414,8 @@ alias cx="codex"
 alias fable="cc --model fable"
 alias opus="cc --model opus"
 
-alias astra="CLAUDE_CODE_MAX_CONTEXT_TOKENS=272000 cc --model gpt-6-astra"
-alias sol="CLAUDE_CODE_MAX_CONTEXT_TOKENS=272000 cc --model gpt-6.1-sol"
+alias astra="CLAUDE_CODE_MAX_CONTEXT_TOKENS=272000 cc --model gpt-6.2-astra"
+alias sol="CLAUDE_CODE_MAX_CONTEXT_TOKENS=272000 cc --model gpt-6.2-sol"
 alias luna="CLAUDE_CODE_MAX_CONTEXT_TOKENS=272000 cc --model gpt-6-luna"
 
 alias fpp='FPP_EDITOR=~/.local/bin/fpp-copy command fpp -ni'

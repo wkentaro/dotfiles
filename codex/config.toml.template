@@ -1,7 +1,7 @@
 # Portable preferences only. Codex adds machine-local state to this copy.
 
 service_tier = "default"
-model = "gpt-6-astra"
+model = "gpt-6.2-astra"
 suppress_unstable_features_warning = true
 
 [tui]
