@@ -536,6 +536,7 @@ def quota_server(auth_dir, fetch_timeout, port):
             except OSError:
                 self.send_error(503, "Cannot read the credential directory")
                 return
+            rank_priorities(statuses)
             accounts = [public_json(status) for status in statuses]
             body = json.dumps(accounts).encode()
             self.send_response(200)
@@ -614,7 +615,7 @@ def main(argv=None):
         "command",
         nargs="?",
         choices=["serve", "prioritize"],
-        help=f"serve: serve the --json accounts without file names, emails, or organizations on 127.0.0.1:{SERVE_PORT}; prioritize: give CLIProxyAPI's highest priority to the Claude account whose weekly quota resets first",
+        help=f"serve: serve the --json accounts in priority order without file names, emails, or organizations on 127.0.0.1:{SERVE_PORT}; prioritize: give CLIProxyAPI's highest priority to the Claude account whose weekly quota resets first",
     )
     parser.add_argument(
         "--auth-dir",

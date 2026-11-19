@@ -1198,6 +1198,16 @@ class QuotaTests(unittest.TestCase):
             [account["priority"] for account in json.loads(json_output)],
             [1, 2, None, None, 1, None],
         )
+        with patch.object(quota, "fetch_usage", return_value=usage):
+            _, served = self.get_served(self.auth_dir)
+        served = json.loads(served)
+        self.assertEqual(
+            served,
+            [
+                {key: account[key] for key in served[0]}
+                for account in json.loads(json_output)
+            ],
+        )
 
     def test_credential_priority_reads_what_cliproxyapi_accepts(self):
         for value, expected in (
