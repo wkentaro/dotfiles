@@ -32,7 +32,15 @@ SERVE_TIMEOUT = 5
 MANAGEMENT_URL = "http://127.0.0.1:8317/v0/management/auth-files"
 MANAGEMENT_KEY = Path.home() / ".config" / "cliproxyapi" / "management-key"
 NAMED_WINDOWS = {"weekly": 604800, "daily": 86400}
-PUBLIC_FIELDS = ("provider", "disabled", "windows", "fetched_at", "cached", "error")
+PUBLIC_FIELDS = (
+    "provider",
+    "priority",
+    "disabled",
+    "windows",
+    "fetched_at",
+    "cached",
+    "error",
+)
 
 
 class NoRedirects(urllib.request.HTTPRedirectHandler):
@@ -497,7 +505,7 @@ def gateway_status(number, account):
         "provider": clean_text(provider) if isinstance(provider, str) else None,
         "email": f"#{number}",
         "organization": None,
-        "priority": None,
+        "priority": credential_priority(account.get("priority")),
         "disabled": account.get("disabled") is True,
         "windows": [
             (
