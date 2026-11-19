@@ -91,9 +91,10 @@ Do not commit credential files or live output. If authentication expires,
 re-login through CLIProxyAPI and run the command again.
 
 On the proxy host, `cliproxy-quota serve` answers every GET on
-`127.0.0.1:8318` with the `--json` output, minus file names, emails, and
-organizations. Run it as a service and publish it next to the gateway on the
-tailnet, so any machine there reads `/quota` under the gateway URL:
+`127.0.0.1:8318` with the `--json` output in priority order, minus file
+names, emails, and organizations. Run it as a service and publish it next
+to the gateway on the tailnet, so any machine there reads `/quota` under the
+gateway URL:
 
 ```bash
 loginctl enable-linger
@@ -109,7 +110,7 @@ next. Running sessions stay on their account. Accounts without a known
 reset get priority 0. It changes priorities through CLIProxyAPI's
 management API on `127.0.0.1:8317` with the key in
 `~/.config/cliproxyapi/management-key`, and only when the order changes.
-`cliproxy-quota` then shows each account's place in line as
+`cliproxy-quota` then lists each provider's accounts in that order, marked
 `priority 1`, `priority 2`, and so on. Run it every 5 minutes:
 
 ```bash

@@ -843,7 +843,15 @@ class QuotaTests(unittest.TestCase):
         for account in accounts:
             self.assertEqual(
                 set(account),
-                {"provider", "disabled", "windows", "fetched_at", "cached", "error"},
+                {
+                    "provider",
+                    "priority",
+                    "disabled",
+                    "windows",
+                    "fetched_at",
+                    "cached",
+                    "error",
+                },
             )
         expected = [
             {key: account[key] for key in accounts[0]} for account in json.loads(output)
@@ -919,6 +927,32 @@ class QuotaTests(unittest.TestCase):
                         status, output, _ = self.run_cli("--json")
                     _, served = self.get_served(self.auth_dir, port)
                     self.assertEqual(json.loads(output), json.loads(served))
+
+    def test_the_gateway_lists_accounts_in_place_in_line(self):
+        for email, priority in (
+            ("late@example.test", 1),
+            ("unranked@example.test", None),
+            ("soon@example.test", 30),
+            ("mid@example.test", "5"),
+        ):
+            self.account(email=email, priority=priority)
+        self.account("codex", email="codex@example.test")
+        usage = {"seven_day": {"utilization": 40, "resets_at": None}}
+        with patch.object(quota, "fetch_usage", return_value=usage):
+            port = self.start_server(self.auth_dir)
+            os.environ["ANTHROPIC_BASE_URL"] = f"http://127.0.0.1:{port}"
+            with patch.object(quota, "AUTH_DIR", self.auth_dir / "missing"):
+                _, output, _ = self.run_cli()
+        self.assertEqual(
+            [line for line in output.splitlines() if line.startswith(("claude", "codex"))],
+            [
+                "claude  #1  priority 1",
+                "claude  #2  priority 2",
+                "claude  #3  priority 3",
+                "claude  #4",
+                "codex  #5",
+            ],
+        )
 
     def test_local_accounts_win_over_the_gateway(self):
         path = self.account()
@@ -1002,6 +1036,7 @@ class QuotaTests(unittest.TestCase):
                 "cached": True,
                 "error": 5,
                 "disabled": "yes",
+                "priority": "1\x1b",
             },
             {
                 "provider": 5,
@@ -1009,8 +1044,9 @@ class QuotaTests(unittest.TestCase):
                 "fetched_at": 10**400,
                 "cached": "yes",
                 "error": "bad\x07",
+                "priority": True,
             },
-            {"provider": "codex", "fetched_at": -1},
+            {"provider": "codex", "fetched_at": -1, "priority": -3},
         ]
         body = json.dumps(accounts).encode()
         with patch.object(
@@ -1032,6 +1068,7 @@ class QuotaTests(unittest.TestCase):
             [
                 {
                     "provider": "claude?[31m",
+                    "priority": None,
                     "disabled": False,
                     "windows": [
                         {"label": "weekly?", "used_percent": None, "resets_at": None}
@@ -1042,6 +1079,7 @@ class QuotaTests(unittest.TestCase):
                 },
                 {
                     "provider": None,
+                    "priority": None,
                     "disabled": False,
                     "windows": [],
                     "fetched_at": None,
@@ -1050,6 +1088,7 @@ class QuotaTests(unittest.TestCase):
                 },
                 {
                     "provider": "codex",
+                    "priority": None,
                     "disabled": False,
                     "windows": [],
                     "fetched_at": None,
@@ -1166,7 +1205,7 @@ class QuotaTests(unittest.TestCase):
                 self.assertEqual(status, 1)
                 self.assertIn("invalid management response", error)
 
-    def test_text_shows_each_account_place_in_line(self):
+    def test_accounts_are_listed_in_place_in_line(self):
         for provider, email, priority in (
             ("claude", "first@x.test", "10"),
             ("claude", "unranked@x.test", 0),
@@ -1175,6 +1214,7 @@ class QuotaTests(unittest.TestCase):
         ):
             self.account(provider, email=email, priority=priority)
         self.account(email="disabled@x.test", priority=20, disabled=True)
+        (self.auth_dir / "broken.json").write_text("{")
         usage = {
             "seven_day": {"utilization": 40},
             "rate_limit": {"primary_window": {"used_percent": 1}},
@@ -1182,19 +1222,30 @@ class QuotaTests(unittest.TestCase):
         with patch.object(quota, "fetch_usage", return_value=usage):
             _, output, _ = self.run_cli()
             _, json_output, _ = self.run_cli("--json")
+        self.assertTrue(output.endswith("broken.json\n  Cannot read credential JSON\n"))
         self.assertEqual(
             [line for line in output.splitlines() if line.startswith(("claude", "codex"))],
             [
                 "claude  first@x.test  priority 1",
-                "claude  unranked@x.test",
                 "claude  second@x.test  priority 2",
+                "claude  unranked@x.test",
                 "claude  disabled@x.test",
                 "codex  codex@x.test  priority 1",
             ],
         )
         self.assertEqual(
             [account["priority"] for account in json.loads(json_output)],
-            [1, None, 2, None, 1],
+            [1, 2, None, None, 1, None],
+        )
+        with patch.object(quota, "fetch_usage", return_value=usage):
+            _, served = self.get_served(self.auth_dir)
+        served = json.loads(served)
+        self.assertEqual(
+            served,
+            [
+                {key: account[key] for key in served[0]}
+                for account in json.loads(json_output)
+            ],
         )
 
     def test_credential_priority_reads_what_cliproxyapi_accepts(self):
