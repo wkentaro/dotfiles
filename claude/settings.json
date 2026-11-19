@@ -103,11 +103,11 @@
       "effortLevel": "high",
       "autoCompactWindow": 300000
     },
-    "gpt-6.1-sol": {
+    "gpt-6.2-sol": {
       "effortLevel": "high",
       "autoCompactWindow": 250000
     },
-    "gpt-6-astra": {
+    "gpt-6.2-astra": {
       "effortLevel": "high",
       "autoCompactWindow": 250000
     },

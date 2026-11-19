@@ -8,11 +8,11 @@
   "modelPicker": {
     "options": [
       {
-        "model": "gpt-6.1-sol",
+        "model": "gpt-6.2-sol",
         "label": "Sol"
       },
       {
-        "model": "gpt-6-astra",
+        "model": "gpt-6.2-astra",
         "label": "Astra"
       },
       {
