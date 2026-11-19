@@ -96,11 +96,11 @@
   "promptCacheTtl": "1h",
   "modelSettings": {
     "claude-opus-5-5": {
-      "effortLevel": "high",
+      "effortLevel": "medium",
       "autoCompactWindow": 300000
     },
     "claude-fable-5-2": {
-      "effortLevel": "high",
+      "effortLevel": "medium",
       "autoCompactWindow": 300000
     },
     "gpt-6.2-sol": {
