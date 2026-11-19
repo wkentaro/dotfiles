@@ -82,12 +82,11 @@ class QuotaTests(unittest.TestCase):
                 "seven_day_breakdown": {"opus": {}},
             },
         )
-        self.assertEqual(len(lines), 3)
-        self.assertIn("not reported", lines[0])
-        self.assertIn("[########------------]  37.5% left", lines[1])
-        self.assertIn("sonnet weekly", lines[2])
-        self.assertIn("100.0% left", lines[2])
-        self.assertIn("reset not reported", lines[2])
+        self.assertEqual(len(lines), 2)
+        self.assertIn("[########------------]  37.5% left", lines[0])
+        self.assertIn("sonnet weekly", lines[1])
+        self.assertIn("100.0% left", lines[1])
+        self.assertIn("reset not reported", lines[1])
 
     def test_model_scoped_weekly_limits_are_shown_once(self):
         def scoped(name, percent, kind="weekly_scoped"):
@@ -162,7 +161,7 @@ class QuotaTests(unittest.TestCase):
     def test_invalid_percentages_are_not_shown_as_available_quota(self):
         for value in (None, True, "0", -1, 101, 10**1000, float("nan"), float("inf")):
             with self.subTest(value=value):
-                self.assertIn("not reported", quota.window_line("weekly", value, None))
+                self.assertEqual(quota.window_lines([("weekly", value, None)]), [])
 
     def test_duration_labels(self):
         for seconds, label in (
@@ -477,8 +476,9 @@ class QuotaTests(unittest.TestCase):
 
     def test_model_specific_claude_window_alone_is_reported(self):
         lines = usage_lines("claude", {"seven_day_opus": {"utilization": 20}})
-        self.assertIn("opus weekly", lines[2])
-        self.assertIn("80.0% left", lines[2])
+        self.assertEqual(len(lines), 1)
+        self.assertIn("opus weekly", lines[0])
+        self.assertIn("80.0% left", lines[0])
 
     def test_fresh_results_are_reused_without_a_request(self):
         path = self.account()
@@ -1056,7 +1056,7 @@ class QuotaTests(unittest.TestCase):
         self.assertEqual(status, 1)
         self.assertEqual(
             output,
-            "claude?[31m  #1\n  weekly?          not reported\n\n#2\n  bad?\n\n"
+            "claude?[31m  #1\n\n#2\n  bad?\n\n"
             "codex  #3\n",
         )
         with patch.object(

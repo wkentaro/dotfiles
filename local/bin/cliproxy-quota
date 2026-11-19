@@ -131,9 +131,6 @@ def time_line(label, reset):
 
 
 def window_line(label, used, reset):
-    used = percentage(used)
-    if used is None:
-        return f"  {label:<16} not reported"
     remaining = 100 - used
     column = f"{label:<16}"
     line = f"  {column} quota {bar(remaining)} {remaining:5.1f}% left"
@@ -220,7 +217,9 @@ def reported(windows):
 
 def window_lines(windows):
     return [
-        window_line(clean_text(label), used, reset) for label, used, reset in windows
+        window_line(clean_text(label), percent, reset)
+        for label, used, reset in windows
+        if (percent := percentage(used)) is not None
     ]
 
 
@@ -304,7 +303,7 @@ def as_of(fetched_at):
 def render(title, windows, fetched_at=None):
     if fetched_at is not None:
         title += as_of(fetched_at)
-    return title + "\n" + "\n".join(window_lines(windows))
+    return "\n".join([title, *window_lines(windows)])
 
 
 def retry_seconds(error):
