@@ -1166,7 +1166,7 @@ class QuotaTests(unittest.TestCase):
                 self.assertEqual(status, 1)
                 self.assertIn("invalid management response", error)
 
-    def test_text_shows_each_account_place_in_line(self):
+    def test_accounts_are_listed_in_place_in_line(self):
         for provider, email, priority in (
             ("claude", "first@x.test", "10"),
             ("claude", "unranked@x.test", 0),
@@ -1175,6 +1175,7 @@ class QuotaTests(unittest.TestCase):
         ):
             self.account(provider, email=email, priority=priority)
         self.account(email="disabled@x.test", priority=20, disabled=True)
+        (self.auth_dir / "broken.json").write_text("{")
         usage = {
             "seven_day": {"utilization": 40},
             "rate_limit": {"primary_window": {"used_percent": 1}},
@@ -1182,19 +1183,20 @@ class QuotaTests(unittest.TestCase):
         with patch.object(quota, "fetch_usage", return_value=usage):
             _, output, _ = self.run_cli()
             _, json_output, _ = self.run_cli("--json")
+        self.assertTrue(output.endswith("broken.json\n  Cannot read credential JSON\n"))
         self.assertEqual(
             [line for line in output.splitlines() if line.startswith(("claude", "codex"))],
             [
                 "claude  first@x.test  priority 1",
-                "claude  unranked@x.test",
                 "claude  second@x.test  priority 2",
+                "claude  unranked@x.test",
                 "claude  disabled@x.test",
                 "codex  codex@x.test  priority 1",
             ],
         )
         self.assertEqual(
             [account["priority"] for account in json.loads(json_output)],
-            [1, None, 2, None, 1],
+            [1, 2, None, None, 1, None],
         )
 
     def test_credential_priority_reads_what_cliproxyapi_accepts(self):

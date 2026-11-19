@@ -467,6 +467,13 @@ def rank_priorities(statuses):
     ]
     for status, rank in zip(ranked, ranks):
         status["priority"] = rank
+    statuses.sort(
+        key=lambda status: (
+            status["provider"] is None,
+            status["provider"] or "",
+            status["priority"] or math.inf,
+        )
+    )
 
 
 def gateway_url():
