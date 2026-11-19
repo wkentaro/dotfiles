@@ -100,7 +100,7 @@
       "autoCompactWindow": 300000
     },
     "claude-fable-5-2": {
-      "effortLevel": "medium",
+      "effortLevel": "high",
       "autoCompactWindow": 300000
     },
     "gpt-6.2-sol": {
