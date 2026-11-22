@@ -735,9 +735,10 @@ class QuotaTests(unittest.TestCase):
         self.assertEqual(cached["claude-0.json"]["fetched_at"], ok["fetched_at"])
         self.assertEqual(fetch.call_count, 0)
 
-    def test_no_fable_hides_the_fable_weekly_limit(self):
+    def test_no_flags_hide_their_limits(self):
         self.account()
         usage = {
+            "five_hour": {"utilization": 10, "resets_at": None},
             "seven_day": {"utilization": 40, "resets_at": None},
             "limits": [
                 {
@@ -750,6 +751,8 @@ class QuotaTests(unittest.TestCase):
         for args, labels in (
             ((), ["5-hour", "weekly", "Fable weekly"]),
             (("--no-fable",), ["5-hour", "weekly"]),
+            (("--no-5hour",), ["weekly", "Fable weekly"]),
+            (("--no-5hour", "--no-fable"), ["weekly"]),
         ):
             with self.subTest(args=args):
                 with patch.object(quota, "fetch_usage", return_value=usage):
@@ -759,6 +762,10 @@ class QuotaTests(unittest.TestCase):
         with patch.object(quota, "fetch_usage", return_value=usage):
             _, output, _ = self.run_cli("--no-fable")
         self.assertNotIn("Fable", output)
+        with patch.object(quota, "fetch_usage", return_value=usage):
+            _, output, _ = self.run_cli("--no-5hour")
+        self.assertNotIn("5-hour", output)
+        self.assertIn("weekly", output)
 
     def test_json_times_are_utc_and_labels_are_cleaned(self):
         status = {

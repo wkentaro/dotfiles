@@ -641,6 +641,11 @@ def main(argv=None):
         help="print the accounts as a JSON array instead of text",
     )
     parser.add_argument(
+        "--no-5hour",
+        action="store_true",
+        help="hide the 5-hour limit",
+    )
+    parser.add_argument(
         "--no-fable",
         action="store_true",
         help="hide the Fable weekly limit",
@@ -675,13 +680,17 @@ def main(argv=None):
             "Cannot read the credential directory; check --auth-dir.", file=sys.stderr
         )
         return 1
-    if args.no_fable:
-        for status in statuses:
-            status["windows"] = [
-                window
-                for window in status["windows"]
-                if str(window[0]).lower() != "fable weekly"
-            ]
+    hidden = {
+        label
+        for flag, label in ((args.no_5hour, "5-hour"), (args.no_fable, "fable weekly"))
+        if flag
+    }
+    for status in statuses:
+        status["windows"] = [
+            window
+            for window in status["windows"]
+            if str(window[0]).lower() not in hidden
+        ]
     if args.json:
         to_json = public_json if url else account_json
         print(json.dumps([to_json(status) for status in statuses], indent=2))
