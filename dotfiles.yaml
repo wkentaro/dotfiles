@@ -55,8 +55,6 @@ claude/statusline-command.sh:
   .claude/statusline-command.sh
 claude/keybindings.json:
   .claude/keybindings.json
-claude/mods/effort-keys:
-  .claude/mods/effort-keys
 claude/hooks/herdr-tab-name.sh:
   .claude/hooks/herdr-tab-name.sh
 pi/agent/keybindings.json:
