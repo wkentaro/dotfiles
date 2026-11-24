@@ -1,4 +1,4 @@
-cmd + ctrl - t : open -na WezTerm
+cmd + ctrl - t : open -na Ghostty
 # Background launch avoids jumping to the browser's existing native Space.
 cmd + ctrl - b : open -gna "Brave Browser" --args --new-window
 
