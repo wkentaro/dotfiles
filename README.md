@@ -25,6 +25,30 @@ git clone --recursive https://github.com/wkentaro/dotfiles.git $INSTALL_DIR && c
 make install
 ```
 
+### Windows
+
+`make install` is Unix-only. On Windows, install the dependencies and link
+the cross-platform files by hand (symlinks need Developer Mode or admin):
+
+```powershell
+winget install dandavison.delta GitHub.cli jqlang.jq
+gh auth login
+
+$repo = "$HOME\ghq\github.com\wkentaro\dotfiles"
+New-Item -ItemType Directory -Force "$HOME\.claude\hooks" | Out-Null
+@{
+  'gitconfig' = '.gitconfig'
+  'claude\settings.json' = '.claude\settings.json'
+  'claude\keybindings.json' = '.claude\keybindings.json'
+  'claude\statusline-command.sh' = '.claude\statusline-command.sh'
+  'claude\hooks\herdr-tab-name.sh' = '.claude\hooks\herdr-tab-name.sh'
+}.GetEnumerator() | ForEach-Object {
+  New-Item -ItemType SymbolicLink -Path "$HOME\$($_.Value)" -Target "$repo\$($_.Key)"
+}
+```
+
+Leave `~/.codex/hooks.json` alone: herdr writes a Windows-specific one.
+
 
 
 ## Claude models in Pi
