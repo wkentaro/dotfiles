@@ -78,17 +78,6 @@
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"
   },
-  "enabledPlugins": {
-    "ponytail@ponytail": true
-  },
-  "extraKnownMarketplaces": {
-    "ponytail": {
-      "source": {
-        "source": "github",
-        "repo": "DietrichGebert/ponytail"
-      }
-    }
-  },
   "outputStyle": "Concise",
   "viewMode": "default",
   "feedbackDrafts": "off",
