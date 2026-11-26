@@ -2,7 +2,7 @@
 
 ## Layout
 
-A file's path in this repo is its install path under `~` with the leading dot dropped, every directory kept: `~/.pi/agent/mcp.json` lives at `pi/agent/mcp.json`.
+A file's path in this repo is its install path under `~` with the leading dot dropped, every directory kept: `~/.claude/hooks/herdr-tab-name.sh` lives at `claude/hooks/herdr-tab-name.sh`.
 
 ## Agent skills
 

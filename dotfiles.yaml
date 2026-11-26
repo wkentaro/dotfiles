@@ -57,23 +57,6 @@ claude/keybindings.json:
   .claude/keybindings.json
 claude/hooks/herdr-tab-name.sh:
   .claude/hooks/herdr-tab-name.sh
-pi/agent/keybindings.json:
-  .pi/agent/keybindings.json
-pi/agent/mcp.json:
-  .pi/agent/mcp.json
-pi/agent/extensions/herdr-tab-name.ts:
-  .pi/agent/extensions/herdr-tab-name.ts
-pi/agent/extensions/codex-fast.ts:
-  .pi/agent/extensions/codex-fast.ts
-pi/agent/agents/*:
-  .pi/agent/agents
-pi/agent/settings.json:
-  .pi/agent/settings.json
-codex/hooks.json:
-  .codex/hooks.json
-codex/config.toml.template:
-  name: .codex/config.toml
-  type: copy
 grok/config.toml.template:
   name: .grok/config.toml
   type: copy
