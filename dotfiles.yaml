@@ -57,6 +57,8 @@ claude/keybindings.json:
   .claude/keybindings.json
 claude/hooks/herdr-tab-name.sh:
   .claude/hooks/herdr-tab-name.sh
+claude/rules/pstack-models.md:
+  .claude/rules/pstack-models.md
 grok/config.toml.template:
   name: .grok/config.toml
   type: copy
