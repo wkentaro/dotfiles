@@ -35,13 +35,14 @@ winget install dandavison.delta GitHub.cli jqlang.jq
 gh auth login
 
 $repo = "$HOME\ghq\github.com\wkentaro\dotfiles"
-New-Item -ItemType Directory -Force "$HOME\.claude\hooks" | Out-Null
+New-Item -ItemType Directory -Force "$HOME\.claude\hooks", "$HOME\.claude\rules" | Out-Null
 @{
   'gitconfig' = '.gitconfig'
   'claude\settings.json' = '.claude\settings.json'
   'claude\keybindings.json' = '.claude\keybindings.json'
   'claude\statusline-command.sh' = '.claude\statusline-command.sh'
   'claude\hooks\herdr-tab-name.sh' = '.claude\hooks\herdr-tab-name.sh'
+  'claude\rules\pstack-models.md' = '.claude\rules\pstack-models.md'
 }.GetEnumerator() | ForEach-Object {
   New-Item -ItemType SymbolicLink -Path "$HOME\$($_.Value)" -Target "$repo\$($_.Key)"
 }
