@@ -409,7 +409,6 @@ fi
 # alias rm="rm -i"
 
 alias cc="claude --allow-dangerously-skip-permissions --settings ~/.claude/settings-gateway.json"
-alias cx="codex"
 
 alias fable="cc --model fable"
 alias opus="cc --model opus"

@@ -1,4 +1,0 @@
-{
-  "$schema": "https://pi.dev/schemas/keybindings.schema.json",
-  "tui.editor.deleteCharBackward": ["backspace", "ctrl+h"]
-}

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# UserPromptSubmit hook shared by Claude Code and Codex: ask the agent to tag
+# Claude Code UserPromptSubmit hook: ask the agent to tag
 # the herdr tab while its label is still herdr's generated one, and the
 # pane while it has no label, so anything named by hand (or already tagged) is
 # never touched. The pane is looked up first because HERDR_TAB_ID goes stale

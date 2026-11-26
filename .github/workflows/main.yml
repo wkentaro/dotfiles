@@ -10,13 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '24'
-
-    - name: Test Pi extensions
-      run: node --test tests/*.test.mjs
-
     - name: Test CLIProxyAPI quota command
       run: |
         export PATH="$HOME/.local/bin:$PATH"
