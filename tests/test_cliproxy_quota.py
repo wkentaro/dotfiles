@@ -289,15 +289,27 @@ class QuotaTests(unittest.TestCase):
         self.assertNotIn("secret-refresh-token", output + error)
         self.assertEqual({p: p.read_bytes() for p in original}, original)
 
-    def test_disabled_and_unsupported_accounts_do_not_make_requests(self):
-        self.account(disabled=True)
+    def test_disabled_accounts_show_quota_and_unsupported_ones_make_no_request(self):
+        self.account(disabled=True, priority=3)
         self.account("other")
-        with patch.object(quota, "fetch_usage") as fetch:
+        usage = {"seven_day": {"utilization": 40, "resets_at": None}}
+        with patch.object(quota, "fetch_usage", return_value=usage) as fetch:
             status, output, error = self.run_cli()
-        fetch.assert_not_called()
+            _, json_output, _ = self.run_cli("--json")
+        self.assertEqual([call.args[0] for call in fetch.call_args_list], ["claude"])
         self.assertEqual(status, 0)
-        self.assertIn("Disabled", output)
-        self.assertNotIn("other", output)
+        self.assertEqual(
+            output,
+            "claude  member@example.test\n"
+            "  weekly           quota [############--------]  60.0% left"
+            "  reset not reported\n"
+            "  Disabled\n",
+        )
+        (account,) = json.loads(json_output)
+        self.assertEqual(
+            (account["disabled"], account["priority"], account["windows"][-1]["used_percent"]),
+            (True, None, 40),
+        )
 
     def test_invalid_credentials_are_reported_without_tracebacks(self):
         (self.auth_dir / "broken.json").write_text(
@@ -843,7 +855,7 @@ class QuotaTests(unittest.TestCase):
             _, output, _ = self.run_cli("--json")
             code, body = self.get_served(self.auth_dir)
         self.assertEqual(code, 200)
-        self.assertEqual(fetch.call_count, 1)
+        self.assertEqual(fetch.call_count, 2)
         for private in ("example.test", "Org", "claude-0", "secret"):
             self.assertNotIn(private.encode(), body)
         accounts = json.loads(body)
@@ -1206,6 +1218,38 @@ class QuotaTests(unittest.TestCase):
         with self.weekly_usage({"only@x.test": (90, 3)}):
             status, output, _ = self.run_cli("prioritize")
         self.assertEqual((status, output, requests), (0, "", []))
+
+    def test_prioritize_leaves_disabled_accounts_alone(self):
+        left = {
+            "off@x.test": (90, 1),
+            "file-off@x.test": (90, 2),
+            "soon@x.test": (90, 30),
+            "late@x.test": (90, 60),
+        }
+        off, file_off = [
+            self.account(email=email, disabled=True).name
+            for email in ("off@x.test", "file-off@x.test")
+        ]
+        names = [self.account(email=email).name for email in ("soon@x.test", "late@x.test")]
+        requests = self.start_management(
+            [
+                {"name": off, "priority": 5, "disabled": True},
+                {"name": file_off, "priority": 4},
+            ]
+            + [{"name": name, "priority": None} for name in names]
+        )
+        with self.weekly_usage(left):
+            status, _, _ = self.run_cli("prioritize")
+        self.assertEqual(
+            (status, requests),
+            (
+                0,
+                [
+                    ("/v0/management/auth-files/fields", {"name": names[0], "priority": 2}),
+                    ("/v0/management/auth-files/fields", {"name": names[1], "priority": 1}),
+                ],
+            ),
+        )
 
     def test_weekly_resets_within_a_minute_rank_by_file_name(self):
         now = 1794960000

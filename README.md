@@ -72,9 +72,9 @@ Missing limits stay unreported, not 100% available. Code-review allowances,
 paid credits, and extra usage are not included.
 
 The command only reads credentials and queries provider usage endpoints. It
-never refreshes tokens or changes credential files. Disabled accounts are
-listed without querying them. Errors affect only that account; the command
-exits with status 1 if any account fails or no accounts are found.
+never refreshes tokens or changes credential files. Disabled accounts show
+their quota too, marked `Disabled`. Errors affect only that account; the
+command exits with status 1 if any account fails or no accounts are found.
 
 Each account's quota is cached in `~/.cache/cliproxy-quota`, readable only
 by you, and reused for 5 minutes, marked `as of HH:MM`, so `watch` does not
@@ -111,9 +111,10 @@ Weekly quota left unused at reset is lost, so `cliproxy-quota prioritize`
 gives the Claude account whose weekly quota resets first CLIProxyAPI's
 highest `priority`, and the account that resets last the lowest. New
 sessions go to the top account until it hits a limit, then fall to the
-next. Running sessions stay on their account. Accounts with no weekly
-quota left or no known reset get priority 0. It changes priorities
-through CLIProxyAPI's management API on `127.0.0.1:8317` with the key in
+next. Running sessions stay on their account. Enabled accounts with no
+weekly quota left or no known reset get priority 0, and disabled accounts
+keep their priority. It changes priorities through CLIProxyAPI's
+management API on `127.0.0.1:8317` with the key in
 `~/.config/cliproxyapi/management-key`, and writes an account's priority
 only when its value changes.
 `cliproxy-quota` then lists each provider's accounts in that order, marked

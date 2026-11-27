@@ -373,8 +373,9 @@ def account_status(path, timeout, providers=ENDPOINTS):
         organization=clean_text(auth.get("organization_name") or "") or None,
     )
     if auth.get("disabled"):
-        return {**status, "disabled": True}
-    status["priority"] = credential_priority(auth.get("priority"))
+        status["disabled"] = True
+    else:
+        status["priority"] = credential_priority(auth.get("priority"))
     account = f"{provider}\0{email}\0{path.resolve()}"
     key = digest(account)
     cache_path = CACHE_DIR / f"{key}.json"
@@ -418,11 +419,11 @@ def account_text(status):
         title += f"  ({status['organization']})"
     if status["priority"]:
         title += f"  priority {status['priority']}"
-    if status["disabled"]:
-        return title + "\n  Disabled"
     if status["windows"]:
         fetched_at = status["fetched_at"] if status["cached"] else None
         title = render(title, status["windows"], fetched_at)
+    if status["disabled"]:
+        title += "\n  Disabled"
     if status["error"]:
         title += "\n  " + status["error"]
     return title
@@ -595,7 +596,10 @@ def prioritize(auth_dir, timeout):
     ):
         raise ValueError("invalid management response")
     current = {file["name"]: file.get("priority") or 0 for file in files}
+    disabled = {file["name"] for file in files if file.get("disabled") is True}
     statuses = account_statuses(auth_dir, timeout, {"claude"})
+    disabled |= {status["file"] for status in statuses if status["disabled"]}
+    statuses = [status for status in statuses if status["file"] not in disabled]
     for file, priority in drain_priorities(statuses, time.time()).items():
         if file in current and current[file] != priority:
             body = {"name": file, "priority": priority}
