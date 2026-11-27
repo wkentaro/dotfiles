@@ -1140,26 +1140,37 @@ class QuotaTests(unittest.TestCase):
             self.addCleanup(value_patch.stop)
         return requests
 
-    def weekly_usage(self, hours_by_email):
+    def weekly_usage(self, left_by_email):
         def response(provider, auth, timeout):
-            hours = hours_by_email[auth["email"]]
-            if hours is None:
+            left = left_by_email[auth["email"]]
+            if left is None:
                 raise urllib.error.URLError("offline")
-            reset = datetime.fromtimestamp(time.time() + hours * 3600, timezone.utc)
-            return {"seven_day": {"utilization": 10, "resets_at": reset.isoformat()}}
+            quota_left, time_left = left
+            reset = time.time() + time_left / 100 * 604800
+            return {
+                "seven_day": {
+                    "utilization": 100 - quota_left,
+                    "resets_at": datetime.fromtimestamp(reset, timezone.utc).isoformat(),
+                }
+            }
 
         return patch.object(quota, "fetch_usage", side_effect=response)
 
     def test_prioritize_puts_the_soonest_weekly_reset_first(self):
-        hours = {"late@x.test": 100, "soon@x.test": 2, "mid@x.test": 30, "down@x.test": None}
-        names = [self.account(email=email).name for email in hours]
+        left = {
+            "late@x.test": (90, 60),
+            "soon@x.test": (90, 1),
+            "mid@x.test": (90, 18),
+            "down@x.test": None,
+        }
+        names = [self.account(email=email).name for email in left]
         codex = self.account("codex", email="codex@x.test").name
         files = [{"name": name, "priority": None} for name in names]
         files[2]["priority"] = 2
         files[3]["priority"] = 4
         files.append({"name": codex, "priority": None})
         requests = self.start_management(files)
-        with self.weekly_usage(hours):
+        with self.weekly_usage(left):
             status, output, _ = self.run_cli("prioritize")
         self.assertEqual(status, 0)
         self.assertEqual(
@@ -1172,10 +1183,27 @@ class QuotaTests(unittest.TestCase):
         )
         self.assertIn(f"{names[1]}  priority 0 -> 3", output)
 
+    def test_prioritize_ranks_used_up_accounts_last(self):
+        left = {"spent@x.test": (0, 10), "late@x.test": (50, 80), "low@x.test": (1, 20)}
+        names = [self.account(email=email).name for email in left]
+        requests = self.start_management(
+            [{"name": name, "priority": priority} for name, priority in zip(names, (3, 1, 2))]
+        )
+        with self.weekly_usage(left):
+            status, output, _ = self.run_cli("prioritize")
+        self.assertEqual(
+            (status, output, requests),
+            (
+                0,
+                f"{names[0]}  priority 3 -> 0\n",
+                [("/v0/management/auth-files/fields", {"name": names[0], "priority": 0})],
+            ),
+        )
+
     def test_prioritize_leaves_unchanged_priorities_alone(self):
         name = self.account(email="only@x.test").name
         requests = self.start_management([{"name": name, "priority": 1}])
-        with self.weekly_usage({"only@x.test": 5}):
+        with self.weekly_usage({"only@x.test": (90, 3)}):
             status, output, _ = self.run_cli("prioritize")
         self.assertEqual((status, output, requests), (0, "", []))
 

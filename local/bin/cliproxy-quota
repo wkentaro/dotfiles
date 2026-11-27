@@ -555,10 +555,10 @@ def quota_server(auth_dir, fetch_timeout, port):
     return HTTPServer(("127.0.0.1", port), Handler)
 
 
-def weekly_reset_minute(status, now):
-    for label, _, reset in status["windows"]:
+def drain_minute(status, now):
+    for label, used, reset in status["windows"]:
         if label == "weekly" and (reset_at := parse_time(reset)):
-            if reset_at.timestamp() > now:
+            if reset_at.timestamp() > now and percentage(used) != 100:
                 return round(reset_at.timestamp() / 60)
     return None
 
@@ -568,7 +568,7 @@ def drain_priorities(statuses, now):
     resets = sorted(
         (minute, status["file"])
         for status in claude
-        if (minute := weekly_reset_minute(status, now)) is not None
+        if (minute := drain_minute(status, now)) is not None
     )
     priorities = {status["file"]: 0 for status in claude}
     for priority, (_, file) in enumerate(reversed(resets), 1):
@@ -622,7 +622,7 @@ def main(argv=None):
         "command",
         nargs="?",
         choices=["serve", "prioritize"],
-        help=f"serve: serve the --json accounts in priority order without file names, emails, or organizations on 127.0.0.1:{SERVE_PORT}; prioritize: give CLIProxyAPI's highest priority to the Claude account whose weekly quota resets first",
+        help=f"serve: serve the --json accounts in priority order without file names, emails, or organizations on 127.0.0.1:{SERVE_PORT}; prioritize: give CLIProxyAPI's highest priority to the Claude account with weekly quota left that resets first",
     )
     parser.add_argument(
         "--auth-dir",
