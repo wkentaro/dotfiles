@@ -409,6 +409,7 @@ fi
 # alias rm="rm -i"
 
 alias cc="claude --allow-dangerously-skip-permissions --settings ~/.claude/settings-gateway.json"
+alias cca="cc agents"
 
 alias fable="cc --model fable"
 alias opus="cc --model opus"
