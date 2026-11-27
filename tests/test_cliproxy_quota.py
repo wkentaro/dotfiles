@@ -1140,13 +1140,17 @@ class QuotaTests(unittest.TestCase):
             self.addCleanup(value_patch.stop)
         return requests
 
-    def weekly_usage(self, hours_by_email):
+    def weekly_usage(self, hours_by_email, used_by_email=None):
         def response(provider, auth, timeout):
             hours = hours_by_email[auth["email"]]
             if hours is None:
                 raise urllib.error.URLError("offline")
             reset = datetime.fromtimestamp(time.time() + hours * 3600, timezone.utc)
-            return {"seven_day": {"utilization": 10, "resets_at": reset.isoformat()}}
+            weekly = {"resets_at": reset.isoformat()}
+            used = (used_by_email or {}).get(auth["email"], 10)
+            if used is not None:
+                weekly["utilization"] = used
+            return {"seven_day": weekly}
 
         return patch.object(quota, "fetch_usage", side_effect=response)
 
@@ -1171,6 +1175,38 @@ class QuotaTests(unittest.TestCase):
             ],
         )
         self.assertIn(f"{names[1]}  priority 0 -> 3", output)
+
+    def test_prioritize_ranks_used_up_accounts_last(self):
+        hours = {"spent@x.test": 2, "late@x.test": 100, "low@x.test": 30}
+        names = [self.account(email=email).name for email in hours]
+        requests = self.start_management(
+            [{"name": name, "priority": priority} for name, priority in zip(names, (3, 1, 2))]
+        )
+        with self.weekly_usage(hours, {"spent@x.test": 100, "low@x.test": 99}):
+            status, output, _ = self.run_cli("prioritize")
+        self.assertEqual(
+            (status, output, requests),
+            (
+                0,
+                f"{names[0]}  priority 3 -> 0\n",
+                [("/v0/management/auth-files/fields", {"name": names[0], "priority": 0})],
+            ),
+        )
+
+    def test_prioritize_ranks_accounts_with_unknown_weekly_usage_last(self):
+        hours = {"unknown@x.test": 3, "half@x.test": 12}
+        names = [self.account(email=email).name for email in hours]
+        requests = self.start_management([{"name": name, "priority": 0} for name in names])
+        with self.weekly_usage(hours, {"unknown@x.test": None, "half@x.test": 50}):
+            status, output, _ = self.run_cli("prioritize")
+        self.assertEqual(
+            (status, output, requests),
+            (
+                0,
+                f"{names[1]}  priority 0 -> 1\n",
+                [("/v0/management/auth-files/fields", {"name": names[1], "priority": 1})],
+            ),
+        )
 
     def test_prioritize_leaves_unchanged_priorities_alone(self):
         name = self.account(email="only@x.test").name
