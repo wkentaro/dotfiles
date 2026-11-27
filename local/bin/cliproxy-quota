@@ -31,6 +31,11 @@ SERVE_PORT = 8318
 SERVE_TIMEOUT = 5
 MANAGEMENT_URL = "http://127.0.0.1:8317/v0/management/auth-files"
 MANAGEMENT_KEY = Path.home() / ".config" / "cliproxyapi" / "management-key"
+OWN_ACCOUNTS = Path.home() / ".config" / "cliproxyapi" / "own-accounts"
+RESERVE_MARK = "cliproxy-quota-reserve"
+RESERVE = ["*", RESERVE_MARK]
+MIN_FIVE_HOUR_LEFT = 50
+GO_SPACE = r"[^\S\x1c-\x1f]*"
 NAMED_WINDOWS = {"weekly": 604800, "daily": 86400}
 PUBLIC_FIELDS = (
     "provider",
@@ -173,7 +178,8 @@ def quota_windows(provider, data):
     if not isinstance(data, dict):
         raise ValueError("invalid response")
     if provider == "claude":
-        windows = [("5-hour", data.get("five_hour")), ("weekly", data.get("seven_day"))]
+        windows = [("5-hour", data["five_hour"])] if "five_hour" in data else []
+        windows.append(("weekly", data.get("seven_day")))
         windows.extend(
             (key.removeprefix("seven_day_").replace("_", " ") + " weekly", value)
             for key, value in data.items()
@@ -281,17 +287,17 @@ def write_json(path, value):
 def cached_windows(path, now):
     entry = read_json(path)
     if not isinstance(entry, dict):
-        return 0, None
+        return 0, None, None
     fetched_at = timestamp(entry.get("fetched_at"))
     windows = entry.get("windows")
     if not 0 < fetched_at <= now or not isinstance(windows, list) or not windows:
-        return 0, None
+        return 0, None, None
     if not all(
         isinstance(window, list) and len(window) == 3 and isinstance(window[0], str)
         for window in windows
     ) or not reported(windows):
-        return 0, None
-    return fetched_at, windows
+        return 0, None, None
+    return fetched_at, windows, entry.get("token")
 
 
 def as_of(fetched_at):
@@ -334,8 +340,7 @@ def pending_retry(path, now, credential):
 
 
 def credential_priority(value):
-    space = r"[^\S\x1c-\x1f]*"
-    pattern = f"{space}\\+?0*([0-9]{{1,19}}){space}"
+    pattern = f"{GO_SPACE}\\+?0*([0-9]{{1,19}}){GO_SPACE}"
     if isinstance(value, str) and (match := re.fullmatch(pattern, value)):
         value = int(match[1])
     elif type(value) in (int, float) and abs(value) < 2**63:
@@ -343,14 +348,63 @@ def credential_priority(value):
     return value if type(value) is int and 0 < value < 2**63 else None
 
 
-def account_status(path, timeout, providers=ENDPOINTS):
+def excluded_models(auth):
+    models = auth.get("excluded_models", auth.get("excluded-models"))
+    if isinstance(models, str):
+        return models.split(",")
+    if not isinstance(models, list):
+        return []
+    return [model for model in models if isinstance(model, str)]
+
+
+def account_owner(auth):
+    return str(auth.get("email") or "").strip().lower()
+
+
+def credential_token(auth):
+    return digest(str(auth.get("access_token")))
+
+
+def account_email(auth, path):
+    return clean_text(str(auth.get("email") or "").strip() or path.stem)
+
+
+def current_credential(auth_dir, status):
+    path = auth_dir / status["file"]
+    auth = json.loads(path.read_text())
+    if not isinstance(auth, dict):
+        raise ValueError("invalid credential")
+    if account_owner(auth) != status["owner"]:
+        return None
+    return auth
+
+
+def excludes_every_model(models):
+    return any(re.fullmatch(f"{GO_SPACE}\\*+{GO_SPACE}", model) for model in models)
+
+
+def reserve_at(models):
+    return next(
+        (
+            index
+            for index in range(len(models) - 2, -1, -1)
+            if models[index : index + 2] == RESERVE
+        ),
+        None,
+    )
+
+
+def account_status(auth_dir, file, timeout, providers=ENDPOINTS):
+    path = auth_dir / file
     status = {
-        "file": clean_text(path.name),
+        "file": file,
         "provider": None,
         "email": None,
         "organization": None,
         "priority": None,
         "disabled": False,
+        "reserved": False,
+        "excluded_models": [],
         "windows": [],
         "fetched_at": None,
         "cached": False,
@@ -364,13 +418,23 @@ def account_status(path, timeout, providers=ENDPOINTS):
     except (OSError, ValueError, RecursionError):
         return {**status, "error": "Cannot read credential JSON"}
     provider = auth.get("type")
-    if not isinstance(provider, str) or provider not in providers:
+    provider = provider.strip().lower() if isinstance(provider, str) else None
+    if provider not in providers:
         return None
-    email = clean_text(auth.get("email") or path.stem)
+    email = account_email(auth, path)
+    models = excluded_models(auth)
     status.update(
         provider=provider,
         email=email,
+        owner=account_owner(auth),
+        token=credential_token(auth),
         organization=clean_text(auth.get("organization_name") or "") or None,
+        reserved=(
+            provider == "claude"
+            and watched(auth_dir, file)
+            and reserve_at(models) is not None
+        ),
+        excluded_models=models,
     )
     if auth.get("disabled"):
         return {**status, "disabled": True}
@@ -380,11 +444,11 @@ def account_status(path, timeout, providers=ENDPOINTS):
     cache_path = CACHE_DIR / f"{key}.json"
     retry_path = CACHE_DIR / f"{key}.retry"
     now = time.time()
-    fetched_at, windows = cached_windows(cache_path, now)
-    if windows:
+    fetched_at, windows, token = cached_windows(cache_path, now)
+    if windows and token == status["token"]:
         status.update(windows=windows, fetched_at=fetched_at, cached=True)
-    if windows and now - fetched_at < CACHE_SECONDS:
-        return status
+        if now - fetched_at < CACHE_SECONDS:
+            return status
     credential = digest(text)
     retry = pending_retry(retry_path, now, credential)
     if retry:
@@ -392,7 +456,9 @@ def account_status(path, timeout, providers=ENDPOINTS):
     seconds = MIN_RETRY_SECONDS
     try:
         windows = quota_windows(provider, fetch_usage(provider, auth, timeout))
-        write_json(cache_path, {"fetched_at": now, "windows": windows})
+        write_json(
+            cache_path, {"fetched_at": now, "windows": windows, "token": status["token"]}
+        )
         return {**status, "windows": windows, "fetched_at": now, "cached": False}
     except urllib.error.HTTPError as error:
         error.close()
@@ -412,7 +478,7 @@ def account_status(path, timeout, providers=ENDPOINTS):
 
 def account_text(status):
     if status["provider"] is None:
-        return f"{status['file']}\n  {status['error']}"
+        return f"{clean_text(status['file'])}\n  {status['error']}"
     title = f"{status['provider']}  {status['email']}"
     if status["organization"]:
         title += f"  ({status['organization']})"
@@ -423,6 +489,8 @@ def account_text(status):
     if status["windows"]:
         fetched_at = status["fetched_at"] if status["cached"] else None
         title = render(title, status["windows"], fetched_at)
+    if status["reserved"]:
+        title += "\n  Reserved for its owner"
     if status["error"]:
         title += "\n  " + status["error"]
     return title
@@ -444,7 +512,12 @@ def account_json(status):
         for label, used, reset in status["windows"]
     ]
     fetched_at = iso_time(parse_time(status["fetched_at"]))
-    return {**status, "fetched_at": fetched_at, "windows": windows}
+    account = {
+        key: value
+        for key, value in status.items()
+        if key not in {"excluded_models", "owner", "token"}
+    }
+    return {**account, "fetched_at": fetched_at, "windows": windows}
 
 
 def public_json(status):
@@ -452,11 +525,40 @@ def public_json(status):
     return {field: account[field] for field in PUBLIC_FIELDS}
 
 
-def account_statuses(auth_dir, timeout, providers=ENDPOINTS):
-    paths = sorted(path for path in auth_dir.iterdir() if path.suffix == ".json")
+def credential_files(auth_dir):
+    def walk_error(error):
+        if Path(error.filename) == auth_dir:
+            raise error
+
+    return sorted(
+        Path(root, name).relative_to(auth_dir).as_posix()
+        for root, _, names in os.walk(auth_dir, onerror=walk_error)
+        for name in names
+        if name.lower().endswith(".json")
+    )
+
+
+def watched(auth_dir, file):
+    return (
+        file == file.strip()
+        and "/" not in file
+        and file.endswith(".json")
+        and not (auth_dir / file).is_symlink()
+    )
+
+
+def account_statuses(auth_dir, timeout, providers=ENDPOINTS, *, watched_only=False):
+    if watched_only:
+        files = sorted(
+            name
+            for name in os.listdir(auth_dir)
+            if watched(auth_dir, name) and (auth_dir / name).is_file()
+        )
+    else:
+        files = credential_files(auth_dir)
     with ThreadPoolExecutor(max_workers=4) as pool:
         statuses = list(
-            pool.map(lambda path: account_status(path, timeout, providers), paths)
+            pool.map(lambda file: account_status(auth_dir, file, timeout, providers), files)
         )
     return [status for status in statuses if status is not None]
 
@@ -506,6 +608,7 @@ def gateway_status(number, account):
         "organization": None,
         "priority": credential_priority(account.get("priority")),
         "disabled": account.get("disabled") is True,
+        "reserved": False,
         "windows": [
             (
                 window.get("label"),
@@ -577,6 +680,47 @@ def drain_priorities(statuses, now):
     return priorities
 
 
+def window_usage(status, label):
+    return next(
+        ((used, reset) for name, used, reset in status["windows"] if name == label),
+        (None, None),
+    )
+
+
+def five_hour_used(status):
+    for label, used, reset in status["windows"]:
+        if label == "5-hour":
+            return 0 if used is None and reset is None else percentage(used)
+    return None
+
+
+def has_spare_quota(status, now):
+    weekly_used, weekly_reset = window_usage(status, "weekly")
+    used, reset = percentage(weekly_used), parse_time(weekly_reset)
+    five_hour = five_hour_used(status)
+    if status["error"] or used is None or reset is None or five_hour is None:
+        return False
+    seconds_left = reset.timestamp() - now
+    return (
+        seconds_left > 0
+        and (100 - used) * NAMED_WINDOWS["weekly"] > seconds_left * 100
+        and 100 - five_hour >= MIN_FIVE_HOUR_LEFT
+    )
+
+
+def reopened(models):
+    index = reserve_at(models)
+    return models[:index] + models[index + 2 :] or None
+
+
+def own_emails():
+    try:
+        lines = OWN_ACCOUNTS.read_text().splitlines()
+    except FileNotFoundError:
+        return None
+    return {line.strip().lower() for line in lines if line.strip()}
+
+
 def management_request(key, timeout, path="", body=None):
     request = urllib.request.Request(
         MANAGEMENT_URL + path,
@@ -587,21 +731,123 @@ def management_request(key, timeout, path="", body=None):
     return open_json(request, timeout)
 
 
+def set_fields(key, timeout, file, changes):
+    lines = [
+        f"{clean_text(file)}  {field} {json.dumps(old)} -> {json.dumps(new)}"
+        for field, (old, new) in changes.items()
+    ]
+    body = {"name": file, **{field: new for field, (_, new) in changes.items()}}
+    try:
+        management_request(key, timeout, "/fields", body)
+    except (OSError, ValueError, HTTPException, RecursionError) as error:
+        for line in lines:
+            print(f"{line} failed: {clean_text(error)}", file=sys.stderr)
+        return False
+    print("\n".join(lines))
+    return True
+
+
+def listed_id(file):
+    return file["id"] if isinstance(file.get("id"), str) else file["name"]
+
+
+def listed_teammates(files, own):
+    if own is None:
+        return set()
+    return {
+        listed_id(file)
+        for file in files
+        if str(file.get("provider", "")).strip().lower() == "claude"
+        and account_owner(file) not in own
+    }
+
+
+def account_changes(auth_dir, status, keep_open, owned):
+    if not watched(auth_dir, status["file"]):
+        raise ValueError("no longer a regular top-level *.json file")
+    auth = current_credential(auth_dir, status)
+    if auth is None:
+        return None
+    if auth.get("disabled"):
+        return {}
+    if not owned and credential_token(auth) != status["token"]:
+        keep_open = False
+    models = excluded_models(auth)
+    kept = models
+    if not keep_open and not excludes_every_model(models):
+        kept = models + RESERVE
+    elif keep_open and reserve_at(models) is not None:
+        kept = reopened(models)
+    if kept == models == status["excluded_models"]:
+        return {}
+    return {"excluded_models": (models, kept)}
+
+
 def prioritize(auth_dir, timeout):
     key = MANAGEMENT_KEY.read_text().strip()
+    own = own_emails()
     files = management_request(key, timeout)
     files = files.get("files") if isinstance(files, dict) else None
     if not isinstance(files, list) or not all(
         isinstance(file, dict) and isinstance(file.get("name"), str) for file in files
     ):
         raise ValueError("invalid management response")
-    current = {file["name"]: file.get("priority") or 0 for file in files}
-    statuses = account_statuses(auth_dir, timeout, {"claude"})
-    for file, priority in drain_priorities(statuses, time.time()).items():
-        if file in current and current[file] != priority:
-            body = {"name": file, "priority": priority}
-            management_request(key, timeout, "/fields", body)
-            print(f"{file}  priority {current[file]} -> {priority}")
+    teammates = listed_teammates(files, own)
+    unwatched = {name for name in teammates if not watched(auth_dir, name)}
+    for name in sorted(unwatched):
+        print(
+            f"Cannot reserve {json.dumps(name)}. Make it a regular file named"
+            " *.json, with no space at either end, at the top level of the"
+            " auth directory and restart CLIProxyAPI.",
+            file=sys.stderr,
+        )
+    current = {listed_id(file): file.get("priority") or 0 for file in files}
+    statuses = [
+        status
+        for status in account_statuses(auth_dir, timeout, {"claude"}, watched_only=True)
+        if status["provider"] == "claude"
+    ]
+    unreadable = teammates - unwatched - {status["file"] for status in statuses}
+    for name in sorted(unreadable):
+        print(
+            f"Cannot reserve {json.dumps(name)}. Fix its file so it reads as a"
+            " Claude credential and rerun cliproxy-quota prioritize.",
+            file=sys.stderr,
+        )
+    now = time.time()
+    owned = {
+        status["file"]
+        for status in statuses
+        if own is None or status["owner"] in own
+    }
+    open_files = owned | {
+        status["file"] for status in statuses if has_spare_quota(status, now)
+    }
+    priorities = drain_priorities(
+        [status for status in statuses if status["file"] in open_files], now
+    )
+    failed = set()
+    for status in sorted(
+        (status for status in statuses if status["file"] in current),
+        key=lambda status: (status["file"] in open_files, status["reserved"]),
+    ):
+        file, priority = status["file"], priorities.get(status["file"], 0)
+        try:
+            changes = account_changes(auth_dir, status, file in open_files, file in owned)
+        except (OSError, ValueError, RecursionError) as error:
+            print(
+                f"Cannot update {json.dumps(file)}: {clean_text(error)}",
+                file=sys.stderr,
+            )
+            failed.add(file)
+            continue
+        if changes is None:
+            continue
+        if current[file] != priority:
+            changes = {"priority": (current[file], priority), **changes}
+        if changes and not set_fields(key, timeout, file, changes):
+            failed.add(file)
+    return not failed and not unwatched and not unreadable
 
 
 def positive_timeout(value):
@@ -623,7 +869,7 @@ def main(argv=None):
         "command",
         nargs="?",
         choices=["serve", "prioritize"],
-        help=f"serve: serve the --json accounts in priority order without file names, emails, or organizations on 127.0.0.1:{SERVE_PORT}; prioritize: give CLIProxyAPI's highest priority to the Claude account with weekly quota left that resets first",
+        help=f"serve: serve the --json accounts in priority order without file names, emails, or organizations on 127.0.0.1:{SERVE_PORT}. prioritize: rank Claude credentials that CLIProxyAPI watches (regular top-level *.json files) with weekly quota left by earliest reset. With ~/.config/cliproxyapi/own-accounts, keep each unlisted watched Claude account out of routing unless a reading no more than 5 minutes old when prioritize fetched it shows more weekly quota left than time left and at least 50%% of the 5-hour quota left. Keeping one out adds \"*\" and {RESERVE_MARK} to its excluded_models and keeps entries set by hand. Report any other teammate credential without changing it.",
     )
     parser.add_argument(
         "--auth-dir",
@@ -657,11 +903,10 @@ def main(argv=None):
         return quota_server(auth_dir, args.timeout, SERVE_PORT).serve_forever()
     if args.command == "prioritize":
         try:
-            prioritize(auth_dir, args.timeout)
+            return int(not prioritize(auth_dir, args.timeout))
         except (OSError, ValueError, HTTPException, RecursionError) as error:
             print(f"Cannot set priorities: {clean_text(error)}", file=sys.stderr)
             return 1
-        return 0
     try:
         statuses = account_statuses(auth_dir, args.timeout)
     except OSError as error:

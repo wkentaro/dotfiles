@@ -9,7 +9,7 @@ import time
 import unittest
 import urllib.error
 import urllib.request
-from contextlib import redirect_stderr, redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout, suppress
 from datetime import datetime, timezone
 from http.client import BadStatusLine, IncompleteRead
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -23,15 +23,42 @@ LOADER = SourceFileLoader("cliproxy_quota", str(SCRIPT))
 quota = module_from_spec(spec_from_loader(LOADER.name, LOADER))
 with patch("sys.dont_write_bytecode", True):
     LOADER.exec_module(quota)
+NOW = 1795484400
+FIELDS = "/v0/management/auth-files/fields"
+RESERVE = ["*", "cliproxy-quota-reserve"]
 
 
 def account_report(path):
-    status = quota.account_status(path, 1)
+    status = quota.account_status(path.parent, path.name, 1)
     return quota.account_text(status), status["error"] is not None
 
 
 def usage_lines(provider, data):
     return quota.window_lines(quota.quota_windows(provider, data))
+
+
+def excluded_writes(requests):
+    return [
+        (body["name"], body["excluded_models"])
+        for _, body in requests
+        if "excluded_models" in body
+    ]
+
+
+def priority_writes(requests):
+    return [
+        (body["name"], body["priority"])
+        for _, body in requests
+        if "priority" in body
+    ]
+
+
+def claude_usage(weekly_left, time_left, five_hour=None):
+    reset = datetime.fromtimestamp(NOW + time_left * 604800 / 100, timezone.utc)
+    return {
+        "five_hour": five_hour,
+        "seven_day": {"utilization": 100 - weekly_left, "resets_at": reset.isoformat()},
+    }
 
 
 class QuotaTests(unittest.TestCase):
@@ -41,7 +68,12 @@ class QuotaTests(unittest.TestCase):
         self.auth_dir = Path(self.directory.name) / "auth"
         self.auth_dir.mkdir()
         self.cache_dir = Path(self.directory.name) / "cache"
-        for name, value in (("CACHE_DIR", self.cache_dir), ("AUTH_DIR", self.auth_dir)):
+        self.own_accounts = Path(self.directory.name) / "own-accounts"
+        for name, value in (
+            ("CACHE_DIR", self.cache_dir),
+            ("AUTH_DIR", self.auth_dir),
+            ("OWN_ACCOUNTS", self.own_accounts),
+        ):
             value_patch = patch.object(quota, name, value)
             value_patch.start()
             self.addCleanup(value_patch.stop)
@@ -114,9 +146,9 @@ class QuotaTests(unittest.TestCase):
         )
         self.assertEqual(
             [label for label, _, _ in windows],
-            ["5-hour", "weekly", "opus weekly", "Fable weekly"],
+            ["weekly", "opus weekly", "Fable weekly"],
         )
-        self.assertEqual(windows[3][1:], (21, "2026-11-19T07:00:00Z"))
+        self.assertEqual(windows[-1][1:], (21, "2026-11-19T07:00:00Z"))
 
     def test_codex_labels_actual_window_duration(self):
         lines = usage_lines(
@@ -233,6 +265,19 @@ class QuotaTests(unittest.TestCase):
         self.assertLess(output.index("5-hour"), output.index("weekly"))
         labels = [window["label"] for window in json.loads(json_output)[0]["windows"]]
         self.assertEqual(labels, ["5-hour", "weekly"])
+
+    def test_json_lists_an_unreported_weekly_window_without_values(self):
+        self.account()
+        usage = {"five_hour": {"utilization": 10, "resets_at": "2026-11-19T07:00:00Z"}}
+        with patch.object(quota, "fetch_usage", return_value=usage):
+            _, output, _ = self.run_cli("--json")
+        self.assertEqual(
+            json.loads(output)[0]["windows"],
+            [
+                {"label": "5-hour", "used_percent": 10, "resets_at": "2026-11-19T07:00:00Z"},
+                {"label": "weekly", "used_percent": None, "resets_at": None},
+            ],
+        )
 
     def test_fetch_uses_provider_endpoint_and_headers(self):
         auth = {"access_token": "secret-access-token", "account_id": "account-123"}
@@ -1106,10 +1151,15 @@ class QuotaTests(unittest.TestCase):
         )
 
 
-    def start_management(self, files):
+    def start_management(self, files, gone=()):
         key_path = Path(self.directory.name) / "management-key"
         key_path.write_text("management-secret\n")
         requests = []
+        auth_dir = self.auth_dir
+        memory = {}
+        for file in files:
+            with suppress(OSError, ValueError):
+                memory[file["name"]] = json.loads((auth_dir / file["name"]).read_text())
 
         class Handler(BaseHTTPRequestHandler):
             def log_message(self, *args):
@@ -1129,7 +1179,26 @@ class QuotaTests(unittest.TestCase):
 
             def do_PATCH(self):
                 length = int(self.headers["Content-Length"])
-                requests.append((self.path, json.loads(self.rfile.read(length))))
+                body = json.loads(self.rfile.read(length))
+                requests.append((self.path, body))
+                if body["name"] in gone:
+                    return self.reply(404, {"error": "auth file not found"})
+                models = body.get("excluded_models")
+                if models is not None and not (
+                    isinstance(models, list)
+                    and all(isinstance(model, str) for model in models)
+                ):
+                    message = "excluded_models must be a string array or null"
+                    return self.reply(400, {"error": message})
+                for file in files:
+                    if file["name"] == body["name"]:
+                        file.update(body)
+                if body["name"] in memory:
+                    auth = memory[body["name"]]
+                    if "excluded_models" in body:
+                        auth.pop("excluded-models", None)
+                    auth.update({k: v for k, v in body.items() if k != "name"})
+                    (auth_dir / body["name"]).write_text(json.dumps(auth))
                 self.reply(200, {"status": "ok"})
 
         port = self.serve_in_background(HTTPServer(("127.0.0.1", 0), Handler))
@@ -1153,6 +1222,19 @@ class QuotaTests(unittest.TestCase):
             return {"seven_day": weekly}
 
         return patch.object(quota, "fetch_usage", side_effect=response)
+
+    def prioritize_at(self, now, usage_by_email):
+        def response(provider, auth, timeout):
+            usage = usage_by_email[auth["email"]]
+            if isinstance(usage, Exception):
+                raise usage
+            return usage
+
+        with (
+            patch.object(quota.time, "time", return_value=now),
+            patch.object(quota, "fetch_usage", side_effect=response),
+        ):
+            return self.run_cli("prioritize")
 
     def test_prioritize_puts_the_soonest_weekly_reset_first(self):
         hours = {"late@x.test": 100, "soon@x.test": 2, "mid@x.test": 30, "down@x.test": None}
@@ -1224,6 +1306,914 @@ class QuotaTests(unittest.TestCase):
         self.assertEqual(
             quota.drain_priorities(statuses, now),
             {"a.json": 2, "b.json": 1, "c.json": 0},
+        )
+
+    def test_prioritize_closes_a_teammate_account_below_its_weekly_reserve(self):
+        self.own_accounts.write_text("me@x.test\n")
+        me = self.account(email="me@x.test").name
+        mate = self.account(email="mate@x.test").name
+        requests = self.start_management(
+            [{"name": me, "priority": 0}, {"name": mate, "priority": 1}]
+        )
+        usage = {"me@x.test": claude_usage(90, 70), "mate@x.test": claude_usage(40, 60)}
+        status, output, _ = self.prioritize_at(NOW, usage)
+        self.assertEqual(
+            (status, output),
+            (
+                0,
+                f"{mate}  priority 1 -> 0\n"
+                f'{mate}  excluded_models [] -> ["*", "cliproxy-quota-reserve"]\n'
+                f"{me}  priority 0 -> 1\n",
+            ),
+        )
+        self.assertEqual(
+            requests,
+            [
+                (FIELDS, {"name": mate, "priority": 0, "excluded_models": RESERVE}),
+                (FIELDS, {"name": me, "priority": 1}),
+            ],
+        )
+        with patch.object(quota.time, "time", return_value=NOW):
+            _, output, _ = self.run_cli()
+        me_text, mate_text = output.split("\n\n")
+        self.assertNotIn("Reserved", me_text)
+        self.assertTrue(mate_text.startswith("claude  mate@x.test"))
+        self.assertTrue(mate_text.endswith("\n  Reserved for its owner\n"))
+
+    def test_only_a_claude_account_closed_by_prioritize_shows_reserved(self):
+        self.account(email="closed@x.test", excluded_models=RESERVE)
+        self.account(email="hand-set@x.test", excluded_models=["*"])
+        for email, models in (("codex@x.test", ["*"]), ("marked@x.test", RESERVE)):
+            self.account("codex", email=email, account_id="id", excluded_models=models)
+        usage = {
+            "seven_day": {"utilization": 40},
+            "rate_limit": {"primary_window": {"used_percent": 1}},
+        }
+        with patch.object(quota, "fetch_usage", return_value=usage):
+            _, output, _ = self.run_cli()
+            _, json_output, _ = self.run_cli("--json")
+        self.assertEqual(
+            [
+                (account["email"], account["reserved"], "excluded_models" in account)
+                for account in json.loads(json_output)
+            ],
+            [
+                ("closed@x.test", True, False),
+                ("hand-set@x.test", False, False),
+                ("codex@x.test", False, False),
+                ("marked@x.test", False, False),
+            ],
+        )
+        self.assertEqual(
+            [
+                account.splitlines()[0]
+                for account in output.split("\n\n")
+                if "Reserved for its owner" in account
+            ],
+            ["claude  closed@x.test"],
+        )
+
+    def test_prioritize_reopens_a_teammate_account_that_recovered(self):
+        self.own_accounts.write_text("me@x.test\n")
+        mate = self.account(email="mate@x.test", excluded_models=RESERVE).name
+        requests = self.start_management([{"name": mate, "priority": 0}])
+        status, output, _ = self.prioritize_at(
+            NOW, {"mate@x.test": claude_usage(80, 50)}
+        )
+        self.assertEqual(
+            (status, output, requests),
+            (
+                0,
+                f"{mate}  priority 0 -> 1\n"
+                f'{mate}  excluded_models ["*", "cliproxy-quota-reserve"] -> null\n',
+                [(FIELDS, {"name": mate, "priority": 1, "excluded_models": None})],
+            ),
+        )
+
+    def test_a_teammate_account_needs_half_its_5_hour_quota_left(self):
+        self.own_accounts.write_text("me@x.test\n")
+        low = self.account(email="low@x.test").name
+        half = self.account(email="half@x.test").name
+        requests = self.start_management(
+            [{"name": low, "priority": 0}, {"name": half, "priority": 1}]
+        )
+        usage = {
+            "low@x.test": claude_usage(90, 50, {"utilization": 51, "resets_at": None}),
+            "half@x.test": claude_usage(90, 60, {"utilization": 50, "resets_at": None}),
+        }
+        status, _, _ = self.prioritize_at(NOW, usage)
+        self.assertEqual(
+            (status, requests),
+            (0, [(FIELDS, {"name": low, "excluded_models": RESERVE})]),
+        )
+
+    def test_an_idle_5_hour_window_counts_as_unused(self):
+        self.own_accounts.write_text("me@x.test\n")
+        idle = {
+            "null@x.test": None,
+            "zero@x.test": {"utilization": 0.0, "resets_at": None},
+            "unset@x.test": {"utilization": None, "resets_at": None},
+        }
+        names = [
+            self.account(email=email, excluded_models=RESERVE).name for email in idle
+        ]
+        requests = self.start_management([{"name": name, "priority": 0} for name in names])
+        usage = {
+            email: claude_usage(90, 50, five_hour) for email, five_hour in idle.items()
+        }
+        status, _, _ = self.prioritize_at(NOW, usage)
+        self.assertEqual(
+            (status, excluded_writes(requests)),
+            (0, [(name, None) for name in names]),
+        )
+
+    def test_unknown_5_hour_usage_closes_a_teammate_account(self):
+        self.own_accounts.write_text("me@x.test\n")
+        absent = self.account(email="absent@x.test").name
+        unknown = self.account(email="unknown@x.test").name
+        requests = self.start_management(
+            [{"name": absent, "priority": 0}, {"name": unknown, "priority": 0}]
+        )
+        no_five_hour = claude_usage(90, 50)
+        del no_five_hour["five_hour"]
+        in_an_hour = datetime.fromtimestamp(NOW + 3600, timezone.utc).isoformat()
+        usage = {
+            "absent@x.test": no_five_hour,
+            "unknown@x.test": claude_usage(
+                90, 50, {"utilization": None, "resets_at": in_an_hour}
+            ),
+        }
+        status, _, _ = self.prioritize_at(NOW, usage)
+        self.assertEqual(
+            (status, excluded_writes(requests)),
+            (0, [(absent, RESERVE), (unknown, RESERVE)]),
+        )
+        with patch.object(quota.time, "time", return_value=NOW):
+            _, output, _ = self.run_cli()
+        self.assertNotIn("5-hour", output)
+
+    def test_weekly_quota_left_equal_to_the_time_left_closes_a_teammate_account(self):
+        self.own_accounts.write_text("me@x.test\n")
+        mate = self.account(email="mate@x.test").name
+        requests = self.start_management([{"name": mate, "priority": 1}])
+        status, _, _ = self.prioritize_at(NOW, {"mate@x.test": claude_usage(29, 29)})
+        self.assertEqual(
+            (status, requests),
+            (
+                0,
+                [(FIELDS, {"name": mate, "priority": 0, "excluded_models": RESERVE})],
+            ),
+        )
+
+    def test_a_stale_reading_after_a_failed_refresh_keeps_a_teammate_account_closed(self):
+        self.own_accounts.write_text("me@x.test\n")
+        emails = ("open@x.test", "closed@x.test")
+        for code, later in ((503, 20 * 60), (429, 604800 / 4)):
+            with self.subTest(code=code):
+                for path in self.auth_dir.iterdir():
+                    path.unlink()
+                shutil.rmtree(self.cache_dir, ignore_errors=True)
+                opened = self.account(email=emails[0]).name
+                closed = self.account(email=emails[1], excluded_models=RESERVE).name
+                with (
+                    patch.object(quota.time, "time", return_value=NOW),
+                    patch.object(quota, "fetch_usage", return_value=claude_usage(90, 90)),
+                ):
+                    self.run_cli()
+                requests = self.start_management(
+                    [{"name": opened, "priority": 0}, {"name": closed, "priority": 0}]
+                )
+                errors = {
+                    email: urllib.error.HTTPError(
+                        "https://example.test", code, "failed", {}, io.BytesIO()
+                    )
+                    for email in emails
+                }
+                status, _, _ = self.prioritize_at(NOW + later, errors)
+                self.assertEqual(
+                    (status, requests),
+                    (0, [(FIELDS, {"name": opened, "excluded_models": RESERVE})]),
+                )
+
+    def test_a_reading_past_its_weekly_reset_keeps_a_teammate_account_closed(self):
+        self.own_accounts.write_text("me@x.test\n")
+        opened = self.account(email="open@x.test").name
+        closed = self.account(email="closed@x.test", excluded_models=RESERVE).name
+        requests = self.start_management(
+            [{"name": opened, "priority": 0}, {"name": closed, "priority": 0}]
+        )
+        past = claude_usage(90, -1)
+        status, _, _ = self.prioritize_at(
+            NOW, {"open@x.test": past, "closed@x.test": past}
+        )
+        self.assertEqual(
+            (status, requests),
+            (0, [(FIELDS, {"name": opened, "excluded_models": RESERVE})]),
+        )
+
+    def test_prioritize_never_closes_own_accounts(self):
+        self.own_accounts.write_text("\n  Me@X.test \n\n")
+        me = self.account(email="me@x.test").name
+        mate = self.account(email="mate@x.test").name
+        (self.auth_dir / "broken.json").write_text("{")
+        requests = self.start_management(
+            [
+                {"name": me, "priority": 0},
+                {"name": mate, "priority": 0},
+                {"name": "broken.json", "priority": 3},
+            ]
+        )
+        spent = claude_usage(0, 50, {"utilization": 100, "resets_at": None})
+        status, _, _ = self.prioritize_at(
+            NOW, {"me@x.test": spent, "mate@x.test": spent}
+        )
+        self.assertEqual(
+            (status, requests),
+            (0, [(FIELDS, {"name": mate, "excluded_models": RESERVE})]),
+        )
+
+    def test_without_own_accounts_every_account_is_yours(self):
+        spent = self.account(email="spent@x.test").name
+        closed = self.account(email="closed@x.test", excluded_models=RESERVE).name
+        requests = self.start_management(
+            [{"name": spent, "priority": 0}, {"name": closed, "priority": 0}]
+        )
+        usage = {"spent@x.test": claude_usage(0, 50), "closed@x.test": claude_usage(0, 50)}
+        status, _, _ = self.prioritize_at(NOW, usage)
+        self.assertEqual(
+            (status, requests),
+            (0, [(FIELDS, {"name": closed, "excluded_models": None})]),
+        )
+
+    def test_prioritize_never_reopens_a_hand_set_exclusion(self):
+        hand_set = {
+            "every@x.test": ["*"],
+            "text@x.test": "*",
+            "opus@x.test": ["claude-opus-*"],
+            "spent@x.test": ["*"],
+        }
+        names = [
+            self.account(email=email, excluded_models=models).name
+            for email, models in hand_set.items()
+        ]
+        requests = self.start_management([{"name": name, "priority": 0} for name in names])
+        usage = {email: claude_usage(90, 50) for email in hand_set}
+        usage["spent@x.test"] = claude_usage(0, 50)
+        without_own_accounts, _, _ = self.prioritize_at(NOW, usage)
+        self.own_accounts.write_text("me@x.test\n")
+        with_own_accounts, _, _ = self.prioritize_at(NOW, usage)
+        self.assertEqual(
+            (without_own_accounts, with_own_accounts, excluded_writes(requests)),
+            (0, 0, []),
+        )
+
+    def test_a_hand_set_wildcard_counts_after_trimming_as_cliproxyapi_does(self):
+        self.own_accounts.write_text("me@x.test\n")
+        hand_set = {
+            "spaced@x.test": [" * "],
+            "wide@x.test": ["\t*　"],
+            "text@x.test": "claude-opus-*, *",
+            "stars@x.test": ["**"],
+            "separator@x.test": ["\x1c*"],
+        }
+        names = {
+            email: self.account(email=email, excluded_models=models).name
+            for email, models in hand_set.items()
+        }
+        requests = self.start_management(
+            [{"name": name, "priority": 0} for name in names.values()]
+        )
+        status, _, _ = self.prioritize_at(
+            NOW, {email: claude_usage(0, 50) for email in hand_set}
+        )
+        self.assertEqual(
+            (status, excluded_writes(requests)),
+            (0, [(names["separator@x.test"], ["\x1c*", *RESERVE])]),
+        )
+
+    def test_a_mixed_case_type_is_reserved_as_cliproxyapi_reads_it(self):
+        self.own_accounts.write_text("me@x.test\n")
+        path = self.account(provider=" Claude ", email="type@x.test")
+        name = path.rename(self.auth_dir / "claude-type.json").name
+        requests = self.start_management([{"name": name, "priority": 0}])
+        status, _, _ = self.prioritize_at(NOW, {"type@x.test": claude_usage(10, 50)})
+        self.assertEqual((status, excluded_writes(requests)), (0, [(name, RESERVE)]))
+
+    def test_teammate_files_cliproxyapi_does_not_watch_are_reported_without_writes(self):
+        self.own_accounts.write_text("me@x.test\n")
+        listed = {"suffix.JSON": "suffix@x.test", "link.json": "link@x.test"}
+        for name, email in (("suffix.JSON", "suffix@x.test"), ("target", "link@x.test")):
+            (self.auth_dir / name).write_text(json.dumps({"type": "claude", "email": email}))
+        (self.auth_dir / "link.json").symlink_to(self.auth_dir / "target")
+        requests = self.start_management(
+            [
+                {"name": name, "provider": "claude", "email": email, "priority": 0}
+                for name, email in listed.items()
+            ]
+        )
+        with patch.object(quota, "fetch_usage", return_value=claude_usage(10, 50)) as fetch:
+            status, _, error = self.run_cli("prioritize")
+        self.assertEqual((status, requests, fetch.call_count), (1, [], 0))
+        self.assertIn('Cannot reserve "suffix.JSON"', error)
+        self.assertIn('Cannot reserve "link.json"', error)
+
+    def test_an_unreadable_teammate_credential_fails_the_run(self):
+        self.own_accounts.write_text("me@x.test\n")
+        (self.auth_dir / "mate.json").write_text('{"type": "claude",}')
+        requests = self.start_management(
+            [{"name": "mate.json", "provider": "claude", "email": "mate@x.test", "priority": 1}]
+        )
+        status, _, error = self.prioritize_at(NOW, {})
+        self.assertEqual((status, requests), (1, []))
+        self.assertIn('Cannot reserve "mate.json"', error)
+
+    def test_a_credential_changed_into_one_prioritize_cannot_manage_is_not_written(self):
+        self.own_accounts.write_text("me@x.test\n")
+        broken = self.account(email="broken@x.test", excluded_models=RESERVE)
+        linked = self.account(email="linked@x.test", excluded_models=RESERVE)
+        requests = self.start_management(
+            [{"name": path.name, "priority": 0} for path in (broken, linked)]
+        )
+
+        def response(provider, auth, timeout):
+            if auth["email"] == "broken@x.test":
+                broken.write_text('{"type": "claude",}')
+            else:
+                target = self.auth_dir / "shared"
+                target.write_text(linked.read_text())
+                linked.unlink()
+                linked.symlink_to(target)
+            return claude_usage(90, 50)
+
+        with (
+            patch.object(quota.time, "time", return_value=NOW),
+            patch.object(quota, "fetch_usage", side_effect=response),
+        ):
+            status, _, error = self.run_cli("prioritize")
+        self.assertEqual((status, requests), (1, []))
+        self.assertIn(f'Cannot update "{broken.name}"', error)
+        self.assertIn(f'Cannot update "{linked.name}"', error)
+
+    def test_a_priority_write_keeps_an_exclusion_set_by_hand_during_the_fetch(self):
+        self.own_accounts.write_text("me@x.test\n")
+        path = self.account(email="mate@x.test", excluded_models=RESERVE)
+        requests = self.start_management([{"name": path.name, "priority": 0}])
+
+        def response(provider, auth, timeout):
+            edited = {**json.loads(path.read_text()), "excluded_models": RESERVE + ["*"]}
+            path.write_text(json.dumps(edited))
+            return claude_usage(90, 50)
+
+        with (
+            patch.object(quota.time, "time", return_value=NOW),
+            patch.object(quota, "fetch_usage", side_effect=response),
+        ):
+            status, _, _ = self.run_cli("prioritize")
+        self.assertEqual(
+            (status, requests, json.loads(path.read_text())["excluded_models"]),
+            (0, [(FIELDS, {"name": path.name, "priority": 1, "excluded_models": ["*"]})], ["*"]),
+        )
+
+    def test_nested_teammates_in_the_proxy_are_reported_without_writes(self):
+        self.own_accounts.write_text("me@x.test\n")
+        (self.auth_dir / "team").mkdir()
+        (self.auth_dir / "team/mate.json").write_text(
+            json.dumps({"type": "claude", "email": "me@x.test", "excluded_models": RESERVE})
+        )
+        requests = self.start_management(
+            [
+                {"name": "team/mate.json", "provider": "claude", "email": "mate@x.test"},
+                {"name": "team/removed.json", "provider": "claude"},
+                {"name": "team/own.json", "provider": "claude", "email": "ME@x.test"},
+                {"name": "team/codex.json", "provider": "codex"},
+            ]
+        )
+        with patch.object(quota, "fetch_usage", return_value=claude_usage(10, 50)) as fetch:
+            status, _, error = self.run_cli("prioritize")
+            fetch.assert_not_called()
+        self.assertEqual((status, requests), (1, []))
+        self.assertIn('Cannot reserve "team/mate.json"', error)
+        self.assertIn('Cannot reserve "team/removed.json"', error)
+        self.assertIn("at the top level of the auth directory", error)
+        self.assertNotIn("team/own.json", error)
+        self.assertNotIn("team/codex.json", error)
+        with patch.object(quota, "fetch_usage", return_value=claude_usage(10, 50)):
+            status, output, _ = self.run_cli("--json")
+        self.assertEqual(status, 0)
+        (account,) = json.loads(output)
+        self.assertEqual((account["file"], account["reserved"]), ("team/mate.json", False))
+
+    def test_nested_edits_survive_while_top_level_prioritization_continues(self):
+        self.own_accounts.write_text("me@x.test\n")
+        top_level = self.account(email="me@x.test").name
+        (self.auth_dir / "team").mkdir()
+        edits = {
+            "team/exclusions.json": {"excluded_models": RESERVE + ["*"]},
+            "team/replacement.json": {"email": "new@x.test", "access_token": "new-token"},
+        }
+        initial = {"type": "claude", "email": "mate@x.test", "excluded_models": RESERVE}
+        for name in edits:
+            (self.auth_dir / name).write_text(json.dumps(initial))
+        requests = self.start_management(
+            [{"name": top_level, "priority": 0}]
+            + [
+                {"name": name, "provider": "claude", "email": "mate@x.test"}
+                for name in edits
+            ]
+        )
+
+        def response(provider, auth, timeout):
+            if auth["email"] == "me@x.test":
+                for name, changes in edits.items():
+                    (self.auth_dir / name).write_text(json.dumps({**initial, **changes}))
+            return claude_usage(90, 50)
+
+        with (
+            patch.object(quota.time, "time", return_value=NOW),
+            patch.object(quota, "fetch_usage", side_effect=response),
+        ):
+            status, _, _ = self.run_cli("prioritize")
+        self.assertEqual((status, requests), (1, [(FIELDS, {"name": top_level, "priority": 1})]))
+        for name, changes in edits.items():
+            self.assertEqual(json.loads((self.auth_dir / name).read_text()), {**initial, **changes})
+
+    def test_a_credential_is_written_under_the_name_cliproxyapi_lists(self):
+        self.own_accounts.write_text("me@x.test\n")
+        names = {".json": "bare@x.test", "mate\u00a0backup.json": "space@x.test"}
+        for name, email in names.items():
+            (self.auth_dir / name).write_text(json.dumps({"type": "claude", "email": email}))
+        requests = self.start_management([{"name": name, "priority": 0} for name in names])
+        status, _, _ = self.prioritize_at(
+            NOW, {email: claude_usage(10, 50) for email in names.values()}
+        )
+        self.assertEqual(
+            (status, excluded_writes(requests)),
+            (0, [(name, RESERVE) for name in sorted(names)]),
+        )
+
+    def test_a_teammate_named_like_another_credential_after_trimming_is_reported(self):
+        self.own_accounts.write_text("me@x.test\n")
+        for name, email in {"mate.json": "me@x.test", " mate.json": "mate@x.test"}.items():
+            (self.auth_dir / name).write_text(json.dumps({"type": "claude", "email": email}))
+        requests = self.start_management(
+            [
+                {"id": file_id, "name": "mate.json", "provider": "claude",
+                 "email": email, "priority": 0}
+                for file_id, email in {" mate.json": "mate@x.test", "mate.json": "me@x.test"}.items()
+            ]
+        )
+        status, _, error = self.prioritize_at(
+            NOW, {"me@x.test": claude_usage(10, 50), "mate@x.test": claude_usage(10, 50)}
+        )
+        self.assertEqual((status, excluded_writes(requests)), (1, []))
+        self.assertIn('Cannot reserve " mate.json"', error)
+
+    def test_priorities_are_matched_by_the_untrimmed_id(self):
+        self.own_accounts.write_text("me@x.test\n")
+        accounts = {
+            "mate.json": ("mate@x.test", 0, claude_usage(90, 10)),
+            "me.json": ("me@x.test", 1, claude_usage(90, 50)),
+            " mate.json": ("me@x.test", 2, claude_usage(90, 50)),
+        }
+        for name, (email, _, _) in accounts.items():
+            auth = {"type": "claude", "email": email, "disabled": name == " mate.json"}
+            (self.auth_dir / name).write_text(json.dumps(auth))
+        requests = self.start_management(
+            [
+                {"id": name, "name": name.strip(), "provider": "claude",
+                 "email": email, "priority": priority}
+                for name, (email, priority, _) in accounts.items()
+            ]
+        )
+        status, _, _ = self.prioritize_at(
+            NOW, {email: usage for email, _, usage in list(accounts.values())[:2]}
+        )
+        self.assertEqual(status, 0)
+        self.assertIn(("mate.json", 2), priority_writes(requests))
+
+    def test_a_reserve_removed_through_the_management_api_during_the_fetch_is_restored(self):
+        self.own_accounts.write_text("me@x.test\n")
+        path = self.account(email="mate@x.test", excluded_models=["claude-opus-*"] + RESERVE)
+        requests = self.start_management([{"name": path.name, "priority": 0}])
+
+        def response(provider, auth, timeout):
+            edited = {**json.loads(path.read_text()), "excluded_models": ["claude-opus-*"]}
+            path.write_text(json.dumps(edited))
+            return claude_usage(10, 50)
+
+        with (
+            patch.object(quota.time, "time", return_value=NOW),
+            patch.object(quota, "fetch_usage", side_effect=response),
+        ):
+            status, _, _ = self.run_cli("prioritize")
+        self.assertEqual(
+            (status, excluded_writes(requests)),
+            (0, [(path.name, ["claude-opus-*"] + RESERVE)]),
+        )
+
+    def test_an_own_email_with_padding_stays_open(self):
+        self.own_accounts.write_text("me@x.test\n")
+        path = self.account(email=" ME@x.test ")
+        requests = self.start_management([{"name": path.name, "priority": 0}])
+        status, _, _ = self.prioritize_at(NOW, {" ME@x.test ": claude_usage(10, 50)})
+        self.assertEqual((status, excluded_writes(requests)), (0, []))
+
+    def test_an_own_email_with_unicode_padding_stays_open(self):
+        self.own_accounts.write_text("me@x.test\n")
+        path = self.account(email="\u00a0ME@x.test\t")
+        requests = self.start_management([{"name": path.name, "priority": 0}])
+        status, _, _ = self.prioritize_at(NOW, {"\u00a0ME@x.test\t": claude_usage(10, 50)})
+        self.assertEqual((status, excluded_writes(requests)), (0, []))
+
+    def test_a_teammate_enabled_during_the_fetch_is_kept_out(self):
+        self.own_accounts.write_text("me@x.test\n")
+        own = self.account(email="me@x.test")
+        mate = self.account(email="mate@x.test", disabled=True)
+        requests = self.start_management(
+            [{"name": path.name, "priority": 0} for path in (own, mate)]
+        )
+
+        mate_read = threading.Event()
+        account_status = quota.account_status
+
+        def read(auth_dir, file, *args):
+            status = account_status(auth_dir, file, *args)
+            if file == mate.name:
+                mate_read.set()
+            return status
+
+        def response(provider, auth, timeout):
+            mate_read.wait(5)
+            mate.write_text(json.dumps({**json.loads(mate.read_text()), "disabled": False}))
+            return claude_usage(90, 50)
+
+        with (
+            patch.object(quota.time, "time", return_value=NOW),
+            patch.object(quota, "account_status", side_effect=read),
+            patch.object(quota, "fetch_usage", side_effect=response),
+        ):
+            status, _, _ = self.run_cli("prioritize")
+        self.assertEqual((status, excluded_writes(requests)), (0, [(mate.name, RESERVE)]))
+
+    def test_a_teammate_without_an_email_is_not_owned_by_its_file_name(self):
+        self.own_accounts.write_text("me@x.test\n")
+        path = self.auth_dir / "me@x.test.json"
+        path.write_text(json.dumps({"type": "claude", "email": " "}))
+        requests = self.start_management([{"name": path.name, "priority": 0}])
+        with (
+            patch.object(quota.time, "time", return_value=NOW),
+            patch.object(quota, "fetch_usage", return_value=claude_usage(10, 50)),
+        ):
+            status, _, _ = self.run_cli("prioritize")
+        self.assertEqual((status, excluded_writes(requests)), (0, [(path.name, RESERVE)]))
+
+    def test_a_case_only_email_edit_during_the_fetch_still_closes_a_teammate(self):
+        self.own_accounts.write_text("me@x.test\n")
+        path = self.account(email="mate@x.test")
+        requests = self.start_management([{"name": path.name, "priority": 1}])
+
+        def response(provider, auth, timeout):
+            path.write_text(json.dumps({**json.loads(path.read_text()), "email": "mate@X.TEST"}))
+            return claude_usage(10, 50)
+
+        with (
+            patch.object(quota.time, "time", return_value=NOW),
+            patch.object(quota, "fetch_usage", side_effect=response),
+        ):
+            status, _, _ = self.run_cli("prioritize")
+        self.assertEqual((status, excluded_writes(requests)), (0, [(path.name, RESERVE)]))
+
+    def test_an_unreadable_subdirectory_does_not_stop_reserving_top_level_teammates(self):
+        self.own_accounts.write_text("me@x.test\n")
+        backup = self.auth_dir / "backup"
+        backup.mkdir()
+        backup.chmod(0)
+        self.addCleanup(backup.chmod, 0o700)
+        path = self.account(email="mate@x.test")
+        requests = self.start_management([{"name": path.name, "priority": 0}])
+        status, _, _ = self.prioritize_at(NOW, {"mate@x.test": claude_usage(10, 50)})
+        self.assertEqual((status, excluded_writes(requests)), (0, [(path.name, RESERVE)]))
+
+    def test_a_replaced_credential_is_not_reopened_on_the_old_cached_reading(self):
+        self.own_accounts.write_text("me@x.test\n")
+        path = self.auth_dir / "shared.json"
+        old = {"type": "claude", "access_token": "token-a", "excluded_models": RESERVE}
+        path.write_text(json.dumps(old))
+        usage = {"token-a": claude_usage(90, 50), "token-b": claude_usage(10, 50)}
+
+        def response(provider, auth, timeout):
+            return usage[auth["access_token"]]
+
+        with (
+            patch.object(quota.time, "time", return_value=NOW),
+            patch.object(quota, "fetch_usage", side_effect=response),
+        ):
+            self.run_cli("--json")
+            path.write_text(json.dumps({**old, "access_token": "token-b"}))
+            requests = self.start_management([{"name": path.name, "priority": 0}])
+            status, _, _ = self.run_cli("prioritize")
+        self.assertEqual((status, excluded_writes(requests)), (0, []))
+
+    def test_an_unreadable_subdirectory_does_not_hide_readable_accounts(self):
+        backup = self.auth_dir / "backup"
+        backup.mkdir()
+        backup.chmod(0)
+        self.addCleanup(backup.chmod, 0o700)
+        self.account(email="mate@x.test")
+        with patch.object(quota, "fetch_usage", return_value=claude_usage(90, 50)):
+            status, output, _ = self.run_cli("--json")
+        self.assertEqual((status, [a["email"] for a in json.loads(output)]), (0, ["mate@x.test"]))
+
+    def test_a_credential_replaced_during_the_fetch_is_not_reopened(self):
+        self.own_accounts.write_text("me@x.test\n")
+        path = self.auth_dir / "shared.json"
+        old = {"type": "claude", "access_token": "token-a", "excluded_models": RESERVE}
+        path.write_text(json.dumps(old))
+        requests = self.start_management([{"name": path.name, "priority": 0}])
+
+        def response(provider, auth, timeout):
+            path.write_text(json.dumps({**old, "access_token": "token-b"}))
+            return claude_usage(90, 50)
+
+        with (
+            patch.object(quota.time, "time", return_value=NOW),
+            patch.object(quota, "fetch_usage", side_effect=response),
+        ):
+            status, _, _ = self.run_cli("prioritize")
+        self.assertEqual((status, excluded_writes(requests)), (0, []))
+
+    def test_a_replaced_credential_does_not_show_the_old_cached_quota(self):
+        path = self.auth_dir / "shared.json"
+        old = {"type": "claude", "access_token": "token-a"}
+        path.write_text(json.dumps(old))
+
+        def response(provider, auth, timeout):
+            if auth["access_token"] == "token-b":
+                raise urllib.error.HTTPError("http://usage.test", 401, "No", {}, io.BytesIO())
+            return claude_usage(90, 50)
+
+        with patch.object(quota, "fetch_usage", side_effect=response):
+            self.run_cli("--json")
+            path.write_text(json.dumps({**old, "access_token": "token-b"}))
+            status, output, _ = self.run_cli("--json")
+        self.assertEqual((status, json.loads(output)[0]["windows"]), (1, []))
+
+    def test_a_file_name_with_a_line_break_is_shown_on_one_line(self):
+        (self.auth_dir / "two\nlines.json").write_text("{")
+        status, output, _ = self.run_cli()
+        self.assertEqual(status, 1)
+        self.assertIn("two?lines.json", output)
+
+    def test_a_reading_for_a_replaced_credential_does_not_reopen_it(self):
+        self.own_accounts.write_text("me@x.test\n")
+        path = self.account(email="old@x.test", excluded_models=RESERVE)
+        requests = self.start_management([{"name": path.name, "priority": 0}])
+
+        def response(provider, auth, timeout):
+            replaced = {**json.loads(path.read_text()), "email": "new@x.test"}
+            path.write_text(json.dumps(replaced))
+            return claude_usage(90, 50)
+
+        with (
+            patch.object(quota.time, "time", return_value=NOW),
+            patch.object(quota, "fetch_usage", side_effect=response),
+        ):
+            status, _, _ = self.run_cli("prioritize")
+        self.assertEqual((status, excluded_writes(requests)), (0, []))
+
+    def test_a_hand_set_exclusion_made_during_the_fetch_survives_a_reopen(self):
+        self.own_accounts.write_text("me@x.test\n")
+        hand_set = {
+            "added@x.test": (RESERVE, RESERVE + ["*"]),
+            "replaced@x.test": (["claude-opus-*"] + RESERVE, ["*"]),
+        }
+        paths = {
+            email: self.account(email=email, excluded_models=before)
+            for email, (before, _) in hand_set.items()
+        }
+        requests = self.start_management(
+            [{"name": path.name, "priority": 0} for path in paths.values()]
+        )
+
+        def response(provider, auth, timeout):
+            path = paths[auth["email"]]
+            edited = {**json.loads(path.read_text()), "excluded_models": hand_set[auth["email"]][1]}
+            path.write_text(json.dumps(edited))
+            return claude_usage(90, 50)
+
+        with (
+            patch.object(quota.time, "time", return_value=NOW),
+            patch.object(quota, "fetch_usage", side_effect=response),
+        ):
+            status, _, _ = self.run_cli("prioritize")
+        self.assertEqual(
+            (
+                status,
+                excluded_writes(requests),
+                [json.loads(path.read_text())["excluded_models"] for path in paths.values()],
+            ),
+            (0, [(path.name, ["*"]) for path in paths.values()], [["*"], ["*"]]),
+        )
+
+    def test_only_the_reserve_pair_in_order_lets_an_account_back_in(self):
+        self.own_accounts.write_text("me@x.test\n")
+        hand_set = {
+            "swapped@x.test": ["cliproxy-quota-reserve", "*"],
+            "apart@x.test": ["*", "claude-opus-*", "cliproxy-quota-reserve"],
+            "lone@x.test": ["cliproxy-quota-reserve"],
+        }
+        names = [
+            self.account(email=email, excluded_models=models).name
+            for email, models in hand_set.items()
+        ]
+        requests = self.start_management([{"name": name, "priority": 0} for name in names])
+        status, _, _ = self.prioritize_at(
+            NOW, {email: claude_usage(90, 50) for email in hand_set}
+        )
+        with patch.object(quota.time, "time", return_value=NOW):
+            _, output, _ = self.run_cli("--json")
+        self.assertEqual(
+            (status, excluded_writes(requests)),
+            (0, []),
+        )
+        self.assertEqual(
+            [account["reserved"] for account in json.loads(output)],
+            [False, False, False],
+        )
+
+    def test_a_teammate_account_closes_and_reopens_around_hand_set_exclusions(self):
+        self.own_accounts.write_text("me@x.test\n")
+        hand_set = {
+            "opus@x.test": {"excluded_models": ["claude-opus-*"]},
+            "empty@x.test": {"excluded_models": []},
+            "alias@x.test": {"excluded-models": ["claude-opus-*"]},
+            "text@x.test": {"excluded_models": "claude-opus-*"},
+        }
+        names = [
+            self.account(email=email, **fields).name for email, fields in hand_set.items()
+        ]
+        requests = self.start_management([{"name": name, "priority": 0} for name in names])
+        spent, _, _ = self.prioritize_at(
+            NOW, {email: claude_usage(0, 50) for email in hand_set}
+        )
+        healthy, _, _ = self.prioritize_at(
+            NOW + 600, {email: claude_usage(90, 50) for email in hand_set}
+        )
+        opus = ["claude-opus-*"]
+        self.assertEqual(
+            (spent, healthy, excluded_writes(requests)),
+            (
+                0,
+                0,
+                [
+                    (names[0], opus + RESERVE),
+                    (names[1], RESERVE),
+                    (names[2], opus + RESERVE),
+                    (names[3], opus + RESERVE),
+                    (names[0], opus),
+                    (names[1], None),
+                    (names[2], opus),
+                    (names[3], opus),
+                ],
+            ),
+        )
+
+    def test_closing_keeps_only_the_hand_set_entries_cliproxyapi_accepts(self):
+        self.own_accounts.write_text("me@x.test\n")
+        mate = self.account(
+            email="mate@x.test", excluded_models=["claude-opus-*", None]
+        ).name
+        requests = self.start_management([{"name": mate, "priority": 0}])
+        status, _, _ = self.prioritize_at(NOW, {"mate@x.test": claude_usage(0, 50)})
+        self.assertEqual(
+            (status, excluded_writes(requests)),
+            (0, [(mate, ["claude-opus-*", *RESERVE])]),
+        )
+
+    def test_reopening_keeps_hand_set_entries_added_while_closed(self):
+        self.own_accounts.write_text("me@x.test\n")
+        added = {"opus@x.test": [*RESERVE, "claude-opus-*"], "every@x.test": [*RESERVE, "*"]}
+        names = [
+            self.account(email=email, excluded_models=models).name
+            for email, models in added.items()
+        ]
+        requests = self.start_management([{"name": name, "priority": 0} for name in names])
+        status, _, _ = self.prioritize_at(
+            NOW, {email: claude_usage(90, 50) for email in added}
+        )
+        self.assertEqual(
+            (status, excluded_writes(requests)),
+            (0, [(names[0], ["claude-opus-*"]), (names[1], ["*"])]),
+        )
+
+    def test_prioritize_sends_no_status_or_excluded_models_to_disabled_accounts(self):
+        self.own_accounts.write_text("me@x.test\n")
+        off_mate = self.account(email="off-mate@x.test", disabled=True).name
+        off_me = self.account(
+            email="me@x.test", disabled=True, excluded_models=RESERVE
+        ).name
+        mate = self.account(email="mate@x.test").name
+        requests = self.start_management(
+            [{"name": name, "priority": 2} for name in (off_mate, off_me, mate)]
+        )
+        status, _, _ = self.prioritize_at(NOW, {"mate@x.test": claude_usage(0, 50)})
+        self.assertEqual(status, 0)
+        self.assertEqual([path for path, _ in requests if path != FIELDS], [])
+        self.assertEqual(excluded_writes(requests), [(mate, RESERVE)])
+        self.assertEqual(
+            [body for _, body in requests if body["name"] != mate],
+            [{"name": off_mate, "priority": 0}, {"name": off_me, "priority": 0}],
+        )
+
+    def test_a_failed_write_does_not_stop_the_other_accounts(self):
+        self.own_accounts.write_text("me@x.test\n")
+        gone_spent, spent = [
+            self.account(email=email).name for email in ("a@x.test", "b@x.test")
+        ]
+        gone_healthy, healthy = [
+            self.account(email=email, excluded_models=RESERVE).name
+            for email in ("c@x.test", "d@x.test")
+        ]
+        names = (gone_spent, spent, gone_healthy, healthy)
+        requests = self.start_management(
+            [{"name": name, "priority": 0} for name in names],
+            gone={gone_spent, gone_healthy},
+        )
+        usage = {
+            "a@x.test": claude_usage(0, 50),
+            "b@x.test": claude_usage(0, 50),
+            "c@x.test": claude_usage(90, 50),
+            "d@x.test": claude_usage(90, 60),
+        }
+        status, output, error = self.prioritize_at(NOW, usage)
+        self.assertEqual(
+            (status, requests),
+            (
+                1,
+                [
+                    (FIELDS, {"name": gone_spent, "excluded_models": RESERVE}),
+                    (FIELDS, {"name": spent, "excluded_models": RESERVE}),
+                    (FIELDS, {"name": gone_healthy, "priority": 2, "excluded_models": None}),
+                    (FIELDS, {"name": healthy, "priority": 1, "excluded_models": None}),
+                ],
+            ),
+        )
+        self.assertEqual(
+            error,
+            f'{gone_spent}  excluded_models [] -> ["*", "cliproxy-quota-reserve"] failed: '
+            "HTTP Error 404: Not Found\n"
+            f"{gone_healthy}  priority 0 -> 2 failed: HTTP Error 404: Not Found\n"
+            f'{gone_healthy}  excluded_models ["*", "cliproxy-quota-reserve"] -> null failed: '
+            "HTTP Error 404: Not Found\n",
+        )
+
+    def test_a_second_run_without_changes_sends_nothing(self):
+        self.own_accounts.write_text("me@x.test\n")
+        emails = ("me@x.test", "spent@x.test", "recovered@x.test")
+        me, spent = [self.account(email=email).name for email in emails[:2]]
+        recovered = self.account(email=emails[2], excluded_models=RESERVE).name
+        requests = self.start_management(
+            [{"name": name, "priority": 0} for name in (me, spent, recovered)]
+        )
+        usage = {
+            "me@x.test": claude_usage(90, 50),
+            "spent@x.test": claude_usage(0, 50),
+            "recovered@x.test": claude_usage(90, 60),
+        }
+        first = self.prioritize_at(NOW, usage)
+        sent = list(requests)
+        second = self.prioritize_at(NOW + 60, usage)
+        self.assertEqual((first[0], len(sent)), (0, 3))
+        self.assertEqual((second, requests), ((0, "", ""), sent))
+
+    def test_prioritize_keeps_each_teammate_their_share_of_weekly_quota(self):
+        self.own_accounts.write_text("own-a@x.test\nown-b@x.test\n")
+        left = {
+            "mate-a@x.test": (0, 31.0),
+            "mate-b@x.test": (83, 63.8),
+            "mate-c@x.test": (95, 73.9),
+            "mate-d@x.test": (100, 78.0),
+            "own-a@x.test": (0, 58.4),
+            "own-b@x.test": (99, 83.4),
+        }
+        names = {email: self.account(email=email).name for email in left}
+        requests = self.start_management(
+            [{"name": name, "priority": 0} for name in names.values()]
+        )
+        usage = {email: claude_usage(*reading) for email, reading in left.items()}
+        status, _, _ = self.prioritize_at(NOW, usage)
+        self.assertEqual(
+            (status, requests),
+            (
+                0,
+                [
+                    (FIELDS, {"name": names["mate-a@x.test"], "excluded_models": RESERVE}),
+                    (FIELDS, {"name": names["mate-b@x.test"], "priority": 4}),
+                    (FIELDS, {"name": names["mate-c@x.test"], "priority": 3}),
+                    (FIELDS, {"name": names["mate-d@x.test"], "priority": 2}),
+                    (FIELDS, {"name": names["own-b@x.test"], "priority": 1}),
+                ],
+            ),
         )
 
     def test_prioritize_fails_on_a_wrong_or_missing_management_key(self):

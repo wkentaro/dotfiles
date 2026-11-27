@@ -1,5 +1,5 @@
 [Unit]
-Description=Route new Claude sessions to the account with weekly quota left that resets first
+Description=Route new Claude sessions to the account with weekly quota left that resets first, reserving teammates' share of their own quota
 
 [Service]
 Type=oneshot

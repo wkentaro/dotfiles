@@ -1,5 +1,5 @@
 [Unit]
-Description=Re-rank CLIProxyAPI Claude accounts every 5 minutes
+Description=Re-rank CLIProxyAPI Claude accounts and reserve teammates' share every 5 minutes
 
 [Timer]
 OnCalendar=*:0/5
