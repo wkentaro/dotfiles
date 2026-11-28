@@ -636,7 +636,7 @@ def main(argv=None):
         "command",
         nargs="?",
         choices=["serve", "prioritize"],
-        help=f"serve: serve the --json accounts in priority order without file names, emails, or organizations on 127.0.0.1:{SERVE_PORT}; prioritize: give CLIProxyAPI's highest priority to the Claude account with weekly quota left that resets first",
+        help=f"serve: serve the --json accounts in priority order without file names, emails, or organizations on 127.0.0.1:{SERVE_PORT}; prioritize: give CLIProxyAPI's highest priority to the Claude account with weekly quota left that resets first, ranking accounts not listed in ~/.config/cliproxyapi/own-accounts below yours",
     )
     parser.add_argument(
         "--auth-dir",
