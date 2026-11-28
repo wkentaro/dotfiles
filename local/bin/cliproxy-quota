@@ -567,7 +567,7 @@ def drain_minute(status, now):
 
 def own_emails():
     try:
-        lines = OWN_ACCOUNTS.read_text().splitlines()
+        lines = OWN_ACCOUNTS.read_text(encoding="utf-8-sig").splitlines()
     except FileNotFoundError:
         return None
     return {line.strip().lower() for line in lines if line.strip()}

@@ -110,7 +110,7 @@ tailscale serve --bg --https=8317 --set-path /quota http://127.0.0.1:8318
 Weekly quota left unused at reset is lost, so `cliproxy-quota prioritize`
 gives the Claude account with weekly quota left that resets first
 CLIProxyAPI's highest `priority`, and the one that resets last the
-lowest. New sessions go to the top account until it hits a limit, then
+lowest, with your own accounts ahead of teammates' as described below. New sessions go to the top account until it hits a limit, then
 fall to the next. Running sessions stay on their account. Accounts with
 no weekly quota left, or with unknown weekly usage or reset, get
 priority 0. It changes priorities through CLIProxyAPI's management API
@@ -124,9 +124,9 @@ only when its value changes.
 systemctl --user enable --now cliproxy-quota-prioritize.timer
 ```
 
-To keep teammates' quota for them, list your own account emails in
-`~/.config/cliproxyapi/own-accounts`, one per line; case and surrounding
-spaces are ignored. Every one of your Claude accounts with weekly quota
+To keep teammates' quota for them, list your own accounts in
+`~/.config/cliproxyapi/own-accounts`, one per line, as `cliproxy-quota`
+shows them; case and surrounding spaces are ignored. Every one of your Claude accounts with weekly quota
 left then ranks above every other account, still in reset order within
 each group. Without the file, every account counts as yours. Teammates'
 accounts are still used once all of yours hit a limit, so their quota
