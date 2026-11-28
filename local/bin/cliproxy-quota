@@ -570,14 +570,14 @@ def own_emails():
         lines = OWN_ACCOUNTS.read_text(encoding="utf-8-sig").splitlines()
     except FileNotFoundError:
         return None
-    return {line.strip().lower() for line in lines if line.strip()}
+    return {line.strip().casefold() for line in lines if line.strip()}
 
 
 def drain_priorities(statuses, now, own=None):
     claude = [status for status in statuses if status["provider"] == "claude"]
     resets = sorted(
         (
-            own is not None and status["email"].strip().lower() not in own,
+            own is not None and status["email"].strip().casefold() not in own,
             minute,
             status["file"],
         )
