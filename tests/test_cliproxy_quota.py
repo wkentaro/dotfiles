@@ -1214,8 +1214,8 @@ class QuotaTests(unittest.TestCase):
         )
 
     def test_prioritize_ranks_teammates_below_own_accounts(self):
-        self.own_accounts.write_text("  ME@x.test \n\n", encoding="utf-8-sig")
-        hours = {"me@x.test": 100, "mate@x.test": 2}
+        self.own_accounts.write_text("  ΟΣ@X.TEST \n\n", encoding="utf-8-sig")
+        hours = {"οσ@x.test": 100, "mate@x.test": 2}
         names = [self.account(email=email).name for email in hours]
         requests = self.start_management([{"name": name, "priority": 0} for name in names])
         with self.weekly_usage(hours):
