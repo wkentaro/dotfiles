@@ -124,6 +124,14 @@ only when its value changes.
 systemctl --user enable --now cliproxy-quota-prioritize.timer
 ```
 
+To keep teammates' quota for them, list your own account emails in
+`~/.config/cliproxyapi/own-accounts`, one per line; case and surrounding
+spaces are ignored. Every one of your Claude accounts with weekly quota
+left then ranks above every other account, still in reset order within
+each group. Without the file, every account counts as yours. Teammates'
+accounts are still used once all of yours hit a limit, so their quota
+can run out.
+
 
 ## macOS
 

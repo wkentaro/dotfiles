@@ -41,7 +41,12 @@ class QuotaTests(unittest.TestCase):
         self.auth_dir = Path(self.directory.name) / "auth"
         self.auth_dir.mkdir()
         self.cache_dir = Path(self.directory.name) / "cache"
-        for name, value in (("CACHE_DIR", self.cache_dir), ("AUTH_DIR", self.auth_dir)):
+        self.own_accounts = Path(self.directory.name) / "own-accounts"
+        for name, value in (
+            ("CACHE_DIR", self.cache_dir),
+            ("AUTH_DIR", self.auth_dir),
+            ("OWN_ACCOUNTS", self.own_accounts),
+        ):
             value_patch = patch.object(quota, name, value)
             value_patch.start()
             self.addCleanup(value_patch.stop)
@@ -1205,6 +1210,24 @@ class QuotaTests(unittest.TestCase):
                 0,
                 f"{names[1]}  priority 0 -> 1\n",
                 [("/v0/management/auth-files/fields", {"name": names[1], "priority": 1})],
+            ),
+        )
+
+    def test_prioritize_ranks_teammates_below_own_accounts(self):
+        self.own_accounts.write_text("\n  ME@x.test \n")
+        hours = {"me@x.test": 100, "mate@x.test": 2}
+        names = [self.account(email=email).name for email in hours]
+        requests = self.start_management([{"name": name, "priority": 0} for name in names])
+        with self.weekly_usage(hours):
+            status, _, _ = self.run_cli("prioritize")
+        self.assertEqual(
+            (status, requests),
+            (
+                0,
+                [
+                    ("/v0/management/auth-files/fields", {"name": names[0], "priority": 2}),
+                    ("/v0/management/auth-files/fields", {"name": names[1], "priority": 1}),
+                ],
             ),
         )
 

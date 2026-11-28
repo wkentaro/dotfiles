@@ -31,6 +31,7 @@ SERVE_PORT = 8318
 SERVE_TIMEOUT = 5
 MANAGEMENT_URL = "http://127.0.0.1:8317/v0/management/auth-files"
 MANAGEMENT_KEY = Path.home() / ".config" / "cliproxyapi" / "management-key"
+OWN_ACCOUNTS = Path.home() / ".config" / "cliproxyapi" / "own-accounts"
 NAMED_WINDOWS = {"weekly": 604800, "daily": 86400}
 PUBLIC_FIELDS = (
     "provider",
@@ -564,15 +565,27 @@ def drain_minute(status, now):
     return None
 
 
-def drain_priorities(statuses, now):
+def own_emails():
+    try:
+        lines = OWN_ACCOUNTS.read_text().splitlines()
+    except FileNotFoundError:
+        return None
+    return {line.strip().lower() for line in lines if line.strip()}
+
+
+def drain_priorities(statuses, now, own=None):
     claude = [status for status in statuses if status["provider"] == "claude"]
     resets = sorted(
-        (minute, status["file"])
+        (
+            own is not None and status["email"].strip().lower() not in own,
+            minute,
+            status["file"],
+        )
         for status in claude
         if (minute := drain_minute(status, now)) is not None
     )
     priorities = {status["file"]: 0 for status in claude}
-    for priority, (_, file) in enumerate(reversed(resets), 1):
+    for priority, (*_, file) in enumerate(reversed(resets), 1):
         priorities[file] = priority
     return priorities
 
@@ -597,7 +610,7 @@ def prioritize(auth_dir, timeout):
         raise ValueError("invalid management response")
     current = {file["name"]: file.get("priority") or 0 for file in files}
     statuses = account_statuses(auth_dir, timeout, {"claude"})
-    for file, priority in drain_priorities(statuses, time.time()).items():
+    for file, priority in drain_priorities(statuses, time.time(), own_emails()).items():
         if file in current and current[file] != priority:
             body = {"name": file, "priority": priority}
             management_request(key, timeout, "/fields", body)
