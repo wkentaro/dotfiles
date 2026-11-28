@@ -1,5 +1,5 @@
 [Unit]
-Description=Route new Claude sessions to the account whose weekly quota resets first
+Description=Rank CLIProxyAPI Claude accounts by weekly reset, yours first
 
 [Service]
 Type=oneshot
